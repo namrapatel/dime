@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "464417786059",
+    "firebase_url": "https://dime-87d60.firebaseio.com",
+    "project_id": "dime-87d60",
+    "storage_bucket": "dime-87d60.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464417786059:android:0582414c81f0bd51",
+        "android_client_info": {
+          "package_name": "com.example.funder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbKyJhj89yJLSuxg_bJI-qZaD5NzlEVXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

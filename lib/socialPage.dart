@@ -249,19 +249,19 @@ class _SocialPageState extends State<SocialPage> {
                                   padding: EdgeInsets.symmetric(
                                       vertical: screenH(15)),
                                   decoration: BoxDecoration(
-                                      color: Colors.transparent,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          offset: const Offset(0.0, 0.0),
-                                        ),
-                                        BoxShadow(
-                                          color: Colors.grey[200],
-                                          offset: const Offset(0.0, 0.0),
-                                          spreadRadius: -3.0,
-                                          blurRadius: 15.0,
-                                        ),
-                                      ],
+                                      color: Colors.grey[200],
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //     color: Colors.grey.withOpacity(0.5),
+                                      //     offset: const Offset(0.0, 0.0),
+                                      //   ),
+                                      //   BoxShadow(
+                                      //     color: Colors.grey[200],
+                                      //     offset: const Offset(0.0, 0.0),
+                                      //     spreadRadius: -3.0,
+                                      //     blurRadius: 15.0,
+                                      //   ),
+                                      // ],
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(15))),
                                   height: screenH(200),

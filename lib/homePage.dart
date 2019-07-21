@@ -1,11 +1,13 @@
+import 'package:Dime/profPage.dart';
+import 'package:Dime/socialPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rubber/rubber.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:geolocation/geolocation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
-import 'socialPage.dart';
-import 'profPage.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -18,6 +20,17 @@ class _ScrollPageState extends State<ScrollPage>
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
+  getPermission() async {
+    final GeolocationResult result =
+        await Geolocation.requestLocationPermission(const LocationPermission(
+            android: LocationPermissionAndroid.fine,
+            ios: LocationPermissionIOS.always));
+    return result;
+  }
+
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
 
   // getPermission() async {
   //   final GeolocationResult result =
@@ -79,6 +92,7 @@ class _ScrollPageState extends State<ScrollPage>
         lowerBoundValue: AnimationControllerValue(percentage: 0.35),
         duration: Duration(milliseconds: 200));
     super.initState();
+    getPermission();
   }
 
   @override
@@ -98,116 +112,140 @@ class _ScrollPageState extends State<ScrollPage>
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(25),
-                  topRight: Radius.circular(25),
+                  topLeft: Radius.circular(35),
+                  topRight: Radius.circular(35),
                 )),
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.all(7),
+                  padding:
+                      EdgeInsets.all(MediaQuery.of(context).size.height / 122),
                 ),
                 Container(
-                  width: 50,
-                  height: 7,
+                  width: MediaQuery.of(context).size.width / 7.5,
+                  height: MediaQuery.of(context).size.height / 110,
                   decoration: BoxDecoration(
                       color: Colors.black,
-                      borderRadius: BorderRadius.circular(20)),
+                      borderRadius: BorderRadius.circular(30)),
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  padding: EdgeInsets.fromLTRB(
+                      0, MediaQuery.of(context).size.width / 32.5, 0, 0),
                 ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
-                    ),
-                    FloatingActionButton(
-                      onPressed: (){ Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => SocialPage()),
-                        );},
-                      elevation: 0,
-                      heroTag: 'btn1',
-                      backgroundColor: Colors.purple,
-                      child: Icon(Entypo.drink),
-                      // shape: RoundedRectangleBorder(
-                      //   borderRadius:  BorderRadius.only(
-                      //     topRight: Radius.circular(25),
-                      //     bottomRight: Radius.circular(25),
-                      //   )
-
-                      //   ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(250, 0, 0, 0),
-                    ),
-                    FloatingActionButton(
-                      onPressed: (){ Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ProfPage()),
-                        );},
-                      elevation: 0,
-                      heroTag: 'btn2',
-                      backgroundColor: Colors.blueAccent[700],
-                      child: Icon(
-                        MaterialCommunityIcons.account_tie,
-                        //size: 25,
+                Center(
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-                      // shape: RoundedRectangleBorder(
-                      //   borderRadius:  BorderRadius.only(
-                      //     topLeft: Radius.circular(25),
-                      //     bottomLeft: Radius.circular(25),
-                      //   )
+                      FloatingActionButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new SocialPage()));
+                        },
+                        elevation: 0,
+                        heroTag: 'btn1',
+                        backgroundColor: Colors.purple,
+                        child: Icon(Entypo.drink),
+                        // shape: RoundedRectangleBorder(
+                        //   borderRadius:  BorderRadius.only(
+                        //     topRight: Radius.circular(25),
+                        //     bottomRight: Radius.circular(25),
+                        //   )
 
-                      //   ),
-                    ),
-                  ],
+                        //   ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width / 1.65, 0, 0, 0),
+                      ),
+                      FloatingActionButton(
+                         onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new ProfPage ()));
+                        },
+                        elevation: 0,
+                        heroTag: 'btn2',
+                        backgroundColor: Colors.blueAccent[700],
+                        child: Icon(
+                          MaterialCommunityIcons.account_tie,
+                          //size: 25,
+                        ),
+                        // shape: RoundedRectangleBorder(
+                        //   borderRadius:  BorderRadius.only(
+                        //     topLeft: Radius.circular(25),
+                        //     bottomLeft: Radius.circular(25),
+                        //   )
+
+                        //   ),
+                      ),
+                    ],
+                  ),
                 ),
-                Padding(padding: EdgeInsets.fromLTRB(0, 25, 0, 0)),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        0, MediaQuery.of(context).size.height / 52, 0, 0)),
                 Row(
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.fromLTRB(95, 0, 0, 0),
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width / 4.2, 0, 0, 0),
                     ),
                     Icon(Icons.people, color: Colors.black),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width / 52,
+                          MediaQuery.of(context).size.height / 52,
+                          0,
+                          0),
                     ),
                     Text(
                       "People around you",
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                     Padding(
-                      padding: EdgeInsets.fromLTRB(51.2, 0, 0, 0),
+                      padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width / 52, 0, 0, 0),
                     ),
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  padding: EdgeInsets.fromLTRB(
+                      0, MediaQuery.of(context).size.height / 109, 0, 0),
                 ),
                 Container(
                   //color: Colors.white,
-                  width: 350,
+                  width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
                       color: Colors.grey[100],
                       borderRadius: BorderRadius.circular(20)),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 22,
+                        vertical: MediaQuery.of(context).size.height / 72),
                     child: TextField(
                       decoration: new InputDecoration(
                           icon: Icon(Icons.search),
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
-                              left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: 'Search here'),
+                              left: MediaQuery.of(context).size.width / 30,
+                              bottom: MediaQuery.of(context).size.height / 75,
+                              top: MediaQuery.of(context).size.height / 75,
+                              right: MediaQuery.of(context).size.width / 30),
+                          hintText: 'Search for people, interests, school ...'),
                     ),
                   ),
                 ),
               ],
             ),
           ),
-          headerHeight: 211,
+          headerHeight: MediaQuery.of(context).size.height / 3.25,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
@@ -221,7 +259,8 @@ class _ScrollPageState extends State<ScrollPage>
       children: <Widget>[
         _googlemap(context),
         Padding(
-          padding: EdgeInsets.fromLTRB(20, 40, 0, 0),
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
+              MediaQuery.of(context).size.height / 20, 0, 0),
           child: Align(
               alignment: Alignment.topLeft,
               child: IconButton(
@@ -232,9 +271,10 @@ class _ScrollPageState extends State<ScrollPage>
               ))),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 40, 20, 0),
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
+              MediaQuery.of(context).size.height / 7, 0, 0),
           child: Align(
-              alignment: Alignment.topRight,
+              alignment: Alignment.topLeft,
               child: IconButton(
                   icon: Icon(
                 Icons.settings,
@@ -280,21 +320,27 @@ class _ScrollPageState extends State<ScrollPage>
               subtitle: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+                    padding: EdgeInsets.fromLTRB(
+                        0, MediaQuery.of(context).size.height / 100, 0, 0),
                   ),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Text("Mechatronics Engineering, 2023"),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: EdgeInsets.fromLTRB(
+                        0, MediaQuery.of(context).size.height / 70, 0, 0),
                   ),
                   Row(
                     children: <Widget>[
                       Container(
-                        height: 20,
-                        width: 70,
-                        padding: EdgeInsets.fromLTRB(10, 4.5, 0, 0),
+                        height: MediaQuery.of(context).size.height / 30,
+                        width: MediaQuery.of(context).size.width / 6,
+                        padding: EdgeInsets.fromLTRB(
+                            MediaQuery.of(context).size.width / 40,
+                            MediaQuery.of(context).size.height / 150,
+                            0,
+                            0),
                         child: Text("Badminton",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 10)),
@@ -306,8 +352,8 @@ class _ScrollPageState extends State<ScrollPage>
                         padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                       ),
                       Container(
-                        height: 20,
-                        width: 50,
+                        height: MediaQuery.of(context).size.height / 30,
+                        width: MediaQuery.of(context).size.width / 8.5,
                         padding: EdgeInsets.fromLTRB(10, 4.5, 0, 0),
                         child: Text("Flutter",
                             style:
@@ -319,7 +365,8 @@ class _ScrollPageState extends State<ScrollPage>
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    padding: EdgeInsets.fromLTRB(
+                        0, MediaQuery.of(context).size.height / 50, 0, 0),
                   )
                 ],
               ),

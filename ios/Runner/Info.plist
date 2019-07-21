@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>io.flutter.embedded_views_preview</key>
-    <true/>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -62,6 +62,12 @@
 	<string>To allow the user to take a video for the profile picture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To allow the user to select an image from their camera roll for the profile picture and other picture locations.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>The app needs your location in order to determine which events and users are around you.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>The app needs your location in order to determine which events and users are around you.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>The app needs your location in order to determine which events and users are around you.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

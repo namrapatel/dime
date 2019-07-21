@@ -28,7 +28,7 @@ class _ProfPageState extends State<ProfPage> {
         children: <Widget>[
           Stack(children: <Widget>[
             Container(
-              color: Colors.blueAccent[400],
+              color: Color(0xFF1976d2),
               height: screenH(370),
               width: screenW(420),
             ),
@@ -164,7 +164,7 @@ class _ProfPageState extends State<ProfPage> {
                               children: <Widget>[
                                 Icon(
                                   MaterialCommunityIcons.twitter_box,
-                                  color: Colors.blue,
+                                  color: Color(0xFF1976d2),
                                 ),
                                 Text("namrapatel",
                                     style: TextStyle(
@@ -279,8 +279,7 @@ class _ProfPageState extends State<ProfPage> {
                                                 style: TextStyle(
                                                     fontSize: screenF(16),
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors
-                                                        .blueAccent[700])),
+                                                    color: Color(0xFF1976d2))),
                                             Text("Engineering 7",
                                                 style: TextStyle(
                                                   fontSize: screenF(13),
@@ -334,7 +333,7 @@ class _ProfPageState extends State<ProfPage> {
                                                   Icon(
                                                     MaterialCommunityIcons.food,
                                                     color:
-                                                        Colors.blueAccent[400],
+                                                        Color(0xFF1976d2),
                                                   ),
                                                   SizedBox(
                                                     width: screenW(20),
@@ -343,7 +342,7 @@ class _ProfPageState extends State<ProfPage> {
                                                     MaterialCommunityIcons
                                                         .sunglasses,
                                                     color:
-                                                        Colors.blueAccent[400],
+                                                        Color(0xFF1976d2),
                                                   )
                                                   // Container(
                                                   //   decoration: BoxDecoration(
@@ -414,7 +413,7 @@ class _ProfPageState extends State<ProfPage> {
                       icon: Icon(Icons.done),
                       elevation: screenH(5),
                       onPressed: () {},
-                      backgroundColor: Colors.blueAccent[400],
+                      backgroundColor: Color(0xFF1976d2),
                       label: Text(
                         "  I'm at an event",
                         style: TextStyle(fontSize: screenF(20)),

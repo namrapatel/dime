@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
-  
+  page_transition:
   flutter_test:
     sdk: flutter
   firebase_auth:

@@ -8,6 +8,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
+
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -20,6 +22,7 @@ class _ScrollPageState extends State<ScrollPage>
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
+  FocusNode _focus = new FocusNode();
 
   // getPermission() async {
   //   final GeolocationResult result =
@@ -44,72 +47,33 @@ class _ScrollPageState extends State<ScrollPage>
   //           ios: LocationPermissionIOS.always));
   //   return result;
   // }
-  // getLocation() {
-  //   return getPermission().then((result) async {
-  //     if (result.isSuccessful) {
-  //       final coords =
-  //           await Geolocation.currentLocation(accuracy: LocationAccuracy.best);
-  //       return coords;
-  //     }
-  //   });
-  // }
-  // buildMap() {
-  //   getLocation().then((response) {
-  //     response.listen((value) {
-  //       if (value.isSuccessful) {
-  //         controller.move(
-  //             new LatLng(value.location.latitude, value.location.longitude),
-  //             8.0);
-  //       }
-  //     });
-  //   });
-  // }
-  //   getLat() {
-  //   getLocation().then((response) {
-  //     response.listen((value) {
-  //       if (value.isSuccessful) {
-  //         // controller.move(
-  //         //     new LatLng(value.location.latitude, value.location.longitude),
-  //         //     8.0);
-  //         return value.location.latitude;
-  //       }
-  //     });
-  //   });
-  // }
-  //     getLong() {
-  //   getLocation().then((response) {
-  //     response.listen((value) {
-  //       if (value.isSuccessful) {
-  //         // controller.move(
-  //         //     new LatLng(value.location.latitude, value.location.longitude),
-  //         //     8.0);
-  //         return value.location.longitude;
-  //       }
-  //     });
-  //   });
-  // }
+
   ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     _controller = RubberAnimationController(
         vsync: this,
+        upperBoundValue: AnimationControllerValue(percentage: 0.95),
         initialValue: 0.5,
         lowerBoundValue: AnimationControllerValue(percentage: 0.35),
         duration: Duration(milliseconds: 200));
     super.initState();
-    getPermission();
+    _focus.addListener(_onFocusChange);
     
+    getPermission();
   }
+
+  void _onFocusChange(){
+    if(_focus.hasFocus){
+      _controller.animateTo(from: _controller.value, to: _controller.upperBound);
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.black,
-      //   elevation: 0,
-      //   automaticallyImplyLeading: false,
-      //   title: Text("Home screen",style: TextStyle(color: Colors.white),),
-      // ),
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -131,7 +95,7 @@ class _ScrollPageState extends State<ScrollPage>
                   width: MediaQuery.of(context).size.width / 7.5,
                   height: MediaQuery.of(context).size.height / 110,
                   decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.grey[300],
                       borderRadius: BorderRadius.circular(30)),
                 ),
                 Padding(
@@ -147,14 +111,12 @@ class _ScrollPageState extends State<ScrollPage>
                       ),
                       FloatingActionButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new SocialPage()));
+                        
+                        Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: SocialPage()));
                         },
                         elevation: 0,
                         heroTag: 'btn1',
-                        backgroundColor: Colors.purple,
+                        backgroundColor: Color(0xFF8803fc),
                         child: Icon(Entypo.drink),
                         // shape: RoundedRectangleBorder(
                         //   borderRadius:  BorderRadius.only(
@@ -170,14 +132,11 @@ class _ScrollPageState extends State<ScrollPage>
                       ),
                       FloatingActionButton(
                          onPressed: () {
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new ProfPage ()));
+                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: ProfPage()));
                         },
                         elevation: 0,
                         heroTag: 'btn2',
-                        backgroundColor: Colors.blueAccent[700],
+                        backgroundColor: Color(0xFF1976d2),
                         child: Icon(
                           MaterialCommunityIcons.account_tie,
                           //size: 25,
@@ -235,6 +194,8 @@ class _ScrollPageState extends State<ScrollPage>
                         horizontal: MediaQuery.of(context).size.width / 22,
                         vertical: MediaQuery.of(context).size.height / 72),
                     child: TextField(
+                      
+                      focusNode: _focus,
                       decoration: new InputDecoration(
                           icon: Icon(Icons.search),
                           border: InputBorder.none,
@@ -251,7 +212,7 @@ class _ScrollPageState extends State<ScrollPage>
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 3.25,
+          headerHeight: MediaQuery.of(context).size.height / 3.55,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
@@ -351,7 +312,7 @@ class _ScrollPageState extends State<ScrollPage>
                             style:
                                 TextStyle(color: Colors.white, fontSize: 10)),
                         decoration: BoxDecoration(
-                            color: Colors.purple,
+                            color: Color(0xFF8803fc),
                             borderRadius: BorderRadius.circular(20)),
                       ),
                       Padding(
@@ -365,7 +326,7 @@ class _ScrollPageState extends State<ScrollPage>
                             style:
                                 TextStyle(color: Colors.white, fontSize: 10)),
                         decoration: BoxDecoration(
-                            color: Colors.blueAccent[700],
+                            color: Color(0xFF1976d2),
                             borderRadius: BorderRadius.circular(20)),
                       ),
                     ],

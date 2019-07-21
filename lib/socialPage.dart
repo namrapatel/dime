@@ -28,7 +28,7 @@ class _SocialPageState extends State<SocialPage> {
         children: <Widget>[
           Stack(children: <Widget>[
             Container(
-              color: Colors.purple[400],
+              color: Color(0xFF8803fc),
               height: screenH(370),
               width: screenW(420),
             ),
@@ -101,7 +101,7 @@ class _SocialPageState extends State<SocialPage> {
                               Text("University of Western Ontario",
                                   style: TextStyle(
                                       fontSize: screenF(13),
-                                      color: Colors.purple)),
+                                      color: Color(0xFF8803fc))),
                               SizedBox(
                                 height: screenH(2),
                               ),
@@ -149,7 +149,7 @@ class _SocialPageState extends State<SocialPage> {
                               children: <Widget>[
                                 Icon(
                                   MaterialCommunityIcons.instagram,
-                                  color: Colors.purple,
+                                  color: Color(0xFF8803fc),
                                 ),
                                 SizedBox(
                                   width: screenW(10),
@@ -279,7 +279,7 @@ class _SocialPageState extends State<SocialPage> {
                                                 style: TextStyle(
                                                     fontSize: screenF(16),
                                                     fontWeight: FontWeight.bold,
-                                                    color: Colors.purple[400])),
+                                                    color: Color(0xFF8803fc))),
                                             Text("84 Richmond Street",
                                                 style: TextStyle(
                                                   fontSize: screenF(13),
@@ -396,7 +396,7 @@ class _SocialPageState extends State<SocialPage> {
                       icon: Icon(Icons.done),
                       elevation: screenH(5),
                       onPressed: () {},
-                      backgroundColor: Colors.purple,
+                      backgroundColor: Color(0xFF8803fc),
                       label: Text(
                         "  I'm at an event",
                         style: TextStyle(fontSize: screenF(20)),

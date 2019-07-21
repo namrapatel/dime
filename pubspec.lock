@@ -123,15 +123,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.2"
-  geolocation:
-    dependency: "direct dev"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "5f7e2ec8a00fa0c020791c5b0c1844b2bd320c05"
-      url: "https://github.com/shehabic/geolocation"
-    source: git
-    version: "0.2.1"
   google_maps_flutter:
     dependency: "direct dev"
     description:

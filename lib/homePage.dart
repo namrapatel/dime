@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rubber/rubber.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:geolocation/geolocation.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,12 +20,17 @@ class _ScrollPageState extends State<ScrollPage>
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
-  getPermission() async {
-    final GeolocationResult result =
-        await Geolocation.requestLocationPermission(const LocationPermission(
-            android: LocationPermissionAndroid.fine,
-            ios: LocationPermissionIOS.always));
-    return result;
+
+  // getPermission() async {
+  //   final GeolocationResult result =
+  //       await Geolocation.requestLocationPermission(const LocationPermission(
+  //           android: LocationPermissionAndroid.fine,
+  //           ios: LocationPermissionIOS.always));
+  //   return result;
+  // }
+
+  getPermission() async{
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.locationAlways]);
   }
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -93,6 +98,7 @@ class _ScrollPageState extends State<ScrollPage>
         duration: Duration(milliseconds: 200));
     super.initState();
     getPermission();
+    
   }
 
   @override

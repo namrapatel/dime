@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
 
 dev_dependencies:
+  
   flutter_test:
     sdk: flutter
   firebase_auth:
@@ -41,9 +42,11 @@ dev_dependencies:
   sticky_infinite_list:
   rubber:
   google_maps_flutter:
-  geolocation:
-    git:
-      url: https://github.com/shehabic/geolocation
+  #geolocation:
+    #git:
+      #url: https://github.com/shehabic/geolocation
+  
+  
 
 
 # For information on the generic Dart part of this file, see the

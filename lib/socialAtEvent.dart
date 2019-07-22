@@ -2,7 +2,6 @@ import 'package:Dime/profPage.dart';
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'package:rubber/rubber.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -11,27 +10,21 @@ import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 
 
-class ScrollPage extends StatefulWidget {
-  ScrollPage({Key key}) : super(key: key);
+
+class socialAtEvent extends StatefulWidget {
+  socialAtEvent({Key key}) : super(key: key);
   @override
-  _ScrollPageState createState() => _ScrollPageState();
+  _socialAtEventState createState() => _socialAtEventState();
 }
 
-class _ScrollPageState extends State<ScrollPage>
+class _socialAtEventState extends State<socialAtEvent>
     with SingleTickerProviderStateMixin {
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
-  GoogleMapController mapController;
-  FocusNode _focus = new FocusNode();
 
-  Geoflutterfire geo;
-  // Stream<List<DocumentSnapshot>> stream;
-  // var radius = BehaviorSubject<double>.seeded(1.0);
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  
+  FocusNode _focus = new FocusNode();
 
   // getPermission() async {
   //   final GeolocationResult result =
@@ -41,9 +34,7 @@ class _ScrollPageState extends State<ScrollPage>
   //   return result;
   // }
 
-  getPermission() async{
-    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.locationAlways]);
-  }
+
 
 
 
@@ -61,31 +52,19 @@ class _ScrollPageState extends State<ScrollPage>
 
   ScrollController _scrollController = ScrollController();
 
-  final Map<String, Marker> _markers = {};
-
   @override
   void initState() {
-
-          var location = new Location();
-
-        location.onLocationChanged().listen((LocationData currentLocation) {
-          mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude),
-          zoom: 18
-          )));
-
-        });
 
     
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
-        initialValue: 0.40,
-        lowerBoundValue: AnimationControllerValue(percentage: 0.40),
+        initialValue: 0.45,
+        lowerBoundValue: AnimationControllerValue(percentage: 0.45),
         duration: Duration(milliseconds: 200));
     super.initState();
     _focus.addListener(_onFocusChange);
     
-    getPermission();
   }
 
   void _onFocusChange(){
@@ -134,45 +113,10 @@ class _ScrollPageState extends State<ScrollPage>
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-                      FloatingActionButton(
-                        onPressed: () {
-                        
-                        Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: SocialPage()));
-                        },
-                        elevation: 0,
-                        heroTag: 'btn1',
-                        backgroundColor: Color(0xFF8803fc),
-                        child: Icon(Entypo.drink),
-                        // shape: RoundedRectangleBorder(
-                        //   borderRadius:  BorderRadius.only(
-                        //     topRight: Radius.circular(25),
-                        //     bottomRight: Radius.circular(25),
-                        //   )
 
-                        //   ),
-                      ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 1.65, 0, 0, 0),
-                      ),
-                      FloatingActionButton(
-                         onPressed: () {
-                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: ProfPage()));
-                        },
-                        elevation: 0,
-                        heroTag: 'btn2',
-                        backgroundColor: Color(0xFF1976d2),
-                        child: Icon(
-                          MaterialCommunityIcons.account_tie,
-                          //size: 25,
-                        ),
-                        // shape: RoundedRectangleBorder(
-                        //   borderRadius:  BorderRadius.only(
-                        //     topLeft: Radius.circular(25),
-                        //     bottomLeft: Radius.circular(25),
-                        //   )
-
-                        //   ),
                       ),
                     ],
                   ),
@@ -195,7 +139,7 @@ class _ScrollPageState extends State<ScrollPage>
                           0),
                     ),
                     Text(
-                      "People around you",
+                      "Others at this Event",
                       style: TextStyle(color: Colors.black, fontSize: 20),
                     ),
                     Padding(
@@ -237,7 +181,7 @@ class _ScrollPageState extends State<ScrollPage>
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 3.68,
+          headerHeight: MediaQuery.of(context).size.height / 4.75,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
@@ -249,63 +193,257 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getLowerLayer() {
     return new Stack(
       children: <Widget>[
-        _googlemap(context),
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 14, 0, 0),
-          child: Align(
-            child: Text("What's Happening", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
-            alignment: Alignment.topCenter,
-            
-            
-            ),
+        _btmCard(context),
 
-
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 20, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                  icon: Icon(
-                MaterialCommunityIcons.chat,
-                color: Colors.black,
-                size: 30,
-              ))),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 7, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                  icon: Icon(
-                Icons.settings,
-                color: Colors.black,
-                size: 30,
-              ))),
-        )
       ],
     );
   }
 
-  Widget _googlemap(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: GoogleMap(
-        
-        mapType: MapType.normal,
-        myLocationEnabled: true,
-        initialCameraPosition:
-            CameraPosition(target: LatLng(56.130367,-106.346771), zoom: 2),
-        onMapCreated: (GoogleMapController controller) {
-          //mapController.complete(controller);
-          mapController = controller;
-          mapController.setMapStyle(
-              '[{"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#7c93a3"},{"lightness":"-10"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"color":"#a0a4a5"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"color":"#62838e"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#dde3e3"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"color":"#3f4a51"},{"weight":"0.30"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"poi.attraction","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.government","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.park","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.place_of_worship","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.school","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.sports_complex","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":"-100"},{"visibility":"on"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#bbcacf"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"lightness":"0"},{"color":"#bbcacf"},{"weight":"0.50"}]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"color":"#a9b4b8"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"invert_lightness":true},{"saturation":"-7"},{"lightness":"3"},{"gamma":"1.80"},{"weight":"0.01"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#a3c7df"}]}]');
-        },
+  Widget _btmCard(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Stack(children: <Widget>[
+            Container(
+              color: Color(0xFF8803fc),
+              height: screenH(370),
+              width: screenW(420),
+            ),
+            Column(
+              children: <Widget>[
+                SizedBox(
+                  height: screenH(50),
+                ),
+                Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: screenH(30),
+                    ),
+                    Text(
+                      "Social Mode",
+                      style: TextStyle(
+                          fontSize: screenF(20),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                    SizedBox(
+                      width: screenW(215),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.create),
+                      onPressed: () {
+                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: SocialPage()));
+                      },
+                      color: Colors.white,
+                      iconSize: screenH(25),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: screenH(10),
+                ),
+                Container(
+                  height: screenH(220),
+                  width: screenW(370),
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.35),
+                            blurRadius: (20),
+                            spreadRadius: (5),
+                            offset: Offset(0, 5)),
+                      ],
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: screenH(20),
+                      ),
+                      Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: screenW(20),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text("Namra Patel",
+                                  style: TextStyle(
+                                    fontSize: screenF(18),
+                                  )),
+                              SizedBox(
+                                height: screenH(2),
+                              ),
+                              Text("University of Western Ontario",
+                                  style: TextStyle(
+                                      fontSize: screenF(13),
+                                      color: Color(0xFF8803fc))),
+                              SizedBox(
+                                height: screenH(2),
+                              ),
+                              Text("Computer Science, 2022",
+                                  style: TextStyle(
+                                      fontSize: screenF(13),
+                                      color: Colors.grey)),
+                            ],
+                          ),
+                          SizedBox(
+                            width: screenW(115),
+                          ),
+                          CircleAvatar(
+                            backgroundImage:
+                                AssetImage("assets/namrapatel.png"),
+                            radius: 22,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenH(15),
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: screenW(30.0)),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Column(
+                              children: <Widget>[
+                                Icon(
+                                  FontAwesome.snapchat_square,
+                                  color: Color(0xFFfffc00),
+                                ),
+                                SizedBox(
+                                  width: screenW(10),
+                                ),
+                                Text("namrapatel9",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Icon(
+                                  MaterialCommunityIcons.instagram,
+                                  color: Color(0xFF8803fc),
+                                ),
+                                SizedBox(
+                                  width: screenW(10),
+                                ),
+                                Text("namrajpatel",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ],
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Icon(
+                                  MaterialCommunityIcons.twitter_box,
+                                  color: Colors.blue,
+                                ),
+                                Text("namrapatel",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ]),
+            Padding(
+              padding: EdgeInsets.all(10),
+            ),
+                          Container(
+                  width: MediaQuery.of(context).size.width / 1.8,
+                  height: 50,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF8803fc),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Reason you're here  ",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 17
+                      ),
+                      ),
+                      // SizedBox(
+                      //   width: 20,
+                      // ),
+                      IconButton(
+                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
+                        onPressed: (){
+                        showCupertinoModalPopup(
+                          
+                          context: context,
+                          builder: (BuildContext context) => CupertinoActionSheet(
+                            cancelButton: CupertinoActionSheetAction(
+                                  child: const Text('Cancel'),
+                                  isDefaultAction: true,
+                                  onPressed: () {
+                                    Navigator.pop(context, 'Cancel');
+                                  },
+                                ),
+                              title: const Text('Select one of the following options for why you are at this event',
+                              style: TextStyle(fontSize: 18),
+                              ),
+                              message: const Text('If you do not see an exact reason for your case, please choose the closest one  '),
+                              actions: <Widget>[
+                                CupertinoActionSheetAction(
+                                  child: const Text('Meet new people'),
+                                  onPressed: () {
+                                    
+                                    Navigator.pop(context, 'Meet new people');
+                                  },
+                                ),
+                                CupertinoActionSheetAction(
+                                  child: const Text('Fun, Social Activties'),
+                                  onPressed: () {
+                                    
+                                    Navigator.pop(context, 'Fun, Social Activties');
+                                  },
+                                ),
+                                CupertinoActionSheetAction(
+                                  child: const Text('Hang out with Friends'),
+                                  onPressed: () {
+                               
+                                    Navigator.pop(context, 'Hang out with Friends');
+                                  },
+                                ),
+                                CupertinoActionSheetAction(
+                                  child: const Text('Just have some fun'),
+                                  onPressed: () {
+                                    
+                                    Navigator.pop(context, 'Two');
+                                  },
+                                ),
+                                CupertinoActionSheetAction(
+                                  child: const Text('IDK, I\'m DRUNK'),
+                                  onPressed: () {
+                                    
+                                    Navigator.pop(context, 'Two');
+                                  },
+                                )
+                              ],
+                              ),
+                        );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+        ],
       ),
     );
   }
@@ -331,6 +469,10 @@ class _ScrollPageState extends State<ScrollPage>
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Text("Mechatronics Engineering, 2023"),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text("Meet new people", style: TextStyle(fontWeight: FontWeight.bold),),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
@@ -437,28 +579,4 @@ class _ScrollPageState extends State<ScrollPage>
           );
         });
   }
-
-    void _addMarker(double lat, double lng) {
-    MarkerId id = MarkerId(lat.toString() + lng.toString());
-    Marker _marker = Marker(
-      markerId: id,
-      position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-      infoWindow: InfoWindow(title: 'latLng', snippet: '$lat,$lng'),
-    );
-    setState(() {
-      markers[id] = _marker;
-    });
-  }
-
-  // void _updateMarkers(List<DocumentSnapshot> documentList) {
-  //   documentList.forEach((DocumentSnapshot document) {
-  //     GeoPoint point = document.data['position']['geopoint'];
-  //     _addMarker(point.latitude, point.longitude);
-  //   });
-  // }
-
-
-
-
 }

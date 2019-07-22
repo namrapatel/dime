@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
 import 'loginPage.dart';
+import 'onboarding.dart';
 
 void main() => runApp(Dime());
 

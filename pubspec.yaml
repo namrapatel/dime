@@ -46,11 +46,13 @@ dev_dependencies:
   sticky_infinite_list:
   rubber:
   google_maps_flutter:
+  flutter_tagging: ^1.1.0
   #geolocation:
     #git:
       #url: https://github.com/shehabic/geolocation
   
   
+
 
 
 # For information on the generic Dart part of this file, see the

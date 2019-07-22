@@ -1,3 +1,4 @@
+import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +14,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: ScrollPage(),
+      home: TabsApp(),
       // routes: <String, WidgetBuilder>{
       //   '/homepage': (BuildContext context) => new MyHomePage(),
       //   '/loginpage': (BuildContext context) => new LoginPage(),

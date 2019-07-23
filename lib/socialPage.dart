@@ -7,7 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'socialAtEvent.dart';
 import 'package:circular_splash_transition/circular_splash_transition.dart';
 import 'homePage.dart';
-
+import 'login.dart';
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -103,7 +103,7 @@ class _SocialPageState extends State<SocialPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("Namra Patel",
+                                Text(currentUserModel.displayName,
                                     style: TextStyle(
                                       fontSize: screenF(18),
                                     )),
@@ -128,7 +128,7 @@ class _SocialPageState extends State<SocialPage> {
                             ),
                             CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/namrapatel.png"),
+                                  NetworkImage(currentUserModel.photoUrl),
                               radius: 22,
                             )
                           ],

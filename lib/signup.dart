@@ -3,6 +3,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/cupertino.dart';
+import 'onboarding.dart';
 
 class SignupPage extends StatefulWidget {
   SignupPage({
@@ -134,7 +135,8 @@ class _SignupPageState extends State<SignupPage> {
               _formKey.currentState.save();
               //TODO Check values and navigate to new page
               if(_password == _confirm){
-                //NAVIGATE TO NEXT PAGE
+                //NAVIGATE TO ONBOARDING
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: onBoarding()));
               }
               else if(_password != _confirm){
                 _showCupertinoDialog();

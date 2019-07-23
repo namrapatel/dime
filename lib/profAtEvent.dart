@@ -65,8 +65,8 @@ class _profAtEventState extends State<profAtEvent>
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
-        initialValue: 0.45,
-        lowerBoundValue: AnimationControllerValue(percentage: 0.45),
+        initialValue: 0.57,
+        lowerBoundValue: AnimationControllerValue(percentage: 0.57),
         duration: Duration(milliseconds: 200));
     super.initState();
     _focus.addListener(_onFocusChange);
@@ -78,6 +78,7 @@ class _profAtEventState extends State<profAtEvent>
       _controller.animateTo(from: _controller.value, to: _controller.upperBound);
     }
   }
+
 
 
 
@@ -206,6 +207,10 @@ class _profAtEventState extends State<profAtEvent>
   }
 
   Widget _btmCard(BuildContext context) {
+
+      List<String> _reasons = ['Build Relationships', 'Engage in content', 'Participate in key conversations', 'Just to learn something']; // Option 2
+      String _selectedReason; // Option 2
+
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -223,13 +228,33 @@ class _profAtEventState extends State<profAtEvent>
                 Row(
                   children: <Widget>[
                     SizedBox(
-                      width: screenH(30),
-                    ),
-                    SizedBox(
-                      width: screenW(165),
+                      width: screenH(40),
                     ),
 
                     //TODO: ADD DROPDOWN HERE
+         
+                           DropdownButton(
+                             iconEnabledColor: Colors.white,
+                             icon: Icon(Icons.keyboard_arrow_down),
+                              hint: Text("Why you're at this event", style: TextStyle(color: Colors.white, fontSize: 18),), 
+                              value: _selectedReason,
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  _selectedReason = newValue;
+                                });
+                              },
+                              items: _reasons.map((reason) {
+                                return DropdownMenuItem(
+                                  child: new Text(reason),
+                                  value: reason,
+                                );
+                              }).toList(),
+                            ),
+
+                      SizedBox(
+                      width: screenW(70),
+                    ),
+                     
                     IconButton(
                       icon: Icon(Icons.create),
                       onPressed: () {

@@ -4,19 +4,6 @@ import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/cupertino.dart';
 import 'onboarding.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'main.dart';
-import 'homePage.dart';
-import 'package:Dime/classes/user.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as JSON;
-import 'services/usermanagement.dart';
-
-
-FacebookLogin fbLogin = new FacebookLogin();
 
 class SignupPage extends StatefulWidget {
   SignupPage({
@@ -28,21 +15,10 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   final _formKey = GlobalKey<FormState>();
   String _email, _password, _confirm;
   bool _isObscured = true;
   Color _eyeButtonColor = Colors.grey;
-  Map userProfile;
-
-
-
 
   Padding buildTitle() {
     return Padding(
@@ -153,35 +129,14 @@ class _SignupPageState extends State<SignupPage> {
         height: 50.0,
         width: 270.0,
         child: FlatButton(
-          onPressed: () async{
+          onPressed: () {
             if (_formKey.currentState.validate()) {
               //Only gets here if the fields pass
               _formKey.currentState.save();
               //TODO Check values and navigate to new page
               if(_password == _confirm){
-                try{
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email , password: _password)
-                      .then((signedInUser) async{
-                    UserManagement().storeNewUser(signedInUser, context);
-                    DocumentSnapshot userRecord = await Firestore.instance
-                        .collection('users')
-                        .document(signedInUser.uid)
-                        .get();
-                    if (userRecord.data != null) {
-                      currentUserModel = User.fromDocument(userRecord);
-                      print('in signup');
-
-                    }
-                    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: onBoarding()));
-                  });
-
-
-                }catch(e){
-                  print(e.message);
-
-                }
                 //NAVIGATE TO ONBOARDING
-
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: onBoarding()));
               }
               else if(_password != _confirm){
                 _showCupertinoDialog();

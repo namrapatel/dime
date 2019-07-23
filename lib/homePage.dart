@@ -12,7 +12,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-import 'signup.dart';
  import 'package:firebase_auth/firebase_auth.dart';
  import 'login.dart';
 
@@ -68,6 +67,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
+    print('home');
 print(currentUserModel.email);
           var location = new Location();
 

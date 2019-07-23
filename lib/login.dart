@@ -1,28 +1,16 @@
+import 'package:Dime/services/facebookauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'signup.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'login.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:flutter/cupertino.dart';
-import 'onboarding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'main.dart';
-import 'homePage.dart';
 import 'package:Dime/classes/user.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert' as JSON;
-import 'services/usermanagement.dart';
-import 'loginPage.dart';
 
 User currentUserModel;
-FacebookLogin fbLogin = new FacebookLogin();
+
 
 class Login extends StatefulWidget {
   Login({
@@ -45,7 +33,7 @@ class _LoginState extends State<Login> {
         print(firebaseUser);
         print(firebaseUser.displayName);
         print("you're in");
-
+//check for exception, may only be if emulator not wiped
         DocumentSnapshot userRecord = await Firestore.instance
             .collection('users')
             .document(firebaseUser.uid)
@@ -304,6 +292,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
               FloatingActionButton(
+                onPressed:(){ FacebookAuth().logIn(context,new MaterialPageRoute(builder: (context) => ScrollPage()));},
                 heroTag: 'btnF',
                 backgroundColor: Color(0xFF3C5A99),
                 child: Icon(MaterialCommunityIcons.facebook),

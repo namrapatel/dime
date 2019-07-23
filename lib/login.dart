@@ -22,7 +22,7 @@ class _LoginState extends State<Login> {
   Padding buildTitle() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text('Welcome Back', style: TextStyle(fontSize: 52.0, fontWeight: FontWeight.bold),),
+      child: Text('Welcome Back.', style: TextStyle(fontSize: 52.0, fontWeight: FontWeight.bold),),
     );
   }
 

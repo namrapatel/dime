@@ -9,13 +9,33 @@ class onBoarding extends StatefulWidget {
 }
 
 class _onBoardingState extends State<onBoarding> {
+  BuildContext context;
  final pageList = [
 
    //Slogan Screen, Cards Screen, People around you screen, Events Screen, Always Improving/Map stuff screen 
     PageModel(
         color: const Color(0xFF678FB4),
         heroAssetPath: 'assets/dimelogo1.png',
-        title: Text('Social Mode',
+        title: Text('Slogan Screen',
+            style: TextStyle(
+              fontWeight: FontWeight.w800,
+              color: Colors.white,
+              fontSize: 34.0,
+            )),
+        body: Padding(
+            padding: EdgeInsets.all(20),
+                  child: Text('All hotels and hostels are sorted by hospitality rating',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+              )),
+        ),
+        iconAssetPath: 'assets/dimelogo1.png'),
+    PageModel(
+        color: const Color(0xFF678FB4),
+        heroAssetPath: 'assets/dimelogo1.png',
+        title: Text('Cards Screen',
             style: TextStyle(
               fontWeight: FontWeight.w800,
               color: Colors.white,
@@ -34,7 +54,7 @@ class _onBoardingState extends State<onBoarding> {
     PageModel(
         color: const Color(0xFF65B0B4),
         heroAssetPath: 'assets/dimelogo1.png',
-        title: Text('Professional Mode',
+        title: Text('People around you screen',
             style: TextStyle(
               fontWeight: FontWeight.w800,
               color: Colors.white,
@@ -51,7 +71,7 @@ class _onBoardingState extends State<onBoarding> {
     PageModel(
       color: const Color(0xFF9B90BC),
       heroAssetPath: 'assets/dimelogo1.png',
-      title: Text('Events',
+      title: Text('Events Screen',
           style: TextStyle(
             fontWeight: FontWeight.w800,
             color: Colors.white,
@@ -68,18 +88,24 @@ class _onBoardingState extends State<onBoarding> {
     PageModel(
       color: const Color(0xFF9B90BC),
       heroAssetPath: 'assets/dimelogo1.png',
-      title: Text('Always Improving',
+      title: Text('Always Improving screen',
           style: TextStyle(
             fontWeight: FontWeight.w800,
             color: Colors.white,
             fontSize: 34.0,
           )),
-      body: Text('All local stores are categorized for your convenience',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-          )),
+      body: 
+      Column(
+        children: <Widget>[
+          Text('All local stores are categorized for your convenience',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+              )),
+              //ADD BUTTON WITH TO TAKE YOU TO HOMESCREEN
+        ],
+      ),
       iconAssetPath: 'assets/dimelogo1.png',
     ),
 ];

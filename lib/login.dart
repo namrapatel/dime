@@ -118,7 +118,6 @@ class _LoginState extends State<Login> {
           child: TextField(
           controller: myController,
           decoration: InputDecoration(
-            
             hintText: 'Please enter your email'
           ),
         ),

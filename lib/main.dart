@@ -6,6 +6,8 @@ import 'homePage.dart';
 import 'loginPage.dart';
 import 'onboarding.dart';
 
+
+
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {
@@ -14,7 +16,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: ScrollPage(),
+      home: TabsApp(),
       // routes: <String, WidgetBuilder>{
       //   '/homepage': (BuildContext context) => new MyHomePage(),
       //   '/loginpage': (BuildContext context) => new LoginPage(),

@@ -12,6 +12,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 
 
+
+
 class profAtEvent extends StatefulWidget {
   profAtEvent({Key key}) : super(key: key);
   @override
@@ -24,7 +26,7 @@ class _profAtEventState extends State<profAtEvent>
   //Completer <GoogleMapController> mapController = Completer();
 
   FocusNode _focus = new FocusNode();
-
+  
 
   // getPermission() async {
   //   final GeolocationResult result =
@@ -33,6 +35,10 @@ class _profAtEventState extends State<profAtEvent>
   //           ios: LocationPermissionIOS.always));
   //   return result;
   // }
+
+
+
+
 
 
 
@@ -219,16 +225,11 @@ class _profAtEventState extends State<profAtEvent>
                     SizedBox(
                       width: screenH(30),
                     ),
-                    Text(
-                      "Networking Mode",
-                      style: TextStyle(
-                          fontSize: screenF(20),
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
                     SizedBox(
                       width: screenW(165),
                     ),
+
+                    //TODO: ADD DROPDOWN HERE
                     IconButton(
                       icon: Icon(Icons.create),
                       onPressed: () {
@@ -361,81 +362,6 @@ class _profAtEventState extends State<profAtEvent>
             Padding(
               padding: EdgeInsets.all(10),
             ),
-                          Container(
-                  width: MediaQuery.of(context).size.width / 1.8,
-                  height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1976d2),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Reason you're here",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17
-                      ),
-                      ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
-                      IconButton(
-                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
-                        onPressed: (){
-                        showCupertinoModalPopup(
-                          
-                          context: context,
-                          builder: (BuildContext context) => CupertinoActionSheet(
-                            cancelButton: CupertinoActionSheetAction(
-                                  child: const Text('Cancel'),
-                                  isDefaultAction: true,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              title: const Text('Select one of the following options for why you are at this event',
-                              style: TextStyle(fontSize: 18),
-                              ),
-                              message: const Text('If you do not see an exact reason for your case, please choose the closest one  '),
-                              actions: <Widget>[
-                                CupertinoActionSheetAction(
-                                  child: const Text('Build Relationships'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Build Relationships');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Engage in Content'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Event Content');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('To Motivate Myself'),
-                                  onPressed: () {
-                               
-                                    Navigator.pop(context, 'Motivation');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Key Conversations'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Two');
-                                  },
-                                )
-                              ],
-                              ),
-                        );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),

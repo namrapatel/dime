@@ -12,6 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'signup.dart';
+ import 'package:firebase_auth/firebase_auth.dart';
+ import 'login.dart';
 
 
 class ScrollPage extends StatefulWidget {
@@ -65,7 +68,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
-
+print(currentUserModel.email);
           var location = new Location();
 
         location.onLocationChanged().listen((LocationData currentLocation) {
@@ -134,6 +137,19 @@ class _ScrollPageState extends State<ScrollPage>
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
+                      RaisedButton(
+
+                          child: Text('Logout'),
+                          onPressed: () async{
+
+                            FirebaseAuth.instance.signOut().then((value) {
+                              Navigator.push(context,
+                                  new MaterialPageRoute(builder: (context) => Login()));
+
+                            }).catchError((e) {
+                              print(e);
+                            });
+                          }),
                       FloatingActionButton(
                         onPressed: () {
                         

@@ -74,6 +74,57 @@ class _socialAtEventState extends State<socialAtEvent>
   }
 
 
+  String _value;
+
+ DropdownButton _normalDown() => DropdownButton<String>(
+          iconEnabledColor: Colors.white,
+          icon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
+        items: [
+          DropdownMenuItem(
+            value: "1",
+            child: Text(
+              "Meet new people",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "2",
+            child: Text(
+              "Fun, social activities",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+
+            ),
+          ),
+          DropdownMenuItem(
+            value: "3",
+            child: Text(
+              "Hang out with friends",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "4",
+            child: Text(
+              "Just have some fun",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "4",
+            child: Text(
+              "IDK I\'m drunk",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+        ],
+        onChanged: (value) {
+          setState(() {
+            _value = value;
+          });
+        },
+        value: _value,
+      );
+
 
   @override
   Widget build(BuildContext context) {
@@ -221,23 +272,7 @@ class _socialAtEventState extends State<socialAtEvent>
                     SizedBox(
                       width: screenH(35),
                     ),
-                           DropdownButton(
-                             iconEnabledColor: Colors.white,
-                             icon: Icon(Icons.keyboard_arrow_down),
-                              hint: Text("Why you're at this event", style: TextStyle(color: Colors.white, fontSize: 18),), 
-                              value: _selectedReason,
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  _selectedReason = newValue;
-                                });
-                              },
-                              items: _reasons.map((reason) {
-                                return DropdownMenuItem(
-                                  child: new Text(reason),
-                                  value: reason,
-                                );
-                              }).toList(),
-                            ),
+                    _normalDown(), 
                     SizedBox(
                       width: screenW(110),
                     ),

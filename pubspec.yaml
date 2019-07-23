@@ -96,6 +96,9 @@ flutter:
     - family: Futura
       fonts:
         - asset: assets/fonts/Futura-book.ttf
+    - family: FuturaBold
+      fonts:
+        - asset: assets/fonts/Futura-bold.ttf
     - family: Varela
       fonts:
         - asset: assets/fonts/VarelaRound-Regular.ttf

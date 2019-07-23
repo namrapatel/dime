@@ -79,6 +79,49 @@ class _profAtEventState extends State<profAtEvent>
     }
   }
 
+  String _value;
+
+ DropdownButton _normalDown() => DropdownButton<String>(
+          iconEnabledColor: Colors.white,
+          icon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
+        items: [
+          DropdownMenuItem(
+            value: "1",
+            child: Text(
+              "Build Relationships",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "2",
+            child: Text(
+              "Engage in content",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+
+            ),
+          ),
+          DropdownMenuItem(
+            value: "3",
+            child: Text(
+              "Participate in key conversations",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "4",
+            child: Text(
+              "Just to learn something",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+        ],
+        onChanged: (value) {
+          setState(() {
+            _value = value;
+          });
+        },
+        value: _value,
+      );
 
 
 
@@ -232,24 +275,7 @@ class _profAtEventState extends State<profAtEvent>
                     ),
 
                     //TODO: ADD DROPDOWN HERE
-         
-                           DropdownButton(
-                             iconEnabledColor: Colors.white,
-                             icon: Icon(Icons.keyboard_arrow_down),
-                              hint: Text("Why you're at this event", style: TextStyle(color: Colors.white, fontSize: 18),), 
-                              value: _selectedReason,
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  _selectedReason = newValue;
-                                });
-                              },
-                              items: _reasons.map((reason) {
-                                return DropdownMenuItem(
-                                  child: new Text(reason),
-                                  value: reason,
-                                );
-                              }).toList(),
-                            ),
+                    _normalDown(),
 
                       SizedBox(
                       width: screenW(70),

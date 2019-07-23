@@ -298,6 +298,7 @@ class _ScrollPageState extends State<ScrollPage>
         
         mapType: MapType.normal,
         myLocationEnabled: true,
+        zoomGesturesEnabled: false,
         initialCameraPosition:
             CameraPosition(target: LatLng(56.130367,-106.346771), zoom: 2),
         onMapCreated: (GoogleMapController controller) {

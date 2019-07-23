@@ -59,8 +59,8 @@ class _socialAtEventState extends State<socialAtEvent>
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
-        initialValue: 0.45,
-        lowerBoundValue: AnimationControllerValue(percentage: 0.45),
+        initialValue: 0.57,
+        lowerBoundValue: AnimationControllerValue(percentage: 0.57),
         duration: Duration(milliseconds: 200));
     super.initState();
     _focus.addListener(_onFocusChange);
@@ -73,6 +73,57 @@ class _socialAtEventState extends State<socialAtEvent>
     }
   }
 
+
+  String _value;
+
+ DropdownButton _normalDown() => DropdownButton<String>(
+          iconEnabledColor: Colors.white,
+          icon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
+        items: [
+          DropdownMenuItem(
+            value: "1",
+            child: Text(
+              "Meet new people",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "2",
+            child: Text(
+              "Fun, social activities",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+
+            ),
+          ),
+          DropdownMenuItem(
+            value: "3",
+            child: Text(
+              "Hang out with friends",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "4",
+            child: Text(
+              "Just have some fun",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "4",
+            child: Text(
+              "IDK I\'m drunk",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+        ],
+        onChanged: (value) {
+          setState(() {
+            _value = value;
+          });
+        },
+        value: _value,
+      );
 
 
   @override
@@ -200,6 +251,8 @@ class _socialAtEventState extends State<socialAtEvent>
   }
 
   Widget _btmCard(BuildContext context) {
+      List<String> _reasons = ['Meet new people', 'Fun, social activities', 'Hang out with friends', 'Just have some fun', 'IDK I\'m drunk']; // Option 2
+      String _selectedReason; // 
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -217,17 +270,11 @@ class _socialAtEventState extends State<socialAtEvent>
                 Row(
                   children: <Widget>[
                     SizedBox(
-                      width: screenH(30),
+                      width: screenH(35),
                     ),
-                    Text(
-                      "Social Mode",
-                      style: TextStyle(
-                          fontSize: screenF(20),
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
+                    _normalDown(), 
                     SizedBox(
-                      width: screenW(215),
+                      width: screenW(110),
                     ),
                     IconButton(
                       icon: Icon(Icons.create),
@@ -361,88 +408,7 @@ class _socialAtEventState extends State<socialAtEvent>
             Padding(
               padding: EdgeInsets.all(10),
             ),
-                          Container(
-                  width: MediaQuery.of(context).size.width / 1.8,
-                  height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF8803fc),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Reason you're here  ",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17
-                      ),
-                      ),
-                      // SizedBox(
-                      //   width: 20,
-                      // ),
-                      IconButton(
-                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
-                        onPressed: (){
-                        showCupertinoModalPopup(
-                          
-                          context: context,
-                          builder: (BuildContext context) => CupertinoActionSheet(
-                            cancelButton: CupertinoActionSheetAction(
-                                  child: const Text('Cancel'),
-                                  isDefaultAction: true,
-                                  onPressed: () {
-                                    Navigator.pop(context, 'Cancel');
-                                  },
-                                ),
-                              title: const Text('Select one of the following options for why you are at this event',
-                              style: TextStyle(fontSize: 18),
-                              ),
-                              message: const Text('If you do not see an exact reason for your case, please choose the closest one  '),
-                              actions: <Widget>[
-                                CupertinoActionSheetAction(
-                                  child: const Text('Meet new people'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Meet new people');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Fun, Social Activties'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Fun, Social Activties');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Hang out with Friends'),
-                                  onPressed: () {
-                               
-                                    Navigator.pop(context, 'Hang out with Friends');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Just have some fun'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Two');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('IDK, I\'m DRUNK'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Two');
-                                  },
-                                )
-                              ],
-                              ),
-                        );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
+
         ],
       ),
     );

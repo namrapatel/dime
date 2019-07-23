@@ -118,6 +118,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.2"
+  flutter_search_panel:
+    dependency: "direct dev"
+    description:
+      name: flutter_search_panel
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   flutter_tagging:
     dependency: "direct dev"
     description:

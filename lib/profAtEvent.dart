@@ -12,6 +12,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 
 
+
+
 class profAtEvent extends StatefulWidget {
   profAtEvent({Key key}) : super(key: key);
   @override
@@ -24,7 +26,7 @@ class _profAtEventState extends State<profAtEvent>
   //Completer <GoogleMapController> mapController = Completer();
 
   FocusNode _focus = new FocusNode();
-
+  
 
   // getPermission() async {
   //   final GeolocationResult result =
@@ -33,6 +35,10 @@ class _profAtEventState extends State<profAtEvent>
   //           ios: LocationPermissionIOS.always));
   //   return result;
   // }
+
+
+
+
 
 
 
@@ -59,8 +65,8 @@ class _profAtEventState extends State<profAtEvent>
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
-        initialValue: 0.45,
-        lowerBoundValue: AnimationControllerValue(percentage: 0.45),
+        initialValue: 0.57,
+        lowerBoundValue: AnimationControllerValue(percentage: 0.57),
         duration: Duration(milliseconds: 200));
     super.initState();
     _focus.addListener(_onFocusChange);
@@ -72,6 +78,50 @@ class _profAtEventState extends State<profAtEvent>
       _controller.animateTo(from: _controller.value, to: _controller.upperBound);
     }
   }
+
+  String _value;
+
+ DropdownButton _normalDown() => DropdownButton<String>(
+          iconEnabledColor: Colors.white,
+          icon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
+        items: [
+          DropdownMenuItem(
+            value: "1",
+            child: Text(
+              "Build Relationships",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "2",
+            child: Text(
+              "Engage in content",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+
+            ),
+          ),
+          DropdownMenuItem(
+            value: "3",
+            child: Text(
+              "Participate in key conversations",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "4",
+            child: Text(
+              "Just to learn something",
+              style: TextStyle(color: Colors.black, fontSize: 15),
+            ),
+          ),
+        ],
+        onChanged: (value) {
+          setState(() {
+            _value = value;
+          });
+        },
+        value: _value,
+      );
 
 
 
@@ -200,6 +250,10 @@ class _profAtEventState extends State<profAtEvent>
   }
 
   Widget _btmCard(BuildContext context) {
+
+      List<String> _reasons = ['Build Relationships', 'Engage in content', 'Participate in key conversations', 'Just to learn something']; // Option 2
+      String _selectedReason; // Option 2
+
     return Scaffold(
       body: Column(
         children: <Widget>[
@@ -217,18 +271,16 @@ class _profAtEventState extends State<profAtEvent>
                 Row(
                   children: <Widget>[
                     SizedBox(
-                      width: screenH(30),
+                      width: screenH(40),
                     ),
-                    Text(
-                      "Networking Mode",
-                      style: TextStyle(
-                          fontSize: screenF(20),
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+
+                    //TODO: ADD DROPDOWN HERE
+                    _normalDown(),
+
+                      SizedBox(
+                      width: screenW(70),
                     ),
-                    SizedBox(
-                      width: screenW(165),
-                    ),
+                     
                     IconButton(
                       icon: Icon(Icons.create),
                       onPressed: () {
@@ -361,81 +413,6 @@ class _profAtEventState extends State<profAtEvent>
             Padding(
               padding: EdgeInsets.all(10),
             ),
-                          Container(
-                  width: MediaQuery.of(context).size.width / 1.8,
-                  height: 50,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF1976d2),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text("Reason you're here",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17
-                      ),
-                      ),
-                      // SizedBox(
-                      //   width: 10,
-                      // ),
-                      IconButton(
-                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
-                        onPressed: (){
-                        showCupertinoModalPopup(
-                          
-                          context: context,
-                          builder: (BuildContext context) => CupertinoActionSheet(
-                            cancelButton: CupertinoActionSheetAction(
-                                  child: const Text('Cancel'),
-                                  isDefaultAction: true,
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              title: const Text('Select one of the following options for why you are at this event',
-                              style: TextStyle(fontSize: 18),
-                              ),
-                              message: const Text('If you do not see an exact reason for your case, please choose the closest one  '),
-                              actions: <Widget>[
-                                CupertinoActionSheetAction(
-                                  child: const Text('Build Relationships'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Build Relationships');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Engage in Content'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Event Content');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('To Motivate Myself'),
-                                  onPressed: () {
-                               
-                                    Navigator.pop(context, 'Motivation');
-                                  },
-                                ),
-                                CupertinoActionSheetAction(
-                                  child: const Text('Key Conversations'),
-                                  onPressed: () {
-                                    
-                                    Navigator.pop(context, 'Two');
-                                  },
-                                )
-                              ],
-                              ),
-                        );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
                 Padding(
                   padding: EdgeInsets.all(5),
                 ),

@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:flutter_search_panel/flutter_search_panel.dart';
+import 'package:flutter_search_panel/search_item.dart';
 
 String selectedItemString;
 String selectedWItemString;
@@ -61,6 +63,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   String text = "Nothing to show";
   @override
   Widget build(BuildContext context) {
+    List<SearchItem<int>> data = [
+      SearchItem(0, 'Please select your university'),
+      SearchItem(1, 'University of British Columbia'),
+      SearchItem(2, 'University of Calgary'),
+      SearchItem(3, 'University of Western Ontario'),
+      SearchItem(4, 'University of Waterloo'),
+    ];
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -253,27 +262,58 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                     )
                   ],
                 ),
+            Padding(
+                padding: EdgeInsets.all(20),
+                child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  width: 800,
+                  height: 70,
+                  color: Colors.white,
+                  child: FlutterSearchPanel<int>(
+                  padding: EdgeInsets.all(10.0),
+                  selected: 0,
+                  title: 'Select University',
+                  data: data,
+                  icon: new Icon(Icons.school, color: Colors.black),
+                  color: Color(0xFFECE9E4),
+                  textStyle: new TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,),
+                  onChanged: (int value) {
+                    print(value);
+                  },
+          ),
+                ),
               ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'University',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
+            ),
+
+                // Container(
+                //   margin: EdgeInsets.symmetric(horizontal: 20.0),
+                //   child: Column(
+                //     children: <Widget>[
+                //       Theme(
+                //         // data: theme.copyWith(primaryColor: Colors.black),
+                //         data: new ThemeData(
+                //             primaryColor: Colors.black,
+                //             accentColor: Colors.black,
+                //             hintColor: Colors.black),
+                //         child: TextField(
+                //           decoration: InputDecoration(
+                //               border: new UnderlineInputBorder(
+                //                   borderSide:
+                //                       new BorderSide(color: Colors.black))),
+                //           style: TextStyle(fontSize: 18, color: Colors.grey),
+                //           cursorColor: Colors.black,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
+                SizedBox(
+                  height: 20.0,
+                ),
+                Row(
                   children: <Widget>[
                     Theme(
                       // data: theme.copyWith(primaryColor: Colors.black),
@@ -553,6 +593,14 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String text = "Nothing to show";
   @override
   Widget build(BuildContext context) {
+
+      List<SearchItem<int>> data2 = [
+      SearchItem(0, 'Please select your university'),
+      SearchItem(1, 'University of British Columbia'),
+      SearchItem(2, 'University of Calgary'),
+      SearchItem(3, 'University of Western Ontario'),
+      SearchItem(4, 'University of Waterloo'),
+    ];
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -765,28 +813,53 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                     ),
                   ],
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      Theme(
-                        // data: theme.copyWith(primaryColor: Colors.black),
-                        data: new ThemeData(
-                            primaryColor: Colors.black,
-                            accentColor: Colors.black,
-                            hintColor: Colors.black),
-                        child: TextField(
-                          decoration: InputDecoration(
-                              border: new UnderlineInputBorder(
-                                  borderSide:
-                                      new BorderSide(color: Colors.black))),
-                          style: TextStyle(fontSize: 18, color: Colors.grey),
-                          cursorColor: Colors.black,
-                        ),
-                      )
-                    ],
-                  ),
+            Padding(
+                padding: EdgeInsets.all(20),
+                child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  width: 800,
+                  height: 70,
+                  color: Colors.white,
+                  child: FlutterSearchPanel<int>(
+                  padding: EdgeInsets.all(10.0),
+                  selected: 0,
+                  title: 'Select University',
+                  data: data2,
+                  icon: new Icon(Icons.school, color: Colors.black),
+                  color: Color(0xFFECE9E4),
+                  textStyle: new TextStyle(
+                      color: Colors.black,
+                      fontSize: 15.0,),
+                  onChanged: (int value) {
+                    print(value);
+                  },
+          ),
                 ),
+              ),
+            ),
+                // Container(
+                //   margin: EdgeInsets.symmetric(horizontal: 20.0),
+                //   child: Column(
+                //     children: <Widget>[
+                //       Theme(
+                //         // data: theme.copyWith(primaryColor: Colors.black),
+                //         data: new ThemeData(
+                //             primaryColor: Colors.black,
+                //             accentColor: Colors.black,
+                //             hintColor: Colors.black),
+                //         child: TextField(
+                //           decoration: InputDecoration(
+                //               border: new UnderlineInputBorder(
+                //                   borderSide:
+                //                       new BorderSide(color: Colors.black))),
+                //           style: TextStyle(fontSize: 18, color: Colors.grey),
+                //           cursorColor: Colors.black,
+                //         ),
+                //       )
+                //     ],
+                //   ),
+                // ),
                 SizedBox(
                   height: 20.0,
                 ),

@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Dime/classes/user.dart';
+import 'package:Dime/services/googleauth.dart';
 
 User currentUserModel;
 
@@ -300,6 +301,7 @@ class _LoginState extends State<Login> {
               ),
               SizedBox(width: 20,),
               FloatingActionButton(
+                onPressed:(){ GoogleAuth().logIn(context,new MaterialPageRoute(builder: (context) => ScrollPage()));},
                 heroTag: 'btnGG',
                 backgroundColor: Color(0xFFDB4437),
                 child: Icon(AntDesign.google),

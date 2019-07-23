@@ -3,6 +3,26 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'signup.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'login.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:flutter/cupertino.dart';
+import 'onboarding.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'main.dart';
+import 'homePage.dart';
+import 'package:Dime/classes/user.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
+import 'services/usermanagement.dart';
+import 'loginPage.dart';
+
+User currentUserModel;
+FacebookLogin fbLogin = new FacebookLogin();
 
 class Login extends StatefulWidget {
   Login({
@@ -14,6 +34,34 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
+      if (firebaseUser != null) {
+        print('in login');
+        print(firebaseUser);
+        print(firebaseUser.displayName);
+        print("you're in");
+
+        DocumentSnapshot userRecord = await Firestore.instance
+            .collection('users')
+            .document(firebaseUser.uid)
+            .get();
+        if (userRecord.data != null) {
+          currentUserModel = User.fromDocument(userRecord);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => ScrollPage()));
+        }
+      } else {
+        print("floppps");
+      }
+    });
+  }
+
+
   final _formKey = GlobalKey<FormState>();
   String _email, _password;
   bool _isObscured = true;
@@ -143,11 +191,30 @@ class _LoginState extends State<Login> {
         height: 50.0,
         width: 270.0,
         child: FlatButton(
-          onPressed: () {
+          onPressed: () async{
             if (_formKey.currentState.validate()) {
               //Only gets here if the fields pass
               _formKey.currentState.save();
               //TODO Check values and navigate to new page
+              try{
+                await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email , password: _password).then((signedInUser) async{
+
+                  DocumentSnapshot userRecord = await Firestore.instance
+                      .collection('users')
+                      .document(signedInUser.uid)
+                      .get();
+                  if (userRecord.data != null) {
+                    currentUserModel = User.fromDocument(userRecord);
+                    Navigator.push(context,
+                        new MaterialPageRoute(builder: (context) => ScrollPage()));
+                  }
+
+                });
+              }catch(e){
+            print(e);
+
+            }
+
               Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ScrollPage()));
             }
           },

@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
+import 'viewCards.dart';
 
 
 
@@ -499,7 +500,7 @@ class _socialAtEventState extends State<socialAtEvent>
                     icon: Icon(MaterialCommunityIcons.card_bulleted),
                     color: Colors.black,
                     onPressed: () {
-                      _showCupertinoDialog();
+                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
                     },
                   ),
                 ],

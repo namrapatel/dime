@@ -12,8 +12,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
- import 'package:firebase_auth/firebase_auth.dart';
- import 'login.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'login.dart';
+import 'viewCards.dart';
 
 
 class ScrollPage extends StatefulWidget {
@@ -137,19 +138,19 @@ print(currentUserModel.email);
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-                      RaisedButton(
+                      // RaisedButton(
 
-                          child: Text('Logout'),
-                          onPressed: () async{
+                      //     child: Text('Logout'),
+                      //     onPressed: () async{
 
-                            FirebaseAuth.instance.signOut().then((value) {
-                              Navigator.push(context,
-                                  new MaterialPageRoute(builder: (context) => Login()));
+                      //       FirebaseAuth.instance.signOut().then((value) {
+                      //         Navigator.push(context,
+                      //             new MaterialPageRoute(builder: (context) => Login()));
 
-                            }).catchError((e) {
-                              print(e);
-                            });
-                          }),
+                      //       }).catchError((e) {
+                      //         print(e);
+                      //       });
+                      //     }),
                       FloatingActionButton(
                         onPressed: () {
                         
@@ -408,7 +409,7 @@ print(currentUserModel.email);
                     icon: Icon(MaterialCommunityIcons.card_bulleted),
                     color: Colors.black,
                     onPressed: () {
-                      _showCupertinoDialog();
+                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
                     },
                   ),
                 ],
@@ -419,41 +420,6 @@ print(currentUserModel.email);
     );
   }
 
-  void _showCupertinoDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('Send Card to Dhruv Patel?'),
-            content: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Please select the card you would like to send. It will send as a message, you can view it in the messages page.',
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Social',
-                    style: TextStyle(fontSize: 18),
-                  )),
-              FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Professional',
-                  style: TextStyle(fontSize: 18),
-                ),
-              )
-            ],
-          );
-        });
-  }
 
     void _addMarker(double lat, double lng) {
     MarkerId id = MarkerId(lat.toString() + lng.toString());

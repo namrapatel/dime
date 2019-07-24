@@ -7,8 +7,12 @@ import 'homePage.dart';
 import 'loginPage.dart';
 import 'onboarding.dart';
 import 'signup.dart';
+import 'classes/user.dart';
+
 
 void main() => runApp(Dime());
+
+
 
 class Dime extends StatelessWidget {
   @override
@@ -17,7 +21,7 @@ class Dime extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Dime",
 
-      home: TabsApp(),
+      home: Login(),
 
       // routes: <String, WidgetBuilder>{
       //   '/homepage': (BuildContext context) => new MyHomePage(),

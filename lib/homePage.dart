@@ -154,7 +154,7 @@ class _ScrollPageState extends State<ScrollPage>
                         elevation: 0,
                         heroTag: 'btn1',
                         backgroundColor: Color(0xFF8803fc),
-                        child: Icon(Entypo.drink),
+                        child: Icon(Entypo.drink, color: Colors.white,),
                         // shape: RoundedRectangleBorder(
                         //   borderRadius:  BorderRadius.only(
                         //     topRight: Radius.circular(25),
@@ -176,6 +176,7 @@ class _ScrollPageState extends State<ScrollPage>
                         backgroundColor: Color(0xFF1976d2),
                         child: Icon(
                           MaterialCommunityIcons.account_tie,
+                          color: Colors.white
                           //size: 25,
                         ),
                         // shape: RoundedRectangleBorder(

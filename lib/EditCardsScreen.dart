@@ -23,7 +23,10 @@ class TabsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Tabs App',
-      theme: ThemeData(primarySwatch: Colors.amber),
+      theme: ThemeData(primarySwatch: Colors.amber,
+      primaryColor: Colors.black,
+      fontFamily: 'Futura'
+      ),
       home: CardEdit(),
     );
   }
@@ -135,7 +138,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           ],
                         ),
                         SizedBox(
-                          width: screenW(80),
+                          width: screenW(70),
                         ),
                         Column(
                           children: <Widget>[
@@ -219,7 +222,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       ),
                     ),
                     SizedBox(
-                      height: 15.0,
+                      height: screenH(25),
                     ),
                     Row(
                       children: <Widget>[
@@ -687,7 +690,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           ],
                         ),
                         SizedBox(
-                          width: screenW(80),
+                          width: screenW(70),
                         ),
                         Column(
                           children: <Widget>[
@@ -770,7 +773,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                       ),
                     ),
                     SizedBox(
-                      height: 15.0,
+                      height: screenH(25),
                     ),
                     Row(
                       children: <Widget>[

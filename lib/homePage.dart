@@ -13,8 +13,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'viewCards.dart';
-
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'login.dart';
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -71,7 +71,7 @@ class _ScrollPageState extends State<ScrollPage>
 
           location.onLocationChanged().listen((LocationData currentLocation) {
           //SEND TO FIREBASE FROM HERE TOO
-          
+
           mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude),
           zoom: 18
           )));
@@ -137,6 +137,19 @@ class _ScrollPageState extends State<ScrollPage>
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
+                      RaisedButton(
+
+                          child: Text('Logout'),
+                          onPressed: () async{
+
+                            FirebaseAuth.instance.signOut().then((value) {
+                              Navigator.push(context,
+                                  new MaterialPageRoute(builder: (context) => Login()));
+
+                            }).catchError((e) {
+                              print(e);
+                            });
+                          }),
                       FloatingActionButton(
                         onPressed: () {
                         
@@ -280,7 +293,7 @@ class _ScrollPageState extends State<ScrollPage>
                 size: 30,
               ),
               )
-              
+
               ),
         ),
         Padding(
@@ -298,7 +311,7 @@ class _ScrollPageState extends State<ScrollPage>
                 size: 30,
               ),
               )
-              
+
               ),
         ),
         Padding(
@@ -316,7 +329,7 @@ class _ScrollPageState extends State<ScrollPage>
                 size: 30,
               ),
               )
-              
+
               ),
         ),
         Padding(
@@ -334,7 +347,7 @@ class _ScrollPageState extends State<ScrollPage>
                 size: 30,
               ),
               )
-              
+
               ),
         )
       ],

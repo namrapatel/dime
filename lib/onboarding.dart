@@ -1,6 +1,7 @@
 import 'package:fancy_on_boarding/fancy_on_boarding.dart';
 import 'package:fancy_on_boarding/page_model.dart';
 import 'package:flutter/material.dart';
+import 'login.dart';
 
 
 class onBoarding extends StatefulWidget {
@@ -10,6 +11,14 @@ class onBoarding extends StatefulWidget {
 
 class _onBoardingState extends State<onBoarding> {
   BuildContext context;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('in onboarding with email below');
+    print(currentUserModel.email);
+  }
  final pageList = [
 
    //Slogan Screen, Cards Screen, People around you screen, Events Screen, Always Improving/Map stuff screen 

@@ -267,27 +267,75 @@ class _ScrollPageState extends State<ScrollPage>
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 20, 0, 0),
+              MediaQuery.of(context).size.height / 10, 0, 0),
           child: Align(
               alignment: Alignment.topLeft,
-              child: IconButton(
-                  icon: Icon(
+              child: FloatingActionButton(
+                heroTag: 'fab1',
+                elevation: 7,
+                backgroundColor: Colors.white,
+                child: Icon(
                 MaterialCommunityIcons.chat,
                 color: Colors.black,
                 size: 30,
-              ))),
+              ),
+              )
+              
+              ),
         ),
         Padding(
           padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 7, 0, 0),
+              MediaQuery.of(context).size.height / 5, 0, 0),
           child: Align(
               alignment: Alignment.topLeft,
-              child: IconButton(
-                  icon: Icon(
-                Icons.settings,
+              child: FloatingActionButton(
+                heroTag: 'fab2',
+                elevation: 7,
+                backgroundColor: Colors.white,
+                child: Icon(
+                MaterialCommunityIcons.settings,
                 color: Colors.black,
                 size: 30,
-              ))),
+              ),
+              )
+              
+              ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
+              MediaQuery.of(context).size.height / 3.3, 0, 0),
+          child: Align(
+              alignment: Alignment.topLeft,
+              child: FloatingActionButton(
+                heroTag: 'fab3',
+                elevation: 7,
+                backgroundColor: Colors.white,
+                child: Icon(
+                MaterialCommunityIcons.card_bulleted,
+                color: Colors.black,
+                size: 30,
+              ),
+              )
+              
+              ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
+              MediaQuery.of(context).size.height / 2.45, 0, 0),
+          child: Align(
+              alignment: Alignment.topLeft,
+              child: FloatingActionButton(
+                heroTag: 'fab4',
+                elevation: 7,
+                backgroundColor: Colors.white,
+                child: Icon(
+                FontAwesome.search,
+                color: Colors.black,
+                size: 30,
+              ),
+              )
+              
+              ),
         )
       ],
     );

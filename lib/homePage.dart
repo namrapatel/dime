@@ -13,6 +13,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'viewCards.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 class ScrollPage extends StatefulWidget {
@@ -23,6 +24,8 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+
+  List<UserTile> nearbyUsers=[UserTile('Shehab Salem','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq','AR07blHIDVazKVAAYUrhtRypsoy2',major:'Computer Science, 2022',interests: ['Flutter','Basketball'],),UserTile('Mahad Zaryab','https://lh3.googleusercontent.com/-DBGxpfqr_Fs/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcxJQfiwQg5BBipMSPUEkWpU-abww/s96-c/photo.jpg','JDuiarBxusY7GgmbVQcBtTg3xzk1',major:'Software Engineering, 2022',interests: ['Java', 'Gym'])];
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
@@ -137,19 +140,19 @@ class _ScrollPageState extends State<ScrollPage>
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-                      RaisedButton(
-
-                          child: Text('Logout'),
-                          onPressed: () async{
-
-                            FirebaseAuth.instance.signOut().then((value) {
-                              Navigator.push(context,
-                                  new MaterialPageRoute(builder: (context) => Login()));
-
-                            }).catchError((e) {
-                              print(e);
-                            });
-                          }),
+//                      RaisedButton(
+//
+//                          child: Text('L'),
+//                          onPressed: () async{
+//
+//                            FirebaseAuth.instance.signOut().then((value) {
+//                              Navigator.push(context,
+//                                  new MaterialPageRoute(builder: (context) => Login()));
+//
+//                            }).catchError((e) {
+//                              print(e);
+//                            });
+//                          }),
                       FloatingActionButton(
                         onPressed: () {
                         
@@ -382,89 +385,10 @@ class _ScrollPageState extends State<ScrollPage>
           physics: NeverScrollableScrollPhysics(),
           controller: _scrollController,
           itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(
-                "Dhruv Patel",
-                style: TextStyle(fontSize: 18),
-              ),
-              subtitle: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, MediaQuery.of(context).size.height / 100, 0, 0),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text("Mechatronics Engineering, 2023"),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, MediaQuery.of(context).size.height / 70, 0, 0),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).size.height / 30,
-                        width: MediaQuery.of(context).size.width / 6,
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width / 40,
-                            MediaQuery.of(context).size.height / 150,
-                            0,
-                            0),
-                        child: Text("Badminton",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10)),
-                        decoration: BoxDecoration(
-                            color: Color(0xFF8803fc),
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 30,
-                        width: MediaQuery.of(context).size.width / 8.5,
-                        padding: EdgeInsets.fromLTRB(10, 4.5, 0, 0),
-                        child: Text("Flutter",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10)),
-                        decoration: BoxDecoration(
-                            color: Color(0xFF1976d2),
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, MediaQuery.of(context).size.height / 50, 0, 0),
-                  )
-                ],
-              ),
-              leading: CircleAvatar(
-                backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
-                radius: 20,
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(MaterialCommunityIcons.chat),
-                    color: Colors.black,
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: Icon(MaterialCommunityIcons.card_bulleted),
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
-                    },
-                  ),
-                ],
-              ),
-            );
+            return nearbyUsers[index];
           },
-          itemCount: 100),
-    );
+          itemCount: nearbyUsers.length,
+    ));
   }
 
   void _showCupertinoDialog() {
@@ -516,14 +440,116 @@ class _ScrollPageState extends State<ScrollPage>
     });
   }
 
-  // void _updateMarkers(List<DocumentSnapshot> documentList) {
-  //   documentList.forEach((DocumentSnapshot document) {
-  //     GeoPoint point = document.data['position']['geopoint'];
-  //     _addMarker(point.latitude, point.longitude);
-  //   });
-  // }
-
-
 
 
 }
+class UserTile extends StatelessWidget {
+
+  UserTile(this.contactName, this.personImage,this.uid,{this.major,this.interests} );
+  final String contactName, personImage,major,  uid;
+  final List<String> interests;
+
+  List<Widget> buildInterests(List interestsList,context) {
+    List<Widget> interestWidgets = [];
+
+    for (var interest in interestsList){
+      interestWidgets.add(Column(children: <Widget>[
+        Container(
+          height: MediaQuery.of(context).size.height / 30,
+          width: MediaQuery.of(context).size.width / 6,
+          padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width / 40,
+              MediaQuery.of(context).size.height / 150,
+              0,
+              0),
+          child: Text(interest,
+              style:
+              TextStyle(color: Colors.white, fontSize: 10)),
+          decoration: BoxDecoration(
+              color: Color(0xFF8803fc),
+              borderRadius: BorderRadius.circular(20)),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+        ),
+      ]));
+    }
+    return interestWidgets;
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+    ListTile(
+    title: Text(
+      contactName,
+      style: TextStyle(fontSize: 18),
+    ),
+    subtitle: Column(
+    children: <Widget>[
+    Padding(
+    padding: EdgeInsets.fromLTRB(
+    0, MediaQuery.of(context).size.height / 100, 0, 0),
+    ),
+    Align(
+    alignment: Alignment.bottomLeft,
+    child: Text(major),
+    ),
+    Padding(
+    padding: EdgeInsets.fromLTRB(
+    0, MediaQuery.of(context).size.height / 70, 0, 0),
+    ),
+    Row(
+    children: <Widget>[
+      Container(
+        height: (30),
+        child: ListView(
+          padding: EdgeInsets.only(bottom: 5.0),
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          children:
+          buildInterests(interests, context),
+        ),
+      ),
+    ],
+    ),
+    Padding(
+    padding: EdgeInsets.fromLTRB(
+    0, MediaQuery.of(context).size.height / 50, 0, 0),
+    )
+    ],
+    ),
+    leading: CircleAvatar(
+    backgroundImage: NetworkImage(personImage),
+    radius: 20,
+    ),
+    trailing: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+    IconButton(
+    icon: Icon(MaterialCommunityIcons.chat),
+    color: Colors.black,
+    onPressed: () {},
+    ),
+    IconButton(
+    icon: Icon(MaterialCommunityIcons.card_bulleted),
+    color: Colors.black,
+    onPressed: () {
+    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards(userId: uid,)));
+    },
+    ),
+    ],
+    ),
+    )
+    ],
+    );
+  }
+}
+
+
+
+
+
+

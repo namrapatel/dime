@@ -7,7 +7,7 @@ import 'homePage.dart';
 import 'loginPage.dart';
 import 'onboarding.dart';
 import 'signup.dart';
-import 'classes/user.dart';
+import 'models/user.dart';
 
 
 void main() => runApp(Dime());

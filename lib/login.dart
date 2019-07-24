@@ -7,7 +7,7 @@ import 'homePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:Dime/classes/user.dart';
+import 'package:Dime/models/user.dart';
 import 'package:Dime/services/googleauth.dart';
 
 User currentUserModel;

@@ -1,24 +1,72 @@
-import 'package:Dime/socialPage.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'profAtEvent.dart';
-import 'package:circular_splash_transition/circular_splash_transition.dart';
-import 'package:page_transition/page_transition.dart';
-import 'homePage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'models/usercard.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 
 class ViewCards extends StatefulWidget {
+  const ViewCards({this.userId});
+  final String userId;
   @override
-  _ViewCardsState createState() => _ViewCardsState();
+  _ViewCardsState createState() => _ViewCardsState(this.userId);
 }
 
 class _ViewCardsState extends State<ViewCards> {
+final String userId;
+_ViewCardsState(this.userId);
 
+
+Widget buildCards() {
+  return FutureBuilder<List<UserCard>>(
+      future: getCards(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Container(
+              alignment: FractionalOffset.center,
+              child: CircularProgressIndicator());
+
+        return ListView(
+          children: snapshot.data,
+          padding: EdgeInsets.only(
+            bottom: screenH(15.0),
+          ),
+
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+        );
+      });
+}
+
+
+
+Future<List<UserCard>> getCards() async {
+  List<UserCard> cardTiles = [];
+  QuerySnapshot query= await Firestore.instance.collection('users').document(userId).collection('cards').getDocuments();
+
+  for(var document in query.documents) {
+
+   String type= document['type'];
+   String photoUrl=document['photoUrl'];
+  String major=document['major'];
+  String displayName= document['displayName'];
+  String university=document['university'];
+  String snapchat= document['snapchat'];
+  String instagram= document['instagram'];
+  String  twitter=document['twitter'];
+  String bio=document['bio'];
+  String github=document['github'];
+  String linkedIn= document['linkedIn'];
+    cardTiles.add(UserCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
+        university: university,snapchat: snapchat,instagram: instagram,twitter: twitter,bio: bio,github: github,linkedIn: linkedIn,));
+
+  }
+
+  return cardTiles;
+}
 
 
   @override
@@ -46,283 +94,17 @@ class _ViewCardsState extends State<ViewCards> {
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
           ),
-        
         ],
-      ),
-      Text("Professional Card", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-      Stack(children: <Widget>[
-        Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  width: screenH(30),
-                ),
 
-                SizedBox(
-                  width: screenW(165),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: screenH(40),
-            ),
-            Container(
-              height: screenH(220),
-              width: screenW(370),
-              decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black.withOpacity(0.35),
-                        blurRadius: (20),
-                        spreadRadius: (5),
-                        offset: Offset(0, 5)),
-                  ],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15))),
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: screenH(20),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: screenW(20),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text("Namra Patel",
-                              style: TextStyle(
-                                fontSize: screenF(18),
-                              )),
-                          SizedBox(
-                            height: screenH(2),
-                          ),
-                          Text("University of Western Ontario",
-                              style: TextStyle(
-                                  fontSize: screenF(13),
-                                  color: Colors.purple)),
-                          SizedBox(
-                            height: screenH(2),
-                          ),
-                          Text("Computer Science, 2022",
-                              style: TextStyle(
-                                  fontSize: screenF(13),
-                                  color: Colors.grey)),
-                        ],
-                      ),
-                      SizedBox(
-                        width: screenW(115),
-                      ),
-                      CircleAvatar(
-                        backgroundImage:
-                            AssetImage("assets/namrapatel.png"),
-                        radius: 22,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenH(15),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: screenW(30.0)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Icon(
-                              MaterialCommunityIcons.github_box,
-                              color: Colors.black,
-                            ),
-                            SizedBox(
-                              width: screenW(10),
-                            ),
-                            Text("namrapatel",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: screenF(12))),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Icon(
-                              FontAwesome.linkedin_square,
-                              color: Color(0xFF0077B5),
-                            ),
-                            SizedBox(
-                              width: screenW(10),
-                            ),
-                            Text("namrapatel",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: screenF(12))),
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Icon(
-                              MaterialCommunityIcons.twitter_box,
-                              color: Color(0xFF1976d2),
-                            ),
-                            Text("namrapatel",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: screenF(12))),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ]),
-      SizedBox(
-        height: 20,
       ),
-            Stack(children: <Widget>[
-              Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: screenH(50),
-                  ),
-                  Text("Social Card", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        width: screenW(215),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: screenH(40),
-                  ),
-                  Container(
-                    height: screenH(220),
-                    width: screenW(370),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.35),
-                              blurRadius: (20),
-                              spreadRadius: (5),
-                              offset: Offset(0, 5)),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: screenH(20),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: screenW(20),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text("Namra Patel",
-                                    style: TextStyle(
-                                      fontSize: screenF(18),
-                                    )),
-                                SizedBox(
-                                  height: screenH(2),
-                                ),
-                                Text("University of Western Ontario",
-                                    style: TextStyle(
-                                        fontSize: screenF(13),
-                                        color: Color(0xFF8803fc))),
-                                SizedBox(
-                                  height: screenH(2),
-                                ),
-                                Text("Computer Science, 2022",
-                                    style: TextStyle(
-                                        fontSize: screenF(13),
-                                        color: Colors.grey)),
-                              ],
-                            ),
-                            SizedBox(
-                              width: screenW(115),
-                            ),
-                            CircleAvatar(
-                              backgroundImage:
-                                  AssetImage("assets/namrapatel.png"),
-                              radius: 22,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: screenH(15),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: screenW(30.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Icon(
-                                    FontAwesome.snapchat_square,
-                                    color: Color(0xFFfffc00),
-                                  ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                  ),
-                                  Text("namrapatel9",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MaterialCommunityIcons.instagram,
-                                    color: Color(0xFF8803fc),
-                                  ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                  ),
-                                  Text("namrajpatel",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MaterialCommunityIcons.twitter_box,
-                                    color: Colors.blue,
-                                  ),
-                                  Text("namrapatel",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ]),
+       buildCards(),
+
     ],
         ),
       );
   }
 }
+
+
 
 

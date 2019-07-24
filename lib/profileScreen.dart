@@ -3,14 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'classes/user.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'loginpage.dart';
+import 'loginPage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
 import 'settings.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -102,6 +98,25 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Positioned(
+            top: (MediaQuery.of(context).size.height / 4.4),
+            //top: 220,
+            left: (MediaQuery.of(context).size.width / 1.23),
+            child: Column(
+              children: <Widget>[
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(AntDesign.logout)
+                ),
+                SizedBox(
+                  height: screenH(15),
+                ),
+                SizedBox(
+                  height: screenH(125),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
             top: (MediaQuery.of(context).size.height / 3.1),
             //top: 220,
             left: (MediaQuery.of(context).size.width / 3.2),
@@ -117,14 +132,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(
                   height: screenH(15),
-                ),
-                Text(
-                  '(123) 456-7890',
-                  style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17.0,
-                      color: Colors.grey),
                 ),
                 SizedBox(
                   height: screenH(125),

@@ -16,6 +16,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 import 'viewCards.dart';
+import 'myCards.dart';
 
 
 class ScrollPage extends StatefulWidget {
@@ -139,19 +140,6 @@ print(currentUserModel.email);
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-                      // RaisedButton(
-
-                      //     child: Text('Logout'),
-                      //     onPressed: () async{
-
-                      //       FirebaseAuth.instance.signOut().then((value) {
-                      //         Navigator.push(context,
-                      //             new MaterialPageRoute(builder: (context) => Login()));
-
-                      //       }).catchError((e) {
-                      //         print(e);
-                      //       });
-                      //     }),
                       FloatingActionButton(
                         onPressed: () {
                         
@@ -280,35 +268,65 @@ print(currentUserModel.email);
 
 
         ),
-        Padding(
+Padding(
           padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 20, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                  icon: Icon(
-                MaterialCommunityIcons.chat,
-                color: Colors.black,
-                size: 30,
-              ))),
+              MediaQuery.of(context).size.height / 8, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb1',
+              child: Icon(MaterialCommunityIcons.chat, color: Colors.black, size: 20,),
+            ),
+          ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 7, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: IconButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ProfilePage()),
-                  );
-                },
-                  icon: Icon(
-                Icons.settings,
-                color: Colors.black,
-                size: 30,
-              ))),
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 5, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ProfilePage()));
+              },
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb2',
+              child: Icon(Icons.settings, color: Colors.black, size: 20,),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 3.6, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              onPressed: (){
+                
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: myCards()));
+              },
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb3',
+              child: Icon(MaterialCommunityIcons.card_bulleted, color: Colors.black, size: 20,),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 2.83, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb4',
+              child: Icon(Ionicons.md_search, color: Colors.black, size: 20,),
+            )
+          )
         )
       ],
     );

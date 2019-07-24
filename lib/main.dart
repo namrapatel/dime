@@ -1,8 +1,8 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
-import 'loginPage.dart';
 import 'onboarding.dart';
 import 'signup.dart';
 import 'classes/user.dart';
@@ -16,7 +16,7 @@ class Dime extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Dime",
 
-      home: ScrollPage(),
+      home: Login(),
 
       // routes: <String, WidgetBuilder>{
       //   '/homepage': (BuildContext context) => new MyHomePage(),

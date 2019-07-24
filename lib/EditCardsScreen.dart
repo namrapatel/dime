@@ -82,15 +82,15 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       Column(children: <Widget>[
         Container(
           color: Colors.grey[100],
-          height: screenH(260),
+          height: screenH(310),
           width: screenW(600),
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: 20.0,
+                height: screenH(30),
               ),
               Container(
-                height: screenH(200),
+                height: screenH(250),
                 width: screenW(370),
                 decoration: BoxDecoration(
                     boxShadow: [
@@ -135,7 +135,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           ],
                         ),
                         SizedBox(
-                          width: screenW(100),
+                          width: screenW(80),
                         ),
                         Column(
                           children: <Widget>[
@@ -144,35 +144,19 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   AssetImage("assets/namrapatel.png"),
                               radius: 21,
                             ),
-                            SizedBox(
-                              height: 2,
-                            ),
-                            Container(
-                              height: 12,
-                              width: 60,
+
+                            FlatButton(
+                              onPressed: (){},
+                              color: Colors.transparent,
                               child: Row(
                                 children: <Widget>[
-                                  InkWell(
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: Colors.blue[700],
-                                      size: 10.0,
-                                    ),
-                                    onTap: () {},
-                                  ),
-                                  FlatButton(
-                                    color: Colors.transparent,
-                                    child: Text(
-                                      "EDIT",
-                                      style: TextStyle(
-                                          color: Colors.blue[700],
-                                          fontSize: 10),
-                                    ),
-                                    onPressed: () {},
-                                  ),
+                                  Icon(Icons.edit, size: 12, color: Colors.blueAccent[700],),
+                                  SizedBox(width: 2,),
+                                  Text("Edit", textAlign: TextAlign.left, style: TextStyle(fontSize: 12, color: Colors.blueAccent[700]),),
                                 ],
                               ),
                             )
+
                           ],
                         ),
 
@@ -183,9 +167,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         // )
                       ],
                     ),
-                    SizedBox(
-                      height: screenH(15),
-                    ),
+
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: screenW(30.0)),
                       child: Row(
@@ -237,7 +219,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       ),
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 15.0,
                     ),
                     Row(
                       children: <Widget>[
@@ -261,7 +243,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         ),
         Container(
             color: Colors.grey[100],
-            height: 428,
+            height: 828,
             child: ListView(children: <Widget>[
               Column(children: <Widget>[
                 SizedBox(

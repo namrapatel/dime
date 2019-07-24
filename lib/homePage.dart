@@ -1,5 +1,4 @@
 import 'package:Dime/profPage.dart';
-import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -281,12 +280,6 @@ class _ScrollPageState extends State<ScrollPage>
           child: Align(
               alignment: Alignment.topLeft,
               child: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProfilePage()),
-                          );
-                },
                   icon: Icon(
                 Icons.settings,
                 color: Colors.black,

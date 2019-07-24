@@ -1,3 +1,5 @@
+
+import 'package:Dime/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -62,7 +64,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   String text = "Nothing to show";
   @override
   Widget build(BuildContext context) {
-    List<SearchItem<int>> data = [
+
+      List<SearchItem<int>> data2 = [
       SearchItem(0, 'Please select your university'),
       SearchItem(1, 'University of British Columbia'),
       SearchItem(2, 'University of Calgary'),
@@ -152,13 +155,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           Column(
                             children: <Widget>[
                               Icon(
-                                FontAwesome.snapchat_square,
-                                color: Color(0xFFfffc00),
+                                MaterialCommunityIcons.github_box,
+                                color: Colors.black,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text("namrapatel9",
+                              Text("namrapatel",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -167,13 +170,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           Column(
                             children: <Widget>[
                               Icon(
-                                MaterialCommunityIcons.instagram,
-                                color: Colors.purple,
+                                FontAwesome.linkedin_square,
+                                color: Color(0xFF0077B5),
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text("namrajpatel",
+                              Text("namrapatel",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -293,7 +296,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                   padding: EdgeInsets.all(10.0),
                   selected: 0,
                   title: 'Select University',
-                  data: data,
+                  data: data2,
                   icon: new Icon(Icons.school, color: Colors.black),
                   color: Color(0xFFECE9E4),
                   textStyle: new TextStyle(
@@ -306,7 +309,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                 ),
               ),
             ),
-
                 // Container(
                 //   margin: EdgeInsets.symmetric(horizontal: 20.0),
                 //   child: Column(
@@ -377,7 +379,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       width: 20,
                     ),
                     Text(
-                      'Snapchat',
+                      'GitHub',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -418,7 +420,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       width: 20,
                     ),
                     Text(
-                      'Instagram',
+                      'LinkedIn',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -531,20 +533,27 @@ class _SocialCardEditState extends State<SocialCardEdit> {
               SizedBox(
                 height: 40.0,
               ),
-              Container(
-                width: 200,
-                child: FloatingActionButton.extended(
-                  icon: Icon(Icons.done, color: Colors.black),
-                  elevation: screenH(5),
-                  onPressed: () {},
-                  backgroundColor: Color(0xFFECE9E4),
-                  label: Text(
-                    "  Save",
-                    style:
-                        TextStyle(fontSize: screenF(20), color: Colors.black),
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: 200,
+                    height: 50,
+                    child: FloatingActionButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(16.0))),
+                      elevation: screenH(5),
+                      onPressed: () {},
+                      backgroundColor: Color(0xFFECE9E4),
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                            fontSize: screenF(20), color: Colors.black),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                ],
+              )
             ]))
       ]),
     ]);
@@ -1053,20 +1062,27 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
               SizedBox(
                 height: 40.0,
               ),
-              Container(
-                width: 200,
-                child: FloatingActionButton.extended(
-                  icon: Icon(Icons.done, color: Colors.black),
-                  elevation: screenH(5),
-                  onPressed: () {},
-                  backgroundColor: Color(0xFFECE9E4),
-                  label: Text(
-                    "  Save",
-                    style:
-                        TextStyle(fontSize: screenF(20), color: Colors.black),
+              Column(
+                children: <Widget>[
+                  Container(
+                    width: 200,
+                    height: 50,
+                    child: FloatingActionButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(16.0))),
+                      elevation: screenH(5),
+                      onPressed: () {},
+                      backgroundColor: Color(0xFFECE9E4),
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                            fontSize: screenF(20), color: Colors.black),
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                ],
+              )
             ]))
       ]),
     ]);
@@ -1091,7 +1107,12 @@ class _CardEditState extends State<CardEdit> {
                 width: 8,
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ScrollPage()),
+                  );
+                },
                 color: Colors.black,
                 icon: Icon(Icons.arrow_back_ios),
               ),

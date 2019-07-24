@@ -10,7 +10,6 @@ import 'signup.dart';
 import 'classes/user.dart';
 
 
-
 void main() => runApp(Dime());
 
 
@@ -21,7 +20,9 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
+
       home: Login(),
+
       // routes: <String, WidgetBuilder>{
       //   '/homepage': (BuildContext context) => new MyHomePage(),
       //   '/loginpage': (BuildContext context) => new LoginPage(),

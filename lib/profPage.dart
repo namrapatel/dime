@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:sticky_infinite_list/sticky_infinite_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'login.dart';
 import 'profAtEvent.dart';
 import 'package:circular_splash_transition/circular_splash_transition.dart';
 import 'package:page_transition/page_transition.dart';
@@ -104,7 +105,7 @@ class _ProfPageState extends State<ProfPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("Namra Patel",
+                                Text(currentUserModel.displayName,
                                     style: TextStyle(
                                       fontSize: screenF(18),
                                     )),
@@ -129,7 +130,7 @@ class _ProfPageState extends State<ProfPage> {
                             ),
                             CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/namrapatel.png"),
+                                  NetworkImage(currentUserModel.photoUrl),
                               radius: 22,
                             )
                           ],

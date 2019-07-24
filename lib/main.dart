@@ -2,7 +2,10 @@ import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
-
+import 'loginPage.dart';
+import 'onboarding.dart';
+import 'signup.dart';
+import 'classes/user.dart';
 
 void main() => runApp(Dime());
 

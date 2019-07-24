@@ -12,6 +12,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'viewCards.dart';
 
 
 class ScrollPage extends StatefulWidget {
@@ -394,7 +395,7 @@ class _ScrollPageState extends State<ScrollPage>
                     icon: Icon(MaterialCommunityIcons.card_bulleted),
                     color: Colors.black,
                     onPressed: () {
-                      _showCupertinoDialog();
+                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
                     },
                   ),
                 ],

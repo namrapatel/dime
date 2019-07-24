@@ -1,4 +1,5 @@
 import 'package:Dime/profPage.dart';
+import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'login.dart';
 import 'viewCards.dart';
+import 'myCards.dart';
+
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
@@ -140,19 +145,7 @@ class _ScrollPageState extends State<ScrollPage>
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-//                      RaisedButton(
-//
-//                          child: Text('L'),
-//                          onPressed: () async{
-//
-//                            FirebaseAuth.instance.signOut().then((value) {
-//                              Navigator.push(context,
-//                                  new MaterialPageRoute(builder: (context) => Login()));
-//
-//                            }).catchError((e) {
-//                              print(e);
-//                            });
-//                          }),
+
                       FloatingActionButton(
                         onPressed: () {
                         
@@ -281,77 +274,67 @@ class _ScrollPageState extends State<ScrollPage>
 
 
         ),
-        Padding(
+Padding(
           padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 10, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: FloatingActionButton(
-                heroTag: 'fab1',
-                elevation: 7,
-                backgroundColor: Colors.white,
-                child: Icon(
-                MaterialCommunityIcons.chat,
-                color: Colors.black,
-                size: 30,
-              ),
-              )
 
-              ),
+              MediaQuery.of(context).size.height / 8, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb1',
+              child: Icon(MaterialCommunityIcons.chat, color: Colors.black, size: 20,),
+            ),
+          ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 5, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: FloatingActionButton(
-                heroTag: 'fab2',
-                elevation: 7,
-                backgroundColor: Colors.white,
-                child: Icon(
-                MaterialCommunityIcons.settings,
-                color: Colors.black,
-                size: 30,
-              ),
-              )
-
-              ),
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 5, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ProfilePage()));
+              },
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb2',
+              child: Icon(Icons.settings, color: Colors.black, size: 20,),
+            ),
+          ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 3.3, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: FloatingActionButton(
-                heroTag: 'fab3',
-                elevation: 7,
-                backgroundColor: Colors.white,
-                child: Icon(
-                MaterialCommunityIcons.card_bulleted,
-                color: Colors.black,
-                size: 30,
-              ),
-              )
-
-              ),
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 3.6, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              onPressed: (){
+                
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: myCards()));
+              },
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb3',
+              child: Icon(MaterialCommunityIcons.card_bulleted, color: Colors.black, size: 20,),
+            ),
+          ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 2.45, 0, 0),
-          child: Align(
-              alignment: Alignment.topLeft,
-              child: FloatingActionButton(
-                heroTag: 'fab4',
-                elevation: 7,
-                backgroundColor: Colors.white,
-                child: Icon(
-                FontAwesome.search,
-                color: Colors.black,
-                size: 30,
-              ),
-              )
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 2.83, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb4',
+              child: Icon(Ionicons.md_search, color: Colors.black, size: 20,),
+            )
+          )
 
-              ),
         )
       ],
     );
@@ -385,47 +368,13 @@ class _ScrollPageState extends State<ScrollPage>
           physics: NeverScrollableScrollPhysics(),
           controller: _scrollController,
           itemBuilder: (BuildContext context, int index) {
+
             return nearbyUsers[index];
           },
           itemCount: nearbyUsers.length,
     ));
   }
 
-  void _showCupertinoDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('Send Card to Dhruv Patel?'),
-            content: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Please select the card you would like to send. It will send as a message, you can view it in the messages page.',
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Social',
-                    style: TextStyle(fontSize: 18),
-                  )),
-              FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Professional',
-                  style: TextStyle(fontSize: 18),
-                ),
-              )
-            ],
-          );
-        });
-  }
 
     void _addMarker(double lat, double lng) {
     MarkerId id = MarkerId(lat.toString() + lng.toString());

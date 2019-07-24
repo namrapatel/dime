@@ -10,6 +10,7 @@ import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
+import 'viewCards.dart';
 
 
 
@@ -499,7 +500,7 @@ class _socialAtEventState extends State<socialAtEvent>
                     icon: Icon(MaterialCommunityIcons.card_bulleted),
                     color: Colors.black,
                     onPressed: () {
-                      _showCupertinoDialog();
+                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
                     },
                   ),
                 ],
@@ -510,39 +511,5 @@ class _socialAtEventState extends State<socialAtEvent>
     );
   }
 
-  void _showCupertinoDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('Send Card to Dhruv Patel?'),
-            content: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Please select the card you would like to send. It will send as a message, you can view it in the messages page.',
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Social',
-                    style: TextStyle(fontSize: 18),
-                  )),
-              FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Professional',
-                  style: TextStyle(fontSize: 18),
-                ),
-              )
-            ],
-          );
-        });
-  }
+
 }

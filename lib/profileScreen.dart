@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'models/user.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'loginpage.dart';
+import 'loginPage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
 import 'settings.dart';
+import 'login.dart';
+import 'package:page_transition/page_transition.dart';
+import 'homePage.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -59,16 +58,15 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.black,
           ),
           Positioned(
-            top: (MediaQuery.of(context).size.height / 9),
+            top: (MediaQuery.of(context).size.height / 15),
             //top: 70,
             left: (MediaQuery.of(context).size.width / 18),
-            child: Text(
-              "Profile",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 35,
-              ),
-            ),
+            child: IconButton(
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ScrollPage()));
+              },
+              icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+            )
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.5),
@@ -102,6 +100,34 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Positioned(
+            top: (MediaQuery.of(context).size.height / 4.4),
+            //top: 220,
+            left: (MediaQuery.of(context).size.width / 1.23),
+            child: Column(
+              children: <Widget>[
+                IconButton(
+                                            onPressed: () async{
+
+                            FirebaseAuth.instance.signOut().then((value) {
+                              Navigator.push(context,
+                                  new MaterialPageRoute(builder: (context) => Login()));
+
+                            }).catchError((e) {
+                              print(e);
+                            });
+                          },
+                  icon: Icon(AntDesign.logout)
+                ),
+                SizedBox(
+                  height: screenH(15),
+                ),
+                SizedBox(
+                  height: screenH(125),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
             top: (MediaQuery.of(context).size.height / 3.1),
             //top: 220,
             left: (MediaQuery.of(context).size.width / 3.2),
@@ -117,14 +143,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 SizedBox(
                   height: screenH(15),
-                ),
-                Text(
-                  '(123) 456-7890',
-                  style: TextStyle(
-                      fontFamily: 'Comfortaa',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17.0,
-                      color: Colors.grey),
                 ),
                 SizedBox(
                   height: screenH(125),

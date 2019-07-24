@@ -1,5 +1,5 @@
-
 import 'package:Dime/homePage.dart';
+import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -64,8 +64,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   String text = "Nothing to show";
   @override
   Widget build(BuildContext context) {
-
-      List<SearchItem<int>> data2 = [
+    List<SearchItem<int>> data2 = [
       SearchItem(0, 'Please select your university'),
       SearchItem(1, 'University of British Columbia'),
       SearchItem(2, 'University of Calgary'),
@@ -136,12 +135,52 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           ],
                         ),
                         SizedBox(
-                          width: screenW(115),
+                          width: screenW(100),
                         ),
-                        CircleAvatar(
-                          backgroundImage: AssetImage("assets/namrapatel.png"),
-                          radius: 22,
-                        )
+                        Column(
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("assets/namrapatel.png"),
+                              radius: 21,
+                            ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            Container(
+                              height: 12,
+                              width: 60,
+                              child: Row(
+                                children: <Widget>[
+                                  InkWell(
+                                    child: Icon(
+                                      Icons.edit,
+                                      color: Colors.blue[700],
+                                      size: 10.0,
+                                    ),
+                                    onTap: () {},
+                                  ),
+                                  FlatButton(
+                                    color: Colors.transparent,
+                                    child: Text(
+                                      "EDIT",
+                                      style: TextStyle(
+                                          color: Colors.blue[700],
+                                          fontSize: 10),
+                                    ),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+
+                        // IconButton(
+                        //   onPressed: () {},
+                        //   color: Colors.black,
+                        //   icon: Icon(Icons.create),
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -155,13 +194,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           Column(
                             children: <Widget>[
                               Icon(
-                                MaterialCommunityIcons.github_box,
-                                color: Colors.black,
+                                FontAwesome.snapchat_square,
+                                color: Color(0xFFfffc00),
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text("namrapatel",
+                              Text("namrapatel9",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -170,13 +209,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           Column(
                             children: <Widget>[
                               Icon(
-                                FontAwesome.linkedin_square,
-                                color: Color(0xFF0077B5),
+                                MaterialCommunityIcons.instagram,
+                                color: Color(0xFF8803fc),
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text("namrapatel",
+                              Text("namrajpatel",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -284,31 +323,32 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                     ),
                   ],
                 ),
-            Padding(
-                padding: EdgeInsets.all(20),
-                child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: 800,
-                  height: 70,
-                  color: Colors.white,
-                  child: FlutterSearchPanel<int>(
-                  padding: EdgeInsets.all(10.0),
-                  selected: 0,
-                  title: 'Select University',
-                  data: data2,
-                  icon: new Icon(Icons.school, color: Colors.black),
-                  color: Color(0xFFECE9E4),
-                  textStyle: new TextStyle(
-                      color: Colors.black,
-                      fontSize: 15.0,),
-                  onChanged: (int value) {
-                    print(value);
-                  },
-          ),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      width: 800,
+                      height: 70,
+                      color: Colors.white,
+                      child: FlutterSearchPanel<int>(
+                        padding: EdgeInsets.all(10.0),
+                        selected: 0,
+                        title: 'Select University',
+                        data: data2,
+                        icon: new Icon(Icons.school, color: Colors.black),
+                        color: Color(0xFFECE9E4),
+                        textStyle: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                        onChanged: (int value) {
+                          print(value);
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
                 // Container(
                 //   margin: EdgeInsets.symmetric(horizontal: 20.0),
                 //   child: Column(
@@ -379,7 +419,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       width: 20,
                     ),
                     Text(
-                      'GitHub',
+                      'Snapchat',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -420,7 +460,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       width: 20,
                     ),
                     Text(
-                      'LinkedIn',
+                      'Instagram',
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -593,8 +633,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String text = "Nothing to show";
   @override
   Widget build(BuildContext context) {
-
-      List<SearchItem<int>> data2 = [
+    List<SearchItem<int>> data2 = [
       SearchItem(0, 'Please select your university'),
       SearchItem(1, 'University of British Columbia'),
       SearchItem(2, 'University of Calgary'),
@@ -665,12 +704,39 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           ],
                         ),
                         SizedBox(
-                          width: screenW(115),
+                          width: screenW(100),
                         ),
-                        CircleAvatar(
-                          backgroundImage: AssetImage("assets/namrapatel.png"),
-                          radius: 22,
-                        )
+                        Column(
+                          children: <Widget>[
+                            CircleAvatar(
+                              backgroundImage:
+                                  AssetImage("assets/namrapatel.png"),
+                              radius: 21,
+                            ),
+                            SizedBox(
+                              height: 2,
+                            ),
+                            Container(
+                              height: 12,
+                              width: 60,
+                              child: FlatButton(
+                                color: Colors.transparent,
+                                child: Text(
+                                  "EDIT",
+                                  style: TextStyle(
+                                      color: Colors.blue[700], fontSize: 10),
+                                ),
+                                onPressed: () {},
+                              ),
+                            )
+                          ],
+                        ),
+
+                        // IconButton(
+                        //   onPressed: () {},
+                        //   color: Colors.black,
+                        //   icon: Icon(Icons.create),
+                        // )
                       ],
                     ),
                     SizedBox(
@@ -813,31 +879,32 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                     ),
                   ],
                 ),
-            Padding(
-                padding: EdgeInsets.all(20),
-                child: Align(
-                alignment: Alignment.topLeft,
-                child: Container(
-                  width: 800,
-                  height: 70,
-                  color: Colors.white,
-                  child: FlutterSearchPanel<int>(
-                  padding: EdgeInsets.all(10.0),
-                  selected: 0,
-                  title: 'Select University',
-                  data: data2,
-                  icon: new Icon(Icons.school, color: Colors.black),
-                  color: Color(0xFFECE9E4),
-                  textStyle: new TextStyle(
-                      color: Colors.black,
-                      fontSize: 15.0,),
-                  onChanged: (int value) {
-                    print(value);
-                  },
-          ),
+                Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      width: 800,
+                      height: 70,
+                      color: Colors.white,
+                      child: FlutterSearchPanel<int>(
+                        padding: EdgeInsets.all(10.0),
+                        selected: 0,
+                        title: 'Select University',
+                        data: data2,
+                        icon: new Icon(Icons.school, color: Colors.black),
+                        color: Color(0xFFECE9E4),
+                        textStyle: new TextStyle(
+                          color: Colors.black,
+                          fontSize: 15.0,
+                        ),
+                        onChanged: (int value) {
+                          print(value);
+                        },
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
                 // Container(
                 //   margin: EdgeInsets.symmetric(horizontal: 20.0),
                 //   child: Column(
@@ -1110,7 +1177,7 @@ class _CardEditState extends State<CardEdit> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ScrollPage()),
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
                   );
                 },
                 color: Colors.black,

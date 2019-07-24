@@ -1,14 +1,26 @@
 
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'models/usercard.dart';
+
+import 'package:Dime/socialPage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:sticky_infinite_list/sticky_infinite_list.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'profAtEvent.dart';
+import 'package:circular_splash_transition/circular_splash_transition.dart';
+import 'package:page_transition/page_transition.dart';
+import 'homePage.dart';
+import 'login.dart';
+
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 
 class ViewCards extends StatefulWidget {
+
   const ViewCards({this.userId});
   final String userId;
   @override
@@ -69,6 +81,7 @@ Future<List<UserCard>> getCards() async {
 }
 
 
+
   @override
   Widget build(BuildContext context) {
 
@@ -94,16 +107,19 @@ Future<List<UserCard>> getCards() async {
             },
             icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
           ),
+
         ],
 
       ),
        buildCards(),
+
 
     ],
         ),
       );
   }
 }
+
 
 
 

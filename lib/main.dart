@@ -1,5 +1,4 @@
 import 'package:Dime/EditCardsScreen.dart';
-import 'package:Dime/profileScreen.dart';
 import 'package:Dime/login.dart';
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
 import 'loginPage.dart';
 import 'onboarding.dart';
-import 'profileScreen.dart';
 import 'signup.dart';
+
 
 void main() => runApp(Dime());
 

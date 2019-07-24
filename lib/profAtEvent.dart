@@ -526,45 +526,7 @@ class _profAtEventState extends State<profAtEvent>
     );
   }
 
-  void _showCupertinoDialog() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: Text('Send Card to Dhruv Patel?'),
-            content: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'Please select the card you would like to send. It will send as a message, you can view it in the messages page.',
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(
-                    'Social',
-                    style: TextStyle(fontSize: 18),
-                  )),
-              FlatButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Professional',
-                  style: TextStyle(fontSize: 18),
-                ),
-              )
-            ],
-          );
-        });
-  }
 
-  String choice1 (){
-
-  }
 
 
 

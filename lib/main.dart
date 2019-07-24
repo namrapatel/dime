@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
 import 'onboarding.dart';
 import 'signup.dart';
-import 'classes/user.dart';
+import 'models/user.dart';
 
 void main() => runApp(Dime());
 

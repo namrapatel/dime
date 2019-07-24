@@ -81,7 +81,10 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
-    return Stack(children: <Widget>[
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: <Widget>[
+    Stack(children: <Widget>[
       Column(children: <Widget>[
         Container(
           color: Colors.grey[100],
@@ -247,7 +250,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         Container(
             color: Colors.grey[100],
             height: screenH(415),
-            child: ListView(children: <Widget>[
+            child: ListView(
+              children: <Widget>[
               Column(children: <Widget>[
                 SizedBox(
                   height: 10,
@@ -582,7 +586,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
               )
             ]))
       ]),
-    ]);
+    ])
+      ],
+    );
   }
 }
 
@@ -633,7 +639,10 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
-    return Stack(children: <Widget>[
+    return ListView(
+      physics: const BouncingScrollPhysics(),
+      children: <Widget>[
+    Stack(children: <Widget>[
       Column(children: <Widget>[
         Container(
           color: Colors.grey[100],
@@ -1133,7 +1142,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
               )
             ]))
       ]),
-    ]);
+    ])
+      ],
+    );
   }
 }
 

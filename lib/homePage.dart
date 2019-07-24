@@ -137,19 +137,19 @@ print(currentUserModel.email);
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-                      RaisedButton(
+                      // RaisedButton(
 
-                          child: Text('Logout'),
-                          onPressed: () async{
+                      //     child: Text('Logout'),
+                      //     onPressed: () async{
 
-                            FirebaseAuth.instance.signOut().then((value) {
-                              Navigator.push(context,
-                                  new MaterialPageRoute(builder: (context) => Login()));
+                      //       FirebaseAuth.instance.signOut().then((value) {
+                      //         Navigator.push(context,
+                      //             new MaterialPageRoute(builder: (context) => Login()));
 
-                            }).catchError((e) {
-                              print(e);
-                            });
-                          }),
+                      //       }).catchError((e) {
+                      //         print(e);
+                      //       });
+                      //     }),
                       FloatingActionButton(
                         onPressed: () {
                         

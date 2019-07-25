@@ -424,7 +424,7 @@ class _ProfPageState extends State<ProfPage> {
                       height: screenH(55),
                       width: screenW(340),
                       child: FloatingActionButton.extended(
-                        icon: Icon(Icons.done),
+                        icon: Icon(Icons.done, color: Colors.white,),
                         elevation: screenH(5),
                         onPressed: () {
                            _controller.push(context, profAtEvent());
@@ -432,7 +432,7 @@ class _ProfPageState extends State<ProfPage> {
                         backgroundColor: Color(0xFF1976d2),
                         label: Text(
                           "  I'm at an event",
-                          style: TextStyle(fontSize: screenF(20)),
+                          style: TextStyle(fontSize: screenF(20), color: Colors.white),
                         ),
                       ),
                     ),

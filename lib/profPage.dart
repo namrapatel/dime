@@ -1,8 +1,8 @@
-import 'package:Dime/socialPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:sticky_infinite_list/sticky_infinite_list.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
 import 'profAtEvent.dart';
 import 'package:circular_splash_transition/circular_splash_transition.dart';
@@ -12,6 +12,7 @@ import 'homePage.dart';
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
+final _firestore = Firestore.instance;
 
 class ProfPage extends StatefulWidget {
   @override
@@ -19,15 +20,14 @@ class ProfPage extends StatefulWidget {
 }
 
 class _ProfPageState extends State<ProfPage> {
-
+  String uid = currentUserModel.uid;
   CircularSplashController _controller = CircularSplashController(
-  color: Color(0xFF1976d2),//optional, default is White.
-  duration: Duration(milliseconds: 350), //optional. 
-);
+    color: Color(0xFF1976d2), //optional, default is White.
+    duration: Duration(milliseconds: 350), //optional.
+  );
 
   @override
   Widget build(BuildContext context) {
-
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -37,7 +37,7 @@ class _ProfPageState extends State<ProfPage> {
     )..init(context);
     return CircularSplash(
       controller: _controller,
-          child: Scaffold(
+      child: Scaffold(
         body: Column(
           children: <Widget>[
             Stack(children: <Widget>[
@@ -69,7 +69,11 @@ class _ProfPageState extends State<ProfPage> {
                       IconButton(
                         icon: Icon(Icons.create),
                         onPressed: () {
-                          Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: ScrollPage()));
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.leftToRight,
+                                  child: ScrollPage()));
                         },
                         color: Colors.white,
                         iconSize: screenH(25),
@@ -196,249 +200,77 @@ class _ProfPageState extends State<ProfPage> {
               ),
             ]),
             Column(children: <Widget>[
-              Stack(children: <Widget>[
-                Container(
-                  height: screenH(525),
-                  width: screenW(400),
-                  child: InfiniteList(
-                      controller: ScrollController(),
-                      direction: InfiniteListDirection.multi,
-                      minChildCount: -100,
-                      maxChildCount: 100,
+              StreamBuilder<QuerySnapshot>(
+                  stream: _firestore
+                      .collection('networkingEvents')
+                      .orderBy('monthWeighting', descending: false)
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData ||
+                        snapshot.data.documents.length == 0) {
+                      return Column(
+                        children: <Widget>[],
+                      );
+                    }
+                    final docs = snapshot.data.documents;
+                    List<NetworkingEventCard> networkingEvents = [];
+                    for (var doc in docs) {
+                      String eventName = doc.data['eventName'].toString();
+                      String location = doc.data['location'].toString();
+                      String food = doc.data['food'].toString();
+                      String swag = doc.data['swag'].toString();
+                      String day = doc.data['day'].toString();
+                      String month = doc.data['month'].toString();
+                      String time = doc.data['time'].toString();
 
-                      /// ViewPort anchor value. See [ScrollView] docs for more info
-                      anchor: 0.0,
-                      builder: (BuildContext context, int index) {
-                        /// Builder requires [InfiniteList] to be returned
-                        return InfiniteListItem(
-                          // headerStateBuilder:
-                          //     (BuildContext context, StickyState<int> state) {
-                          //   return Container(
-                          //     alignment: Alignment.center,
-                          //     width: 50,
-                          //     height: 50,
-                          //     child: Text("Header $index"),
-                          //     color: Colors.orange.withOpacity(state.position),
-                          //   );
-                          // },
-
-                          /// This is just example
-                          ///
-                          /// In you application you should use or
-                          /// [headerBuilder] or [headerStateBuilder],
-                          /// but not both
-                          ///
-                          /// If both is specified, this invoker will be ignored
-                          headerBuilder: (BuildContext context) {
-                            return Padding(
-                              padding: EdgeInsets.only(top: screenH(20.0)),
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: screenW(50),
-                                height: screenH(70),
-                                child: Column(
-                                  children: <Widget>[
-                                    Text("$index",
-                                        style: TextStyle(
-                                            fontSize: screenF(25),
-                                            fontWeight: FontWeight.bold)),
-                                    Text("July",
-                                        style: TextStyle(
-                                          fontSize: screenF(15),
-                                        )),
-                                  ],
-                                ),
+                      networkingEvents.add(NetworkingEventCard(
+                        eventName: eventName,
+                        location: location,
+                        food: food,
+                        day: day,
+                        month: month,
+                        time: time,
+                        swag: swag,
+                      ));
+                    }
+                    return Stack(children: <Widget>[
+                      Container(
+                        height: screenH(525),
+                        width: screenW(410),
+                        child: ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: networkingEvents.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return networkingEvents[index];
+                            }),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: screenH(410.0)),
+                          child: Container(
+                            height: screenH(55),
+                            width: screenW(340),
+                            child: FloatingActionButton.extended(
+                              icon: Icon(Icons.done),
+                              elevation: screenH(5),
+                              onPressed: () {
+                                print(networkingEvents.length);
+                                _controller.push(context, profAtEvent());
+                              },
+                              backgroundColor: Color(0xFF1976d2),
+                              label: Text(
+                                "  I'm at an event",
+                                style: TextStyle(fontSize: screenF(20)),
                               ),
-                            );
-                          },
-                          contentBuilder: (BuildContext context) {
-                            return Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: screenH(80),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: screenH(20.0)),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: screenH(15)),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        // boxShadow: [
-                                        //   BoxShadow(
-                                        //     color: Colors.grey.withOpacity(0.5),
-                                        //     offset: const Offset(0.0, 0.0),
-                                        //   ),
-                                        //   BoxShadow(
-                                        //     color: Colors.grey[200],
-                                        //     offset: const Offset(0.0, 0.0),
-                                        //     spreadRadius: -3.0,
-                                        //     blurRadius: 15.0,
-                                        //   ),
-                                        // ],
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(15))),
-                                    height: screenH(200),
-                                    width: screenW(310),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: screenW(15.0)),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              Text("Hack the North 2019",
-                                                  style: TextStyle(
-                                                      fontSize: screenF(16),
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Color(0xFF1976d2))),
-                                              Text("Engineering 7",
-                                                  style: TextStyle(
-                                                    fontSize: screenF(13),
-                                                  )),
-                                              SizedBox(
-                                                height: screenH(10),
-                                              ),
-                                              Container(
-                                                height: screenH(40),
-                                                child: ListView(
-                                                  children: memberAvatars,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: screenH(25),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: screenW(2.0)),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Time",
-                                                          style: TextStyle(
-                                                              color: Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        SizedBox(
-                                                          height: screenH(5),
-                                                        ),
-                                                        Text(
-                                                          "6:00PM",
-                                                          style: TextStyle(
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      width: screenW(140),
-                                                    ),
-                                                    Icon(
-                                                      MaterialCommunityIcons.food,
-                                                      color:
-                                                          Color(0xFF1976d2),
-                                                    ),
-                                                    SizedBox(
-                                                      width: screenW(20),
-                                                    ),
-                                                    Icon(
-                                                      MaterialCommunityIcons
-                                                          .sunglasses,
-                                                      color:
-                                                          Color(0xFF1976d2),
-                                                    )
-                                                    // Container(
-                                                    //   decoration: BoxDecoration(
-                                                    //       color: Colors.purple,
-                                                    //       boxShadow: [
-                                                    //         BoxShadow(
-                                                    //             color: Colors.black
-                                                    //                 .withOpacity(0.4),
-                                                    //             blurRadius: (10),
-                                                    //             spreadRadius: (1),
-                                                    //             offset: Offset(0, 5)),
-                                                    //       ],
-                                                    //       borderRadius:
-                                                    //           BorderRadius.all(
-                                                    //               Radius.circular(
-                                                    //                   15))),
-                                                    //   child: Padding(
-                                                    //     padding: const EdgeInsets
-                                                    //             .symmetric(
-                                                    //         vertical: 3.0,
-                                                    //         horizontal: 15.0),
-                                                    //     child: Text(
-                                                    //       "GO",
-                                                    //       style: TextStyle(
-                                                    //           color: Colors.white,
-                                                    //           fontSize: 20,
-                                                    //           fontWeight:
-                                                    //               FontWeight.bold),
-                                                    //     ),
-                                                    //   ),
-                                                    // )
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-
-                          /// Min offset after which it
-                          /// should stick to the bottom edge
-                          /// of container
-                          minOffsetProvider: (StickyState<int> state) => 50,
-
-                          /// Header alignment
-                          ///
-                          /// Currently it supports top left,
-                          /// top right, bottom left and bottom right alignments
-                          ///
-                          /// By default [HeaderAlignment.topLeft]
-                          headerAlignment: HeaderAlignment.topLeft,
-                        );
-                      }),
-                ),
-                Center(
-                  child: Padding(
-                    padding:  EdgeInsets.only(top: screenH(410.0)),
-                    child: Container(
-                      height: screenH(55),
-                      width: screenW(340),
-                      child: FloatingActionButton.extended(
-                        icon: Icon(Icons.done),
-                        elevation: screenH(5),
-                        onPressed: () {
-                           _controller.push(context, profAtEvent());
-                        },
-                        backgroundColor: Color(0xFF1976d2),
-                        label: Text(
-                          "  I'm at an event",
-                          style: TextStyle(fontSize: screenF(20)),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-              ])
+                    ]);
+                  })
             ])
           ],
         ),
@@ -447,31 +279,173 @@ class _ProfPageState extends State<ProfPage> {
   }
 }
 
-List<MemberAvatar> memberAvatars = [
-  MemberAvatar("assets/namrapatel.png"),
-  MemberAvatar("assets/dhruvpatel.jpeg"),
-  MemberAvatar("assets/shehabsalem.jpeg"),
-  MemberAvatar("assets/taher.jpeg"),
-  MemberAvatar("assets/namrapatel.png"),
-  MemberAvatar("assets/dhruvpatel.jpeg"),
-  MemberAvatar("assets/shehabsalem.jpeg"),
-  MemberAvatar("assets/taher.jpeg")
-];
+class NetworkingEventCard extends StatelessWidget {
+  final CircularSplashController _controller = CircularSplashController(
+    color: Color(0xFF1976d2), //optional, default is White.
+    duration: Duration(milliseconds: 350), //optional.
+  );
+  final String eventName, food, swag, location, day, time, month;
 
-class MemberAvatar extends StatelessWidget {
-  final String memberImage;
-  MemberAvatar(this.memberImage);
+  NetworkingEventCard(
+      {this.eventName,
+      this.location,
+      this.day,
+      this.month,
+      this.time,
+      this.food,
+      this.swag});
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
-      child: Container(
-        width: screenW(38),
-        child: CircleAvatar(
-          backgroundImage: AssetImage(memberImage),
-          radius: screenH(15),
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(bottom: screenH(35.0)),
+          child: Container(
+            margin: EdgeInsets.only(left: 10),
+            width: screenW(50),
+            height: screenH(70),
+            child: Column(
+              children: <Widget>[
+                Text(this.day,
+                    style: TextStyle(
+                        fontSize: screenF(25), fontWeight: FontWeight.bold)),
+                Text(this.month,
+                    style: TextStyle(
+                      fontSize: screenF(10),
+                    )),
+              ],
+            ),
+          ),
         ),
-      ),
+        Container(
+            height: screenH(170),
+            width: screenW(340),
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: screenH(20),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: screenH(20.0)),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: screenH(15)),
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    height: screenH(200),
+                    width: screenW(310),
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: screenW(15.0)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(eventName,
+                                  style: TextStyle(
+                                      fontSize: screenF(16),
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(0xFF1976d2))),
+                              Text(location,
+                                  style: TextStyle(
+                                    fontSize: screenF(13),
+                                  )),
+                              SizedBox(
+                                height: screenH(25),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: screenW(2.0)),
+                                child: Row(
+                                  children: <Widget>[
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text(
+                                          "Time",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          height: screenH(5),
+                                        ),
+                                        Text(
+                                          this.time,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: screenW(35),
+                                    ),
+                                    this.food == "true"
+                                        ? Icon(
+                                            MaterialCommunityIcons.food,
+                                            color: Color(0xFF1976d2),
+                                            size: screenW(25),
+                                          )
+                                        : SizedBox(
+                                            width: screenW(25),
+                                          ),
+                                    SizedBox(
+                                      width: screenW(20),
+                                    ),
+                                    this.swag == "true"
+                                        ? Icon(
+                                            MaterialCommunityIcons.sunglasses,
+                                            color: Color(0xFF1976d2),
+                                            size: screenW(25),
+                                          )
+                                        : SizedBox(
+                                            width: screenW(25),
+                                          ),
+                                    Spacer(),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(right: screenW(20)),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF1976d2),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.4),
+                                                  blurRadius: (10),
+                                                  spreadRadius: (1),
+                                                  offset: Offset(0, 5)),
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: screenH(8.0),
+                                              horizontal: screenW(15.0)),
+                                          child: Text(
+                                            "VIEW",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: screenF(15),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )),
+      ],
     );
   }
 }

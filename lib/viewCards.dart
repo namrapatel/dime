@@ -1,7 +1,8 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'models/usercard.dart';
+import 'models/profcard.dart';
+import 'models/socialcard.dart';
 
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/material.dart';
@@ -21,20 +22,19 @@ final screenF = ScreenUtil.instance.setSp;
 
 class ViewCards extends StatefulWidget {
 
-  const ViewCards({this.userId});
-  final String userId;
+  const ViewCards({this.userId,this.type});
+  final String userId,type;
   @override
-  _ViewCardsState createState() => _ViewCardsState(this.userId);
+  _ViewCardsState createState() => _ViewCardsState(this.userId,this.type);
 }
 
 class _ViewCardsState extends State<ViewCards> {
-final String userId;
-_ViewCardsState(this.userId);
+final String userId,type;
+_ViewCardsState(this.userId,this.type);
 
-
-Widget buildCards() {
-  return FutureBuilder<List<UserCard>>(
-      future: getCards(),
+Widget buildSocialCard() {
+  return FutureBuilder<List<SocialCard>>(
+      future: getSocialCard(),
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Container(
@@ -55,30 +55,105 @@ Widget buildCards() {
 
 
 
-Future<List<UserCard>> getCards() async {
-  List<UserCard> cardTiles = [];
-  QuerySnapshot query= await Firestore.instance.collection('users').document(userId).collection('cards').getDocuments();
+Future<List<SocialCard>> getSocialCard() async {
+
+  List<SocialCard> cardTiles = [];
+
+  QuerySnapshot query=await Firestore.instance.collection('users').document(
+        userId).collection('cards').where('type',isEqualTo: 'social').getDocuments();
 
   for(var document in query.documents) {
 
-   String type= document['type'];
-   String photoUrl=document['photoUrl'];
-  String major=document['major'];
-  String displayName= document['displayName'];
-  String university=document['university'];
-  String snapchat= document['snapchat'];
-  String instagram= document['instagram'];
-  String  twitter=document['twitter'];
-  String bio=document['bio'];
-  String github=document['github'];
-  String linkedIn= document['linkedIn'];
-    cardTiles.add(UserCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
-        university: university,snapchat: snapchat,instagram: instagram,twitter: twitter,bio: bio,github: github,linkedIn: linkedIn,));
+    String type= document['type'];
+    String photoUrl=document['photoUrl'];
+    String major=document['major'];
+    String displayName= document['displayName'];
+    String university=document['university'];
+    String snapchat= document['snapchat'];
+    String instagram= document['instagram'];
+    String  twitter=document['twitter'];
+    String bio=document['bio'];
+    cardTiles.add(SocialCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
+      university: university,snapchat: snapchat,instagram: instagram,twitter: twitter,bio: bio));
+  }
+  return cardTiles;
+}
+
+Widget buildProfCard() {
+  return FutureBuilder<List<ProfCard>>(
+      future: getProfCard(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return Container(
+              alignment: FractionalOffset.center,
+              child: CircularProgressIndicator());
+
+        return ListView(
+          children: snapshot.data,
+          padding: EdgeInsets.only(
+            bottom: screenH(15.0),
+          ),
+
+          shrinkWrap: true,
+          scrollDirection: Axis.vertical,
+        );
+      });
+}
+
+
+
+Future<List<ProfCard>> getProfCard() async {
+
+  List<ProfCard> cardTiles = [];
+
+  QuerySnapshot query=await Firestore.instance.collection('users').document(
+      userId).collection('cards').where('type',isEqualTo: 'professional').getDocuments();
+
+  for(var document in query.documents) {
+
+    String type= document['type'];
+    String photoUrl=document['photoUrl'];
+    String major=document['major'];
+    String displayName= document['displayName'];
+    String university=document['university'];
+
+    String  twitter=document['twitter'];
+    String bio=document['bio'];
+    String github=document['github'];
+    String linkedIn= document['linkedIn'];
+    cardTiles.add(ProfCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
+      university: university,twitter: twitter,bio: bio,github: github,linkedIn: linkedIn,));
 
   }
 
   return cardTiles;
 }
+
+Widget buildCards() {
+  print(type);
+  print(userId);
+  if (type == 'social') {
+    return
+        buildSocialCard();
+
+} else if (type == 'prof') {
+    return
+        buildProfCard();
+
+
+  }else{
+    return Column(
+      children: <Widget>[
+        Text('Social Card', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+        buildSocialCard(),
+        Text("Professional Card", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+        buildProfCard()
+      ],
+    );
+
+  }
+}
+
 
 
 
@@ -111,8 +186,7 @@ Future<List<UserCard>> getCards() async {
         ],
 
       ),
-       buildCards(),
-
+      buildCards()
 
     ],
         ),

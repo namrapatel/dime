@@ -21,6 +21,10 @@ import 'myCards.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
+
+bool prof=false;
+bool social=false;
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -148,8 +152,9 @@ class _ScrollPageState extends State<ScrollPage>
 
                       FloatingActionButton(
                         onPressed: () {
-                        
+                        social=true;
                         Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: SocialPage()));
+                        social=false;
                         },
                         elevation: 0,
                         heroTag: 'btn1',
@@ -169,7 +174,9 @@ class _ScrollPageState extends State<ScrollPage>
                       ),
                       FloatingActionButton(
                          onPressed: () {
+                           prof=true;
                         Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: ProfPage()));
+                        prof=false;
                         },
                         elevation: 0,
                         heroTag: 'btn2',
@@ -312,8 +319,8 @@ Padding(
             height: 40,
             child: FloatingActionButton(
               onPressed: (){
-                
-                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: myCards()));
+
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards(userId: currentUserModel.uid)));
               },
               elevation: 10,
               backgroundColor: Colors.white,
@@ -486,7 +493,8 @@ class UserTile extends StatelessWidget {
     icon: Icon(MaterialCommunityIcons.card_bulleted),
     color: Colors.black,
     onPressed: () {
-    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards(userId: uid,)));
+
+    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards(userId: uid, )));
     },
     ),
     ],

@@ -1,7 +1,6 @@
-import 'dart:ui' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:sticky_infinite_list/sticky_infinite_list.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
@@ -202,68 +201,76 @@ class _ProfPageState extends State<ProfPage> {
             ]),
             Column(children: <Widget>[
               StreamBuilder<QuerySnapshot>(
-                      stream:
-                          _firestore.collection('networkingEvents').snapshots(),
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData ||
-                            snapshot.data.documents.length == 0) {
-                          return Column(
-                            children: <Widget>[],
-                          );
-                        }
-                        final docs = snapshot.data.documents;
-                        List<NetworkingEventCard> networkingEvents = [];
-                        for (var doc in docs) {
-                          String eventName = doc.data['eventName'].toString();
-                          String location = doc.data['location'].toString();
-                          String food = doc.data['food'].toString();
-                          String swag = doc.data['swag'].toString();
-                          var date = doc.data['timestamp'];
-                          networkingEvents.add(NetworkingEventCard(
-                            eventName: eventName,
-                            location: location,
-                            food: food,
-                            date: date,
-                            swag: swag,
-                          ));
-                          return Stack(children: <Widget>[
-                            Container(
-                              height: 475,
-                              width: 400,
-                              child: ListView.builder(
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: networkingEvents.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return networkingEvents[index];
-                                  }),
-                            ),
-                            Center(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: screenH(410.0)),
-                                child: Container(
-                                  height: screenH(55),
-                                  width: screenW(340),
-                                  child: FloatingActionButton.extended(
-                                    icon: Icon(Icons.done),
-                                    elevation: screenH(5),
-                                    onPressed: () {
-                                      print(networkingEvents.length);
-                                      _controller.push(context, profAtEvent());
-                                    },
-                                    backgroundColor: Color(0xFF1976d2),
-                                    label: Text(
-                                      "  I'm at an event",
-                                      style: TextStyle(fontSize: screenF(20)),
-                                    ),
-                                  ),
-                                ),
+                  stream: _firestore
+                      .collection('networkingEvents')
+                      .orderBy('monthWeighting', descending: false)
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData ||
+                        snapshot.data.documents.length == 0) {
+                      return Column(
+                        children: <Widget>[],
+                      );
+                    }
+                    final docs = snapshot.data.documents;
+                    List<NetworkingEventCard> networkingEvents = [];
+                    for (var doc in docs) {
+                      String eventName = doc.data['eventName'].toString();
+                      String location = doc.data['location'].toString();
+                      String food = doc.data['food'].toString();
+                      String swag = doc.data['swag'].toString();
+                      String day = doc.data['day'].toString();
+                      String month = doc.data['month'].toString();
+                      String time = doc.data['time'].toString();
+
+                      networkingEvents.add(NetworkingEventCard(
+                        eventName: eventName,
+                        location: location,
+                        food: food,
+                        day: day,
+                        month: month,
+                        time: time,
+                        swag: swag,
+                      ));
+                    }
+                    return Stack(children: <Widget>[
+                      Container(
+                        height: screenH(525),
+                        width: screenW(410),
+                        child: ListView.builder(
+                            padding: EdgeInsets.all(0),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.vertical,
+                            itemCount: networkingEvents.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return networkingEvents[index];
+                            }),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: screenH(410.0)),
+                          child: Container(
+                            height: screenH(55),
+                            width: screenW(340),
+                            child: FloatingActionButton.extended(
+                              icon: Icon(Icons.done),
+                              elevation: screenH(5),
+                              onPressed: () {
+                                print(networkingEvents.length);
+                                _controller.push(context, profAtEvent());
+                              },
+                              backgroundColor: Color(0xFF1976d2),
+                              label: Text(
+                                "  I'm at an event",
+                                style: TextStyle(fontSize: screenF(20)),
                               ),
                             ),
-                          ]);
-                        }
-                      })
+                          ),
+                        ),
+                      ),
+                    ]);
+                  })
             ])
           ],
         ),
@@ -272,73 +279,47 @@ class _ProfPageState extends State<ProfPage> {
   }
 }
 
-List<MemberAvatar> memberAvatars = [
-  MemberAvatar("assets/namrapatel.png"),
-  MemberAvatar("assets/dhruvpatel.jpeg"),
-  MemberAvatar("assets/shehabsalem.jpeg"),
-  MemberAvatar("assets/taher.jpeg"),
-  MemberAvatar("assets/namrapatel.png"),
-  MemberAvatar("assets/dhruvpatel.jpeg"),
-  MemberAvatar("assets/shehabsalem.jpeg"),
-  MemberAvatar("assets/taher.jpeg")
-];
-
-class MemberAvatar extends StatelessWidget {
-  final String memberImage;
-  MemberAvatar(this.memberImage);
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 5.0),
-      child: Container(
-        width: screenW(38),
-        child: CircleAvatar(
-          backgroundImage: AssetImage(memberImage),
-          radius: screenH(15),
-        ),
-      ),
-    );
-  }
-}
-
 class NetworkingEventCard extends StatelessWidget {
-  CircularSplashController _controller = CircularSplashController(
+  final CircularSplashController _controller = CircularSplashController(
     color: Color(0xFF1976d2), //optional, default is White.
     duration: Duration(milliseconds: 350), //optional.
   );
-  String eventName;
-  String date;
-  String food;
-  String swag;
-  String location;
+  final String eventName, food, swag, location, day, time, month;
+
   NetworkingEventCard(
-      {this.eventName, this.location, this.date, this.food, this.swag});
+      {this.eventName,
+      this.location,
+      this.day,
+      this.month,
+      this.time,
+      this.food,
+      this.swag});
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(bottom: screenH(95.0)),
+          padding: EdgeInsets.only(bottom: screenH(35.0)),
           child: Container(
-            alignment: Alignment.centerRight,
+            margin: EdgeInsets.only(left: 10),
             width: screenW(50),
             height: screenH(70),
             child: Column(
               children: <Widget>[
-                Text("1",
+                Text(this.day,
                     style: TextStyle(
                         fontSize: screenF(25), fontWeight: FontWeight.bold)),
-                Text("July",
+                Text(this.month,
                     style: TextStyle(
-                      fontSize: screenF(15),
+                      fontSize: screenF(10),
                     )),
               ],
             ),
           ),
         ),
         Container(
-            height: screenH(525),
-            width: screenW(360),
+            height: screenH(170),
+            width: screenW(340),
             child: Row(
               children: <Widget>[
                 SizedBox(
@@ -370,16 +351,6 @@ class NetworkingEventCard extends StatelessWidget {
                                     fontSize: screenF(13),
                                   )),
                               SizedBox(
-                                height: screenH(10),
-                              ),
-                              Container(
-                                height: screenH(40),
-                                child: ListView(
-                                  children: memberAvatars,
-                                  scrollDirection: Axis.horizontal,
-                                ),
-                              ),
-                              SizedBox(
                                 height: screenH(25),
                               ),
                               Padding(
@@ -400,7 +371,7 @@ class NetworkingEventCard extends StatelessWidget {
                                           height: screenH(5),
                                         ),
                                         Text(
-                                          "6:00PM",
+                                          this.time,
                                           style: TextStyle(
                                             color: Colors.black,
                                           ),
@@ -408,50 +379,60 @@ class NetworkingEventCard extends StatelessWidget {
                                       ],
                                     ),
                                     SizedBox(
-                                      width: screenW(140),
+                                      width: screenW(35),
                                     ),
-
-                                    Icon(
-                                      MaterialCommunityIcons.food,
-                                      color: Color(0xFF1976d2),
-                                    ),
+                                    this.food == "true"
+                                        ? Icon(
+                                            MaterialCommunityIcons.food,
+                                            color: Color(0xFF1976d2),
+                                            size: screenW(25),
+                                          )
+                                        : SizedBox(
+                                            width: screenW(25),
+                                          ),
                                     SizedBox(
                                       width: screenW(20),
                                     ),
-                                    Icon(
-                                      MaterialCommunityIcons.sunglasses,
-                                      color: Color(0xFF1976d2),
-                                    )
-                                    // Container(
-                                    //   decoration: BoxDecoration(
-                                    //       color: Colors.purple,
-                                    //       boxShadow: [
-                                    //         BoxShadow(
-                                    //             color: Colors.black
-                                    //                 .withOpacity(0.4),
-                                    //             blurRadius: (10),
-                                    //             spreadRadius: (1),
-                                    //             offset: Offset(0, 5)),
-                                    //       ],
-                                    //       borderRadius:
-                                    //           BorderRadius.all(
-                                    //               Radius.circular(
-                                    //                   15))),
-                                    //   child: Padding(
-                                    //     padding: const EdgeInsets
-                                    //             .symmetric(
-                                    //         vertical: 3.0,
-                                    //         horizontal: 15.0),
-                                    //     child: Text(
-                                    //       "GO",
-                                    //       style: TextStyle(
-                                    //           color: Colors.white,
-                                    //           fontSize: 20,
-                                    //           fontWeight:
-                                    //               FontWeight.bold),
-                                    //     ),
-                                    //   ),
-                                    // )
+                                    this.swag == "true"
+                                        ? Icon(
+                                            MaterialCommunityIcons.sunglasses,
+                                            color: Color(0xFF1976d2),
+                                            size: screenW(25),
+                                          )
+                                        : SizedBox(
+                                            width: screenW(25),
+                                          ),
+                                    Spacer(),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(right: screenW(20)),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF1976d2),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.4),
+                                                  blurRadius: (10),
+                                                  spreadRadius: (1),
+                                                  offset: Offset(0, 5)),
+                                            ],
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(10))),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              vertical: screenH(8.0),
+                                              horizontal: screenW(15.0)),
+                                          child: Text(
+                                            "VIEW",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: screenF(15),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

@@ -248,7 +248,7 @@ class _SocialPageState extends State<SocialPage> {
                             height: screenH(55),
                             width: screenW(340),
                             child: FloatingActionButton.extended(
-                              icon: Icon(Icons.done),
+                              icon: Icon(Icons.done, color: Colors.white,),
                               elevation: screenH(5),
                               onPressed: () {
                                 print(socialEvents.length);
@@ -257,7 +257,7 @@ class _SocialPageState extends State<SocialPage> {
                               backgroundColor: Color(0xFF8803fc),
                               label: Text(
                                 "  I'm at an event",
-                                style: TextStyle(fontSize: screenF(20)),
+                                style: TextStyle(fontSize: screenF(20), color: Colors.white),
                               ),
                             ),
                           ),

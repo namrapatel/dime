@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:flutter_search_panel/flutter_search_panel.dart';
 import 'package:flutter_search_panel/search_item.dart';
+import 'login.dart';
 
 String selectedItemString;
 String selectedWItemString;
@@ -121,7 +122,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Namra Patel",
+                            Text(currentUserModel.displayName,
                                 style: TextStyle(
                                   fontSize: screenF(18),
                                 )),
@@ -147,7 +148,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           children: <Widget>[
                             CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/namrapatel.png"),
+                                  NetworkImage(currentUserModel.photoUrl),
                               radius: 21,
                             ),
 
@@ -679,7 +680,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text("Namra Patel",
+                            Text(currentUserModel.displayName,
                                 style: TextStyle(
                                   fontSize: screenF(18),
                                 )),
@@ -705,7 +706,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           children: <Widget>[
                             CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/namrapatel.png"),
+                                  NetworkImage(currentUserModel.photoUrl),
                               radius: 21,
                             ),
 

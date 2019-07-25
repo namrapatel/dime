@@ -454,7 +454,7 @@ class UserTile extends StatelessWidget {
     Row(
     children: <Widget>[
       Container(
-        height: (30),
+        height: (50),
         child: ListView(
           padding: EdgeInsets.only(bottom: 5.0),
           scrollDirection: Axis.horizontal,
@@ -467,7 +467,7 @@ class UserTile extends StatelessWidget {
     ),
     Padding(
     padding: EdgeInsets.fromLTRB(
-    0, MediaQuery.of(context).size.height / 50, 0, 0),
+    0, MediaQuery.of(context).size.height / 50, MediaQuery.of(context).size.height / 50, 0),
     )
     ],
     ),

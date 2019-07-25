@@ -111,6 +111,7 @@ void _settingModalBottomSheet(context){
     return Scaffold(
       backgroundColor: Color(0xFFECE9E4),
         body: ListView(
+          physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             Column(
               children: <Widget>[
@@ -172,6 +173,14 @@ void _settingModalBottomSheet(context){
                 ),
                     ],
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height/20,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: _myListView4(context),
+                  ),
+                  
                   
               ],
             )
@@ -233,6 +242,27 @@ void _settingModalBottomSheet(context){
                 value: _value,
                 onChanged: _changeValue,
               ),
+          );
+        },
+        separatorBuilder: (context, index) {
+          return Divider();
+        },
+      );
+
+
+    }
+
+    Widget _myListView4(BuildContext context) {
+
+      return ListView.separated(
+        physics: const BouncingScrollPhysics(),
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return ListTile(
+            leading: CircleAvatar(
+              backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+            ),
+            title: Text('Dhruv Patel'),
           );
         },
         separatorBuilder: (context, index) {

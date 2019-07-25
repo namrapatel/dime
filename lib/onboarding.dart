@@ -21,7 +21,7 @@ class _onBoardingState extends State<onBoarding> {
   }
  final pageList = [
 
-   //Slogan Screen, Cards Screen, People around you screen, Events Screen, Always Improving/Map stuff screen 
+   //Slogan Screen, Cards Screen, People around you screen, Events Screen, Thank you/Always improving 
     PageModel(
         color: const Color(0xFF678FB4),
         heroAssetPath: 'assets/dimelogo1.png',

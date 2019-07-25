@@ -4,17 +4,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:Dime/homePage.dart';
 
-
-class UserCard extends StatelessWidget {
+class ProfCard extends StatelessWidget {
   final String type;
   final String major;
   final String photoUrl;
   final String displayName;
   final String bio;
   final String university;
-  final String snapchat;
-  final String instagram;
   final String twitter;
   final String github;
   final String linkedIn;
@@ -22,32 +20,19 @@ class UserCard extends StatelessWidget {
 
 
 
-  const UserCard(
+  const ProfCard(
       {
         this.type,this.major,
-        this.university,this.snapchat,
-        this.instagram,this.twitter,
+        this.university,this.twitter,
         this.github,this.linkedIn,
         this.photoUrl,
         this.displayName,
         this.bio
       });
 
-  factory UserCard.fromDocument(DocumentSnapshot document) {
-    if (document['type'] == 'social') {
-      return UserCard(
-        type: document['type'],
-        photoUrl: document['photoUrl'],
-        major: document['major'],
-        displayName: document['displayName'],
-        university: document['university'],
-        snapchat: document['snapchat'],
-        instagram: document['instagram'],
-        twitter: document['twitter'],
-        bio: document['bio'],
-      );
-    } else {
-      return UserCard(
+  factory ProfCard.fromDocument(DocumentSnapshot document) {
+
+      return ProfCard(
         type: document['type'],
         photoUrl: document['photoUrl'],
         major: document['major'],
@@ -56,14 +41,14 @@ class UserCard extends StatelessWidget {
         github: document['github'],
         linkedIn: document['linkedIn'],
         bio: document['bio'],
+        twitter: document['twitter'],
       );
-    }
+
   }
-    @override
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(type=='social'?'Social Card':"Professional Card", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
         Stack(children: <Widget>[
           Column(
             children: <Widget>[
@@ -151,66 +136,7 @@ class UserCard extends StatelessWidget {
                       padding:
                       EdgeInsets.symmetric(horizontal: screenW(30.0)),
                       child:
-                      type=='social'?
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              snapchat!=null?
-                              Icon(
-                                FontAwesome.snapchat_square,
-                                color: Color(0xFFfffc00),
-                              ):SizedBox(
-                                height: screenW(1),
-                              ),
-                              SizedBox(
-                                width: screenW(10),
-                              ),
-                              Text(snapchat==null?'':snapchat,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              instagram!=null?
-                              Icon(
-                                MaterialCommunityIcons.instagram,
-                                color: Color(0xFF8803fc),
-                              ):SizedBox(
-                                height: screenW(1),
-                              ),
-                              SizedBox(
-                                width: screenW(10),
-                              ),
-                              Text(instagram==null?'':instagram,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              twitter!=null?
-                              Icon(
-                                MaterialCommunityIcons.twitter_box,
-                                color: Colors.blue,
-                              ):SizedBox(
-                              height: screenW(1),
-                              ),
-                              SizedBox(
-                              width: screenW(10),
-                              ),
-                              Text(twitter==null?'':twitter,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          )
-                        ],
-                      ):
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -221,7 +147,7 @@ class UserCard extends StatelessWidget {
                                 MaterialCommunityIcons.github_box,
                                 color: Colors.black,
                               ):SizedBox(
-                              height: screenW(1),
+                                height: screenW(1),
                               ),
                               SizedBox(
                                 width: screenW(10),

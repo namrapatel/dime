@@ -168,24 +168,25 @@ Widget buildCards() {
       allowFontScaling: true,
     )..init(context);
     return Scaffold(
+
       backgroundColor: Color(0xFFECE9E4),
         body: Column(
     children: <Widget>[
-        SizedBox(
-        height: 40,
-      ),
-      Row(
-        children: <Widget>[
-          IconButton(
-            onPressed: (){
-              Navigator.pop(context);
-            },
-            icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
-          ),
+      //   SizedBox(
+      //   height: 40,
+      // ),
+      // Row(
+      //   children: <Widget>[
+      //     // IconButton(
+      //     //   onPressed: (){
+      //     //     Navigator.pop(context);
+      //     //   },
+      //     //   icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
+      //     // ),
 
-        ],
+      //   ],
 
-      ),
+      // ),
       buildCards()
 
     ],

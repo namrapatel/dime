@@ -22,7 +22,7 @@ dependencies:
 
 dev_dependencies:
   geoflutterfire:
-  
+  xlive_switch:
   flutter_search_panel:
   fancy_on_boarding:
   circular_splash_transition:

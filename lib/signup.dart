@@ -162,6 +162,7 @@ class _SignupPageState extends State<SignupPage> {
                         .collection('users')
                         .document(signedInUser.uid)
                         .get();
+
                     if (userRecord.data != null) {
                       currentUserModel = User.fromDocument(userRecord);
                       print('in signup');

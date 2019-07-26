@@ -8,6 +8,7 @@ import 'dart:convert' as JSON;
 import '../homePage.dart';
 import '../login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:Dime/services/usermanagement.dart';
 
 class GoogleAuth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -44,6 +45,8 @@ class GoogleAuth {
         'phoneNumber': user.phoneNumber,
         'photoUrl': user.photoUrl,
       });
+
+      UserManagement().createCards(user.uid, user.photoUrl, user.displayName);
     }
 
    userRecord = await Firestore.instance

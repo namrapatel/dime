@@ -24,12 +24,14 @@ class ViewCards extends StatefulWidget {
 
   const ViewCards({this.userId,this.type});
   final String userId,type;
+
   @override
   _ViewCardsState createState() => _ViewCardsState(this.userId,this.type);
 }
 
 class _ViewCardsState extends State<ViewCards> {
 final String userId,type;
+
 _ViewCardsState(this.userId,this.type);
 
 Widget buildSocialCard() {
@@ -60,11 +62,11 @@ Future<List<SocialCard>> getSocialCard() async {
   List<SocialCard> cardTiles = [];
 
   QuerySnapshot query=await Firestore.instance.collection('users').document(
-        userId).collection('cards').where('type',isEqualTo: 'social').getDocuments();
+        userId).collection('socialcard').getDocuments();
 
   for(var document in query.documents) {
 
-    String type= document['type'];
+
     String photoUrl=document['photoUrl'];
     String major=document['major'];
     String displayName= document['displayName'];
@@ -73,8 +75,9 @@ Future<List<SocialCard>> getSocialCard() async {
     String instagram= document['instagram'];
     String  twitter=document['twitter'];
     String bio=document['bio'];
+
     cardTiles.add(SocialCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
-      university: university,snapchat: snapchat,instagram: instagram,twitter: twitter,bio: bio));
+      university: university,snapchat: snapchat,instagram: instagram,twitter: twitter,bio: bio,));
   }
   return cardTiles;
 }
@@ -107,25 +110,37 @@ Future<List<ProfCard>> getProfCard() async {
   List<ProfCard> cardTiles = [];
 
   QuerySnapshot query=await Firestore.instance.collection('users').document(
-      userId).collection('cards').where('type',isEqualTo: 'professional').getDocuments();
+      userId).collection('profcard').getDocuments();
+  if(query.documents.isEmpty){
+    Firestore.instance.collection('users').document(
+        userId).collection('profcard').add({
+      'photoUrl':currentUserModel.photoUrl,
+      'displayName':currentUserModel.displayName
+    });
 
-  for(var document in query.documents) {
-
-    String type= document['type'];
-    String photoUrl=document['photoUrl'];
-    String major=document['major'];
-    String displayName= document['displayName'];
-    String university=document['university'];
-
-    String  twitter=document['twitter'];
-    String bio=document['bio'];
-    String github=document['github'];
-    String linkedIn= document['linkedIn'];
-    cardTiles.add(ProfCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
-      university: university,twitter: twitter,bio: bio,github: github,linkedIn: linkedIn,));
 
   }
+    for (var document in query.documents) {
+      String photoUrl = document['photoUrl'];
+      String major = document['major'];
+      String displayName = document['displayName'];
+      String university = document['university'];
 
+      String twitter = document['twitter'];
+      String bio = document['bio'];
+      String github = document['github'];
+      String linkedIn = document['linkedIn'];
+      cardTiles.add(ProfCard(displayName: displayName,
+        photoUrl: photoUrl,
+        type: type,
+        major: major,
+        university: university,
+        twitter: twitter,
+        bio: bio,
+        github: github,
+        linkedIn: linkedIn,));
+
+  }
   return cardTiles;
 }
 

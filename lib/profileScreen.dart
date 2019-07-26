@@ -95,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50.0),
                   image: DecorationImage(
-                      image: AssetImage('assets/taher.jpeg'),
+                      image: NetworkImage(currentUserModel.photoUrl),
                       fit: BoxFit.cover)),
             ),
           ),
@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 Text(
-                  'Taher Ankleshwaria',
+                  currentUserModel.displayName,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17.0,

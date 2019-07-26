@@ -63,9 +63,7 @@ class ProfCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: screenH(40),
-              ),
+
               Container(
                 height: screenH(220),
                 width: screenW(370),
@@ -92,7 +90,7 @@ class ProfCard extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(displayName==null?'Add a display name':displayName,
+                            Text(displayName,
                                 style: TextStyle(
                                   fontSize: screenF(18),
                                 )),

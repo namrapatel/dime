@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 import '../homePage.dart';
 import '../login.dart';
+import 'package:Dime/services/usermanagement.dart';
 
 
 
@@ -63,12 +64,12 @@ class FacebookAuth {
           facebookUid = data.uid;
         }
       }
-
+      String fbPhoto=userProfile["picture"]["data"]["url"];
       Firestore.instance
           .collection('users')
           .document(user.uid)
           .setData({
-        'photoUrl': userProfile["picture"]["data"]["url"],
+        'photoUrl':fbPhoto ,
         'email': user.email,
 
         'displayName': user.displayName,
@@ -80,6 +81,9 @@ class FacebookAuth {
           .collection('users')
           .document(user.uid)
           .get();
+
+      UserManagement().createCards(user.uid, fbPhoto, user.displayName);
+
     }
 
 

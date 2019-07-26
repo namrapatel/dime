@@ -21,6 +21,7 @@ class SocialCard extends StatelessWidget {
 
 
 
+
   const SocialCard(
       {
         this.type,this.major,
@@ -92,7 +93,7 @@ class SocialCard extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(displayName==null?'Add a display name':displayName,
+                            Text(displayName,
                                 style: TextStyle(
                                   fontSize: screenF(18),
                                 )),
@@ -122,16 +123,16 @@ class SocialCard extends StatelessWidget {
                         SizedBox(
                           width: screenW(115),
                         ),
-                        CircleAvatar(
-                          backgroundImage:
-                          NetworkImage(photoUrl),
-                          radius: 22,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: screenH(15),
-                    ),
+                            CircleAvatar(
+                              backgroundImage:
+                              NetworkImage(photoUrl),
+                              radius: 22,
+                            ),
+
+                          ],
+                        ),
+
+
                     Padding(
                       padding:
                       EdgeInsets.symmetric(horizontal: screenW(30.0)),

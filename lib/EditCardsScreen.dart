@@ -12,6 +12,7 @@ import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:flutter_search_panel/flutter_search_panel.dart';
 import 'package:flutter_search_panel/search_item.dart';
 import 'login.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'models/socialcard.dart';
@@ -33,8 +34,10 @@ class TabsApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tabs App',
       theme: ThemeData(primarySwatch: Colors.amber,
+
           primaryColor: Colors.black,
           fontFamily: 'Futura'
+
       ),
       home: CardEdit(),
     );
@@ -260,6 +263,7 @@ Future<void> uploadImage() async{
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: <Widget>[
+
         Stack(children: <Widget>[
           Column(children: <Widget>[
             Container(
@@ -286,12 +290,14 @@ Future<void> uploadImage() async{
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: socialCardId==null?CircularProgressIndicator():
                     Column(
+
                       children: <Widget>[
                         SizedBox(
                           height: screenH(20),
                         ),
                         Row(
                           children: <Widget>[
+
                             SizedBox(
                               width: screenW(20),
                             ),
@@ -452,10 +458,15 @@ Future<void> uploadImage() async{
                           height: 10,
                         ),
                         SizedBox(
+
                           height: 20.0,
+
+                          width: screenW(70),
+
                         ),
                         Row(
                           children: <Widget>[
+
                             SizedBox(
                               width: 20,
                             ),
@@ -514,6 +525,7 @@ Future<void> uploadImage() async{
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold),
                             ),
+
                           ],
                         ),
                         Padding(
@@ -543,32 +555,12 @@ Future<void> uploadImage() async{
                                   }
                                 },
 
+
                               ),
                             ),
                           ),
                         ),
-                        // Container(
-                        //   margin: EdgeInsets.symmetric(horizontal: 20.0),
-                        //   child: Column(
-                        //     children: <Widget>[
-                        //       Theme(
-                        //         // data: theme.copyWith(primaryColor: Colors.black),
-                        //         data: new ThemeData(
-                        //             primaryColor: Colors.black,
-                        //             accentColor: Colors.black,
-                        //             hintColor: Colors.black),
-                        //         child: TextField(
-                        //           decoration: InputDecoration(
-                        //               border: new UnderlineInputBorder(
-                        //                   borderSide:
-                        //                       new BorderSide(color: Colors.black))),
-                        //           style: TextStyle(fontSize: 18, color: Colors.grey),
-                        //           cursorColor: Colors.black,
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
+                        
                         SizedBox(
                           height: 20.0,
                         ),
@@ -664,11 +656,14 @@ Future<void> uploadImage() async{
                                 ),
                               )
                             ],
+
                           ),
                         ),
+
                         SizedBox(
                           height: 20.0,
                         ),
+
                         Row(
                           children: <Widget>[
                             SizedBox(
@@ -682,6 +677,7 @@ Future<void> uploadImage() async{
                                   fontWeight: FontWeight.bold),
                             ),
                           ],
+
                         ),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 20.0),
@@ -796,6 +792,7 @@ Future<void> uploadImage() async{
                       SizedBox(
                         height: 50.0,
                       ),
+
                       Center(
                         child: Text(
                           text,
@@ -892,6 +889,7 @@ String saved='';
 //      bio=document['bio'];
 
     }
+
 
   }
 
@@ -1062,6 +1060,7 @@ String saved='';
     return ListView(
       physics: const BouncingScrollPhysics(),
       children: <Widget>[
+
         Stack(children: <Widget>[
           Column(children: <Widget>[
             Container(
@@ -1088,12 +1087,14 @@ String saved='';
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: profCardId==null?CircularProgressIndicator():
                     Column(
+
                       children: <Widget>[
                         SizedBox(
                           height: screenH(20),
                         ),
                         Row(
                           children: <Widget>[
+
                             SizedBox(
                               width: screenW(20),
                             ),
@@ -1254,10 +1255,15 @@ String saved='';
                           height: 10,
                         ),
                         SizedBox(
+
                           height: 20.0,
+
+                          width: screenW(70),
+
                         ),
                         Row(
                           children: <Widget>[
+
                             SizedBox(
                               width: 20,
                             ),
@@ -1345,6 +1351,7 @@ String saved='';
                                   }
                                 },
 
+
                               ),
                             ),
                           ),
@@ -1388,9 +1395,11 @@ String saved='';
                             ),
                           ],
                         ),
+
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 20.0),
                           child: Column(
+
                             children: <Widget>[
                               Theme(
                                 // data: theme.copyWith(primaryColor: Colors.black),
@@ -1515,10 +1524,12 @@ String saved='';
                                 ),
                               )
                             ],
+
                           ),
                         ),
                         SizedBox(
                           height: 20.0,
+
                         ),
                         Row(
                           children: <Widget>[
@@ -1604,6 +1615,7 @@ String saved='';
                           style: TextStyle(color: Colors.pink),
                         ),
                       ),
+
                       SizedBox(
                         height: 40.0,
                       ),
@@ -1641,6 +1653,7 @@ String saved='';
                     ]))
           ]),
         ])
+
       ],
     );
   }

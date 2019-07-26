@@ -7,6 +7,7 @@ import 'onboarding.dart';
 import 'signup.dart';
 import 'models/user.dart';
 
+
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {

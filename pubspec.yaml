@@ -22,7 +22,7 @@ dependencies:
 
 dev_dependencies:
   geoflutterfire:
-  
+  xlive_switch:
   flutter_search_panel:
   fancy_on_boarding:
   circular_splash_transition:
@@ -98,9 +98,6 @@ flutter:
     - family: Futura
       fonts:
         - asset: assets/fonts/Futura-book.ttf
-    - family: FuturaBold
-      fonts:
-        - asset: assets/fonts/Futura-bold.ttf
     - family: Varela
       fonts:
         - asset: assets/fonts/VarelaRound-Regular.ttf

@@ -18,12 +18,12 @@ import 'login.dart';
 import 'viewCards.dart';
 import 'myCards.dart';
 
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 
-bool prof=false;
-bool social=false;
+import 'explore.dart';
+
+
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -159,7 +159,7 @@ class _ScrollPageState extends State<ScrollPage>
                         elevation: 0,
                         heroTag: 'btn1',
                         backgroundColor: Color(0xFF8803fc),
-                        child: Icon(Entypo.drink),
+                        child: Icon(Entypo.drink, color: Colors.white,),
                         // shape: RoundedRectangleBorder(
                         //   borderRadius:  BorderRadius.only(
                         //     topRight: Radius.circular(25),
@@ -183,6 +183,7 @@ class _ScrollPageState extends State<ScrollPage>
                         backgroundColor: Color(0xFF1976d2),
                         child: Icon(
                           MaterialCommunityIcons.account_tie,
+                          color: Colors.white
                           //size: 25,
                         ),
                         // shape: RoundedRectangleBorder(
@@ -227,36 +228,11 @@ class _ScrollPageState extends State<ScrollPage>
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.height / 109, 0, 0),
                 ),
-                Container(
-                  //color: Colors.white,
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width / 22,
-                        vertical: MediaQuery.of(context).size.height / 72),
-                    child: TextField(
-                      
-                      focusNode: _focus,
-                      decoration: new InputDecoration(
-                          icon: Icon(Icons.search),
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width / 30,
-                              bottom: MediaQuery.of(context).size.height / 75,
-                              top: MediaQuery.of(context).size.height / 75,
-                              right: MediaQuery.of(context).size.width / 30),
-                          hintText: 'Search for people, interests, school ...'),
-                    ),
-                  ),
-                ),
+
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 3.68,
+          headerHeight: MediaQuery.of(context).size.height / 4.8,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
@@ -339,6 +315,9 @@ Padding(
               backgroundColor: Colors.white,
               heroTag: 'fabb4',
               child: Icon(Ionicons.md_search, color: Colors.black, size: 20,),
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: Explore()));
+              },
             )
           )
 
@@ -460,7 +439,7 @@ class UserTile extends StatelessWidget {
     Row(
     children: <Widget>[
       Container(
-        height: (30),
+        height: (50),
         child: ListView(
           padding: EdgeInsets.only(bottom: 5.0),
           scrollDirection: Axis.horizontal,
@@ -473,7 +452,7 @@ class UserTile extends StatelessWidget {
     ),
     Padding(
     padding: EdgeInsets.fromLTRB(
-    0, MediaQuery.of(context).size.height / 50, 0, 0),
+    0, MediaQuery.of(context).size.height / 50, MediaQuery.of(context).size.height / 50, 0),
     )
     ],
     ),

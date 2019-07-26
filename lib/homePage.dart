@@ -22,6 +22,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 
 import 'explore.dart';
+import 'userCard.dart';
 
 
 
@@ -456,7 +457,7 @@ class UserTile extends StatelessWidget {
     color: Colors.black,
     onPressed: () {
 
-    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards(userId: uid, )));
+    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: UserCard(userId: uid,)));
     },
     ),
     ],

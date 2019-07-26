@@ -1,3 +1,7 @@
+
+import 'package:Dime/socialPage.dart';
+import 'package:Dime/viewCards.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -96,105 +100,7 @@ class _ProfPageState extends State<ProfPage> {
                         ],
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: screenH(20),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: screenW(20),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(currentUserModel.displayName,
-                                    style: TextStyle(
-                                      fontSize: screenF(18),
-                                    )),
-                                SizedBox(
-                                  height: screenH(2),
-                                ),
-                                Text("University of Western Ontario",
-                                    style: TextStyle(
-                                        fontSize: screenF(13),
-                                        color: Colors.purple)),
-                                SizedBox(
-                                  height: screenH(2),
-                                ),
-                                Text("Computer Science, 2022",
-                                    style: TextStyle(
-                                        fontSize: screenF(13),
-                                        color: Colors.grey)),
-                              ],
-                            ),
-                            SizedBox(
-                              width: screenW(115),
-                            ),
-                            CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(currentUserModel.photoUrl),
-                              radius: 22,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: screenH(15),
-                        ),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: screenW(30.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MaterialCommunityIcons.github_box,
-                                    color: Colors.black,
-                                  ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                  ),
-                                  Text("namrapatel",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Icon(
-                                    FontAwesome.linkedin_square,
-                                    color: Color(0xFF0077B5),
-                                  ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                  ),
-                                  Text("namrapatel",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  Icon(
-                                    MaterialCommunityIcons.twitter_box,
-                                    color: Color(0xFF1976d2),
-                                  ),
-                                  Text("namrapatel",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: ViewCards(userId:currentUserModel.uid,type: 'prof',)
                   )
                 ],
               ),

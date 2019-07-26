@@ -4,9 +4,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:Dime/homePage.dart';
 
-
-class UserCard extends StatelessWidget {
+class SocialCard extends StatelessWidget {
   final String type;
   final String major;
   final String photoUrl;
@@ -16,26 +16,26 @@ class UserCard extends StatelessWidget {
   final String snapchat;
   final String instagram;
   final String twitter;
-  final String github;
-  final String linkedIn;
 
 
 
 
-  const UserCard(
+
+
+  const SocialCard(
       {
         this.type,this.major,
         this.university,this.snapchat,
         this.instagram,this.twitter,
-        this.github,this.linkedIn,
+
         this.photoUrl,
         this.displayName,
         this.bio
       });
 
-  factory UserCard.fromDocument(DocumentSnapshot document) {
-    if (document['type'] == 'social') {
-      return UserCard(
+  factory SocialCard.fromDocument(DocumentSnapshot document) {
+
+      return SocialCard(
         type: document['type'],
         photoUrl: document['photoUrl'],
         major: document['major'],
@@ -46,24 +46,12 @@ class UserCard extends StatelessWidget {
         twitter: document['twitter'],
         bio: document['bio'],
       );
-    } else {
-      return UserCard(
-        type: document['type'],
-        photoUrl: document['photoUrl'],
-        major: document['major'],
-        displayName: document['displayName'],
-        university: document['university'],
-        github: document['github'],
-        linkedIn: document['linkedIn'],
-        bio: document['bio'],
-      );
-    }
+
   }
     @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Text(type=='social'?'Social Card':"Professional Card", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
         Stack(children: <Widget>[
           Column(
             children: <Widget>[
@@ -78,9 +66,7 @@ class UserCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
-                height: screenH(40),
-              ),
+
               Container(
                 height: screenH(220),
                 width: screenW(370),
@@ -107,7 +93,7 @@ class UserCard extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(displayName==null?'Add a display name':displayName,
+                            Text(displayName,
                                 style: TextStyle(
                                   fontSize: screenF(18),
                                 )),
@@ -137,21 +123,21 @@ class UserCard extends StatelessWidget {
                         SizedBox(
                           width: screenW(115),
                         ),
-                        CircleAvatar(
-                          backgroundImage:
-                          NetworkImage(photoUrl),
-                          radius: 22,
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: screenH(15),
-                    ),
+                            CircleAvatar(
+                              backgroundImage:
+                              NetworkImage(photoUrl),
+                              radius: 22,
+                            ),
+
+                          ],
+                        ),
+
+
                     Padding(
                       padding:
                       EdgeInsets.symmetric(horizontal: screenW(30.0)),
                       child:
-                      type=='social'?
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -210,66 +196,66 @@ class UserCard extends StatelessWidget {
                             ],
                           )
                         ],
-                      ):
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              github!=null?
-                              Icon(
-                                MaterialCommunityIcons.github_box,
-                                color: Colors.black,
-                              ):SizedBox(
-                              height: screenW(1),
-                              ),
-                              SizedBox(
-                                width: screenW(10),
-                              ),
-                              Text(github==null?'':github,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              linkedIn!=null?
-                              Icon(
-                                FontAwesome.linkedin_square,
-                                color: Color(0xFF0077B5),
-                              ):SizedBox(
-                                height: screenW(1),
-                              ),
-                              SizedBox(
-                                width: screenW(10),
-                              ),
-                              Text(linkedIn==null?'':linkedIn,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              twitter!=null?
-                              Icon(
-                                MaterialCommunityIcons.twitter_box,
-                                color: Colors.blue,
-                              ):SizedBox(
-                                height: screenW(1),
-                              ),
-                              SizedBox(
-                                width: screenW(10),
-                              ),
-                              Text(twitter==null?'':twitter,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          )
-                        ],
                       ),
+//                      Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: <Widget>[
+//                          Column(
+//                            children: <Widget>[
+//                              github!=null?
+//                              Icon(
+//                                MaterialCommunityIcons.github_box,
+//                                color: Colors.black,
+//                              ):SizedBox(
+//                              height: screenW(1),
+//                              ),
+//                              SizedBox(
+//                                width: screenW(10),
+//                              ),
+//                              Text(github==null?'':github,
+//                                  style: TextStyle(
+//                                      color: Colors.black,
+//                                      fontSize: screenF(12))),
+//                            ],
+//                          ),
+//                          Column(
+//                            children: <Widget>[
+//                              linkedIn!=null?
+//                              Icon(
+//                                FontAwesome.linkedin_square,
+//                                color: Color(0xFF0077B5),
+//                              ):SizedBox(
+//                                height: screenW(1),
+//                              ),
+//                              SizedBox(
+//                                width: screenW(10),
+//                              ),
+//                              Text(linkedIn==null?'':linkedIn,
+//                                  style: TextStyle(
+//                                      color: Colors.black,
+//                                      fontSize: screenF(12))),
+//                            ],
+//                          ),
+//                          Column(
+//                            children: <Widget>[
+//                              twitter!=null?
+//                              Icon(
+//                                MaterialCommunityIcons.twitter_box,
+//                                color: Colors.blue,
+//                              ):SizedBox(
+//                                height: screenW(1),
+//                              ),
+//                              SizedBox(
+//                                width: screenW(10),
+//                              ),
+//                              Text(twitter==null?'':twitter,
+//                                  style: TextStyle(
+//                                      color: Colors.black,
+//                                      fontSize: screenF(12))),
+//                            ],
+//                          )
+//                        ],
+//                      ),
 
                     ),
                   ],

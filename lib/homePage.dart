@@ -35,7 +35,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
 
-  List<UserTile> nearbyUsers=[UserTile('Shehab Salem','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq','AR07blHIDVazKVAAYUrhtRypsoy2',major:'Computer Science, 2022',interests: ['Flutter','Basketball'],),UserTile('Mahad Zaryab','https://lh3.googleusercontent.com/-DBGxpfqr_Fs/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcxJQfiwQg5BBipMSPUEkWpU-abww/s96-c/photo.jpg','JDuiarBxusY7GgmbVQcBtTg3xzk1',major:'Software Engineering, 2022',interests: ['Java', 'Gym'])];
+  List<UserTile> nearbyUsers=[UserTile('Shehab Salem','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq','7Y0S3qvACSbk2YlteKiyGqLrAsR2',major:'Computer Science, 2022',interests: ['Flutter','Basketball'],),UserTile('Dhruv Patel','https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef','ocBp1teYqlQkimXXkpSp4Q35C5B3',major:'Mechatronics Engineering, 2022',interests: ['Java', 'Badminton'])];
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;

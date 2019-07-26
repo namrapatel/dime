@@ -144,12 +144,8 @@ class _ScrollPageState extends State<ScrollPage>
                 ),
                 Center(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
-                      ),
-
                       FloatingActionButton(
                         onPressed: () {
 
@@ -160,40 +156,27 @@ class _ScrollPageState extends State<ScrollPage>
                         heroTag: 'btn1',
                         backgroundColor: Color(0xFF8803fc),
                         child: Icon(Entypo.drink, color: Colors.white,),
-                        // shape: RoundedRectangleBorder(
-                        //   borderRadius:  BorderRadius.only(
-                        //     topRight: Radius.circular(25),
-                        //     bottomRight: Radius.circular(25),
-                        //   )
 
-                        //   ),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 1.65, 0, 0, 0),
                       ),
                       FloatingActionButton(
-                         onPressed: () {
+                       onPressed: () {
 
-                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: ProfPage()));
+                      Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: ProfPage()));
 
-                        },
-                        elevation: 0,
-                        heroTag: 'btn2',
-                        backgroundColor: Color(0xFF1976d2),
-                        child: Icon(
-                          MaterialCommunityIcons.account_tie,
-                          color: Colors.white
-                          //size: 25,
-                        ),
-                        // shape: RoundedRectangleBorder(
-                        //   borderRadius:  BorderRadius.only(
-                        //     topLeft: Radius.circular(25),
-                        //     bottomLeft: Radius.circular(25),
-                        //   )
-
-                        //   ),
+                      },
+                      elevation: 0,
+                      heroTag: 'btn2',
+                      backgroundColor: Color(0xFF1976d2),
+                      child: Icon(
+                        MaterialCommunityIcons.account_tie,
+                        color: Colors.white
                       ),
+
+                        ),
                     ],
                   ),
                 ),

@@ -111,7 +111,7 @@ void _settingModalBottomSheet(context){
     return Scaffold(
       backgroundColor: Color(0xFFECE9E4),
         body: ListView(
-          physics: const NeverScrollableScrollPhysics(),
+          //physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
             Column(
               children: <Widget>[
@@ -178,6 +178,7 @@ void _settingModalBottomSheet(context){
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height,
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, MediaQuery.of(context).size.height/10),
                     child: _myListView4(context),
                   ),
                   
@@ -190,7 +191,7 @@ void _settingModalBottomSheet(context){
   }
   
 
-    bool _value = true;
+    bool _value = false;
 
     Widget _myListView(BuildContext context) {
       return ListView.separated(
@@ -255,7 +256,7 @@ void _settingModalBottomSheet(context){
     Widget _myListView4(BuildContext context) {
 
       return ListView.separated(
-        physics: const BouncingScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: 10,
         itemBuilder: (context, index) {
           return ListTile(

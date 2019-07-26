@@ -40,18 +40,23 @@ Widget buildSocialCard() {
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Container(
+
               alignment: FractionalOffset.center,
               child: CircularProgressIndicator());
-
-        return ListView(
-          children: snapshot.data,
-          padding: EdgeInsets.only(
-            bottom: screenH(15.0),
-          ),
-
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
+        
+        return Column(
+          children: snapshot.data
         );
+        // return ListView(
+
+        //   children: snapshot.data,
+        //   // padding: EdgeInsets.only(
+        //   //   bottom: screenH(15.0),
+        //   // ),
+
+        //   //shrinkWrap: true,
+        //   scrollDirection: Axis.vertical,
+        // );
       });
 }
 
@@ -88,6 +93,7 @@ Widget buildProfCard() {
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Container(
+            
               alignment: FractionalOffset.center,
               child: CircularProgressIndicator());
 
@@ -182,31 +188,33 @@ Widget buildCards() {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
-    return Scaffold(
+    return buildCards();
+    // return Scaffold(
 
-      backgroundColor: Color(0xFFECE9E4),
-        body: Column(
-    children: <Widget>[
-      //   SizedBox(
-      //   height: 40,
-      // ),
-      // Row(
-      //   children: <Widget>[
-      //     // IconButton(
-      //     //   onPressed: (){
-      //     //     Navigator.pop(context);
-      //     //   },
-      //     //   icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
-      //     // ),
+    //   backgroundColor: Color(0xFFECE9E4),
+    //   body: buildCards(),
+    // //     body: Column(
+    // // children: <Widget>[
+    // //   //   SizedBox(
+    // //   //   height: 40,
+    // //   // ),
+    // //   // Row(
+    // //   //   children: <Widget>[
+    // //   //     // IconButton(
+    // //   //     //   onPressed: (){
+    // //   //     //     Navigator.pop(context);
+    // //   //     //   },
+    // //   //     //   icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
+    // //   //     // ),
 
-      //   ],
+    // //   //   ],
 
-      // ),
-      buildCards()
+    // //   // ),
+    // //   buildCards()
 
-    ],
-        ),
-      );
+    // // ],
+    // //     ),
+    //   );
   }
 }
 

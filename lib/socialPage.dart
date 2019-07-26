@@ -45,7 +45,7 @@ class _SocialPageState extends State<SocialPage> {
             Stack(children: <Widget>[
               Container(
                 color: Color(0xFF8803fc),
-                height: screenH(400),
+                height: screenH(370),
                 width: screenW(420),
               ),
               Column(
@@ -85,36 +85,21 @@ class _SocialPageState extends State<SocialPage> {
                   // SizedBox(
                   //   height: screenH(10),
                   // ),
-                  // Container(
-                  //   height: screenH(262),
-                  //   width: screenW(370),
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.black,
-                  //     borderRadius: BorderRadius.circular(15)
-                  //   ),
-                  //   child: ViewCards(userId:currentUserModel.uid,type: 'social',)
-                    
-                  //   ),
                   Container(
-                    height: screenH(262),
+                    height: screenH(247),
                     width: screenW(370),
-                    child: ViewCards(userId:currentUserModel.uid,type: 'social',),
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.transparent,
+                              blurRadius: (20),
+                              spreadRadius: (5),
+                              offset: Offset(0, 5)),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                    child: ViewCards(userId:currentUserModel.uid,type: 'social',)
                   )
-                  // Container(
-                  //   height: screenH(220),
-                  //   width: screenW(370),
-                  //   decoration: BoxDecoration(
-                  //       boxShadow: [
-                  //         BoxShadow(
-                  //             color: Colors.black.withOpacity(0.35),
-                  //             blurRadius: (20),
-                  //             spreadRadius: (5),
-                  //             offset: Offset(0, 5)),
-                  //       ],
-                  //       color: Colors.white,
-                  //       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  //   child: 
-                  // )
                 ],
               ),
             ]),
@@ -151,7 +136,7 @@ class _SocialPageState extends State<SocialPage> {
                     }
                     return Stack(children: <Widget>[
                       Container(
-                        height: screenH(495),
+                        height: screenH(525),
                         width: screenW(410),
                         child: ListView.builder(
                             padding: EdgeInsets.all(0),

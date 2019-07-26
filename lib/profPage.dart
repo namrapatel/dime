@@ -84,11 +84,9 @@ class _ProfPageState extends State<ProfPage> {
                       )
                     ],
                   ),
-                  SizedBox(
-                    height: screenH(10),
-                  ),
+
                   Container(
-                    height: screenH(220),
+                    height: screenH(247),
                     width: screenW(370),
                     decoration: BoxDecoration(
                         boxShadow: [

@@ -44,19 +44,10 @@ Widget buildSocialCard() {
               alignment: FractionalOffset.center,
               child: CircularProgressIndicator());
         
-        return Column(
+        return Row(
           children: snapshot.data
         );
-        // return ListView(
 
-        //   children: snapshot.data,
-        //   // padding: EdgeInsets.only(
-        //   //   bottom: screenH(15.0),
-        //   // ),
-
-        //   //shrinkWrap: true,
-        //   scrollDirection: Axis.vertical,
-        // );
       });
 }
 
@@ -97,14 +88,8 @@ Widget buildProfCard() {
               alignment: FractionalOffset.center,
               child: CircularProgressIndicator());
 
-        return ListView(
-          children: snapshot.data,
-          padding: EdgeInsets.only(
-            bottom: screenH(15.0),
-          ),
-
-          shrinkWrap: true,
-          scrollDirection: Axis.vertical,
+        return Row(
+          children: snapshot.data
         );
       });
 }

@@ -322,7 +322,7 @@ Future<void> uploadImage() async{
                                   height: screenH(2),
                                 ),
                                 major!=null?
-                                Text(major + ', 2023',
+                                Text(major,
                                     style: TextStyle(
                                         fontSize: screenF(13), color: Colors.grey)):
                                           SizedBox(height:screenH(1))
@@ -641,14 +641,14 @@ Future<void> uploadImage() async{
                                     accentColor: Colors.black,
                                     hintColor: Colors.black),
                                 child: TextField(
-                                  // onSubmitted: (value){
-                                  //   if(value!=''&&value!=null) {
-                                  //     setState(() {
-                                  //       major = value;
-                                  //     });
+                                  onSubmitted: (value){
+                                    if(value!=''&&value!=null) {
+                                      setState(() {
+                                        major = major+', '+ value;
+                                      });
 
-                                  //   }
-                                  // },
+                                    }
+                                  },
 //
                                   decoration: InputDecoration(
                                       border: new UnderlineInputBorder(
@@ -947,7 +947,7 @@ String saved='';
 
 
   updateProfCard(){
-    Firestore.instance.collection('users').document(currentUserModel.uid).collection('socialcard').document(profCardId)
+    Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').document(profCardId)
         .updateData({
 
       'displayName':name,
@@ -1172,7 +1172,7 @@ String saved='';
                                   height: screenH(2),
                                 ),
                                 major!=null?
-                                Text(major + '2023',
+                                Text(major,
                                     style: TextStyle(
                                         fontSize: screenF(13), color: Colors.grey)):
                                 SizedBox(height:screenH(1))
@@ -1513,14 +1513,14 @@ String saved='';
                                     accentColor: Colors.black,
                                     hintColor: Colors.black),
                                 child: TextField(
-                                  // onSubmitted: (value){
-                                  //   if(value!=''&&value!=null) {
-                                  //     setState(() {
-                                  //       major = value;
-                                  //     });
+                                   onSubmitted: (value){
+                                     if(value!=''&&value!=null) {
+                                       setState(() {
+                                         major = major+', '+ value;
+                                       });
 
-                                  //   }
-                                  // },
+                                     }
+                                   },
 //
                                   decoration: InputDecoration(
                                       border: new UnderlineInputBorder(

@@ -11,6 +11,8 @@ import 'settings.dart';
 import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -28,11 +30,27 @@ class _ProfilePageState extends State<ProfilePage> {
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
+  String displayName;
+  String photoUrl;
 
   //Initializes the state when the page first loads and retrieves the users data from firestore
   @override
   void initState() {
     super.initState();
+    getProfile();
+  }
+
+
+  getProfile() async{
+    QuerySnapshot query= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').getDocuments();
+    for (var doc in query.documents){
+      setState(() {
+        displayName=doc['displayName'];
+        photoUrl=doc['photoUrl'];
+      });
+
+    }
+
   }
 
   @override
@@ -89,13 +107,14 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 6.5),
             left: (MediaQuery.of(context).size.width / 2 - 50.0),
-            child: Container(
+
+            child:  photoUrl==null?CircularProgressIndicator():Container(
               height: screenH(125),
               width: screenH(125),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50.0),
                   image: DecorationImage(
-                      image: NetworkImage(currentUserModel.photoUrl),
+                      image: NetworkImage(photoUrl),
                       fit: BoxFit.cover)),
             ),
           ),
@@ -133,8 +152,9 @@ class _ProfilePageState extends State<ProfilePage> {
             left: (MediaQuery.of(context).size.width / 3.2),
             child: Column(
               children: <Widget>[
+                displayName==null?CircularProgressIndicator():
                 Text(
-                  currentUserModel.displayName,
+                  displayName,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 17.0,

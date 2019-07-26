@@ -150,6 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
             top: (MediaQuery.of(context).size.height / 3.1),
             //top: 220,
             left: (MediaQuery.of(context).size.width / 3.2),
+            right: (MediaQuery.of(context).size.width / 3.2),
             child: Column(
               children: <Widget>[
                 displayName==null?CircularProgressIndicator():

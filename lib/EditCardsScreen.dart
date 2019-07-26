@@ -1224,7 +1224,7 @@ String saved='';
                                 children: <Widget>[
                                   Icon(
                                     FontAwesome.linkedin_square,
-                                    color: Color(0xFFfffc00),
+                                    color: Color(0xFF0077B5),
                                   ),
                                   SizedBox(
                                     width: screenW(10),

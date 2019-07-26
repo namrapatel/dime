@@ -261,7 +261,6 @@ Future<void> uploadImage() async{
       allowFontScaling: true,
     )..init(context);
     return ListView(
-      physics: const BouncingScrollPhysics(),
       children: <Widget>[
 
         Stack(children: <Widget>[
@@ -323,14 +322,14 @@ Future<void> uploadImage() async{
                                   height: screenH(2),
                                 ),
                                 major!=null?
-                                Text(major,
+                                Text(major + ', 2023',
                                     style: TextStyle(
                                         fontSize: screenF(13), color: Colors.grey)):
                                           SizedBox(height:screenH(1))
                               ],
                             ),
                             SizedBox(
-                              width: screenW(70),
+                              width: screenW(50),
                             ),
                             Column(
                               children: <Widget>[
@@ -386,8 +385,8 @@ Future<void> uploadImage() async{
                                           fontSize: screenF(12))),
                                 ],
                               ):SizedBox(
-    height: screenH(1),
-    ),
+                              height: screenH(1),
+                              ),
                               instagram!=null?
                               Column(
                                 children: <Widget>[
@@ -452,6 +451,7 @@ Future<void> uploadImage() async{
                 color: Colors.grey[100],
                 height: screenH(415),
                 child: ListView(
+                    physics: BouncingScrollPhysics(),
                     children: <Widget>[
                       Column(children: <Widget>[
                         SizedBox(
@@ -597,6 +597,58 @@ Future<void> uploadImage() async{
 
                                     }
                                   },
+//
+                                  decoration: InputDecoration(
+                                      border: new UnderlineInputBorder(
+                                          borderSide:
+                                          new BorderSide(color: Colors.black))),
+                                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                                  cursorColor: Colors.black,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'Grad Year',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                  // onSubmitted: (value){
+                                  //   if(value!=''&&value!=null) {
+                                  //     setState(() {
+                                  //       major = value;
+                                  //     });
+
+                                  //   }
+                                  // },
 //
                                   decoration: InputDecoration(
                                       border: new UnderlineInputBorder(
@@ -1058,7 +1110,7 @@ String saved='';
       allowFontScaling: true,
     )..init(context);
     return ListView(
-      physics: const BouncingScrollPhysics(),
+     
       children: <Widget>[
 
         Stack(children: <Widget>[
@@ -1120,14 +1172,14 @@ String saved='';
                                   height: screenH(2),
                                 ),
                                 major!=null?
-                                Text(major,
+                                Text(major + '2023',
                                     style: TextStyle(
                                         fontSize: screenF(13), color: Colors.grey)):
                                 SizedBox(height:screenH(1))
                               ],
                             ),
                             SizedBox(
-                              width: screenW(70),
+                              width: screenW(50),
                             ),
                             Column(
                               children: <Widget>[
@@ -1249,6 +1301,7 @@ String saved='';
                 color: Colors.grey[100],
                 height: screenH(415),
                 child: ListView(
+                    physics: BouncingScrollPhysics(),
                     children: <Widget>[
                       Column(children: <Widget>[
                         SizedBox(
@@ -1431,6 +1484,59 @@ String saved='';
                         SizedBox(
                           height: 20.0,
                         ),
+                        
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Text(
+                              'Grad Year',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                  // onSubmitted: (value){
+                                  //   if(value!=''&&value!=null) {
+                                  //     setState(() {
+                                  //       major = value;
+                                  //     });
+
+                                  //   }
+                                  // },
+//
+                                  decoration: InputDecoration(
+                                      border: new UnderlineInputBorder(
+                                          borderSide:
+                                          new BorderSide(color: Colors.black))),
+                                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                                  cursorColor: Colors.black,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
                         Row(
                           children: <Widget>[
                             SizedBox(

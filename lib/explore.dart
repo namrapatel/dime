@@ -10,6 +10,7 @@ import 'homePage.dart';
 import 'login.dart';
 import 'EditCardsScreen.dart';
 import 'package:xlive_switch/xlive_switch.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -191,67 +192,74 @@ void _settingModalBottomSheet(context){
   }
   
 
-    bool _value = false;
 
     Widget _myListView(BuildContext context) {
-      return ListView.separated(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('School $index'),
-            trailing: XlivSwitch(
-                value: _value,
-                onChanged: _changeValue,
-              ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-      );
+      return CheckboxGroup(
+      checkColor: Colors.white,
+      activeColor: Colors.black,
+      labels: <String>[
+        "Waterloo",
+        "Western",
+        "UBC",
+        "Calgary",
+        "UofA",
+        "McMaster",
+        "UofT",
+        "Harvard"
+      ],
+      onChange: (bool isChecked, String label, int index) => print("isChecked: $isChecked   label: $label  index: $index"),
+      onSelected: (List<String> checked) => print("checked: ${checked.toString()}"),
+    );
     }
+
+
     Widget _myListView2(BuildContext context) {
-
-      return ListView.separated(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('Interest $index'),
-            trailing: XlivSwitch(
-                value: _value,
-                onChanged: _changeValue,
-              ),
-
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-      );
-
-
+      return CheckboxGroup(
+      checkColor: Colors.white,
+      activeColor: Colors.black,
+      labels: <String>[
+        "Badminton",
+        "Flutter",
+        "Basketball",
+        "Philosophy",
+        "Acting",
+        "Music",
+        "Painting",
+        "Startups"
+      ],
+      onChange: (bool isChecked, String label, int index) => print("isChecked: $isChecked   label: $label  index: $index"),
+      onSelected: (List<String> checked) => print("checked: ${checked.toString()}"),
+    );
     }
+
 
     Widget _myListView3(BuildContext context) {
-
-      return ListView.separated(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text('201$index'),
-            trailing: XlivSwitch(
-                value: _value,
-                onChanged: _changeValue,
-              ),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
-      );
-
-
+      return CheckboxGroup(
+      checkColor: Colors.white,
+      activeColor: Colors.black,
+      labels: <String>[
+        "2019",
+        "2020",
+        "2021",
+        "2022",
+        "2023",
+        "2024",
+        "2025",
+        "2026"
+      ],
+      onChange: (bool isChecked, String label, int index) => print("isChecked: $isChecked   label: $label  index: $index"),
+      onSelected: (List<String> checked) => print("checked: ${checked.toString()}"),
+    );
     }
+
+
+
+
+
+
+
+
+
 
     Widget _myListView4(BuildContext context) {
 
@@ -274,11 +282,7 @@ void _settingModalBottomSheet(context){
 
     }
 
-  void _changeValue(bool value) {
-    setState(() {
-      _value = value;
-    });
-  }
+
 
 }
 

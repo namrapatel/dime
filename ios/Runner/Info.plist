@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>io.flutter.embedded_views_preview</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -23,18 +21,6 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<array>
-    	<dict>
-    		<key>CFBundleTypeRole</key>
-    		<string>Editor</string>
-    		<key>CFBundleURLSchemes</key>
-    		<array>
-    			<!-- TODO Replace this value: -->
-    			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-    			<string>com.googleusercontent.apps.464417786059-4ncmfb6k6j5doifo0ha41go0b5r337tm</string>
-    		</array>
-    	</dict>
-    </array>
 	<array>
 		<dict>
 			<key>CFBundleURLSchemes</key>
@@ -70,16 +56,16 @@
 	<string>To allow the user to take an image using the camera for their profile picture and other picture locations alike.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>This app requires contacts access to function properly.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>The app needs your location in order to determine which events and users are around you.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>The app needs your location in order to determine which events and users are around you.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The app needs your location in order to determine which events and users are around you.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>To allow the user to take a video for the profile picture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>To allow the user to select an image from their camera roll for the profile picture and other picture locations.</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>The app needs your location in order to determine which events and users are around you.</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>The app needs your location in order to determine which events and users are around you.</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>The app needs your location in order to determine which events and users are around you.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -99,5 +85,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
 </dict>
 </plist>

@@ -16,7 +16,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 import 'viewCards.dart';
-import 'myCards.dart';
+
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';

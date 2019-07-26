@@ -152,9 +152,9 @@ class _ScrollPageState extends State<ScrollPage>
 
                       FloatingActionButton(
                         onPressed: () {
-                        social=true;
+
                         Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: SocialPage()));
-                        social=false;
+
                         },
                         elevation: 0,
                         heroTag: 'btn1',
@@ -174,9 +174,9 @@ class _ScrollPageState extends State<ScrollPage>
                       ),
                       FloatingActionButton(
                          onPressed: () {
-                           prof=true;
+
                         Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: ProfPage()));
-                        prof=false;
+
                         },
                         elevation: 0,
                         heroTag: 'btn2',

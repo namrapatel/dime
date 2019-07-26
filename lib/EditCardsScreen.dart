@@ -1242,7 +1242,7 @@ String saved='';
                                 children: <Widget>[
                                   Icon(
                                     MaterialCommunityIcons.github_box,
-                                    color: Color(0xFF8803fc),
+                                    color: Colors.black,
                                   ),
                                   SizedBox(
                                     width: screenW(10),

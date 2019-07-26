@@ -6,18 +6,18 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
 
 class UserCard extends StatefulWidget {
-  const UserCard({this.userId});
-  final String userId;
+  const UserCard({this.userId, this.type});
+  final String userId, type;
 
   @override
-  _UserCardState createState() => _UserCardState(this.userId);
+  _UserCardState createState() => _UserCardState(this.userId, this.type);
 }
 
 class _UserCardState extends State<UserCard> {
 
-  final String userId;
+  final String userId, type;
 
-_UserCardState(this.userId);
+_UserCardState(this.userId, this.type);
   
   @override 
   Widget build(BuildContext context){

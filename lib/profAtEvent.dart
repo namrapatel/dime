@@ -203,36 +203,10 @@ class _profAtEventState extends State<profAtEvent>
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.height / 109, 0, 0),
                 ),
-                Container(
-                  //color: Colors.white,
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width / 22,
-                        vertical: MediaQuery.of(context).size.height / 72),
-                    child: TextField(
-                      
-                      focusNode: _focus,
-                      decoration: new InputDecoration(
-                          icon: Icon(Icons.search),
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width / 30,
-                              bottom: MediaQuery.of(context).size.height / 75,
-                              top: MediaQuery.of(context).size.height / 75,
-                              right: MediaQuery.of(context).size.width / 30),
-                          hintText: 'Search for people, interests, school ...'),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 4.75,
+          headerHeight: MediaQuery.of(context).size.height / 8.75,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),

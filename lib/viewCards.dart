@@ -151,8 +151,17 @@ Widget buildCards() {
     return Column(
       children: <Widget>[
         Text('Social Card', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+        SizedBox(
+          height: screenH(20),
+        ),
         buildSocialCard(),
+        SizedBox(
+          height: screenH(40),
+        ),
         Text("Professional Card", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+          SizedBox(
+          height: screenH(20),
+        ),
         buildProfCard()
       ],
     );

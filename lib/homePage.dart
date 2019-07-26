@@ -280,7 +280,7 @@ Padding(
             child: FloatingActionButton(
               onPressed: (){
 
-                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards(userId: currentUserModel.uid)));
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: UserCard(userId: currentUserModel.uid,)));
               },
               elevation: 10,
               backgroundColor: Colors.white,

@@ -266,7 +266,7 @@ Future<void> uploadImage() async{
         Stack(children: <Widget>[
           Column(children: <Widget>[
             Container(
-              color: Colors.grey[100],
+              color: Colors.white,
               height: screenH(310),
               width: screenW(600),
               child: Column(
@@ -448,7 +448,7 @@ Future<void> uploadImage() async{
               ),
             ),
             Container(
-                color: Colors.grey[100],
+                color: Colors.white,
                 height: screenH(415),
                 child: ListView(
                     physics: BouncingScrollPhysics(),
@@ -824,7 +824,7 @@ Future<void> uploadImage() async{
                                 labelStyle: TextStyle(
                                     color: Colors.black, fontWeight: FontWeight.bold)),
                             addButtonWidget: _buildAddButton(),
-                            chipsColor: Colors.purple[400],
+                            chipsColor: Color(0xFF8803fc),
                             chipsFontColor: Colors.white,
                             deleteIcon: Icon(Icons.cancel, color: Colors.white),
                             chipsPadding: EdgeInsets.all(2.0),
@@ -1116,7 +1116,7 @@ String saved='';
         Stack(children: <Widget>[
           Column(children: <Widget>[
             Container(
-              color: Colors.grey[100],
+              color: Colors.white,
               height: screenH(310),
               width: screenW(600),
               child: Column(
@@ -1298,7 +1298,7 @@ String saved='';
               ),
             ),
             Container(
-                color: Colors.grey[100],
+                color: Colors.white,
                 height: screenH(415),
                 child: ListView(
                     physics: BouncingScrollPhysics(),
@@ -1695,7 +1695,7 @@ String saved='';
                                 labelStyle: TextStyle(
                                     color: Colors.black, fontWeight: FontWeight.bold)),
                             addButtonWidget: _buildAddButton(),
-                            chipsColor: Colors.purple[400],
+                            chipsColor: Color(0xFF1976d2),
                             chipsFontColor: Colors.white,
                             deleteIcon: Icon(Icons.cancel, color: Colors.white),
                             chipsPadding: EdgeInsets.all(2.0),

@@ -11,6 +11,7 @@ import 'package:circular_splash_transition/circular_splash_transition.dart';
 import 'homePage.dart';
 import 'login.dart';
 import 'socialAtEvent.dart';
+import 'EditCardsScreen.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -65,11 +66,23 @@ class _SocialPageState extends State<SocialPage> {
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                      SizedBox(
-                        width: screenW(215),
-                      ),
                       IconButton(
                         icon: Icon(Icons.create),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: TabsApp()));
+                        },
+                        color: Colors.white,
+                        iconSize: screenH(25),
+                      ),
+                      SizedBox(
+                        width: screenW(170),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.arrow_forward_ios),
                         onPressed: () {
                           Navigator.push(
                               context,

@@ -61,7 +61,7 @@ class _ProfPageState extends State<ProfPage> {
                         style: TextStyle(
                             fontSize: screenF(20),
                             fontWeight: FontWeight.bold,
-                            color: Colors.white),
+                            color: Colors.white,),
                       ),
                       SizedBox(
                         width: screenW(165),

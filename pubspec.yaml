@@ -49,6 +49,7 @@ dev_dependencies:
   rubber:
   google_maps_flutter:
   flutter_tagging: ^1.1.0
+  carousel_slider: ^1.3.0
   google_sign_in:
   #geolocation:
     #git:
@@ -92,6 +93,15 @@ flutter:
     - assets/defaultprofile.png
     - assets/dhruvpatel.jpeg
     - assets/groupselfie.png
+    - assets/friendsDrawing.png
+    - assets/improvingDrawing.png
+    - assets/nearbyUI.png
+    - assets/mapsUI.png
+    - assets/profPageUI.png
+    - assets/socialAndProfCard.png
+    - assets/white.png
+    - assets/pplNearbyUI.png
+    
 
 
   fonts:

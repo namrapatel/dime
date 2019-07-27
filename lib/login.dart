@@ -1,3 +1,5 @@
+import 'package:Dime/onboarding.dart';
+import 'package:Dime/onboarding.dart' as prefix0;
 import 'package:Dime/services/facebookauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -42,7 +44,7 @@ class _LoginState extends State<Login> {
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
           Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => ScrollPage()));
+              new MaterialPageRoute(builder: (context) => onBoarding())); //CHANGE IT BACK
         }
       } else {
         print("floppps");
@@ -195,7 +197,7 @@ class _LoginState extends State<Login> {
                   if (userRecord.data != null) {
                     currentUserModel = User.fromDocument(userRecord);
                     Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => ScrollPage()));
+                        new MaterialPageRoute(builder: (context) => onBoarding())); // CHANGE IT BACK
                   }
 
                 });
@@ -204,7 +206,7 @@ class _LoginState extends State<Login> {
 
             }
 
-              Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ScrollPage()));
+              Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: onBoarding())); //CHANGE IT BACK
             }
           },
           color: Colors.grey[900],
@@ -293,7 +295,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
               FloatingActionButton(
-                onPressed:(){ FacebookAuth().logIn(context,new MaterialPageRoute(builder: (context) => ScrollPage()));},
+                onPressed:(){ FacebookAuth().logIn(context,new MaterialPageRoute(builder: (context) => onBoarding()));}, // CHANGE IT BACK
                 heroTag: 'btnF',
                 backgroundColor: Color(0xFF3C5A99),
                 child: Icon(MaterialCommunityIcons.facebook),
@@ -301,7 +303,7 @@ class _LoginState extends State<Login> {
               ),
               SizedBox(width: 20,),
               FloatingActionButton(
-                onPressed:(){ GoogleAuth().logIn(context,new MaterialPageRoute(builder: (context) => ScrollPage()));},
+                onPressed:(){ GoogleAuth().logIn(context,new MaterialPageRoute(builder: (context) => onBoarding()));}, // CHANGE IT BACK
                 heroTag: 'btnGG',
                 backgroundColor: Color(0xFFDB4437),
                 child: Icon(AntDesign.google),

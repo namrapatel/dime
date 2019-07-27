@@ -100,7 +100,7 @@ class _onBoardingState extends State<onBoarding> {
       body: Padding(
         padding: EdgeInsets.all(20),
         child: Text(
-            "Look out for those hotspots! Discover what hot events, parties and different activities are going on around campus right now.",
+            "Look out for those hotspots! Discover what hot events, parties and different activities are going on around you right now.",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,

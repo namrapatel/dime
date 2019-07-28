@@ -16,7 +16,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 import 'viewCards.dart';
-
+import 'chatList.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
@@ -249,6 +249,9 @@ Padding(
             width: 40,
             height: 40,
             child: FloatingActionButton(
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ChatList()));
+              },
               elevation: 10,
               backgroundColor: Colors.white,
               heroTag: 'fabb1',

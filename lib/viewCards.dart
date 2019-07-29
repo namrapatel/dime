@@ -63,17 +63,18 @@ Future<List<SocialCard>> getSocialCard() async {
   for(var document in query.documents) {
 
 
-    String photoUrl=document['photoUrl'];
-    String major=document['major'];
-    String displayName= document['displayName'];
-    String university=document['university'];
-    String snapchat= document['snapchat'];
-    String instagram= document['instagram'];
-    String  twitter=document['twitter'];
-    String bio=document['bio'];
-
-    cardTiles.add(SocialCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
-      university: university,snapchat: snapchat,instagram: instagram,twitter: twitter,bio: bio,));
+//    String photoUrl=document['photoUrl'];
+//    String major=document['major'];
+//    String displayName= document['displayName'];
+//    String university=document['university'];
+//    String snapchat= document['snapchat'];
+//    String instagram= document['instagram'];
+//    String  twitter=document['twitter'];
+//    String bio=document['bio'];
+//
+//    cardTiles.add(SocialCard(displayName:displayName,photoUrl:photoUrl,type: type,major:major,
+//      university: university,snapchat: snapchat,instagram: instagram,twitter: twitter,bio: bio,));
+    cardTiles.add(SocialCard.fromDocument(document));
   }
   return cardTiles;
 }
@@ -112,24 +113,17 @@ Future<List<ProfCard>> getProfCard() async {
 
   }
     for (var document in query.documents) {
-      String photoUrl = document['photoUrl'];
-      String major = document['major'];
-      String displayName = document['displayName'];
-      String university = document['university'];
-
-      String twitter = document['twitter'];
-      String bio = document['bio'];
-      String github = document['github'];
-      String linkedIn = document['linkedIn'];
-      cardTiles.add(ProfCard(displayName: displayName,
-        photoUrl: photoUrl,
-        type: type,
-        major: major,
-        university: university,
-        twitter: twitter,
-        bio: bio,
-        github: github,
-        linkedIn: linkedIn,));
+//      ProfCard.fromDocument(document);
+//      String photoUrl = document['photoUrl'];
+//      String major = document['major'];
+//      String displayName = document['displayName'];
+//      String university = document['university'];
+//
+//      String twitter = document['twitter'];
+//      String bio = document['bio'];
+//      String github = document['github'];
+//      String linkedIn = document['linkedIn'];
+      cardTiles.add(ProfCard.fromDocument(document));
 
   }
   return cardTiles;

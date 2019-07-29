@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'loginPage.dart';
+
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'settings.dart';
 import 'login.dart';

@@ -4,7 +4,8 @@ import 'package:fancy_on_boarding/page_model.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
-
+import 'EditCardsScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class ProfTags extends StatefulWidget {
   final String title = '';
   @override
@@ -13,14 +14,24 @@ class ProfTags extends StatefulWidget {
 
 class _ProfTagsState extends State<ProfTags> {
   BuildContext context;
-
+  List<String> interests=[];
+int counter=0;
   @override
   void initState() {
     super.initState();
   }
 
-  String text = "Nothing to show";
+//  List<dynamic>text =[];
   
+setInterests(){
+  Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').document(profCardId)
+      .updateData({
+    'interests': interests
+  });
+
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +54,7 @@ class _ProfTagsState extends State<ProfTags> {
                 Text("Choose a max of 3"),
               ],
             ),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: FlutterTagging(
@@ -61,11 +73,22 @@ class _ProfTagsState extends State<ProfTags> {
                 chipsSpacing: 5.0,
                 chipsFontFamily: 'Futura',
                 suggestionsCallback: (pattern) async {
+
+
                   return await TagSearchService.getSuggestions(pattern);
+
+
                 },
+
                 onChanged: (result) {
+
                   setState(() {
-                    text = result.toString();
+
+                  interests.add(result[counter]['name']);
+
+                    counter++;
+
+
                   });
                 },
               ),
@@ -79,6 +102,13 @@ class _ProfTagsState extends State<ProfTags> {
                   color: Color(0xFF8803fc),
                   child: new Text("Save tags to professional card", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
                  onPressed: (){
+setInterests();
+//Navigator.push(
+//  context,
+//  MaterialPageRoute(builder: (context) => ProfessionalCardEdit()),
+//);
+
+                    
                             },
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                           )

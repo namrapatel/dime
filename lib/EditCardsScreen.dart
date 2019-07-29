@@ -25,7 +25,8 @@ String selectedWItemString;
 
 String selectedItemString2;
 String selectedWItemString2;
-
+String socialCardId;
+String profCardId;
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -67,9 +68,9 @@ String saved='';
    String snapchat;
    String instagram;
    String twitter;
-   String socialCardId;
-   String photoUrl;
 
+   String photoUrl;
+String interestString="";
 
 
 
@@ -99,7 +100,7 @@ String saved='';
 
 
   getSocialInfo() async {
-
+    List<dynamic> interests=[];
     QuerySnapshot query=await Firestore.instance.collection('users').document(
         currentUserModel.uid).collection('socialcard').getDocuments();
 
@@ -117,11 +118,22 @@ String saved='';
         instagram= document['instagram'];
         twitter=document['twitter'];
         photoUrl=document['photoUrl'];
+        interests=document['interests'];
       });
 
 //      bio=document['bio'];
 
     }
+
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interestString=interestString+ interests[i];
+      }else{
+        interestString=interestString+ interests[i]+", ";
+      }
+
+    }
+    print(interestString);
 
   }
 
@@ -335,11 +347,12 @@ Future<void> uploadImage() async{
                             ),
                             Column(
                               children: <Widget>[
+                                photoUrl!=null?
                                 CircleAvatar(
                                   backgroundImage:
                                   NetworkImage(photoUrl),
                                   radius: 21,
-                                ),
+                                ):CircularProgressIndicator(),
 
                                 FlatButton(
                                   onPressed: (){
@@ -432,7 +445,7 @@ Future<void> uploadImage() async{
                         Row(
                           children: <Widget>[
                             SizedBox(width: 20.0),
-                            Text('Badminton; Philosophy; Comedy Movies',
+                            Text(interestString!=null?interestString:"",
                                 style: TextStyle(
                                     color: Color(0xFF8803fc), fontSize: screenF(13)))
                           ],
@@ -906,12 +919,12 @@ String saved='';
   String linkedIn;
   String github;
   String twitter;
-  String profCardId;
+  String interestString="";
   String photoUrl;
 
   File _image;
   getProfInfo() async {
-
+List<dynamic> interests=[];
     QuerySnapshot query=await Firestore.instance.collection('users').document(
         currentUserModel.uid).collection('profcard').getDocuments();
 
@@ -929,15 +942,24 @@ String saved='';
         linkedIn= document['linkedIn'];
         twitter=document['twitter'];
         photoUrl=document['photoUrl'];
+        interests=document['interests'];
       });
 
 //      bio=document['bio'];
 
     }
 
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interestString=interestString+ interests[i];
+      }else{
+        interestString=interestString+ interests[i]+", ";
+      }
+
+    }
+    print(interestString);
 
   }
-
 
   updateProfCard(){
     Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').document(profCardId)
@@ -1176,11 +1198,12 @@ String saved='';
                             ),
                             Column(
                               children: <Widget>[
+                                photoUrl!=null?
                                 CircleAvatar(
                                   backgroundImage:
                                   NetworkImage(photoUrl),
                                   radius: 21,
-                                ),
+                                ):CircularProgressIndicator(),
 
                                 FlatButton(
                                   onPressed: (){
@@ -1273,7 +1296,7 @@ String saved='';
                         Row(
                           children: <Widget>[
                             SizedBox(width: 20.0),
-                            Text('Mobile Development, Product Strategy, Social Ventures',
+                            Text(interestString!=null?interestString:"",
                                 style: TextStyle(
                                     color: Color(0xFF1976d2), fontSize: screenF(13)))
                           ],
@@ -1805,7 +1828,7 @@ class _CardEditState extends State<CardEdit> {
           ),
         ),
         body: TabBarView(
-          children: [SocialCardEdit(), ProfessionalCardEdit()],
+          children: [new SocialCardEdit(),new  ProfessionalCardEdit()],
         ),
       ),
     );

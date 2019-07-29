@@ -16,7 +16,7 @@ class SocialCard extends StatelessWidget {
   final String snapchat;
   final String instagram;
   final String twitter;
-
+  final String interestString;
 
 
 
@@ -30,11 +30,20 @@ class SocialCard extends StatelessWidget {
 
         this.photoUrl,
         this.displayName,
-        this.bio
+        this.bio,this.interestString
       });
 
   factory SocialCard.fromDocument(DocumentSnapshot document) {
+    String interest="";
+    List<dynamic> interests=document['interests'];
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interest=interest+ interests[i];
+      }else{
+        interest=interest+ interests[i]+", ";
+      }
 
+    }
       return SocialCard(
         type: document['type'],
         photoUrl: document['photoUrl'],
@@ -45,6 +54,7 @@ class SocialCard extends StatelessWidget {
         instagram: document['instagram'],
         twitter: document['twitter'],
         bio: document['bio'],
+        interestString:interest
       );
 
   }
@@ -258,6 +268,17 @@ class SocialCard extends StatelessWidget {
 //                      ),
 
                     ),
+                    SizedBox(
+                      height: screenH(25),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 20.0),
+                        Text(interestString!=null?interestString:"",
+                            style: TextStyle(
+                                color: Color(0xFF8803fc), fontSize: screenF(13)))
+                      ],
+                    )
                   ],
                 ),
               )

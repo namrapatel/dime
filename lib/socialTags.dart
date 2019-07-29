@@ -4,7 +4,8 @@ import 'package:fancy_on_boarding/page_model.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'EditCardsScreen.dart';
 class SocialTags extends StatefulWidget {
   final String title = '';
   @override
@@ -13,13 +14,22 @@ class SocialTags extends StatefulWidget {
 
 class _SocialTagsStage extends State<SocialTags> {
   BuildContext context;
-
+  List<String> interests=[];
+  int counter=0;
   @override
   void initState() {
     super.initState();
   }
 
-  String text = "Nothing to show";
+  setInterests(){
+    Firestore.instance.collection('users').document(currentUserModel.uid).collection('socialcard').document(socialCardId)
+        .updateData({
+      'interests': interests
+    });
+
+  }
+
+//  String text = "Nothing to show";
   
 
   @override
@@ -65,7 +75,10 @@ class _SocialTagsStage extends State<SocialTags> {
                 },
                 onChanged: (result) {
                   setState(() {
-                    text = result.toString();
+                    interests.add(result[counter]['name']);
+
+                    counter++;
+
                   });
                 },
               ),
@@ -79,7 +92,9 @@ class _SocialTagsStage extends State<SocialTags> {
                   color: Color(0xFF8803fc),
                   child: new Text("Save tags to social card", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
                  onPressed: (){
-                            },
+                   setInterests();
+
+                 },
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                           )
             )

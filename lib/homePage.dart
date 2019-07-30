@@ -241,7 +241,7 @@ class _ScrollPageState extends State<ScrollPage>
 
 
         ),
-Padding(
+          Padding(
           padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
 
               MediaQuery.of(context).size.height / 8, 0, 0),
@@ -321,7 +321,7 @@ Padding(
         
         mapType: MapType.normal,
         myLocationEnabled: true,
-        zoomGesturesEnabled: false,
+        zoomGesturesEnabled: true,
         initialCameraPosition:
             CameraPosition(target: LatLng(56.130367,-106.346771), zoom: 2),
         onMapCreated: (GoogleMapController controller) {

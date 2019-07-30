@@ -4,6 +4,7 @@ import 'package:fancy_on_boarding/page_model.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
 
 class ProfTags extends StatefulWidget {
   final String title = '';
@@ -27,9 +28,10 @@ class _ProfTagsState extends State<ProfTags> {
     
     return Scaffold(
       appBar: AppBar(
-        title: Text("Choose Professional Interest Tags"),
+        title: Text("Choose Social Interest Tags"),
       ),
       body: SingleChildScrollView(
+        //physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
                 SizedBox(
@@ -43,106 +45,84 @@ class _ProfTagsState extends State<ProfTags> {
                 Text("Choose a max of 3"),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FlutterTagging(
-                textFieldDecoration: InputDecoration(
-                    border: OutlineInputBorder(
-                     
-                    ),
-                    hintText: "Tags",
-                    labelText: "Search for Tags"),
-                addButtonWidget: _buildAddButton(),
-                chipsColor: Color(0xFF8803fc),
-                chipsFontColor: Colors.white,
-                deleteIcon: Icon(Icons.cancel,color: Colors.white),
-                chipsPadding: EdgeInsets.all(2.0),
-                chipsFontSize: 14.0,
-                chipsSpacing: 5.0,
-                chipsFontFamily: 'Futura',
-                suggestionsCallback: (pattern) async {
-                  return await TagSearchService.getSuggestions(pattern);
-                },
-                onChanged: (result) {
-                  setState(() {
-                    text = result.toString();
-                  });
-                },
-              ),
-            ),
+
             SizedBox(
-              height: 20.0,
+              height: 10.0,
             ),
-            Center(
-              child: new OutlineButton(
-                  padding: EdgeInsets.all(15),
+                      Container(
+                      //color: Colors.white,
+                      width: MediaQuery.of(context).size.width / 1.1,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width / 22,
+                            vertical: MediaQuery.of(context).size.height / 72),
+                        child: TextField(
+                          decoration: new InputDecoration(
+                              icon: Icon(Icons.search),
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 30,
+                                  bottom: MediaQuery.of(context).size.height / 75,
+                                  top: MediaQuery.of(context).size.height / 75,
+                                  right: MediaQuery.of(context).size.width / 30),
+                              hintText: 'Search for Interests'),
+                        ),
+                      ),
+                ),
+            SizedBox(
+              height: 10.0,
+            ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text('Startups; Philosophy; Engineering;',
+                    style: TextStyle(
+                     color: Color(0xFF1976d2), fontSize: 13)),
+                  OutlineButton(
+                  padding: EdgeInsets.all(5),
                   color: Color(0xFF8803fc),
-                  child: new Text("Save tags to professional card", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
+                  child: new Text("Save tags", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
                  onPressed: (){
                             },
-                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
                           )
-            )
+                  ],
+                ),
+                _myListView2(context)
           ],
         ),
       ),
     );
   }
 
-  Widget _buildAddButton() {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        color: Colors.pinkAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 15.0,
-          ),
-          Text(
-            "Add New Tag",
-            style: TextStyle(color: Colors.white, fontSize: 14.0),
-          ),
-        ],
-      ),
+    Widget _myListView2(BuildContext context) {
+      return CheckboxGroup(
+      checkColor: Colors.white,
+      activeColor: Color(0xFF1976d2),
+      labels: <String>[
+        "Startups",
+        "Tech Companies",
+        "Arts",
+        "Philosophy",
+        "Engineering",
+        "Music",
+        "Painting",
+        "Drama and Theatre",
+        "Supply Chain",
+        "Machine Learning", 
+        "Engineering"
+
+      
+      ],
+      onChange: (bool isChecked, String label, int index) => print("isChecked: $isChecked   label: $label  index: $index"),
+      onSelected: (List<String> checked) => print("checked: ${checked.toString()}"),
     );
-  }
-
-
-
-
-
-
-
-
+    }
 
 
 }
 
-
-class TagSearchService {
-  static Future<List> getSuggestions(String query) async {
-    await Future.delayed(Duration(milliseconds: 400), null);
-    List<dynamic> tagList = <dynamic>[];
-    tagList.add({'name': "Flutter", 'value': 1});
-    tagList.add({'name': "HummingBird", 'value': 2});
-    tagList.add({'name': "Dart", 'value': 3});
-    tagList.add({'name': "Watching movies", 'value': 4});
-    tagList.add({'name': "Listening to music", 'value': 5});
-    List<dynamic> filteredTagList = <dynamic>[];
-    if (query.isNotEmpty) {
-      filteredTagList.add({'name': query, 'value': 0});
-    }
-    for (var tag in tagList) {
-      if (tag['name'].toLowerCase().contains(query)) {
-        filteredTagList.add(tag);
-      }
-    }
-    return filteredTagList;
-  }
-}

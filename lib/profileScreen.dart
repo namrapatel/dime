@@ -2,17 +2,12 @@ import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'loginPage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'settings.dart';
 import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -40,17 +35,18 @@ class _ProfilePageState extends State<ProfilePage> {
     getProfile();
   }
 
-
-  getProfile() async{
-    QuerySnapshot query= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').getDocuments();
-    for (var doc in query.documents){
+  getProfile() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .getDocuments();
+    for (var doc in query.documents) {
       setState(() {
-        displayName=doc['displayName'];
-        photoUrl=doc['photoUrl'];
+        displayName = doc['displayName'];
+        photoUrl = doc['photoUrl'];
       });
-
     }
-
   }
 
   @override
@@ -76,16 +72,21 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.black,
           ),
           Positioned(
-            top: (MediaQuery.of(context).size.height / 15),
-            //top: 70,
-            left: (MediaQuery.of(context).size.width / 18),
-            child: IconButton(
-              onPressed: (){
-                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ScrollPage()));
-              },
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
-            )
-          ),
+              top: (MediaQuery.of(context).size.height / 15),
+              //top: 70,
+              left: (MediaQuery.of(context).size.width / 18),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: ScrollPage()));
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              )),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.5),
             left: (MediaQuery.of(context).size.width / 21),
@@ -107,16 +108,16 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 6.5),
             left: (MediaQuery.of(context).size.width / 2 - 50.0),
-
-            child:  photoUrl==null?CircularProgressIndicator():Container(
-              height: screenH(125),
-              width: screenH(125),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  image: DecorationImage(
-                      image: NetworkImage(photoUrl),
-                      fit: BoxFit.cover)),
-            ),
+            child: photoUrl == null
+                ? CircularProgressIndicator()
+                : Container(
+                    height: screenH(125),
+                    width: screenH(125),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        image: DecorationImage(
+                            image: NetworkImage(photoUrl), fit: BoxFit.cover)),
+                  ),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.4),
@@ -125,18 +126,17 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 IconButton(
-                                            onPressed: () async{
-
-                            FirebaseAuth.instance.signOut().then((value) {
-                              Navigator.push(context,
-                                  new MaterialPageRoute(builder: (context) => Login()));
-
-                            }).catchError((e) {
-                              print(e);
-                            });
-                          },
-                  icon: Icon(AntDesign.logout)
-                ),
+                    onPressed: () async {
+                      FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => Login()));
+                      }).catchError((e) {
+                        print(e);
+                      });
+                    },
+                    icon: Icon(AntDesign.logout)),
                 SizedBox(
                   height: screenH(15),
                 ),
@@ -153,15 +153,16 @@ class _ProfilePageState extends State<ProfilePage> {
             right: (MediaQuery.of(context).size.width / 3.2),
             child: Column(
               children: <Widget>[
-                displayName==null?CircularProgressIndicator():
-                Text(
-                  displayName,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.0,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                displayName == null
+                    ? CircularProgressIndicator()
+                    : Text(
+                        displayName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                 SizedBox(
                   height: screenH(15),
                 ),

@@ -17,7 +17,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 import 'viewCards.dart';
 import 'chatList.dart';
-
+import 'chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 
@@ -35,7 +35,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
 
-  List<UserTile> nearbyUsers=[UserTile('Shehab Salem','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq','7Y0S3qvACSbk2YlteKiyGqLrAsR2',major:'Computer Science, 2022',interests: ['Flutter','Basketball'],),UserTile('Dhruv Patel','https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef','ocBp1teYqlQkimXXkpSp4Q35C5B3',major:'Mechatronics Engineering, 2022',interests: ['Java', 'Badminton'])];
+  List<UserTile> nearbyUsers=[UserTile('Shehab Salem','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq','7Y0S3qvACSbk2YlteKiyGqLrAsR2',major:'Computer Science, 2022',interests: ['Flutter','Basketball'],),UserTile('Dhruv Patel','https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',"TMoqB5fxMPWfvf11lYqGrifDF4p1",major:'Mechatronics Engineering, 2022',interests: ['Java', 'Badminton'])];
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
@@ -453,7 +453,9 @@ class UserTile extends StatelessWidget {
     IconButton(
     icon: Icon(MaterialCommunityIcons.chat),
     color: Colors.black,
-    onPressed: () {},
+    onPressed: () {
+      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: Chat(fromUserId: currentUserModel.uid,toUserId: uid,)));
+    },
     ),
     IconButton(
     icon: Icon(MaterialCommunityIcons.card_bulleted),

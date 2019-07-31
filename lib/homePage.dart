@@ -238,8 +238,6 @@ class _ScrollPageState extends State<ScrollPage>
             
             
             ),
-
-
         ),
           Padding(
           padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,

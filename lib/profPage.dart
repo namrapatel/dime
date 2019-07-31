@@ -1,10 +1,6 @@
-
-import 'package:Dime/socialPage.dart';
 import 'package:Dime/viewCards.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
@@ -76,9 +72,10 @@ class _ProfPageState extends State<ProfPage> {
                       Text(
                         "Networking Mode",
                         style: TextStyle(
-                            fontSize: screenF(20),
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,),
+                          fontSize: screenF(20),
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                       SizedBox(
                         width: screenW(130),
@@ -103,7 +100,11 @@ class _ProfPageState extends State<ProfPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'prof',)),
+                      Center(
+                          child: ViewCards(
+                        userId: currentUserModel.uid,
+                        type: 'prof',
+                      )),
                     ],
                   )
                 ],
@@ -164,7 +165,10 @@ class _ProfPageState extends State<ProfPage> {
                             height: screenH(55),
                             width: screenW(340),
                             child: FloatingActionButton.extended(
-                              icon: Icon(Icons.done, color: Colors.white,),
+                              icon: Icon(
+                                Icons.done,
+                                color: Colors.white,
+                              ),
                               elevation: screenH(5),
                               onPressed: () {
                                 print(networkingEvents.length);
@@ -173,7 +177,8 @@ class _ProfPageState extends State<ProfPage> {
                               backgroundColor: Color(0xFF1976d2),
                               label: Text(
                                 "  I'm at an event",
-                                style: TextStyle(fontSize: screenF(20), color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: screenF(20), color: Colors.white),
                               ),
                             ),
                           ),

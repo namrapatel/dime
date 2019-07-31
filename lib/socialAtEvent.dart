@@ -1,15 +1,10 @@
-import 'package:Dime/profPage.dart';
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rubber/rubber.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:location/location.dart';
 import 'viewCards.dart';
 import 'login.dart';
 

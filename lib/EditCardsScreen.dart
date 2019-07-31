@@ -845,7 +845,7 @@ Future<void> uploadImage() async{
                               color: Color(0xFF8803fc),
                             child: new Text("Choose 3 social interest tags", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
                             onPressed: (){
-                              showSearch(context: context, delegate:DataSearch());
+                              showSearch(context: context, delegate:SocialDataSearch());
                             },
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                           )
@@ -1715,10 +1715,7 @@ List<dynamic> interests=[];
                               color: Color(0xFF1976d2),
                             child: new Text("Choose 3 professional interest tags", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
                             onPressed: (){
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => ProfTags()),
-                              );
+                              showSearch(context: context, delegate:ProfDataSearch());
                             },
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                           )

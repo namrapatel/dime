@@ -1,20 +1,12 @@
 import 'package:Dime/profPage.dart';
-import 'package:Dime/socialPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rubber/rubber.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:location/location.dart';
 import 'viewCards.dart';
 import 'login.dart';
-
-
-
 
 class profAtEvent extends StatefulWidget {
   profAtEvent({Key key}) : super(key: key);
@@ -28,7 +20,6 @@ class _profAtEventState extends State<profAtEvent>
   //Completer <GoogleMapController> mapController = Completer();
 
   FocusNode _focus = new FocusNode();
-  
 
   // getPermission() async {
   //   final GeolocationResult result =
@@ -37,14 +28,6 @@ class _profAtEventState extends State<profAtEvent>
   //           ios: LocationPermissionIOS.always));
   //   return result;
   // }
-
-
-
-
-
-
-
-
 
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
@@ -62,8 +45,6 @@ class _profAtEventState extends State<profAtEvent>
 
   @override
   void initState() {
-
-    
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
@@ -72,20 +53,20 @@ class _profAtEventState extends State<profAtEvent>
         duration: Duration(milliseconds: 200));
     super.initState();
     _focus.addListener(_onFocusChange);
-    
   }
 
-  void _onFocusChange(){
-    if(_focus.hasFocus){
-      _controller.animateTo(from: _controller.value, to: _controller.upperBound);
+  void _onFocusChange() {
+    if (_focus.hasFocus) {
+      _controller.animateTo(
+          from: _controller.value, to: _controller.upperBound);
     }
   }
 
   String _value;
 
- DropdownButton _normalDown() => DropdownButton<String>(
-          iconEnabledColor: Colors.white,
-          icon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
+  DropdownButton _normalDown() => DropdownButton<String>(
+        iconEnabledColor: Colors.white,
+        icon: Icon(Icons.keyboard_arrow_down, color: Colors.black),
         items: [
           DropdownMenuItem(
             value: "1",
@@ -99,7 +80,6 @@ class _profAtEventState extends State<profAtEvent>
             child: Text(
               "Engage in content",
               style: TextStyle(color: Colors.black, fontSize: 15),
-
             ),
           ),
           DropdownMenuItem(
@@ -124,8 +104,6 @@ class _profAtEventState extends State<profAtEvent>
         },
         value: _value,
       );
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +143,6 @@ class _profAtEventState extends State<profAtEvent>
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 17.5, 0, 0, 0),
                       ),
-
                       Padding(
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 1.65, 0, 0, 0),
@@ -220,15 +197,18 @@ class _profAtEventState extends State<profAtEvent>
     return new Stack(
       children: <Widget>[
         _btmCard(context),
-
       ],
     );
   }
 
   Widget _btmCard(BuildContext context) {
-
-      List<String> _reasons = ['Build Relationships', 'Engage in content', 'Participate in key conversations', 'Just to learn something']; // Option 2
-      String _selectedReason; // Option 2
+    List<String> _reasons = [
+      'Build Relationships',
+      'Engage in content',
+      'Participate in key conversations',
+      'Just to learn something'
+    ]; // Option 2
+    String _selectedReason; // Option 2
 
     return Scaffold(
       body: Column(
@@ -247,58 +227,56 @@ class _profAtEventState extends State<profAtEvent>
                 Row(
                   children: <Widget>[
                     SizedBox(
-                      width: screenH(40),
+                      width: screenW(12),
                     ),
-
-                    //TODO: ADD DROPDOWN HERE
-                    _normalDown(),
-
-                      SizedBox(
-                      width: screenW(70),
-                    ),
-                     
                     IconButton(
-                      icon: Icon(Icons.create),
+                      icon: Icon(Icons.arrow_back_ios),
                       onPressed: () {
-                        Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: ProfPage()));
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.leftToRight,
+                                child: ProfPage()));
                       },
                       color: Colors.white,
                       iconSize: screenH(25),
-                    )
+                    ),
+                    SizedBox(
+                      width: screenW(80),
+                    ),
+                    _normalDown(),
                   ],
                 ),
-                  Container(
-                    height: screenH(247),
-                    width: screenW(370),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.transparent,
-                              blurRadius: (20),
-                              spreadRadius: (5),
-                              offset: Offset(0, 5)),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: ViewCards(userId:currentUserModel.uid,type: 'prof',)
-                  )
+                SizedBox(
+                  height: screenH(5),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                        child: ViewCards(
+                      userId: currentUserModel.uid,
+                      type: 'prof',
+                    )),
+                  ],
+                )
               ],
             ),
           ]),
-            Padding(
-              padding: EdgeInsets.all(10),
-            ),
-                Padding(
-                  padding: EdgeInsets.all(5),
-                ),
-                // Container(
-                //   //width: MediaQuery.of(context).size.width,
-                //   width: 270,
-                //   height: 90,
-                //         decoration: BoxDecoration(
-                //             color: Color(0xFF1976d2),
-                //             borderRadius: BorderRadius.circular(20)),
-                // )
+          Padding(
+            padding: EdgeInsets.all(10),
+          ),
+          Padding(
+            padding: EdgeInsets.all(5),
+          ),
+          // Container(
+          //   //width: MediaQuery.of(context).size.width,
+          //   width: 270,
+          //   height: 90,
+          //         decoration: BoxDecoration(
+          //             color: Color(0xFF1976d2),
+          //             borderRadius: BorderRadius.circular(20)),
+          // )
         ],
       ),
     );
@@ -328,7 +306,10 @@ class _profAtEventState extends State<profAtEvent>
                   ),
                   Align(
                     alignment: Alignment.bottomLeft,
-                    child: Text("Build Relationships", style: TextStyle(fontWeight: FontWeight.bold),),
+                    child: Text(
+                      "Build Relationships",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
@@ -389,7 +370,11 @@ class _profAtEventState extends State<profAtEvent>
                     icon: Icon(MaterialCommunityIcons.card_bulleted),
                     color: Colors.black,
                     onPressed: () {
-                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.fade,
+                              child: ViewCards()));
                     },
                   ),
                 ],
@@ -399,14 +384,4 @@ class _profAtEventState extends State<profAtEvent>
           itemCount: 100),
     );
   }
-
-
-
-
-
-
-
-
-
-
 }

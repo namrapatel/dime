@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
+
 import 'EditCardsScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,6 +12,7 @@ List<String> profInterests=[];
 class ProfInterestTile extends StatefulWidget{
   ProfInterestTile(this.interest);
   final String interest;
+
 
 
   @override
@@ -24,6 +26,7 @@ class _ProfInterestTileState extends State<ProfInterestTile> {
 
   @override
   Widget build(BuildContext context) {
+
     if (profInterests.contains(widget.interest)) {
       setState(() {
         value1 = true;
@@ -38,9 +41,11 @@ class _ProfInterestTileState extends State<ProfInterestTile> {
         decoration: BoxDecoration(color: Colors.white),
         height: screenH(97),
         width: screenW(372),
+
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
             ListTile(
                 onTap: () {
                 },
@@ -85,6 +90,7 @@ class _ProfInterestTileState extends State<ProfInterestTile> {
               color: Colors.grey[400],
               height: screenH(1),
             )
+
           ],
         ));
   }
@@ -98,6 +104,7 @@ class ProfInterestPage extends StatefulWidget {
   @override
   _ProfInterestPageState createState() => _ProfInterestPageState(this.interests);
 }
+
 
 class _ProfInterestPageState extends State<ProfInterestPage> {
   final List<String> interests;
@@ -155,15 +162,15 @@ class ProfDataSearch extends SearchDelegate<
   Iterable<ProfInterestTile> suggestions=[];
   dynamic suggestionList=[];
   List<ProfInterestTile> interestList=[new ProfInterestTile("Badminton"),new ProfInterestTile("Flutter")
-    ,new ProfInterestTile("Basketball")
+    ,new ProfInterestTile("Arts")
     ,new ProfInterestTile("Philosophy")
-    ,new ProfInterestTile("Acting")
+    ,new ProfInterestTile("Tech Companies")
     ,new ProfInterestTile("Music")
     ,new ProfInterestTile("Painting")
     ,new ProfInterestTile("Startups")
-    ,new ProfInterestTile( "Watching Movies")
-    ,new ProfInterestTile("Pop music")
-    ,new ProfInterestTile("Social Ventures")
+    ,new ProfInterestTile( "Engineering")
+    ,new ProfInterestTile("Machine Learning")
+    ,new ProfInterestTile("Supply Chain")
 
   ];
 
@@ -216,5 +223,7 @@ class ProfDataSearch extends SearchDelegate<
 
   }
 
+
 }
+
 

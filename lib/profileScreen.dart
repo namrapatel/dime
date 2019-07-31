@@ -2,17 +2,13 @@ import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
-import 'models/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'settings.dart';
 import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -40,17 +36,18 @@ class _ProfilePageState extends State<ProfilePage> {
     getProfile();
   }
 
-
-  getProfile() async{
-    QuerySnapshot query= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').getDocuments();
-    for (var doc in query.documents){
+  getProfile() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .getDocuments();
+    for (var doc in query.documents) {
       setState(() {
-        displayName=doc['displayName'];
-        photoUrl=doc['photoUrl'];
+        displayName = doc['displayName'];
+        photoUrl = doc['photoUrl'];
       });
-
     }
-
   }
 
   @override
@@ -76,16 +73,21 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.black,
           ),
           Positioned(
-            top: (MediaQuery.of(context).size.height / 15),
-            //top: 70,
-            left: (MediaQuery.of(context).size.width / 18),
-            child: IconButton(
-              onPressed: (){
-                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ScrollPage()));
-              },
-              icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
-            )
-          ),
+              top: (MediaQuery.of(context).size.height / 15),
+              //top: 70,
+              left: (MediaQuery.of(context).size.width / 18),
+              child: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: ScrollPage()));
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              )),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.5),
             left: (MediaQuery.of(context).size.width / 21),
@@ -107,16 +109,16 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 6.5),
             left: (MediaQuery.of(context).size.width / 2 - 50.0),
-
-            child:  photoUrl==null?CircularProgressIndicator():Container(
-              height: screenH(125),
-              width: screenH(125),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50.0),
-                  image: DecorationImage(
-                      image: NetworkImage(photoUrl),
-                      fit: BoxFit.cover)),
-            ),
+            child: photoUrl == null
+                ? CircularProgressIndicator()
+                : Container(
+                    height: screenH(125),
+                    width: screenH(125),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50.0),
+                        image: DecorationImage(
+                            image: NetworkImage(photoUrl), fit: BoxFit.cover)),
+                  ),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.4),
@@ -125,18 +127,17 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 IconButton(
-                                            onPressed: () async{
-
-                            FirebaseAuth.instance.signOut().then((value) {
-                              Navigator.push(context,
-                                  new MaterialPageRoute(builder: (context) => Login()));
-
-                            }).catchError((e) {
-                              print(e);
-                            });
-                          },
-                  icon: Icon(AntDesign.logout)
-                ),
+                    onPressed: () async {
+                      FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => Login()));
+                      }).catchError((e) {
+                        print(e);
+                      });
+                    },
+                    icon: Icon(AntDesign.logout)),
                 SizedBox(
                   height: screenH(15),
                 ),
@@ -153,15 +154,16 @@ class _ProfilePageState extends State<ProfilePage> {
             right: (MediaQuery.of(context).size.width / 3.2),
             child: Column(
               children: <Widget>[
-                displayName==null?CircularProgressIndicator():
-                Text(
-                  displayName,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 17.0,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                displayName == null
+                    ? CircularProgressIndicator()
+                    : Text(
+                        displayName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                 SizedBox(
                   height: screenH(15),
                 ),
@@ -270,63 +272,3 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
-//       Container(
-
-//     child: Center(
-//   child: Column(
-//     children: <Widget>[
-//       SizedBox(
-//         height: 70.0,
-//       ),
-//       IconButton(
-//       iconSize: ScreenUtil.instance.setHeight(25.0),
-//       color: Colors.black,
-//       icon: Icon(Icons.settings),
-//       onPressed: () {
-//         Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => EditProfilePage(),
-//             ));
-//       },
-//     ),
-//       RaisedButton(
-//             color: Colors.greenAccent[700],
-//             child: Text('Logout'),
-//             onPressed: () async{
-//               pref = await SharedPreferences.getInstance();
-
-//               await pref.clear();
-//               FirebaseAuth.instance.signOut().then((value) {
-//                 Navigator.of(context).pushReplacementNamed('/loginpage');
-
-//               }).catchError((e) {
-//                 print(e);
-//               });
-//             }),
-//       SizedBox(height: 30.0),
-//       url==null
-//             ?CircularProgressIndicator()
-
-//             :CircleAvatar(
-//             backgroundImage: NetworkImage(url),
-//             radius: 150.0),
-//       // Change AssetImage to NetworkImage and within the brackets of the
-//       // constructor you'll be able to place a link to the location of the image file
-//       // that you wish to put inside the CircleAvatar.
-//       SizedBox(
-//         height: 15.0,
-//       ),
-//       //checks if data has been received, if not shows a progress indicator until profile is set up
-//       //should set a default image for new users in user management so it displays that the first time user
-//       //clicks on their profile
-//       displayName == null
-
-//           ? CircularProgressIndicator()
-//           : Text('$displayName',
-//               style: TextStyle(
-//                 fontSize: 30.0,
-//               ))
-//     ],
-//   ),
-// ))

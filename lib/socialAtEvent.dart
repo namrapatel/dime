@@ -1,15 +1,10 @@
-import 'package:Dime/profPage.dart';
 import 'package:Dime/socialPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rubber/rubber.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'dart:async';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:location/location.dart';
 import 'viewCards.dart';
 import 'login.dart';
 
@@ -250,10 +245,10 @@ class _socialAtEventState extends State<socialAtEvent>
                     ),
                     _normalDown(), 
                     SizedBox(
-                      width: screenW(110),
+                      width: screenW(155),
                     ),
                     IconButton(
-                      icon: Icon(Icons.create),
+                      icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () {
                         Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: SocialPage()));
                       },
@@ -262,20 +257,14 @@ class _socialAtEventState extends State<socialAtEvent>
                     )
                   ],
                 ),
-                  Container(
-                    height: screenH(247),
-                    width: screenW(370),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.transparent,
-                              blurRadius: (20),
-                              spreadRadius: (5),
-                              offset: Offset(0, 5)),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: ViewCards(userId:currentUserModel.uid,type: 'social',)
+                  SizedBox(
+                    height: screenH(5),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'social',)),
+                    ],
                   )
 
 

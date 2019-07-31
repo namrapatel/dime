@@ -10,7 +10,6 @@ import 'package:Dime/models/user.dart';
 import 'services/usermanagement.dart';
 import 'services/facebookauth.dart';
 
-
 //TODO: display text if email already registered etc..
 
 class SignupPage extends StatefulWidget {
@@ -23,7 +22,6 @@ class SignupPage extends StatefulWidget {
 }
 
 class _SignupPageState extends State<SignupPage> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -36,13 +34,13 @@ class _SignupPageState extends State<SignupPage> {
   Color _eyeButtonColor = Colors.grey;
   Map userProfile;
 
-
-
-
   Padding buildTitle() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text('Hello There.', style: TextStyle(fontSize: 52.0, fontWeight: FontWeight.bold ),),
+      child: Text(
+        'Hello There.',
+        style: TextStyle(fontSize: 52.0, fontWeight: FontWeight.bold),
+      ),
     );
   }
 
@@ -68,9 +66,7 @@ class _SignupPageState extends State<SignupPage> {
           return 'Please enter an email';
         }
       },
-      decoration: InputDecoration(
-        labelText: 'Email Address'
-      ),
+      decoration: InputDecoration(labelText: 'Email Address'),
     );
   }
 
@@ -89,9 +85,7 @@ class _SignupPageState extends State<SignupPage> {
             if (_isObscured) {
               setState(() {
                 _isObscured = false;
-                _eyeButtonColor = Theme
-                  .of(context)
-                  .primaryColor;
+                _eyeButtonColor = Theme.of(context).primaryColor;
               });
             } else {
               setState(() {
@@ -100,18 +94,22 @@ class _SignupPageState extends State<SignupPage> {
               });
             }
           },
-          icon: Icon(Icons.remove_red_eye, color: _eyeButtonColor,),
+          icon: Icon(
+            Icons.remove_red_eye,
+            color: _eyeButtonColor,
+          ),
         ),
       ),
       obscureText: _isObscured,
     );
   }
+
   TextFormField buildConfirmInput(BuildContext context) {
     return TextFormField(
       onSaved: (confirmInput) => _confirm = confirmInput,
       validator: (confirmInput) {
         if (confirmInput.isEmpty) {
-          // Need to add validation for confirm password as well 
+          // Need to add validation for confirm password as well
           return 'Please confirm your password';
         }
       },
@@ -122,9 +120,7 @@ class _SignupPageState extends State<SignupPage> {
             if (_isObscured) {
               setState(() {
                 _isObscured = false;
-                _eyeButtonColor = Theme
-                  .of(context)
-                  .primaryColor;
+                _eyeButtonColor = Theme.of(context).primaryColor;
               });
             } else {
               setState(() {
@@ -133,14 +129,15 @@ class _SignupPageState extends State<SignupPage> {
               });
             }
           },
-          icon: Icon(Icons.remove_red_eye, color: _eyeButtonColor,),
+          icon: Icon(
+            Icons.remove_red_eye,
+            color: _eyeButtonColor,
+          ),
         ),
       ),
       obscureText: _isObscured,
     );
   }
-
-
 
   Align buildLoginButton(BuildContext context) {
     return Align(
@@ -148,15 +145,17 @@ class _SignupPageState extends State<SignupPage> {
         height: 50.0,
         width: 270.0,
         child: FlatButton(
-          onPressed: () async{
+          onPressed: () async {
             if (_formKey.currentState.validate()) {
               //Only gets here if the fields pass
               _formKey.currentState.save();
               //TODO Check values and navigate to new page
-              if(_password == _confirm){
-                try{
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email , password: _password)
-                      .then((signedInUser) async{
+              if (_password == _confirm) {
+                try {
+                  await FirebaseAuth.instance
+                      .createUserWithEmailAndPassword(
+                          email: _email, password: _password)
+                      .then((signedInUser) async {
                     UserManagement().storeNewUser(signedInUser, context);
                     DocumentSnapshot userRecord = await Firestore.instance
                         .collection('users')
@@ -166,31 +165,30 @@ class _SignupPageState extends State<SignupPage> {
                     if (userRecord.data != null) {
                       currentUserModel = User.fromDocument(userRecord);
                       print('in signup');
-
                     }
-                    Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: onBoarding()));
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            child: onBoarding()));
                   });
-
-
-                }catch(e){
+                } catch (e) {
                   print(e.message);
-
                 }
                 //NAVIGATE TO ONBOARDING
 
-              }
-              else if(_password != _confirm){
+              } else if (_password != _confirm) {
                 _showCupertinoDialog();
               }
-              
             }
           },
           color: Colors.grey[900],
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          child: Text('SIGN UP', style: Theme
-            .of(context)
-            .primaryTextTheme
-            .button,),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+          child: Text(
+            'SIGN UP',
+            style: Theme.of(context).primaryTextTheme.button,
+          ),
         ),
       ),
     );
@@ -199,38 +197,41 @@ class _SignupPageState extends State<SignupPage> {
   Align buildOrText() {
     return Align(
       alignment: Alignment.center,
-      child: Text('Or login with:', style: TextStyle(fontSize: 15.0, color: Colors.grey),),
+      child: Text(
+        'Or login with:',
+        style: TextStyle(fontSize: 15.0, color: Colors.grey),
+      ),
     );
   }
-
 
   Align buildSignUpText() {
     return Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        children: <Widget>[
-          SizedBox(width: 85,),  
-          Text("Already have an account?"),
-              SizedBox(width: 5.0),
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: Login()));
-                },
-                child: Text('Sign in',
-                    style: TextStyle(
-                        color: Colors.black,
-                        
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline)),
-              )
-
-
-        ],
-      )
-    );
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 85,
+            ),
+            Text("Already have an account?"),
+            SizedBox(width: 5.0),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: Login()));
+              },
+              child: Text('Sign in',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            )
+          ],
+        ));
   }
 
-    void _showCupertinoDialog() {
+  void _showCupertinoDialog() {
     showDialog(
         context: context,
         builder: (context) {
@@ -269,34 +270,59 @@ class _SignupPageState extends State<SignupPage> {
             SizedBox(height: kToolbarHeight),
             buildTitle(),
             buildTitleLine(),
-            SizedBox(height: 40.0,),
+            SizedBox(
+              height: 40.0,
+            ),
             buildEmailTextField(),
-            SizedBox(height: 30.0,),
+            SizedBox(
+              height: 30.0,
+            ),
             buildPasswordInput(context),
-            SizedBox(height: 30.0,),
+            SizedBox(
+              height: 30.0,
+            ),
             buildConfirmInput(context),
-            SizedBox(height: 30.0,),
+            SizedBox(
+              height: 30.0,
+            ),
             buildLoginButton(context),
-            SizedBox(height: 10.0,),
+            SizedBox(
+              height: 10.0,
+            ),
             buildOrText(),
-            SizedBox(height: 15.0,),
+            SizedBox(
+              height: 15.0,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-              FloatingActionButton(
-                onPressed: (){FacebookAuth().logIn(context,new MaterialPageRoute(builder: (context) => onBoarding()));},
-                heroTag: 'btnFB',
-                backgroundColor: Color(0xFF3C5A99),
-                child: Icon(MaterialCommunityIcons.facebook),
-                elevation: 0,
-              ),
-              SizedBox(width: 20,),
-              FloatingActionButton(
-                heroTag: 'btnG',
-                backgroundColor: Color(0xFFDB4437),
-                child: Icon(AntDesign.google),
-                elevation: 0,
-              ),
+                FloatingActionButton(
+                  onPressed: () {
+                    FacebookAuth().logIn(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => onBoarding()));
+                  },
+                  heroTag: 'btnFB',
+                  backgroundColor: Color(0xFF3C5A99),
+                  child: Icon(
+                    MaterialCommunityIcons.facebook,
+                    color: Colors.white,
+                  ),
+                  elevation: 0,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                FloatingActionButton(
+                  heroTag: 'btnG',
+                  backgroundColor: Color(0xFFDB4437),
+                  child: Icon(
+                    AntDesign.google,
+                    color: Colors.white,
+                  ),
+                  elevation: 0,
+                ),
               ],
             ),
             SizedBox(height: 20.0),

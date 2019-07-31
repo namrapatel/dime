@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
+
 import 'EditCardsScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,6 +12,7 @@ List<String> socialInterests=[];
 class SocialInterestTile extends StatefulWidget{
   SocialInterestTile(this.interest);
   final String interest;
+
 
 
   @override
@@ -104,9 +106,11 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
   _SocialInterestPageState(this.interests);
   @override
   Widget build(BuildContext context) {
+
     return Container(
           child: Card(
             child: Column(
+
               children: <Widget>[
                 SizedBox(height: screenH(10)),
                 Text("Selected Interests"),
@@ -145,10 +149,13 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
 
               ],
             ),
+
           )
       );
+
   }
 }
+
 
 class SocialDataSearch extends SearchDelegate<
     String> {
@@ -213,6 +220,7 @@ class SocialDataSearch extends SearchDelegate<
             itemBuilder: (BuildContext context, int index) {
               return suggestions.toList()[index];
             }, itemCount: suggestions.length);
+
 
   }
 

@@ -78,19 +78,21 @@ class SocialCard extends StatelessWidget {
               ),
 
               Container(
-                height: screenH(220),
+                height: screenH(225),
                 width: screenW(370),
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black.withOpacity(0.35),
+                          color: Colors.transparent,
                           blurRadius: (20),
                           spreadRadius: (5),
                           offset: Offset(0, 5)),
                     ],
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15))),
-                child: Column(
+                child: Stack(
+                  children: <Widget>[
+Column(
                   children: <Widget>[
                     SizedBox(
                       height: screenH(20),
@@ -116,7 +118,7 @@ class SocialCard extends StatelessWidget {
                             Text(university,
                                 style: TextStyle(
                                     fontSize: screenF(13),
-                                    color: Colors.purple)),
+                                    color: Color(0xFF8803fc))),
                             SizedBox(
                               height: screenH(2),
                             ),
@@ -131,13 +133,8 @@ class SocialCard extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          width: screenW(115),
+                          width: screenW(75),
                         ),
-                            CircleAvatar(
-                              backgroundImage:
-                              NetworkImage(photoUrl),
-                              radius: 22,
-                            ),
 
                           ],
                         ),
@@ -145,7 +142,7 @@ class SocialCard extends StatelessWidget {
 
                     Padding(
                       padding:
-                      EdgeInsets.symmetric(horizontal: screenW(30.0)),
+                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(25)),
                       child:
 
                       Row(
@@ -157,13 +154,14 @@ class SocialCard extends StatelessWidget {
                               Icon(
                                 FontAwesome.snapchat_square,
                                 color: Color(0xFFfffc00),
-                              ):SizedBox(
-                                height: screenW(1),
+                              ):  Icon(
+                                FontAwesome.snapchat_square,
+                                color: Color(0xFFfffc00),
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(snapchat==null?'':snapchat,
+                              Text(snapchat==null?'No Snapchat \nDisplayed':snapchat,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -175,13 +173,14 @@ class SocialCard extends StatelessWidget {
                               Icon(
                                 MaterialCommunityIcons.instagram,
                                 color: Color(0xFF8803fc),
-                              ):SizedBox(
-                                height: screenW(1),
+                              ):  Icon(
+                                MaterialCommunityIcons.instagram,
+                                color: Color(0xFF8803fc),
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(instagram==null?'':instagram,
+                              Text(instagram==null?'No Instagram \nDisplayed':instagram,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -193,13 +192,14 @@ class SocialCard extends StatelessWidget {
                               Icon(
                                 MaterialCommunityIcons.twitter_box,
                                 color: Colors.blue,
-                              ):SizedBox(
-                              height: screenW(1),
+                              ): Icon(
+                                MaterialCommunityIcons.twitter_box,
+                                color: Colors.blue,
                               ),
                               SizedBox(
                               width: screenW(10),
                               ),
-                              Text(twitter==null?'':twitter,
+                              Text(twitter==null?'No Twitter \nDisplayed':twitter,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -207,65 +207,7 @@ class SocialCard extends StatelessWidget {
                           )
                         ],
                       ),
-//                      Row(
-//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                        children: <Widget>[
-//                          Column(
-//                            children: <Widget>[
-//                              github!=null?
-//                              Icon(
-//                                MaterialCommunityIcons.github_box,
-//                                color: Colors.black,
-//                              ):SizedBox(
-//                              height: screenW(1),
-//                              ),
-//                              SizedBox(
-//                                width: screenW(10),
-//                              ),
-//                              Text(github==null?'':github,
-//                                  style: TextStyle(
-//                                      color: Colors.black,
-//                                      fontSize: screenF(12))),
-//                            ],
-//                          ),
-//                          Column(
-//                            children: <Widget>[
-//                              linkedIn!=null?
-//                              Icon(
-//                                FontAwesome.linkedin_square,
-//                                color: Color(0xFF0077B5),
-//                              ):SizedBox(
-//                                height: screenW(1),
-//                              ),
-//                              SizedBox(
-//                                width: screenW(10),
-//                              ),
-//                              Text(linkedIn==null?'':linkedIn,
-//                                  style: TextStyle(
-//                                      color: Colors.black,
-//                                      fontSize: screenF(12))),
-//                            ],
-//                          ),
-//                          Column(
-//                            children: <Widget>[
-//                              twitter!=null?
-//                              Icon(
-//                                MaterialCommunityIcons.twitter_box,
-//                                color: Colors.blue,
-//                              ):SizedBox(
-//                                height: screenW(1),
-//                              ),
-//                              SizedBox(
-//                                width: screenW(10),
-//                              ),
-//                              Text(twitter==null?'':twitter,
-//                                  style: TextStyle(
-//                                      color: Colors.black,
-//                                      fontSize: screenF(12))),
-//                            ],
-//                          )
-//                        ],
-//                      ),
+
 
                     ),
                     SizedBox(
@@ -279,6 +221,19 @@ class SocialCard extends StatelessWidget {
                                 color: Color(0xFF8803fc), fontSize: screenF(13)))
                       ],
                     )
+                  ],
+                ),
+
+                  Positioned(
+                  left: screenW(285),
+                  top: screenH(20),
+                  right: screenW(25),
+                  child:  CircleAvatar(
+                          backgroundImage:
+                          NetworkImage(photoUrl),
+                          radius: 30,
+                        ),
+                ),
                   ],
                 ),
               )

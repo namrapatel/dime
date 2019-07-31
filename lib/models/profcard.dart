@@ -65,19 +65,21 @@ class ProfCard extends StatelessWidget {
               ),
 
               Container(
-                height: screenH(220),
+                height: screenH(225),
                 width: screenW(370),
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.black.withOpacity(0.35),
+                          color: Colors.transparent,
                           blurRadius: (20),
                           spreadRadius: (5),
                           offset: Offset(0, 5)),
                     ],
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(15))),
-                child: Column(
+                child: Stack(
+                  children: <Widget>[
+Column(
                   children: <Widget>[
                     SizedBox(
                       height: screenH(20),
@@ -97,20 +99,22 @@ class ProfCard extends StatelessWidget {
                             SizedBox(
                               height: screenH(2),
                             ),university==null?
-                            SizedBox(
-                              height: screenH(1),
-                            ):
+                            Text("No University Displayed",
+                                style: TextStyle(
+                                    fontSize: screenF(13),
+                                    color: Color(0xFF1976d2))):
                             Text(university,
                                 style: TextStyle(
                                     fontSize: screenF(13),
-                                    color: Colors.purple)),
+                                    color: Color(0xFF1976d2))),
                             SizedBox(
                               height: screenH(2),
                             ),
                             major==null?
-                            SizedBox(
-                              height: screenH(1),
-                            ):
+                            Text("No Program Displayed              ",
+                                style: TextStyle(
+                                    fontSize: screenF(13),
+                                    color: Colors.grey)):
                             Text(major,
                                 style: TextStyle(
                                     fontSize: screenF(13),
@@ -118,21 +122,13 @@ class ProfCard extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          width: screenW(115),
+                          width: screenW(75),
                         ),
-                        CircleAvatar(
-                          backgroundImage:
-                          NetworkImage(photoUrl),
-                          radius: 22,
-                        )
                       ],
-                    ),
-                    SizedBox(
-                      height: screenH(15),
                     ),
                     Padding(
                       padding:
-                      EdgeInsets.symmetric(horizontal: screenW(30.0)),
+                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(25)),
                       child:
 
                       Row(
@@ -144,13 +140,15 @@ class ProfCard extends StatelessWidget {
                               Icon(
                                 MaterialCommunityIcons.github_box,
                                 color: Colors.black,
-                              ):SizedBox(
-                                height: screenW(1),
+                              ): Icon(
+                                MaterialCommunityIcons.github_box,
+                                color: Colors.black,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(github==null?'':github,
+                              Text(github==null?'No GitHub \nDisplayed':github,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -162,13 +160,15 @@ class ProfCard extends StatelessWidget {
                               Icon(
                                 FontAwesome.linkedin_square,
                                 color: Color(0xFF0077B5),
-                              ):SizedBox(
-                                height: screenW(1),
+                              ): Icon(
+                                FontAwesome.linkedin_square,
+                                color: Color(0xFF0077B5),
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(linkedIn==null?'':linkedIn,
+                              Text(linkedIn==null?'No Linkedin \nDisplayed':linkedIn,
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -180,13 +180,14 @@ class ProfCard extends StatelessWidget {
                               Icon(
                                 MaterialCommunityIcons.twitter_box,
                                 color: Colors.blue,
-                              ):SizedBox(
-                                height: screenW(1),
+                              ): Icon(
+                                MaterialCommunityIcons.twitter_box,
+                                color: Colors.blue,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(twitter==null?'':twitter,
+                              Text(twitter==null?'No Twitter \nDisplayed':twitter,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -196,6 +197,18 @@ class ProfCard extends StatelessWidget {
                       ),
 
                     ),
+                  ],
+                ),
+                Positioned(
+                  left: screenW(285),
+                  top: screenH(20),
+                  right: screenW(25),
+                  child:  CircleAvatar(
+                          backgroundImage:
+                          NetworkImage(photoUrl),
+                          radius: 30,
+                        ),
+                ),
                   ],
                 ),
               )

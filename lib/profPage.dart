@@ -97,21 +97,14 @@ class _ProfPageState extends State<ProfPage> {
                       )
                     ],
                   ),
-
-                  Container(
-                    height: screenH(247),
-                    width: screenW(370),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.35),
-                              blurRadius: (20),
-                              spreadRadius: (5),
-                              offset: Offset(0, 5)),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: ViewCards(userId:currentUserModel.uid,type: 'prof',)
+                  SizedBox(
+                    height: screenH(5),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'prof',)),
+                    ],
                   )
                 ],
               ),

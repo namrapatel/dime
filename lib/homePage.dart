@@ -20,7 +20,7 @@ import 'chatList.dart';
 import 'chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
-
+import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 
@@ -304,6 +304,23 @@ class _ScrollPageState extends State<ScrollPage>
               child: Icon(Ionicons.md_search, color: Colors.black, size: 20,),
               onPressed: (){
                 Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: Explore()));
+              },
+            )
+          )
+
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 2.35, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb5',
+              child: Icon(Icons.add, color: Colors.black, size: 20,),
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: InviteFriends()));
               },
             )
           )

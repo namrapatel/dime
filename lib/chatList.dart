@@ -25,7 +25,7 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      backgroundColor: Color(0xFFECE9E4),
+      //backgroundColor: Color(0xFFECE9E4),
       body: ListView(
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
@@ -36,7 +36,7 @@ class _ChatListState extends State<ChatList> {
                     Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height/5,
-                    color: Color(0xFFECE9E4),
+                    //color: Color(0xFFECE9E4),
                   ),
                   Positioned(
                     top: MediaQuery.of(context).size.height/55,
@@ -51,7 +51,7 @@ class _ChatListState extends State<ChatList> {
                   Positioned(
                     top: MediaQuery.of(context).size.height/10,
                     left: MediaQuery.of(context).size.width/22,
-                    child: Text("Messages", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.w300),),
+                    child: Text("Messages", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),),
                   )
                 ],
               ),
@@ -80,6 +80,7 @@ class _ChatListState extends State<ChatList> {
         itemCount: 15,
         itemBuilder: (context, index) {
           return ListTile(
+            onTap: (){},
             leading: CircleAvatar(
               backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
             ),

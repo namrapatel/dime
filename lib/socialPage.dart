@@ -95,23 +95,14 @@ class _SocialPageState extends State<SocialPage> {
                       )
                     ],
                   ),
-                  // SizedBox(
-                  //   height: screenH(10),
-                  // ),
-                  Container(
-                    height: screenH(247),
-                    width: screenW(370),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.transparent,
-                              blurRadius: (20),
-                              spreadRadius: (5),
-                              offset: Offset(0, 5)),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: ViewCards(userId:currentUserModel.uid,type: 'social',)
+                  SizedBox(
+                    height: screenH(5),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'social',)),
+                    ],
                   )
                 ],
               ),
@@ -194,7 +185,7 @@ class _SocialPageState extends State<SocialPage> {
 
 class SocialEventCard extends StatelessWidget {
   final CircularSplashController _controller = CircularSplashController(
-    color: Color(0xFF1976d2), //optional, default is White.
+    color: Color(0xFF8803fc), //optional, default is White.
     duration: Duration(milliseconds: 350), //optional.
   );
   final String eventName, location, day, time, month;

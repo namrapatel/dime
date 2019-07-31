@@ -110,7 +110,7 @@ void _settingModalBottomSheet(context){
       allowFontScaling: true,
     )..init(context);
     return Scaffold(
-      backgroundColor: Color(0xFFECE9E4),
+      //backgroundColor: Color(0xFFECE9E4),
         body: ListView(
           //physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
@@ -145,7 +145,7 @@ void _settingModalBottomSheet(context){
                       //color: Colors.white,
                       width: MediaQuery.of(context).size.width / 1.3,
                       decoration: BoxDecoration(
-                          color: Colors.grey[100],
+                          color: Colors.grey[200],
                           borderRadius: BorderRadius.circular(20)),
                       child: Padding(
                         padding: EdgeInsets.symmetric(

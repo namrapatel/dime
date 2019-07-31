@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'login.dart';
+
 
 
 class Chat extends StatefulWidget {
@@ -69,7 +71,9 @@ class _ChatState extends State<Chat> {
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.black,
           iconSize: 20,
-          onPressed: (){},
+          onPressed: (){
+            Navigator.pop(context);
+          },
         ),
         title: Row(
           children: <Widget>[
@@ -81,15 +85,6 @@ class _ChatState extends State<Chat> {
             Text("Shehab Salem", style: TextStyle(color: Colors.black),),
           ],
         ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.close, color: Colors.black,),
-            onPressed: () {
-              _auth.signOut();
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-          )
-        ],
       ),
       body: SafeArea(
           child: Column(

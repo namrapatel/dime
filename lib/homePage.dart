@@ -239,6 +239,7 @@ class _ScrollPageState extends State<ScrollPage>
               "What's Happening",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             ),
+
             alignment: Alignment.topCenter,
           ),
         ),

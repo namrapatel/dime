@@ -246,41 +246,35 @@ class _profAtEventState extends State<profAtEvent>
                 ),
                 Row(
                   children: <Widget>[
-                    SizedBox(
-                      width: screenH(40),
-                    ),
-
-                    //TODO: ADD DROPDOWN HERE
-                    _normalDown(),
 
                       SizedBox(
-                      width: screenW(70),
+                      width: screenW(12),
                     ),
-                     
                     IconButton(
-                      icon: Icon(Icons.create),
+                      icon: Icon(Icons.arrow_back_ios),
                       onPressed: () {
                         Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: ProfPage()));
                       },
                       color: Colors.white,
                       iconSize: screenH(25),
-                    )
+                    ),
+
+                    SizedBox(
+                      width: screenW(80),
+                    ),
+
+                    _normalDown(),
+                     
                   ],
                 ),
-                  Container(
-                    height: screenH(247),
-                    width: screenW(370),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.transparent,
-                              blurRadius: (20),
-                              spreadRadius: (5),
-                              offset: Offset(0, 5)),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: ViewCards(userId:currentUserModel.uid,type: 'prof',)
+                  SizedBox(
+                    height: screenH(5),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'prof',)),
+                    ],
                   )
               ],
             ),

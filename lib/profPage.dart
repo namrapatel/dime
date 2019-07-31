@@ -12,6 +12,7 @@ import 'profAtEvent.dart';
 import 'package:circular_splash_transition/circular_splash_transition.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
+import 'EditCardsScreen.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -58,20 +59,10 @@ class _ProfPageState extends State<ProfPage> {
                   Row(
                     children: <Widget>[
                       SizedBox(
-                        width: screenH(30),
-                      ),
-                      Text(
-                        "Networking Mode",
-                        style: TextStyle(
-                            fontSize: screenF(20),
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                      ),
-                      SizedBox(
-                        width: screenW(165),
+                        width: screenH(10),
                       ),
                       IconButton(
-                        icon: Icon(Icons.create),
+                        icon: Icon(Icons.arrow_back_ios),
                         onPressed: () {
                           Navigator.push(
                               context,
@@ -81,24 +72,39 @@ class _ProfPageState extends State<ProfPage> {
                         },
                         color: Colors.white,
                         iconSize: screenH(25),
+                      ),
+                      Text(
+                        "Networking Mode",
+                        style: TextStyle(
+                            fontSize: screenF(20),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,),
+                      ),
+                      SizedBox(
+                        width: screenW(130),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.create),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: TabsApp()));
+                        },
+                        color: Colors.white,
+                        iconSize: screenH(25),
                       )
                     ],
                   ),
-
-                  Container(
-                    height: screenH(247),
-                    width: screenW(370),
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black.withOpacity(0.35),
-                              blurRadius: (20),
-                              spreadRadius: (5),
-                              offset: Offset(0, 5)),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    child: ViewCards(userId:currentUserModel.uid,type: 'prof',)
+                  SizedBox(
+                    height: screenH(5),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'prof',)),
+                    ],
                   )
                 ],
               ),

@@ -16,11 +16,11 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
 import 'viewCards.dart';
-
-
+import 'chatList.dart';
+import 'chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'login.dart';
-
+import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 
@@ -35,7 +35,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
 
-  List<UserTile> nearbyUsers=[UserTile('Shehab Salem','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq','AR07blHIDVazKVAAYUrhtRypsoy2',major:'Computer Science, 2022',interests: ['Flutter','Basketball'],),UserTile('Mahad Zaryab','https://lh3.googleusercontent.com/-DBGxpfqr_Fs/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcxJQfiwQg5BBipMSPUEkWpU-abww/s96-c/photo.jpg','JDuiarBxusY7GgmbVQcBtTg3xzk1',major:'Software Engineering, 2022',interests: ['Java', 'Gym'])];
+  List<UserTile> nearbyUsers=[UserTile('Shehab Salem','https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq','7Y0S3qvACSbk2YlteKiyGqLrAsR2',major:'Computer Science, 2022',interests: ['Flutter','Basketball'],),UserTile('Dhruv Patel','https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',"TMoqB5fxMPWfvf11lYqGrifDF4p1",major:'Mechatronics Engineering, 2022',interests: ['Java', 'Badminton'])];
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
@@ -241,7 +241,7 @@ class _ScrollPageState extends State<ScrollPage>
 
 
         ),
-Padding(
+          Padding(
           padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
 
               MediaQuery.of(context).size.height / 8, 0, 0),
@@ -249,6 +249,9 @@ Padding(
             width: 40,
             height: 40,
             child: FloatingActionButton(
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ChatList()));
+              },
               elevation: 10,
               backgroundColor: Colors.white,
               heroTag: 'fabb1',
@@ -305,6 +308,23 @@ Padding(
             )
           )
 
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40, MediaQuery.of(context).size.height / 2.35, 0, 0),
+          child: Container(
+            width: 40,
+            height: 40,
+            child: FloatingActionButton(
+              elevation: 10,
+              backgroundColor: Colors.white,
+              heroTag: 'fabb5',
+              child: Icon(Icons.add, color: Colors.black, size: 20,),
+              onPressed: (){
+                Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: InviteFriends()));
+              },
+            )
+          )
+
         )
       ],
     );
@@ -318,7 +338,7 @@ Padding(
         
         mapType: MapType.normal,
         myLocationEnabled: true,
-        zoomGesturesEnabled: false,
+        zoomGesturesEnabled: true,
         initialCameraPosition:
             CameraPosition(target: LatLng(56.130367,-106.346771), zoom: 2),
         onMapCreated: (GoogleMapController controller) {
@@ -450,7 +470,9 @@ class UserTile extends StatelessWidget {
     IconButton(
     icon: Icon(MaterialCommunityIcons.chat),
     color: Colors.black,
-    onPressed: () {},
+    onPressed: () {
+      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: Chat(fromUserId: currentUserModel.uid,toUserId: uid,)));
+    },
     ),
     IconButton(
     icon: Icon(MaterialCommunityIcons.card_bulleted),

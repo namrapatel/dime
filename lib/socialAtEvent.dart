@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'viewCards.dart';
+import 'login.dart';
 
 
 
@@ -204,39 +205,13 @@ class _socialAtEventState extends State<socialAtEvent>
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.height / 109, 0, 0),
                 ),
-                Container(
-                  //color: Colors.white,
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width / 22,
-                        vertical: MediaQuery.of(context).size.height / 72),
-                    child: TextField(
-                      
-                      focusNode: _focus,
-                      decoration: new InputDecoration(
-                          icon: Icon(Icons.search),
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width / 30,
-                              bottom: MediaQuery.of(context).size.height / 75,
-                              top: MediaQuery.of(context).size.height / 75,
-                              right: MediaQuery.of(context).size.width / 30),
-                          hintText: 'Search for people, interests, school ...'),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 4.75,
+          headerHeight: MediaQuery.of(context).size.height / 8.75,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
-        ),
+        ), 
       ),
     );
   }
@@ -260,8 +235,8 @@ class _socialAtEventState extends State<socialAtEvent>
           Stack(children: <Widget>[
             Container(
               color: Color(0xFF8803fc),
-              height: screenH(370),
-              width: screenW(420),
+                height: screenH(370),
+                width: screenW(420),
             ),
             Column(
               children: <Widget>[
@@ -275,10 +250,10 @@ class _socialAtEventState extends State<socialAtEvent>
                     ),
                     _normalDown(), 
                     SizedBox(
-                      width: screenW(110),
+                      width: screenW(155),
                     ),
                     IconButton(
-                      icon: Icon(Icons.create),
+                      icon: Icon(Icons.arrow_forward_ios),
                       onPressed: () {
                         Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft, child: SocialPage()));
                       },
@@ -287,122 +262,17 @@ class _socialAtEventState extends State<socialAtEvent>
                     )
                   ],
                 ),
-                SizedBox(
-                  height: screenH(10),
-                ),
-                Container(
-                  height: screenH(220),
-                  width: screenW(370),
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0.35),
-                            blurRadius: (20),
-                            spreadRadius: (5),
-                            offset: Offset(0, 5)),
-                      ],
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(Radius.circular(15))),
-                  child: Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: screenH(20),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: screenW(20),
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text("Namra Patel",
-                                  style: TextStyle(
-                                    fontSize: screenF(18),
-                                  )),
-                              SizedBox(
-                                height: screenH(2),
-                              ),
-                              Text("University of Western Ontario",
-                                  style: TextStyle(
-                                      fontSize: screenF(13),
-                                      color: Color(0xFF8803fc))),
-                              SizedBox(
-                                height: screenH(2),
-                              ),
-                              Text("Computer Science, 2022",
-                                  style: TextStyle(
-                                      fontSize: screenF(13),
-                                      color: Colors.grey)),
-                            ],
-                          ),
-                          SizedBox(
-                            width: screenW(115),
-                          ),
-                          CircleAvatar(
-                            backgroundImage:
-                                AssetImage("assets/namrapatel.png"),
-                            radius: 22,
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: screenH(15),
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: screenW(30.0)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                Icon(
-                                  FontAwesome.snapchat_square,
-                                  color: Color(0xFFfffc00),
-                                ),
-                                SizedBox(
-                                  width: screenW(10),
-                                ),
-                                Text("namrapatel9",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: screenF(12))),
-                              ],
-                            ),
-                            Column(
-                              children: <Widget>[
-                                Icon(
-                                  MaterialCommunityIcons.instagram,
-                                  color: Color(0xFF8803fc),
-                                ),
-                                SizedBox(
-                                  width: screenW(10),
-                                ),
-                                Text("namrajpatel",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: screenF(12))),
-                              ],
-                            ),
-                            Column(
-                              children: <Widget>[
-                                Icon(
-                                  MaterialCommunityIcons.twitter_box,
-                                  color: Colors.blue,
-                                ),
-                                Text("namrapatel",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: screenF(12))),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+                  SizedBox(
+                    height: screenH(5),
                   ),
-                )
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'social',)),
+                    ],
+                  )
+
+
               ],
             ),
           ]),

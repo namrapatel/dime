@@ -16,6 +16,8 @@ import 'login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'models/socialcard.dart';
+import 'socialTags.dart';
+import 'professionalTags.dart';
 
 
 String selectedItemString;
@@ -87,7 +89,7 @@ String saved='';
             size: 15.0,
           ),
           Text(
-            "Add New Tag",
+            "Request new tag",
             style: TextStyle(color: Colors.white, fontSize: 14.0),
           ),
         ],
@@ -266,7 +268,7 @@ Future<void> uploadImage() async{
         Stack(children: <Widget>[
           Column(children: <Widget>[
             Container(
-              color: Colors.grey[100],
+              color: Colors.white,
               height: screenH(310),
               width: screenW(600),
               child: Column(
@@ -430,15 +432,9 @@ Future<void> uploadImage() async{
                         Row(
                           children: <Widget>[
                             SizedBox(width: 20.0),
-                            Text('Interests:',
+                            Text('Badminton; Philosophy; Comedy Movies',
                                 style: TextStyle(
-                                    color: Colors.grey, fontSize: screenF(13))),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Text('*interests*',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: screenF(13)))
+                                    color: Color(0xFF8803fc), fontSize: screenF(13)))
                           ],
                         )
                       ],
@@ -448,7 +444,7 @@ Future<void> uploadImage() async{
               ),
             ),
             Container(
-                color: Colors.grey[100],
+                color: Colors.white,
                 height: screenH(415),
                 child: ListView(
                     physics: BouncingScrollPhysics(),
@@ -816,41 +812,38 @@ Future<void> uploadImage() async{
                         SizedBox(
                           height: 15.0,
                         ),
-                        Container(
-                          width: 330.0,
-                          child: FlutterTagging(
-                            textFieldDecoration: InputDecoration(
-                                labelText: "Enter interest tags",
-                                labelStyle: TextStyle(
-                                    color: Colors.black, fontWeight: FontWeight.bold)),
-                            addButtonWidget: _buildAddButton(),
-                            chipsColor: Colors.purple[400],
-                            chipsFontColor: Colors.white,
-                            deleteIcon: Icon(Icons.cancel, color: Colors.white),
-                            chipsPadding: EdgeInsets.all(2.0),
-                            chipsFontSize: 14.0,
-                            chipsSpacing: 5.0,
-                            suggestionsCallback: (pattern) async {
-                              return await TagSearchService.getSuggestions(pattern);
+                               Row(
+                                 children: <Widget>[
+                                   SizedBox(
+                                     width: screenW(20),
+                                   ),
+                                   Text(
+                              'Interests',
+                              style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: screenW(30),
+                            ),
+                            new OutlineButton(
+                              padding: EdgeInsets.all(15),
+                              color: Color(0xFF8803fc),
+                            child: new Text("Choose 3 social interest tags", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
+                            onPressed: (){
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => SocialTags()),
+                              );
                             },
-                            onChanged: (result) {
-                              setState(() {
-                                text = result.toString();
-                              });
-                            },
-                          ),
-                        ),
-                      ]),
-                      SizedBox(
-                        height: 50.0,
-                      ),
+                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+                          )
 
-                      Center(
-                        child: Text(
-                          text,
-                          style: TextStyle(color: Colors.pink),
-                        ),
-                      ),
+
+                                 ],
+                               ),
+                      ]),
                       SizedBox(
                         height: 40.0,
                       ),
@@ -1010,7 +1003,7 @@ String saved='';
             size: 15.0,
           ),
           Text(
-            "Add New Tag",
+            "Request new tag",
             style: TextStyle(color: Colors.white, fontSize: 14.0),
           ),
         ],
@@ -1116,7 +1109,7 @@ String saved='';
         Stack(children: <Widget>[
           Column(children: <Widget>[
             Container(
-              color: Colors.grey[100],
+              color: Colors.white,
               height: screenH(310),
               width: screenW(600),
               child: Column(
@@ -1224,7 +1217,7 @@ String saved='';
                                 children: <Widget>[
                                   Icon(
                                     FontAwesome.linkedin_square,
-                                    color: Color(0xFFfffc00),
+                                    color: Color(0xFF0077B5),
                                   ),
                                   SizedBox(
                                     width: screenW(10),
@@ -1242,7 +1235,7 @@ String saved='';
                                 children: <Widget>[
                                   Icon(
                                     MaterialCommunityIcons.github_box,
-                                    color: Color(0xFF8803fc),
+                                    color: Colors.black,
                                   ),
                                   SizedBox(
                                     width: screenW(10),
@@ -1280,15 +1273,9 @@ String saved='';
                         Row(
                           children: <Widget>[
                             SizedBox(width: 20.0),
-                            Text('Interests:',
+                            Text('Mobile Development, Product Strategy, Social Ventures',
                                 style: TextStyle(
-                                    color: Colors.grey, fontSize: screenF(13))),
-                            SizedBox(
-                              width: 5.0,
-                            ),
-                            Text('*interests*',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: screenF(13)))
+                                    color: Color(0xFF1976d2), fontSize: screenF(13)))
                           ],
                         )
                       ],
@@ -1298,7 +1285,7 @@ String saved='';
               ),
             ),
             Container(
-                color: Colors.grey[100],
+                color: Colors.white,
                 height: screenH(415),
                 child: ListView(
                     physics: BouncingScrollPhysics(),
@@ -1687,44 +1674,46 @@ String saved='';
                         SizedBox(
                           height: 15.0,
                         ),
-                        Container(
-                          width: 330.0,
-                          child: FlutterTagging(
-                            textFieldDecoration: InputDecoration(
-                                labelText: "Enter interest tags",
-                                labelStyle: TextStyle(
-                                    color: Colors.black, fontWeight: FontWeight.bold)),
-                            addButtonWidget: _buildAddButton(),
-                            chipsColor: Colors.purple[400],
-                            chipsFontColor: Colors.white,
-                            deleteIcon: Icon(Icons.cancel, color: Colors.white),
-                            chipsPadding: EdgeInsets.all(2.0),
-                            chipsFontSize: 14.0,
-                            chipsSpacing: 5.0,
-                            suggestionsCallback: (pattern) async {
-                              return await TagSearchService.getSuggestions(pattern);
+
+                               Row(
+                                 children: <Widget>[
+                                   SizedBox(
+                                     width: screenW(20),
+                                   ),
+                                   Text(
+                              'Interests',
+                              style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(
+                              width: screenW(30),
+                            ),
+                            new OutlineButton(
+                              padding: EdgeInsets.all(15),
+                              color: Color(0xFF1976d2),
+                            child: new Text("Choose 3 professional interest tags", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
+                            onPressed: (){
+                                Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => ProfTags()),
+                              );
                             },
-                            onChanged: (result) {
-                              setState(() {
-                                text = result.toString();
-                              });
-                            },
-                          ),
-                        ),
-                      ]),
+                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
+                          )
+
+
+                                 ],
+                               ),
+                        
+
+                      ]
+                      ),
                       SizedBox(
                         height: 50.0,
                       ),
-                      Center(
-                        child: Text(
-                          text,
-                          style: TextStyle(color: Colors.pink),
-                        ),
-                      ),
 
-                      SizedBox(
-                        height: 40.0,
-                      ),
                       Column(
                         children: <Widget>[
                           Container(
@@ -1750,7 +1739,7 @@ String saved='';
                               ),
                             ),
                           ),
-    SizedBox(height: 20,),
+                          SizedBox(height: 20,),
                           Text(saved,style: TextStyle(
                               fontSize: screenF(20), color: Colors.black)),
                           SizedBox(height: 50,)
@@ -1830,6 +1819,7 @@ class TagSearchService {
     tagList.add({'name': "Flutter", 'value': 1});
     tagList.add({'name': "HummingBird", 'value': 2});
     tagList.add({'name': "Dart", 'value': 3});
+    tagList.add({'name': "Watching movies", 'value': 4});
     List<dynamic> filteredTagList = <dynamic>[];
     if (query.isNotEmpty) {
       filteredTagList.add({'name': query, 'value': 0});

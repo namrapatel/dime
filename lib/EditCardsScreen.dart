@@ -845,10 +845,7 @@ Future<void> uploadImage() async{
                               color: Color(0xFF8803fc),
                             child: new Text("Choose 3 social interest tags", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
                             onPressed: (){
-                                Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => SocialTags()),
-                              );
+                              showSearch(context: context, delegate:DataSearch());
                             },
                             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                           )

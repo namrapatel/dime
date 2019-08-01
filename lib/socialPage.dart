@@ -1,9 +1,5 @@
-
-import 'package:Dime/socialPage.dart';
 import 'package:Dime/viewCards.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
@@ -101,7 +97,11 @@ class _SocialPageState extends State<SocialPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Center(child: ViewCards(userId:currentUserModel.uid,type: 'social',)),
+                      Center(
+                          child: ViewCards(
+                        userId: currentUserModel.uid,
+                        type: 'social',
+                      )),
                     ],
                   )
                 ],
@@ -158,7 +158,10 @@ class _SocialPageState extends State<SocialPage> {
                             height: screenH(55),
                             width: screenW(340),
                             child: FloatingActionButton.extended(
-                              icon: Icon(Icons.done, color: Colors.white,),
+                              icon: Icon(
+                                Icons.done,
+                                color: Colors.white,
+                              ),
                               elevation: screenH(5),
                               onPressed: () {
                                 print(socialEvents.length);
@@ -167,7 +170,8 @@ class _SocialPageState extends State<SocialPage> {
                               backgroundColor: Color(0xFF8803fc),
                               label: Text(
                                 "  I'm at an event",
-                                style: TextStyle(fontSize: screenF(20), color: Colors.white),
+                                style: TextStyle(
+                                    fontSize: screenF(20), color: Colors.white),
                               ),
                             ),
                           ),

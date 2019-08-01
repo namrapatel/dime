@@ -16,7 +16,7 @@ class SocialCard extends StatelessWidget {
   final String snapchat;
   final String instagram;
   final String twitter;
-  final String interestString;
+
 
 
 
@@ -30,20 +30,11 @@ class SocialCard extends StatelessWidget {
 
         this.photoUrl,
         this.displayName,
-        this.bio,this.interestString
+        this.bio
       });
 
   factory SocialCard.fromDocument(DocumentSnapshot document) {
-    String interest="";
-    List<dynamic> interests=document['interests'];
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interest=interest+ interests[i];
-      }else{
-        interest=interest+ interests[i]+", ";
-      }
 
-    }
       return SocialCard(
         type: document['type'],
         photoUrl: document['photoUrl'],
@@ -54,7 +45,6 @@ class SocialCard extends StatelessWidget {
         instagram: document['instagram'],
         twitter: document['twitter'],
         bio: document['bio'],
-        interestString:interest
       );
 
   }
@@ -92,7 +82,7 @@ class SocialCard extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Stack(
                   children: <Widget>[
-Column(
+                  Column(
                   children: <Widget>[
                     SizedBox(
                       height: screenH(20),
@@ -154,14 +144,13 @@ Column(
                               Icon(
                                 FontAwesome.snapchat_square,
                                 color: Color(0xFFfffc00),
-                              ):  Icon(
-                                FontAwesome.snapchat_square,
-                                color: Color(0xFFfffc00),
+                              ):  SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(snapchat==null?'No Snapchat \nDisplayed':snapchat,
+                              Text(snapchat==null?'':snapchat,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -173,14 +162,13 @@ Column(
                               Icon(
                                 MaterialCommunityIcons.instagram,
                                 color: Color(0xFF8803fc),
-                              ):  Icon(
-                                MaterialCommunityIcons.instagram,
-                                color: Color(0xFF8803fc),
+                              ):  SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(instagram==null?'No Instagram \nDisplayed':instagram,
+                              Text(instagram==null?'':instagram,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -192,14 +180,13 @@ Column(
                               Icon(
                                 MaterialCommunityIcons.twitter_box,
                                 color: Colors.blue,
-                              ): Icon(
-                                MaterialCommunityIcons.twitter_box,
-                                color: Colors.blue,
+                              ): SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                               width: screenW(10),
                               ),
-                              Text(twitter==null?'No Twitter \nDisplayed':twitter,
+                              Text(twitter==null?'':twitter,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -210,28 +197,16 @@ Column(
 
 
                     ),
-                    SizedBox(
-                      height: screenH(25),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(width: 20.0),
-                        Text(interestString!=null?interestString:"",
-                            style: TextStyle(
-                                color: Color(0xFF8803fc), fontSize: screenF(13)))
-                      ],
-                    )
                   ],
                 ),
 
                   Positioned(
                   left: screenW(285),
                   top: screenH(20),
-                  right: screenW(25),
                   child:  CircleAvatar(
                           backgroundImage:
                           NetworkImage(photoUrl),
-                          radius: 30,
+                          radius: 25,
                         ),
                 ),
                   ],

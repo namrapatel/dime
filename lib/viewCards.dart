@@ -36,57 +36,94 @@ class _ViewCardsState extends State<ViewCards> {
   }
 
   Future<List<SocialCard>> getSocialCard() async {
+    List<SocialCard> cardTiles = [];
 
-  List<SocialCard> cardTiles = [];
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(userId)
+        .collection('socialcard')
+        .getDocuments();
 
-  QuerySnapshot query=await Firestore.instance.collection('users').document(
-        userId).collection('socialcard').getDocuments();
+    for (var document in query.documents) {
+      String photoUrl = document['photoUrl'];
+      String major = document['major'];
+      String displayName = document['displayName'];
+      String university = document['university'];
+      String snapchat = document['snapchat'];
+      String instagram = document['instagram'];
+      String twitter = document['twitter'];
+      String bio = document['bio'];
 
-  for(var document in query.documents) {
-
-    cardTiles.add(SocialCard.fromDocument(document));
+      cardTiles.add(SocialCard(
+        displayName: displayName,
+        photoUrl: photoUrl,
+        type: type,
+        major: major,
+        university: university,
+        snapchat: snapchat,
+        instagram: instagram,
+        twitter: twitter,
+        bio: bio,
+      ));
+    }
+    return cardTiles;
   }
-  return cardTiles;
-}
 
-Widget buildProfCard() {
-  return FutureBuilder<List<ProfCard>>(
-      future: getProfCard(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData)
-          return Container(
-            
-              alignment: FractionalOffset.center,
-              child: CircularProgressIndicator());
+  Widget buildProfCard() {
+    return FutureBuilder<List<ProfCard>>(
+        future: getProfCard(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Container(
+                alignment: FractionalOffset.center,
+                child: CircularProgressIndicator());
 
-        return Row(
-          children: snapshot.data
-        );
-      });
-}
+          return Row(children: snapshot.data);
+        });
+  }
 
   Future<List<ProfCard>> getProfCard() async {
+    List<ProfCard> cardTiles = [];
 
-  List<ProfCard> cardTiles = [];
-
-  QuerySnapshot query=await Firestore.instance.collection('users').document(
-      userId).collection('profcard').getDocuments();
-  if(query.documents.isEmpty){
-    Firestore.instance.collection('users').document(
-        userId).collection('profcard').add({
-      'photoUrl':currentUserModel.photoUrl,
-      'displayName':currentUserModel.displayName
-    });
-
-
-  }
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(userId)
+        .collection('profcard')
+        .getDocuments();
+    if (query.documents.isEmpty) {
+      Firestore.instance
+          .collection('users')
+          .document(userId)
+          .collection('profcard')
+          .add({
+        'photoUrl': currentUserModel.photoUrl,
+        'displayName': currentUserModel.displayName
+      });
+    }
     for (var document in query.documents) {
+      String photoUrl = document['photoUrl'];
+      String major = document['major'];
+      String displayName = document['displayName'];
+      String university = document['university'];
 
-      cardTiles.add(ProfCard.fromDocument(document));
-
+      String twitter = document['twitter'];
+      String bio = document['bio'];
+      String github = document['github'];
+      String linkedIn = document['linkedIn'];
+      cardTiles.add(ProfCard(
+        displayName: displayName,
+        photoUrl: photoUrl,
+        type: type,
+        major: major,
+        university: university,
+        twitter: twitter,
+        bio: bio,
+        github: github,
+        linkedIn: linkedIn,
+      ));
+    }
+    return cardTiles;
   }
-  return cardTiles;
-}
 
   Widget buildCards() {
     print(type);
@@ -132,6 +169,31 @@ Widget buildProfCard() {
       allowFontScaling: true,
     )..init(context);
     return buildCards();
-  
+    // return Scaffold(
+
+    //   backgroundColor: Color(0xFFECE9E4),
+    //   body: buildCards(),
+    // //     body: Column(
+    // // children: <Widget>[
+    // //   //   SizedBox(
+    // //   //   height: 40,
+    // //   // ),
+    // //   // Row(
+    // //   //   children: <Widget>[
+    // //   //     // IconButton(
+    // //   //     //   onPressed: (){
+    // //   //     //     Navigator.pop(context);
+    // //   //     //   },
+    // //   //     //   icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
+    // //   //     // ),
+
+    // //   //   ],
+
+    // //   // ),
+    // //   buildCards()
+
+    // // ],
+    // //     ),
+    //   );
   }
 }

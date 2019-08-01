@@ -1,229 +1,128 @@
-
+import 'package:Dime/homePage.dart';
+import 'package:fancy_on_boarding/fancy_on_boarding.dart';
+import 'package:fancy_on_boarding/page_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:page_transition/page_transition.dart';
 import 'login.dart';
+import 'package:flutter_tagging/flutter_tagging.dart';
+import 'package:grouped_buttons/grouped_buttons.dart';
 
-import 'EditCardsScreen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-List<String> profInterests=[];
-
-class ProfInterestTile extends StatefulWidget{
-  ProfInterestTile(this.interest);
-  final String interest;
-
-
-
+class ProfTags extends StatefulWidget {
+  final String title = '';
   @override
-  _ProfInterestTileState createState() => _ProfInterestTileState();
+  _ProfTagsState createState() => _ProfTagsState();
 }
 
-class _ProfInterestTileState extends State<ProfInterestTile> {
-  bool value1 = false;
-
-
+class _ProfTagsState extends State<ProfTags> {
+  BuildContext context;
 
   @override
-  Widget build(BuildContext context) {
-
-    if (profInterests.contains(widget.interest)) {
-      setState(() {
-        value1 = true;
-      });
-    } else {
-      setState(() {
-        value1 = false;
-      });
-    }
-
-    return Container(
-        decoration: BoxDecoration(color: Colors.white),
-        height: screenH(97),
-        width: screenW(372),
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-
-            ListTile(
-                onTap: () {
-                },
-
-                trailing: Container(
-                  height: screenH(97),
-                  width: screenW(200),
-                  child: Row(
-                    children: <Widget>[
-
-                      SizedBox(width: 150),
-
-                      Checkbox(
-                          activeColor: Colors.black,
-                          checkColor: Colors.white,
-                          value: value1,
-                          onChanged: (bool value) {
-                            setState(() {
-                              value1 = value;
-                              if (value1 == true) {
-                                profInterests.add(widget.interest);
-                                if(profInterests.length==3){
-                                  Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ProfInterestPage(interests:profInterests)));
-                                }
-                              } else {
-                                profInterests.remove(widget.interest);
-                              }
-
-                              Set<String> selections = profInterests.toSet();
-                              print(selections);
-                              profInterests = selections.toList();
-                            });
-                          }),
-
-                    ],
-                  ),
-                ),
-
-                title: Text(widget.interest)
-            ),
-            Divider(
-              color: Colors.grey[400],
-              height: screenH(1),
-            )
-
-          ],
-        ));
+  void initState() {
+    super.initState();
   }
-}
-//}
 
-class ProfInterestPage extends StatefulWidget {
-  const ProfInterestPage({this.interests});
-  final List<String> interests;
+  String text = "Nothing to show";
+  
 
-  @override
-  _ProfInterestPageState createState() => _ProfInterestPageState(this.interests);
-}
-
-
-class _ProfInterestPageState extends State<ProfInterestPage> {
-  final List<String> interests;
-  _ProfInterestPageState(this.interests);
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Card(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: screenH(10)),
-              Text("Selected Interests"),
-              SizedBox(height: screenH(10)),
-              ListView.builder(itemBuilder:
+    
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Choose Social Interest Tags"),
+      ),
+      body: SingleChildScrollView(
+        //physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          children: <Widget>[
+                SizedBox(
+                  height: MediaQuery.of(context).size.height/30,
+                ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width/30,
+                ),
+                Text("Choose a max of 3"),
+              ],
+            ),
 
-                  (BuildContext context, int index) {
-                return ListTile(
-                  title:Text( interests[index]),
-                );
-              },itemCount: interests.length,shrinkWrap: true, ),
-              RaisedButton(
-                child: Text("Save"),
-                onPressed: (){
-
-                  Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').document(profCardId)
-                      .updateData({
-                    'interests': interests
-                  });
-
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              ),
-              RaisedButton(
-                child: Text("Edit Interests"),
-                onPressed: (){
-                  interests.clear();
-                  Navigator.pop(context);
-
-
-
-                },
-              )
-
-
-            ],
-          ),
-        )
+            SizedBox(
+              height: 10.0,
+            ),
+                      Container(
+                      //color: Colors.white,
+                      width: MediaQuery.of(context).size.width / 1.1,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width / 22,
+                            vertical: MediaQuery.of(context).size.height / 72),
+                        child: TextField(
+                          decoration: new InputDecoration(
+                              icon: Icon(Icons.search),
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 30,
+                                  bottom: MediaQuery.of(context).size.height / 75,
+                                  top: MediaQuery.of(context).size.height / 75,
+                                  right: MediaQuery.of(context).size.width / 30),
+                              hintText: 'Search for Interests'),
+                        ),
+                      ),
+                ),
+            SizedBox(
+              height: 10.0,
+            ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text('Startups; Philosophy; Engineering;',
+                    style: TextStyle(
+                     color: Color(0xFF1976d2), fontSize: 13)),
+                  OutlineButton(
+                  padding: EdgeInsets.all(5),
+                  color: Color(0xFF8803fc),
+                  child: new Text("Save tags", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
+                 onPressed: (){
+                            },
+                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
+                          )
+                  ],
+                ),
+                _myListView2(context)
+          ],
+        ),
+      ),
     );
   }
-}
 
-class ProfDataSearch extends SearchDelegate<
-    String> {
-  Iterable<ProfInterestTile> suggestions=[];
-  dynamic suggestionList=[];
-  List<ProfInterestTile> interestList=[new ProfInterestTile("Badminton"),new ProfInterestTile("Flutter")
-    ,new ProfInterestTile("Arts")
-    ,new ProfInterestTile("Philosophy")
-    ,new ProfInterestTile("Tech Companies")
-    ,new ProfInterestTile("Music")
-    ,new ProfInterestTile("Painting")
-    ,new ProfInterestTile("Startups")
-    ,new ProfInterestTile( "Engineering")
-    ,new ProfInterestTile("Machine Learning")
-    ,new ProfInterestTile("Supply Chain")
+    Widget _myListView2(BuildContext context) {
+      return CheckboxGroup(
+      checkColor: Colors.white,
+      activeColor: Color(0xFF1976d2),
+      labels: <String>[
+        "Startups",
+        "Tech Companies",
+        "Arts",
+        "Philosophy",
+        "Engineering",
+        "Music",
+        "Painting",
+        "Drama and Theatre",
+        "Supply Chain",
+        "Machine Learning", 
+        "Engineering"
 
-  ];
-
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    // TODO: implement buildActions
-    return [IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: (){
-        query='';
-
-      },
-    )];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
-
-    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
-        onPressed: (){
-          close(context, null);
-        });
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-
-    return null;
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-
-    print('less than 3 interests');
-    suggestions =
-    query.isEmpty ? [] : interestList.where((interest) => (interest.interest
-        .toLowerCase().contains(query)));
-    suggestions.toList();
-    return
-      ListView.builder(
-          shrinkWrap: true,
-
-          itemBuilder: (BuildContext context, int index) {
-            return suggestions.toList()[index];
-          }, itemCount: suggestions.length);
-
-  }
+      
+      ],
+      onChange: (bool isChecked, String label, int index) => print("isChecked: $isChecked   label: $label  index: $index"),
+      onSelected: (List<String> checked) => print("checked: ${checked.toString()}"),
+    );
+    }
 
 
 }
-
 

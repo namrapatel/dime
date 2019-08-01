@@ -23,13 +23,15 @@ class UserManagement {
         .collection('profcard')
         .add({
       'photoUrl': url,
-      'displayName': name
+      'displayName': name,
+      'socialToggled':true
     });
     Firestore.instance.collection('users').document(id)
         .collection('socialcard')
         .add({
       'photoUrl': url,
-      'displayName': name
+      'displayName': name,
+      'socialToggled':true
     });
   }
 }

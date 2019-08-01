@@ -26,6 +26,7 @@ class _ProfInterestTileState extends State<ProfInterestTile> {
   @override
   Widget build(BuildContext context) {
 
+
     if (profInterests.contains(widget.interest)) {
       setState(() {
         value1 = true;
@@ -140,7 +141,7 @@ class _ProfInterestPageState extends State<ProfInterestPage> {
               RaisedButton(
                 child: Text("Edit Interests"),
                 onPressed: (){
-                  interests.clear();
+                  profInterests.clear();
                   Navigator.pop(context);
 
 
@@ -209,7 +210,7 @@ class ProfDataSearch extends SearchDelegate<
 
     print('less than 3 interests');
     suggestions =
-    query.isEmpty ? [] : interestList.where((interest) => (interest.interest
+    query.isEmpty ? interestList : interestList.where((interest) => (interest.interest
         .toLowerCase().contains(query)));
     suggestions.toList();
     return

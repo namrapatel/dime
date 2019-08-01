@@ -16,8 +16,9 @@ class SocialCard extends StatelessWidget {
   final String snapchat;
   final String instagram;
   final String twitter;
-
-
+  final String interestString;
+final String email;
+final bool isSwitched;
 
 
 
@@ -30,12 +31,21 @@ class SocialCard extends StatelessWidget {
 
         this.photoUrl,
         this.displayName,
-        this.bio
+        this.bio,this.interestString,this.email,this.isSwitched
       });
 
   factory SocialCard.fromDocument(DocumentSnapshot document) {
+    String interest="";
+    List<dynamic> interests=document['interests'];
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interest=interest+ interests[i];
+      }else{
+        interest=interest+ interests[i]+", ";
+      }
 
-      return SocialCard(
+    }
+    return SocialCard(
         type: document['type'],
         photoUrl: document['photoUrl'],
         major: document['major'],
@@ -45,7 +55,10 @@ class SocialCard extends StatelessWidget {
         instagram: document['instagram'],
         twitter: document['twitter'],
         bio: document['bio'],
-      );
+        interestString:interest,
+        email:document['email'],
+      isSwitched: document['socialToggled'],
+    );
 
   }
     @override
@@ -120,6 +133,15 @@ class SocialCard extends StatelessWidget {
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Colors.grey)),
+                            email==null?
+                            Text("",
+                                style: TextStyle(
+                                    fontSize: screenF(13),
+                                    color: Colors.grey)):
+                            Text(email,
+                                style: TextStyle(
+                                    fontSize: screenF(13),
+                                    color: Colors.grey)),
                           ],
                         ),
                         SizedBox(
@@ -135,68 +157,94 @@ class SocialCard extends StatelessWidget {
                       EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(25)),
                       child:
 
+
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                         children: <Widget>[
+                          snapchat != null
+                              ? isSwitched == true?
                           Column(
                             children: <Widget>[
-                              snapchat!=null?
                               Icon(
                                 FontAwesome.snapchat_square,
                                 color: Color(0xFFfffc00),
-                              ):  SizedBox(
-                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(snapchat==null?'':snapchat,
+                              Text(snapchat,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
                             ],
+                          )
+                              : SizedBox(
+                            height: screenH(1),
+                          ): SizedBox(
+                            height: screenH(1),
                           ),
+                          instagram != null
+                              ? isSwitched == true?
                           Column(
                             children: <Widget>[
-                              instagram!=null?
                               Icon(
-                                MaterialCommunityIcons.instagram,
+                                MaterialCommunityIcons
+                                    .instagram,
                                 color: Color(0xFF8803fc),
-                              ):  SizedBox(
-                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(instagram==null?'':instagram,
+                              Text(instagram,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
                             ],
+                          )
+                              : SizedBox(
+                            height: screenH(1),
+                          ): SizedBox(
+                            height: screenH(1),
                           ),
+                          twitter != null
+                              ? isSwitched == true?
                           Column(
                             children: <Widget>[
-                              twitter!=null?
                               Icon(
-                                MaterialCommunityIcons.twitter_box,
+                                MaterialCommunityIcons
+                                    .twitter_box,
                                 color: Colors.blue,
-                              ): SizedBox(
-                                width: 1,
                               ),
-                              SizedBox(
-                              width: screenW(10),
-                              ),
-                              Text(twitter==null?'':twitter,
+                              Text(twitter,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
                             ],
+                          )
+                              : SizedBox(
+                            height: screenH(1),
+                          ): SizedBox(
+                            height: screenH(1),
                           )
                         ],
                       ),
 
 
                     ),
+                    SizedBox(
+                      height: screenH(25),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 20.0),
+                        Text(interestString!=null?interestString:"",
+                            style: TextStyle(
+                                color: Color(0xFF8803fc), fontSize: screenF(13)))
+                      ],
+                    )
+
+
                   ],
                 ),
 

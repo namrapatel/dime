@@ -20,6 +20,7 @@ String selectedItemString2;
 String selectedWItemString2;
 String socialCardId;
 String profCardId;
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -52,7 +53,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     super.initState();
     getSocialInfo();
   }
+  String email;
 
+  String interestString="";
   String saved = '';
   String name;
   String university;
@@ -88,6 +91,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   }
 
   getSocialInfo() async {
+    List<dynamic> interests=[];
     QuerySnapshot query = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -106,12 +110,29 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         instagram = document['instagram'];
         twitter = document['twitter'];
         photoUrl = document['photoUrl'];
+        interests=document['interests'];
+        isSwitched=document['socialToggled'];
+        email=document['email'];
       });
 
 //      bio=document['bio'];
 
     }
+
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interestString=interestString+ interests[i];
+      }else{
+        interestString=interestString+ interests[i]+", ";
+      }
+
+    }
+    print(interestString);
+
+
   }
+
+
 
   updateSocialCard() {
     Firestore.instance
@@ -126,7 +147,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       'snapchat': snapchat,
       'instagram': instagram,
       'twitter': twitter,
-      'photoUrl': photoUrl
+      'photoUrl': photoUrl,
+      'socialToggled':isSwitched,
+      'email':email
     });
   }
 
@@ -299,6 +322,12 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                               style: TextStyle(
                                                   fontSize: screenF(13),
                                                   color: Colors.grey))
+                                          : SizedBox(height: screenH(1)),
+                                      email != null
+                                          ? Text(email,
+                                          style: TextStyle(
+                                              fontSize: screenF(13),
+                                              color: Colors.grey))
                                           : SizedBox(height: screenH(1))
                                     ],
                                   ),
@@ -426,13 +455,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                               SizedBox(
                                 height: screenH(25),
                               ),
+
                               Row(
                                 children: <Widget>[
                                   SizedBox(width: 20.0),
-                                  Text('Badminton; Philosophy; Comedy Movies',
+                                  Text(interestString!=null?interestString:"",
                                       style: TextStyle(
-                                          color: Color(0xFF8803fc),
-                                          fontSize: screenF(13)))
+                                          color: Color(0xFF8803fc), fontSize: screenF(13)))
                                 ],
                               )
                             ],
@@ -555,6 +584,11 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                 hintColor: Colors.black),
                             child: TextField(
                               onSubmitted: (value) {
+                                if (value != '' && value != null) {
+                                  setState(() {
+                                    email = value;
+                                  });
+                                }
                               },
                               decoration: InputDecoration(
                                   border: new UnderlineInputBorder(
@@ -952,7 +986,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     super.initState();
     getProfInfo();
   }
-
+    String interestString='';
+  String email;
   String saved = '';
   String name;
   String university;
@@ -965,6 +1000,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
 
   File _image;
   getProfInfo() async {
+    List<dynamic> interests=[];
     QuerySnapshot query = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -982,11 +1018,22 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
         linkedIn = document['linkedIn'];
         twitter = document['twitter'];
         photoUrl = document['photoUrl'];
+        isSwitched2=document['socialToggled'];
+        email=document['email'];
       });
 
 //      bio=document['bio'];
 
     }
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interestString=interestString+ interests[i];
+      }else{
+        interestString=interestString+ interests[i]+", ";
+      }
+
+    }
+    print(interestString);
   }
 
   updateProfCard() {
@@ -1002,7 +1049,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'github': github,
       'linkedIn': linkedIn,
       'twitter': twitter,
-      'photoUrl': photoUrl
+      'photoUrl': photoUrl,
+      'socialToggled':isSwitched2,
+      'email':email
     });
   }
 
@@ -1199,6 +1248,12 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                               style: TextStyle(
                                                   fontSize: screenF(13),
                                                   color: Colors.grey))
+                                          : SizedBox(height: screenH(1)),
+                                      email != null
+                                          ? Text(email,
+                                          style: TextStyle(
+                                              fontSize: screenF(13),
+                                              color: Colors.grey))
                                           : SizedBox(height: screenH(1))
                                     ],
                                   ),
@@ -1330,11 +1385,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                               Row(
                                 children: <Widget>[
                                   SizedBox(width: 20.0),
-                                  Text(
-                                      'Mobile Development, Product Strategy, Social Ventures',
+                                  Text(interestString!=null?interestString:"",
                                       style: TextStyle(
-                                          color: Color(0xFF1976d2),
-                                          fontSize: screenF(13)))
+                                          color: Color(0xFF1976d2), fontSize: screenF(13)))
                                 ],
                               )
                             ],
@@ -1454,6 +1507,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                 hintColor: Colors.black),
                             child: TextField(
                               onSubmitted: (value) {
+                                if (value != '' && value != null) {
+                                  setState(() {
+                                    email = value;
+                                  });
+                                }
                               },
                               decoration: InputDecoration(
                                   border: new UnderlineInputBorder(

@@ -137,7 +137,7 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
               RaisedButton(
                 child: Text("Edit Interests"),
                 onPressed: (){
-                  interests.clear();
+                  socialInterests.clear();
                   Navigator.pop(context);
 
 
@@ -209,7 +209,7 @@ class SocialDataSearch extends SearchDelegate<
 
     print('less than 3 interests');
     suggestions =
-    query.isEmpty ? [] : interestList.where((interest) => (interest.interest
+    query.isEmpty ? interestList : interestList.where((interest) => (interest.interest
         .toLowerCase().contains(query)));
     suggestions.toList();
     return

@@ -82,7 +82,7 @@ class SocialCard extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Stack(
                   children: <Widget>[
-Column(
+                  Column(
                   children: <Widget>[
                     SizedBox(
                       height: screenH(20),
@@ -151,7 +151,7 @@ Column(
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(snapchat==null?'No Snapchat \nDisplayed':snapchat,
+                              Text(snapchat==null?'':snapchat,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -170,7 +170,7 @@ Column(
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(instagram==null?'No Instagram \nDisplayed':instagram,
+                              Text(instagram==null?'':instagram,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
@@ -189,7 +189,7 @@ Column(
                               SizedBox(
                               width: screenW(10),
                               ),
-                              Text(twitter==null?'No Twitter \nDisplayed':twitter,
+                              Text(twitter==null?'':twitter,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),

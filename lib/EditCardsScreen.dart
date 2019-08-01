@@ -488,6 +488,49 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                     ),
                     SizedBox(
                       height: 20.0,
+                      width: screenW(70),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Email',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Theme(
+                            // data: theme.copyWith(primaryColor: Colors.black),
+                            data: new ThemeData(
+                                primaryColor: Colors.black,
+                                accentColor: Colors.black,
+                                hintColor: Colors.black),
+                            child: TextField(
+                              onSubmitted: (value) {
+                              },
+                              decoration: InputDecoration(
+                                  border: new UnderlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black))),
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.grey),
+                              cursorColor: Colors.black,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
                     ),
                     Row(
                       children: <Widget>[
@@ -1310,6 +1353,50 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         ],
                       ),
                     ),
+                    SizedBox(
+                      height: 20.0,
+                      width: screenW(70),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Email',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Theme(
+                            // data: theme.copyWith(primaryColor: Colors.black),
+                            data: new ThemeData(
+                                primaryColor: Colors.black,
+                                accentColor: Colors.black,
+                                hintColor: Colors.black),
+                            child: TextField(
+                              onSubmitted: (value) {
+                              },
+                              decoration: InputDecoration(
+                                  border: new UnderlineInputBorder(
+                                      borderSide:
+                                          new BorderSide(color: Colors.black))),
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.grey),
+                              cursorColor: Colors.black,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    
                     SizedBox(
                       height: 20.0,
                     ),

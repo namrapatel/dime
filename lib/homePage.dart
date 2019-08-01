@@ -86,7 +86,6 @@ class _ScrollPageState extends State<ScrollPage>
     var location = new Location();
 
 
-          var location = new Location();
 
           location.onLocationChanged().listen((LocationData currentLocation) {
 

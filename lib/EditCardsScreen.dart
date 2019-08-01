@@ -151,6 +151,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   }
 
   String text = "Nothing to show";
+  bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
     List<SearchItem<int>> data2 = [
@@ -441,6 +442,33 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                     SizedBox(
                       height: 20.0,
                       width: screenW(70),
+                    ),
+                    Row(
+                      children: <Widget>[
+                    SizedBox(
+                      width: screenW(20),
+                    ),
+                        Text(
+                          'Display Social Media?',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Switch(
+                        value: isSwitched,
+                        onChanged: (value) {
+                          setState(() {
+                            isSwitched = value;
+                          });
+                        },
+                        activeTrackColor: Colors.grey,
+                        activeColor: Colors.black,
+                      ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: screenH(20),
                     ),
                     Row(
                       children: <Widget>[
@@ -1017,6 +1045,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   }
 
   String text = "Nothing to show";
+  bool isSwitched2 = true;
   @override
   Widget build(BuildContext context) {
     List<SearchItem<int>> data2 = [
@@ -1308,6 +1337,30 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                     SizedBox(
                       height: 20.0,
                       width: screenW(70),
+                    ),
+                    Row(
+                      children: <Widget>[
+                    SizedBox(
+                      width: screenW(20),
+                    ),
+                        Text(
+                          'Display Social Media?',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Switch(
+                        value: isSwitched2,
+                        onChanged: (value) {
+                          setState(() {
+                            isSwitched2 = value;
+                          });
+                        },
+                        activeTrackColor: Colors.grey,
+                        activeColor: Colors.black,
+                      ),
+                      ],
                     ),
                     Row(
                       children: <Widget>[

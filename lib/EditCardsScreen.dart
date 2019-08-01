@@ -18,8 +18,7 @@ String selectedWItemString;
 
 String selectedItemString2;
 String selectedWItemString2;
-String socialCardId;
-String profCardId;
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -56,16 +55,12 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   String saved = '';
   String name;
   String university;
-
-   String major;
-   String snapchat;
-   String instagram;
-   String twitter;
-
-   String photoUrl;
-String interestString="";
-
-
+  String major;
+  String snapchat;
+  String instagram;
+  String twitter;
+  String socialCardId;
+  String photoUrl;
 
   Widget _buildAddButton() {
     return Container(
@@ -92,45 +87,29 @@ String interestString="";
   }
 
   getSocialInfo() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('socialcard')
+        .getDocuments();
 
-    List<dynamic> interests=[];
-    QuerySnapshot query=await Firestore.instance.collection('users').document(
-        currentUserModel.uid).collection('socialcard').getDocuments();
-
-    for(var document in query.documents) {
-
+    for (var document in query.documents) {
       setState(() {
         socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
-
-        major=document['major'];
-        name= document['displayName'];
-        university=document['university'];
-        snapchat= document['snapchat'];
-        instagram= document['instagram'];
-        twitter=document['twitter'];
-        photoUrl=document['photoUrl'];
-        interests=document['interests'];
-
+        major = document['major'];
+        name = document['displayName'];
+        university = document['university'];
+        snapchat = document['snapchat'];
+        instagram = document['instagram'];
+        twitter = document['twitter'];
+        photoUrl = document['photoUrl'];
       });
 
 //      bio=document['bio'];
 
     }
-
-
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interestString=interestString+ interests[i];
-      }else{
-        interestString=interestString+ interests[i]+", ";
-      }
-
-    }
-    print(interestString);
-
-
   }
 
   updateSocialCard() {
@@ -279,11 +258,9 @@ String interestString="";
                         ],
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
-
                     child: socialCardId == null
                         ? CircularProgressIndicator()
                         : Column(
-
                             children: <Widget>[
                               SizedBox(
                                 height: screenH(20),
@@ -448,22 +425,6 @@ String interestString="";
                               )
                             ],
                           ),
-
-                        ),
-                        SizedBox(
-                          height: screenH(25),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(width: 20.0),
-                            Text(interestString!=null?interestString:"",
-                                style: TextStyle(
-                                    color: Color(0xFF8803fc), fontSize: screenF(13)))
-                          ],
-                        )
-                      ],
-                    ),
-
                   )
                 ],
               ),
@@ -844,14 +805,12 @@ String interestString="";
                               style: TextStyle(
                                   color: Color(0xFF8803fc), fontSize: 15),
                             ),
-
-                            new OutlineButton(
-                              padding: EdgeInsets.all(15),
-                              color: Color(0xFF8803fc),
-                            child: new Text("Choose 3 social interest tags", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
-                            onPressed: (){
-                              showSearch(context: context, delegate:SocialDataSearch());
-
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => SocialTags()),
+                              );
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))
@@ -923,54 +882,41 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String linkedIn;
   String github;
   String twitter;
-  String interestString="";
+  String profCardId;
   String photoUrl;
 
   File _image;
   getProfInfo() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .getDocuments();
 
-List<dynamic> interests=[];
-    QuerySnapshot query=await Firestore.instance.collection('users').document(
-        currentUserModel.uid).collection('profcard').getDocuments();
-
-    for(var document in query.documents) {
+    for (var document in query.documents) {
       setState(() {
-        profCardId= document.documentID;
+        profCardId = document.documentID;
 
-
-
-
-        major=document['major'];
-        name= document['displayName'];
-        university=document['university'];
-        github= document['github'];
-        linkedIn= document['linkedIn'];
-        twitter=document['twitter'];
-        photoUrl=document['photoUrl'];
-        interests=document['interests'];
-
+        major = document['major'];
+        name = document['displayName'];
+        university = document['university'];
+        github = document['github'];
+        linkedIn = document['linkedIn'];
+        twitter = document['twitter'];
+        photoUrl = document['photoUrl'];
       });
 
 //      bio=document['bio'];
 
     }
-
-
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interestString=interestString+ interests[i];
-      }else{
-        interestString=interestString+ interests[i]+", ";
-      }
-
-    }
-    print(interestString);
-
   }
 
-  updateProfCard(){
-    Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').document(profCardId)
-
+  updateProfCard() {
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .document(profCardId)
         .updateData({
       'displayName': name,
       'major': major,
@@ -1135,11 +1081,9 @@ List<dynamic> interests=[];
                         ],
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
-
                     child: profCardId == null
                         ? CircularProgressIndicator()
                         : Column(
-
                             children: <Widget>[
                               SizedBox(
                                 height: screenH(20),
@@ -1305,22 +1249,6 @@ List<dynamic> interests=[];
                               )
                             ],
                           ),
-
-                        ),
-                        SizedBox(
-                          height: screenH(25),
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(width: 20.0),
-                            Text(interestString!=null?interestString:"",
-                                style: TextStyle(
-                                    color: Color(0xFF1976d2), fontSize: screenF(13)))
-                          ],
-                        )
-                      ],
-                    ),
-
                   )
                 ],
               ),
@@ -1727,17 +1655,12 @@ List<dynamic> interests=[];
                               style: TextStyle(
                                   color: Color(0xFF1976d2), fontSize: 15),
                             ),
-
-                            SizedBox(
-                              width: screenW(30),
-                            ),
-                            new OutlineButton(
-                              padding: EdgeInsets.all(15),
-                              color: Color(0xFF1976d2),
-                            child: new Text("Choose 3 professional interest tags", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
-                            onPressed: (){
-                              showSearch(context: context, delegate:ProfDataSearch());
-
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfTags()),
+                              );
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))
@@ -1841,7 +1764,7 @@ class _CardEditState extends State<CardEdit> {
           ),
         ),
         body: TabBarView(
-          children: [new SocialCardEdit(),new  ProfessionalCardEdit()],
+          children: [SocialCardEdit(), ProfessionalCardEdit()],
         ),
       ),
     );

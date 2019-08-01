@@ -16,7 +16,6 @@ class ProfCard extends StatelessWidget {
   final String twitter;
   final String github;
   final String linkedIn;
-  final String interestString;
 
 
 
@@ -28,20 +27,10 @@ class ProfCard extends StatelessWidget {
         this.github,this.linkedIn,
         this.photoUrl,
         this.displayName,
-        this.bio,this.interestString
+        this.bio
       });
 
   factory ProfCard.fromDocument(DocumentSnapshot document) {
-String interest="";
-    List<dynamic> interests=document['interests'];
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interest=interest+ interests[i];
-      }else{
-        interest=interest+ interests[i]+", ";
-      }
-
-    }
 
       return ProfCard(
         type: document['type'],
@@ -53,7 +42,6 @@ String interest="";
         linkedIn: document['linkedIn'],
         bio: document['bio'],
         twitter: document['twitter'],
-        interestString: interest,
       );
 
   }
@@ -204,23 +192,11 @@ Column(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
                             ],
-                          ),
-
+                          )
                         ],
                       ),
 
                     ),
-                    SizedBox(
-                      height: screenH(25),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(width: 20.0),
-                        Text(interestString!=null?interestString:"",
-                            style: TextStyle(
-                                color: Color(0xFF1976d2), fontSize: screenF(13)))
-                      ],
-                    )
                   ],
                 ),
                 Positioned(

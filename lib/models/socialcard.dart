@@ -144,9 +144,8 @@ class SocialCard extends StatelessWidget {
                               Icon(
                                 FontAwesome.snapchat_square,
                                 color: Color(0xFFfffc00),
-                              ):  Icon(
-                                FontAwesome.snapchat_square,
-                                color: Color(0xFFfffc00),
+                              ):  SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
@@ -163,9 +162,8 @@ class SocialCard extends StatelessWidget {
                               Icon(
                                 MaterialCommunityIcons.instagram,
                                 color: Color(0xFF8803fc),
-                              ):  Icon(
-                                MaterialCommunityIcons.instagram,
-                                color: Color(0xFF8803fc),
+                              ):  SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
@@ -182,9 +180,8 @@ class SocialCard extends StatelessWidget {
                               Icon(
                                 MaterialCommunityIcons.twitter_box,
                                 color: Colors.blue,
-                              ): Icon(
-                                MaterialCommunityIcons.twitter_box,
-                                color: Colors.blue,
+                              ): SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                               width: screenW(10),
@@ -206,11 +203,10 @@ class SocialCard extends StatelessWidget {
                   Positioned(
                   left: screenW(285),
                   top: screenH(20),
-                  right: screenW(25),
                   child:  CircleAvatar(
                           backgroundImage:
                           NetworkImage(photoUrl),
-                          radius: 30,
+                          radius: 25,
                         ),
                 ),
                   ],

@@ -99,7 +99,7 @@ Column(
                             SizedBox(
                               height: screenH(2),
                             ),university==null?
-                            Text("No University Displayed",
+                            Text("",
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Color(0xFF1976d2))):
@@ -111,7 +111,7 @@ Column(
                               height: screenH(2),
                             ),
                             major==null?
-                            Text("No Program Displayed",
+                            Text("",
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Colors.grey)):
@@ -140,9 +140,8 @@ Column(
                               Icon(
                                 MaterialCommunityIcons.github_box,
                                 color: Colors.black,
-                              ): Icon(
-                                MaterialCommunityIcons.github_box,
-                                color: Colors.black,
+                              ): SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
@@ -160,9 +159,8 @@ Column(
                               Icon(
                                 FontAwesome.linkedin_square,
                                 color: Color(0xFF0077B5),
-                              ): Icon(
-                                FontAwesome.linkedin_square,
-                                color: Color(0xFF0077B5),
+                              ): SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
@@ -180,9 +178,8 @@ Column(
                               Icon(
                                 MaterialCommunityIcons.twitter_box,
                                 color: Colors.blue,
-                              ): Icon(
-                                MaterialCommunityIcons.twitter_box,
-                                color: Colors.blue,
+                              ): SizedBox(
+                                width: 1,
                               ),
                               SizedBox(
                                 width: screenW(10),
@@ -202,11 +199,11 @@ Column(
                 Positioned(
                   left: screenW(285),
                   top: screenH(20),
-                  right: screenW(25),
+                  
                   child:  CircleAvatar(
                           backgroundImage:
                           NetworkImage(photoUrl),
-                          radius: 30,
+                          radius: 25,
                         ),
                 ),
                   ],

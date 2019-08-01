@@ -82,7 +82,7 @@ class SocialCard extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(15))),
                 child: Stack(
                   children: <Widget>[
-Column(
+                  Column(
                   children: <Widget>[
                     SizedBox(
                       height: screenH(20),

@@ -83,7 +83,6 @@ class _ScrollPageState extends State<ScrollPage>
           var location = new Location();
 
           location.onLocationChanged().listen((LocationData currentLocation) {
-          //SEND TO FIREBASE FROM HERE TOO
 
           mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude),
           zoom: 18

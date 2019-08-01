@@ -18,7 +18,8 @@ String selectedWItemString;
 
 String selectedItemString2;
 String selectedWItemString2;
-
+String socialCardId;
+String profCardId;
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -59,7 +60,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   String snapchat;
   String instagram;
   String twitter;
-  String socialCardId;
+
   String photoUrl;
 
   Widget _buildAddButton() {
@@ -306,10 +307,11 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   ),
                                   Column(
                                     children: <Widget>[
+                                      photoUrl!=null?
                                       CircleAvatar(
                                         backgroundImage: NetworkImage(photoUrl),
                                         radius: 21,
-                                      ),
+                                      ):CircularProgressIndicator(),
                                       FlatButton(
                                         onPressed: () {
                                           setImage();
@@ -886,11 +888,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   color: Color(0xFF8803fc), fontSize: 15),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SocialTags()),
-                              );
+                              showSearch(context: context, delegate:SocialDataSearch());
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))
@@ -962,7 +960,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String linkedIn;
   String github;
   String twitter;
-  String profCardId;
+
   String photoUrl;
 
   File _image;
@@ -1209,10 +1207,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   ),
                                   Column(
                                     children: <Widget>[
+                                      photoUrl!=null?
                                       CircleAvatar(
                                         backgroundImage: NetworkImage(photoUrl),
                                         radius: 21,
-                                      ),
+                                      ):CircularProgressIndicator(),
                                       FlatButton(
                                         onPressed: () {
                                           setImage();
@@ -1815,11 +1814,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   color: Color(0xFF1976d2), fontSize: 15),
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfTags()),
-                              );
+                              showSearch(context: context, delegate:ProfDataSearch());
+
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))

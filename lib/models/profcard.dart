@@ -111,7 +111,7 @@ Column(
                               height: screenH(2),
                             ),
                             major==null?
-                            Text("No Program Displayed              ",
+                            Text("No Program Displayed",
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Colors.grey)):
@@ -147,7 +147,7 @@ Column(
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(github==null?'No GitHub \nDisplayed':github,
+                              Text(github==null?'':github,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.black,
@@ -167,7 +167,7 @@ Column(
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(linkedIn==null?'No Linkedin \nDisplayed':linkedIn,
+                              Text(linkedIn==null?'':linkedIn,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.black,
@@ -187,7 +187,7 @@ Column(
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(twitter==null?'No Twitter \nDisplayed':twitter,
+                              Text(twitter==null?'':twitter,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),

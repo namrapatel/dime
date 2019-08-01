@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -12,6 +13,38 @@ class InviteFriends extends StatefulWidget {
 }
 
 class _InviteFriendsState extends State<InviteFriends> {
+
+  _launchURLMessenger() async {
+  const url = 'https://www.messenger.com/new';
+  launch(url);
+}
+  _launchURLTwitter() async {
+  const url = 'https://twitter.com/messages/compose';
+  launch(url);
+}
+  _launchURLLinkedin() async {
+  const url = 'https://www.linkedin.com/messaging/compose';
+  launch(url);
+}
+ _textMe() async {
+    // Android
+    const uri = 'sms: ';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      // iOS
+      const uri = 'sms:';
+      if (await canLaunch(uri)) {
+        await launch(uri);
+      } else {
+        throw 'Could not launch $uri';
+      }
+    }
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -46,14 +79,15 @@ class _InviteFriendsState extends State<InviteFriends> {
           ),
           Center(
             child: Text("Invite Friends",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(70, 10, 70, 0),
+            padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
             child: Center(
               child: Text(
-                "Invite your friends to the Dime community to spread the word and form the app ecosystem.",
+                "Invite one or more friends to join the Dime community and we'll give you both this month's password.",
                 textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
               ),
             ),
           ),
@@ -71,15 +105,17 @@ class _InviteFriendsState extends State<InviteFriends> {
           Container(
               width: screenW(378),
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  _launchURLMessenger();
+                },
                 title: Text(
-                  "Facebook",
+                  "Messenger",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text("Invite friends from Facebook"),
+                subtitle: Text("Invite friends from Facebook Messenger"),
                 leading: Icon(
-                  Entypo.facebook_with_circle,
-                  color: Color(0xFF3C5A99),
+                  MaterialCommunityIcons.facebook_messenger,
+                  color: Color(0xFF0078FF),
                   size: 35,
                 ),
                 trailing: Icon(
@@ -91,7 +127,9 @@ class _InviteFriendsState extends State<InviteFriends> {
           Container(
               width: screenW(378),
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  _launchURLTwitter();
+                },
                 title: Text(
                   "Twitter",
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -111,15 +149,17 @@ class _InviteFriendsState extends State<InviteFriends> {
           Container(
               width: screenW(378),
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  _launchURLLinkedin();
+                },
                 title: Text(
-                  "Instagram",
+                  "Linkedin",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: Text("Invite friends from Instagram"),
+                subtitle: Text("Invite friends from Linkedin"),
                 leading: Icon(
-                  MaterialCommunityIcons.instagram,
-                  color: Color(0xFF8803fc),
+                  MaterialCommunityIcons.linkedin,
+                  color: Color(0xFF0077B5),
                   size: 35,
                 ),
                 trailing: Icon(
@@ -131,7 +171,9 @@ class _InviteFriendsState extends State<InviteFriends> {
           Container(
               width: screenW(378),
               child: ListTile(
-                onTap: () {},
+                onTap: () {
+                  _textMe();
+                },
                 title: Text(
                   "Messages",
                   style: TextStyle(fontWeight: FontWeight.bold),
@@ -139,7 +181,7 @@ class _InviteFriendsState extends State<InviteFriends> {
                 subtitle: Text("Invite friends from Messages"),
                 leading: Icon(
                   Ionicons.ios_text,
-                  color: Colors.black,
+                  color: Color(0xFF53d769),
                   size: 35,
                 ),
                 trailing: Icon(

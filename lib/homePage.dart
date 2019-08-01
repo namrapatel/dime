@@ -85,6 +85,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   final Map<String, Marker> _markers = {};
 
+
   @override
   void initState() {
     var location = new Location();
@@ -101,6 +102,8 @@ class _ScrollPageState extends State<ScrollPage>
               .updateData({
             'currentLocation': userLoc,
           });
+
+
 
 
 

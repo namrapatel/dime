@@ -70,9 +70,9 @@ class ProfCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                          color: Colors.transparent,
+                          color: Colors.black26,
                           blurRadius: (20),
-                          spreadRadius: (5),
+                          spreadRadius: (3),
                           offset: Offset(0, 5)),
                     ],
                     color: Colors.white,

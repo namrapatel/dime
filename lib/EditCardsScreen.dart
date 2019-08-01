@@ -354,7 +354,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     snapchat != null
-                                        ? Column(
+                                        ? isSwitched == true?
+                                        Column(
                                             children: <Widget>[
                                               Icon(
                                                 FontAwesome.snapchat_square,
@@ -371,9 +372,12 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
+                                          ): SizedBox(
+                                            height: screenH(1),
                                           ),
                                     instagram != null
-                                        ? Column(
+                                        ? isSwitched == true?
+                                        Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -391,9 +395,12 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
+                                          ): SizedBox(
+                                            height: screenH(1),
                                           ),
                                     twitter != null
-                                        ? Column(
+                                        ? isSwitched == true?
+                                        Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -408,7 +415,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ),
+                                          ): SizedBox(
+                                            height: screenH(1),
+                                          )
                                   ],
                                 ),
                               ),
@@ -1248,7 +1257,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     linkedIn != null
-                                        ? Column(
+                                        ? isSwitched2 == true?
+                                        Column(
                                             children: <Widget>[
                                               Icon(
                                                 FontAwesome.linkedin_square,
@@ -1265,9 +1275,13 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
+                                          ):
+                                          SizedBox(
+                                            height: screenH(1),
                                           ),
                                     github != null
-                                        ? Column(
+                                        ? isSwitched2 == true?
+                                        Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -1285,9 +1299,12 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
+                                          ): SizedBox(
+                                            height: screenH(1),
                                           ),
                                     twitter != null
-                                        ? Column(
+                                        ? isSwitched2 == true?
+                                        Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -1302,7 +1319,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ),
+                                          ): SizedBox(
+                                            height: screenH(1),
+                                          )
                                   ],
                                 ),
                               ),

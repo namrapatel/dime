@@ -16,6 +16,7 @@ class ProfCard extends StatelessWidget {
   final String twitter;
   final String github;
   final String linkedIn;
+  final String interestString;
 
 
 
@@ -27,10 +28,20 @@ class ProfCard extends StatelessWidget {
         this.github,this.linkedIn,
         this.photoUrl,
         this.displayName,
-        this.bio
+        this.bio,this.interestString
       });
 
   factory ProfCard.fromDocument(DocumentSnapshot document) {
+String interest="";
+    List<dynamic> interests=document['interests'];
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interest=interest+ interests[i];
+      }else{
+        interest=interest+ interests[i]+", ";
+      }
+
+    }
 
       return ProfCard(
         type: document['type'],
@@ -42,6 +53,7 @@ class ProfCard extends StatelessWidget {
         linkedIn: document['linkedIn'],
         bio: document['bio'],
         twitter: document['twitter'],
+        interestString: interest,
       );
 
   }
@@ -99,7 +111,7 @@ Column(
                             SizedBox(
                               height: screenH(2),
                             ),university==null?
-                            Text("",
+                            Text("No University Displayed",
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Color(0xFF1976d2))):
@@ -111,7 +123,7 @@ Column(
                               height: screenH(2),
                             ),
                             major==null?
-                            Text("",
+                            Text("No Program Displayed              ",
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Colors.grey)):
@@ -140,13 +152,14 @@ Column(
                               Icon(
                                 MaterialCommunityIcons.github_box,
                                 color: Colors.black,
-                              ): SizedBox(
-                                width: 1,
+                              ): Icon(
+                                MaterialCommunityIcons.github_box,
+                                color: Colors.black,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(github==null?'':github,
+                              Text(github==null?'No GitHub \nDisplayed':github,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.black,
@@ -159,13 +172,14 @@ Column(
                               Icon(
                                 FontAwesome.linkedin_square,
                                 color: Color(0xFF0077B5),
-                              ): SizedBox(
-                                width: 1,
+                              ): Icon(
+                                FontAwesome.linkedin_square,
+                                color: Color(0xFF0077B5),
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(linkedIn==null?'':linkedIn,
+                              Text(linkedIn==null?'No Linkedin \nDisplayed':linkedIn,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.black,
@@ -178,32 +192,45 @@ Column(
                               Icon(
                                 MaterialCommunityIcons.twitter_box,
                                 color: Colors.blue,
-                              ): SizedBox(
-                                width: 1,
+                              ): Icon(
+                                MaterialCommunityIcons.twitter_box,
+                                color: Colors.blue,
                               ),
                               SizedBox(
                                 width: screenW(10),
                               ),
-                              Text(twitter==null?'':twitter,
+                              Text(twitter==null?'No Twitter \nDisplayed':twitter,
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontSize: screenF(12))),
                             ],
-                          )
+                          ),
+
                         ],
                       ),
 
                     ),
+                    SizedBox(
+                      height: screenH(25),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 20.0),
+                        Text(interestString!=null?interestString:"",
+                            style: TextStyle(
+                                color: Color(0xFF1976d2), fontSize: screenF(13)))
+                      ],
+                    )
                   ],
                 ),
                 Positioned(
                   left: screenW(285),
                   top: screenH(20),
-                  
+                  right: screenW(25),
                   child:  CircleAvatar(
                           backgroundImage:
                           NetworkImage(photoUrl),
-                          radius: 25,
+                          radius: 30,
                         ),
                 ),
                   ],

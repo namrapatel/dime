@@ -18,7 +18,8 @@ String selectedWItemString;
 
 String selectedItemString2;
 String selectedWItemString2;
-
+String socialCardId;
+String profCardId;
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -55,12 +56,16 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   String saved = '';
   String name;
   String university;
-  String major;
-  String snapchat;
-  String instagram;
-  String twitter;
-  String socialCardId;
-  String photoUrl;
+
+   String major;
+   String snapchat;
+   String instagram;
+   String twitter;
+
+   String photoUrl;
+String interestString="";
+
+
 
   Widget _buildAddButton() {
     return Container(
@@ -87,29 +92,45 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   }
 
   getSocialInfo() async {
-    QuerySnapshot query = await Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('socialcard')
-        .getDocuments();
 
-    for (var document in query.documents) {
+    List<dynamic> interests=[];
+    QuerySnapshot query=await Firestore.instance.collection('users').document(
+        currentUserModel.uid).collection('socialcard').getDocuments();
+
+    for(var document in query.documents) {
+
       setState(() {
         socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
-        major = document['major'];
-        name = document['displayName'];
-        university = document['university'];
-        snapchat = document['snapchat'];
-        instagram = document['instagram'];
-        twitter = document['twitter'];
-        photoUrl = document['photoUrl'];
+
+        major=document['major'];
+        name= document['displayName'];
+        university=document['university'];
+        snapchat= document['snapchat'];
+        instagram= document['instagram'];
+        twitter=document['twitter'];
+        photoUrl=document['photoUrl'];
+        interests=document['interests'];
+
       });
 
 //      bio=document['bio'];
 
     }
+
+
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interestString=interestString+ interests[i];
+      }else{
+        interestString=interestString+ interests[i]+", ";
+      }
+
+    }
+    print(interestString);
+
+
   }
 
   updateSocialCard() {
@@ -151,7 +172,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   }
 
   String text = "Nothing to show";
-  bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
     List<SearchItem<int>> data2 = [
@@ -259,9 +279,11 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         ],
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
+
                     child: socialCardId == null
                         ? CircularProgressIndicator()
                         : Column(
+
                             children: <Widget>[
                               SizedBox(
                                 height: screenH(20),
@@ -354,8 +376,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     snapchat != null
-                                        ? isSwitched == true?
-                                        Column(
+                                        ? Column(
                                             children: <Widget>[
                                               Icon(
                                                 FontAwesome.snapchat_square,
@@ -372,12 +393,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ): SizedBox(
-                                            height: screenH(1),
                                           ),
                                     instagram != null
-                                        ? isSwitched == true?
-                                        Column(
+                                        ? Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -395,12 +413,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ): SizedBox(
-                                            height: screenH(1),
                                           ),
                                     twitter != null
-                                        ? isSwitched == true?
-                                        Column(
+                                        ? Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -415,9 +430,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ): SizedBox(
-                                            height: screenH(1),
-                                          )
+                                          ),
                                   ],
                                 ),
                               ),
@@ -435,6 +448,22 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                               )
                             ],
                           ),
+
+                        ),
+                        SizedBox(
+                          height: screenH(25),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(width: 20.0),
+                            Text(interestString!=null?interestString:"",
+                                style: TextStyle(
+                                    color: Color(0xFF8803fc), fontSize: screenF(13)))
+                          ],
+                        )
+                      ],
+                    ),
+
                   )
                 ],
               ),
@@ -451,33 +480,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                     SizedBox(
                       height: 20.0,
                       width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
-                    SizedBox(
-                      width: screenW(20),
-                    ),
-                        Text(
-                          'Display Social Media?',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Switch(
-                        value: isSwitched,
-                        onChanged: (value) {
-                          setState(() {
-                            isSwitched = value;
-                          });
-                        },
-                        activeTrackColor: Colors.grey,
-                        activeColor: Colors.black,
-                      ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: screenH(20),
                     ),
                     Row(
                       children: <Widget>[
@@ -510,49 +512,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                     name = value;
                                   });
                                 }
-                              },
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Email',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
                               },
                               decoration: InputDecoration(
                                   border: new UnderlineInputBorder(
@@ -885,12 +844,14 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                               style: TextStyle(
                                   color: Color(0xFF8803fc), fontSize: 15),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => SocialTags()),
-                              );
+
+                            new OutlineButton(
+                              padding: EdgeInsets.all(15),
+                              color: Color(0xFF8803fc),
+                            child: new Text("Choose 3 social interest tags", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
+                            onPressed: (){
+                              showSearch(context: context, delegate:SocialDataSearch());
+
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))
@@ -962,41 +923,54 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String linkedIn;
   String github;
   String twitter;
-  String profCardId;
+  String interestString="";
   String photoUrl;
 
   File _image;
   getProfInfo() async {
-    QuerySnapshot query = await Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('profcard')
-        .getDocuments();
 
-    for (var document in query.documents) {
+List<dynamic> interests=[];
+    QuerySnapshot query=await Firestore.instance.collection('users').document(
+        currentUserModel.uid).collection('profcard').getDocuments();
+
+    for(var document in query.documents) {
       setState(() {
-        profCardId = document.documentID;
+        profCardId= document.documentID;
 
-        major = document['major'];
-        name = document['displayName'];
-        university = document['university'];
-        github = document['github'];
-        linkedIn = document['linkedIn'];
-        twitter = document['twitter'];
-        photoUrl = document['photoUrl'];
+
+
+
+        major=document['major'];
+        name= document['displayName'];
+        university=document['university'];
+        github= document['github'];
+        linkedIn= document['linkedIn'];
+        twitter=document['twitter'];
+        photoUrl=document['photoUrl'];
+        interests=document['interests'];
+
       });
 
 //      bio=document['bio'];
 
     }
+
+
+    for(int i=0;i<interests.length;i++){
+      if(i==interests.length-1){
+        interestString=interestString+ interests[i];
+      }else{
+        interestString=interestString+ interests[i]+", ";
+      }
+
+    }
+    print(interestString);
+
   }
 
-  updateProfCard() {
-    Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('profcard')
-        .document(profCardId)
+  updateProfCard(){
+    Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').document(profCardId)
+
         .updateData({
       'displayName': name,
       'major': major,
@@ -1054,7 +1028,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   }
 
   String text = "Nothing to show";
-  bool isSwitched2 = true;
   @override
   Widget build(BuildContext context) {
     List<SearchItem<int>> data2 = [
@@ -1162,9 +1135,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         ],
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(15))),
+
                     child: profCardId == null
                         ? CircularProgressIndicator()
                         : Column(
+
                             children: <Widget>[
                               SizedBox(
                                 height: screenH(20),
@@ -1257,8 +1232,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     linkedIn != null
-                                        ? isSwitched2 == true?
-                                        Column(
+                                        ? Column(
                                             children: <Widget>[
                                               Icon(
                                                 FontAwesome.linkedin_square,
@@ -1275,13 +1249,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ):
-                                          SizedBox(
-                                            height: screenH(1),
                                           ),
                                     github != null
-                                        ? isSwitched2 == true?
-                                        Column(
+                                        ? Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -1299,12 +1269,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ): SizedBox(
-                                            height: screenH(1),
                                           ),
                                     twitter != null
-                                        ? isSwitched2 == true?
-                                        Column(
+                                        ? Column(
                                             children: <Widget>[
                                               Icon(
                                                 MaterialCommunityIcons
@@ -1319,9 +1286,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           )
                                         : SizedBox(
                                             height: screenH(1),
-                                          ): SizedBox(
-                                            height: screenH(1),
-                                          )
+                                          ),
                                   ],
                                 ),
                               ),
@@ -1340,6 +1305,22 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                               )
                             ],
                           ),
+
+                        ),
+                        SizedBox(
+                          height: screenH(25),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(width: 20.0),
+                            Text(interestString!=null?interestString:"",
+                                style: TextStyle(
+                                    color: Color(0xFF1976d2), fontSize: screenF(13)))
+                          ],
+                        )
+                      ],
+                    ),
+
                   )
                 ],
               ),
@@ -1356,30 +1337,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                     SizedBox(
                       height: 20.0,
                       width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
-                    SizedBox(
-                      width: screenW(20),
-                    ),
-                        Text(
-                          'Display Social Media?',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Switch(
-                        value: isSwitched2,
-                        onChanged: (value) {
-                          setState(() {
-                            isSwitched2 = value;
-                          });
-                        },
-                        activeTrackColor: Colors.grey,
-                        activeColor: Colors.black,
-                      ),
-                      ],
                     ),
                     Row(
                       children: <Widget>[
@@ -1425,50 +1382,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 20.0,
-                      width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Email',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                              },
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    
                     SizedBox(
                       height: 20.0,
                     ),
@@ -1814,12 +1727,17 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                               style: TextStyle(
                                   color: Color(0xFF1976d2), fontSize: 15),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfTags()),
-                              );
+
+                            SizedBox(
+                              width: screenW(30),
+                            ),
+                            new OutlineButton(
+                              padding: EdgeInsets.all(15),
+                              color: Color(0xFF1976d2),
+                            child: new Text("Choose 3 professional interest tags", style: TextStyle(color: Color(0xFF1976d2), fontSize: 15),),
+                            onPressed: (){
+                              showSearch(context: context, delegate:ProfDataSearch());
+
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))
@@ -1923,7 +1841,7 @@ class _CardEditState extends State<CardEdit> {
           ),
         ),
         body: TabBarView(
-          children: [SocialCardEdit(), ProfessionalCardEdit()],
+          children: [new SocialCardEdit(),new  ProfessionalCardEdit()],
         ),
       ),
     );

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:Dime/profPage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
@@ -19,8 +17,6 @@ import 'chat.dart';
 import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -89,25 +85,8 @@ class _ScrollPageState extends State<ScrollPage>
   void initState() {
     var location = new Location();
 
-
-
-          location.onLocationChanged().listen((LocationData currentLocation) {
-
-            GeoPoint userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
-
-          Firestore.instance
-              .collection('users')
-              .document(currentUserModel.uid)
-              .updateData({
-            'currentLocation': userLoc,
-          });
-
-
-
-          mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude),
-          zoom: 18
-          )));
-
+    location.onLocationChanged().listen((LocationData currentLocation) {
+      //SEND TO FIREBASE FROM HERE TOO
 
       mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target: LatLng(currentLocation.latitude, currentLocation.longitude),

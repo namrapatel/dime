@@ -467,7 +467,7 @@ String interestString="";
                   )
                 ],
               ),
-            ),
+            ]),
             Container(
                 color: Colors.white,
                 height: screenH(415),
@@ -836,16 +836,8 @@ String interestString="";
                         SizedBox(
                           width: screenW(30),
                         ),
-                        new OutlineButton(
-                            padding: EdgeInsets.all(15),
-                            color: Color(0xFF8803fc),
-                            child: new Text(
-                              "Choose 3 social interest tags",
-                              style: TextStyle(
-                                  color: Color(0xFF8803fc), fontSize: 15),
-                            ),
 
-                            new OutlineButton(
+                            OutlineButton(
                               padding: EdgeInsets.all(15),
                               color: Color(0xFF8803fc),
                             child: new Text("Choose 3 social interest tags", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
@@ -897,10 +889,10 @@ String interestString="";
                     ],
                   )
                 ]))
-          ]),
-        ])
-      ],
-    );
+          ]);
+
+
+
   }
 }
 
@@ -1324,7 +1316,7 @@ List<dynamic> interests=[];
                   )
                 ],
               ),
-            ),
+            ]),
             Container(
                 color: Colors.white,
                 height: screenH(415),
@@ -1719,14 +1711,7 @@ List<dynamic> interests=[];
                         SizedBox(
                           width: screenW(30),
                         ),
-                        new OutlineButton(
-                            padding: EdgeInsets.all(15),
-                            color: Color(0xFF1976d2),
-                            child: new Text(
-                              "Choose 3 professional interest tags",
-                              style: TextStyle(
-                                  color: Color(0xFF1976d2), fontSize: 15),
-                            ),
+
 
                             SizedBox(
                               width: screenW(30),
@@ -1783,10 +1768,8 @@ List<dynamic> interests=[];
                     ],
                   )
                 ]))
-          ]),
-        ])
-      ],
-    );
+          ]);
+
   }
 }
 

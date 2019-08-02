@@ -41,7 +41,7 @@ class _ScrollPageState extends State<ScrollPage>
     UserTile(
         'Dhruv Patel',
         'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
-        "TMoqB5fxMPWfvf11lYqGrifDF4p1",
+        "ocBp1teYqlQkimXXkpSp4Q35C5B3",
         major: 'Mechatronics Engineering, 2022',
         interests: ['Java', 'Badminton'])
   ];
@@ -491,16 +491,26 @@ class UserTile extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(
                     0, MediaQuery.of(context).size.height / 70, 0, 0),
               ),
-              Row(
+              Column(
                 children: <Widget>[
-                  Container(
-                    height: (50),
-                    child: ListView(
-                      padding: EdgeInsets.only(bottom: 5.0),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: buildInterests(interests, context),
-                    ),
+                  Row(
+                    children: <Widget>[
+                      Text("Philosophy, Flutter, Basketball", 
+                      style: TextStyle(
+                       color: Color(0xFF8803fc), fontSize: 13),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height/300,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Startups, Painting, Tech Companies", 
+                            style: TextStyle(
+                                color: Color(0xFF1976d2), fontSize: 13)
+                      )
+                    ],
                   ),
                 ],
               ),

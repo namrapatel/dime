@@ -153,7 +153,7 @@ Column(
                     ),
                     Padding(
                       padding:
-                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(25)),
+                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(10)),
                       child:Row(
                         mainAxisAlignment:
                         MainAxisAlignment.spaceBetween,
@@ -232,14 +232,15 @@ Column(
 
                     ),
                     SizedBox(
-                      height: screenH(25),
+                      height: screenH(7),
                     ),
                     Row(
                       children: <Widget>[
                         SizedBox(width: 20.0),
                         Text(interestString!=null?interestString:"",
                             style: TextStyle(
-                                color: Color(0xFF8803fc), fontSize: screenF(13)))
+                                color: Color(0xFF1976d2), fontSize: screenF(13))
+                                )
                       ],
                     )
                   ],

@@ -204,7 +204,7 @@ class SocialCard extends StatelessWidget {
                 ),
 
                   Positioned(
-                  left: screenW(285),
+                  left: screenW(300),
                   top: screenH(20),
                   right: screenW(25),
                   child:  CircleAvatar(

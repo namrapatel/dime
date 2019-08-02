@@ -283,7 +283,10 @@ class _socialAtEventState extends State<socialAtEvent>
   Widget _getUpperLayer() {
     return Container(
       decoration: BoxDecoration(color: Colors.white),
-      child: ListView.builder(
+      child: ListView.separated(
+      separatorBuilder: (context, index) => Divider(
+        color: Colors.grey[400],
+      ),
           physics: NeverScrollableScrollPhysics(),
           controller: _scrollController,
           itemBuilder: (BuildContext context, int index) {
@@ -310,39 +313,29 @@ class _socialAtEventState extends State<socialAtEvent>
                     padding: EdgeInsets.fromLTRB(
                         0, MediaQuery.of(context).size.height / 70, 0, 0),
                   ),
+              Column(
+                children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Container(
-                        height: MediaQuery.of(context).size.height / 30,
-                        width: MediaQuery.of(context).size.width / 6,
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width / 40,
-                            MediaQuery.of(context).size.height / 150,
-                            0,
-                            0),
-                        child: Text("Badminton",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10)),
-                        decoration: BoxDecoration(
-                            color: Color(0xFF8803fc),
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 30,
-                        width: MediaQuery.of(context).size.width / 8.5,
-                        padding: EdgeInsets.fromLTRB(10, 4.5, 0, 0),
-                        child: Text("Flutter",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 10)),
-                        decoration: BoxDecoration(
-                            color: Color(0xFF1976d2),
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
+                      Text("Philosophy, Flutter, Basketball", 
+                      style: TextStyle(
+                       color: Color(0xFF8803fc), fontSize: 13),
+                      )
                     ],
                   ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height/300,
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Text("Startups, Painting, Tech Companies", 
+                            style: TextStyle(
+                                color: Color(0xFF1976d2), fontSize: 13)
+                      )
+                    ],
+                  ),
+                ],
+              ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(
                         0, MediaQuery.of(context).size.height / 50, 0, 0),

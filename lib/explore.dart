@@ -13,79 +13,6 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
-  void _settingModalBottomSheet(context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return Container(
-              height: MediaQuery.of(context).size.height,
-              child: DefaultTabController(
-                length: 3,
-                child: Scaffold(
-                  backgroundColor: Color(0xFFECE9E4),
-                  appBar: AppBar(
-                    title: Text("Filter by"),
-                    bottom: TabBar(
-                      tabs: <Widget>[
-                        Tab(
-                          icon: Icon(MaterialCommunityIcons.bus_school),
-                          text: "School",
-                        ),
-                        Tab(
-                          icon: Icon(FontAwesome.book),
-                          text: "Interests",
-                        ),
-                        Tab(
-                          icon: Icon(Entypo.graduation_cap),
-                          text: "Grad Year",
-                        ),
-                      ],
-                    ),
-                  ),
-                  body: TabBarView(
-                    children: [
-                      ListView(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.height,
-                                child: _myListView(context),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      ListView(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.height,
-                                child: _myListView2(context),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      ListView(
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Container(
-                                height: MediaQuery.of(context).size.height,
-                                child: _myListView3(context),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ));
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,18 +60,16 @@ class _ExploreState extends State<Explore> {
                 ),
                 Text(
                   "Explore",
-                  style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 48, ),
                 ),
               ],
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 18.5,
-                ),
                 Container(
                   //color: Colors.white,
-                  width: MediaQuery.of(context).size.width / 1.3,
+                  width: MediaQuery.of(context).size.width/1.1,
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(20)),
@@ -166,15 +91,7 @@ class _ExploreState extends State<Explore> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 58.5,
-                ),
-                IconButton(
-                  icon: Icon(Icons.filter_list, color: Colors.black),
-                  onPressed: () {
-                    _settingModalBottomSheet(context);
-                  },
-                ),
+
               ],
             ),
             SizedBox(

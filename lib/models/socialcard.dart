@@ -250,7 +250,7 @@ final bool isSwitched;
                 ),
 
                   Positioned(
-                  left: screenW(285),
+                  left: screenW(300),
                   top: screenH(20),
                   child:  CircleAvatar(
                           backgroundImage:

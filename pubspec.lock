@@ -14,7 +14,9 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "2.3.0"
+
   boolean_selector:
     dependency: transitive
     description:
@@ -290,7 +292,9 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
+
     version: "1.8.0+1"
+
   permission_handler:
     dependency: "direct dev"
     description:

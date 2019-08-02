@@ -1240,7 +1240,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           ? Text(university,
                                               style: TextStyle(
                                                   fontSize: screenF(13),
-                                                  color: Colors.purple))
+                                                  color: Color(0xFF1976d2)))
                                           : SizedBox(height: screenH(1)),
                                       SizedBox(
                                         height: screenH(2),

@@ -161,6 +161,7 @@ class MessageTile extends StatelessWidget {
         backgroundImage: NetworkImage(senderPhoto),
       ),
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
           Text(senderName),
           SizedBox(width: MediaQuery.of(context).size.width/3.95,),
@@ -168,7 +169,12 @@ class MessageTile extends StatelessWidget {
         ],
       ),
       trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 10,),
-      subtitle: Text(text.length>=39?text.substring(0,39):text),
+      subtitle: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(text.length>=39?text.substring(0,39):text),
+        ],
+      ),
       //MAX OF 40 CHARACTERS BEFORE "..."
     );
   }

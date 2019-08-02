@@ -118,15 +118,15 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 //      bio=document['bio'];
 
     }
-
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interestString=interestString+ interests[i];
-      }else{
-        interestString=interestString+ interests[i]+", ";
+      if(interests!=null) {
+        for (int i = 0; i < interests.length; i++) {
+          if (i == interests.length - 1) {
+            interestString = interestString + interests[i];
+          } else {
+            interestString = interestString + interests[i] + ", ";
+          }
+        }
       }
-
-    }
     print(interestString);
 
 

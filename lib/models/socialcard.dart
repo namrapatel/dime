@@ -108,10 +108,18 @@ final bool isSwitched;
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(displayName,
-                                style: TextStyle(
-                                  fontSize: screenF(18),
-                                )),
+                            Row(
+                              children: <Widget>[
+                                Text(displayName,
+                                    style: TextStyle(
+                                      fontSize: screenF(18),
+                                    )),
+                                  SizedBox(width: screenW(4),),
+                                  Icon(FontAwesome.superpowers, size: 20, color: Color(0xFFf0bf43),),
+                                  
+                                  Icon(EvilIcons.sc_odnoklassniki, size: 25, color: Color(0xFFe61c5e),)
+                              ],
+                            ),
                             SizedBox(
                               height: screenH(2),
                             ),university==null?

@@ -85,7 +85,7 @@ class _InviteFriendsState extends State<InviteFriends> {
             padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),
             child: Center(
               child: Text(
-                "Invite one or more friends to join the Dime community and we'll give you both this month's password.",
+                "Invite one or more friends to join the Dime community and we'll give you this month's password.",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),

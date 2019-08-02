@@ -1020,18 +1020,20 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
         photoUrl = document['photoUrl'];
         isSwitched2=document['socialToggled'];
         email=document['email'];
+        interests=document['interests'];
       });
 
 //      bio=document['bio'];
 
     }
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interestString=interestString+ interests[i];
-      }else{
-        interestString=interestString+ interests[i]+", ";
+    if(interests!=null) {
+      for (int i = 0; i < interests.length; i++) {
+        if (i == interests.length - 1) {
+          interestString = interestString + interests[i];
+        } else {
+          interestString = interestString + interests[i] + ", ";
+        }
       }
-
     }
     print(interestString);
   }

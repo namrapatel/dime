@@ -18,23 +18,53 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+
+
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
-
+  String toUserPhoto;
+  String toUserName;
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
   FocusNode _focus = new FocusNode();
 
-  Future<void> callback() async {
+
+  getUserProfile() async{
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(widget.toUserId)
+        .collection('profcard')
+        .getDocuments();
+    for (var doc in query.documents) {
+      setState(() {
+        toUserName = doc['displayName'];
+        toUserPhoto = doc['photoUrl'];
+      });
+    }
+
+
+  }
+   callback()  {
     if (messageController.text.length > 0) {
-      await _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
+      _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
         'text': messageController.text,
         'from': widget.fromUserId,
+
         'timestamp': Timestamp.now(),
       });
-      await _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).collection('texts').add({
+      _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).collection('texts').add({
         'text': messageController.text,
         'from': widget.fromUserId,
+
+        'timestamp': Timestamp.now(),
+
+      });
+      _firestore.collection('chatMessages').add({
+        'text': messageController.text,
+        'from': widget.fromUserId,
+        'to':widget.toUserId,
+        'receiverPhoto':currentUserModel.photoUrl,
+        'receiverName':currentUserModel.displayName,
         'timestamp': Timestamp.now(),
 
       });
@@ -51,10 +81,7 @@ class _ChatState extends State<Chat> {
   @override
   void initState() {
     super.initState();
-    // scrollController.animateTo(0.0,
-    // curve: Curves.easeOut,
-    // duration: const Duration(milliseconds: 300),
-    // );
+    getUserProfile();
 
   }
 
@@ -77,12 +104,13 @@ class _ChatState extends State<Chat> {
         ),
         title: Row(
           children: <Widget>[
+            toUserPhoto!=null?
             CircleAvatar(
               radius: 15,
-              backgroundImage: AssetImage('assets/img/shehabsalem.jpeg'),
-            ),
+              backgroundImage: NetworkImage(toUserPhoto),
+            ):CircularProgressIndicator(),
             SizedBox(width: MediaQuery.of(context).size.width/30,),
-            Text("Shehab Salem", style: TextStyle(color: Colors.black),),
+            toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.black),):CircularProgressIndicator(),
           ],
         ),
       ),

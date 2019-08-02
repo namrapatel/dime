@@ -322,17 +322,6 @@ class _profAtEventState extends State<profAtEvent>
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text("Philosophy, Flutter, Basketball", 
-                      style: TextStyle(
-                       color: Color(0xFF8803fc), fontSize: 13),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height/300,
-                  ),
-                  Row(
-                    children: <Widget>[
                       Text("Startups, Painting, Tech Companies", 
                             style: TextStyle(
                                 color: Color(0xFF1976d2), fontSize: 13)

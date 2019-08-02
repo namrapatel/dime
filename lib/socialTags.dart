@@ -1,128 +1,271 @@
-import 'package:Dime/homePage.dart';
-import 'package:fancy_on_boarding/fancy_on_boarding.dart';
-import 'package:fancy_on_boarding/page_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:page_transition/page_transition.dart';
 import 'login.dart';
-import 'package:flutter_tagging/flutter_tagging.dart';
-import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'EditCardsScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SocialTags extends StatefulWidget {
-  final String title = '';
+List<String> socialInterests=[];
+
+class SocialInterestTile extends StatefulWidget{
+  SocialInterestTile(this.interest);
+  final String interest;
+
+
+
   @override
-  _SocialTagsStage createState() => _SocialTagsStage();
+  _SocialInterestTileState createState() => _SocialInterestTileState();
 }
 
-class _SocialTagsStage extends State<SocialTags> {
-  BuildContext context;
+class _SocialInterestTileState extends State<SocialInterestTile> {
+  bool value1 = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
-  String text = "Nothing to show";
-  
 
   @override
   Widget build(BuildContext context) {
-    
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Choose Social Interest Tags"),
-      ),
-      body: SingleChildScrollView(
-        //physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height/30,
-                ),
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width/30,
-                ),
-                Text("Choose a max of 3"),
-              ],
-            ),
-
-            SizedBox(
-              height: 10.0,
-            ),
-                      Container(
-                      //color: Colors.white,
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width / 22,
-                            vertical: MediaQuery.of(context).size.height / 72),
-                        child: TextField(
-                          decoration: new InputDecoration(
-                              icon: Icon(Icons.search),
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 30,
-                                  bottom: MediaQuery.of(context).size.height / 75,
-                                  top: MediaQuery.of(context).size.height / 75,
-                                  right: MediaQuery.of(context).size.width / 30),
-                              hintText: 'Search for Interests'),
-                        ),
-                      ),
-                ),
-            SizedBox(
-              height: 10.0,
-            ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text('Badminton; Philosophy; Comedy Movies;',
-                    style: TextStyle(
-                     color: Color(0xFF8803fc), fontSize: 13)),
-                  OutlineButton(
-                  padding: EdgeInsets.all(5),
-                  color: Color(0xFF8803fc),
-                  child: new Text("Save tags", style: TextStyle(color: Color(0xFF8803fc), fontSize: 15),),
-                 onPressed: (){
-                            },
-                            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0))
-                          )
-                  ],
-                ),
-                _myListView2(context)
-          ],
-        ),
-      ),
-    );
-  }
-
-    Widget _myListView2(BuildContext context) {
-      return CheckboxGroup(
-      checkColor: Colors.white,
-      activeColor: Color(0xFF8803fc),
-      labels: <String>[
-        "Badminton",
-        "Flutter",
-        "Basketball",
-        "Philosophy",
-        "Acting",
-        "Music",
-        "Painting",
-        "Startups",
-        "Watching Movies",
-        "Pop music", 
-        "Social Ventures"
-
-      
-      ],
-      onChange: (bool isChecked, String label, int index) => print("isChecked: $isChecked   label: $label  index: $index"),
-      onSelected: (List<String> checked) => print("checked: ${checked.toString()}"),
-    );
+    if (socialInterests.contains(widget.interest)) {
+      setState(() {
+        value1 = true;
+      });
+    } else {
+      setState(() {
+        value1 = false;
+      });
     }
 
+    return Container(
+        decoration: BoxDecoration(color: Colors.white),
+        height: screenH(97),
+        width: screenW(372),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ListTile(
+                onTap: () {
+                },
 
+                trailing: Container(
+                  height: screenH(97),
+                  width: screenW(200),
+                  child: Row(
+                    children: <Widget>[
+
+                      SizedBox(width: 150),
+
+                      Checkbox(
+                          activeColor: Colors.black,
+                          checkColor: Colors.white,
+                          value: value1,
+                          onChanged: (bool value) {
+                            setState(() {
+                              value1 = value;
+                              if (value1 == true) {
+                                socialInterests.add(widget.interest);
+                                if(socialInterests.length==3){
+                                  Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: SocialInterestPage(interests:socialInterests)));
+                                }
+                              } else {
+                                socialInterests.remove(widget.interest);
+                              }
+
+                              Set<String> selections = socialInterests.toSet();
+                              print(selections);
+                              socialInterests = selections.toList();
+                            });
+                          }),
+
+                    ],
+                  ),
+                ),
+
+                title: Text(widget.interest)
+            ),
+            Divider(
+              color: Colors.grey[400],
+              height: screenH(1),
+            )
+          ],
+        ));
+  }
+}
+//}
+
+class SocialInterestPage extends StatefulWidget {
+  const SocialInterestPage({this.interests});
+  final List<String> interests;
+
+  @override
+  _SocialInterestPageState createState() => _SocialInterestPageState(this.interests);
 }
 
+class _SocialInterestPageState extends State<SocialInterestPage> {
+  final List<String> interests;
+  _SocialInterestPageState(this.interests);
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+        child: Card(
+          child: Column(
+
+            children: <Widget>[
+              SizedBox(height: screenH(100)),
+              Text("Selected Interests",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+              SizedBox(height: screenH(10)),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+            child: Center(
+              child: Text(
+                "Here are your 3 chosen interests. Remember to save the changes on the editing screen.",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenH(30),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.08,
+            height: MediaQuery.of(context).size.height / 900,
+            color: Colors.grey[300],
+          ),
+              ListView.builder(itemBuilder:
+
+                  (BuildContext context, int index) {
+                return ListTile(
+                  leading: Icon(Entypo.drink, color: Colors.black,),
+                  trailing: Icon(Icons.done, color: Colors.black,),
+                  title:Text( interests[index]),
+                );
+              },itemCount: interests.length,shrinkWrap: true, ),
+             SizedBox(
+            height: screenH(20),
+          ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
+                    color: Color(0xFF8803fc),
+                    child: Text("Save",
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
+                    
+                    ),
+                    onPressed: (){
+
+                      Firestore.instance.collection('users').document(currentUserModel.uid).collection('socialcard').document(socialCardId)
+                          .updateData({
+                        'interests': interests
+                      });
+
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  SizedBox(
+                  width: screenW(20),
+                ),
+              OutlineButton(
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
+                color: Color(0xFF8803fc),
+                child: Text("Edit Interests",
+                    style: TextStyle(
+                      color: Colors.black
+                    ),
+                    ),
+                onPressed: (){
+                  socialInterests.clear();
+                  Navigator.pop(context);
+
+
+
+                },
+              )
+                ],
+              ),
+
+
+            ],
+          ),
+
+        )
+    );
+
+  }
+}
+
+
+class SocialDataSearch extends SearchDelegate<
+    String> {
+  Iterable<SocialInterestTile> suggestions=[];
+  dynamic suggestionList=[];
+  List<SocialInterestTile> interestList=[new SocialInterestTile("Badminton"),new SocialInterestTile("Flutter")
+    ,new SocialInterestTile("Basketball")
+    ,new SocialInterestTile("Philosophy")
+    ,new SocialInterestTile("Acting")
+    ,new SocialInterestTile("Music")
+    ,new SocialInterestTile("Painting")
+    ,new SocialInterestTile("Startups")
+    ,new SocialInterestTile( "Watching Movies")
+    ,new SocialInterestTile("Pop music")
+    ,new SocialInterestTile("Social Ventures")
+
+  ];
+
+
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    return [IconButton(
+      icon: Icon(Icons.clear),
+      onPressed: (){
+        query='';
+
+      },
+    )];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+
+    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+        onPressed: (){
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+
+    return null;
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    // TODO: implement buildSuggestions
+
+    print('less than 3 interests');
+    suggestions =
+    query.isEmpty ? interestList : interestList.where((interest) => (interest.interest
+        .toLowerCase().contains(query)));
+    suggestions.toList();
+    return
+      ListView.builder(
+          shrinkWrap: true,
+
+          itemBuilder: (BuildContext context, int index) {
+            return suggestions.toList()[index];
+          }, itemCount: suggestions.length);
+
+
+  }
+
+}

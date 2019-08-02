@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
-
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'EditCardsScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -111,31 +111,74 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
           child: Column(
 
             children: <Widget>[
+              SizedBox(height: screenH(100)),
+              Text("Selected Interests",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
               SizedBox(height: screenH(10)),
-              Text("Selected Interests"),
-              SizedBox(height: screenH(10)),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+            child: Center(
+              child: Text(
+                "Here are your 3 chosen interests. Remember to save the changes on the editing screen.",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenH(30),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width / 1.08,
+            height: MediaQuery.of(context).size.height / 900,
+            color: Colors.grey[300],
+          ),
               ListView.builder(itemBuilder:
 
                   (BuildContext context, int index) {
                 return ListTile(
+                  leading: Icon(Entypo.drink, color: Colors.black,),
+                  trailing: Icon(Icons.done, color: Colors.black,),
                   title:Text( interests[index]),
                 );
               },itemCount: interests.length,shrinkWrap: true, ),
-              RaisedButton(
-                child: Text("Save"),
-                onPressed: (){
+             SizedBox(
+            height: screenH(20),
+          ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
+                    color: Color(0xFF8803fc),
+                    child: Text("Save",
+                    style: TextStyle(
+                      color: Colors.white
+                    ),
+                    
+                    ),
+                    onPressed: (){
 
-                  Firestore.instance.collection('users').document(currentUserModel.uid).collection('socialcard').document(socialCardId)
-                      .updateData({
-                    'interests': interests
-                  });
+                      Firestore.instance.collection('users').document(currentUserModel.uid).collection('socialcard').document(socialCardId)
+                          .updateData({
+                        'interests': interests
+                      });
 
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-              ),
-              RaisedButton(
-                child: Text("Edit Interests"),
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  ),
+                  SizedBox(
+                  width: screenW(20),
+                ),
+              OutlineButton(
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
+                color: Color(0xFF8803fc),
+                child: Text("Edit Interests",
+                    style: TextStyle(
+                      color: Colors.black
+                    ),
+                    ),
                 onPressed: (){
                   socialInterests.clear();
                   Navigator.pop(context);
@@ -144,6 +187,8 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
 
                 },
               )
+                ],
+              ),
 
 
             ],

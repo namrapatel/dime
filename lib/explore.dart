@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'services/searchservice.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -13,6 +15,39 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+  var queryResultSet = [];
+  var tempSearchStore = [];
+
+  initiateSearch(String value) {
+    if (value.length == 0) {
+      setState(() {
+        queryResultSet = [];
+        tempSearchStore = [];
+      });
+    }
+
+    String standardValue = value.toLowerCase();
+
+    if (queryResultSet.length == 0 && value.length == 1) {
+      SearchService().getAllUsers().then((QuerySnapshot docs) {
+        for (int i = 0; i < docs.documents.length; ++i) {
+          if (docs.documents[i].data['displayName'].substring(0,1) == value) {
+            queryResultSet.add(docs.documents[i].data);
+          }
+        }
+      });
+    }
+    else {
+      tempSearchStore = [];
+      queryResultSet.forEach((element) {
+        if (element['displayName'].toLowerCase().startsWith(standardValue)) {
+          setState(() {
+            tempSearchStore.add(element);
+          });
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +113,9 @@ class _ExploreState extends State<Explore> {
                         horizontal: MediaQuery.of(context).size.width / 22,
                         vertical: MediaQuery.of(context).size.height / 72),
                     child: TextField(
+                      onChanged: (val) {
+                        initiateSearch(val);
+                      },
                       decoration: new InputDecoration(
                           icon: Icon(Icons.search),
                           border: InputBorder.none,
@@ -91,7 +129,6 @@ class _ExploreState extends State<Explore> {
                     ),
                   ),
                 ),
-
               ],
             ),
             SizedBox(
@@ -189,4 +226,6 @@ class _ExploreState extends State<Explore> {
       },
     );
   }
+
+
 }

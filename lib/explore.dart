@@ -138,7 +138,7 @@ class _ExploreState extends State<Explore> {
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.fromLTRB(
                   0, 0, 0, MediaQuery.of(context).size.height / 10),
-              child: _myListView4(context),
+              child: _buildTile(),
             ),
           ],
         )
@@ -146,86 +146,38 @@ class _ExploreState extends State<Explore> {
     ));
   }
 
-  Widget _myListView(BuildContext context) {
-    return CheckboxGroup(
-      checkColor: Colors.white,
-      activeColor: Colors.black,
-      labels: <String>[
-        "Waterloo",
-        "Western",
-        "UBC",
-        "Calgary",
-        "UofA",
-        "McMaster",
-        "UofT",
-        "Harvard"
-      ],
-      onChange: (bool isChecked, String label, int index) =>
-          print("isChecked: $isChecked   label: $label  index: $index"),
-      onSelected: (List<String> checked) =>
-          print("checked: ${checked.toString()}"),
-    );
-  }
+Widget _buildTile(){
+  return ListTile(
+    leading: CircleAvatar(
+      backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+    ),
+    title: Text("Dhruv Patel"),
+    subtitle: Text("Mechatronics Engineering, 2023"),
+    trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.chat),
+                color: Colors.black,
+                onPressed: () {
+                },
+              ),
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                color: Colors.black,
+                onPressed: () {
 
-  Widget _myListView2(BuildContext context) {
-    return CheckboxGroup(
-      checkColor: Colors.white,
-      activeColor: Colors.black,
-      labels: <String>[
-        "Badminton",
-        "Flutter",
-        "Basketball",
-        "Philosophy",
-        "Acting",
-        "Music",
-        "Painting",
-        "Startups"
-      ],
-      onChange: (bool isChecked, String label, int index) =>
-          print("isChecked: $isChecked   label: $label  index: $index"),
-      onSelected: (List<String> checked) =>
-          print("checked: ${checked.toString()}"),
-    );
-  }
-
-  Widget _myListView3(BuildContext context) {
-    return CheckboxGroup(
-      checkColor: Colors.white,
-      activeColor: Colors.black,
-      labels: <String>[
-        "2019",
-        "2020",
-        "2021",
-        "2022",
-        "2023",
-        "2024",
-        "2025",
-        "2026"
-      ],
-      onChange: (bool isChecked, String label, int index) =>
-          print("isChecked: $isChecked   label: $label  index: $index"),
-      onSelected: (List<String> checked) =>
-          print("checked: ${checked.toString()}"),
-    );
-  }
-
-  Widget _myListView4(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+                },
+              ),
+            ],
           ),
-          title: Text('Dhruv Patel'),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider();
-      },
-    );
-  }
+
+  );
+}
+
+
+
+
 
 
 }

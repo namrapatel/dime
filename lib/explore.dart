@@ -29,18 +29,23 @@ class _ExploreState extends State<Explore> {
     String standardValue = value.toLowerCase();
 
     if (queryResultSet.length == 0 && value.length == 1) {
+      tempSearchStore = [];
       SearchService().getAllUsers().then((QuerySnapshot docs) {
         for (int i = 0; i < docs.documents.length; ++i) {
-          if (docs.documents[i].data['displayName'].substring(0,1) == value) {
+          if (docs.documents[i].data['displayName'].toLowerCase().startsWith(standardValue)) {
+            print(docs.documents[i].data['displayName']);
             queryResultSet.add(docs.documents[i].data);
+            setState(() {
+              tempSearchStore.add(docs.documents[i].data);
+            });
           }
         }
       });
-    }
-    else {
+    } else {
       tempSearchStore = [];
       queryResultSet.forEach((element) {
         if (element['displayName'].toLowerCase().startsWith(standardValue)) {
+          print(element['displayName']);
           setState(() {
             tempSearchStore.add(element);
           });
@@ -95,7 +100,9 @@ class _ExploreState extends State<Explore> {
                 ),
                 Text(
                   "Explore",
-                  style: TextStyle(fontSize: 48, ),
+                  style: TextStyle(
+                    fontSize: 48,
+                  ),
                 ),
               ],
             ),
@@ -104,7 +111,7 @@ class _ExploreState extends State<Explore> {
               children: <Widget>[
                 Container(
                   //color: Colors.white,
-                  width: MediaQuery.of(context).size.width/1.1,
+                  width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(20)),
@@ -138,7 +145,12 @@ class _ExploreState extends State<Explore> {
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.fromLTRB(
                   0, 0, 0, MediaQuery.of(context).size.height / 10),
-              child: _buildTile(),
+              child: ListView(
+                padding: EdgeInsets.only(left:10.0, right:10.0),
+                children: tempSearchStore.map((element) {
+                  return _buildTile(element);
+                }).toList(),
+              ),
             ),
           ],
         )
@@ -146,38 +158,28 @@ class _ExploreState extends State<Explore> {
     ));
   }
 
-Widget _buildTile(){
-  return ListTile(
-    leading: CircleAvatar(
-      backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
-    ),
-    title: Text("Dhruv Patel"),
-    subtitle: Text("Mechatronics Engineering, 2023"),
-    trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.chat),
-                color: Colors.black,
-                onPressed: () {
-                },
-              ),
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
-                color: Colors.black,
-                onPressed: () {
-
-                },
-              ),
-            ],
+  Widget _buildTile(data) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+      ),
+      title: Text(data['displayName']),
+      subtitle: Text("Mechatronics Engineering, 2023"),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.chat),
+            color: Colors.black,
+            onPressed: () {},
           ),
-
-  );
-}
-
-
-
-
-
-
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.card_bulleted),
+            color: Colors.black,
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
 }

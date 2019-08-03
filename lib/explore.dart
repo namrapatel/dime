@@ -161,7 +161,7 @@ class _ExploreState extends State<Explore> {
   Widget _buildTile(data) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+        backgroundImage: NetworkImage(data['photoUrl']),
       ),
       title: Text(data['displayName']),
       subtitle: Text("Mechatronics Engineering, 2023"),

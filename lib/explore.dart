@@ -18,21 +18,36 @@ class _ExploreState extends State<Explore> {
   var queryResultSet = [];
   var tempSearchStore = [];
 
+//  loadAll() {
+//    SearchService().getAllUsers().then((QuerySnapshot docs) {
+//      var tempSet = [];
+//      for (int i = 0; i < docs.documents.length; ++i) {
+//        tempSet.add(docs.documents[i].data);
+//      }
+//      setState(() {
+//        queryResultSet = tempSet;
+//      });
+//    });
+//  }
+
+
   initiateSearch(String value) {
+
     if (value.length == 0) {
       setState(() {
         queryResultSet = [];
         tempSearchStore = [];
       });
     }
-
     String standardValue = value.toLowerCase();
 
     if (queryResultSet.length == 0 && value.length == 1) {
       tempSearchStore = [];
       SearchService().getAllUsers().then((QuerySnapshot docs) {
         for (int i = 0; i < docs.documents.length; ++i) {
-          if (docs.documents[i].data['displayName'].toLowerCase().startsWith(standardValue)) {
+          if (docs.documents[i].data['displayName']
+              .toLowerCase()
+              .startsWith(standardValue)) {
             print(docs.documents[i].data['displayName']);
             queryResultSet.add(docs.documents[i].data);
             setState(() {
@@ -56,6 +71,7 @@ class _ExploreState extends State<Explore> {
 
   @override
   Widget build(BuildContext context) {
+//    loadAll();
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -146,7 +162,7 @@ class _ExploreState extends State<Explore> {
               padding: EdgeInsets.fromLTRB(
                   0, 0, 0, MediaQuery.of(context).size.height / 10),
               child: ListView(
-                padding: EdgeInsets.only(left:10.0, right:10.0),
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 children: tempSearchStore.map((element) {
                   return _buildTile(element);
                 }).toList(),

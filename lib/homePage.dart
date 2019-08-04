@@ -53,10 +53,12 @@ class _ScrollPageState extends State<ScrollPage>
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
+
   FocusNode _focus = new FocusNode();
   StreamController<List<DocumentSnapshot>> streamController = new StreamController();
   Geoflutterfire geo =Geoflutterfire();
   Stream<List<DocumentSnapshot>> stream;
+
   // Stream<List<DocumentSnapshot>> stream;
   // var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -100,8 +102,9 @@ class _ScrollPageState extends State<ScrollPage>
 
           location.onLocationChanged().listen((LocationData currentLocation) async {
 
-//            GeoPoint userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+
             GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
+
           Firestore.instance
               .collection('users')
               .document(currentUserModel.uid)
@@ -161,10 +164,11 @@ class _ScrollPageState extends State<ScrollPage>
         lowerBoundValue: AnimationControllerValue(percentage: 0.40),
         duration: Duration(milliseconds: 200));
     super.initState();
-    _focus.addListener(_onFocusChange);
+
 
     getPermission();
   }
+
   @override
   void dispose() {
     streamController.close(); //Streams must be closed when not needed
@@ -176,6 +180,7 @@ class _ScrollPageState extends State<ScrollPage>
           from: _controller.value, to: _controller.upperBound);
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

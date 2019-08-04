@@ -60,7 +60,7 @@ class _ScrollPageState extends State<ScrollPage>
   Stream<List<DocumentSnapshot>> stream;
 
   // Stream<List<DocumentSnapshot>> stream;
-  // var radius = BehaviorSubject<double>.seeded(1.0);
+   var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<DocumentSnapshot> list=[];
   // getPermission() async {
@@ -93,9 +93,10 @@ class _ScrollPageState extends State<ScrollPage>
 
   final Map<String, Marker> _markers = {};
 
-//  var radius = BehaviorSubject<double>.seeded(6.0);
+  var rad = BehaviorSubject<double>.seeded(6.0);
   @override
   void initState() {
+
     var location = new Location();
 
 
@@ -115,12 +116,18 @@ class _ScrollPageState extends State<ScrollPage>
 //            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
 //            GeoFirePoint gp=mine.data['position'];
 //
-            double radius = 6.0;
+//            double radius = 6.0;
             String field = 'position';
-
+            stream = radius.switchMap((rad) {
               var collectionReference = Firestore.instance.collection('users');
-              stream= geo.collection(collectionRef: collectionReference).within(
-                  center: userLoc, radius: radius, field: 'position', strictMode: true);
+              return geo.collection(collectionRef: collectionReference).within(
+                  center: userLoc, radius: rad, field: 'position', strictMode: true);
+            });
+
+            changed(_value);
+//              var collectionReference = Firestore.instance.collection('users');
+//              stream= geo.collection(collectionRef: collectionReference).within(
+//                  center: userLoc, radius: rad, field: 'position', strictMode: true);
 
 //            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
 //            list.add(mine);
@@ -169,16 +176,17 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
-  @override
-  void dispose() {
-    streamController.close(); //Streams must be closed when not needed
-    super.dispose();
-  }
+//
   void _onFocusChange() {
     if (_focus.hasFocus) {
       _controller.animateTo(
           from: _controller.value, to: _controller.upperBound);
     }
+  }
+  @override
+  void dispose() {
+    streamController.close(); //Streams must be closed when not needed
+    super.dispose();
   }
 
 
@@ -458,35 +466,61 @@ class _ScrollPageState extends State<ScrollPage>
   }
 
   Widget _getUpperLayer() {
-    return   Container(
-      decoration: BoxDecoration(color: Colors.white),
-      child: StreamBuilder(
+    return   Column(
+      children: <Widget>[
+    Slider(
+    min: 5,
+    max: 50,
+    divisions: 10,
+    value: _value,
+    label: _label,
+    activeColor: Colors.blue,
+    inactiveColor: Colors.blue.withOpacity(0.2),
+    onChanged: (double value) => changed(value),
+    ),
+        Container(
+          decoration: BoxDecoration(color: Colors.white),
+          child: StreamBuilder(
 
-      stream: stream,
-      builder: ( context,
-           snapshots) {
-        if (
-            snapshots.hasData) {
-          print('data ${snapshots.data}');
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                DocumentSnapshot doc = snapshots.data[index];
-                print(
-                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                GeoPoint point = doc.data['position']['geopoint'];
-                return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
-              },
-              itemCount: snapshots.data.length,
-            ),
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-      ));
+          stream: stream,
+          builder: ( context,
+              AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+            if (
+                snapshots.hasData) {
+              print('data ${snapshots.data}');
+              return Container(
+                height: MediaQuery.of(context).size.height * 2 / 3,
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    DocumentSnapshot doc = snapshots.data[index];
+                    print(
+                        'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                    GeoPoint point = doc.data['position']['geopoint'];
+                    return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
+                  },
+                  itemCount: snapshots.data.length,
+                ),
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+          )),
+      ],
+    );
   }
+  double _value = 5.0;
+  String _label = '';
+
+  changed(value) {
+    setState(() {
+      _value = value;
+      print(_value);
+      _label = '${_value.toInt().toString()} kms';
+    });
+    radius.add(value);
+  }
+
 //    return  StreamBuilder<List<DocumentSnapshot>>(
 //    stream:stream,
 //    builder: (context,  snapshot) {

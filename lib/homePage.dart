@@ -48,7 +48,7 @@ class _ScrollPageState extends State<ScrollPage>
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
-  FocusNode _focus = new FocusNode();
+  
 
   Geoflutterfire geo;
   // Stream<List<DocumentSnapshot>> stream;
@@ -125,17 +125,12 @@ class _ScrollPageState extends State<ScrollPage>
         lowerBoundValue: AnimationControllerValue(percentage: 0.40),
         duration: Duration(milliseconds: 200));
     super.initState();
-    _focus.addListener(_onFocusChange);
+
 
     getPermission();
   }
 
-  void _onFocusChange() {
-    if (_focus.hasFocus) {
-      _controller.animateTo(
-          from: _controller.value, to: _controller.upperBound);
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {

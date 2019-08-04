@@ -34,7 +34,7 @@ class _ScrollPageState extends State<ScrollPage>
     UserTile(
       'Shehab Salem',
       'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq',
-      '7Y0S3qvACSbk2YlteKiyGqLrAsR2',
+      'BrA8IqEL8RcUYylQz4GHgVD4jBx1',
       major: 'Computer Science, 2022',
       interests: ['Flutter', 'Basketball'],
     ),

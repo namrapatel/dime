@@ -167,6 +167,7 @@ class _ProfInterestPageState extends State<ProfInterestPage> {
                           .updateData({
                         'interests': interests
                       });
+                      profInterests.clear();
 
                       Navigator.pop(context);
                       Navigator.pop(context);
@@ -239,6 +240,7 @@ class ProfDataSearch extends SearchDelegate<
 
     return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: (){
+          profInterests.clear();
           close(context, null);
         });
   }

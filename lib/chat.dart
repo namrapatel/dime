@@ -44,14 +44,21 @@ class _ChatState extends State<Chat> {
 
 
   }
-   callback()  {
+   callback() {
     if (messageController.text.length > 0) {
-      _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
-        'text': messageController.text,
-        'from': widget.fromUserId,
 
-        'timestamp': Timestamp.now(),
-      });
+        _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).setData({
+          'timestamp':Timestamp.now()
+        },merge: true);
+        _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
+          'text': messageController.text,
+          'from': widget.fromUserId,
+
+          'timestamp': Timestamp.now(),
+        });
+      _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).setData({
+        'timestamp':Timestamp.now()
+      },merge: true);
       _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).collection('texts').add({
         'text': messageController.text,
         'from': widget.fromUserId,
@@ -59,19 +66,7 @@ class _ChatState extends State<Chat> {
         'timestamp': Timestamp.now(),
 
       });
-      _firestore.collection('chatMessages').add({
-        'text': messageController.text,
-        'from': widget.fromUserId,
-        'to':widget.toUserId,
-        'receiverPhoto':currentUserModel.photoUrl,
-        'receiverName':currentUserModel.displayName,
-        'timestamp': Timestamp.now(),
 
-      });
-//      await _firestore.collection('users').document(widget.toUserId).collection('messages').add({
-//        'text': messageController.text,
-//        'from': widget.fromUserId,
-//      });
       messageController.clear();
       scrollController.animateTo(scrollController.position.minScrollExtent,
           curve: Curves.easeOut, duration: const Duration(milliseconds: 300));

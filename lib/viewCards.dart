@@ -49,6 +49,7 @@ class _ViewCardsState extends State<ViewCards> {
 
       cardTiles.add(SocialCard.fromDocument(document)
         );
+
     }
     return cardTiles;
   }

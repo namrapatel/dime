@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:Dime/profPage.dart';
@@ -21,7 +22,10 @@ import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:rxdart/rxdart.dart';
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -30,6 +34,7 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+
   List<UserTile> nearbyUsers = [
     UserTile(
       'Shehab Salem',
@@ -49,12 +54,13 @@ class _ScrollPageState extends State<ScrollPage>
   //Completer <GoogleMapController> mapController = Completer();
   GoogleMapController mapController;
   FocusNode _focus = new FocusNode();
-
-  Geoflutterfire geo;
+  StreamController<List<DocumentSnapshot>> streamController = new StreamController();
+  Geoflutterfire geo =Geoflutterfire();
+  Stream<List<DocumentSnapshot>> stream;
   // Stream<List<DocumentSnapshot>> stream;
   // var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-
+  List<DocumentSnapshot> list=[];
   // getPermission() async {
   //   final GeolocationResult result =
   //       await Geolocation.requestLocationPermission(const LocationPermission(
@@ -85,23 +91,54 @@ class _ScrollPageState extends State<ScrollPage>
 
   final Map<String, Marker> _markers = {};
 
-
+//  var radius = BehaviorSubject<double>.seeded(6.0);
   @override
   void initState() {
     var location = new Location();
 
 
 
-          location.onLocationChanged().listen((LocationData currentLocation) {
+          location.onLocationChanged().listen((LocationData currentLocation) async {
 
-            GeoPoint userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
-
+//            GeoPoint userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+            GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
           Firestore.instance
               .collection('users')
               .document(currentUserModel.uid)
-              .updateData({
-            'currentLocation': userLoc,
-          });
+              .setData({
+            'position': userLoc.data,
+          }, merge: true);
+
+//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+//            GeoFirePoint gp=mine.data['position'];
+//
+            double radius = 6.0;
+            String field = 'position';
+
+              var collectionReference = Firestore.instance.collection('users');
+              stream= geo.collection(collectionRef: collectionReference).within(
+                  center: userLoc, radius: radius, field: 'position', strictMode: true);
+
+//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+//            list.add(mine);
+
+//             stream = geo.collection(collectionRef: collectionReference)
+//                .within(center: userLoc, radius: radius, field: field,strictMode: true);
+
+
+//     stream.listen((List<DocumentSnapshot> documentList){
+//          print(documentList.length);
+//          for(var doc in documentList){
+//           GeoPoint point=doc.data['position']['geopoint'];
+//           print(point.latitude);
+//           print(point.longitude);
+//           String name =doc.data['displayName'];
+//           print(name);
+//          }
+//
+//
+//
+//        });
 
 
 
@@ -128,7 +165,11 @@ class _ScrollPageState extends State<ScrollPage>
 
     getPermission();
   }
-
+  @override
+  void dispose() {
+    streamController.close(); //Streams must be closed when not needed
+    super.dispose();
+  }
   void _onFocusChange() {
     if (_focus.hasFocus) {
       _controller.animateTo(
@@ -412,17 +453,70 @@ class _ScrollPageState extends State<ScrollPage>
   }
 
   Widget _getUpperLayer() {
-    return Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          controller: _scrollController,
-          itemBuilder: (BuildContext context, int index) {
-            return nearbyUsers[index];
-          },
-          itemCount: nearbyUsers.length,
-        ));
+    return   Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: StreamBuilder(
+
+      stream: stream,
+      builder: ( context,
+           snapshots) {
+        if (
+            snapshots.hasData) {
+          print('data ${snapshots.data}');
+          return Container(
+            height: MediaQuery.of(context).size.height * 2 / 3,
+            child: ListView.builder(
+              itemBuilder: (context, index) {
+                DocumentSnapshot doc = snapshots.data[index];
+                print(
+                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                GeoPoint point = doc.data['position']['geopoint'];
+                return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
+              },
+              itemCount: snapshots.data.length,
+            ),
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+      ));
   }
+//    return  StreamBuilder<List<DocumentSnapshot>>(
+//    stream:stream,
+//    builder: (context,  snapshot) {
+//    if (snapshot.hasData ) {
+//      var docs = snapshot.data;
+//      print(docs.runtimeType);
+//      List<UserTile> nearbyUsers = [];
+//      for (var snap in docs) {
+//        print('inside');
+//        print(snap.runtimeType);
+//        String userId = snap.documentID;
+//        String userName = snap.data['displayName'];
+//        String photoUrl = snap.data['photoUrl'];
+//        String major = snap.data['major'];
+//        List<String> interests = snap.data['interests'];
+//        nearbyUsers.add(new UserTile(userName, photoUrl, userId,));
+//      }
+//
+//
+//      return Container(
+//        height: screenH(165),
+//        child: ListView.builder(
+//            padding: EdgeInsets.only(
+//              bottom: screenH(15.0),
+//            ),
+//            shrinkWrap: true,
+//            scrollDirection: Axis.vertical,
+//            itemCount: nearbyUsers.length,
+//            itemBuilder: (BuildContext context, int index) {
+//              return nearbyUsers[index];
+//            }),
+//      );
+//    }return CircularProgressIndicator();
+//    }
+//    );}
 
   void _addMarker(double lat, double lng) {
     MarkerId id = MarkerId(lat.toString() + lng.toString());
@@ -495,7 +589,7 @@ class UserTile extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text("Philosophy, Flutter, Basketball", 
+                      Text("Philosophy, Flutter, Basketball",
                       style: TextStyle(
                        color: Color(0xFF8803fc), fontSize: 13),
                       )
@@ -506,7 +600,7 @@ class UserTile extends StatelessWidget {
                   ),
                   Row(
                     children: <Widget>[
-                      Text("Startups, Painting, Tech Companies", 
+                      Text("Startups, Painting, Tech Companies",
                             style: TextStyle(
                                 color: Color(0xFF1976d2), fontSize: 13)
                       )

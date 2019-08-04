@@ -47,14 +47,17 @@ class _ChatListState extends State<ChatList> {
       QuerySnapshot secondQuery = await Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
-          .collection('messages').document(senderId).collection('texts').where('from',isEqualTo: senderId).orderBy('timestamp',descending: true).getDocuments();
-      if(secondQuery.documents.length!=0) {
+          .collection('messages').document(senderId).collection('texts').orderBy('timestamp',descending: true).getDocuments();
         DocumentSnapshot lastMessageDoc = secondQuery.documents.first;
+
         String message = lastMessageDoc.data['text'];
         print(message);
         if (message.length >= 40) {
           message = message.substring(0, 39);
         }
+      if(lastMessageDoc.data['from']==currentUserModel.uid){
+message= "You: "+message;
+      }
         var storedDate = lastMessageDoc.data['timestamp'];
 
         String elapsedTime =
@@ -72,7 +75,7 @@ class _ChatListState extends State<ChatList> {
           senderName: displayName,
           to: currentUserModel.uid,
           from: senderId,));
-      }
+
 
     }
     print('messagetiles');

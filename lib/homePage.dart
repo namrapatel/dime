@@ -481,12 +481,8 @@ class _ScrollPageState extends State<ScrollPage>
 
   Widget _getUpperLayer() {
     return   Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(color: Colors.white),
-            child: StreamBuilder(
+      color: Colors.white,  
+      child: StreamBuilder(
 
             stream: stream,
             builder: ( context,
@@ -494,12 +490,9 @@ class _ScrollPageState extends State<ScrollPage>
               if (
                   snapshots.hasData) {
                 print('data ${snapshots.data}');
-                return Container(
-                  height: _controller.value >= _controller.upperBoundValue.percentage? MediaQuery.of(context).size.height/1.58
-                  : MediaQuery.of(context).size.height/11.75
-                  ,
-                  //height: MediaQuery.of(context).size.height/1.70,
-                  child: ListView.builder(
+                return  ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    
                     itemBuilder: (context, index) {
                       DocumentSnapshot doc = snapshots.data[index];
                       print(
@@ -508,15 +501,13 @@ class _ScrollPageState extends State<ScrollPage>
                       return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
                     },
                     itemCount: snapshots.data.length,
-                  ),
-                );
+                  );
+             
               } else {
                 return Center(child: CircularProgressIndicator());
               }
             },
-            )),
-        ],
-      ),
+            ),
     );
   }
   double _value = 5.0;
@@ -530,6 +521,22 @@ class _ScrollPageState extends State<ScrollPage>
     });
     radius.add(value);
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //    return  StreamBuilder<List<DocumentSnapshot>>(
 //    stream:stream,

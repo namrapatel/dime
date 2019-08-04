@@ -287,16 +287,30 @@ class _ScrollPageState extends State<ScrollPage>
                       padding: EdgeInsets.fromLTRB(
                           MediaQuery.of(context).size.width / 52, 0, 0, 0),
                     ),
+
                   ],
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.height / 109, 0, 0),
                 ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(35, 8, 35, 0),
+                    child: Slider(
+                    min: 5,
+                    max: 50,
+                    divisions: 10,
+                    value: _value,
+                    label: _label,
+                    activeColor: Colors.black,
+                    inactiveColor: Colors.grey[200],
+                    onChanged: (double value) => changed(value),
+                    ),
+                  ),
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 4.8,
+          headerHeight: MediaQuery.of(context).size.height / 3.2,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
@@ -440,7 +454,7 @@ class _ScrollPageState extends State<ScrollPage>
                             type: PageTransitionType.fade,
                             child: InviteFriends()));
                   },
-                )))
+                ))),
       ],
     );
   }
@@ -466,47 +480,43 @@ class _ScrollPageState extends State<ScrollPage>
   }
 
   Widget _getUpperLayer() {
-    return   Column(
-      children: <Widget>[
-    Slider(
-    min: 5,
-    max: 50,
-    divisions: 10,
-    value: _value,
-    label: _label,
-    activeColor: Colors.blue,
-    inactiveColor: Colors.blue.withOpacity(0.2),
-    onChanged: (double value) => changed(value),
-    ),
-        Container(
-          decoration: BoxDecoration(color: Colors.white),
-          child: StreamBuilder(
+    return   Container(
+      color: Colors.white,
+      child: Column(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.white),
+            child: StreamBuilder(
 
-          stream: stream,
-          builder: ( context,
-              AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-            if (
-                snapshots.hasData) {
-              print('data ${snapshots.data}');
-              return Container(
-                height: MediaQuery.of(context).size.height * 2 / 3,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot doc = snapshots.data[index];
-                    print(
-                        'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                    GeoPoint point = doc.data['position']['geopoint'];
-                    return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
-                  },
-                  itemCount: snapshots.data.length,
-                ),
-              );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-          )),
-      ],
+            stream: stream,
+            builder: ( context,
+                AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+              if (
+                  snapshots.hasData) {
+                print('data ${snapshots.data}');
+                return Container(
+                  height: _controller.value >= _controller.upperBoundValue.percentage? MediaQuery.of(context).size.height/1.58
+                  : MediaQuery.of(context).size.height/11.75
+                  ,
+                  //height: MediaQuery.of(context).size.height/1.70,
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot doc = snapshots.data[index];
+                      print(
+                          'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                      GeoPoint point = doc.data['position']['geopoint'];
+                      return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
+                    },
+                    itemCount: snapshots.data.length,
+                  ),
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+            },
+            )),
+        ],
+      ),
     );
   }
   double _value = 5.0;

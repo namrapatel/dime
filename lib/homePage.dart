@@ -96,6 +96,7 @@ class _ScrollPageState extends State<ScrollPage>
 
             GeoPoint userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
 
+
           Firestore.instance
               .collection('users')
               .document(currentUserModel.uid)

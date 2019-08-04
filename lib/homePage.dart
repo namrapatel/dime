@@ -469,7 +469,7 @@ class _ScrollPageState extends State<ScrollPage>
             snapshots.hasData) {
           print('data ${snapshots.data}');
           return Container(
-            height: MediaQuery.of(context).size.height * 2 / 3,
+            height: MediaQuery.of(context).size.height,
             child: ListView.builder(
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshots.data[index];

@@ -57,8 +57,12 @@ class _ExploreState extends State<Explore> {
     }
     String standardValue = value.toLowerCase();
 
-    if (queryResultSet.length == 0 && value.length == 1) {
-      tempSearchStore = [];
+    if (value.length == 1) {
+      setState(() {
+        tempSearchStore = [];
+        queryResultSet = [];
+      });
+
       SearchService().getAllUsers().then((QuerySnapshot docs) {
         for (int i = 0; i < docs.documents.length; ++i) {
           if (docs.documents[i].data['displayName']

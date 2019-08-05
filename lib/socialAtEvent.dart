@@ -7,9 +7,35 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'viewCards.dart';
 import 'login.dart';
+import 'homePage.dart';
+import 'dart:async';
+import 'dart:convert';
 
-
-
+import 'package:Dime/profPage.dart';
+import 'package:Dime/profileScreen.dart';
+import 'package:Dime/socialPage.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:rubber/rubber.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:location/location.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'login.dart';
+import 'chatList.dart';
+import 'chat.dart';
+import 'inviteFriends.dart';
+import 'explore.dart';
+import 'userCard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:rxdart/rxdart.dart';
 class socialAtEvent extends StatefulWidget {
   socialAtEvent({Key key}) : super(key: key);
   @override
@@ -18,6 +44,7 @@ class socialAtEvent extends StatefulWidget {
 
 class _socialAtEventState extends State<socialAtEvent>
     with SingleTickerProviderStateMixin {
+  var radius = BehaviorSubject<double>.seeded(0.075);
   RubberAnimationController _controller;
   //Completer <GoogleMapController> mapController = Completer();
 
@@ -48,11 +75,43 @@ class _socialAtEventState extends State<socialAtEvent>
   // }
 
   ScrollController _scrollController = ScrollController();
+  Geoflutterfire geo =Geoflutterfire();
+  Stream<List<DocumentSnapshot>> stream;
 
   @override
   void initState() {
+    var location = new Location();
 
-    
+
+
+    location.onLocationChanged().listen((LocationData currentLocation) async {
+
+
+      GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
+
+      Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .setData({
+        'position': userLoc.data,
+      }, merge: true);
+
+//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+//            GeoFirePoint gp=mine.data['position'];
+//
+//            double radius = 6.0;
+      String field = 'position';
+      stream = radius.switchMap((rad) {
+        var collectionReference = Firestore.instance.collection('users').where('atEvent',isEqualTo: true);
+        return geo.collection(collectionRef: collectionReference).within(
+            center: userLoc, radius: rad, field: 'position');
+      });
+
+      changed(value);
+
+    });
+
+
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
@@ -70,7 +129,17 @@ class _socialAtEventState extends State<socialAtEvent>
     }
   }
 
+  double value = 0.075;
+  String _label = '';
 
+  changed(value) {
+    setState(() {
+      value = value;
+      print(value);
+      _label = '${value.toInt().toString()} kms';
+    });
+    radius.add(value);
+  }
   String _value;
 
  DropdownButton _normalDown() => DropdownButton<String>(
@@ -281,92 +350,124 @@ class _socialAtEventState extends State<socialAtEvent>
   }
 
   Widget _getUpperLayer() {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white),
-      child: ListView.separated(
-      separatorBuilder: (context, index) => Divider(
-        color: Colors.grey[400],
-      ),
-          physics: NeverScrollableScrollPhysics(),
-          controller: _scrollController,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              title: Text(
-                "Dhruv Patel",
-                style: TextStyle(fontSize: 18),
-              ),
-              subtitle: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, MediaQuery.of(context).size.height / 100, 0, 0),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text("Mechatronics Engineering, 2023"),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text("Meet new people", style: TextStyle(fontWeight: FontWeight.bold),),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, MediaQuery.of(context).size.height / 70, 0, 0),
-                  ),
-              Column(
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text("Philosophy, Flutter, Basketball", 
-                      style: TextStyle(
-                       color: Color(0xFF8803fc), fontSize: 13),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height/300,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text("Startups, Painting, Tech Companies", 
-                            style: TextStyle(
-                                color: Color(0xFF1976d2), fontSize: 13)
-                      )
-                    ],
-                  ),
-                ],
-              ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        0, MediaQuery.of(context).size.height / 50, 0, 0),
-                  )
-                ],
-              ),
-              leading: CircleAvatar(
-                backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
-                radius: 20,
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(MaterialCommunityIcons.chat),
-                    color: Colors.black,
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: Icon(MaterialCommunityIcons.card_bulleted),
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
-                    },
-                  ),
-                ],
-              ),
+    return   Container(
+      color: Colors.white,
+      child: StreamBuilder(
+
+        stream: stream,
+        builder: ( context,
+            AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+          if (
+          snapshots.hasData) {
+            print('data ${snapshots.data}');
+            return  ListView.builder(
+
+
+              itemBuilder: (context, index) {
+                DocumentSnapshot doc = snapshots.data[index];
+                print(
+                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                GeoPoint point = doc.data['position']['geopoint'];
+
+                  return UserTile(doc.data['displayName'], doc.data['photoUrl'],
+                    doc.documentID, major: 'dumbness', interests: ['idiots'],);
+
+              },
+              itemCount: snapshots.data.length,
             );
-          },
-          itemCount: 100),
+
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
+//    return Container(
+//      decoration: BoxDecoration(color: Colors.white),
+//      child: ListView.separated(
+//      separatorBuilder: (context, index) => Divider(
+//        color: Colors.grey[400],
+//      ),
+//          physics: NeverScrollableScrollPhysics(),
+//          controller: _scrollController,
+//          itemBuilder: (BuildContext context, int index) {
+//            return ListTile(
+//              title: Text(
+//                "Dhruv Patel",
+//                style: TextStyle(fontSize: 18),
+//              ),
+//              subtitle: Column(
+//                children: <Widget>[
+//                  Padding(
+//                    padding: EdgeInsets.fromLTRB(
+//                        0, MediaQuery.of(context).size.height / 100, 0, 0),
+//                  ),
+//                  Align(
+//                    alignment: Alignment.bottomLeft,
+//                    child: Text("Mechatronics Engineering, 2023"),
+//                  ),
+//                  Align(
+//                    alignment: Alignment.bottomLeft,
+//                    child: Text("Meet new people", style: TextStyle(fontWeight: FontWeight.bold),),
+//                  ),
+//                  Padding(
+//                    padding: EdgeInsets.fromLTRB(
+//                        0, MediaQuery.of(context).size.height / 70, 0, 0),
+//                  ),
+//              Column(
+//                children: <Widget>[
+//                  Row(
+//                    children: <Widget>[
+//                      Text("Philosophy, Flutter, Basketball",
+//                      style: TextStyle(
+//                       color: Color(0xFF8803fc), fontSize: 13),
+//                      )
+//                    ],
+//                  ),
+//                  SizedBox(
+//                    height: MediaQuery.of(context).size.height/300,
+//                  ),
+//                  Row(
+//                    children: <Widget>[
+//                      Text("Startups, Painting, Tech Companies",
+//                            style: TextStyle(
+//                                color: Color(0xFF1976d2), fontSize: 13)
+//                      )
+//                    ],
+//                  ),
+//                ],
+//              ),
+//                  Padding(
+//                    padding: EdgeInsets.fromLTRB(
+//                        0, MediaQuery.of(context).size.height / 50, 0, 0),
+//                  )
+//                ],
+//              ),
+//              leading: CircleAvatar(
+//                backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+//                radius: 20,
+//              ),
+//              trailing: Row(
+//                mainAxisSize: MainAxisSize.min,
+//                children: <Widget>[
+//                  IconButton(
+//                    icon: Icon(MaterialCommunityIcons.chat),
+//                    color: Colors.black,
+//                    onPressed: () {},
+//                  ),
+//                  IconButton(
+//                    icon: Icon(MaterialCommunityIcons.card_bulleted),
+//                    color: Colors.black,
+//                    onPressed: () {
+//                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
+//                    },
+//                  ),
+//                ],
+//              ),
+//            );
+//          },
+//          itemCount: 100),
+//    );
   }
 
 

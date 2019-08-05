@@ -119,7 +119,7 @@ class _ScrollPageState extends State<ScrollPage>
 //            double radius = 6.0;
             String field = 'position';
             stream = radius.switchMap((rad) {
-              var collectionReference = Firestore.instance.collection('users');
+              var collectionReference = Firestore.instance.collection('users').where('atEvent',isEqualTo: true);
               return geo.collection(collectionRef: collectionReference).within(
                   center: userLoc, radius: rad, field: 'position', strictMode: true);
             });
@@ -548,6 +548,7 @@ class _ScrollPageState extends State<ScrollPage>
       _label = '${_value.toInt().toString()} kms';
     });
     radius.add(value);
+
   }
 
 

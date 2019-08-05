@@ -37,6 +37,7 @@ final bool isSwitched;
   factory SocialCard.fromDocument(DocumentSnapshot document) {
     String interest="";
     List<dynamic> interests=document['interests'];
+    if(interests!=null) {
     for(int i=0;i<interests.length;i++){
       if(i==interests.length-1){
         interest=interest+ interests[i];
@@ -44,7 +45,7 @@ final bool isSwitched;
         interest=interest+ interests[i]+", ";
       }
 
-    }
+    }}
     return SocialCard(
         type: document['type'],
         photoUrl: document['photoUrl'],

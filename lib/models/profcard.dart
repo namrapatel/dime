@@ -34,16 +34,17 @@ class ProfCard extends StatelessWidget {
 
   factory ProfCard.fromDocument(DocumentSnapshot document) {
     String interest="";
+
     List<dynamic> interests=document['interests'];
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interest=interest+ interests[i];
-      }else{
-        interest=interest+ interests[i]+", ";
+    if(interests!=null) {
+      for (int i = 0; i < interests.length; i++) {
+        if (i == interests.length - 1) {
+          interest = interest + interests[i];
+        } else {
+          interest = interest + interests[i] + ", ";
+        }
       }
-
     }
-
     return ProfCard(
       type: document['type'],
       photoUrl: document['photoUrl'],

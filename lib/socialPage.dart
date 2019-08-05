@@ -164,6 +164,9 @@ class _SocialPageState extends State<SocialPage> {
                               ),
                               elevation: screenH(5),
                               onPressed: () {
+                                Firestore.instance.collection('users').document(currentUserModel.uid).setData({
+                                  'atEvent':true
+                                },merge: true);
                                 print(socialEvents.length);
                                 _controller.push(context, socialAtEvent());
                               },

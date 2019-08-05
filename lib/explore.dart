@@ -63,24 +63,35 @@ class _ExploreState extends State<Explore> {
         queryResultSet = [];
       });
 
-      SearchService().getAllUsers().then((QuerySnapshot docs) {
-        for (int i = 0; i < docs.documents.length; ++i) {
-          if (docs.documents[i].data['displayName']
-              .toLowerCase()
-              .startsWith(standardValue)) {
-            print(docs.documents[i].data['displayName']);
-            queryResultSet.add(docs.documents[i].data);
+      for (var user in allUsers) {
+        if (user['displayName'].toLowerCase().startsWith(standardValue))
+          {
+            print("I'm here");
+            print(user['displayName']);
             setState(() {
-              tempSearchStore.add(docs.documents[i].data);
+              tempSearchStore.add(user);
+              queryResultSet.add(user);
             });
           }
-        }
-      });
+      }
+//      SearchService().getAllUsers().then((QuerySnapshot docs) {
+//        for (int i = 0; i < docs.documents.length; ++i) {
+//          if (docs.documents[i].data['displayName']
+//              .toLowerCase()
+//              .startsWith(standardValue)) {
+////            print(docs.documents[i].data['displayName']);
+//            queryResultSet.add(docs.documents[i].data);
+//            setState(() {
+//              tempSearchStore.add(docs.documents[i].data);
+//            });
+//          }
+//        }
+//      });
     } else {
       tempSearchStore = [];
       queryResultSet.forEach((element) {
         if (element['displayName'].toLowerCase().startsWith(standardValue)) {
-          print(element['displayName']);
+//          print(element['displayName']);
           setState(() {
             tempSearchStore.add(element);
           });

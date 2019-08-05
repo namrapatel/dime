@@ -101,7 +101,10 @@ print(messageTiles);
                           child: Container(
                               width: (100),
                               child: Text(
-                                "You currently have no messages",
+                                "No Messages to show",
+                                style: TextStyle(color: Colors.black,
+                                fontSize: 20,
+                                ),
                                 textAlign: TextAlign.center,
                               )),
                         ),
@@ -290,14 +293,13 @@ class MessageTile extends StatelessWidget {
         backgroundImage: NetworkImage(senderPhoto),
       ),
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(senderName),
-          SizedBox(width: MediaQuery.of(context).size.width/3.95,),
-          Text(timestamp, style: TextStyle(fontSize: 10, color: Colors.blueAccent[700]),)
+          Text(timestamp, style: TextStyle(fontSize: 13, color: Colors.blueAccent[700]),)
         ],
       ),
-      trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 10,),
+      trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 17,),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[

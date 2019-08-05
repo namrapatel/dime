@@ -55,6 +55,7 @@ dev_dependencies:
   google_sign_in:
   url_launcher:
   wc_flutter_share:
+  flutter_fluid_slider:
 
   #geolocation:
     #git:

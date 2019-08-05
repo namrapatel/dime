@@ -21,7 +21,7 @@ import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -295,16 +295,44 @@ class _ScrollPageState extends State<ScrollPage>
                       0, MediaQuery.of(context).size.height / 109, 0, 0),
                 ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(35, 8, 35, 0),
-                    child: Slider(
-                    min: 5,
-                    max: 50,
-                    divisions: 10,
-                    value: _value,
-                    label: _label,
-                    activeColor: Colors.black,
-                    inactiveColor: Colors.grey[200],
-                    onChanged: (double value) => changed(value),
+                    padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
+                    // child: FluidSlider(
+                    //   thumbColor: Colors.black,
+                    //   valueTextStyle: TextStyle(color: Colors.white, fontSize: 17),
+                    // labelsTextStyle: TextStyle(color: Colors.black, fontSize: 17),
+                    // sliderColor: Color(0xFFECE9E4),
+                    // min: 5,
+                    // max: 50,
+                    // //divisions: 10,
+                    // value: _value,
+                    // //label: _label,
+                    // //activeColor: Colors.black,
+                    // //inactiveColor: Colors.grey[200],
+                    // onChanged: (double value) => changed(value),
+                    // ),
+
+                    child: SliderTheme(
+                      data: SliderThemeData(
+                        overlayColor: Colors.transparent,
+                        //thumbShape: SliderComponentShape.noOverlay,
+                        overlappingShapeStrokeColor: Colors.black,
+                        showValueIndicator: ShowValueIndicator.always,
+                        valueIndicatorColor: Colors.black,
+                        activeTrackColor: Colors.black,
+                        valueIndicatorTextStyle: TextStyle(color: Colors.white),
+                        inactiveTrackColor: Color(0xFFECE9E4),
+                        thumbColor: Colors.black,
+                        trackHeight: 10,
+                        
+                      ),
+                      child: Slider(
+                        value: _value,
+                        label: _label,
+                        onChanged: (double value) => changed(value),
+                        min: 5,
+                        max: 50,
+                      ),
+                      
                     ),
                   ),
               ],
@@ -491,7 +519,7 @@ class _ScrollPageState extends State<ScrollPage>
                   snapshots.hasData) {
                 print('data ${snapshots.data}');
                 return  ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
+                    
                     
                     itemBuilder: (context, index) {
                       DocumentSnapshot doc = snapshots.data[index];

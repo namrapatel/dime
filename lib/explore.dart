@@ -17,6 +17,7 @@ class Explore extends StatefulWidget {
 class _ExploreState extends State<Explore> {
   var queryResultSet = [];
   var tempSearchStore = [];
+  bool alreadyBuilt = false;
 
 //  loadAll() {
 //    SearchService().getAllUsers().then((QuerySnapshot docs) {
@@ -34,10 +35,20 @@ class _ExploreState extends State<Explore> {
   initiateSearch(String value) {
 
     if (value.length == 0) {
-      setState(() {
-        queryResultSet = [];
-        tempSearchStore = [];
+      SearchService().getAllUsers().then((QuerySnapshot docs) {
+        var tempSet = [];
+        for (int i = 0; i < docs.documents.length; ++i) {
+          tempSet.add(docs.documents[i].data);
+        }
+        setState(() {
+          tempSearchStore = tempSet;
+          queryResultSet = [];
+        });
       });
+//      setState(() {
+//        queryResultSet = [];
+//        tempSearchStore = [];
+//      });
     }
     String standardValue = value.toLowerCase();
 
@@ -72,6 +83,20 @@ class _ExploreState extends State<Explore> {
   @override
   Widget build(BuildContext context) {
 //    loadAll();
+  if (!alreadyBuilt) {
+    SearchService().getAllUsers().then((QuerySnapshot docs) {
+      var tempSet = [];
+      for (int i = 0; i < docs.documents.length; ++i) {
+        tempSet.add(docs.documents[i].data);
+      }
+      setState(() {
+        tempSearchStore = tempSet;
+      });
+    });
+
+    alreadyBuilt = true;
+  }
+
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(

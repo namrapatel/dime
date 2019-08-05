@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
+var allUsers = [];
 
 class Explore extends StatefulWidget {
   @override
@@ -33,18 +34,22 @@ class _ExploreState extends State<Explore> {
 
 
   initiateSearch(String value) {
-
+    print(allUsers);
     if (value.length == 0) {
-      SearchService().getAllUsers().then((QuerySnapshot docs) {
-        var tempSet = [];
-        for (int i = 0; i < docs.documents.length; ++i) {
-          tempSet.add(docs.documents[i].data);
-        }
-        setState(() {
-          tempSearchStore = tempSet;
-          queryResultSet = [];
-        });
+      setState(() {
+        tempSearchStore = allUsers;
+        queryResultSet = allUsers;
       });
+//      SearchService().getAllUsers().then((QuerySnapshot docs) {
+//        var tempSet = [];
+//        for (int i = 0; i < docs.documents.length; ++i) {
+//          tempSet.add(docs.documents[i].data);
+//        }
+//        setState(() {
+//          tempSearchStore = tempSet;
+//          queryResultSet = [];
+//        });
+//      });
 //      setState(() {
 //        queryResultSet = [];
 //        tempSearchStore = [];
@@ -91,6 +96,7 @@ class _ExploreState extends State<Explore> {
       }
       setState(() {
         tempSearchStore = tempSet;
+        allUsers = tempSet;
       });
     });
 

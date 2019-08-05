@@ -226,7 +226,7 @@ class _ExploreState extends State<Explore> {
         backgroundImage: NetworkImage(data['photoUrl']),
       ),
       title: Text(data['displayName']),
-      subtitle: Text("Mechatronics Engineering, 2023"),
+      subtitle: Text(data['major'] != null ? data['major'] : ""),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[

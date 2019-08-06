@@ -60,7 +60,7 @@ class _ScrollPageState extends State<ScrollPage>
   Stream<List<DocumentSnapshot>> stream;
 
   // Stream<List<DocumentSnapshot>> stream;
-   var radius = BehaviorSubject<double>.seeded(1.0);
+  var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   List<DocumentSnapshot> list=[];
   // getPermission() async {
@@ -73,8 +73,8 @@ class _ScrollPageState extends State<ScrollPage>
 
   getPermission() async {
     Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler()
-            .requestPermissions([PermissionGroup.locationAlways]);
+    await PermissionHandler()
+        .requestPermissions([PermissionGroup.locationAlways]);
   }
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -101,30 +101,30 @@ class _ScrollPageState extends State<ScrollPage>
 
 
 
-          location.onLocationChanged().listen((LocationData currentLocation) async {
+    location.onLocationChanged().listen((LocationData currentLocation) async {
 
 
-            GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
+      GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
 
-          Firestore.instance
-              .collection('users')
-              .document(currentUserModel.uid)
-              .setData({
-            'position': userLoc.data,
-          }, merge: true);
+      Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .setData({
+        'position': userLoc.data,
+      }, merge: true);
 
 //            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
 //            GeoFirePoint gp=mine.data['position'];
 //
 //            double radius = 6.0;
-            String field = 'position';
-            stream = radius.switchMap((rad) {
-              var collectionReference = Firestore.instance.collection('users').where('atEvent',isEqualTo: true);
-              return geo.collection(collectionRef: collectionReference).within(
-                  center: userLoc, radius: rad, field: 'position', strictMode: true);
-            });
+      String field = 'position';
+      stream = radius.switchMap((rad) {
+        var collectionReference = Firestore.instance.collection('users');
+        return geo.collection(collectionRef: collectionReference).within(
+            center: userLoc, radius: rad, field: 'position', strictMode: true);
+      });
 
-            changed(_value);
+      changed(_value);
 //              var collectionReference = Firestore.instance.collection('users');
 //              stream= geo.collection(collectionRef: collectionReference).within(
 //                  center: userLoc, radius: rad, field: 'position', strictMode: true);
@@ -154,9 +154,9 @@ class _ScrollPageState extends State<ScrollPage>
 
 
 
-          mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude),
+      mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude),
           zoom: 18
-          )));
+      )));
 
 
       mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
@@ -208,7 +208,7 @@ class _ScrollPageState extends State<ScrollPage>
               children: <Widget>[
                 Padding(
                   padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height / 122),
+                  EdgeInsets.all(MediaQuery.of(context).size.height / 122),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 7.5,
@@ -294,47 +294,47 @@ class _ScrollPageState extends State<ScrollPage>
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.height / 109, 0, 0),
                 ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
-                    // child: FluidSlider(
-                    //   thumbColor: Colors.black,
-                    //   valueTextStyle: TextStyle(color: Colors.white, fontSize: 17),
-                    // labelsTextStyle: TextStyle(color: Colors.black, fontSize: 17),
-                    // sliderColor: Color(0xFFECE9E4),
-                    // min: 5,
-                    // max: 50,
-                    // //divisions: 10,
-                    // value: _value,
-                    // //label: _label,
-                    // //activeColor: Colors.black,
-                    // //inactiveColor: Colors.grey[200],
-                    // onChanged: (double value) => changed(value),
-                    // ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
+                  // child: FluidSlider(
+                  //   thumbColor: Colors.black,
+                  //   valueTextStyle: TextStyle(color: Colors.white, fontSize: 17),
+                  // labelsTextStyle: TextStyle(color: Colors.black, fontSize: 17),
+                  // sliderColor: Color(0xFFECE9E4),
+                  // min: 5,
+                  // max: 50,
+                  // //divisions: 10,
+                  // value: _value,
+                  // //label: _label,
+                  // //activeColor: Colors.black,
+                  // //inactiveColor: Colors.grey[200],
+                  // onChanged: (double value) => changed(value),
+                  // ),
 
-                    child: SliderTheme(
-                      data: SliderThemeData(
-                        overlayColor: Colors.transparent,
-                        //thumbShape: SliderComponentShape.noOverlay,
-                        overlappingShapeStrokeColor: Colors.black,
-                        showValueIndicator: ShowValueIndicator.always,
-                        valueIndicatorColor: Colors.black,
-                        activeTrackColor: Colors.black,
-                        valueIndicatorTextStyle: TextStyle(color: Colors.white),
-                        inactiveTrackColor: Color(0xFFECE9E4),
-                        thumbColor: Colors.black,
-                        trackHeight: 10,
-                        
-                      ),
-                      child: Slider(
-                        value: _value,
-                        label: _label,
-                        onChanged: (double value) => changed(value),
-                        min: 5,
-                        max: 50,
-                      ),
-                      
+                  child: SliderTheme(
+                    data: SliderThemeData(
+                      overlayColor: Colors.transparent,
+                      //thumbShape: SliderComponentShape.noOverlay,
+                      overlappingShapeStrokeColor: Colors.black,
+                      showValueIndicator: ShowValueIndicator.always,
+                      valueIndicatorColor: Colors.black,
+                      activeTrackColor: Colors.black,
+                      valueIndicatorTextStyle: TextStyle(color: Colors.white),
+                      inactiveTrackColor: Color(0xFFECE9E4),
+                      thumbColor: Colors.black,
+                      trackHeight: 10,
+
                     ),
+                    child: Slider(
+                      value: _value,
+                      label: _label,
+                      onChanged: (double value) => changed(value),
+                      min: 5,
+                      max: 50,
+                    ),
+
                   ),
+                ),
               ],
             ),
           ),
@@ -496,7 +496,7 @@ class _ScrollPageState extends State<ScrollPage>
         myLocationEnabled: true,
         zoomGesturesEnabled: true,
         initialCameraPosition:
-            CameraPosition(target: LatLng(56.130367, -106.346771), zoom: 2),
+        CameraPosition(target: LatLng(56.130367, -106.346771), zoom: 2),
         onMapCreated: (GoogleMapController controller) {
           //mapController.complete(controller);
           mapController = controller;
@@ -509,33 +509,33 @@ class _ScrollPageState extends State<ScrollPage>
 
   Widget _getUpperLayer() {
     return   Container(
-      color: Colors.white,  
+      color: Colors.white,
       child: StreamBuilder(
 
-            stream: stream,
-            builder: ( context,
-                AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-              if (
-                  snapshots.hasData) {
-                print('data ${snapshots.data}');
-                return  ListView.builder(
-                    
-                    
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot doc = snapshots.data[index];
-                      print(
-                          'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                      GeoPoint point = doc.data['position']['geopoint'];
-                      return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
-                    },
-                    itemCount: snapshots.data.length,
-                  );
-             
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
-            ),
+        stream: stream,
+        builder: ( context,
+            AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+          if (
+          snapshots.hasData) {
+            print('data ${snapshots.data}');
+            return  ListView.builder(
+
+
+              itemBuilder: (context, index) {
+                DocumentSnapshot doc = snapshots.data[index];
+                print(
+                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                GeoPoint point = doc.data['position']['geopoint'];
+                return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
+              },
+              itemCount: snapshots.data.length,
+            );
+
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
   double _value = 5.0;
@@ -548,7 +548,6 @@ class _ScrollPageState extends State<ScrollPage>
       _label = '${_value.toInt().toString()} kms';
     });
     radius.add(value);
-
   }
 
 
@@ -675,8 +674,8 @@ class UserTile extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text("Philosophy, Flutter, Basketball",
-                      style: TextStyle(
-                       color: Color(0xFF8803fc), fontSize: 13),
+                        style: TextStyle(
+                            color: Color(0xFF8803fc), fontSize: 13),
                       )
                     ],
                   ),
@@ -686,8 +685,8 @@ class UserTile extends StatelessWidget {
                   Row(
                     children: <Widget>[
                       Text("Startups, Painting, Tech Companies",
-                            style: TextStyle(
-                                color: Color(0xFF1976d2), fontSize: 13)
+                          style: TextStyle(
+                              color: Color(0xFF1976d2), fontSize: 13)
                       )
                     ],
                   ),

@@ -21,7 +21,6 @@ import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_fluid_slider/flutter_fluid_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';

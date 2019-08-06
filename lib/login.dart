@@ -192,7 +192,7 @@ class _LoginState extends State<Login> {
 
                   DocumentSnapshot userRecord = await Firestore.instance
                       .collection('users')
-                      .document(signedInUser.uid)
+                      .document(signedInUser.user.uid)
                       .get();
                   if (userRecord.data != null) {
                     currentUserModel = User.fromDocument(userRecord);

@@ -28,9 +28,9 @@ class FacebookAuth {
     FacebookAuthProvider.getCredential(
         accessToken: accessToken.token);
 
-    FirebaseUser user =
+    AuthResult userAuth =
     await _auth.signInWithCredential(credential);
-
+FirebaseUser user= userAuth.user;
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
         final token = accessToken.token;

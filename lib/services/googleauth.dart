@@ -23,8 +23,8 @@ class GoogleAuth {
         idToken: googleSignInAuthentication.idToken,
         accessToken:  googleSignInAuthentication.idToken);
 
-    final FirebaseUser user = await _auth.signInWithCredential(credential);
-
+    final AuthResult userAuth = await _auth.signInWithCredential(credential);
+FirebaseUser user=userAuth.user;
 //    DocumentSnapshot userRecord = await Firestore.instance
 //        .collection('users')
 //        .document(user.uid)

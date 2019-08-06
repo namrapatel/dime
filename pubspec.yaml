@@ -56,7 +56,8 @@ dev_dependencies:
   url_launcher:
   wc_flutter_share:
   flutter_fluid_slider:
-
+  geolocator: ^5.1.1+1
+  latlong: ^0.6.1
   #geolocation:
     #git:
       #url: https://github.com/shehabic/geolocation

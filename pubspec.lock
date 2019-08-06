@@ -8,6 +8,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.7+2"
+  ansicolor:
+    dependency: transitive
+    description:
+      name: ansicolor
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   async:
     dependency: transitive
     description:
@@ -71,13 +78,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.14.11"
+  console_log_handler:
+    dependency: transitive
+    description:
+      name: console_log_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.6"
   contacts_service:
     dependency: "direct dev"
     description:
       name: contacts_service
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.8"
+    version: "0.2.9"
   fancy_on_boarding:
     dependency: "direct dev"
     description:
@@ -91,21 +105,21 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.1+5"
+    version: "0.14.0"
   firebase_core:
     dependency: transitive
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+1"
+    version: "0.4.0+8"
   firebase_storage:
     dependency: "direct dev"
     description:
       name: firebase_storage
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.5"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -131,7 +145,7 @@ packages:
       name: flutter_screenutil
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.2"
+    version: "0.5.3"
   flutter_search_panel:
     dependency: "direct dev"
     description:
@@ -164,7 +178,7 @@ packages:
       name: flutter_vector_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.0"
+    version: "0.2.0"
   function_types:
     dependency: transitive
     description:
@@ -179,20 +193,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3+5"
+  geolocator:
+    dependency: "direct dev"
+    description:
+      name: geolocator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.1+1"
+  google_api_availability:
+    dependency: transitive
+    description:
+      name: google_api_availability
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.1"
   google_maps_flutter:
     dependency: "direct dev"
     description:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.19+2"
+    version: "0.5.20+1"
   google_sign_in:
     dependency: "direct dev"
     description:
       name: google_sign_in
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.4"
+    version: "4.0.6"
   grouped_buttons:
     dependency: "direct dev"
     description:
@@ -220,7 +248,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.0+9"
+    version: "0.6.1"
   intl:
     dependency: transitive
     description:
@@ -235,6 +263,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.6"
+  latlong:
+    dependency: "direct dev"
+    description:
+      name: latlong
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1"
   location:
     dependency: "direct dev"
     description:
@@ -242,6 +277,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.5"
+  location_permissions:
+    dependency: transitive
+    description:
+      name: location_permissions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   logging:
     dependency: transitive
     description:
@@ -304,7 +346,7 @@ packages:
       name: permission_handler
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.1+1"
   queries:
     dependency: "direct dev"
     description:
@@ -332,14 +374,14 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.22.0"
+    version: "0.22.1"
   shared_preferences:
     dependency: "direct dev"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.3+1"
+    version: "0.5.3+4"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -365,7 +407,7 @@ packages:
       name: sticky_infinite_list
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.2"
   stream_channel:
     dependency: transitive
     description:
@@ -414,7 +456,14 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.1.1"
+    version: "5.1.2"
+  validate:
+    dependency: transitive
+    description:
+      name: validate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.7.0"
   vector_math:
     dependency: transitive
     description:

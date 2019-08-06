@@ -24,6 +24,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'package:latlong/latlong.dart' as Lat;
 import 'login.dart';
 import 'chatList.dart';
 import 'chat.dart';
@@ -89,12 +90,12 @@ class _socialAtEventState extends State<socialAtEvent>
 
       GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
 
-      Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .setData({
-        'position': userLoc.data,
-      }, merge: true);
+//      Firestore.instance
+//          .collection('users')
+//          .document(currentUserModel.uid)
+//          .setData({
+//        'position': userLoc.data,
+//      }, merge: true);
 
 //            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
 //            GeoFirePoint gp=mine.data['position'];
@@ -348,126 +349,78 @@ class _socialAtEventState extends State<socialAtEvent>
       ),
     );
   }
+  Future<List<UserTile>>getUsers() async{
+    List<UserTile> userList=[];
+//    final Lat.Distance distance = new Lat.Distance();
+//    final double km = distance(
+//        new Lat.LatLng(43.472285,-80.54486),new Lat.LatLng(43.473095,-80.5394933));
+//print(km);
+    final Lat.Distance distance = new Lat.Distance();
+    QuerySnapshot query =await Firestore.instance.collection('users').where('atEvent',isEqualTo: true).getDocuments();
+    final docs= query.documents;
+    for(var doc in docs){
+//      print(doc.data['currentLocation'].latitude);
+//      print(doc.data['currentLocation'].longitude);
+      final double distanceInMeters = distance(new Lat.LatLng(currentUserModel.currentLocation.latitude,currentUserModel.currentLocation.longitude),new Lat.LatLng(doc.data['currentLocation'].latitude,doc.data['currentLocation'].longitude));
+//      await Geolocator().distanceBetween(userLoc.latitude, userLoc.longitude, doc.data['currentLocation'].latitude, doc.data['currentLocation'].longitude);
+      print(doc.data['displayName']);
+      print('distance away is');
+      print(distanceInMeters);
+      if(distanceInMeters<=75.0&&currentUserModel.uid!=doc.documentID){
+        int counter=0;
+        if(doc.data['university']==currentUserModel.university){
+          counter++;
+        }
+        if(doc.data['gradYear']==currentUserModel.gradYear){
+          counter++;
+        }
+        if(doc.data['major'].toString().toLowerCase()==currentUserModel.major.toLowerCase()){
+          counter=counter+2;
+        }
+//        if(doc.data['profInterests']!=null){
+        List<dynamic> interests =doc.data['profInterests']+doc.data['socialInterests'];
+        print(interests);
+        List<dynamic> myInterests= currentUserModel.profInterests+currentUserModel.socialInterests;
+        for(int i=0;i<interests.length;i++){
+          for(int a=0;a<myInterests.length;a++){
+            if(interests[i]==myInterests[a]){
+              counter=counter+2;
+            }
+          }
+        }
+//        }
 
+        userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,counter,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
+      }
+      for(var user in userList){
+        print(user.contactName);
+      }
+      userList.sort((a, b) => a.compatibility.compareTo(b.compatibility));
+      for(var user in userList){
+        print(user.contactName);
+      }
+    } return userList;
+
+
+  }
   Widget _getUpperLayer() {
     return   Container(
       color: Colors.white,
-      child: StreamBuilder(
+      child: Container(
+          color: Colors.white,
+          child:  FutureBuilder<List<UserTile>>(
+              future: getUsers(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData)
+                  return Container(
+                      alignment: FractionalOffset.center,
+                      child: CircularProgressIndicator());
 
-        stream: stream,
-        builder: ( context,
-            AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-          if (
-          snapshots.hasData) {
-            print('data ${snapshots.data}');
-            return  ListView.builder(
-
-
-              itemBuilder: (context, index) {
-                DocumentSnapshot doc = snapshots.data[index];
-                print(
-                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                GeoPoint point = doc.data['position']['geopoint'];
-
-                  return UserTile(doc.data['displayName'], doc.data['photoUrl'],
-                    doc.documentID, major: 'dumbness', interests: ['idiots'],);
-
-              },
-              itemCount: snapshots.data.length,
-            );
-
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+                return Column(children: snapshot.data);
+              })
+      )
     );
-//    return Container(
-//      decoration: BoxDecoration(color: Colors.white),
-//      child: ListView.separated(
-//      separatorBuilder: (context, index) => Divider(
-//        color: Colors.grey[400],
-//      ),
-//          physics: NeverScrollableScrollPhysics(),
-//          controller: _scrollController,
-//          itemBuilder: (BuildContext context, int index) {
-//            return ListTile(
-//              title: Text(
-//                "Dhruv Patel",
-//                style: TextStyle(fontSize: 18),
-//              ),
-//              subtitle: Column(
-//                children: <Widget>[
-//                  Padding(
-//                    padding: EdgeInsets.fromLTRB(
-//                        0, MediaQuery.of(context).size.height / 100, 0, 0),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.bottomLeft,
-//                    child: Text("Mechatronics Engineering, 2023"),
-//                  ),
-//                  Align(
-//                    alignment: Alignment.bottomLeft,
-//                    child: Text("Meet new people", style: TextStyle(fontWeight: FontWeight.bold),),
-//                  ),
-//                  Padding(
-//                    padding: EdgeInsets.fromLTRB(
-//                        0, MediaQuery.of(context).size.height / 70, 0, 0),
-//                  ),
-//              Column(
-//                children: <Widget>[
-//                  Row(
-//                    children: <Widget>[
-//                      Text("Philosophy, Flutter, Basketball",
-//                      style: TextStyle(
-//                       color: Color(0xFF8803fc), fontSize: 13),
-//                      )
-//                    ],
-//                  ),
-//                  SizedBox(
-//                    height: MediaQuery.of(context).size.height/300,
-//                  ),
-//                  Row(
-//                    children: <Widget>[
-//                      Text("Startups, Painting, Tech Companies",
-//                            style: TextStyle(
-//                                color: Color(0xFF1976d2), fontSize: 13)
-//                      )
-//                    ],
-//                  ),
-//                ],
-//              ),
-//                  Padding(
-//                    padding: EdgeInsets.fromLTRB(
-//                        0, MediaQuery.of(context).size.height / 50, 0, 0),
-//                  )
-//                ],
-//              ),
-//              leading: CircleAvatar(
-//                backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
-//                radius: 20,
-//              ),
-//              trailing: Row(
-//                mainAxisSize: MainAxisSize.min,
-//                children: <Widget>[
-//                  IconButton(
-//                    icon: Icon(MaterialCommunityIcons.chat),
-//                    color: Colors.black,
-//                    onPressed: () {},
-//                  ),
-//                  IconButton(
-//                    icon: Icon(MaterialCommunityIcons.card_bulleted),
-//                    color: Colors.black,
-//                    onPressed: () {
-//                      Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ViewCards()));
-//                    },
-//                  ),
-//                ],
-//              ),
-//            );
-//          },
-//          itemCount: 100),
-//    );
+
   }
 
 

@@ -159,7 +159,7 @@ class _SignupPageState extends State<SignupPage> {
                     UserManagement().storeNewUser(signedInUser, context);
                     DocumentSnapshot userRecord = await Firestore.instance
                         .collection('users')
-                        .document(signedInUser.uid)
+                        .document(signedInUser.user.uid)
                         .get();
 
                     if (userRecord.data != null) {

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grouped_buttons/grouped_buttons.dart';
-import 'services/searchservice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
@@ -20,40 +18,16 @@ class _ExploreState extends State<Explore> {
   var tempSearchStore = [];
   bool alreadyBuilt = false;
 
-//  loadAll() {
-//    SearchService().getAllUsers().then((QuerySnapshot docs) {
-//      var tempSet = [];
-//      for (int i = 0; i < docs.documents.length; ++i) {
-//        tempSet.add(docs.documents[i].data);
-//      }
-//      setState(() {
-//        queryResultSet = tempSet;
-//      });
-//    });
-//  }
-
+  getAllUsers() {
+    return Firestore.instance.collection('users').getDocuments();
+  }
 
   initiateSearch(String value) {
-    print(allUsers);
     if (value.length == 0) {
       setState(() {
         tempSearchStore = allUsers;
         queryResultSet = allUsers;
       });
-//      SearchService().getAllUsers().then((QuerySnapshot docs) {
-//        var tempSet = [];
-//        for (int i = 0; i < docs.documents.length; ++i) {
-//          tempSet.add(docs.documents[i].data);
-//        }
-//        setState(() {
-//          tempSearchStore = tempSet;
-//          queryResultSet = [];
-//        });
-//      });
-//      setState(() {
-//        queryResultSet = [];
-//        tempSearchStore = [];
-//      });
     }
     String standardValue = value.toLowerCase();
 
@@ -64,59 +38,48 @@ class _ExploreState extends State<Explore> {
       });
 
       for (var user in allUsers) {
-        if (user['displayName'].toLowerCase().startsWith(standardValue))
-          {
-            print("I'm here");
-            print(user['displayName']);
-            setState(() {
-              tempSearchStore.add(user);
-              queryResultSet.add(user);
-            });
-          }
-      }
-//      SearchService().getAllUsers().then((QuerySnapshot docs) {
-//        for (int i = 0; i < docs.documents.length; ++i) {
-//          if (docs.documents[i].data['displayName']
-//              .toLowerCase()
-//              .startsWith(standardValue)) {
-////            print(docs.documents[i].data['displayName']);
-//            queryResultSet.add(docs.documents[i].data);
-//            setState(() {
-//              tempSearchStore.add(docs.documents[i].data);
-//            });
-//          }
-//        }
-//      });
-    } else {
-      tempSearchStore = [];
-      queryResultSet.forEach((element) {
-        if (element['displayName'].toLowerCase().startsWith(standardValue)) {
-//          print(element['displayName']);
+        if (user['displayName'].toLowerCase().startsWith(standardValue)) {
           setState(() {
-            tempSearchStore.add(element);
+            tempSearchStore.add(user);
+            queryResultSet.add(user);
           });
         }
+      }
+    }
+    if (value.length > 1) {
+      setState(() {
+        tempSearchStore = [];
+        queryResultSet = [];
       });
+
+      for (var user in allUsers) {
+        if (user['displayName'].toLowerCase().startsWith(standardValue)) {
+          print("IM HERE");
+          setState(() {
+            tempSearchStore.add(user);
+            queryResultSet.add(user);
+          });
+        }
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-//    loadAll();
-  if (!alreadyBuilt) {
-    SearchService().getAllUsers().then((QuerySnapshot docs) {
-      var tempSet = [];
-      for (int i = 0; i < docs.documents.length; ++i) {
-        tempSet.add(docs.documents[i].data);
-      }
-      setState(() {
-        tempSearchStore = tempSet;
-        allUsers = tempSet;
+    if (!alreadyBuilt) {
+      getAllUsers().then((QuerySnapshot docs) {
+        var tempSet = [];
+        for (int i = 0; i < docs.documents.length; ++i) {
+          tempSet.add(docs.documents[i].data);
+        }
+        setState(() {
+          tempSearchStore = tempSet;
+          allUsers = tempSet;
+        });
       });
-    });
 
-    alreadyBuilt = true;
-  }
+      alreadyBuilt = true;
+    }
 
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;

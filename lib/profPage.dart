@@ -11,6 +11,9 @@ import 'profileScreen.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'createProfPost.dart';
 import 'profComments.dart';
+import 'models/profPost.dart';
+
+
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -85,119 +88,22 @@ class _ProfPageState extends State<ProfPage> {
         //   height: MediaQuery.of(context).size.height/70,
         // ),
         
-          Container(
-          margin:EdgeInsets.all(8.0),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  title: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting."),
-                  subtitle: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){
-                       Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ProfComments()));
-
-                        },
-                      ),
-                      Text("310 comments"),
-                      Spacer(),
-                      Text("2 hours ago")
-                    ],
-                  )
-                ),
-              ],
-            )
-          )
-      ),
-                Container(
-          margin:EdgeInsets.all(8.0),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
-                  ),
-
-                  child: Image(
-                    image: AssetImage('assets/img/trip.png'),
-                    width: 200,
-                    height: 250,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  title: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting."),
-                  subtitle: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){},
-                      ),
-                      Text("310 comments"),
-                      Spacer(),
-                      Text("2 hours ago")
-                    ],
-                  )
-                ),
-              ],
-            )
-          )
-      ),
-
-                Container(
-          margin:EdgeInsets.all(8.0),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
-                  ),
-
-                  child: Image(
-                    image: AssetImage('assets/img/family.png'),
-                    width: 200,
-                    height: 250,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  subtitle: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){},
-                      ),
-                      Text("310 comments"),
-                      Spacer(),
-                      Text("2 hours ago")
-                    ],
-                  )
-                ),
-              ],
-            )
-          )
-      )
+         ProfPost(
+           caption: "This is the professional side",
+           comments: 76,
+           hoursAgo: 1
+         ),
+           ProfPost(
+           caption: "I'm Namra and I'm a big faggot.",
+           comments: 76,
+           hoursAgo: 1,
+           postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/lakersnation.jpeg?alt=media&token=faa5b297-fdf2-470c-a207-19c38e5aa840'
+         ),
+           ProfPost(
+           comments: 76,
+           hoursAgo: 1,
+           postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/lakersnation.jpeg?alt=media&token=faa5b297-fdf2-470c-a207-19c38e5aa840'
+         ),
 
 
 

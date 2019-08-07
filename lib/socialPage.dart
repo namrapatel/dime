@@ -11,6 +11,7 @@ import 'profileScreen.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'createSocialPost.dart';
 import 'socialComments.dart';
+import 'models/socialPost.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -107,120 +108,27 @@ class _SocialPageState extends State<SocialPage> {
         // SizedBox(
         //   height: MediaQuery.of(context).size.height/70,
         // ),
+
+        SocialPost(
+          caption: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
+          comments: 20,
+          hoursAgo: 3,
+          postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
+        ),
+
+          SocialPost(
+          caption: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
+          comments: 20,
+          hoursAgo: 3,
+          //postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
+        ),
+          SocialPost(
+          comments: 20,
+          hoursAgo: 3,
+          postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
+        ),
         
-          Container(
-          margin:EdgeInsets.all(8.0),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  title: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting."),
-                  subtitle: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){
-                       Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: SocialComments()));
 
-                        },
-                      ),
-                      Text("310 comments"),
-                      Spacer(),
-                      Text("2 hours ago")
-                    ],
-                  )
-                ),
-              ],
-            )
-          )
-      ),
-                Container(
-          margin:EdgeInsets.all(8.0),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
-                  ),
-
-                  child: Image(
-                    image: AssetImage('assets/img/trip.png'),
-                    width: 200,
-                    height: 250,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  title: Text("Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting."),
-                  subtitle: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){},
-                      ),
-                      Text("310 comments"),
-                      Spacer(),
-                      Text("2 hours ago")
-                    ],
-                  )
-                ),
-              ],
-            )
-          )
-      ),
-
-                Container(
-          margin:EdgeInsets.all(8.0),
-          child: Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
-                  ),
-
-                  child: Image(
-                    image: AssetImage('assets/img/family.png'),
-                    width: 200,
-                    height: 250,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  subtitle: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){},
-                      ),
-                      Text("310 comments"),
-                      Spacer(),
-                      Text("2 hours ago")
-                    ],
-                  )
-                ),
-              ],
-            )
-          )
-      )
 
 
 

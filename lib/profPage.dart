@@ -41,11 +41,11 @@ class _ProfPageState extends State<ProfPage> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0), // here the desired height
           child: AppBar(
-            backgroundColor: Color(0xFF063F3E),
+            backgroundColor: Color(0xFFf5f5dc),
             elevation: 0,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
-              color: Colors.white,
+              color: Colors.black,
               onPressed: (){
                      Navigator.push(
                     context,
@@ -55,14 +55,14 @@ class _ProfPageState extends State<ProfPage> {
             ),
             title: Text("University of Waterloo",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 25,
                     fontWeight: FontWeight.bold
                   ),
                   ),
           )
         ),
-      backgroundColor: Color(0xFF063F3E),
+      backgroundColor: Color(0xFFf5f5dc),
       floatingActionButton: FloatingActionButton(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                         onPressed: () {

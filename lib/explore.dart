@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
+var allUsers = [];
 
 class Explore extends StatefulWidget {
   @override
@@ -13,9 +14,73 @@ class Explore extends StatefulWidget {
 }
 
 class _ExploreState extends State<Explore> {
+  var queryResultSet = [];
+  var tempSearchStore = [];
+  bool alreadyBuilt = false;
+
+  getAllUsers() {
+    return Firestore.instance.collection('users').getDocuments();
+  }
+
+  initiateSearch(String value) {
+    if (value.length == 0) {
+      setState(() {
+        tempSearchStore = allUsers;
+        queryResultSet = allUsers;
+      });
+    }
+    String standardValue = value.toLowerCase();
+
+    if (value.length == 1) {
+      setState(() {
+        tempSearchStore = [];
+        queryResultSet = [];
+      });
+
+      for (var user in allUsers) {
+        if (user['displayName'].toLowerCase().startsWith(standardValue)) {
+          setState(() {
+            tempSearchStore.add(user);
+            queryResultSet.add(user);
+          });
+        }
+      }
+    }
+    if (value.length > 1) {
+      setState(() {
+        tempSearchStore = [];
+        queryResultSet = [];
+      });
+
+      for (var user in allUsers) {
+        if (user['displayName'].toLowerCase().startsWith(standardValue)) {
+          print("IM HERE");
+          setState(() {
+            tempSearchStore.add(user);
+            queryResultSet.add(user);
+          });
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (!alreadyBuilt) {
+      getAllUsers().then((QuerySnapshot docs) {
+        var tempSet = [];
+        for (int i = 0; i < docs.documents.length; ++i) {
+          tempSet.add(docs.documents[i].data);
+        }
+        setState(() {
+          tempSearchStore = tempSet;
+          allUsers = tempSet;
+        });
+      });
+
+      alreadyBuilt = true;
+    }
+
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -60,7 +125,9 @@ class _ExploreState extends State<Explore> {
                 ),
                 Text(
                   "Explore",
-                  style: TextStyle(fontSize: 48, ),
+                  style: TextStyle(
+                    fontSize: 48,
+                  ),
                 ),
               ],
             ),
@@ -69,7 +136,7 @@ class _ExploreState extends State<Explore> {
               children: <Widget>[
                 Container(
                   //color: Colors.white,
-                  width: MediaQuery.of(context).size.width/1.1,
+                  width: MediaQuery.of(context).size.width / 1.1,
                   decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(20)),
@@ -78,6 +145,9 @@ class _ExploreState extends State<Explore> {
                         horizontal: MediaQuery.of(context).size.width / 22,
                         vertical: MediaQuery.of(context).size.height / 72),
                     child: TextField(
+                      onChanged: (val) {
+                        initiateSearch(val);
+                      },
                       decoration: new InputDecoration(
                           icon: Icon(Icons.search),
                           border: InputBorder.none,
@@ -91,7 +161,6 @@ class _ExploreState extends State<Explore> {
                     ),
                   ),
                 ),
-
               ],
             ),
             SizedBox(
@@ -101,7 +170,12 @@ class _ExploreState extends State<Explore> {
               height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.fromLTRB(
                   0, 0, 0, MediaQuery.of(context).size.height / 10),
-              child: _myListView4(context),
+              child: ListView(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                children: tempSearchStore.map((element) {
+                  return _buildTile(element);
+                }).toList(),
+              ),
             ),
           ],
         )
@@ -109,84 +183,28 @@ class _ExploreState extends State<Explore> {
     ));
   }
 
-  Widget _myListView(BuildContext context) {
-    return CheckboxGroup(
-      checkColor: Colors.white,
-      activeColor: Colors.black,
-      labels: <String>[
-        "Waterloo",
-        "Western",
-        "UBC",
-        "Calgary",
-        "UofA",
-        "McMaster",
-        "UofT",
-        "Harvard"
-      ],
-      onChange: (bool isChecked, String label, int index) =>
-          print("isChecked: $isChecked   label: $label  index: $index"),
-      onSelected: (List<String> checked) =>
-          print("checked: ${checked.toString()}"),
-    );
-  }
-
-  Widget _myListView2(BuildContext context) {
-    return CheckboxGroup(
-      checkColor: Colors.white,
-      activeColor: Colors.black,
-      labels: <String>[
-        "Badminton",
-        "Flutter",
-        "Basketball",
-        "Philosophy",
-        "Acting",
-        "Music",
-        "Painting",
-        "Startups"
-      ],
-      onChange: (bool isChecked, String label, int index) =>
-          print("isChecked: $isChecked   label: $label  index: $index"),
-      onSelected: (List<String> checked) =>
-          print("checked: ${checked.toString()}"),
-    );
-  }
-
-  Widget _myListView3(BuildContext context) {
-    return CheckboxGroup(
-      checkColor: Colors.white,
-      activeColor: Colors.black,
-      labels: <String>[
-        "2019",
-        "2020",
-        "2021",
-        "2022",
-        "2023",
-        "2024",
-        "2025",
-        "2026"
-      ],
-      onChange: (bool isChecked, String label, int index) =>
-          print("isChecked: $isChecked   label: $label  index: $index"),
-      onSelected: (List<String> checked) =>
-          print("checked: ${checked.toString()}"),
-    );
-  }
-
-  Widget _myListView4(BuildContext context) {
-    return ListView.separated(
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 10,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(
-            backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+  Widget _buildTile(data) {
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(data['photoUrl']),
+      ),
+      title: Text(data['displayName']),
+      subtitle: Text(data['major'] != null ? data['major'] : ""),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.chat),
+            color: Colors.black,
+            onPressed: () {},
           ),
-          title: Text('Dhruv Patel'),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return Divider();
-      },
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.card_bulleted),
+            color: Colors.black,
+            onPressed: () {},
+          ),
+        ],
+      ),
     );
   }
 }

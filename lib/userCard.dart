@@ -1,6 +1,11 @@
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'viewCards.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'models/user.dart';
+
 import 'package:Dime/profPage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
@@ -21,12 +26,13 @@ import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:latlong/latlong.dart' as Lat;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
+import 'homePage.dart';
 
 
 class UserCard extends StatefulWidget {
@@ -66,7 +72,7 @@ _UserCardState(this.userId, this.type);
   StreamController<List<DocumentSnapshot>> streamController = new StreamController();
   Geoflutterfire geo =Geoflutterfire();
   Stream<List<DocumentSnapshot>> stream;
-  GeoPoint userLoc;
+
   // Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -112,19 +118,51 @@ _UserCardState(this.userId, this.type);
     location.onLocationChanged().listen((LocationData currentLocation) async {
 
 
-      userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+      GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
 
       Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .setData({
-        'currentLocation': userLoc,
+        'position': userLoc.data,
       }, merge: true);
-      DocumentSnapshot userRecord = await Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .get();
-      currentUserModel= User.fromDocument(userRecord);
+
+//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+//            GeoFirePoint gp=mine.data['position'];
+//
+//            double radius = 6.0;
+      String field = 'position';
+      stream = radius.switchMap((rad) {
+        var collectionReference = Firestore.instance.collection('users');
+        return geo.collection(collectionRef: collectionReference).within(
+            center: userLoc, radius: rad, field: 'position', strictMode: true);
+      });
+
+      changed(_value);
+//              var collectionReference = Firestore.instance.collection('users');
+//              stream= geo.collection(collectionRef: collectionReference).within(
+//                  center: userLoc, radius: rad, field: 'position', strictMode: true);
+
+//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+//            list.add(mine);
+
+//             stream = geo.collection(collectionRef: collectionReference)
+//                .within(center: userLoc, radius: radius, field: field,strictMode: true);
+
+
+//     stream.listen((List<DocumentSnapshot> documentList){
+//          print(documentList.length);
+//          for(var doc in documentList){
+//           GeoPoint point=doc.data['position']['geopoint'];
+//           print(point.latitude);
+//           print(point.longitude);
+//           String name =doc.data['displayName'];
+//           print(name);
+//          }
+//
+//
+//
+//        });
 
 
 
@@ -411,45 +449,36 @@ _UserCardState(this.userId, this.type);
   }
 
 
-  Future<List<UserTile>>getUsers() async{
-    List<UserTile> userList=[];
 
-    final Lat.Distance distance = new Lat.Distance();
-    QuerySnapshot query =await Firestore.instance.collection('users').where('atEvent',isEqualTo: true).getDocuments();
-    final docs= query.documents;
-    for(var doc in docs){
-//
-      final double distanceInMeters = distance(new Lat.LatLng(userLoc.latitude,userLoc.longitude),new Lat.LatLng(doc.data['currentLocation'].latitude,doc.data['currentLocation'].longitude));
-//
-      print(doc.data['displayName']);
-      print('distance away is');
-      print(distanceInMeters);
-      if(distanceInMeters<=6000.0&&doc.documentID!=currentUserModel.uid){
-
-        userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
-      }
-
-
-
-    }
-    return userList;
-
-
-
-  }
   Widget _getUpperLayer() {
     return   Container(
-        color: Colors.white,
-        child:  FutureBuilder<List<UserTile>>(
-            future: getUsers(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Container(
-                    alignment: FractionalOffset.center,
-                    child: CircularProgressIndicator());
+      color: Colors.white,
+      child: StreamBuilder(
 
-              return Column(children: snapshot.data);
-            })
+        stream: stream,
+        builder: ( context,
+            AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+          if (
+          snapshots.hasData) {
+            print('data ${snapshots.data}');
+            return  ListView.builder(
+
+
+              itemBuilder: (context, index) {
+                DocumentSnapshot doc = snapshots.data[index];
+                print(
+                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                GeoPoint point = doc.data['position']['geopoint'];
+                return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
+              },
+              itemCount: snapshots.data.length,
+            );
+
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
     );
   }
   double _value = 5.0;

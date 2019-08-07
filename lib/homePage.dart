@@ -190,7 +190,7 @@ class _ScrollPageState extends State<ScrollPage>
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF48A9A6), 
+        backgroundColor: Color(0xFF0078FF), 
         title: Row(
             children: <Widget>[
               Text("Hey " + currentUserModel.displayName + "!",
@@ -226,7 +226,7 @@ class _ScrollPageState extends State<ScrollPage>
           ),
       ),
       
-      backgroundColor: Color(0xFF48A9A6),
+      backgroundColor: Color(0xFF0078FF),
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -303,7 +303,6 @@ class _ScrollPageState extends State<ScrollPage>
     );
   }
 
-  //map goes here
   Widget _getLowerLayer() {
     return new Stack(
       children: <Widget>[

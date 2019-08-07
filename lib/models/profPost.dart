@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
+import 'package:Dime/profComments.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfPost extends StatelessWidget {
   final String caption;
@@ -58,7 +60,12 @@ class ProfPost extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){},
+                        onPressed: (){
+                     Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfComments()));
+                        },
                       ),
                       comments != null?
                       Text("$comments Comments")

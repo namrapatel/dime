@@ -53,9 +53,10 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     super.initState();
     getSocialInfo();
   }
+
   String email;
 
-  String interestString="";
+  String interestString = "";
   String saved = '';
   String name;
   String university;
@@ -91,7 +92,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   }
 
   getSocialInfo() async {
-    List<dynamic> interests=[];
+    List<dynamic> interests = [];
     QuerySnapshot query = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -110,29 +111,25 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         instagram = document['instagram'];
         twitter = document['twitter'];
         photoUrl = document['photoUrl'];
-        interests=document['interests'];
-        isSwitched=document['socialToggled'];
-        email=document['email'];
+        interests = document['interests'];
+        isSwitched = document['socialToggled'];
+        email = document['email'];
       });
 
 //      bio=document['bio'];
 
     }
-      if(interests!=null) {
-        for (int i = 0; i < interests.length; i++) {
-          if (i == interests.length - 1) {
-            interestString = interestString + interests[i];
-          } else {
-            interestString = interestString + interests[i] + ", ";
-          }
+    if (interests != null) {
+      for (int i = 0; i < interests.length; i++) {
+        if (i == interests.length - 1) {
+          interestString = interestString + interests[i];
+        } else {
+          interestString = interestString + interests[i] + ", ";
         }
       }
+    }
     print(interestString);
-
-
   }
-
-
 
   updateSocialCard() {
     Firestore.instance
@@ -148,8 +145,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       'instagram': instagram,
       'twitter': twitter,
       'photoUrl': photoUrl,
-      'socialToggled':isSwitched,
-      'email':email
+      'socialToggled': isSwitched,
+      'email': email
     });
   }
 
@@ -325,9 +322,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                           : SizedBox(height: screenH(1)),
                                       email != null
                                           ? Text(email,
-                                          style: TextStyle(
-                                              fontSize: screenF(13),
-                                              color: Colors.grey))
+                                              style: TextStyle(
+                                                  fontSize: screenF(13),
+                                                  color: Colors.grey))
                                           : SizedBox(height: screenH(1))
                                     ],
                                   ),
@@ -336,11 +333,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   ),
                                   Column(
                                     children: <Widget>[
-                                      photoUrl!=null?
-                                      CircleAvatar(
-                                        backgroundImage: NetworkImage(photoUrl),
-                                        radius: 21,
-                                      ):CircularProgressIndicator(),
+                                      photoUrl != null
+                                          ? CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImage(photoUrl),
+                                              radius: 21,
+                                            )
+                                          : CircularProgressIndicator(),
                                       FlatButton(
                                         onPressed: () {
                                           setImage();
@@ -385,68 +384,74 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     snapchat != null
-                                        ? isSwitched == true?
-                                        Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                FontAwesome.snapchat_square,
-                                                color: Color(0xFFfffc00),
-                                              ),
-                                              SizedBox(
-                                                width: screenW(10),
-                                              ),
-                                              Text(snapchat,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: screenF(12))),
-                                            ],
-                                          )
+                                        ? isSwitched == true
+                                            ? Column(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    FontAwesome.snapchat_square,
+                                                    color: Color(0xFFfffc00),
+                                                  ),
+                                                  SizedBox(
+                                                    width: screenW(10),
+                                                  ),
+                                                  Text(snapchat,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              screenF(12))),
+                                                ],
+                                              )
+                                            : SizedBox(
+                                                height: screenH(1),
+                                              )
                                         : SizedBox(
-                                            height: screenH(1),
-                                          ): SizedBox(
                                             height: screenH(1),
                                           ),
                                     instagram != null
-                                        ? isSwitched == true?
-                                        Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                MaterialCommunityIcons
-                                                    .instagram,
-                                                color: Color(0xFF8803fc),
-                                              ),
-                                              SizedBox(
-                                                width: screenW(10),
-                                              ),
-                                              Text(instagram,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: screenF(12))),
-                                            ],
-                                          )
+                                        ? isSwitched == true
+                                            ? Column(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    MaterialCommunityIcons
+                                                        .instagram,
+                                                    color: Color(0xFF8803fc),
+                                                  ),
+                                                  SizedBox(
+                                                    width: screenW(10),
+                                                  ),
+                                                  Text(instagram,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              screenF(12))),
+                                                ],
+                                              )
+                                            : SizedBox(
+                                                height: screenH(1),
+                                              )
                                         : SizedBox(
-                                            height: screenH(1),
-                                          ): SizedBox(
                                             height: screenH(1),
                                           ),
                                     twitter != null
-                                        ? isSwitched == true?
-                                        Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                MaterialCommunityIcons
-                                                    .twitter_box,
-                                                color: Colors.blue,
-                                              ),
-                                              Text(twitter,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: screenF(12))),
-                                            ],
-                                          )
+                                        ? isSwitched == true
+                                            ? Column(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    MaterialCommunityIcons
+                                                        .twitter_box,
+                                                    color: Colors.blue,
+                                                  ),
+                                                  Text(twitter,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              screenF(12))),
+                                                ],
+                                              )
+                                            : SizedBox(
+                                                height: screenH(1),
+                                              )
                                         : SizedBox(
-                                            height: screenH(1),
-                                          ): SizedBox(
                                             height: screenH(1),
                                           )
                                   ],
@@ -455,13 +460,16 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                               SizedBox(
                                 height: screenH(25),
                               ),
-
                               Row(
                                 children: <Widget>[
                                   SizedBox(width: 20.0),
-                                  Text(interestString!=null?interestString:"",
+                                  Text(
+                                      interestString != null
+                                          ? interestString
+                                          : "",
                                       style: TextStyle(
-                                          color: Color(0xFF8803fc), fontSize: screenF(13)))
+                                          color: Color(0xFF8803fc),
+                                          fontSize: screenF(13)))
                                 ],
                               )
                             ],
@@ -485,269 +493,268 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                     ),
                     Row(
                       children: <Widget>[
-                    SizedBox(
-                      width: screenW(20),
-                    ),
+                        SizedBox(
+                          width: screenW(20),
+                        ),
                         Text(
                           'Display Social Media?',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                         Switch(
-                        value: isSwitched,
-                        onChanged: (value) {
-                          setState(() {
-                            isSwitched = value;
-                          });
-                        },
-                        activeTrackColor: Colors.grey,
-                        activeColor: Colors.black,
-                      ),
+                          value: isSwitched,
+                          onChanged: (value) {
+                            setState(() {
+                              isSwitched = value;
+                            });
+                          },
+                          activeTrackColor: Colors.grey,
+                          activeColor: Colors.black,
+                        ),
                       ],
                     ),
                     SizedBox(
                       height: screenH(20),
                     ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Name',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    name = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Email',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    email = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'University',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          width: 800,
-                          height: 70,
-                          color: Colors.white,
-                          child: FlutterSearchPanel<int>(
-                            padding: EdgeInsets.all(10.0),
-                            selected: 0,
-                            title: 'Select University',
-                            data: data2,
-                            icon: new Icon(Icons.school, color: Colors.black),
-                            color: Color(0xFFECE9E4),
-                            textStyle: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.0,
-                            ),
-                            onChanged: (int value) {
-                              if (value != null) {
-                                setState(() {
-                                  university = data2[value].text;
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Program',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    major = value;
-                                  });
-                                }
-                              },
-//
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Grad Year',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    major = major + ', ' + value;
-                                  });
-                                }
-                              },
-//
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Name',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     name = value;
+//                                   });
+//                                 }
+//                               },
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 20.0,
+//                       width: screenW(70),
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Email',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     email = value;
+//                                   });
+//                                 }
+//                               },
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'University',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Padding(
+//                       padding: EdgeInsets.all(20),
+//                       child: Align(
+//                         alignment: Alignment.topLeft,
+//                         child: Container(
+//                           width: 800,
+//                           height: 70,
+//                           color: Colors.white,
+//                           child: FlutterSearchPanel<int>(
+//                             padding: EdgeInsets.all(10.0),
+//                             selected: 0,
+//                             title: 'Select University',
+//                             data: data2,
+//                             icon: new Icon(Icons.school, color: Colors.black),
+//                             color: Color(0xFFECE9E4),
+//                             textStyle: new TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 15.0,
+//                             ),
+//                             onChanged: (int value) {
+//                               if (value != null) {
+//                                 setState(() {
+//                                   university = data2[value].text;
+//                                 });
+//                               }
+//                             },
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Program',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     major = value;
+//                                   });
+//                                 }
+//                               },
+// //
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Grad Year',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     major = major + ', ' + value;
+//                                   });
+//                                 }
+//                               },
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -759,7 +766,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         Text(
                           'Snapchat',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         )
@@ -808,7 +815,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         Text(
                           'Instagram',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -857,7 +864,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         Text(
                           'Twitter',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -906,7 +913,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         Text(
                           'Interests',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -922,7 +929,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   color: Color(0xFF8803fc), fontSize: 15),
                             ),
                             onPressed: () {
-                              showSearch(context: context, delegate:SocialDataSearch());
+                              showSearch(
+                                  context: context,
+                                  delegate: SocialDataSearch());
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))
@@ -986,7 +995,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     super.initState();
     getProfInfo();
   }
-    String interestString='';
+
+  String interestString = '';
   String email;
   String saved = '';
   String name;
@@ -1000,7 +1010,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
 
   File _image;
   getProfInfo() async {
-    List<dynamic> interests=[];
+    List<dynamic> interests = [];
     QuerySnapshot query = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -1018,15 +1028,15 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
         linkedIn = document['linkedIn'];
         twitter = document['twitter'];
         photoUrl = document['photoUrl'];
-        isSwitched2=document['socialToggled'];
-        email=document['email'];
-        interests=document['interests'];
+        isSwitched2 = document['socialToggled'];
+        email = document['email'];
+        interests = document['interests'];
       });
 
 //      bio=document['bio'];
 
     }
-    if(interests!=null) {
+    if (interests != null) {
       for (int i = 0; i < interests.length; i++) {
         if (i == interests.length - 1) {
           interestString = interestString + interests[i];
@@ -1052,8 +1062,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'linkedIn': linkedIn,
       'twitter': twitter,
       'photoUrl': photoUrl,
-      'socialToggled':isSwitched2,
-      'email':email
+      'socialToggled': isSwitched2,
+      'email': email
     });
   }
 
@@ -1253,9 +1263,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                           : SizedBox(height: screenH(1)),
                                       email != null
                                           ? Text(email,
-                                          style: TextStyle(
-                                              fontSize: screenF(13),
-                                              color: Colors.grey))
+                                              style: TextStyle(
+                                                  fontSize: screenF(13),
+                                                  color: Colors.grey))
                                           : SizedBox(height: screenH(1))
                                     ],
                                   ),
@@ -1264,11 +1274,13 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   ),
                                   Column(
                                     children: <Widget>[
-                                      photoUrl!=null?
-                                      CircleAvatar(
-                                        backgroundImage: NetworkImage(photoUrl),
-                                        radius: 21,
-                                      ):CircularProgressIndicator(),
+                                      photoUrl != null
+                                          ? CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImage(photoUrl),
+                                              radius: 21,
+                                            )
+                                          : CircularProgressIndicator(),
                                       FlatButton(
                                         onPressed: () {
                                           setImage();
@@ -1313,69 +1325,74 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                       MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
                                     linkedIn != null
-                                        ? isSwitched2 == true?
-                                        Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                FontAwesome.linkedin_square,
-                                                color: Color(0xFF0077B5),
-                                              ),
-                                              SizedBox(
-                                                width: screenW(10),
-                                              ),
-                                              Text(linkedIn,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: screenF(12))),
-                                            ],
-                                          )
+                                        ? isSwitched2 == true
+                                            ? Column(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    FontAwesome.linkedin_square,
+                                                    color: Color(0xFF0077B5),
+                                                  ),
+                                                  SizedBox(
+                                                    width: screenW(10),
+                                                  ),
+                                                  Text(linkedIn,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              screenF(12))),
+                                                ],
+                                              )
+                                            : SizedBox(
+                                                height: screenH(1),
+                                              )
                                         : SizedBox(
-                                            height: screenH(1),
-                                          ):
-                                          SizedBox(
                                             height: screenH(1),
                                           ),
                                     github != null
-                                        ? isSwitched2 == true?
-                                        Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                MaterialCommunityIcons
-                                                    .github_box,
-                                                color: Colors.black,
-                                              ),
-                                              SizedBox(
-                                                width: screenW(10),
-                                              ),
-                                              Text(github,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: screenF(12))),
-                                            ],
-                                          )
+                                        ? isSwitched2 == true
+                                            ? Column(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    MaterialCommunityIcons
+                                                        .github_box,
+                                                    color: Colors.black,
+                                                  ),
+                                                  SizedBox(
+                                                    width: screenW(10),
+                                                  ),
+                                                  Text(github,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              screenF(12))),
+                                                ],
+                                              )
+                                            : SizedBox(
+                                                height: screenH(1),
+                                              )
                                         : SizedBox(
-                                            height: screenH(1),
-                                          ): SizedBox(
                                             height: screenH(1),
                                           ),
                                     twitter != null
-                                        ? isSwitched2 == true?
-                                        Column(
-                                            children: <Widget>[
-                                              Icon(
-                                                MaterialCommunityIcons
-                                                    .twitter_box,
-                                                color: Colors.blue,
-                                              ),
-                                              Text(twitter,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: screenF(12))),
-                                            ],
-                                          )
+                                        ? isSwitched2 == true
+                                            ? Column(
+                                                children: <Widget>[
+                                                  Icon(
+                                                    MaterialCommunityIcons
+                                                        .twitter_box,
+                                                    color: Colors.blue,
+                                                  ),
+                                                  Text(twitter,
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize:
+                                                              screenF(12))),
+                                                ],
+                                              )
+                                            : SizedBox(
+                                                height: screenH(1),
+                                              )
                                         : SizedBox(
-                                            height: screenH(1),
-                                          ): SizedBox(
                                             height: screenH(1),
                                           )
                                   ],
@@ -1387,9 +1404,13 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                               Row(
                                 children: <Widget>[
                                   SizedBox(width: 20.0),
-                                  Text(interestString!=null?interestString:"",
+                                  Text(
+                                      interestString != null
+                                          ? interestString
+                                          : "",
                                       style: TextStyle(
-                                          color: Color(0xFF1976d2), fontSize: screenF(13)))
+                                          color: Color(0xFF1976d2),
+                                          fontSize: screenF(13)))
                                 ],
                               )
                             ],
@@ -1413,291 +1434,291 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                     ),
                     Row(
                       children: <Widget>[
-                    SizedBox(
-                      width: screenW(20),
-                    ),
+                        SizedBox(
+                          width: screenW(20),
+                        ),
                         Text(
                           'Display Social Media?',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
                         Switch(
-                        value: isSwitched2,
-                        onChanged: (value) {
-                          setState(() {
-                            isSwitched2 = value;
-                          });
-                        },
-                        activeTrackColor: Colors.grey,
-                        activeColor: Colors.black,
-                      ),
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Name',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                          value: isSwitched2,
+                          onChanged: (value) {
+                            setState(() {
+                              isSwitched2 = value;
+                            });
+                          },
+                          activeTrackColor: Colors.grey,
+                          activeColor: Colors.black,
                         ),
                       ],
                     ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    name = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Email',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    email = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'University',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Container(
-                          width: 800,
-                          height: 70,
-                          color: Colors.white,
-                          child: FlutterSearchPanel<int>(
-                            padding: EdgeInsets.all(10.0),
-                            selected: 0,
-                            title: 'Select University',
-                            data: data2,
-                            icon: new Icon(Icons.school, color: Colors.black),
-                            color: Color(0xFFECE9E4),
-                            textStyle: new TextStyle(
-                              color: Colors.black,
-                              fontSize: 15.0,
-                            ),
-                            onChanged: (int value) {
-                              if (value != null) {
-                                setState(() {
-                                  university = data2[value].text;
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Container(
-                    //   margin: EdgeInsets.symmetric(horizontal: 20.0),
-                    //   child: Column(
-                    //     children: <Widget>[
-                    //       Theme(
-                    //         // data: theme.copyWith(primaryColor: Colors.black),
-                    //         data: new ThemeData(
-                    //             primaryColor: Colors.black,
-                    //             accentColor: Colors.black,
-                    //             hintColor: Colors.black),
-                    //         child: TextField(
-                    //           decoration: InputDecoration(
-                    //               border: new UnderlineInputBorder(
-                    //                   borderSide:
-                    //                       new BorderSide(color: Colors.black))),
-                    //           style: TextStyle(fontSize: 18, color: Colors.grey),
-                    //           cursorColor: Colors.black,
-                    //         ),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Program',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Name',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     name = value;
+//                                   });
+//                                 }
+//                               },
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 20.0,
+//                       width: screenW(70),
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Email',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     email = value;
+//                                   });
+//                                 }
+//                               },
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
 
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    major = value;
-                                  });
-                                }
-                              },
-//
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'University',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Padding(
+//                       padding: EdgeInsets.all(20),
+//                       child: Align(
+//                         alignment: Alignment.topLeft,
+//                         child: Container(
+//                           width: 800,
+//                           height: 70,
+//                           color: Colors.white,
+//                           child: FlutterSearchPanel<int>(
+//                             padding: EdgeInsets.all(10.0),
+//                             selected: 0,
+//                             title: 'Select University',
+//                             data: data2,
+//                             icon: new Icon(Icons.school, color: Colors.black),
+//                             color: Color(0xFFECE9E4),
+//                             textStyle: new TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 15.0,
+//                             ),
+//                             onChanged: (int value) {
+//                               if (value != null) {
+//                                 setState(() {
+//                                   university = data2[value].text;
+//                                 });
+//                               }
+//                             },
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                     // Container(
+//                     //   margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                     //   child: Column(
+//                     //     children: <Widget>[
+//                     //       Theme(
+//                     //         // data: theme.copyWith(primaryColor: Colors.black),
+//                     //         data: new ThemeData(
+//                     //             primaryColor: Colors.black,
+//                     //             accentColor: Colors.black,
+//                     //             hintColor: Colors.black),
+//                     //         child: TextField(
+//                     //           decoration: InputDecoration(
+//                     //               border: new UnderlineInputBorder(
+//                     //                   borderSide:
+//                     //                       new BorderSide(color: Colors.black))),
+//                     //           style: TextStyle(fontSize: 18, color: Colors.grey),
+//                     //           cursorColor: Colors.black,
+//                     //         ),
+//                     //       )
+//                     //     ],
+//                     //   ),
+//                     // ),
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Program',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
 
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Grad Year',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    major = major + ', ' + value;
-                                  });
-                                }
-                              },
-//
-                              decoration: InputDecoration(
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     major = value;
+//                                   });
+//                                 }
+//                               },
+// //
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+
+//                     SizedBox(
+//                       height: 20.0,
+//                     ),
+//                     Row(
+//                       children: <Widget>[
+//                         SizedBox(
+//                           width: 20,
+//                         ),
+//                         Text(
+//                           'Grad Year',
+//                           style: TextStyle(
+//                               color: Colors.black,
+//                               fontSize: 18,
+//                               fontWeight: FontWeight.bold),
+//                         ),
+//                       ],
+//                     ),
+//                     Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
+//                       child: Column(
+//                         children: <Widget>[
+//                           Theme(
+//                             // data: theme.copyWith(primaryColor: Colors.black),
+//                             data: new ThemeData(
+//                                 primaryColor: Colors.black,
+//                                 accentColor: Colors.black,
+//                                 hintColor: Colors.black),
+//                             child: TextField(
+//                               onSubmitted: (value) {
+//                                 if (value != '' && value != null) {
+//                                   setState(() {
+//                                     major = major + ', ' + value;
+//                                   });
+//                                 }
+//                               },
+// //
+//                               decoration: InputDecoration(
+//                                   border: new UnderlineInputBorder(
+//                                       borderSide:
+//                                           new BorderSide(color: Colors.black))),
+//                               style:
+//                                   TextStyle(fontSize: 18, color: Colors.grey),
+//                               cursorColor: Colors.black,
+//                             ),
+//                           )
+//                         ],
+//                       ),
+//                     ),
                     SizedBox(
                       height: 20.0,
                     ),
@@ -1710,7 +1731,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         Text(
                           'LinkedIn',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         )
@@ -1759,7 +1780,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         Text(
                           'Github',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -1808,7 +1829,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         Text(
                           'Twitter',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -1858,7 +1879,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         Text(
                           'Interests',
                           style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 18,
                               fontWeight: FontWeight.bold),
                         ),
@@ -1874,8 +1895,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   color: Color(0xFF1976d2), fontSize: 15),
                             ),
                             onPressed: () {
-                              showSearch(context: context, delegate:ProfDataSearch());
-
+                              showSearch(
+                                  context: context, delegate: ProfDataSearch());
                             },
                             shape: new RoundedRectangleBorder(
                                 borderRadius: new BorderRadius.circular(30.0)))

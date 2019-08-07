@@ -1,4 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
@@ -179,6 +180,27 @@ class _ProfilePageState extends State<ProfilePage> {
               left: (MediaQuery.of(context).size.width / 22),
               child: Column(
                 children: <Widget>[
+                  Container(
+                      width: screenW(378),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Profile()),
+                          );
+                        },
+                        title: Text(
+                          "Profile",
+                        ),
+                        leading: Icon(
+                          SimpleLineIcons.user,
+                          color: Colors.grey[700],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey[700],
+                        ),
+                      )),
                   Container(
                       width: screenW(378),
                       child: ListTile(

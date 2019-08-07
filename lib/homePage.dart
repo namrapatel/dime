@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
+import 'models/user.dart';
 import 'package:Dime/profPage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
@@ -21,7 +21,7 @@ import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:latlong/latlong.dart' as Lat;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -38,21 +38,21 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
 
-  List<UserTile> nearbyUsers = [
-    UserTile(
-      'Shehab Salem',
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq',
-      'BrA8IqEL8RcUYylQz4GHgVD4jBx1',
-      major: 'Computer Science, 2022',
-      interests: ['Flutter', 'Basketball'],
-    ),
-    UserTile(
-        'Dhruv Patel',
-        'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
-        "ocBp1teYqlQkimXXkpSp4Q35C5B3",
-        major: 'Mechatronics Engineering, 2022',
-        interests: ['Java', 'Badminton'])
-  ];
+//  List<UserTile> nearbyUsers = [
+//    UserTile(
+//      'Shehab Salem',
+//      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq',
+//      'BrA8IqEL8RcUYylQz4GHgVD4jBx1',
+//      major: 'Computer Science, 2022',
+//      interests: ['Flutter', 'Basketball'],
+//    ),
+//    UserTile(
+//        'Dhruv Patel',
+//        'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
+//        "ocBp1teYqlQkimXXkpSp4Q35C5B3",
+//        major: 'Mechatronics Engineering, 2022',
+//        interests: ['Java', 'Badminton'])
+//  ];
   RubberAnimationController _controller;
 
 
@@ -95,8 +95,8 @@ class _ScrollPageState extends State<ScrollPage>
   ScrollController _scrollController = ScrollController();
 
   final Map<String, Marker> _markers = {};
+  GeoPoint userLoc;
 
-  var rad = BehaviorSubject<double>.seeded(6.0);
   @override
   void initState() {
 
@@ -107,57 +107,19 @@ class _ScrollPageState extends State<ScrollPage>
     location.onLocationChanged().listen((LocationData currentLocation) async {
 
 
-      GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
+      userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
 
       Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .setData({
-        'position': userLoc.data,
+        'currentLocation': userLoc,
       }, merge: true);
-
-//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
-//            GeoFirePoint gp=mine.data['position'];
-//
-//            double radius = 6.0;
-      String field = 'position';
-      stream = radius.switchMap((rad) {
-        var collectionReference = Firestore.instance.collection('users');
-        return geo.collection(collectionRef: collectionReference).within(
-            center: userLoc, radius: rad, field: 'position', strictMode: true);
-      });
-
-      changed(_value);
-//              var collectionReference = Firestore.instance.collection('users');
-//              stream= geo.collection(collectionRef: collectionReference).within(
-//                  center: userLoc, radius: rad, field: 'position', strictMode: true);
-
-//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
-//            list.add(mine);
-
-//             stream = geo.collection(collectionRef: collectionReference)
-//                .within(center: userLoc, radius: radius, field: field,strictMode: true);
-
-
-//     stream.listen((List<DocumentSnapshot> documentList){
-//          print(documentList.length);
-//          for(var doc in documentList){
-//           GeoPoint point=doc.data['position']['geopoint'];
-//           print(point.latitude);
-//           print(point.longitude);
-//           String name =doc.data['displayName'];
-//           print(name);
-//          }
-//
-//
-//
-//        });
-
-
-
-
-
-
+      DocumentSnapshot userRecord = await Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .get();
+      currentUserModel= User.fromDocument(userRecord);
 
 
 
@@ -438,36 +400,46 @@ class _ScrollPageState extends State<ScrollPage>
   }
 
 
+  Future<List<UserTile>>getUsers() async{
+    List<UserTile> userList=[];
+
+    final Lat.Distance distance = new Lat.Distance();
+    QuerySnapshot query =await Firestore.instance.collection('users').where('atEvent',isEqualTo: true).getDocuments();
+    final docs= query.documents;
+    for(var doc in docs){
+//
+      final double distanceInMeters = distance(new Lat.LatLng(userLoc.latitude,userLoc.longitude),new Lat.LatLng(doc.data['currentLocation'].latitude,doc.data['currentLocation'].longitude));
+//
+      print(doc.data['displayName']);
+      print('distance away is');
+      print(distanceInMeters);
+      if(distanceInMeters<=6000.0&&doc.documentID!=currentUserModel.uid){
+
+        userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
+      }
+
+
+
+    }
+    return userList;
+
+
+
+  }
 
   Widget _getUpperLayer() {
     return   Container(
-      color: Colors.white,
-      child: StreamBuilder(
+        color: Colors.white,
+        child:  FutureBuilder<List<UserTile>>(
+            future: getUsers(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Container(
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
 
-        stream: stream,
-        builder: ( context,
-            AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-          if (
-          snapshots.hasData) {
-            print('data ${snapshots.data}');
-            return  ListView.builder(
-
-
-              itemBuilder: (context, index) {
-                DocumentSnapshot doc = snapshots.data[index];
-                print(
-                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                GeoPoint point = doc.data['position']['geopoint'];
-                return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
-              },
-              itemCount: snapshots.data.length,
-            );
-
-          } else {
-            return Center(child: CircularProgressIndicator());
-          }
-        },
-      ),
+              return Column(children: snapshot.data);
+            })
     );
   }
   double _value = 5.0;
@@ -485,50 +457,63 @@ class _ScrollPageState extends State<ScrollPage>
 
 
 
-//    return  StreamBuilder<List<DocumentSnapshot>>(
-//    stream:stream,
-//    builder: (context,  snapshot) {
-//    if (snapshot.hasData ) {
-//      var docs = snapshot.data;
-//      print(docs.runtimeType);
-//      List<UserTile> nearbyUsers = [];
-//      for (var snap in docs) {
-//        print('inside');
-//        print(snap.runtimeType);
-//        String userId = snap.documentID;
-//        String userName = snap.data['displayName'];
-//        String photoUrl = snap.data['photoUrl'];
-//        String major = snap.data['major'];
-//        List<String> interests = snap.data['interests'];
-//        nearbyUsers.add(new UserTile(userName, photoUrl, userId,));
-//      }
-//
-//
-//      return Container(
-//        height: screenH(165),
-//        child: ListView.builder(
-//            padding: EdgeInsets.only(
-//              bottom: screenH(15.0),
-//            ),
-//            shrinkWrap: true,
-//            scrollDirection: Axis.vertical,
-//            itemCount: nearbyUsers.length,
-//            itemBuilder: (BuildContext context, int index) {
-//              return nearbyUsers[index];
-//            }),
-//      );
-//    }return CircularProgressIndicator();
-//    }
-//    );}
+
 
 
 }
 
 class UserTile extends StatelessWidget {
   UserTile(this.contactName, this.personImage, this.uid,
-      {this.major, this.interests});
-  final String contactName, personImage, major, uid;
-  final List<String> interests;
+      {this.major,this.university,this.gradYear, this.profInterests,this.socialInterests});
+  final String contactName, personImage, major, uid,university,gradYear;
+  final List<dynamic> profInterests, socialInterests;
+  Widget buildProfInterests() {
+
+    String interests = "";
+    if (profInterests!=null) {
+      for (int i = 0; i < profInterests.length; i++) {
+        if(i==profInterests.length-1) {
+          interests = interests + profInterests[i];
+        }else{
+          interests = interests + profInterests[i]+ ", ";
+        }
+      }
+      return Row(
+        children: <Widget>[
+          Text(interests,
+              style: TextStyle(
+                  color: Color(0xFF1976d2), fontSize: 13)
+          )
+        ],
+      );
+    }else{
+      return SizedBox(height: (1.0),);
+    }
+  }
+
+  Widget buildSocialInterests() {
+    String interests = "";
+    if (socialInterests != null) {
+      for (int i = 0; i < socialInterests.length; i++) {
+        if(i==socialInterests.length-1) {
+          interests = interests + socialInterests[i];
+        }else{
+          interests = interests + socialInterests[i]+ ", ";
+        }
+      }
+      return Row(
+        children: <Widget>[
+          Text(interests,
+            style: TextStyle(
+                color: Color(0xFF8803fc), fontSize: 13),
+          )
+        ],
+      );
+    }else{
+      return SizedBox(height: (0.0),);
+    }
+  }
+
 
   List<Widget> buildInterests(List interestsList, context) {
     List<Widget> interestWidgets = [];
@@ -571,7 +556,16 @@ class UserTile extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(major),
+                child: Text(university!=null?university:""),
+              ),
+
+              major!=null&&gradYear!=null?
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(major+", "+gradYear),
+              ):Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(major!=null?major:""),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -579,25 +573,12 @@ class UserTile extends StatelessWidget {
               ),
               Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text("Philosophy, Flutter, Basketball",
-                        style: TextStyle(
-                            color: Color(0xFF8803fc), fontSize: 13),
-                      )
-                    ],
-                  ),
+                  buildSocialInterests(),
+                  socialInterests!=null?
                   SizedBox(
                     height: MediaQuery.of(context).size.height/300,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text("Startups, Painting, Tech Companies",
-                          style: TextStyle(
-                              color: Color(0xFF1976d2), fontSize: 13)
-                      )
-                    ],
-                  ),
+                  ):SizedBox(height: (0.0),),
+                  buildProfInterests()
                 ],
               ),
               Padding(

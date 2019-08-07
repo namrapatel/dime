@@ -10,7 +10,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_search_panel/flutter_search_panel.dart';
 import 'package:flutter_search_panel/search_item.dart';
-
+import 'viewCards.dart';
 class Profile extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();
@@ -28,7 +28,72 @@ class HomePageOne extends StatefulWidget {
   _HomePageOneState createState() => _HomePageOneState();
 }
 
-class _HomePageOneState extends State<HomePageOne> {
+class _HomePageOneState extends State<HomePageOne>{
+String name;
+String major;
+String gradYear;
+String university;
+updateProfile() async {
+//  QuerySnapshot query = await Firestore.instance
+//      .collection('users')
+//      .document(currentUserModel.uid)
+//      .collection('socialcard')
+//      .getDocuments();
+//
+//  for (var document in query.documents) {
+//    setState(() {
+//      socialCardId = document.documentID;
+//    });
+//
+//    QuerySnapshot query2 = await Firestore.instance
+//        .collection('users')
+//        .document(currentUserModel.uid)
+//        .collection('profcard')
+//        .getDocuments();
+//
+//    for (var document2 in query2.documents) {
+//      setState(() {
+//        profCardId = document2.documentID;
+//      });
+//    }
+
+
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .setData({
+      'displayName': name,
+      'major': major,
+      'university': university,
+      'gradYear': gradYear
+    }, merge: true);
+
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('socialcard')
+        .document(socialCardId)
+        .updateData({
+      'displayName': name,
+      'major': major,
+      'university': university,
+      'gradYear': gradYear
+    });
+
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .document(profCardId)
+        .updateData({
+      'displayName': name,
+      'major': major,
+      'university': university,
+      'gradYear': gradYear
+    });
+
+}
+
   @override
   List<SearchItem<int>> data2 = [
     SearchItem(0, 'Please select your university'),
@@ -103,7 +168,7 @@ class _HomePageOneState extends State<HomePageOne> {
     SearchItem(69, "Université de Montréal"),
   ];
 
-  String university;
+
 
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -156,6 +221,7 @@ class _HomePageOneState extends State<HomePageOne> {
             width: 150.0,
           ),
           InkWell(
+            onTap: updateProfile,
               child: Container(
                   height: 25,
                   width: 45,
@@ -179,7 +245,7 @@ class _HomePageOneState extends State<HomePageOne> {
             width: 40,
           ),
           Text(
-            'First name',
+            'Name',
             style: TextStyle(
                 color: Colors.black54,
                 fontSize: 18,
@@ -190,6 +256,13 @@ class _HomePageOneState extends State<HomePageOne> {
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+            onSubmitted: (value) {
+              if (value != '' && value != null) {
+                setState(() {
+                  name = value;
+                });
+              }
+            },
             decoration: InputDecoration(
                 border: new UnderlineInputBorder(
                     borderSide: new BorderSide(color: Colors.black))),
@@ -199,32 +272,7 @@ class _HomePageOneState extends State<HomePageOne> {
       SizedBox(
         height: 30,
       ),
-      Row(
-        children: <Widget>[
-          SizedBox(
-            width: 40,
-          ),
-          Text(
-            'Last name',
-            style: TextStyle(
-                color: Colors.black54,
-                fontSize: 18,
-                fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.0),
-          child: TextField(
-            decoration: InputDecoration(
-                border: new UnderlineInputBorder(
-                    borderSide: new BorderSide(color: Colors.black))),
-            style: TextStyle(fontSize: 18, color: Colors.grey),
-            cursorColor: Colors.black,
-          )),
-      SizedBox(
-        height: 30,
-      ),
+
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 40),
         child: Align(
@@ -275,6 +323,13 @@ class _HomePageOneState extends State<HomePageOne> {
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+            onSubmitted: (value) {
+              if (value != '' && value != null) {
+                setState(() {
+                  major = value;
+                });
+              }
+            },
             decoration: InputDecoration(
                 border: new UnderlineInputBorder(
                     borderSide: new BorderSide(color: Colors.black))),
@@ -301,6 +356,13 @@ class _HomePageOneState extends State<HomePageOne> {
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+            onSubmitted: (value) {
+              if (value != '' && value != null) {
+                setState(() {
+                  gradYear = ""+value;
+                });
+              }
+            },
             decoration: InputDecoration(
                 border: new UnderlineInputBorder(
                     borderSide: new BorderSide(color: Colors.black))),

@@ -11,7 +11,7 @@ class SocialCard extends StatelessWidget {
   final String major;
   final String photoUrl;
   final String displayName;
-  final String bio;
+  final String gradYear;
   final String university;
   final String snapchat;
   final String instagram;
@@ -31,7 +31,7 @@ final bool isSwitched;
 
         this.photoUrl,
         this.displayName,
-        this.bio,this.interestString,this.email,this.isSwitched
+        this.gradYear,this.interestString,this.email,this.isSwitched
       });
 
   factory SocialCard.fromDocument(DocumentSnapshot document) {
@@ -55,7 +55,7 @@ final bool isSwitched;
         snapchat: document['snapchat'],
         instagram: document['instagram'],
         twitter: document['twitter'],
-        bio: document['bio'],
+        gradYear: document['gradYear'],
         interestString:interest,
         email:document['email'],
       isSwitched: document['socialToggled'],
@@ -123,11 +123,12 @@ final bool isSwitched;
                             SizedBox(
                               height: screenH(4),
                             ),
-                            major==null?
-                            SizedBox(
-                              height: screenH(1),
-                            ):
-                            Text(major,
+                            major!=null&&gradYear!=null?
+                            Text(major+", "+gradYear,
+                                style: TextStyle(
+                                    fontSize: screenF(13),
+                                    color: Colors.grey)):
+                            Text(major!=null?major:"",
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Colors.grey)),

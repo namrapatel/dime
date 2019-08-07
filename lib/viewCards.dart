@@ -8,7 +8,8 @@ import 'login.dart';
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
-
+String socialCardId;
+String profCardId;
 class ViewCards extends StatefulWidget {
   const ViewCards({this.userId, this.type});
   final String userId, type;
@@ -45,7 +46,7 @@ class _ViewCardsState extends State<ViewCards> {
         .getDocuments();
 
     for (var document in query.documents) {
-
+socialCardId= document.documentID;
 
       cardTiles.add(SocialCard.fromDocument(document)
         );
@@ -85,7 +86,7 @@ class _ViewCardsState extends State<ViewCards> {
       });
     }
     for (var document in query.documents) {
-
+profCardId=document.documentID;
       cardTiles.add(ProfCard.fromDocument(document)
 
       );

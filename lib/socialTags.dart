@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'EditCardsScreen.dart';
+import 'viewCards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 List<String> socialInterests=[];

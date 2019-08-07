@@ -37,17 +37,16 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   getProfile() async {
-    QuerySnapshot query = await Firestore.instance
+   DocumentSnapshot doc = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .collection('profcard')
-        .getDocuments();
-    for (var doc in query.documents) {
+        .get();
+
       setState(() {
         displayName = doc['displayName'];
         photoUrl = doc['photoUrl'];
       });
-    }
+
   }
 
   @override

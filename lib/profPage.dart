@@ -94,7 +94,7 @@ class _ProfPageState extends State<ProfPage> {
            timeStamp: "1 hour ago",
          ),
            ProfPost(
-           caption: "I'm Namra and I'm a big faggot.",
+           caption: "You can see professional posts at your university from here.",
            comments: 76,
            timeStamp: "1 hour ago",
            postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/lakersnation.jpeg?alt=media&token=faa5b297-fdf2-470c-a207-19c38e5aa840'

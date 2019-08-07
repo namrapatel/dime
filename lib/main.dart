@@ -1,3 +1,4 @@
+import 'package:Dime/homePage.dart';
 import 'package:Dime/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,7 +12,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: SplashScreen(),
+      home: Login(),
       theme: appTheme,
     );
   }

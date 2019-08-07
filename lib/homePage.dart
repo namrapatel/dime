@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:Dime/profPage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
@@ -21,13 +19,8 @@ import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
-
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -37,7 +30,6 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
-
   List<UserTile> nearbyUsers = [
     UserTile(
       'Shehab Salem',
@@ -55,17 +47,16 @@ class _ScrollPageState extends State<ScrollPage>
   ];
   RubberAnimationController _controller;
 
-
-
   FocusNode _focus = new FocusNode();
-  StreamController<List<DocumentSnapshot>> streamController = new StreamController();
-  Geoflutterfire geo =Geoflutterfire();
+  StreamController<List<DocumentSnapshot>> streamController =
+      new StreamController();
+  Geoflutterfire geo = Geoflutterfire();
   Stream<List<DocumentSnapshot>> stream;
 
   // Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  List<DocumentSnapshot> list=[];
+  List<DocumentSnapshot> list = [];
   // getPermission() async {
   //   final GeolocationResult result =
   //       await Geolocation.requestLocationPermission(const LocationPermission(
@@ -76,8 +67,8 @@ class _ScrollPageState extends State<ScrollPage>
 
   getPermission() async {
     Map<PermissionGroup, PermissionStatus> permissions =
-    await PermissionHandler()
-        .requestPermissions([PermissionGroup.locationAlways]);
+        await PermissionHandler()
+            .requestPermissions([PermissionGroup.locationAlways]);
   }
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -99,15 +90,12 @@ class _ScrollPageState extends State<ScrollPage>
   var rad = BehaviorSubject<double>.seeded(6.0);
   @override
   void initState() {
-
     var location = new Location();
 
-
-
     location.onLocationChanged().listen((LocationData currentLocation) async {
-
-
-      GeoFirePoint userLoc = geo.point(latitude: currentLocation.latitude, longitude: currentLocation.longitude);
+      GeoFirePoint userLoc = geo.point(
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude);
 
       Firestore.instance
           .collection('users')
@@ -138,7 +126,6 @@ class _ScrollPageState extends State<ScrollPage>
 //             stream = geo.collection(collectionRef: collectionReference)
 //                .within(center: userLoc, radius: radius, field: field,strictMode: true);
 
-
 //     stream.listen((List<DocumentSnapshot> documentList){
 //          print(documentList.length);
 //          for(var doc in documentList){
@@ -152,15 +139,6 @@ class _ScrollPageState extends State<ScrollPage>
 //
 //
 //        });
-
-
-
-
-
-
-
-
-
     });
 
     _controller = RubberAnimationController(
@@ -170,7 +148,6 @@ class _ScrollPageState extends State<ScrollPage>
         lowerBoundValue: AnimationControllerValue(percentage: 0.40),
         duration: Duration(milliseconds: 200));
     super.initState();
-
 
     getPermission();
   }
@@ -182,17 +159,16 @@ class _ScrollPageState extends State<ScrollPage>
           from: _controller.value, to: _controller.upperBound);
     }
   }
+
   @override
   void dispose() {
     streamController.close(); //Streams must be closed when not needed
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       backgroundColor: Color(0xFF48A9A6),
       body: Container(
         child: RubberBottomSheet(
@@ -209,7 +185,7 @@ class _ScrollPageState extends State<ScrollPage>
               children: <Widget>[
                 Padding(
                   padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.height / 122),
+                      EdgeInsets.all(MediaQuery.of(context).size.height / 122),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 7.5,
@@ -222,7 +198,6 @@ class _ScrollPageState extends State<ScrollPage>
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.width / 32.5, 0, 0),
                 ),
-
                 Padding(
                     padding: EdgeInsets.fromLTRB(
                         0, MediaQuery.of(context).size.height / 52, 0, 0)),
@@ -248,7 +223,6 @@ class _ScrollPageState extends State<ScrollPage>
                       padding: EdgeInsets.fromLTRB(
                           MediaQuery.of(context).size.width / 52, 0, 0, 0),
                     ),
-
                   ],
                 ),
                 Padding(
@@ -257,7 +231,6 @@ class _ScrollPageState extends State<ScrollPage>
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
-
                 ),
               ],
             ),
@@ -275,204 +248,213 @@ class _ScrollPageState extends State<ScrollPage>
     return new Stack(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/20, MediaQuery.of(context).size.height/18, 0, 0),
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
+              MediaQuery.of(context).size.height / 18, 0, 0),
           child: Row(
             children: <Widget>[
-              Text("Hey " + currentUserModel.displayName + "!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-              ),
+              Text(
+                "Hey " + currentUserModel.displayName + "!",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold),
               ),
               Spacer(),
-
               IconButton(
-                icon: Icon(Icons.settings, color: Colors.white, size: 20,),
-                onPressed: (){
-                     Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ProfilePage()));
+                icon: Icon(
+                  Icons.settings,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: ProfilePage()));
                 },
               ),
               IconButton(
-                icon: Icon(Icons.add, color: Colors.white, size: 25,),
-                onPressed: (){
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade,
-                            child: InviteFriends()));
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 25,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: InviteFriends()));
                 },
               ),
-
             ],
           ),
         ),
-            ListView(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
+        ListView(
+          physics: BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 20,
+                  MediaQuery.of(context).size.height / 7,
+                  0,
+                  0),
+              child: Align(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                        child: ViewCards(
+                      userId: currentUserModel.uid,
+                      type: 'social',
+                    )),
+                  ],
+                ),
+                alignment: Alignment.topCenter,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 35,
+                  MediaQuery.of(context).size.height / 7,
+                  0,
+                  0),
+              child: Align(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                        child: ViewCards(
+                      userId: currentUserModel.uid,
+                      type: 'prof',
+                    )),
+                  ],
+                ),
+                alignment: Alignment.topCenter,
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+              0, MediaQuery.of(context).size.height / 2.1, 0, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-                      Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
-                MediaQuery.of(context).size.height / 7, 0, 0),
-            child: Align(
-              child:  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                            child: ViewCards(
-                          userId: currentUserModel.uid,
-                          type: 'social',
-                        )),
-                      ],
-                    ),
-
-              alignment: Alignment.topCenter,
-            ),
-          ),
-
-          Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 35,
-                MediaQuery.of(context).size.height / 7, 0, 0),
-            child: Align(
-              child:  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                            child: ViewCards(
-                          userId: currentUserModel.uid,
-                          type: 'prof',
-                        )),
-                      ],
-                    ),
-
-              alignment: Alignment.topCenter,
-            ),
-          ),
-
+              FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: SocialPage()));
+                },
+                elevation: 3,
+                heroTag: 'btn1',
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Entypo.drink,
+                  color: Color(0xFF8803fc),
+                ),
+              ),
+              FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: ChatList()));
+                },
+                elevation: 3,
+                heroTag: 'btn2',
+                backgroundColor: Colors.white,
+                child: Icon(
+                  MaterialCommunityIcons.chat,
+                  color: Colors.black,
+                ),
+              ),
+              FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: Explore()));
+                },
+                elevation: 3,
+                heroTag: 'btn3',
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Ionicons.md_search,
+                  color: Colors.black,
+                ),
+              ),
+              FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: ProfPage()));
+                },
+                elevation: 3,
+                heroTag: 'btn4',
+                backgroundColor: Colors.white,
+                child: Icon(
+                  MaterialCommunityIcons.account_tie,
+                  color: Color(0xFF1976d2),
+                ),
+              ),
             ],
           ),
-
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.1, 0, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      FloatingActionButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.leftToRight,
-                                  child: SocialPage()));
-                        },
-                        elevation: 3,
-                        heroTag: 'btn1',
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Entypo.drink,
-                          color: Color(0xFF8803fc),
-                        ),
-                      ),
-
-
-                      FloatingActionButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ChatList()));
-                        },
-                        elevation: 3,
-                        heroTag: 'btn2',
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          MaterialCommunityIcons.chat,
-                          color: Colors.black,
-                        ),
-                      ),
-
-                      FloatingActionButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade, child: Explore()));
-                        },
-                        elevation: 3,
-                        heroTag: 'btn3',
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Ionicons.md_search,
-                          color: Colors.black,
-                        ),
-                      ),
-
-
-
-                      FloatingActionButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: ProfPage()));
-                        },
-                        elevation: 3,
-                        heroTag: 'btn4',
-                        backgroundColor: Colors.white,
-                        child: Icon(MaterialCommunityIcons.account_tie,
-                            color: Color(0xFF1976d2),),
-                      ),
-                    ],
-                  ),
-                ),
-        
-
-        
+        ),
       ],
     );
   }
 
-
-
   Widget _getUpperLayer() {
-    return   Container(
+    return Container(
       color: Colors.white,
       child: StreamBuilder(
-
         stream: stream,
-        builder: ( context,
-            AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-          if (
-          snapshots.hasData) {
+        builder: (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+          if (snapshots.hasData) {
             print('data ${snapshots.data}');
-            return  ListView.builder(
-
-
+            return ListView.builder(
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshots.data[index];
                 print(
                     'doc with id ${doc.documentID} distance ${doc.data['distance']}');
                 GeoPoint point = doc.data['position']['geopoint'];
-                return UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: 'dumbness',interests: ['idiots'],);
+                return UserTile(
+                  doc.data['displayName'],
+                  doc.data['photoUrl'],
+                  doc.documentID,
+                  major: 'dumbness',
+                  interests: ['idiots'],
+                );
               },
               itemCount: snapshots.data.length,
             );
-
           } else {
-            return Center(child: CircularProgressIndicator());
+            return Container(
+              color: Colors.white,
+              height: 800,
+              width: 400,
+            );
           }
         },
       ),
     );
   }
+
   double _value = 5.0;
   String _label = '';
 
@@ -484,22 +466,6 @@ class _ScrollPageState extends State<ScrollPage>
     });
     radius.add(value);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //    return  StreamBuilder<List<DocumentSnapshot>>(
 //    stream:stream,
@@ -608,21 +574,21 @@ class UserTile extends StatelessWidget {
                 children: <Widget>[
                   Row(
                     children: <Widget>[
-                      Text("Philosophy, Flutter, Basketball",
-                        style: TextStyle(
-                            color: Color(0xFF8803fc), fontSize: 13),
+                      Text(
+                        "Philosophy, Flutter, Basketball",
+                        style:
+                            TextStyle(color: Color(0xFF8803fc), fontSize: 13),
                       )
                     ],
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height/300,
+                    height: MediaQuery.of(context).size.height / 300,
                   ),
                   Row(
                     children: <Widget>[
                       Text("Startups, Painting, Tech Companies",
-                          style: TextStyle(
-                              color: Color(0xFF1976d2), fontSize: 13)
-                      )
+                          style:
+                              TextStyle(color: Color(0xFF1976d2), fontSize: 13))
                     ],
                   ),
                 ],

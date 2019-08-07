@@ -1,5 +1,7 @@
 import 'package:Dime/homePage.dart';
 import 'package:Dime/login.dart';
+import 'package:Dime/profile.dart';
+import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';

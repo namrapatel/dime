@@ -87,11 +87,11 @@ class _ChatState extends State<Chat> {
       //backgroundColor: Color(0xFFECE9E4),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFFECE9E4),
+        backgroundColor: Color(0xFF48A9A6),
         elevation: 5,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          color: Colors.black,
+          color: Colors.white,
           iconSize: 20,
           onPressed: (){
             Navigator.pop(context);
@@ -105,7 +105,7 @@ class _ChatState extends State<Chat> {
               backgroundImage: NetworkImage(toUserPhoto),
             ):CircularProgressIndicator(),
             SizedBox(width: MediaQuery.of(context).size.width/30,),
-            toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.black),):CircularProgressIndicator(),
+            toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.white),):CircularProgressIndicator(),
           ],
         ),
       ),
@@ -231,9 +231,9 @@ class SendButton extends StatelessWidget {
         height: 40,
         child: FloatingActionButton(
             elevation: 5,
-            backgroundColor: Colors.black,
+            backgroundColor: Color(0xFF48A9A6),
             heroTag: 'fabb4',
-            child: Icon(Icons.send, color: Color(0xFFECE9E4), size: 20,),
+            child: Icon(Icons.send, color: Colors.white, size: 20,),
             onPressed: callback
         )
     );
@@ -271,7 +271,7 @@ class Message extends StatelessWidget {
           //   from,
           // ),
           Material(
-            color: me ? Color(0xFFECE9E4) : Color(0xFFF3F4F5),
+            color: me ? Color(0xFF48A9A6) : Color(0xFFF3F4F5),
             borderRadius: me
                 ? BorderRadius.only(
               topRight: Radius.circular(15),
@@ -291,7 +291,7 @@ class Message extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                  color: me ? Colors.black : Colors.black,
+                  color: me ? Colors.white : Colors.black,
                 ),
               ),
             ),

@@ -87,7 +87,7 @@ class _ChatState extends State<Chat> {
       //backgroundColor: Color(0xFFECE9E4),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF0078FF),
+        backgroundColor: Color(0xFF48A9A6),
         elevation: 5,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
@@ -231,7 +231,7 @@ class SendButton extends StatelessWidget {
         height: 40,
         child: FloatingActionButton(
             elevation: 5,
-            backgroundColor: Color(0xFF0078FF),
+            backgroundColor: Color(0xFF48A9A6),
             heroTag: 'fabb4',
             child: Icon(Icons.send, color: Colors.white, size: 20,),
             onPressed: callback
@@ -271,7 +271,7 @@ class Message extends StatelessWidget {
           //   from,
           // ),
           Material(
-            color: me ? Color(0xFF0078FF) : Color(0xFFF3F4F5),
+            color: me ? Color(0xFF48A9A6) : Color(0xFFF3F4F5),
             borderRadius: me
                 ? BorderRadius.only(
               topRight: Radius.circular(15),

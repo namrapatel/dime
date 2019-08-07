@@ -58,13 +58,10 @@ class _SocialCommentsState extends State<SocialComments> {
                       return ListTile(
                         leading: CircleAvatar(
                           backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
-                          radius: 25,
                         ),
                         title: Row(
                           children: <Widget>[
-                            Text("Dhruv Patel",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
+                            Text("Dhruv Patel"),
                             Spacer(),
                             Text("2 hrs ago",
                             style: TextStyle(fontSize: 12,
@@ -73,16 +70,7 @@ class _SocialCommentsState extends State<SocialComments> {
                             ),
                           ],
                         ),
-                        contentPadding: EdgeInsets.all(15),
-                        subtitle: 
-                        Column(
-                          children: <Widget>[
-                            SizedBox(height: 5,),
-                            Text("@NamraPatel this was a really dope post about cool stuff lololol"
-                            ),
-                             
-                          ],
-                        ),
+                        subtitle: Text("This was a really dope post about cool stuff lololol"),
                       );
                     },
                   ),

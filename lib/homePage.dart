@@ -175,23 +175,56 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
-//
-  void _onFocusChange() {
-    if (_focus.hasFocus) {
-      _controller.animateTo(
-          from: _controller.value, to: _controller.upperBound);
-    }
-  }
+
   @override
   void dispose() {
     streamController.close(); //Streams must be closed when not needed
     super.dispose();
+
   }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF48A9A6), 
+        title: Row(
+            children: <Widget>[
+              Text("Hey " + currentUserModel.displayName + "!",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
+              ),
+              ),
+              Spacer(),
+
+              IconButton(
+                icon: Icon(Icons.settings, color: Colors.white, size: 20,),
+                onPressed: (){
+                     Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfilePage()));
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.add, color: Colors.white, size: 25,),
+                onPressed: (){
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            child: InviteFriends()));
+                },
+              ),
+
+            ],
+          ),
+      ),
       
       backgroundColor: Color(0xFF48A9A6),
       body: Container(
@@ -274,49 +307,13 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getLowerLayer() {
     return new Stack(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/20, MediaQuery.of(context).size.height/18, 0, 0),
-          child: Row(
-            children: <Widget>[
-              Text("Hey " + currentUserModel.displayName + "!",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-              ),
-              ),
-              Spacer(),
-
-              IconButton(
-                icon: Icon(Icons.settings, color: Colors.white, size: 20,),
-                onPressed: (){
-                     Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ProfilePage()));
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.add, color: Colors.white, size: 25,),
-                onPressed: (){
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade,
-                            child: InviteFriends()));
-                },
-              ),
-
-            ],
-          ),
-        ),
             ListView(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             children: <Widget>[
                       Padding(
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
-                MediaQuery.of(context).size.height / 7, 0, 0),
+                MediaQuery.of(context).size.height / 18, 0, 0),
             child: Align(
               child:  Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -335,7 +332,7 @@ class _ScrollPageState extends State<ScrollPage>
 
           Padding(
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 35,
-                MediaQuery.of(context).size.height / 7, 0, 0),
+                MediaQuery.of(context).size.height / 18, 0, 0),
             child: Align(
               child:  Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -356,7 +353,7 @@ class _ScrollPageState extends State<ScrollPage>
           ),
 
                 Padding(
-                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.1, 0, 0),
+                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.5, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
@@ -488,19 +485,6 @@ class _ScrollPageState extends State<ScrollPage>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 //    return  StreamBuilder<List<DocumentSnapshot>>(
 //    stream:stream,
 //    builder: (context,  snapshot) {
@@ -537,18 +521,7 @@ class _ScrollPageState extends State<ScrollPage>
 //    }
 //    );}
 
-  void _addMarker(double lat, double lng) {
-    MarkerId id = MarkerId(lat.toString() + lng.toString());
-    Marker _marker = Marker(
-      markerId: id,
-      position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-      infoWindow: InfoWindow(title: 'latLng', snippet: '$lat,$lng'),
-    );
-    setState(() {
-      markers[id] = _marker;
-    });
-  }
+
 }
 
 class UserTile extends StatelessWidget {

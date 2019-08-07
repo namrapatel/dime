@@ -36,6 +36,53 @@ class _SocialPageState extends State<SocialPage> {
       allowFontScaling: true,
     )..init(context);
     return Scaffold(
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(70.0), // here the desired height
+          child: AppBar(
+            elevation: 0,
+            backgroundColor: Color(0xFF8803fc),
+            automaticallyImplyLeading: false,
+            title: Row(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20 ,
+                  ),
+                  Text("University of Waterloo",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold
+                  ),
+                  ),
+ 
+                ],
+              ),
+              Spacer(),
+              Column(
+                children: <Widget>[
+                     SizedBox(
+                    height: 8,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20,),
+                    onPressed: (){
+                         Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.rightToLeft, child: ScrollPage()));
+                    },
+                  ),
+                ],
+              ),
+
+            ],
+          ),
+          )
+        ),
       backgroundColor: Color(0xFF8803fc),
       floatingActionButton: FloatingActionButton(
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -57,43 +104,10 @@ class _SocialPageState extends State<SocialPage> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: <Widget>[
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/20, MediaQuery.of(context).size.height/68, 0, 0),
-          child: Row(
-            children: <Widget>[
-              Text("University of Waterloo",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-              ),
-              ),
-              Spacer(),
-              IconButton(
-                icon: Icon(Icons.arrow_forward_ios, color: Colors.white, size: 20,),
-                onPressed: (){
-                     Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft, child: ScrollPage()));
-                },
-              ),
 
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/20, 0, 0, 0),
-          child: Text("Social Feed",
-          style: TextStyle(color: Colors.white,
-          fontSize: 18
-          ),
-
-          ),
-        ),
-        SizedBox(
-          height: MediaQuery.of(context).size.height/70,
-        ),
+        // SizedBox(
+        //   height: MediaQuery.of(context).size.height/70,
+        // ),
         
           Container(
           margin:EdgeInsets.all(8.0),

@@ -1,12 +1,12 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
 
-class SocialComments extends StatefulWidget {
+class ProfComments extends StatefulWidget {
   @override
-  _SocialCommentsState createState() => _SocialCommentsState();
+  _ProfCommentsState createState() => _ProfCommentsState();
 }
 
-class _SocialCommentsState extends State<SocialComments> {
+class _ProfCommentsState extends State<ProfComments> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +32,7 @@ class _SocialCommentsState extends State<SocialComments> {
                   style: TextStyle(color: Colors.black),
                 ),
                 Text(
-                  'Social Feed',
+                  'Professional Feed',
                   style: TextStyle(
                     color: Colors.grey[400],
                     fontSize: 12,
@@ -65,7 +65,7 @@ class _SocialCommentsState extends State<SocialComments> {
                             Spacer(),
                             Text("2 hrs ago",
                             style: TextStyle(fontSize: 12,
-                            color: Color(0xFF8803fc)
+                            color: Color(0xFF1976d2)
                             ),
                             ),
                           ],
@@ -132,7 +132,7 @@ Container(
         height: 40,
         child: FloatingActionButton(
             elevation: 5,
-            backgroundColor: Color(0xFF8803fc),
+            backgroundColor: Color(0xFF1976d2),
             heroTag: 'fabb4',
             child: Icon(Icons.send, color: Colors.white, size: 20,),
             onPressed: (){}

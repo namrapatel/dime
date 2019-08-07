@@ -400,25 +400,29 @@ class _ScrollPageState extends State<ScrollPage>
   }
 
 
+
   Future<List<UserTile>>getUsers() async{
     List<UserTile> userList=[];
 
     final Lat.Distance distance = new Lat.Distance();
-    QuerySnapshot query =await Firestore.instance.collection('users').where('atEvent',isEqualTo: true).getDocuments();
+    QuerySnapshot query =await Firestore.instance.collection('users').getDocuments();
     final docs= query.documents;
     for(var doc in docs){
+      if(doc.data['currentLocation']!=null) {
+        final double distanceInMeters = distance(
+            new Lat.LatLng(userLoc.latitude, userLoc.longitude), new Lat.LatLng(
+            doc.data['currentLocation'].latitude,
+            doc.data['currentLocation'].longitude));
 //
-      final double distanceInMeters = distance(new Lat.LatLng(userLoc.latitude,userLoc.longitude),new Lat.LatLng(doc.data['currentLocation'].latitude,doc.data['currentLocation'].longitude));
-//
-      print(doc.data['displayName']);
-      print('distance away is');
-      print(distanceInMeters);
-      if(distanceInMeters<=6000.0&&doc.documentID!=currentUserModel.uid){
-
-        userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
+        print(doc.data['displayName']);
+        print('distance away is');
+        print(distanceInMeters);
+        if (distanceInMeters <= 6000.0 &&
+            doc.documentID != currentUserModel.uid) {
+          userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
+         
+        }
       }
-
-
 
     }
     return userList;
@@ -426,7 +430,6 @@ class _ScrollPageState extends State<ScrollPage>
 
 
   }
-
   Widget _getUpperLayer() {
     return   Container(
         color: Colors.white,

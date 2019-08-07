@@ -112,19 +112,19 @@ class _SocialPageState extends State<SocialPage> {
         SocialPost(
           caption: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
           comments: 20,
-          hoursAgo: 3,
+          timeStamp: "2 hours ago",
           postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
         ),
 
           SocialPost(
           caption: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
           comments: 20,
-          hoursAgo: 3,
+          timeStamp: "2 hours ago",
           //postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
         ),
           SocialPost(
           comments: 20,
-          hoursAgo: 3,
+          timeStamp: "2 hours ago",
           postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
         ),
         

@@ -10,13 +10,13 @@ class SocialPost extends StatelessWidget {
   final String caption;
   final String postPic;
   final int comments;
-  final int hoursAgo;
+  final String timeStamp;
 
   const SocialPost(
       {
         this.caption,
         this.comments,
-        this.hoursAgo,
+        this.timeStamp,
         this.postPic
       }
       
@@ -64,8 +64,8 @@ class SocialPost extends StatelessWidget {
                       Text("$comments Comments")
                       :SizedBox(width: 1,),
                       Spacer(),
-                      hoursAgo != null?
-                      Text("$hoursAgo hours ago"):
+                      timeStamp != null?
+                      Text(timeStamp):
                       SizedBox(width: 1,)
                     ],
                   )

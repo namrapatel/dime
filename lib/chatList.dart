@@ -23,7 +23,104 @@ class _ChatListState extends State<ChatList> {
     super.initState();
   }
 
-  
+
+  Future<List<MessageTile>> getMessages() async {
+    List<MessageTile> messageTiles = [];
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('messages').orderBy('timestamp',descending: true)
+        .getDocuments();
+    for (var document in query.documents) {
+      String displayName;
+      String photoUrl;
+      String senderId = document.documentID;
+      QuerySnapshot cardQuery = await Firestore.instance
+          .collection('users')
+          .document(senderId)
+          .collection('profcard')
+          .getDocuments();
+      for (var card in cardQuery.documents) {
+        displayName = card.data['displayName'];
+        photoUrl = card.data['photoUrl'];
+      }
+      QuerySnapshot secondQuery = await Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .collection('messages').document(senderId).collection('texts').orderBy('timestamp',descending: true).getDocuments();
+        DocumentSnapshot lastMessageDoc = secondQuery.documents.first;
+
+        String message = lastMessageDoc.data['text'];
+        print(message);
+        if (message.length >= 40) {
+          message = message.substring(0, 39);
+        }
+      if(lastMessageDoc.data['from']==currentUserModel.uid){
+message= "You: "+message;
+      }
+        var storedDate = lastMessageDoc.data['timestamp'];
+
+        String elapsedTime =
+        timeago.format(storedDate.toDate());
+        String timestamp = '$elapsedTime';
+        print(message);
+        print(timestamp);
+        print(photoUrl);
+        print(displayName);
+        print(currentUserModel.uid);
+        print(senderId);
+        messageTiles.add(MessageTile(text: message,
+          timestamp: timestamp,
+          senderPhoto: photoUrl,
+          senderName: displayName,
+          to: currentUserModel.uid,
+          from: senderId,));
+
+
+    }
+    print('messagetiles');
+
+print(messageTiles);
+    return messageTiles;
+  }
+
+  Widget buildMessages(){
+    return
+      FutureBuilder(
+          future: getMessages(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(
+                  child: Container(
+
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: (50.0)),
+                          child: Container(
+                              width: (100),
+                              child: Text(
+                                "No Messages to show",
+                                style: TextStyle(color: Colors.black,
+                                fontSize: 20,
+                                ),
+                                textAlign: TextAlign.center,
+                              )),
+                        ),
+                      ],
+                    ),
+                  ));
+            else {
+              return Column(
+                  children:
+                  snapshot.data
+
+              );
+            }
+          }
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,63 +162,98 @@ class _ChatListState extends State<ChatList> {
                   height: MediaQuery.of(context).size.height/1.2,
                   child: Column(
                     children: <Widget>[
+                      Column(
+    children: <Widget>[
+      buildMessages()
+    ],
+    )
+
+//                      FutureBuilder<List<MessageTile>>(
+//                      future: getMessages(),
+//                      builder: (context, snapshot) {
+//                      if (!snapshot.hasData)
+//                        return Center(
+//                            child: Container(
+//
+//                              child: Column(
+//                                children: <Widget>[
+//                                  Padding(
+//                                    padding: EdgeInsets.symmetric(
+//                                        vertical: (50.0)),
+//                                    child: Container(
+//                                        width: (100),
+//                                        child: Text(
+//                                          "You currently have no messages",
+//                                          textAlign: TextAlign.center,
+//                                        )),
+//                                  ),
+//                                ],
+//                              ),
+//                            ));
+//
+//                      return Column(
+//                        children:
+//                          snapshot.data
+//
+//                      );
+//                      }),
                      
-                           StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance
-                              .collection('chatMessages').where('to',isEqualTo: currentUserModel.uid).orderBy('timestamp',descending: true).snapshots(),
-                          builder: (context, snapshot) {
-                            if (!snapshot.hasData ||
-                                snapshot.data.documents.length == 0) {
-                              return Center(
-                                  child: Container(
-
-                                    child: Column(
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: (50.0)),
-                                          child: Container(
-                                              width: (100),
-                                              child: Text(
-                                                "You currently have no messages",
-                                                textAlign: TextAlign.center,
-                                              )),
-                                        ),
-                                      ],
-                                    ),
-                                  ));
-                            }
-                            final docs = snapshot.data.documents;
-                            List<MessageTile> messageTiles = [];
-                            for (var doc in docs) {
-                              String text= doc.data['text'];
-                              String photo=doc.data['receiverPhoto'];
-                              String name=doc.data['receiverName'];
-                              String from=doc.data['from'];
-                                  String to=doc.data['to'];
-                              var storedDate = doc.data['timestamp'];
-
-                              String elapsedTime =
-                              timeago.format(storedDate.toDate());
-                              String timestamp = '$elapsedTime';
-
-                              messageTiles.add(new MessageTile(text: text,from: from,timestamp: timestamp,senderName:name,senderPhoto: photo,to:to));
-                            }
-
-                            return Container(
-                              child: ListView.separated(
-                                itemCount: messageTiles.length,scrollDirection: Axis.vertical,shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return messageTiles[index];
-                                },
-
-                                separatorBuilder: (context, index) {
-                                  return Divider();
-                                },
-                              ),
-
-                            );
-                          }),
+//                           StreamBuilder<QuerySnapshot>(
+//                          stream: Firestore.instance
+//                              .collection('chatMessages').where('to',isEqualTo: currentUserModel.uid).orderBy('timestamp',descending: true).snapshots(),
+//                          builder: (context, snapshot) {
+//                            if (!snapshot.hasData ||
+//                                snapshot.data.documents.length == 0) {
+//                              return Center(
+//                                  child: Container(
+//
+//                                    child: Column(
+//                                      children: <Widget>[
+//                                        Padding(
+//                                          padding: EdgeInsets.symmetric(
+//                                              vertical: (50.0)),
+//                                          child: Container(
+//                                              width: (100),
+//                                              child: Text(
+//                                                "You currently have no messages",
+//                                                textAlign: TextAlign.center,
+//                                              )),
+//                                        ),
+//                                      ],
+//                                    ),
+//                                  ));
+//                            }
+//                            final docs = snapshot.data.documents;
+//                            List<MessageTile> messageTiles = [];
+//                            for (var doc in docs) {
+//                              String text= doc.data['text'];
+//                              String photo=doc.data['receiverPhoto'];
+//                              String name=doc.data['receiverName'];
+//                              String from=doc.data['from'];
+//                                  String to=doc.data['to'];
+//                              var storedDate = doc.data['timestamp'];
+//
+//                              String elapsedTime =
+//                              timeago.format(storedDate.toDate());
+//                              String timestamp = '$elapsedTime';
+//
+//                              messageTiles.add(new MessageTile(text: text,from: from,timestamp: timestamp,senderName:name,senderPhoto: photo,to:to));
+//                            }
+//
+//                            return Container(
+//                              child: ListView.separated(
+//                                itemCount: messageTiles.length,scrollDirection: Axis.vertical,shrinkWrap: true,
+//                                itemBuilder: (context, index) {
+//                                  return messageTiles[index];
+//                                },
+//
+//                                separatorBuilder: (context, index) {
+//                                  return Divider();
+//                                },
+//                              ),
+//
+//                            );
+//                          }),
                     ],
                   )),
 
@@ -161,14 +293,13 @@ class MessageTile extends StatelessWidget {
         backgroundImage: NetworkImage(senderPhoto),
       ),
       title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(senderName),
-          SizedBox(width: MediaQuery.of(context).size.width/3.95,),
-          Text(timestamp, style: TextStyle(fontSize: 10, color: Colors.blueAccent[700]),)
+          Text(timestamp, style: TextStyle(fontSize: 13, color: Colors.blueAccent[700]),)
         ],
       ),
-      trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 10,),
+      trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 17,),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[

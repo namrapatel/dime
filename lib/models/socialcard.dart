@@ -37,6 +37,7 @@ final bool isSwitched;
   factory SocialCard.fromDocument(DocumentSnapshot document) {
     String interest="";
     List<dynamic> interests=document['interests'];
+    if(interests!=null) {
     for(int i=0;i<interests.length;i++){
       if(i==interests.length-1){
         interest=interest+ interests[i];
@@ -44,7 +45,7 @@ final bool isSwitched;
         interest=interest+ interests[i]+", ";
       }
 
-    }
+    }}
     return SocialCard(
         type: document['type'],
         photoUrl: document['photoUrl'],
@@ -68,21 +69,10 @@ final bool isSwitched;
         Stack(children: <Widget>[
           Column(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: screenH(30),
-                  ),
-
-                  SizedBox(
-                    width: screenW(165),
-                  ),
-                ],
-              ),
 
               Container(
-                height: screenH(225),
-                width: screenW(370),
+                height: screenH(265),
+                width: screenW(350),
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -92,7 +82,7 @@ final bool isSwitched;
                           offset: Offset(0, 5)),
                     ],
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Stack(
                   children: <Widget>[
                   Column(
@@ -121,7 +111,7 @@ final bool isSwitched;
                               ],
                             ),
                             SizedBox(
-                              height: screenH(2),
+                              height: screenH(10),
                             ),university==null?
                             SizedBox(
                               height: screenH(1),
@@ -131,7 +121,7 @@ final bool isSwitched;
                                     fontSize: screenF(13),
                                     color: Color(0xFF8803fc))),
                             SizedBox(
-                              height: screenH(2),
+                              height: screenH(4),
                             ),
                             major==null?
                             SizedBox(
@@ -162,7 +152,7 @@ final bool isSwitched;
 
                     Padding(
                       padding:
-                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(10)),
+                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(20)),
                       child:
 
 
@@ -258,12 +248,12 @@ final bool isSwitched;
                 ),
 
                   Positioned(
-                  left: screenW(300),
+                  left: screenW(275),
                   top: screenH(20),
                   child:  CircleAvatar(
                           backgroundImage:
                           NetworkImage(photoUrl),
-                          radius: 25,
+                          radius: 30,
                         ),
                 ),
                   ],

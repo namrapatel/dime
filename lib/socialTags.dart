@@ -163,7 +163,7 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
                           .updateData({
                         'interests': interests
                       });
-
+                      socialInterests.clear();
                       Navigator.pop(context);
                       Navigator.pop(context);
                     },
@@ -237,6 +237,7 @@ class SocialDataSearch extends SearchDelegate<
 
     return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: (){
+          socialInterests.clear();
           close(context, null);
         });
   }

@@ -34,16 +34,17 @@ class ProfCard extends StatelessWidget {
 
   factory ProfCard.fromDocument(DocumentSnapshot document) {
     String interest="";
+
     List<dynamic> interests=document['interests'];
-    for(int i=0;i<interests.length;i++){
-      if(i==interests.length-1){
-        interest=interest+ interests[i];
-      }else{
-        interest=interest+ interests[i]+", ";
+    if(interests!=null) {
+      for (int i = 0; i < interests.length; i++) {
+        if (i == interests.length - 1) {
+          interest = interest + interests[i];
+        } else {
+          interest = interest + interests[i] + ", ";
+        }
       }
-
     }
-
     return ProfCard(
       type: document['type'],
       photoUrl: document['photoUrl'],
@@ -80,8 +81,8 @@ class ProfCard extends StatelessWidget {
               ),
 
               Container(
-                height: screenH(225),
-                width: screenW(370),
+                height: screenH(265),
+                width: screenW(350),
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -91,7 +92,7 @@ class ProfCard extends StatelessWidget {
                           offset: Offset(0, 5)),
                     ],
                     color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Stack(
                   children: <Widget>[
                 Column(
@@ -120,7 +121,7 @@ class ProfCard extends StatelessWidget {
                               ],
                             ),
                             SizedBox(
-                              height: screenH(2),
+                              height: screenH(10),
                             ),university==null?
                             Text("",
                                 style: TextStyle(
@@ -131,7 +132,7 @@ class ProfCard extends StatelessWidget {
                                     fontSize: screenF(13),
                                     color: Color(0xFF1976d2))),
                             SizedBox(
-                              height: screenH(2),
+                              height: screenH(4),
                             ),
                             major==null?
                             Text("",
@@ -161,7 +162,7 @@ class ProfCard extends StatelessWidget {
                     ),
                     Padding(
                       padding:
-                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(10)),
+                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(20)),
                       child:Row(
                         mainAxisAlignment:
                         MainAxisAlignment.spaceBetween,
@@ -254,13 +255,13 @@ class ProfCard extends StatelessWidget {
                   ],
                 ),
                 Positioned(
-                  left: screenW(300),
+                  left: screenW(275),
                   top: screenH(20),
                   
                   child:  CircleAvatar(
                           backgroundImage:
                           NetworkImage(photoUrl),
-                          radius: 25,
+                          radius: 30,
                         ),
                 ),
                   ],

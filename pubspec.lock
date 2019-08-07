@@ -14,7 +14,6 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-
     version: "2.1.0"
   boolean_selector:
     dependency: transitive
@@ -340,7 +339,7 @@ packages:
       name: share
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.2+1"
+    version: "0.6.2"
   shared_preferences:
     dependency: "direct dev"
     description:
@@ -446,4 +445,4 @@ packages:
     version: "1.0.5"
 sdks:
   dart: ">=2.2.2 <3.0.0"
-  flutter: ">=1.6.0 <2.0.0"
+  flutter: ">=1.5.0 <2.0.0"

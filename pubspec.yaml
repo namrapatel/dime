@@ -58,6 +58,7 @@ dev_dependencies:
   wc_flutter_share:
   flutter_fluid_slider:
   image: ^2.0.7
+  latlong: ^0.6.1
 
   #geolocation:
     #git:

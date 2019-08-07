@@ -267,25 +267,25 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   }
 
   void post() {
-    file != null
-        ? uploadImage(file).then((String data) {
-            elapsedTime = timeago.format(DateTime.now());
-            postPic = data;
-            uploader.addSocialPost(
-                caption, timeStamp, postPic, currentUserModel.uid);
-          }).then((_) {
-            setState(() {
-              print('------------THIS IS THE FIRST ONE----------------');
-              file = null;
-              //uploading = false;
-            });
-          })
-        : print('-----------------THIS IS THE SECOND ONE----------');
+    if(file != null) {
+      uploadImage(file).then((String data) {
+        elapsedTime = timeago.format(DateTime.now());
+        postPic = data;
+        uploader.addSocialPost(
+            caption, timeStamp, postPic, currentUserModel.uid);
+      }).then((_) {
+        setState(() {
+          print('------------THIS IS THE FIRST ONE----------------');
+          file = null;
+          //uploading = false;
+        });
+      });
+    }else{print('-----------------THIS IS THE SECOND ONE----------');
     // elapsedTime = timeago.format(storedDate.toDate());
     // timeStamp = '$elapsedTime';
     caption = descriptionController.text;
     uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid);
-  }
+  }}
 }
 
 Future<String> uploadImage(var imageFile) async {

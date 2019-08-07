@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'models/user.dart';
 import 'package:Dime/profPage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
@@ -19,8 +21,13 @@ import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:latlong/latlong.dart' as Lat;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
+
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -30,33 +37,35 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
-  List<UserTile> nearbyUsers = [
-    UserTile(
-      'Shehab Salem',
-      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq',
-      'BrA8IqEL8RcUYylQz4GHgVD4jBx1',
-      major: 'Computer Science, 2022',
-      interests: ['Flutter', 'Basketball'],
-    ),
-    UserTile(
-        'Dhruv Patel',
-        'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
-        "ocBp1teYqlQkimXXkpSp4Q35C5B3",
-        major: 'Mechatronics Engineering, 2022',
-        interests: ['Java', 'Badminton'])
-  ];
+
+//  List<UserTile> nearbyUsers = [
+//    UserTile(
+//      'Shehab Salem',
+//      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq',
+//      'BrA8IqEL8RcUYylQz4GHgVD4jBx1',
+//      major: 'Computer Science, 2022',
+//      interests: ['Flutter', 'Basketball'],
+//    ),
+//    UserTile(
+//        'Dhruv Patel',
+//        'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
+//        "ocBp1teYqlQkimXXkpSp4Q35C5B3",
+//        major: 'Mechatronics Engineering, 2022',
+//        interests: ['Java', 'Badminton'])
+//  ];
   RubberAnimationController _controller;
 
+
+
   FocusNode _focus = new FocusNode();
-  StreamController<List<DocumentSnapshot>> streamController =
-      new StreamController();
-  Geoflutterfire geo = Geoflutterfire();
+  StreamController<List<DocumentSnapshot>> streamController = new StreamController();
+  Geoflutterfire geo =Geoflutterfire();
   Stream<List<DocumentSnapshot>> stream;
 
   // Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  List<DocumentSnapshot> list = [];
+  List<DocumentSnapshot> list=[];
   // getPermission() async {
   //   final GeolocationResult result =
   //       await Geolocation.requestLocationPermission(const LocationPermission(
@@ -67,8 +76,8 @@ class _ScrollPageState extends State<ScrollPage>
 
   getPermission() async {
     Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler()
-            .requestPermissions([PermissionGroup.locationAlways]);
+    await PermissionHandler()
+        .requestPermissions([PermissionGroup.locationAlways]);
   }
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -86,59 +95,34 @@ class _ScrollPageState extends State<ScrollPage>
   ScrollController _scrollController = ScrollController();
 
   final Map<String, Marker> _markers = {};
+  GeoPoint userLoc;
 
-  var rad = BehaviorSubject<double>.seeded(6.0);
   @override
   void initState() {
+
     var location = new Location();
 
+
+
     location.onLocationChanged().listen((LocationData currentLocation) async {
-      GeoFirePoint userLoc = geo.point(
-          latitude: currentLocation.latitude,
-          longitude: currentLocation.longitude);
+
+
+      userLoc = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
 
       Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .setData({
-        'position': userLoc.data,
+        'currentLocation': userLoc,
       }, merge: true);
+      DocumentSnapshot userRecord = await Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .get();
+      currentUserModel= User.fromDocument(userRecord);
 
-//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
-//            GeoFirePoint gp=mine.data['position'];
-//
-//            double radius = 6.0;
-      String field = 'position';
-      stream = radius.switchMap((rad) {
-        var collectionReference = Firestore.instance.collection('users');
-        return geo.collection(collectionRef: collectionReference).within(
-            center: userLoc, radius: rad, field: 'position', strictMode: true);
-      });
 
-      changed(_value);
-//              var collectionReference = Firestore.instance.collection('users');
-//              stream= geo.collection(collectionRef: collectionReference).within(
-//                  center: userLoc, radius: rad, field: 'position', strictMode: true);
 
-//            DocumentSnapshot mine =await Firestore.instance.collection('users').document(currentUserModel.uid).get();
-//            list.add(mine);
-
-//             stream = geo.collection(collectionRef: collectionReference)
-//                .within(center: userLoc, radius: radius, field: field,strictMode: true);
-
-//     stream.listen((List<DocumentSnapshot> documentList){
-//          print(documentList.length);
-//          for(var doc in documentList){
-//           GeoPoint point=doc.data['position']['geopoint'];
-//           print(point.latitude);
-//           print(point.longitude);
-//           String name =doc.data['displayName'];
-//           print(name);
-//          }
-//
-//
-//
-//        });
     });
 
     _controller = RubberAnimationController(
@@ -149,26 +133,61 @@ class _ScrollPageState extends State<ScrollPage>
         duration: Duration(milliseconds: 200));
     super.initState();
 
+
     getPermission();
   }
 
-//
-  void _onFocusChange() {
-    if (_focus.hasFocus) {
-      _controller.animateTo(
-          from: _controller.value, to: _controller.upperBound);
-    }
-  }
 
   @override
   void dispose() {
     streamController.close(); //Streams must be closed when not needed
     super.dispose();
+
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF48A9A6),
+        title: Row(
+          children: <Widget>[
+            Text("Hey " + currentUserModel.displayName + "!",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+            Spacer(),
+
+            IconButton(
+              icon: Icon(Icons.settings, color: Colors.white, size: 20,),
+              onPressed: (){
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfilePage()));
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.add, color: Colors.white, size: 25,),
+              onPressed: (){
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: InviteFriends()));
+              },
+            ),
+
+          ],
+        ),
+      ),
+
       backgroundColor: Color(0xFF48A9A6),
       body: Container(
         child: RubberBottomSheet(
@@ -185,7 +204,7 @@ class _ScrollPageState extends State<ScrollPage>
               children: <Widget>[
                 Padding(
                   padding:
-                      EdgeInsets.all(MediaQuery.of(context).size.height / 122),
+                  EdgeInsets.all(MediaQuery.of(context).size.height / 122),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 7.5,
@@ -198,6 +217,7 @@ class _ScrollPageState extends State<ScrollPage>
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.width / 32.5, 0, 0),
                 ),
+
                 Padding(
                     padding: EdgeInsets.fromLTRB(
                         0, MediaQuery.of(context).size.height / 52, 0, 0)),
@@ -223,6 +243,7 @@ class _ScrollPageState extends State<ScrollPage>
                       padding: EdgeInsets.fromLTRB(
                           MediaQuery.of(context).size.width / 52, 0, 0, 0),
                     ),
+
                   ],
                 ),
                 Padding(
@@ -231,6 +252,7 @@ class _ScrollPageState extends State<ScrollPage>
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
+
                 ),
               ],
             ),
@@ -247,104 +269,58 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getLowerLayer() {
     return new Stack(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
-              MediaQuery.of(context).size.height / 18, 0, 0),
-          child: Row(
-            children: <Widget>[
-              Text(
-                "Hey " + currentUserModel.displayName + "!",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
-              Spacer(),
-              IconButton(
-                icon: Icon(
-                  Icons.settings,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade, child: ProfilePage()));
-                },
-              ),
-              IconButton(
-                icon: Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 25,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: InviteFriends()));
-                },
-              ),
-            ],
-          ),
-        ),
         ListView(
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width / 20,
-                  MediaQuery.of(context).size.height / 7,
-                  0,
-                  0),
+              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
+                  MediaQuery.of(context).size.height / 18, 0, 0),
               child: Align(
-                child: Row(
+                child:  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Center(
                         child: ViewCards(
-                      userId: currentUserModel.uid,
-                      type: 'social',
-                    )),
+                          userId: currentUserModel.uid,
+                          type: 'social',
+                        )),
                   ],
                 ),
+
                 alignment: Alignment.topCenter,
               ),
             ),
+
             Padding(
-              padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width / 35,
-                  MediaQuery.of(context).size.height / 7,
-                  0,
-                  0),
+              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 35,
+                  MediaQuery.of(context).size.height / 18, 0, 0),
               child: Align(
-                child: Row(
+                child:  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Center(
                         child: ViewCards(
-                      userId: currentUserModel.uid,
-                      type: 'prof',
-                    )),
+                          userId: currentUserModel.uid,
+                          type: 'prof',
+                        )),
                   ],
                 ),
+
                 alignment: Alignment.topCenter,
               ),
             ),
+
           ],
         ),
+
         Padding(
-          padding: EdgeInsets.fromLTRB(
-              0, MediaQuery.of(context).size.height / 2.1, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.5, 0, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -360,9 +336,10 @@ class _ScrollPageState extends State<ScrollPage>
                   color: Color(0xFF8803fc),
                 ),
               ),
+
+
               FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -377,9 +354,9 @@ class _ScrollPageState extends State<ScrollPage>
                   color: Colors.black,
                 ),
               ),
+
               FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -394,9 +371,11 @@ class _ScrollPageState extends State<ScrollPage>
                   color: Colors.black,
                 ),
               ),
+
+
+
               FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
                   Navigator.push(
                       context,
@@ -407,54 +386,65 @@ class _ScrollPageState extends State<ScrollPage>
                 elevation: 3,
                 heroTag: 'btn4',
                 backgroundColor: Colors.white,
-                child: Icon(
-                  MaterialCommunityIcons.account_tie,
-                  color: Color(0xFF1976d2),
-                ),
+                child: Icon(MaterialCommunityIcons.account_tie,
+                  color: Color(0xFF1976d2),),
               ),
             ],
           ),
         ),
+
+
+
       ],
     );
   }
 
+
+
+  Future<List<UserTile>>getUsers() async{
+    List<UserTile> userList=[];
+
+    final Lat.Distance distance = new Lat.Distance();
+    QuerySnapshot query =await Firestore.instance.collection('users').getDocuments();
+    final docs= query.documents;
+    for(var doc in docs){
+      if(doc.data['currentLocation']!=null) {
+        final double distanceInMeters = distance(
+            new Lat.LatLng(userLoc.latitude, userLoc.longitude), new Lat.LatLng(
+            doc.data['currentLocation'].latitude,
+            doc.data['currentLocation'].longitude));
+//
+        print(doc.data['displayName']);
+        print('distance away is');
+        print(distanceInMeters);
+        if (distanceInMeters <= 6000.0 &&
+            doc.documentID != currentUserModel.uid) {
+          userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
+
+        }
+      }
+
+    }
+    return userList;
+
+
+
+  }
   Widget _getUpperLayer() {
-    return Container(
-      color: Colors.white,
-      child: StreamBuilder(
-        stream: stream,
-        builder: (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-          if (snapshots.hasData) {
-            print('data ${snapshots.data}');
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                DocumentSnapshot doc = snapshots.data[index];
-                print(
-                    'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                GeoPoint point = doc.data['position']['geopoint'];
-                return UserTile(
-                  doc.data['displayName'],
-                  doc.data['photoUrl'],
-                  doc.documentID,
-                  major: 'dumbness',
-                  interests: ['idiots'],
-                );
-              },
-              itemCount: snapshots.data.length,
-            );
-          } else {
-            return Container(
-              color: Colors.white,
-              height: 800,
-              width: 400,
-            );
-          }
-        },
-      ),
+    return   Container(
+        color: Colors.white,
+        child:  FutureBuilder<List<UserTile>>(
+            future: getUsers(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Container(
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
+
+              return Column(children: snapshot.data);
+            })
     );
   }
-
   double _value = 5.0;
   String _label = '';
 
@@ -467,61 +457,66 @@ class _ScrollPageState extends State<ScrollPage>
     radius.add(value);
   }
 
-//    return  StreamBuilder<List<DocumentSnapshot>>(
-//    stream:stream,
-//    builder: (context,  snapshot) {
-//    if (snapshot.hasData ) {
-//      var docs = snapshot.data;
-//      print(docs.runtimeType);
-//      List<UserTile> nearbyUsers = [];
-//      for (var snap in docs) {
-//        print('inside');
-//        print(snap.runtimeType);
-//        String userId = snap.documentID;
-//        String userName = snap.data['displayName'];
-//        String photoUrl = snap.data['photoUrl'];
-//        String major = snap.data['major'];
-//        List<String> interests = snap.data['interests'];
-//        nearbyUsers.add(new UserTile(userName, photoUrl, userId,));
-//      }
-//
-//
-//      return Container(
-//        height: screenH(165),
-//        child: ListView.builder(
-//            padding: EdgeInsets.only(
-//              bottom: screenH(15.0),
-//            ),
-//            shrinkWrap: true,
-//            scrollDirection: Axis.vertical,
-//            itemCount: nearbyUsers.length,
-//            itemBuilder: (BuildContext context, int index) {
-//              return nearbyUsers[index];
-//            }),
-//      );
-//    }return CircularProgressIndicator();
-//    }
-//    );}
 
-  void _addMarker(double lat, double lng) {
-    MarkerId id = MarkerId(lat.toString() + lng.toString());
-    Marker _marker = Marker(
-      markerId: id,
-      position: LatLng(lat, lng),
-      icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-      infoWindow: InfoWindow(title: 'latLng', snippet: '$lat,$lng'),
-    );
-    setState(() {
-      markers[id] = _marker;
-    });
-  }
+
+
+
+
+
 }
 
 class UserTile extends StatelessWidget {
   UserTile(this.contactName, this.personImage, this.uid,
-      {this.major, this.interests});
-  final String contactName, personImage, major, uid;
-  final List<String> interests;
+      {this.major,this.university,this.gradYear, this.profInterests,this.socialInterests});
+  final String contactName, personImage, major, uid,university,gradYear;
+  final List<dynamic> profInterests, socialInterests;
+  Widget buildProfInterests() {
+
+    String interests = "";
+    if (profInterests!=null) {
+      for (int i = 0; i < profInterests.length; i++) {
+        if(i==profInterests.length-1) {
+          interests = interests + profInterests[i];
+        }else{
+          interests = interests + profInterests[i]+ ", ";
+        }
+      }
+      return Row(
+        children: <Widget>[
+          Text(interests,
+              style: TextStyle(
+                  color: Color(0xFF1976d2), fontSize: 13)
+          )
+        ],
+      );
+    }else{
+      return SizedBox(height: (1.0),);
+    }
+  }
+
+  Widget buildSocialInterests() {
+    String interests = "";
+    if (socialInterests != null) {
+      for (int i = 0; i < socialInterests.length; i++) {
+        if(i==socialInterests.length-1) {
+          interests = interests + socialInterests[i];
+        }else{
+          interests = interests + socialInterests[i]+ ", ";
+        }
+      }
+      return Row(
+        children: <Widget>[
+          Text(interests,
+            style: TextStyle(
+                color: Color(0xFF8803fc), fontSize: 13),
+          )
+        ],
+      );
+    }else{
+      return SizedBox(height: (0.0),);
+    }
+  }
+
 
   List<Widget> buildInterests(List interestsList, context) {
     List<Widget> interestWidgets = [];
@@ -564,7 +559,16 @@ class UserTile extends StatelessWidget {
               ),
               Align(
                 alignment: Alignment.bottomLeft,
-                child: Text(major),
+                child: Text(university!=null?university:""),
+              ),
+
+              major!=null&&gradYear!=null?
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(major+", "+gradYear),
+              ):Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(major!=null?major:""),
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -572,25 +576,12 @@ class UserTile extends StatelessWidget {
               ),
               Column(
                 children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        "Philosophy, Flutter, Basketball",
-                        style:
-                            TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-                      )
-                    ],
-                  ),
+                  buildSocialInterests(),
+                  socialInterests!=null?
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 300,
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text("Startups, Painting, Tech Companies",
-                          style:
-                              TextStyle(color: Color(0xFF1976d2), fontSize: 13))
-                    ],
-                  ),
+                    height: MediaQuery.of(context).size.height/300,
+                  ):SizedBox(height: (0.0),),
+                  buildProfInterests()
                 ],
               ),
               Padding(

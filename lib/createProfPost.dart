@@ -267,25 +267,26 @@ class _CreateProfPostState extends State<CreateProfPost> {
   }
 
   void post() {
-    file != null
-        ? uploadImage(file).then((String data) {
-            elapsedTime = timeago.format(DateTime.now());
-            postPic = data;
-            uploader.addProfPost(
-                caption, timeStamp, postPic, currentUserModel.uid);
-          }).then((_) {
-            setState(() {
-              print('THIS IS THE FIRST ONE');
-              file = null;
-              //uploading = false;
-            });
-          })
-        :
-        print('-----------------THIS IS THE SECOND ONE----------');
-        // elapsedTime = timeago.format(storedDate.toDate());
-        // timeStamp = '$elapsedTime';
-        caption = descriptionController.text;
-    uploader.addProfPost(caption, timeStamp, postPic, currentUserModel.uid);
+    if (file != null) {
+      uploadImage(file).then((String data) {
+        elapsedTime = timeago.format(DateTime.now());
+        postPic = data;
+        uploader.addProfPost(
+            caption, timeStamp, postPic, currentUserModel.uid);
+      }).then((_) {
+        setState(() {
+          print('THIS IS THE FIRST ONE');
+          file = null;
+          //uploading = false;
+        });
+      });
+    } else {
+      print('-----------------THIS IS THE SECOND ONE----------');
+      // elapsedTime = timeago.format(storedDate.toDate());
+      // timeStamp = '$elapsedTime';
+      caption = descriptionController.text;
+      uploader.addProfPost(caption, timeStamp, postPic, currentUserModel.uid);
+    }
   }
 }
 

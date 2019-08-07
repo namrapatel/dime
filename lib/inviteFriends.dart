@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -80,6 +81,15 @@ class _InviteFriendsState extends State<InviteFriends> {
           Center(
             child: Text("Invite Friends",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+          ),
+          FlatButton(
+            child: Text("Share Dime"),
+            onPressed: (){
+              Share.share('Check out Dime! Download at this link: https://baller.com',
+              subject: "Get Dime!",
+              
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(50, 10, 50, 0),

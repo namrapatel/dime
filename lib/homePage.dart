@@ -286,6 +286,7 @@ class _ScrollPageState extends State<ScrollPage>
               ),
               ),
               Spacer(),
+
               IconButton(
                 icon: Icon(Icons.settings, color: Colors.white, size: 20,),
                 onPressed: (){

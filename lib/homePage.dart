@@ -21,10 +21,14 @@ import 'inviteFriends.dart';
 import 'explore.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:rxdart/rxdart.dart';
+import 'viewCards.dart';
+
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -50,8 +54,8 @@ class _ScrollPageState extends State<ScrollPage>
         interests: ['Java', 'Badminton'])
   ];
   RubberAnimationController _controller;
-  //Completer <GoogleMapController> mapController = Completer();
-  GoogleMapController mapController;
+
+
 
   FocusNode _focus = new FocusNode();
   StreamController<List<DocumentSnapshot>> streamController = new StreamController();
@@ -153,14 +157,10 @@ class _ScrollPageState extends State<ScrollPage>
 
 
 
-      mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: LatLng(currentLocation.latitude,currentLocation.longitude),
-          zoom: 18
-      )));
 
 
-      mapController.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-          target: LatLng(currentLocation.latitude, currentLocation.longitude),
-          zoom: 18)));
+
+
     });
 
     _controller = RubberAnimationController(
@@ -192,6 +192,8 @@ class _ScrollPageState extends State<ScrollPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
+      backgroundColor: Color(0xFF48A9A6),
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -220,47 +222,7 @@ class _ScrollPageState extends State<ScrollPage>
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.width / 32.5, 0, 0),
                 ),
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.leftToRight,
-                                  child: SocialPage()));
-                        },
-                        elevation: 0,
-                        heroTag: 'btn1',
-                        backgroundColor: Color(0xFF8803fc),
-                        child: Icon(
-                          Entypo.drink,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            MediaQuery.of(context).size.width / 1.65, 0, 0, 0),
-                      ),
-                      FloatingActionButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: ProfPage()));
-                        },
-                        elevation: 0,
-                        heroTag: 'btn2',
-                        backgroundColor: Color(0xFF1976d2),
-                        child: Icon(MaterialCommunityIcons.account_tie,
-                            color: Colors.white),
-                      ),
-                    ],
-                  ),
-                ),
+
                 Padding(
                     padding: EdgeInsets.fromLTRB(
                         0, MediaQuery.of(context).size.height / 52, 0, 0)),
@@ -295,49 +257,12 @@ class _ScrollPageState extends State<ScrollPage>
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
-                  // child: FluidSlider(
-                  //   thumbColor: Colors.black,
-                  //   valueTextStyle: TextStyle(color: Colors.white, fontSize: 17),
-                  // labelsTextStyle: TextStyle(color: Colors.black, fontSize: 17),
-                  // sliderColor: Color(0xFFECE9E4),
-                  // min: 5,
-                  // max: 50,
-                  // //divisions: 10,
-                  // value: _value,
-                  // //label: _label,
-                  // //activeColor: Colors.black,
-                  // //inactiveColor: Colors.grey[200],
-                  // onChanged: (double value) => changed(value),
-                  // ),
 
-                  child: SliderTheme(
-                    data: SliderThemeData(
-                      overlayColor: Colors.transparent,
-                      //thumbShape: SliderComponentShape.noOverlay,
-                      overlappingShapeStrokeColor: Colors.black,
-                      showValueIndicator: ShowValueIndicator.always,
-                      valueIndicatorColor: Colors.black,
-                      activeTrackColor: Colors.black,
-                      valueIndicatorTextStyle: TextStyle(color: Colors.white),
-                      inactiveTrackColor: Color(0xFFECE9E4),
-                      thumbColor: Colors.black,
-                      trackHeight: 10,
-
-                    ),
-                    child: Slider(
-                      value: _value,
-                      label: _label,
-                      onChanged: (double value) => changed(value),
-                      min: 5,
-                      max: 50,
-                    ),
-
-                  ),
                 ),
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 3.2,
+          headerHeight: MediaQuery.of(context).size.height / 8,
           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
@@ -349,162 +274,172 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getLowerLayer() {
     return new Stack(
       children: <Widget>[
-        _googlemap(context),
         Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 14, 0, 0),
-          child: Align(
-            child: Text(
-              "What's Happening",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-            ),
-
-            alignment: Alignment.topCenter,
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 8, 0, 0),
-          child: Container(
-            width: 40,
-            height: 40,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ChatList()));
-              },
-              elevation: 10,
-              backgroundColor: Colors.white,
-              heroTag: 'fabb1',
-              child: Icon(
-                MaterialCommunityIcons.chat,
-                color: Colors.black,
-                size: 20,
+          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/20, MediaQuery.of(context).size.height/18, 0, 0),
+          child: Row(
+            children: <Widget>[
+              Text("Hey " + currentUserModel.displayName + "!",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
               ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 5, 0, 0),
-          child: Container(
-            width: 40,
-            height: 40,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.settings, color: Colors.white, size: 20,),
+                onPressed: (){
+                     Navigator.push(
                     context,
                     PageTransition(
                         type: PageTransitionType.fade, child: ProfilePage()));
-              },
-              elevation: 10,
-              backgroundColor: Colors.white,
-              heroTag: 'fabb2',
-              child: Icon(
-                Icons.settings,
-                color: Colors.black,
-                size: 20,
+                },
               ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 3.6, 0, 0),
-          child: Container(
-            width: 40,
-            height: 40,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade,
-                        child: UserCard(
-                          userId: currentUserModel.uid,
-                        )));
-              },
-              elevation: 10,
-              backgroundColor: Colors.white,
-              heroTag: 'fabb3',
-              child: Icon(
-                MaterialCommunityIcons.card_bulleted,
-                color: Colors.black,
-                size: 20,
-              ),
-            ),
-          ),
-        ),
-        Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-                MediaQuery.of(context).size.height / 2.83, 0, 0),
-            child: Container(
-                width: 40,
-                height: 40,
-                child: FloatingActionButton(
-                  elevation: 10,
-                  backgroundColor: Colors.white,
-                  heroTag: 'fabb4',
-                  child: Icon(
-                    Ionicons.md_search,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade, child: Explore()));
-                  },
-                ))),
-        Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-                MediaQuery.of(context).size.height / 2.35, 0, 0),
-            child: Container(
-                width: 40,
-                height: 40,
-                child: FloatingActionButton(
-                  elevation: 10,
-                  backgroundColor: Colors.white,
-                  heroTag: 'fabb5',
-                  child: Icon(
-                    Icons.add,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  onPressed: () {
+              IconButton(
+                icon: Icon(Icons.add, color: Colors.white, size: 25,),
+                onPressed: (){
                     Navigator.push(
                         context,
                         PageTransition(
                             type: PageTransitionType.fade,
                             child: InviteFriends()));
-                  },
-                ))),
+                },
+              ),
+
+            ],
+          ),
+        ),
+            ListView(
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+                      Padding(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
+                MediaQuery.of(context).size.height / 7, 0, 0),
+            child: Align(
+              child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                            child: ViewCards(
+                          userId: currentUserModel.uid,
+                          type: 'social',
+                        )),
+                      ],
+                    ),
+
+              alignment: Alignment.topCenter,
+            ),
+          ),
+
+          Padding(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 35,
+                MediaQuery.of(context).size.height / 7, 0, 0),
+            child: Align(
+              child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                            child: ViewCards(
+                          userId: currentUserModel.uid,
+                          type: 'prof',
+                        )),
+                      ],
+                    ),
+
+              alignment: Alignment.topCenter,
+            ),
+          ),
+
+            ],
+          ),
+
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.1, 0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FloatingActionButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.leftToRight,
+                                  child: SocialPage()));
+                        },
+                        elevation: 3,
+                        heroTag: 'btn1',
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Entypo.drink,
+                          color: Color(0xFF8803fc),
+                        ),
+                      ),
+
+
+                      FloatingActionButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ChatList()));
+                        },
+                        elevation: 3,
+                        heroTag: 'btn2',
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          MaterialCommunityIcons.chat,
+                          color: Colors.black,
+                        ),
+                      ),
+
+                      FloatingActionButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade, child: Explore()));
+                        },
+                        elevation: 3,
+                        heroTag: 'btn3',
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Ionicons.md_search,
+                          color: Colors.black,
+                        ),
+                      ),
+
+
+
+                      FloatingActionButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: ProfPage()));
+                        },
+                        elevation: 3,
+                        heroTag: 'btn4',
+                        backgroundColor: Colors.white,
+                        child: Icon(MaterialCommunityIcons.account_tie,
+                            color: Color(0xFF1976d2),),
+                      ),
+                    ],
+                  ),
+                ),
+        
+
+        
       ],
     );
   }
 
-  Widget _googlemap(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: GoogleMap(
-        mapType: MapType.normal,
-        myLocationEnabled: true,
-        zoomGesturesEnabled: true,
-        initialCameraPosition:
-        CameraPosition(target: LatLng(56.130367, -106.346771), zoom: 2),
-        onMapCreated: (GoogleMapController controller) {
-          //mapController.complete(controller);
-          mapController = controller;
-          mapController.setMapStyle(
-              '[{"featureType":"all","elementType":"labels.text.fill","stylers":[{"color":"#7c93a3"},{"lightness":"-10"}]},{"featureType":"administrative.country","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"administrative.country","elementType":"geometry.stroke","stylers":[{"color":"#a0a4a5"}]},{"featureType":"administrative.province","elementType":"geometry.stroke","stylers":[{"color":"#62838e"}]},{"featureType":"landscape","elementType":"geometry.fill","stylers":[{"color":"#dde3e3"}]},{"featureType":"landscape.man_made","elementType":"geometry.stroke","stylers":[{"color":"#3f4a51"},{"weight":"0.30"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"poi.attraction","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.business","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.government","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.park","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.place_of_worship","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.school","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"poi.sports_complex","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":"-100"},{"visibility":"on"}]},{"featureType":"road","elementType":"geometry.stroke","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"geometry.fill","stylers":[{"color":"#bbcacf"}]},{"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"lightness":"0"},{"color":"#bbcacf"},{"weight":"0.50"}]},{"featureType":"road.highway","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"road.highway","elementType":"labels.text","stylers":[{"visibility":"on"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.fill","stylers":[{"color":"#ffffff"}]},{"featureType":"road.highway.controlled_access","elementType":"geometry.stroke","stylers":[{"color":"#a9b4b8"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"invert_lightness":true},{"saturation":"-7"},{"lightness":"3"},{"gamma":"1.80"},{"weight":"0.01"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"on"}]},{"featureType":"water","elementType":"geometry.fill","stylers":[{"color":"#a3c7df"}]}]');
-        },
-      ),
-    );
-  }
+
 
   Widget _getUpperLayer() {
     return   Container(

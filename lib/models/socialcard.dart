@@ -21,15 +21,18 @@ class SocialCard extends StatelessWidget {
   final bool isSwitched;
 
   const SocialCard(
-      {
-        this.type,this.major,
-        this.university,this.snapchat,
-        this.instagram,this.twitter,
-
-        this.photoUrl,
-        this.displayName,
-        this.gradYear,this.interestString,this.email,this.isSwitched
-      });
+      {this.type,
+      this.major,
+      this.university,
+      this.snapchat,
+      this.instagram,
+      this.twitter,
+      this.photoUrl,
+      this.displayName,
+      this.gradYear,
+      this.interestString,
+      this.email,
+      this.isSwitched});
 
   factory SocialCard.fromDocument(DocumentSnapshot document) {
     String interest = "";
@@ -44,17 +47,17 @@ class SocialCard extends StatelessWidget {
       }
     }
     return SocialCard(
-        type: document['type'],
-        photoUrl: document['photoUrl'],
-        major: document['major'],
-        displayName: document['displayName'],
-        university: document['university'],
-        snapchat: document['snapchat'],
-        instagram: document['instagram'],
-        twitter: document['twitter'],
-        gradYear: document['gradYear'],
-        interestString:interest,
-        email:document['email'],
+      type: document['type'],
+      photoUrl: document['photoUrl'],
+      major: document['major'],
+      displayName: document['displayName'],
+      university: document['university'],
+      snapchat: document['snapchat'],
+      instagram: document['instagram'],
+      twitter: document['twitter'],
+      gradYear: document['gradYear'],
+      interestString: interest,
+      email: document['email'],
       isSwitched: document['socialToggled'],
     );
   }
@@ -128,11 +131,12 @@ class SocialCard extends StatelessWidget {
                                 SizedBox(
                                   height: screenH(4),
                                 ),
-                                major == null
-                                    ? SizedBox(
-                                        height: screenH(1),
-                                      )
-                                    : Text(major,
+                                major != null && gradYear != null
+                                    ? Text(major + ", " + gradYear,
+                                        style: TextStyle(
+                                            fontSize: screenF(13),
+                                            color: Colors.grey))
+                                    : Text(major != null ? major : "",
                                         style: TextStyle(
                                             fontSize: screenF(13),
                                             color: Colors.grey)),
@@ -150,29 +154,6 @@ class SocialCard extends StatelessWidget {
                             SizedBox(
                               width: screenW(75),
                             ),
-                            major!=null&&gradYear!=null?
-                            Text(major+", "+gradYear,
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Colors.grey)):
-                            Text(major!=null?major:"",
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Colors.grey)),
-                            email==null?
-                            Text("",
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Colors.grey)):
-                            Text(email,
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Colors.grey)),
-                          ],
-                        ),
-                        SizedBox(
-                          width: screenW(75),
-                        ),
                           ],
                         ),
                         Padding(

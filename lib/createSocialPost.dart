@@ -266,7 +266,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
     });
   }
 
-  void post() {
+ void post() {
     if (file != null) {
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
@@ -276,7 +276,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
             caption, timeStamp, postPic, currentUserModel.uid);
       }).then((_) {
         setState(() {
-          print('------------THIS IS THE FIRST ONE----------------');
+          print('THIS IS THE FIRST ONE');
           file = null;
           //uploading = false;
         });
@@ -299,3 +299,4 @@ Future<String> uploadImage(var imageFile) async {
   String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
   return downloadUrl;
 }
+

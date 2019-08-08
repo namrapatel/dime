@@ -1,7 +1,5 @@
 import 'package:Dime/homePage.dart';
 import 'package:Dime/login.dart';
-import 'package:Dime/profile.dart';
-import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
@@ -22,6 +20,7 @@ class Dime extends StatelessWidget {
 
 ThemeData appTheme = ThemeData(
     scaffoldBackgroundColor: Colors.grey[100],
+   hintColor: Color(0xFF1458EA),
     primaryColor: Colors.black,
     fontFamily: 'Futura');
 

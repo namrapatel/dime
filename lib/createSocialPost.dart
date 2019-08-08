@@ -267,10 +267,11 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   }
 
   void post() {
-    if(file != null) {
+    if (file != null) {
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
         postPic = data;
+        caption = descriptionController.text;
         uploader.addSocialPost(
             caption, timeStamp, postPic, currentUserModel.uid);
       }).then((_) {
@@ -280,16 +281,18 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
           //uploading = false;
         });
       });
-    }else{print('-----------------THIS IS THE SECOND ONE----------');
-    // elapsedTime = timeago.format(storedDate.toDate());
-    // timeStamp = '$elapsedTime';
-    caption = descriptionController.text;
-    uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid);
-  }}
+    } else {
+      print('-----------------THIS IS THE SECOND ONE----------');
+      // elapsedTime = timeago.format(storedDate.toDate());
+      // timeStamp = '$elapsedTime';
+      caption = descriptionController.text;
+      uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid);
+    }
+  }
 }
 
 Future<String> uploadImage(var imageFile) async {
-  var uuid = currentUserModel.uid;
+  var uuid = currentUserModel.uid + Timestamp.now().toString();
   StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
   StorageUploadTask uploadTask = ref.putFile(imageFile);
 

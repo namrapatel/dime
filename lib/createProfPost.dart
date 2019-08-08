@@ -271,6 +271,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
         postPic = data;
+        caption = descriptionController.text;
         uploader.addProfPost(
             caption, timeStamp, postPic, currentUserModel.uid);
       }).then((_) {
@@ -291,7 +292,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
 }
 
 Future<String> uploadImage(var imageFile) async {
-  var uuid = currentUserModel.uid;
+  var uuid = currentUserModel.uid + Timestamp.now().toString();
   StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
   StorageUploadTask uploadTask = ref.putFile(imageFile);
 

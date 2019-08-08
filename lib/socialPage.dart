@@ -18,6 +18,12 @@ final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
 
+Future getPosts() async {
+  QuerySnapshot qn =
+      await Firestore.instance.collection('socialPosts').getDocuments();
+  return qn.documents;
+}
+
 class SocialPage extends StatefulWidget {
   @override
   _SocialPageState createState() => _SocialPageState();
@@ -102,37 +108,53 @@ class _SocialPageState extends State<SocialPage> {
           color: Colors.white,
         ),
       ),
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: <Widget>[
-          // SizedBox(
-          //   height: MediaQuery.of(context).size.height/70,
-          // ),
+      body: FutureBuilder(
+          future: getPosts(),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: Text("loading..."));
+            } else {
+              return ListView.builder(
+                  itemCount: snapshot?.data?.length,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (_, index) {
+                    return SocialPost(
+                      caption: snapshot.data[index].data["caption"],
+                      comments: 20,
+                      timeStamp: snapshot.data[index].data["timeStamp"],
+                      postPic: snapshot.data[index].data["postPic"],
+                    );
+                    //   return <Widget>[
+                    //   // SizedBox(
+                    //   //   height: MediaQuery.of(context).size.height/70,
+                    //   // ),
 
-          SocialPost(
-            caption:
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
-            comments: 20,
-            timeStamp: "2 hours ago",
-            postPic:
-                'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
-          ),
+                    //   SocialPost(
+                    //     caption:
+                    //         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
+                    //     comments: 20,
+                    //     timeStamp: "2 hours ago",
+                    //     postPic:
+                    //         'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
+                    //   ),
 
-          SocialPost(
-            caption:
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
-            comments: 20,
-            timeStamp: "2 hours ago",
-            //postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
-          ),
-          SocialPost(
-            comments: 20,
-            timeStamp: "2 hours ago",
-            postPic:
-                'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
-          ),
-        ],
-      ),
+                    //   SocialPost(
+                    //     caption:
+                    //         "Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum is simply dummy text of the printing and typesetting.",
+                    //     comments: 20,
+                    //     timeStamp: "2 hours ago",
+                    //     //postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
+                    //   ),
+                    //   SocialPost(
+                    //     comments: 20,
+                    //     timeStamp: "2 hours ago",
+                    //     postPic:
+                    //         'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/AR07blHIDVazKVAAYUrhtRypsoy2Timestamp(seconds%3D1564114030%2C%20nanoseconds%3D574383000).jpg?alt=media&token=fb3f543c-fdc2-4b2f-91af-77c01c93f655',
+                    //   ),
+                    // ],
+                  });
+            }
+          }),
     );
   }
 }

@@ -9,8 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Dime/models/user.dart';
 import 'package:Dime/services/googleauth.dart';
-User currentUserModel;
 
+User currentUserModel;
 
 class Login extends StatefulWidget {
   Login({
@@ -22,12 +22,8 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-
-
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
       if (firebaseUser != null) {
@@ -51,16 +47,22 @@ class _LoginState extends State<Login> {
     });
   }
 
-
   final _formKey = GlobalKey<FormState>();
   String _email, _password;
   bool _isObscured = true;
-  Color _eyeButtonColor = Colors.grey;
+  Color _eyeButtonColor = Colors.blueGrey;
 
   Padding buildTitle() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Text('Welcome Back.', style: TextStyle(fontSize: 52.0, fontWeight: FontWeight.bold),),
+      child: Text(
+        'Welcome Back.',
+        style: TextStyle(
+          fontSize: 52.0,
+          fontWeight: FontWeight.bold,
+          color: Color(0xFF1458EA),
+        ),
+      ),
     );
   }
 
@@ -80,16 +82,28 @@ class _LoginState extends State<Login> {
 
   TextFormField buildEmailTextField() {
     return TextFormField(
-      onSaved: (emailInput) => _email = emailInput,
-      validator: (emailInput) {
-        if (emailInput.isEmpty) {
-          return 'Please enter an email';
-        }
-      },
-      decoration: InputDecoration(
-        labelText: 'Email Address'
-      ),
-    );
+        onSaved: (emailInput) => _email = emailInput,
+        validator: (emailInput) {
+          if (emailInput.isEmpty) {
+            return 'Please enter an email';
+          }
+        },
+        decoration: InputDecoration(
+            labelText: 'Email Address',
+            labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
+            contentPadding: EdgeInsets.all(20),
+            border: new OutlineInputBorder(
+              borderRadius: new BorderRadius.circular(25.0),
+              borderSide: new BorderSide(
+                color: Color(0xFF1458EA),
+              ),
+            ),
+            focusedBorder: new OutlineInputBorder(
+              borderRadius: new BorderRadius.circular(25.0),
+              borderSide: new BorderSide(
+                color: Color(0xFF1458EA),
+              ),
+            )));
   }
 
   TextFormField buildPasswordInput(BuildContext context) {
@@ -102,23 +116,37 @@ class _LoginState extends State<Login> {
       },
       decoration: InputDecoration(
         labelText: 'Password',
+        labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
+        fillColor: Color(0xFF1458EA),
+        contentPadding: EdgeInsets.all(20),
+        border: new OutlineInputBorder(
+          borderRadius: new BorderRadius.circular(25.0),
+          borderSide: new BorderSide(),
+        ),
+        focusedBorder: new OutlineInputBorder(
+          borderRadius: new BorderRadius.circular(25.0),
+          borderSide: new BorderSide(
+            color: Color(0xFF1458EA),
+          ),
+        ),
         suffixIcon: IconButton(
           onPressed: () {
             if (_isObscured) {
               setState(() {
                 _isObscured = false;
-                _eyeButtonColor = Theme
-                  .of(context)
-                  .primaryColor;
+                _eyeButtonColor = Theme.of(context).primaryColor;
               });
             } else {
               setState(() {
                 _isObscured = true;
-                _eyeButtonColor = Colors.grey;
+                _eyeButtonColor = Colors.blueGrey;
               });
             }
           },
-          icon: Icon(Icons.remove_red_eye, color: _eyeButtonColor,),
+          icon: Icon(
+            Icons.remove_red_eye,
+            color: _eyeButtonColor,
+          ),
         ),
       ),
       obscureText: _isObscured,
@@ -129,50 +157,46 @@ class _LoginState extends State<Login> {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Align(
-        alignment: Alignment.centerRight,
-        child: InkWell(
-                onTap: (){
-                 //POPUP HERE
-                 forgotPass();
-                },
-                child: Text('Forgot Password?',
-                    style: TextStyle(
-                        color: Colors.grey,
-                        decoration: TextDecoration.underline)),
-              )
-      ),
+          alignment: Alignment.centerRight,
+          child: InkWell(
+            onTap: () {
+              //POPUP HERE
+              forgotPass();
+            },
+            child: Text('Forgot Password?',
+                style: TextStyle(
+                    color: Colors.blueGrey,
+                    decoration: TextDecoration.underline)),
+          )),
     );
   }
 
-    void forgotPass(){ 
+  void forgotPass() {
     final myController = TextEditingController();
     showDialog<void>(
-    context: context,
-    barrierDismissible: false, 
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('No worries, enter your email for a magic link!'),
-        content: SingleChildScrollView(
-          child: TextField(
-          controller: myController,
-          decoration: InputDecoration(
-            hintText: 'Please enter your email'
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('No worries, enter your email for a magic link!'),
+          content: SingleChildScrollView(
+            child: TextField(
+              controller: myController,
+              decoration: InputDecoration(hintText: 'Please enter your email'),
+            ),
           ),
-        ),
-            
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Send'),
-            onPressed: () {
-              //sendPasswordResetEmail(email: myController.text);
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  );
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Send'),
+              onPressed: () {
+                //sendPasswordResetEmail(email: myController.text);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Align buildLoginButton(BuildContext context) {
@@ -180,40 +204,57 @@ class _LoginState extends State<Login> {
       child: SizedBox(
         height: 50.0,
         width: 270.0,
-        child: FlatButton(
-          onPressed: () async{
-            if (_formKey.currentState.validate()) {
-              //Only gets here if the fields pass
-              _formKey.currentState.save();
-              //TODO Check values and navigate to new page
-              try{
-                await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email , password: _password).then((signedInUser) async{
+        child: Container(
+          decoration: BoxDecoration(
+              color: Color(0xFF1458EA),
+              boxShadow: [
+                BoxShadow(
+                    color: Color(0xFF1458EA).withOpacity(0.35),
+                    blurRadius: (15),
+                    spreadRadius: (5),
+                    offset: Offset(0, 3)),
+              ],
+              borderRadius: BorderRadius.all(Radius.circular(25.0))),
+          child: FlatButton(
+            onPressed: () async {
+              if (_formKey.currentState.validate()) {
+                //Only gets here if the fields pass
+                _formKey.currentState.save();
+                //TODO Check values and navigate to new page
+                try {
+                  await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: _email, password: _password)
+                      .then((signedInUser) async {
+                    DocumentSnapshot userRecord = await Firestore.instance
+                        .collection('users')
+                        .document(signedInUser.uid)
+                        .get();
+                    if (userRecord.data != null) {
+                      currentUserModel = User.fromDocument(userRecord);
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => ScrollPage()));
+                    }
+                  });
+                } catch (e) {
+                  print(e);
+                }
 
-                  DocumentSnapshot userRecord = await Firestore.instance
-                      .collection('users')
-                      .document(signedInUser.uid)
-                      .get();
-                  if (userRecord.data != null) {
-                    currentUserModel = User.fromDocument(userRecord);
-                    Navigator.push(context,
-                        new MaterialPageRoute(builder: (context) => ScrollPage()));
-                  }
-
-                });
-              }catch(e){
-            print(e);
-
-            }
-
-              Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: ScrollPage()));
-            }
-          },
-          color: Colors.grey[900],
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-          child: Text('LOGIN', style: Theme
-            .of(context)
-            .primaryTextTheme
-            .button,),
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ScrollPage()));
+              }
+            },
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0)),
+            child: Text(
+              'LOGIN',
+              style: Theme.of(context).primaryTextTheme.button,
+            ),
+          ),
         ),
       ),
     );
@@ -222,7 +263,10 @@ class _LoginState extends State<Login> {
   Align buildOrText() {
     return Align(
       alignment: Alignment.center,
-      child: Text('Or login with:', style: TextStyle(fontSize: 15.0, color: Colors.grey),),
+      child: Text(
+        'Or login with',
+        style: TextStyle(fontSize: 15.0, color: Colors.blueGrey),
+      ),
     );
   }
 
@@ -234,44 +278,41 @@ class _LoginState extends State<Login> {
         child: Icon(icon, color: iconColor),
       ),
       height: 46.0,
-      width: 46.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: Colors.grey, width: 0.5)
-      ),
+      width: 60.0,
     );
   }
 
   Align buildSignUpText() {
     return Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        children: <Widget>[
-          SizedBox(width: 85,),  
-          Text("Don't have an account?"),
-              SizedBox(width: 5.0),
-              InkWell(
-                onTap: (){
-                  Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: SignupPage()));
-                },
-                child: Text('Sign up',
-                    style: TextStyle(
-                        color: Colors.black,
-                        
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline)),
-              )
-
-
-        ],
-      )
-    );
+        alignment: Alignment.bottomCenter,
+        child: Row(
+          children: <Widget>[
+            SizedBox(
+              width: 85,
+            ),
+            Text("Don't have an account?"),
+            SizedBox(width: 5.0),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: SignupPage()));
+              },
+              child: Text('Sign up',
+                  style: TextStyle(
+                      color: Color(0xFF1458EA),
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline)),
+            )
+          ],
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFECE9E4),
+      backgroundColor: Colors.white,
       body: Form(
         key: _formKey,
         child: ListView(
@@ -280,38 +321,61 @@ class _LoginState extends State<Login> {
             SizedBox(height: kToolbarHeight),
             buildTitle(),
             buildTitleLine(),
-            SizedBox(height: 70.0,),
+            SizedBox(
+              height: 70.0,
+            ),
             buildEmailTextField(),
-            SizedBox(height: 30.0,),
+            SizedBox(
+              height: 30.0,
+            ),
             buildPasswordInput(context),
             buildPasswordText(),
-            SizedBox(height: 30.0,),
-            buildLoginButton(context),
-            SizedBox(height: 10.0,),
-            buildOrText(),
-            SizedBox(height: 15.0,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-              FloatingActionButton(
-                onPressed:(){ FacebookAuth().logIn(context,new MaterialPageRoute(builder: (context) => ScrollPage()));},
-                heroTag: 'btnF',
-                backgroundColor: Color(0xFF3C5A99),
-                child: Icon(MaterialCommunityIcons.facebook, color: Colors.white,),
-                elevation: 0,
-              ),
-              SizedBox(width: 20,),
-              FloatingActionButton(
-                onPressed:(){ GoogleAuth().logIn(context,new MaterialPageRoute(builder: (context) => ScrollPage()));},
-                heroTag: 'btnGG',
-                backgroundColor: Color(0xFFDB4437),
-                child: Icon(AntDesign.google, color: Colors.white,),
-                elevation: 0,
-              ),
-              ],
+            SizedBox(
+              height: 30.0,
             ),
-            SizedBox(height: 20.0),
-            buildSignUpText()
+            buildLoginButton(context),
+            SizedBox(
+              height: 20.0,
+            ),
+            buildSignUpText(),
+            SizedBox(
+              height: 90.0,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              child: Divider(
+                height: 1,
+                color: Colors.blueGrey,
+              ),
+            ),
+            SizedBox(height: 20),
+            buildOrText(),
+            SizedBox(
+              height: 15.0,
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+              Container(
+                height: 50,
+                width: 270.0,
+                child: OutlineButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0)),
+                  onPressed: () {
+                    FacebookAuth().logIn(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => ScrollPage()));
+                  },
+                  color: Color(0xFF3C5A99),
+                  child: Center(
+                    child: Icon(
+                      MaterialCommunityIcons.facebook,
+                      color: Color(0xFF3C5A99),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
           ],
         ),
       ),

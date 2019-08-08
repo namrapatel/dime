@@ -23,7 +23,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
-
+import 'package:geo/geo.dart' as geoLat ;
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -32,6 +32,8 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+
+
 //  List<UserTile> nearbyUsers = [
 //    UserTile(
 //      'Shehab Salem',
@@ -92,11 +94,14 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
+
+
     var location = new Location();
 
     location.onLocationChanged().listen((LocationData currentLocation) async {
       userLoc =
           new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+
 
       Firestore.instance
           .collection('users')
@@ -390,12 +395,15 @@ class _ScrollPageState extends State<ScrollPage>
     final docs = query.documents;
     for (var doc in docs) {
       if (doc.data['currentLocation'] != null) {
-        final double distanceInMeters = distance(
-            new Lat.LatLng(userLoc.latitude, userLoc.longitude),
-            new Lat.LatLng(doc.data['currentLocation'].latitude,
-                doc.data['currentLocation'].longitude));
-//
-        print(doc.data['displayName']);
+
+        geoLat.LatLng point =geoLat.LatLng(userLoc.latitude, userLoc.longitude);
+        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
+            doc.data['currentLocation'].longitude);
+
+
+        final double distanceInMeters =geoLat.computeDistanceHaversine(point,point2);
+
+        print(doc.documentID);
         print('distance away is');
         print(distanceInMeters);
         if (distanceInMeters <= 6000.0 &&
@@ -417,7 +425,7 @@ class _ScrollPageState extends State<ScrollPage>
     return Container(
         color: Colors.white,
         child: FutureBuilder<List<UserTile>>(
-            //future: getUsers(),
+            future: getUsers(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
                 return Container(

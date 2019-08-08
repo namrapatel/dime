@@ -214,6 +214,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.2"
+  geo:
+    dependency: "direct dev"
+    description:
+      name: geo
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   geoflutterfire:
     dependency: "direct dev"
     description:

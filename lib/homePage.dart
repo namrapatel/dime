@@ -56,7 +56,7 @@ class _ScrollPageState extends State<ScrollPage>
       new StreamController();
   Geoflutterfire geo = Geoflutterfire();
   Stream<List<DocumentSnapshot>> stream;
-
+GeoPoint current;
   // Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(1.0);
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -90,7 +90,7 @@ class _ScrollPageState extends State<ScrollPage>
   ScrollController _scrollController = ScrollController();
 
   final Map<String, Marker> _markers = {};
-  GeoPoint userLoc;
+ geoLat.LatLng userLoc;
 
   @override
   void initState() {
@@ -100,14 +100,15 @@ class _ScrollPageState extends State<ScrollPage>
 
     location.onLocationChanged().listen((LocationData currentLocation) async {
       userLoc =
-          new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+          geoLat.LatLng(currentLocation.latitude, currentLocation.longitude);
 
-
+      current =
+      new GeoPoint(currentLocation.latitude, currentLocation.longitude);
       Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .setData({
-        'currentLocation': userLoc,
+        'currentLocation': current,
       }, merge: true);
       DocumentSnapshot userRecord = await Firestore.instance
           .collection('users')
@@ -396,12 +397,12 @@ class _ScrollPageState extends State<ScrollPage>
     for (var doc in docs) {
       if (doc.data['currentLocation'] != null) {
 
-        geoLat.LatLng point =geoLat.LatLng(userLoc.latitude, userLoc.longitude);
+
         geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
             doc.data['currentLocation'].longitude);
 
 
-        final double distanceInMeters =geoLat.computeDistanceHaversine(point,point2);
+        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
 
         print(doc.documentID);
         print('distance away is');

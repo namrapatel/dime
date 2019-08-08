@@ -1,5 +1,7 @@
+import 'package:Dime/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 
 //Creates a document in the database for each user, differentiated by email
 
@@ -8,7 +10,8 @@ class UserManagement {
     FirebaseUser current = user;
     String uid = current.uid;
     String defaultName = "No Display Name";
-    String defaultImage = 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef';
+    String defaultImage =
+        'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef';
     Firestore.instance.collection('users').document('$uid').setData({
       'photoUrl': defaultImage,
       'email': current.email,
@@ -19,19 +22,28 @@ class UserManagement {
   }
 
   createCards(String id, String url, String name) {
-    Firestore.instance.collection('users').document(id)
+    Firestore.instance
+        .collection('users')
+        .document(id)
         .collection('profcard')
-        .add({
-      'photoUrl': url,
-      'displayName': name,
-      'socialToggled':true
-    });
-    Firestore.instance.collection('users').document(id)
+        .add({'photoUrl': url, 'displayName': name, 'socialToggled': true});
+    Firestore.instance
+        .collection('users')
+        .document(id)
         .collection('socialcard')
-        .add({
-      'photoUrl': url,
-      'displayName': name,
-      'socialToggled':true
-    });
+        .add({'photoUrl': url, 'displayName': name, 'socialToggled': true});
+  }
+
+  addSocialPost(
+      String caption, String timeStamp, String postPic, String ownerID) {
+    Firestore.instance
+        .collection('socialPosts')
+        .add({'caption': caption, 'timeStamp': timeStamp, 'postPic': postPic,  "ownerId": currentUserModel.uid,});
+  }
+  addProfPost(
+      String caption, String timeStamp, String postPic, String ownerID) {
+    Firestore.instance
+        .collection('profPosts')
+        .add({'caption': caption, 'timeStamp': timeStamp, 'postPic': postPic,  "ownerId": currentUserModel.uid,});
   }
 }

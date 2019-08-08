@@ -179,6 +179,8 @@ PODS:
     - Flutter
   - Protobuf (3.8.0)
   - Reachability (3.2)
+  - share (0.5.2):
+    - Flutter
   - shared_preferences (0.0.1):
     - Flutter
   - url_launcher (0.0.1):
@@ -203,6 +205,7 @@ DEPENDENCIES:
   - location (from `.symlinks/plugins/location/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - wc_flutter_share (from `.symlinks/plugins/wc_flutter_share/ios`)
@@ -267,6 +270,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider/ios"
   permission_handler:
     :path: ".symlinks/plugins/permission_handler/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
@@ -277,7 +282,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   BoringSSL-GRPC: db8764df3204ccea016e1c8dd15d9a9ad63ff318
-  cloud_firestore: c6f34148c1dfbb57a6147f9bb49c1c9f5c27036e
+  cloud_firestore: 41f84086d2e1a5c216a6af07ef050758de825ff0
   contacts_service: 64ebf2a313b34bff0acf668efac52ae402ba9be0
   FBSDKCoreKit: f442aa96179cc9b382bb4abeb7e340a47cca8f91
   FBSDKLoginKit: c3079d9a4db27c492287b1eed7a4272b28cf8a59
@@ -315,10 +320,11 @@ SPEC CHECKSUMS:
   permission_handler: fa6b0d784b1a43cb96b468a5b8365cb130b1956a
   Protobuf: 3f617b9a6e73605565086864c9bc26b2bf2dd5a3
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3
   shared_preferences: 1feebfa37bb57264736e16865e7ffae7fc99b523
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
   wc_flutter_share: acdfe1a80d72f39da40378151fe50d5d86f15cbf
 
 PODFILE CHECKSUM: 88fdb039650266c9ebf8345359118111fd69b7c1
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.7.3

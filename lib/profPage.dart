@@ -6,14 +6,18 @@ import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'login.dart';
 import 'EditCardsScreen.dart';
-import 'inviteFriends.dart';
-import 'profileScreen.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'createProfPost.dart';
 import 'profComments.dart';
 import 'models/profPost.dart';
 
-
+Future getPosts() async {
+  QuerySnapshot qn = await Firestore.instance
+      .collection('profPosts')
+      .orderBy('timeStamp', descending: false)
+      .getDocuments();
+  return qn.documents;
+}
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -26,8 +30,6 @@ class ProfPage extends StatefulWidget {
 }
 
 class _ProfPageState extends State<ProfPage> {
-
-
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -46,73 +48,60 @@ class _ProfPageState extends State<ProfPage> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
-              onPressed: (){
-                     Navigator.push(
+              onPressed: () {
+                Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.leftToRight, child: ScrollPage()));
+                        type: PageTransitionType.leftToRight,
+                        child: ScrollPage()));
               },
             ),
-            title: Text("University of Waterloo",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold
-                  ),
-                  ),
-          )
-        ),
+            title: Text(
+              "University of Waterloo",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+          )),
       backgroundColor: Color(0xFF1976d2),
       floatingActionButton: FloatingActionButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                     Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: CreateProfPost()));
-                        },
-                        elevation: 50,
-                        heroTag: 'btn1',
-                        backgroundColor: Color(0xFF3c3744),
-                        child: Icon(
-                          Icons.add,
-                          // color: Color(0xFF8803fc),
-                          color: Colors.white,
-                        ),
-                      ),
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: <Widget>[
-
-        // SizedBox(
-        //   height: MediaQuery.of(context).size.height/70,
-        // ),
-        
-         ProfPost(
-           caption: "This is the professional side",
-           comments: 76,
-           timeStamp: "1 hour ago",
-         ),
-           ProfPost(
-           caption: "You can see professional posts at your university from here.",
-           comments: 76,
-           timeStamp: "1 hour ago",
-           postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/lakersnation.jpeg?alt=media&token=faa5b297-fdf2-470c-a207-19c38e5aa840'
-         ),
-           ProfPost(
-           comments: 76,
-           timeStamp: "1 hour ago",
-           postPic: 'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/lakersnation.jpeg?alt=media&token=faa5b297-fdf2-470c-a207-19c38e5aa840'
-         ),
-
-
-
-        ],
-        
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16.0))),
+        onPressed: () {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.fade, child: CreateProfPost()));
+        },
+        elevation: 50,
+        heroTag: 'btn1',
+        backgroundColor: Color(0xFF3c3744),
+        child: Icon(
+          Icons.add,
+          // color: Color(0xFF8803fc),
+          color: Colors.white,
+        ),
       ),
-
+      body: FutureBuilder(
+          future: getPosts(),
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: Text("loading..."));
+            } else {
+              return ListView.builder(
+                  itemCount: snapshot?.data?.length,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (_, index) {
+                    return ProfPost(
+                      caption: snapshot.data[index].data["caption"],
+                      comments: 20,
+                      timeStamp: snapshot.data[index].data["timeStamp"],
+                      postPic: snapshot.data[index].data["postPic"],
+                    );
+                  });
+            }
+          }),
     );
   }
 }
-
-

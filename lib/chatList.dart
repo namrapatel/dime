@@ -1,13 +1,17 @@
 import 'package:Dime/chat.dart';
 import 'package:Dime/homePage.dart';
-import 'package:fancy_on_boarding/fancy_on_boarding.dart';
-import 'package:fancy_on_boarding/page_model.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
 
 class ChatList extends StatefulWidget {
   final String title = '';
@@ -23,13 +27,13 @@ class _ChatListState extends State<ChatList> {
     super.initState();
   }
 
-
   Future<List<MessageTile>> getMessages() async {
     List<MessageTile> messageTiles = [];
     QuerySnapshot query = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .collection('messages').orderBy('timestamp',descending: true)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
         .getDocuments();
     for (var document in query.documents) {
       String displayName;
@@ -47,126 +51,128 @@ class _ChatListState extends State<ChatList> {
       QuerySnapshot secondQuery = await Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
-          .collection('messages').document(senderId).collection('texts').orderBy('timestamp',descending: true).getDocuments();
-        DocumentSnapshot lastMessageDoc = secondQuery.documents.first;
+          .collection('messages')
+          .document(senderId)
+          .collection('texts')
+          .orderBy('timestamp', descending: true)
+          .getDocuments();
+      DocumentSnapshot lastMessageDoc = secondQuery.documents.first;
 
-        String message = lastMessageDoc.data['text'];
-        print(message);
-        if (message.length >= 40) {
-          message = message.substring(0, 39);
-        }
-      if(lastMessageDoc.data['from']==currentUserModel.uid){
-message= "You: "+message;
+      String message = lastMessageDoc.data['text'];
+      print(message);
+      if (message.length >= 40) {
+        message = message.substring(0, 39);
       }
-        var storedDate = lastMessageDoc.data['timestamp'];
+      if (lastMessageDoc.data['from'] == currentUserModel.uid) {
+        message = "You: " + message;
+      }
+      var storedDate = lastMessageDoc.data['timestamp'];
 
-        String elapsedTime =
-        timeago.format(storedDate.toDate());
-        String timestamp = '$elapsedTime';
-        print(message);
-        print(timestamp);
-        print(photoUrl);
-        print(displayName);
-        print(currentUserModel.uid);
-        print(senderId);
-        messageTiles.add(MessageTile(text: message,
-          timestamp: timestamp,
-          senderPhoto: photoUrl,
-          senderName: displayName,
-          to: currentUserModel.uid,
-          from: senderId,));
-
-
+      String elapsedTime = timeago.format(storedDate.toDate());
+      String timestamp = '$elapsedTime';
+      print(message);
+      print(timestamp);
+      print(photoUrl);
+      print(displayName);
+      print(currentUserModel.uid);
+      print(senderId);
+      messageTiles.add(MessageTile(
+        text: message,
+        timestamp: timestamp,
+        senderPhoto: photoUrl,
+        senderName: displayName,
+        to: currentUserModel.uid,
+        from: senderId,
+      ));
     }
     print('messagetiles');
 
-print(messageTiles);
+    print(messageTiles);
     return messageTiles;
   }
 
-  Widget buildMessages(){
-    return
-      FutureBuilder(
-          future: getMessages(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData)
-              return Center(
-                  child: Container(
-
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: (50.0)),
-                          child: Container(
-                              width: (100),
-                              child: Text(
-                                "No Messages to show",
-                                style: TextStyle(color: Colors.black,
-                                fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ));
-            else {
-              return Column(
-                  children:
-                  snapshot.data
-
-              );
-            }
+  Widget buildMessages() {
+    return FutureBuilder(
+        future: getMessages(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return Center(
+                child: Container(
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: (50.0)),
+                    child: Container(
+                        width: (100),
+                        child: Text(
+                          "No Messages to show",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                          textAlign: TextAlign.center,
+                        )),
+                  ),
+                ],
+              ),
+            ));
+          else {
+            return Column(children: snapshot.data);
           }
-    );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       //backgroundColor: Color(0xFFECE9E4),
       body: ListView(
+        padding: EdgeInsets.all(0.0),
         physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           Column(
             children: <Widget>[
+              SizedBox(height: screenH(20)),
               Stack(
                 children: <Widget>[
-                    Container(
+                  Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height/5,
+                    height: MediaQuery.of(context).size.height / 5,
                     //color: Color(0xFFECE9E4),
                   ),
                   Positioned(
-                    top: MediaQuery.of(context).size.height/55,
-                    left: MediaQuery.of(context).size.width/55,
-                    child: IconButton(
-                      icon: Icon(Icons.arrow_back_ios, color: Colors.black,),
-                      onPressed: (){
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ),
+                      top: MediaQuery.of(context).size.height / 55,
+                      left: MediaQuery.of(context).size.width / 55,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      )),
                   Positioned(
-                    top: MediaQuery.of(context).size.height/10,
-                    left: MediaQuery.of(context).size.width/22,
-                    child: Text("Messages", style: TextStyle(color: Colors.black, fontSize: 40, fontWeight: FontWeight.bold),),
+                    top: MediaQuery.of(context).size.height / 10,
+                    left: MediaQuery.of(context).size.width / 22,
+                    child: Text(
+                      "Messages",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
+                    ),
                   )
                 ],
               ),
-
               Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height/1.2,
+                  height: MediaQuery.of(context).size.height / 1.2,
                   child: Column(
                     children: <Widget>[
                       Column(
-    children: <Widget>[
-      buildMessages()
-    ],
-    )
+                        children: <Widget>[buildMessages()],
+                      )
 
 //                      FutureBuilder<List<MessageTile>>(
 //                      future: getMessages(),
@@ -197,7 +203,7 @@ print(messageTiles);
 //
 //                      );
 //                      }),
-                     
+
 //                           StreamBuilder<QuerySnapshot>(
 //                          stream: Firestore.instance
 //                              .collection('chatMessages').where('to',isEqualTo: currentUserModel.uid).orderBy('timestamp',descending: true).snapshots(),
@@ -256,38 +262,36 @@ print(messageTiles);
 //                          }),
                     ],
                   )),
-
-
-
-
-
-
             ],
           ),
         ],
       ),
-
     );
   }
-
-
-
 }
 
 class MessageTile extends StatelessWidget {
+  final String to, from, text, timestamp, senderPhoto, senderName;
 
-  final String to,from,text, timestamp,senderPhoto, senderName;
-
-  MessageTile({this.text,this.to,this.from,this.timestamp,this.senderPhoto,this.senderName});
+  MessageTile(
+      {this.text,
+      this.to,
+      this.from,
+      this.timestamp,
+      this.senderPhoto,
+      this.senderName});
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: (){
+      onTap: () {
         Navigator.push(
             context,
             PageTransition(
                 type: PageTransitionType.leftToRight,
-                child: Chat(fromUserId:to,toUserId: from,)));
+                child: Chat(
+                  fromUserId: to,
+                  toUserId: from,
+                )));
       },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(senderPhoto),
@@ -296,20 +300,24 @@ class MessageTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(senderName),
-          Text(timestamp, style: TextStyle(fontSize: 13, color: Colors.blueAccent[700]),)
+          Text(
+            timestamp,
+            style: TextStyle(fontSize: 13, color: Colors.blueAccent[700]),
+          )
         ],
       ),
-      trailing: Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 17,),
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        color: Colors.grey,
+        size: 17,
+      ),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(text.length>=39?text.substring(0,39):text),
+          Text(text.length >= 39 ? text.substring(0, 39) : text),
         ],
       ),
       //MAX OF 40 CHARACTERS BEFORE "..."
     );
   }
 }
-
-
-

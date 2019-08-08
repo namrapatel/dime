@@ -144,14 +144,13 @@ class _ScrollPageState extends State<ScrollPage>
     super.dispose();
 
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
+
         backgroundColor: Color(0xFF48A9A6), 
         title: Row(
             children: <Widget>[
@@ -187,7 +186,6 @@ class _ScrollPageState extends State<ScrollPage>
             ],
           ),
       ),
-      
       backgroundColor: Color(0xFF48A9A6),
       body: Container(
         child: RubberBottomSheet(
@@ -258,7 +256,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 8,
-          upperLayer: _getUpperLayer(),
+          // upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -285,13 +283,12 @@ class _ScrollPageState extends State<ScrollPage>
                           userId: currentUserModel.uid,
                           type: 'social',
                         )),
-                      ],
-                    ),
+                  ],
+                ),
 
-              alignment: Alignment.topCenter,
+                alignment: Alignment.topCenter,
+              ),
             ),
-          ),
-
           Padding(
             padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 35,
                 MediaQuery.of(context).size.height / 18, 0, 0),
@@ -304,16 +301,15 @@ class _ScrollPageState extends State<ScrollPage>
                           userId: currentUserModel.uid,
                           type: 'prof',
                         )),
-                      ],
-                    ),
+                  ],
+                ),
 
-              alignment: Alignment.topCenter,
+                alignment: Alignment.topCenter,
+              ),
             ),
-          ),
 
-            ],
-          ),
-
+          ],
+        ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.5, 0, 0),
                   child: Row(
@@ -342,64 +338,51 @@ class _ScrollPageState extends State<ScrollPage>
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                         onPressed: () {
                   Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ChatList()));
-                        },
-                        elevation: 3,
-                        heroTag: 'btn2',
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          MaterialCommunityIcons.chat,
-                          color: Colors.black,
-                        ),
-                      ),
-
-                      FloatingActionButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.fade, child: Explore()));
-                        },
-                        elevation: 3,
-                        heroTag: 'btn3',
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Ionicons.md_search,
-                          color: Colors.black,
-                        ),
-                      ),
-
-
-
-                      FloatingActionButton(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: ProfPage()));
-                        },
-                        elevation: 3,
-                        heroTag: 'btn4',
-                        backgroundColor: Colors.white,
-                        child: Icon(MaterialCommunityIcons.account_tie,
-                            color: Color(0xFF1976d2),),
-                      ),
-                    ],
-                  ),
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: SocialPage()));
+                },
+                elevation: 3,
+                heroTag: 'btn1',
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Entypo.drink,
+                  color: Color(0xFF8803fc),
                 ),
-        
-
-        
-      ],
-    );
-  }
-
-
+              ),
+              FloatingActionButton(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: ChatList()));
+                },
+                elevation: 3,
+                heroTag: 'btn2',
+                backgroundColor: Colors.white,
+                child: Icon(
+                  MaterialCommunityIcons.chat,
+                  color: Colors.black,
+                ),
+              ),
+              FloatingActionButton(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: Explore()));
+                },
+                elevation: 3,
+                heroTag: 'btn3',
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Ionicons.md_search,
+                  color: Colors.black,
+                ),
+              ),
 
   Future<List<UserTile>>getUsers() async{
     List<UserTile> userList=[];
@@ -413,7 +396,6 @@ class _ScrollPageState extends State<ScrollPage>
             new Lat.LatLng(userLoc.latitude, userLoc.longitude), new Lat.LatLng(
             doc.data['currentLocation'].latitude,
             doc.data['currentLocation'].longitude));
-//
         print(doc.data['displayName']);
         print('distance away is');
         print(distanceInMeters);
@@ -426,9 +408,6 @@ class _ScrollPageState extends State<ScrollPage>
 
     }
     return userList;
-
-
-
   }
   Widget _getUpperLayer() {
     return   Container(
@@ -456,13 +435,6 @@ class _ScrollPageState extends State<ScrollPage>
     });
     radius.add(value);
   }
-
-
-
-
-
-
-
 }
 
 class UserTile extends StatelessWidget {

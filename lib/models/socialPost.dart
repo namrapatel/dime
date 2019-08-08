@@ -12,24 +12,16 @@ class SocialPost extends StatelessWidget {
   final int comments;
   final String timeStamp;
 
-  const SocialPost(
-      {
-        this.caption,
-        this.comments,
-        this.timeStamp,
-        this.postPic
-      }
-      
-      );
-
+  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic});
 
   @override
   Widget build(BuildContext context) {
-    return           Container(
-          margin:EdgeInsets.all(8.0),
-          child: Card(
+    return Container(
+        margin: EdgeInsets.all(8.0),
+        child: Card(
             elevation: 10,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -38,46 +30,47 @@ class SocialPost extends StatelessWidget {
                     topLeft: Radius.circular(15.0),
                     topRight: Radius.circular(15.0),
                   ),
-
-                  child: 
-                  postPic != null?
-                  Image(
-                    image: NetworkImage(postPic),
-                    width: 200,
-                    height: 250,
-                    fit: BoxFit.fill,
-                  ): SizedBox(width: 1,),
+                  child: postPic != null
+                      ? Image(
+                          image: NetworkImage(postPic),
+                          width: 200,
+                          height: 250,
+                          fit: BoxFit.fill,
+                        )
+                      : SizedBox(
+                          width: 1,
+                        ),
                 ),
                 ListTile(
-                  contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  title: 
-                  caption != null?
-                  Text(caption):
-                  SizedBox(width: 1,),
-                  subtitle: Row(
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){},
-                      ),
-                      comments != null?
-                      Text("$comments Comments")
-                      :SizedBox(width: 1,),
-                      Spacer(),
-                      timeStamp != null?
-                      Text(timeStamp):
-                      SizedBox(width: 1,)
-                    ],
-                  )
-                ),
+                    contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    title: caption != null
+                        ? Text(caption)
+                        : SizedBox(
+                            width: 1,
+                          ),
+                    subtitle: Row(
+                      children: <Widget>[
+                        IconButton(
+                          icon: Icon(
+                            FontAwesome.comments,
+                            color: Colors.black,
+                          ),
+                          onPressed: () {},
+                        ),
+                        comments != null
+                            ? Text("$comments Comments")
+                            : SizedBox(
+                                width: 1,
+                              ),
+                        Spacer(),
+                        timeStamp != null
+                            ? Text(timeStamp)
+                            : SizedBox(
+                                width: 1,
+                              )
+                      ],
+                    )),
               ],
-            )
-          )
-      );
+            )));
   }
 }
-
-
-
-
-

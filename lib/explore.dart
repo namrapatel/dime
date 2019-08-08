@@ -91,6 +91,7 @@ class _ExploreState extends State<Explore> {
     return Scaffold(
         //backgroundColor: Color(0xFFECE9E4),
         body: ListView(
+      padding: EdgeInsets.all(0.0),
       //physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
         Column(

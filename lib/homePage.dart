@@ -24,6 +24,8 @@ import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
 import 'package:geo/geo.dart' as geoLat ;
+import 'package:geolocator/geolocator.dart' as geoLoc;
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -90,32 +92,62 @@ GeoPoint current;
   ScrollController _scrollController = ScrollController();
 
   final Map<String, Marker> _markers = {};
- geoLat.LatLng userLoc;
+// geoLat.LatLng userLoc;
+  geoLoc.Position position;
 
+ getLocation() async{
+
+
+     geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
+
+     setState(() {
+       position=idiot;
+     });
+
+   print(position.latitude);
+   print(position.longitude);
+   double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+   print('distance is');
+   print(distanceInMeters);
+   current =
+   new GeoPoint(position.latitude, position.longitude);
+   Firestore.instance
+       .collection('users')
+       .document(currentUserModel.uid)
+       .setData({
+     'currentLocation': current,
+   }, merge: true);
+   DocumentSnapshot userRecord = await Firestore.instance
+       .collection('users')
+       .document(currentUserModel.uid)
+       .get();
+   currentUserModel = User.fromDocument(userRecord);
+//    });
+ }
   @override
   void initState() {
 
+   getLocation();
+//    var location = new Location();
+//
+//    location.onLocationChanged().listen((LocationData currentLocation) async {
+//      userLoc =
+//          geoLat.LatLng(currentLocation.latitude, currentLocation.longitude);
 
-    var location = new Location();
-
-    location.onLocationChanged().listen((LocationData currentLocation) async {
-      userLoc =
-          geoLat.LatLng(currentLocation.latitude, currentLocation.longitude);
-
-      current =
-      new GeoPoint(currentLocation.latitude, currentLocation.longitude);
-      Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .setData({
-        'currentLocation': current,
-      }, merge: true);
-      DocumentSnapshot userRecord = await Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .get();
-      currentUserModel = User.fromDocument(userRecord);
-    });
+//      current =
+//      new GeoPoint(position.latitude, position.longitude);
+//      Firestore.instance
+//          .collection('users')
+//          .document(currentUserModel.uid)
+//          .setData({
+//        'currentLocation': current,
+//      }, merge: true);
+//      DocumentSnapshot userRecord = await Firestore.instance
+//          .collection('users')
+//          .document(currentUserModel.uid)
+//          .get();
+//      currentUserModel = User.fromDocument(userRecord);
+////    });
 
     _controller = RubberAnimationController(
         vsync: this,
@@ -397,12 +429,12 @@ GeoPoint current;
     for (var doc in docs) {
       if (doc.data['currentLocation'] != null) {
 
+//
+//        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
+//            doc.data['currentLocation'].longitude);
 
-        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
-            doc.data['currentLocation'].longitude);
-
-
-        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
+        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position.latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
+//        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
 
         print(doc.documentID);
         print('distance away is');

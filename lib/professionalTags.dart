@@ -3,9 +3,9 @@ import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'EditCardsScreen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'viewCards.dart';
 List<String> profInterests=[];
 
 class ProfInterestTile extends StatefulWidget{

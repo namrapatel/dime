@@ -11,7 +11,7 @@ class ProfCard extends StatelessWidget {
   final String major;
   final String photoUrl;
   final String displayName;
-  final String bio;
+  final String gradYear;
   final String university;
   final String twitter;
   final String github;
@@ -29,7 +29,7 @@ class ProfCard extends StatelessWidget {
         this.github,this.linkedIn,
         this.photoUrl,
         this.displayName,
-        this.bio,this.interestString,this.email,this.isSwitched
+        this.gradYear,this.interestString,this.email,this.isSwitched
       });
 
   factory ProfCard.fromDocument(DocumentSnapshot document) {
@@ -53,7 +53,7 @@ class ProfCard extends StatelessWidget {
       university: document['university'],
       github: document['github'],
       linkedIn: document['linkedIn'],
-      bio: document['bio'],
+      gradYear: document['gradYear'],
       twitter: document['twitter'],
       interestString: interest,
       email:document['email'],
@@ -134,12 +134,12 @@ class ProfCard extends StatelessWidget {
                             SizedBox(
                               height: screenH(4),
                             ),
-                            major==null?
-                            Text("",
+                            major!=null&&gradYear!=null?
+                            Text(major+", "+gradYear,
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Colors.grey)):
-                            Text(major,
+                            Text(major!=null?major:"",
                                 style: TextStyle(
                                     fontSize: screenF(13),
                                     color: Colors.grey)),

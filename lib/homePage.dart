@@ -144,50 +144,48 @@ class _ScrollPageState extends State<ScrollPage>
     super.dispose();
 
   }
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF48A9A6),
-        title: Row(
-          children: <Widget>[
-            Text("Hey " + currentUserModel.displayName + "!",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-            Spacer(),
 
-            IconButton(
-              icon: Icon(Icons.settings, color: Colors.white, size: 20,),
-              onPressed: (){
-                Navigator.push(
+        backgroundColor: Color(0xFF48A9A6), 
+        title: Row(
+            children: <Widget>[
+              Text("Hey " + currentUserModel.displayName + "!",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
+              ),
+              ),
+              Spacer(),
+
+              IconButton(
+                icon: Icon(Icons.settings, color: Colors.white, size: 20,),
+                onPressed: (){
+                     Navigator.push(
                     context,
                     PageTransition(
                         type: PageTransitionType.fade, child: ProfilePage()));
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.add, color: Colors.white, size: 25,),
-              onPressed: (){
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade,
-                        child: InviteFriends()));
-              },
-            ),
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.add, color: Colors.white, size: 25,),
+                onPressed: (){
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.fade,
+                            child: InviteFriends()));
+                },
+              ),
 
-          ],
-        ),
+            ],
+          ),
       ),
-
       backgroundColor: Color(0xFF48A9A6),
       body: Container(
         child: RubberBottomSheet(
@@ -269,19 +267,19 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getLowerLayer() {
     return new Stack(
       children: <Widget>[
-        ListView(
-          physics: BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
-                  MediaQuery.of(context).size.height / 18, 0, 0),
-              child: Align(
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                        child: ViewCards(
+            ListView(
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+                      Padding(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 20,
+                MediaQuery.of(context).size.height / 18, 0, 0),
+            child: Align(
+              child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                            child: ViewCards(
                           userId: currentUserModel.uid,
                           type: 'social',
                         )),
@@ -291,16 +289,15 @@ class _ScrollPageState extends State<ScrollPage>
                 alignment: Alignment.topCenter,
               ),
             ),
-
-            Padding(
-              padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 35,
-                  MediaQuery.of(context).size.height / 18, 0, 0),
-              child: Align(
-                child:  Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Center(
-                        child: ViewCards(
+          Padding(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 35,
+                MediaQuery.of(context).size.height / 18, 0, 0),
+            child: Align(
+              child:  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                            child: ViewCards(
                           userId: currentUserModel.uid,
                           type: 'prof',
                         )),
@@ -313,15 +310,33 @@ class _ScrollPageState extends State<ScrollPage>
 
           ],
         ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.5, 0, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      FloatingActionButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.leftToRight,
+                                  child: SocialPage()));
+                        },
+                        elevation: 3,
+                        heroTag: 'btn1',
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Entypo.drink,
+                          color: Color(0xFF8803fc),
+                        ),
+                      ),
 
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).size.height/2.5, 0, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              FloatingActionButton(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
+
+                      FloatingActionButton(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {
                   Navigator.push(
                       context,
                       PageTransition(
@@ -336,8 +351,6 @@ class _ScrollPageState extends State<ScrollPage>
                   color: Color(0xFF8803fc),
                 ),
               ),
-
-
               FloatingActionButton(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
@@ -354,7 +367,6 @@ class _ScrollPageState extends State<ScrollPage>
                   color: Colors.black,
                 ),
               ),
-
               FloatingActionButton(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
@@ -372,97 +384,57 @@ class _ScrollPageState extends State<ScrollPage>
                 ),
               ),
 
+  Future<List<UserTile>>getUsers() async{
+    List<UserTile> userList=[];
 
+    final Lat.Distance distance = new Lat.Distance();
+    QuerySnapshot query =await Firestore.instance.collection('users').getDocuments();
+    final docs= query.documents;
+    for(var doc in docs){
+      if(doc.data['currentLocation']!=null) {
+        final double distanceInMeters = distance(
+            new Lat.LatLng(userLoc.latitude, userLoc.longitude), new Lat.LatLng(
+            doc.data['currentLocation'].latitude,
+            doc.data['currentLocation'].longitude));
+        print(doc.data['displayName']);
+        print('distance away is');
+        print(distanceInMeters);
+        if (distanceInMeters <= 6000.0 &&
+            doc.documentID != currentUserModel.uid) {
+          userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
+         
+        }
+      }
 
-              FloatingActionButton(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: ProfPage()));
-                },
-                elevation: 3,
-                heroTag: 'btn4',
-                backgroundColor: Colors.white,
-                child: Icon(MaterialCommunityIcons.account_tie,
-                  color: Color(0xFF1976d2),),
-              ),
-            ],
-          ),
-        ),
+    }
+    return userList;
+  }
+  Widget _getUpperLayer() {
+    return   Container(
+        color: Colors.white,
+        child:  FutureBuilder<List<UserTile>>(
+            future: getUsers(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Container(
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
 
-
-
-      ],
+              return Column(children: snapshot.data);
+            })
     );
   }
+  double _value = 5.0;
+  String _label = '';
 
-
-
-//   Future<List<UserTile>>getUsers() async{
-//     List<UserTile> userList=[];
-
-//     final Lat.Distance distance = new Lat.Distance();
-//     QuerySnapshot query =await Firestore.instance.collection('users').getDocuments();
-//     final docs= query.documents;
-//     for(var doc in docs){
-//       if(doc.data['currentLocation']!=null) {
-//         final double distanceInMeters = distance(
-//             new Lat.LatLng(userLoc.latitude, userLoc.longitude), new Lat.LatLng(
-//             doc.data['currentLocation'].latitude,
-//             doc.data['currentLocation'].longitude));
-// //
-//         print(doc.data['displayName']);
-//         print('distance away is');
-//         print(distanceInMeters);
-//         if (distanceInMeters <= 6000.0 &&
-//             doc.documentID != currentUserModel.uid) {
-//           userList.add(new UserTile(doc.data['displayName'],doc.data['photoUrl'],doc.documentID,major: doc.data['major'],profInterests: doc.data['profInterests'],socialInterests: doc.data['socialInterests'],university: doc.data['university'],gradYear:doc.data['gradYear']));
-
-//         }
-//       }
-
-//     }
-//     return userList;
-
-
-
-//   }
-  // Widget _getUpperLayer() {
-  //   return   Container(
-  //       color: Colors.white,
-  //       child:  FutureBuilder<List<UserTile>>(
-  //          // future: getUsers(),
-  //           builder: (context, snapshot) {
-  //             if (!snapshot.hasData)
-  //               return Container(
-  //                   alignment: FractionalOffset.center,
-  //                   child: CircularProgressIndicator());
-
-  //             return Column(children: snapshot.data);
-  //           })
-  //   );
-  // }
-  // double _value = 5.0;
-  // String _label = '';
-
-  // changed(value) {
-  //   setState(() {
-  //     _value = value;
-  //     print(_value);
-  //     _label = '${_value.toInt().toString()} kms';
-  //   });
-  //   radius.add(value);
-  // }
-
-
-
-
-
-
-
+  changed(value) {
+    setState(() {
+      _value = value;
+      print(_value);
+      _label = '${_value.toInt().toString()} kms';
+    });
+    radius.add(value);
+  }
 }
 
 class UserTile extends StatelessWidget {

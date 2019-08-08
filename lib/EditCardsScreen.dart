@@ -12,14 +12,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'socialTags.dart';
 import 'professionalTags.dart';
-
+import 'viewCards.dart';
 String selectedItemString;
 String selectedWItemString;
 
 String selectedItemString2;
 String selectedWItemString2;
-String socialCardId;
-String profCardId;
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;

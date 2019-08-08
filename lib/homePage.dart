@@ -134,7 +134,7 @@ class _ScrollPageState extends State<ScrollPage>
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF48A9A6),
+        backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
             Text(
@@ -174,7 +174,7 @@ class _ScrollPageState extends State<ScrollPage>
           ],
         ),
       ),
-      backgroundColor: Color(0xFF48A9A6),
+      backgroundColor: Color(0xFF1458EA),
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -371,7 +371,7 @@ class _ScrollPageState extends State<ScrollPage>
                 backgroundColor: Colors.white,
                 child: Icon(
                   MaterialCommunityIcons.account_tie,
-                  color: Color(0xFF1976d2),
+                  color: Color(0xFF063F3E),
                 ),
               ),
             ],
@@ -417,7 +417,7 @@ class _ScrollPageState extends State<ScrollPage>
     return Container(
         color: Colors.white,
         child: FutureBuilder<List<UserTile>>(
-            future: getUsers(),
+            //future: getUsers(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
                 return Container(

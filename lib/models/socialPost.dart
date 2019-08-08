@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
+import 'package:Dime/socialComments.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SocialPost extends StatelessWidget {
   final String caption;
@@ -55,7 +57,13 @@ class SocialPost extends StatelessWidget {
                             FontAwesome.comments,
                             color: Colors.black,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                        Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: SocialComments()));
+                          },
                         ),
                         comments != null
                             ? Text("$comments Comments")

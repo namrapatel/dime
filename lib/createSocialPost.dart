@@ -87,8 +87,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            height: screenH(50),
-                            width: screenW(50),
+                            // height: screenH(50),
+                            // width: screenW(50),
                             child: FloatingActionButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -107,6 +107,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                               child: Icon(
                                 SimpleLineIcons.picture,
                                 color: Colors.black,
+                                size: 25,
                               ),
                             ),
                           ),

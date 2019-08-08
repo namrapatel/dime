@@ -87,8 +87,6 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       child: Row(
                         children: <Widget>[
                           Container(
-                            height: screenH(50),
-                            width: screenW(50),
                             child: FloatingActionButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius:
@@ -107,6 +105,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                               child: Icon(
                                 SimpleLineIcons.picture,
                                 color: Colors.black,
+                                size: 25,
                               ),
                             ),
                           ),

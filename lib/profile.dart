@@ -24,16 +24,39 @@ class Profile extends StatelessWidget {
 }
 
 class HomePageOne extends StatefulWidget {
+
+
   @override
   _HomePageOneState createState() => _HomePageOneState();
 }
 
 class _HomePageOneState extends State<HomePageOne>{
+
+
+
 String name;
 String major;
 String gradYear;
 String university;
-updateProfile() async {
+
+@override
+void initState() {
+  // TODO: implement initState
+  super.initState();
+  getProfileInfo();
+}
+
+
+getProfileInfo() async{
+  DocumentSnapshot doc= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+  setState(() {
+    name=doc.data['displayName'];
+    major=doc.data['major'];
+    gradYear=doc.data['gradYear'];
+    university= doc.data['university'];
+  });
+}
+updateProfile() {
 //  QuerySnapshot query = await Firestore.instance
 //      .collection('users')
 //      .document(currentUserModel.uid)
@@ -61,12 +84,12 @@ updateProfile() async {
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .setData({
+        .updateData({
       'displayName': name,
       'major': major,
       'university': university,
       'gradYear': gradYear
-    }, merge: true);
+    });
 
     Firestore.instance
         .collection('users')
@@ -256,14 +279,16 @@ updateProfile() async {
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+
             onSubmitted: (value) {
-              if (value != '' && value != null) {
+              if (value.isNotEmpty && value != null) {
                 setState(() {
                   name = value;
                 });
               }
             },
             decoration: InputDecoration(
+              hintText: name,
                 border: new UnderlineInputBorder(
                     borderSide: new BorderSide(color: Colors.black))),
             style: TextStyle(fontSize: 18, color: Colors.grey),
@@ -284,7 +309,7 @@ updateProfile() async {
             child: FlutterSearchPanel<int>(
               padding: EdgeInsets.all(10.0),
               selected: 0,
-              title: 'Select University',
+              title: "Select your university",
               data: data2,
               icon: new Icon(Icons.school, color: Colors.black),
               color: Color(0xFFECE9E4),
@@ -294,9 +319,11 @@ updateProfile() async {
               ),
               onChanged: (int value) {
                 if (value != null) {
-                  setState(() {
-                    university = data2[value].text;
-                  });
+                  if(data2[value].text.isNotEmpty&& data2[value].text!=null) {
+                    setState(() {
+                      university = data2[value].text;
+                    });
+                  }
                 }
               },
             ),
@@ -324,13 +351,14 @@ updateProfile() async {
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
             onSubmitted: (value) {
-              if (value != '' && value != null) {
+              if (value.isNotEmpty && value != null) {
                 setState(() {
                   major = value;
                 });
               }
             },
             decoration: InputDecoration(
+              hintText: major!=null?major:"Add your program",
                 border: new UnderlineInputBorder(
                     borderSide: new BorderSide(color: Colors.black))),
             style: TextStyle(fontSize: 18, color: Colors.grey),
@@ -357,13 +385,14 @@ updateProfile() async {
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
             onSubmitted: (value) {
-              if (value != '' && value != null) {
+              if (value.isNotEmpty && value != null) {
                 setState(() {
                   gradYear = ""+value;
                 });
               }
             },
             decoration: InputDecoration(
+              hintText: gradYear!=null?gradYear:"Enter your year of graduation",
                 border: new UnderlineInputBorder(
                     borderSide: new BorderSide(color: Colors.black))),
             style: TextStyle(fontSize: 18, color: Colors.grey),

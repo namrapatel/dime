@@ -1,5 +1,6 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
+import 'models/commentTags.dart';
 
 class SocialComments extends StatefulWidget {
   @override
@@ -7,6 +8,43 @@ class SocialComments extends StatefulWidget {
 }
 
 class _SocialCommentsState extends State<SocialComments> {
+   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
+
+     List<String> suggestions = [
+    "Apple",
+    "Armidillo",
+    "Actual",
+    "Actuary",
+    "America",
+    "Argentina",
+    "Australia",
+    "Antarctica",
+    "Blueberry",
+    "Cheese",
+    "Danish",
+    "Eclair",
+    "Fudge",
+    "Granola",
+    "Hazelnut",
+    "Ice Cream",
+    "Jely",
+    "Kiwi Fruit",
+    "Lamb",
+    "Macadamia",
+    "Nachos",
+    "Oatmeal",
+    "Palm Oil",
+    "Quail",
+    "Rabbit",
+    "Salad",
+    "T-Bone Steak",
+    "Urid Dal",
+    "Vanilla",
+    "Waffles",
+    "Yam",
+    "Zest"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,10 +132,10 @@ class _SocialCommentsState extends State<SocialComments> {
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 15),
+                    padding: EdgeInsets.only(left: 15,),
                   ),
                   Expanded(
-                    child:                     Container(
+                    child:  Container(
                       width: MediaQuery.of(context).size.width / 1.3,
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -106,10 +144,9 @@ class _SocialCommentsState extends State<SocialComments> {
                         padding: EdgeInsets.symmetric(
                             horizontal: MediaQuery.of(context).size.width / 22,
                             vertical: MediaQuery.of(context).size.height / 72),
-                        child: TextField(
-                          onTap: (){
-                          },
-                          decoration: new InputDecoration(
+                        child: SimpleAutoCompleteTextField(
+                        key: key,
+                        decoration: new InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               contentPadding: EdgeInsets.only(
@@ -118,10 +155,15 @@ class _SocialCommentsState extends State<SocialComments> {
                                   top: MediaQuery.of(context).size.height / 155,
                                   right: MediaQuery.of(context).size.width / 30),
                               hintText: 'Enter Comment'),
-                        ),
+                        controller: TextEditingController(),
+                        suggestions: suggestions,
+                        clearOnSubmit: false,
+                            
+                            ),
+                      ),
+
                       ),
                     ),
-                  ),
 
                   SizedBox(
                     width: screenW(20),

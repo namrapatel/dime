@@ -94,12 +94,16 @@ class _SocialCommentsState extends State<SocialComments> {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
+                        contentPadding: EdgeInsets.all(15),
                         leading: CircleAvatar(
                           backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+                          radius: 25,
                         ),
                         title: Row(
                           children: <Widget>[
-                            Text("Dhruv Patel"),
+                            Text("Dhruv Patel",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             Spacer(),
                             Text("2 hrs ago",
                             style: TextStyle(fontSize: 12,
@@ -108,7 +112,14 @@ class _SocialCommentsState extends State<SocialComments> {
                             ),
                           ],
                         ),
-                        subtitle: Text("This was a really dope post about cool stuff lololol"),
+                        subtitle: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: screenH(10),
+                            ),
+                            Text("This was a really dope post about cool stuff and stuff and stuff"),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -154,7 +165,9 @@ class _SocialCommentsState extends State<SocialComments> {
                                   bottom: MediaQuery.of(context).size.height / 155,
                                   top: MediaQuery.of(context).size.height / 155,
                                   right: MediaQuery.of(context).size.width / 30),
-                              hintText: 'Enter Comment'),
+                              hintText: 'Enter Comment',
+                              hintStyle: TextStyle(color: Colors.grey)
+                              ),
                         controller: TextEditingController(),
                         suggestions: suggestions,
                         clearOnSubmit: false,

@@ -241,7 +241,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 8,
-          //upperLayer: _getUpperLayer(),
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -416,16 +416,24 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getUpperLayer() {
     return Container(
         color: Colors.white,
-        child: FutureBuilder<List<UserTile>>(
-            //future: getUsers(),
+        child: ListView(
+          children: <Widget>[
+            FutureBuilder<List<UserTile>>(
+            future: getUsers(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
                 return Container(
                     alignment: FractionalOffset.center,
                     child: CircularProgressIndicator());
 
-              return Column(children: snapshot.data);
-            }));
+              return Container(
+                child: Column(children: snapshot.data),
+              );
+            })
+          ],
+        )
+            
+            );
   }
 
   double _value = 5.0;

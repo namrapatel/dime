@@ -260,6 +260,21 @@ class _LoginState extends State<Login> {
     );
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Align buildOrText() {
     return Align(
       alignment: Alignment.center,
@@ -339,7 +354,7 @@ class _LoginState extends State<Login> {
             ),
             buildSignUpText(),
             SizedBox(
-              height: 90.0,
+              height: 30.0,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),

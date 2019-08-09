@@ -6,8 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'login.dart';
 import 'EditCardsScreen.dart';
-import 'inviteFriends.dart';
-import 'profileScreen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'createSocialPost.dart';
 import 'socialComments.dart';
@@ -17,6 +16,7 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
+var university = currentUserModel.university;
 
 Future getPosts() async {
   QuerySnapshot qn = await Firestore.instance
@@ -58,7 +58,7 @@ class _SocialPageState extends State<SocialPage> {
                       height: 20,
                     ),
                     Text(
-                      "University of Waterloo",
+                     university,
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,
@@ -120,12 +120,16 @@ class _SocialPageState extends State<SocialPage> {
                   itemCount: snapshot?.data?.length,
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (_, index) {
+                    Timestamp storedDate=snapshot.data[index].data["timeStamp"];
+                    String elapsedTime = timeago.format(storedDate.toDate());
+                    String timestamp = '$elapsedTime';
                     return SocialPost(
                       postId: snapshot.data[index].documentID,
                       caption: snapshot.data[index].data["caption"],
                       comments: 20,
-                      timeStamp: snapshot.data[index].data["timeStamp"],
+                      timeStamp: timestamp,
                       postPic: snapshot.data[index].data["postPic"],
+                      upVotes: snapshot.data[index].data["upVotes"],
                     );
                   });
             }

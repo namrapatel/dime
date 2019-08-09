@@ -1,22 +1,28 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Dime/homePage.dart';
 import 'package:Dime/socialComments.dart';
 import 'package:page_transition/page_transition.dart';
 
-class SocialPost extends StatelessWidget {
-  final String postId;
-  final String caption;
-  final String postPic;
-  final int comments;
-  final String timeStamp;
-  final int upVotes;
+class SocialPost extends StatefulWidget {
+  SocialPost({caption, comments, timeStamp, postPic, postId, upVotes});
+  @override
+  _SocialPostState createState() => _SocialPostState();
+}
 
-  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic,this.postId, this.upVotes});
+class _SocialPostState extends State<SocialPost> {
+  String postId;
+  String caption;
+  String postPic;
+  int comments;
+  String timeStamp;
+  int upVotes = 0;
+
+  _SocialPostState({caption, comments, timeStamp, postPic, postId, upVotes});
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +66,13 @@ class SocialPost extends StatelessWidget {
                             color: Colors.black,
                           ),
                           onPressed: () {
-                        Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: SocialComments(postId: postId,)));
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: SocialComments(
+                                      postId: postId,
+                                    )));
                           },
                         ),
                         comments != null
@@ -77,25 +85,38 @@ class SocialPost extends StatelessWidget {
                             ? Text(timeStamp)
                             : SizedBox(
                                 width: 1,
-                              ), 
+                              ),
                         Spacer(),
                         GestureDetector(
-                          onTap: (){},
+                          onTap: () {
+                            setState(() {
+                              upVotes++;
+                              Firestore.instance
+                                  .collection('socialPosts')
+                                  .document(postId)
+                                  .updateData({'upVotes': upVotes});
+                            });
+                          },
                           child: Container(
                             width: 60,
                             height: 60,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                              color: Colors.grey[200]
-                            ),
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.grey[100]),
                             child: Column(
                               children: <Widget>[
                                 SizedBox(
                                   height: screenH(10),
                                 ),
-                                Icon(Icons.keyboard_arrow_up, color: Color(0xFF8803fc)),
+                                Icon(Icons.keyboard_arrow_up,
+                                    color: Color(0xFF8803fc)),
                                 //Text("$upVotes", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
-                                Text("266", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
+                                Text(
+                                  '$upVotes',
+                                  style: TextStyle(
+                                      color: Color(0xFF8803fc),
+                                      fontWeight: FontWeight.bold),
+                                )
                               ],
                             ),
                           ),

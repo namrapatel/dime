@@ -27,6 +27,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
   String postPic;
   String timeStamp;
   var storedDate;
+  String postID;
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +275,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         postPic = data;
         caption = descriptionController.text;
         uploader.addProfPost(
-            caption, timeStamp, postPic, currentUserModel.uid);
+            caption, timeStamp, postPic, currentUserModel.uid, postID);
       }).then((_) {
         setState(() {
           print('THIS IS THE FIRST ONE');
@@ -287,7 +288,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
       // elapsedTime = timeago.format(storedDate.toDate());
       // timeStamp = '$elapsedTime';
       caption = descriptionController.text;
-      uploader.addProfPost(caption, timeStamp, postPic, currentUserModel.uid);
+      uploader.addProfPost(caption, timeStamp, postPic, currentUserModel.uid, postID);
     }
   }
 }

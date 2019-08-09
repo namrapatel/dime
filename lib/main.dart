@@ -3,6 +3,7 @@ import 'package:Dime/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() => runApp(Dime());
 
@@ -38,11 +39,15 @@ class _SplashScreenState extends State<SplashScreen> {
               MaterialPageRoute(builder: (context) => Login()),
             ));
   }
+  final FirebaseMessaging _messaging = FirebaseMessaging();
 
   @override
   void initState() {
     super.initState();
     startTime();
+    _messaging.getToken().then((token) {
+      print(token);
+    });
   }
 
   @override

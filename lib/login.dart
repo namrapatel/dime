@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Dime/models/user.dart';
 import 'package:Dime/services/googleauth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 User currentUserModel;
 
@@ -22,12 +24,16 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final FirebaseMessaging _messaging = FirebaseMessaging();
   @override
   void initState() {
     super.initState();
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
       if (firebaseUser != null) {
         print('in login');
+        await _messaging.getToken().then((token) {
+          print(token);
+        });
         print(firebaseUser);
         print(firebaseUser.displayName);
         print("you're in");

@@ -24,6 +24,7 @@ import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -441,7 +442,15 @@ class _ScrollPageState extends State<ScrollPage>
                     child: CircularProgressIndicator());
 
               return Container(
-                child: Column(children: snapshot.data),
+                child: Column(children: 
+                // snapshot.data.length == 0?
+                // ListView(
+                //   children: <Widget>[
+                    
+                //   ],
+                // )
+                // :
+                snapshot.data),
               );
             })
           ],

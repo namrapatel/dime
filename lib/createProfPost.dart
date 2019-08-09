@@ -51,7 +51,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                            color: Color(0xFF1976d2), fontSize: screenF(18)),
+                            color: Color(0xFF063F3E), fontSize: screenF(18)),
                       ),
                     ),
                     onTap: () {
@@ -63,7 +63,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     padding: EdgeInsets.fromLTRB(
                         screenW(20), screenH(50), screenW(20), screenH(0)),
                     child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xFF1976d2),
+                      backgroundColor: Color(0xFF063F3E),
                       onPressed: () {
                         post();
                       },
@@ -169,6 +169,8 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
+                      maxLength: 140,
+                      maxLengthEnforced: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "What's going on?",

@@ -49,9 +49,10 @@ class Comment extends StatelessWidget {
         ],
       ),
       subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SizedBox(
-            height: screenH(10),
+            height: screenH(15),
           ),
           Text(text),
         ],

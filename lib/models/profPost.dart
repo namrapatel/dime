@@ -13,13 +13,15 @@ class ProfPost extends StatelessWidget {
   final String postPic;
   final int comments;
   final String timeStamp;
+  final int upVotes;
 
   const ProfPost(
       {
         this.caption,
         this.comments,
         this.timeStamp,
-        this.postPic
+        this.postPic,
+        this.upVotes
       }
       
       );
@@ -73,7 +75,30 @@ class ProfPost extends StatelessWidget {
                       Spacer(),
                       timeStamp != null?
                       Text(timeStamp):
-                      SizedBox(width: 1,)
+                      SizedBox(width: 1,),
+
+                        Spacer(),
+                        GestureDetector(
+                          onTap: (){},
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.grey[200]
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: screenH(10),
+                                ),
+                                Icon(Icons.keyboard_arrow_up, color: Color(0xFF063F3E)),
+                                //Text("$upVotes", style: TextStyle(color:Color(0xFF063F3E), fontWeight: FontWeight.bold),)
+                                Text("266", style: TextStyle(color:Color(0xFF063F3E), fontWeight: FontWeight.bold),)
+                              ],
+                            ),
+                          ),
+                        )
                     ],
                   )
                 ),

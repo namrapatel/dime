@@ -171,6 +171,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
+                      maxLength: 140,
+                      maxLengthEnforced: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "What's going on?",

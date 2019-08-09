@@ -13,8 +13,9 @@ class SocialPost extends StatelessWidget {
   final String postPic;
   final int comments;
   final String timeStamp;
+  final int upVotes;
 
-  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic});
+  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic, this.upVotes});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +76,30 @@ class SocialPost extends StatelessWidget {
                             ? Text(timeStamp)
                             : SizedBox(
                                 width: 1,
-                              )
+                              ),
+                        Spacer(),
+              FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                },
+                elevation: 0,
+                heroTag: 'btn1',
+                backgroundColor: Color(0xFF8803fc),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 6,),
+                    Icon(
+                      Feather.chevron_up,
+                      color: Colors.white,
+                      size: 25,
+                    ),
+                    //SizedBox(height: 2,),
+                    //Text("$upVotes", style: TextStyle(fontSize: 10,  color: Colors.white),)
+                    Text("250", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold,  color: Colors.white),)
+                  ],
+                ),
+              ),
                       ],
                     )),
               ],

@@ -27,6 +27,9 @@ class _ProfilePageState extends State<ProfilePage> {
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
   String displayName;
+  String university;
+  String major;
+  String gradYear;
   String photoUrl;
 
   //Initializes the state when the page first loads and retrieves the users data from firestore
@@ -37,16 +40,18 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   getProfile() async {
-   DocumentSnapshot doc = await Firestore.instance
+    DocumentSnapshot doc = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .get();
 
-      setState(() {
-        displayName = doc['displayName'];
-        photoUrl = doc['photoUrl'];
-      });
-
+    setState(() {
+      displayName = doc['displayName'];
+      university = doc['university'];
+      major = doc['major'];
+      gradYear = doc['gradYear'];
+      photoUrl = doc['photoUrl'];
+    });
   }
 
   @override
@@ -69,12 +74,12 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             height: screenH(350),
             width: double.infinity,
-            color: Colors.black,
+            color: Color(0xFF1458EA),
           ),
           Positioned(
               top: (MediaQuery.of(context).size.height / 15),
               //top: 70,
-              left: (MediaQuery.of(context).size.width / 18),
+              left: (MediaQuery.of(context).size.width / 30),
               child: IconButton(
                 onPressed: () {
                   Navigator.push(
@@ -90,7 +95,6 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.5),
             left: (MediaQuery.of(context).size.width / 21),
-
             //top: 155.0,
             //left: 20.0,
             right: (MediaQuery.of(context).size.width / 21),
@@ -163,11 +167,30 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         textAlign: TextAlign.center,
                       ),
+                university == null
+                    ? Text('')
+                    : Text(
+                        university,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.0,
+                          color: Color(0xFF1458EA),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                major == null
+                    ? Text('')
+                    : Text(
+                        major + ', ' + gradYear,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12.0,
+                          color: Color(0xFF1458EA),
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                 SizedBox(
-                  height: screenH(15),
-                ),
-                SizedBox(
-                  height: screenH(125),
+                  height: screenH(140),
                 ),
               ],
             ),

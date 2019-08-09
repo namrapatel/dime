@@ -43,7 +43,7 @@ class _ProfPageState extends State<ProfPage> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.0), // here the desired height
           child: AppBar(
-            backgroundColor: Color(0xFF1976d2),
+            backgroundColor: Color(0xFF063F3E),
             elevation: 0,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
@@ -64,7 +64,7 @@ class _ProfPageState extends State<ProfPage> {
                   fontWeight: FontWeight.bold),
             ),
           )),
-      backgroundColor: Color(0xFF1976d2),
+      backgroundColor: Color(0xFF063F3E),
       floatingActionButton: FloatingActionButton(
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16.0))),

@@ -121,6 +121,7 @@ class _SocialPageState extends State<SocialPage> {
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (_, index) {
                     return SocialPost(
+                      postId: snapshot.data[index].documentID,
                       caption: snapshot.data[index].data["caption"],
                       comments: 20,
                       timeStamp: snapshot.data[index].data["timeStamp"],

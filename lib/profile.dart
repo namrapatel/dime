@@ -25,16 +25,38 @@ class Profile extends StatelessWidget {
 }
 
 class HomePageOne extends StatefulWidget {
+
+
   @override
   _HomePageOneState createState() => _HomePageOneState();
 }
 
-class _HomePageOneState extends State<HomePageOne> {
-  String name;
-  String major;
-  String gradYear;
-  String university;
-  updateProfile() async {
+
+class _HomePageOneState extends State<HomePageOne>{
+String name;
+String major;
+String gradYear;
+String university;
+
+@override
+void initState() {
+  // TODO: implement initState
+  super.initState();
+  getProfileInfo();
+}
+
+
+getProfileInfo() async{
+  DocumentSnapshot doc= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+  setState(() {
+    name=doc.data['displayName'];
+    major=doc.data['major'];
+    gradYear=doc.data['gradYear'];
+    university= doc.data['university'];
+  });
+}
+updateProfile() {
+
 //  QuerySnapshot query = await Firestore.instance
 //      .collection('users')
 //      .document(currentUserModel.uid)
@@ -61,12 +83,12 @@ class _HomePageOneState extends State<HomePageOne> {
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .setData({
+        .updateData({
       'displayName': name,
       'major': major,
       'university': university,
       'gradYear': gradYear
-    }, merge: true);
+    });
 
     Firestore.instance
         .collection('users')
@@ -173,8 +195,9 @@ class _HomePageOneState extends State<HomePageOne> {
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+
             onSubmitted: (value) {
-              if (value != '' && value != null) {
+              if (value.isNotEmpty && value != null) {
                 setState(() {
                   name = value;
                 });
@@ -211,7 +234,7 @@ class _HomePageOneState extends State<HomePageOne> {
             child: FlutterSearchPanel<int>(
               padding: EdgeInsets.all(10.0),
               selected: 0,
-              title: 'Select University',
+              title: "Select your university",
               data: data2,
               color: Colors.white,
               icon: new Icon(Icons.school, color: Colors.black),
@@ -221,9 +244,11 @@ class _HomePageOneState extends State<HomePageOne> {
               ),
               onChanged: (int value) {
                 if (value != null) {
-                  setState(() {
-                    university = data2[value].text;
-                  });
+                  if(data2[value].text.isNotEmpty&& data2[value].text!=null) {
+                    setState(() {
+                      university = data2[value].text;
+                    });
+                  }
                 }
               },
             ),
@@ -237,7 +262,7 @@ class _HomePageOneState extends State<HomePageOne> {
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
             onSubmitted: (value) {
-              if (value != '' && value != null) {
+              if (value.isNotEmpty && value != null) {
                 setState(() {
                   major = value;
                 });
@@ -268,7 +293,7 @@ class _HomePageOneState extends State<HomePageOne> {
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
             onSubmitted: (value) {
-              if (value != '' && value != null) {
+              if (value.isNotEmpty && value != null) {
                 setState(() {
                   gradYear = "" + value;
                 });

@@ -53,7 +53,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   }
 
   String email;
-
+  String gradYear;
   String interestString = "";
   String saved = '';
   String name;
@@ -102,6 +102,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
+        gradYear=document['gradYear'];
         major = document['major'];
         name = document['displayName'];
         university = document['university'];
@@ -312,12 +313,15 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                       SizedBox(
                                         height: screenH(2),
                                       ),
-                                      major != null
-                                          ? Text(major,
+                                      major != null&&gradYear!=null
+                                          ? Text(major+", "+gradYear,
                                               style: TextStyle(
                                                   fontSize: screenF(13),
                                                   color: Colors.grey))
-                                          : SizedBox(height: screenH(1)),
+                                          : Text(major!=null?major:"",
+                                          style: TextStyle(
+                                              fontSize: screenF(13),
+                                              color: Colors.grey)),
                                       email != null
                                           ? Text(email,
                                               style: TextStyle(
@@ -1003,7 +1007,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String linkedIn;
   String github;
   String twitter;
-
+String gradYear;
   String photoUrl;
 
   File _image;
@@ -1018,7 +1022,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     for (var document in query.documents) {
       setState(() {
         profCardId = document.documentID;
-
+gradYear=document['gradYear'];
         major = document['major'];
         name = document['displayName'];
         university = document['university'];
@@ -1253,12 +1257,15 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                       SizedBox(
                                         height: screenH(2),
                                       ),
-                                      major != null
-                                          ? Text(major,
-                                              style: TextStyle(
-                                                  fontSize: screenF(13),
-                                                  color: Colors.grey))
-                                          : SizedBox(height: screenH(1)),
+                                      major != null&&gradYear!=null
+                                          ? Text(major+", "+gradYear,
+                                          style: TextStyle(
+                                              fontSize: screenF(13),
+                                              color: Colors.grey))
+                                          : Text(major!=null?major:"",
+                                          style: TextStyle(
+                                              fontSize: screenF(13),
+                                              color: Colors.grey)),
                                       email != null
                                           ? Text(email,
                                               style: TextStyle(

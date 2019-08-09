@@ -1,12 +1,107 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
+import 'models/commentTags.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'homePage.dart';
+import 'login.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'models/comment.dart';
 
 class SocialComments extends StatefulWidget {
+  final String postId;
+  const SocialComments({this.postId});
   @override
-  _SocialCommentsState createState() => _SocialCommentsState();
+  _SocialCommentsState createState() => _SocialCommentsState(this.postId);
 }
 
 class _SocialCommentsState extends State<SocialComments> {
+
+
+  final String postId;
+  _SocialCommentsState(this.postId);
+   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
+  TextEditingController controller= new TextEditingController() ;
+     List<UserTag> suggestions = [
+       UserTag(id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',photo: "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",name: "Shehab Salem",)
+//    "Apple",
+//    "Armidillo",
+//    "Actual",
+//    "Actuary",
+//    "America",
+//    "Argentina",
+//    "Australia",
+//    "Antarctica",
+//    "Blueberry",
+//    "Cheese",
+//    "Danish",
+//    "Eclair",
+//    "Fudge",
+//    "Granola",
+//    "Hazelnut",
+//    "Ice Cream",
+//    "Jely",
+//    "Kiwi Fruit",
+//    "Lamb",
+//    "Macadamia",
+//    "Nachos",
+//    "Oatmeal",
+//    "Palm Oil",
+//    "Quail",
+//    "Rabbit",
+//    "Salad",
+//    "T-Bone Steak",
+//    "Urid Dal",
+//    "Vanilla",
+//    "Waffles",
+//    "Yam",
+//    "Zest"
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
+  getAllUsers() async{
+    QuerySnapshot users = await Firestore.instance.collection('users').getDocuments();
+
+  }
+
+   Future<List<Comment>>  getComments() async{
+     List<Comment> postComments=[];
+     print(postId);
+     QuerySnapshot query = await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
+        for(var doc in query.documents){
+          postComments.add(Comment.fromDocument(doc));
+        }
+        return postComments;
+     }
+
+
+     buildComments(){
+       return Container(
+           color: Colors.white,
+           child: ListView(
+             children: <Widget>[
+               FutureBuilder<List<Comment>>(
+                   future: getComments(),
+                   builder: (context, snapshot) {
+                     if (!snapshot.hasData)
+                       return Container(
+                           alignment: FractionalOffset.center,
+                           child: CircularProgressIndicator());
+
+                     return Container(
+                       child: Column(children: snapshot.data),
+                     );
+                   })
+             ],
+           )
+
+       );
+
+     }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,30 +145,7 @@ class _SocialCommentsState extends State<SocialComments> {
             child: Column(
               children: <Widget>[
                 Flexible(
-                  child: ListView.builder(
-                    physics: BouncingScrollPhysics(),
-                    itemCount: 15,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
-                        ),
-                        title: Row(
-                          children: <Widget>[
-                            Text("Dhruv Patel"),
-                            Spacer(),
-                            Text("2 hrs ago",
-                            style: TextStyle(fontSize: 12,
-                            color: Color(0xFF8803fc)
-                            ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Text("This was a really dope post about cool stuff lololol"),
-                      );
-                    },
-                  ),
+                  child: buildComments()
                 ),
               ],
             ),
@@ -94,10 +166,10 @@ class _SocialCommentsState extends State<SocialComments> {
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 15),
+                    padding: EdgeInsets.only(left: 15,),
                   ),
                   Expanded(
-                    child:                     Container(
+                    child:  Container(
                       width: MediaQuery.of(context).size.width / 1.3,
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -106,10 +178,9 @@ class _SocialCommentsState extends State<SocialComments> {
                         padding: EdgeInsets.symmetric(
                             horizontal: MediaQuery.of(context).size.width / 22,
                             vertical: MediaQuery.of(context).size.height / 72),
-                        child: TextField(
-                          onTap: (){
-                          },
-                          decoration: new InputDecoration(
+                        child: SimpleAutoCompleteTextField(
+                        key: key,
+                        decoration: new InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               contentPadding: EdgeInsets.only(
@@ -117,11 +188,18 @@ class _SocialCommentsState extends State<SocialComments> {
                                   bottom: MediaQuery.of(context).size.height / 155,
                                   top: MediaQuery.of(context).size.height / 155,
                                   right: MediaQuery.of(context).size.width / 30),
-                              hintText: 'Enter Comment'),
-                        ),
+                              hintText: 'Enter Comment',
+                              hintStyle: TextStyle(color: Colors.grey)
+                              ),
+                        controller:controller ,
+                        suggestions: suggestions,
+                        clearOnSubmit: false,
+                            
+                            ),
+                      ),
+
                       ),
                     ),
-                  ),
 
                   SizedBox(
                     width: screenW(20),
@@ -135,7 +213,20 @@ Container(
             backgroundColor: Color(0xFF8803fc),
             heroTag: 'fabb4',
             child: Icon(Icons.send, color: Colors.white, size: 20,),
-            onPressed: (){}
+            onPressed: (){
+              Firestore.instance.collection('socialPosts').document(postId).collection('comments').add({
+                'commenterId':currentUserModel.uid,
+                'commenterName':currentUserModel.displayName,
+                'commenterPhoto':currentUserModel.photoUrl,
+                'text':controller.text,
+                'timestamp':Timestamp.now()
+              });
+              setState(() {
+                getComments();
+                controller.clear();
+              });
+
+            }
         )
     ),
                 ],
@@ -147,3 +238,30 @@ Container(
     );
   }
 }
+class UserTag extends StatelessWidget {
+  final String id, name,photo;
+
+  const UserTag({this.id,this.name,this.photo});
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.all(15),
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(photo),
+        radius: 25,
+      ),
+      title: Row(
+        children: <Widget>[
+          Text(name,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+
+
+        ],
+      ),
+
+    );
+  }
+}
+
+

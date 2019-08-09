@@ -23,6 +23,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
+import 'package:geolocator/geolocator.dart' as geoLoc;
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -90,26 +91,41 @@ class _ScrollPageState extends State<ScrollPage>
   final Map<String, Marker> _markers = {};
   GeoPoint userLoc;
 
+  geoLoc.Position position;
+  GeoPoint current;
+  getLocation() async{
+
+
+    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
+
+    setState(() {
+      position=idiot;
+    });
+
+    print(position.latitude);
+    print(position.longitude);
+    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+    print('distance is');
+    print(distanceInMeters);
+    current =
+    new GeoPoint(position.latitude, position.longitude);
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .setData({
+      'currentLocation': current,
+    }, merge: true);
+    DocumentSnapshot userRecord = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .get();
+    currentUserModel = User.fromDocument(userRecord);
+//    });
+  }
+
   @override
   void initState() {
-    var location = new Location();
-
-    location.onLocationChanged().listen((LocationData currentLocation) async {
-      userLoc =
-          new GeoPoint(currentLocation.latitude, currentLocation.longitude);
-
-      Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .setData({
-        'currentLocation': userLoc,
-      }, merge: true);
-      DocumentSnapshot userRecord = await Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .get();
-      currentUserModel = User.fromDocument(userRecord);
-    });
+    getLocation();
 
     _controller = RubberAnimationController(
         vsync: this,
@@ -122,11 +138,7 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
-  @override
-  void dispose() {
-    streamController.close(); //Streams must be closed when not needed
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +146,7 @@ class _ScrollPageState extends State<ScrollPage>
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,
-        backgroundColor: Color(0xFF48A9A6),
+        backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
             Text(
@@ -174,7 +186,7 @@ class _ScrollPageState extends State<ScrollPage>
           ],
         ),
       ),
-      backgroundColor: Color(0xFF48A9A6),
+      backgroundColor: Color(0xFF1458EA),
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -240,8 +252,8 @@ class _ScrollPageState extends State<ScrollPage>
               ],
             ),
           ),
-          headerHeight: MediaQuery.of(context).size.height / 8,
-          //upperLayer: _getUpperLayer(),
+          headerHeight: MediaQuery.of(context).size.height / 6.5,
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -371,7 +383,7 @@ class _ScrollPageState extends State<ScrollPage>
                 backgroundColor: Colors.white,
                 child: Icon(
                   MaterialCommunityIcons.account_tie,
-                  color: Color(0xFF1976d2),
+                  color: Color(0xFF063F3E),
                 ),
               ),
             ],
@@ -386,16 +398,19 @@ class _ScrollPageState extends State<ScrollPage>
 
     final Lat.Distance distance = new Lat.Distance();
     QuerySnapshot query =
-        await Firestore.instance.collection('users').getDocuments();
+    await Firestore.instance.collection('users').getDocuments();
     final docs = query.documents;
     for (var doc in docs) {
       if (doc.data['currentLocation'] != null) {
-        final double distanceInMeters = distance(
-            new Lat.LatLng(userLoc.latitude, userLoc.longitude),
-            new Lat.LatLng(doc.data['currentLocation'].latitude,
-                doc.data['currentLocation'].longitude));
+
 //
-        print(doc.data['displayName']);
+//        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
+//            doc.data['currentLocation'].longitude);
+
+        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position.latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
+//        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
+
+        print(doc.documentID);
         print('distance away is');
         print(distanceInMeters);
         if (distanceInMeters <= 6000.0 &&
@@ -416,7 +431,9 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getUpperLayer() {
     return Container(
         color: Colors.white,
-        child: FutureBuilder<List<UserTile>>(
+        child: ListView(
+          children: <Widget>[
+            FutureBuilder<List<UserTile>>(
             future: getUsers(),
             builder: (context, snapshot) {
               if (!snapshot.hasData)
@@ -424,8 +441,22 @@ class _ScrollPageState extends State<ScrollPage>
                     alignment: FractionalOffset.center,
                     child: CircularProgressIndicator());
 
-              return Column(children: snapshot.data);
-            }));
+              return Container(
+                child: Column(children: 
+                // snapshot.data.length == 0?
+                // ListView(
+                //   children: <Widget>[
+                    
+                //   ],
+                // )
+                // :
+                snapshot.data),
+              );
+            })
+          ],
+        )
+            
+            );
   }
 
   double _value = 5.0;

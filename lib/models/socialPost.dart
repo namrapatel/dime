@@ -9,12 +9,13 @@ import 'package:Dime/socialComments.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SocialPost extends StatelessWidget {
+  final String postId;
   final String caption;
   final String postPic;
   final int comments;
   final String timeStamp;
 
-  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic});
+  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic,this.postId});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class SocialPost extends StatelessWidget {
                       context,
                       PageTransition(
                           type: PageTransitionType.fade,
-                          child: SocialComments()));
+                          child: SocialComments(postId: postId,)));
                           },
                         ),
                         comments != null

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:Dime/socialComments.dart';
 
 typedef Widget AutoCompleteOverlayItemBuilder<T>(
     BuildContext context, T suggestion);
@@ -382,7 +383,7 @@ class AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> {
   }
 }
 
-class SimpleAutoCompleteTextField extends AutoCompleteTextField<String> {
+class SimpleAutoCompleteTextField extends AutoCompleteTextField<UserTag> {
   final StringCallback textChanged, textSubmitted;
   final int minLength;
   final ValueSetter<bool> onFocusChanged;
@@ -399,8 +400,8 @@ class SimpleAutoCompleteTextField extends AutoCompleteTextField<String> {
       this.controller,
       this.focusNode,
       TextInputType keyboardType: TextInputType.text,
-      @required GlobalKey<AutoCompleteTextFieldState<String>> key,
-      @required List<String> suggestions,
+      @required GlobalKey<AutoCompleteTextFieldState<UserTag>> key,
+      @required List<UserTag> suggestions,
       int suggestionsAmount: 5,
       bool submitOnSuggestionTap: true,
       bool clearOnSubmit: true,
@@ -411,7 +412,9 @@ class SimpleAutoCompleteTextField extends AutoCompleteTextField<String> {
             decoration: decoration,
             textChanged: textChanged,
             textSubmitted: textSubmitted,
-            itemSubmitted: textSubmitted,
+            itemSubmitted:(uhh){
+
+            },
             keyboardType: keyboardType,
             key: key,
             suggestions: suggestions,
@@ -425,17 +428,17 @@ class SimpleAutoCompleteTextField extends AutoCompleteTextField<String> {
             textCapitalization: textCapitalization);
 
   @override
-  State<StatefulWidget> createState() => new AutoCompleteTextFieldState<String>(
+  State<StatefulWidget> createState() => new AutoCompleteTextFieldState<UserTag>(
           suggestions,
           textChanged,
           textSubmitted,
           onFocusChanged,
           itemSubmitted, (context, item) {
-        return new Padding(padding: EdgeInsets.all(8.0), child: new Text(item));
+        return new Padding(padding: EdgeInsets.all(8.0), child: new Text(item.name));
       }, (a, b) {
-        return a.compareTo(b);
+        return a.name.compareTo(b.name);
       }, (item, query) {
-        return item.toLowerCase().startsWith(query.toLowerCase());
+        return item.name.toLowerCase().startsWith(query.toLowerCase());
       },
           suggestionsAmount,
           submitOnSuggestionTap,

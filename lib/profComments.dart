@@ -1,6 +1,7 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
 import 'models/commentTags.dart';
+import 'socialComments.dart';
 
 class ProfComments extends StatefulWidget {
   @override
@@ -8,41 +9,41 @@ class ProfComments extends StatefulWidget {
 }
 
 class _ProfCommentsState extends State<ProfComments> {
-   GlobalKey<AutoCompleteTextFieldState<String>> key = new GlobalKey();
+   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
 
-     List<String> suggestions = [
-    "Apple",
-    "Armidillo",
-    "Actual",
-    "Actuary",
-    "America",
-    "Argentina",
-    "Australia",
-    "Antarctica",
-    "Blueberry",
-    "Cheese",
-    "Danish",
-    "Eclair",
-    "Fudge",
-    "Granola",
-    "Hazelnut",
-    "Ice Cream",
-    "Jely",
-    "Kiwi Fruit",
-    "Lamb",
-    "Macadamia",
-    "Nachos",
-    "Oatmeal",
-    "Palm Oil",
-    "Quail",
-    "Rabbit",
-    "Salad",
-    "T-Bone Steak",
-    "Urid Dal",
-    "Vanilla",
-    "Waffles",
-    "Yam",
-    "Zest"
+     List<UserTag> suggestions = [
+//    "Apple",
+//    "Armidillo",
+//    "Actual",
+//    "Actuary",
+//    "America",
+//    "Argentina",
+//    "Australia",
+//    "Antarctica",
+//    "Blueberry",
+//    "Cheese",
+//    "Danish",
+//    "Eclair",
+//    "Fudge",
+//    "Granola",
+//    "Hazelnut",
+//    "Ice Cream",
+//    "Jely",
+//    "Kiwi Fruit",
+//    "Lamb",
+//    "Macadamia",
+//    "Nachos",
+//    "Oatmeal",
+//    "Palm Oil",
+//    "Quail",
+//    "Rabbit",
+//    "Salad",
+//    "T-Bone Steak",
+//    "Urid Dal",
+//    "Vanilla",
+//    "Waffles",
+//    "Yam",
+//    "Zest"
   ];
 
   @override

@@ -16,7 +16,7 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
-var university = currentUserModel.university;
+//var university = currentUserModel.university;
 
 Future getPosts() async {
   QuerySnapshot qn = await Firestore.instance
@@ -58,7 +58,7 @@ class _SocialPageState extends State<SocialPage> {
                       height: 20,
                     ),
                     Text(
-                     university,
+                     "waterloo",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,

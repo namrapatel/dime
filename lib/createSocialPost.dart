@@ -274,13 +274,14 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 
   void post() {
     timeStamp = Timestamp.now();
+    upVotes = 0;
     if (file != null) {
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
         postPic = data;
         caption = descriptionController.text;
         postId = currentUserModel.uid + Timestamp.now().toString();
-        upVotes = 0;
+
         uploader.addSocialPost(
             caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
       }).then((_) {
@@ -297,7 +298,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       // timeStamp = '$elapsedTime';
       postId = currentUserModel.uid + Timestamp.now().toString();
       caption = descriptionController.text;
-      upVotes = 0;
+
       uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
       Navigator.push(
           context,

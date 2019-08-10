@@ -9,20 +9,27 @@ import 'package:Dime/socialComments.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SocialPost extends StatefulWidget {
-  SocialPost({caption, comments, timeStamp, postPic, postId, upVotes});
+ final String postId;
+ final  String caption;
+ final String postPic;
+ final int comments;
+ final String timeStamp;
+ final int upVotes ;
+
+  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic,this.postId, this.upVotes});
   @override
-  _SocialPostState createState() => _SocialPostState();
+  _SocialPostState createState() => _SocialPostState(postId:this.postId,caption:this.caption,postPic:this.postPic,comments:this.comments,timeStamp:this.timeStamp,upVotes:this.upVotes);
 }
 
 class _SocialPostState extends State<SocialPost> {
   String postId;
-  String caption;
-  String postPic;
-  int comments;
-  String timeStamp;
-  int upVotes = 0;
-
-  _SocialPostState({caption, comments, timeStamp, postPic, postId, upVotes});
+   String caption;
+   String postPic;
+   int comments;
+   String timeStamp;
+   int upVotes ;
+bool liked=false;
+  _SocialPostState({this.caption, this.comments, this.timeStamp, this.postPic, this.postId, this.upVotes});
 
   @override
   Widget build(BuildContext context) {
@@ -89,20 +96,31 @@ class _SocialPostState extends State<SocialPost> {
                         Spacer(),
                         GestureDetector(
                           onTap: () {
-                            setState(() {
-                              upVotes++;
-                              Firestore.instance
-                                  .collection('socialPosts')
-                                  .document(postId)
-                                  .updateData({'upVotes': upVotes});
-                            });
+                            if(liked==false){
+                              setState(() {
+                                liked=true;
+                                upVotes++;
+
+                              });
+                            }else{
+                                  setState(() {
+                                  liked=false;
+                                  upVotes--;
+                                  });
+                            }
+
+
+                            Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .updateData({'upVotes': upVotes});
                           },
                           child: Container(
                             width: 60,
                             height: 60,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                color: Colors.grey[100]),
+                                color: liked==false?Colors.grey[100]:Color(0xFFdeb8ff)),
                             child: Column(
                               children: <Widget>[
                                 SizedBox(

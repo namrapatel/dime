@@ -363,24 +363,24 @@ class _LoginState extends State<Login> {
             buildTitle(),
             buildTitleLine(),
             SizedBox(
-              height: 70.0,
+              height: MediaQuery.of(context).size.height/10,
             ),
             buildEmailTextField(),
             SizedBox(
-              height: 30.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             buildPasswordInput(context),
             buildPasswordText(),
             SizedBox(
-              height: 30.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             buildLoginButton(context),
             SizedBox(
-              height: 20.0,
+              height: MediaQuery.of(context).size.height/30,
             ),
             buildSignUpText(),
             SizedBox(
-              height: 30.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/17,),

@@ -25,6 +25,7 @@ import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:io';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -157,7 +158,14 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
-    _saveDeviceToken();
+    if (Platform.isIOS) {
+      _fcm.onIosSettingsRegistered.listen((data) {
+        _saveDeviceToken();
+      });
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+    } else {
+      _saveDeviceToken();
+    }
     getLocation();
 
     _controller = RubberAnimationController(

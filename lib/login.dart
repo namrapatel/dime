@@ -31,10 +31,6 @@ class _LoginState extends State<Login> {
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
       if (firebaseUser != null) {
         print('in login');
-        await _messaging.getToken().then((token) {
-          _saveDeviceToken();
-          print(token);
-        });
         print(firebaseUser);
         print(firebaseUser.displayName);
         print("you're in");

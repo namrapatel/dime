@@ -41,15 +41,10 @@ class _SplashScreenState extends State<SplashScreen> {
               MaterialPageRoute(builder: (context) => Login()),
             ));
   }
-  final FirebaseMessaging _messaging = FirebaseMessaging();
-
   @override
   void initState() {
     super.initState();
     startTime();
-    _messaging.getToken().then((token) {
-      print(token);
-    });
   }
 
   @override
@@ -69,23 +64,4 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     ));
   }
-
-}
-
-
-class MessageHandler extends StatefulWidget {
-  @override
-  State<MessageHandler> createState() {
-    return _MessageHandlerState();
-  }
-}
-
-class _MessageHandlerState extends State<MessageHandler> {
-  final Firestore _db = Firestore.instance;
-  final FirebaseMessaging _fcm = FirebaseMessaging();
-  @override
-  Widget build(BuildContext context) {
-    return null;
-  }
-
 }

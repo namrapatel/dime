@@ -75,7 +75,7 @@ class _ChatState extends State<Chat> {
         'timestamp': Timestamp.now(),
       });
 
-      _firestore.collection('chatNotifs').document().setData({
+      _firestore.collection('notifMessages').document().setData({
         'text': messageController.text,
         'from': widget.fromUserId,
         'to': widget.toUserId,

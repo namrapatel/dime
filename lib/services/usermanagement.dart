@@ -2,7 +2,6 @@ import 'package:Dime/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 //Creates a document in the database for each user, differentiated by email
 
 class UserManagement {
@@ -34,16 +33,28 @@ class UserManagement {
         .add({'photoUrl': url, 'displayName': name, 'socialToggled': true});
   }
 
-  addSocialPost(
-      String caption, String timeStamp, String postPic, String ownerID) {
-    Firestore.instance
-        .collection('socialPosts')
-        .add({'caption': caption, 'timeStamp': timeStamp, 'postPic': postPic,  "ownerId": currentUserModel.uid,});
+  addSocialPost(String caption, Timestamp timeStamp, String postPic,
+      String ownerID, String postId, int upVotes) {
+    Firestore.instance.collection('socialPosts').add({
+      'comments':0,
+      'caption': caption,
+      'timeStamp': timeStamp,
+      'postPic': postPic,
+      "ownerId": currentUserModel.uid,
+      "postID": postId,
+      'upVotes': upVotes
+    });
   }
-  addProfPost(
-      String caption, String timeStamp, String postPic, String ownerID) {
-    Firestore.instance
-        .collection('profPosts')
-        .add({'caption': caption, 'timeStamp': timeStamp, 'postPic': postPic,  "ownerId": currentUserModel.uid,});
+
+  addProfPost(String caption, String timeStamp, String postPic, String ownerID,
+      String postId) {
+    Firestore.instance.collection('profPosts').add({
+      'caption': caption,
+      'timeStamp': timeStamp,
+      'postPic': postPic,
+      "ownerId": currentUserModel.uid,
+      "postID": postId,
+      //'upVotes': upVotes
+    });
   }
 }

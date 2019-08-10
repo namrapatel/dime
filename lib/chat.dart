@@ -67,6 +67,12 @@ class _ChatState extends State<Chat> {
 
       });
 
+      _firestore.collection('notifMessages').document().setData({
+        'text': messageController.text,
+        'from': widget.fromUserId,
+        'to': widget.toUserId,
+      });              
+
       messageController.clear();
       scrollController.animateTo(scrollController.position.minScrollExtent,
           curve: Curves.easeOut, duration: const Duration(milliseconds: 300));

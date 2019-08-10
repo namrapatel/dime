@@ -7,6 +7,7 @@ import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'models/comment.dart';
 
+
 class SocialComments extends StatefulWidget {
   final String postId;
   const SocialComments({this.postId});
@@ -15,14 +16,17 @@ class SocialComments extends StatefulWidget {
 }
 
 class _SocialCommentsState extends State<SocialComments> {
-
-
   final String postId;
   _SocialCommentsState(this.postId);
-   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
-  TextEditingController controller= new TextEditingController() ;
-     List<UserTag> suggestions = [
-       UserTag(id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',photo: "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",name: "Shehab Salem",)
+  GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
+  TextEditingController controller = new TextEditingController();
+  List<UserTag> suggestions = [
+    UserTag(
+      id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',
+      photo:
+          "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",
+      name: "Shehab Salem",
+    )
 //    "Apple",
 //    "Armidillo",
 //    "Actual",
@@ -60,48 +64,50 @@ class _SocialCommentsState extends State<SocialComments> {
   @override
   void initState() {
     super.initState();
-
   }
 
-  getAllUsers() async{
-    QuerySnapshot users = await Firestore.instance.collection('users').getDocuments();
-
+  getAllUsers() async {
+    QuerySnapshot users = await Firestore.instance
+        .collection('users')
+        .getDocuments();
   }
 
-   Future<List<Comment>>  getComments() async{
-     List<Comment> postComments=[];
-     print(postId);
-     QuerySnapshot query = await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
-        for(var doc in query.documents){
-          postComments.add(Comment.fromDocument(doc));
-        }
-        return postComments;
-     }
+  Future<List<Comment>> getComments() async {
+    List<Comment> postComments = [];
+    print(postId);
+    QuerySnapshot query = await Firestore.instance
+        .collection('socialPosts')
+        .document(postId)
+        .collection('comments')
+        .orderBy('timestamp', descending: false)
+        .getDocuments();
+    for (var doc in query.documents) {
+      postComments.add(Comment.fromDocument(doc));
+    }
+    return postComments;
+  }
 
+  buildComments() {
+    return Container(
+        color: Colors.white,
+        child: ListView(
+          children: <Widget>[
+            FutureBuilder<List<Comment>>(
+                future: getComments(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Container(
+                        alignment: FractionalOffset.center,
+                        child: CircularProgressIndicator());
 
-     buildComments(){
-       return Container(
-           color: Colors.white,
-           child: ListView(
-             children: <Widget>[
-               FutureBuilder<List<Comment>>(
-                   future: getComments(),
-                   builder: (context, snapshot) {
-                     if (!snapshot.hasData)
-                       return Container(
-                           alignment: FractionalOffset.center,
-                           child: CircularProgressIndicator());
+                  return Container(
+                    child: Column(children: snapshot.data),
+                  );
+                })
+          ],
+        ));
+  }
 
-                     return Container(
-                       child: Column(children: snapshot.data),
-                     );
-                   })
-             ],
-           )
-
-       );
-
-     }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,7 +115,7 @@ class _SocialCommentsState extends State<SocialComments> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
         ),
@@ -144,9 +150,7 @@ class _SocialCommentsState extends State<SocialComments> {
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                Flexible(
-                  child: buildComments()
-                ),
+                Flexible(child: buildComments()),
               ],
             ),
           ),
@@ -166,10 +170,12 @@ class _SocialCommentsState extends State<SocialComments> {
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 15,),
+                    padding: EdgeInsets.only(
+                      left: 15,
+                    ),
                   ),
                   Expanded(
-                    child:  Container(
+                    child: Container(
                       width: MediaQuery.of(context).size.width / 1.3,
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -179,56 +185,65 @@ class _SocialCommentsState extends State<SocialComments> {
                             horizontal: MediaQuery.of(context).size.width / 22,
                             vertical: MediaQuery.of(context).size.height / 72),
                         child: SimpleAutoCompleteTextField(
-                        key: key,
-                        decoration: new InputDecoration(
+                          key: key,
+                          decoration: new InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               contentPadding: EdgeInsets.only(
                                   left: MediaQuery.of(context).size.width / 30,
-                                  bottom: MediaQuery.of(context).size.height / 155,
+                                  bottom:
+                                      MediaQuery.of(context).size.height / 155,
                                   top: MediaQuery.of(context).size.height / 155,
-                                  right: MediaQuery.of(context).size.width / 30),
+                                  right:
+                                      MediaQuery.of(context).size.width / 30),
                               hintText: 'Enter Comment',
-                              hintStyle: TextStyle(color: Colors.grey)
-                              ),
-                        controller:controller ,
-                        suggestions: suggestions,
-                        clearOnSubmit: false,
-                            
-                            ),
-                      ),
-
+                              hintStyle: TextStyle(color: Colors.grey)),
+                          controller: controller,
+                          suggestions: suggestions,
+                          clearOnSubmit: false,
+                        ),
                       ),
                     ),
-
+                  ),
                   SizedBox(
                     width: screenW(20),
                   ),
-                  
-Container(
-        width: 40,
-        height: 40,
-        child: FloatingActionButton(
-            elevation: 5,
-            backgroundColor: Color(0xFF8803fc),
-            heroTag: 'fabb4',
-            child: Icon(Icons.send, color: Colors.white, size: 20,),
-            onPressed: (){
-              Firestore.instance.collection('socialPosts').document(postId).collection('comments').add({
-                'commenterId':currentUserModel.uid,
-                'commenterName':currentUserModel.displayName,
-                'commenterPhoto':currentUserModel.photoUrl,
-                'text':controller.text,
-                'timestamp':Timestamp.now()
-              });
-              setState(() {
-                getComments();
-                controller.clear();
-              });
+                  Container(
+                      width: 40,
+                      height: 40,
+                      child: FloatingActionButton(
+                          elevation: 5,
+                          backgroundColor: Color(0xFF8803fc),
+                          heroTag: 'fabb4',
+                          child: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          onPressed: () async{
+                            Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .collection('comments')
+                                .add({
+                              'commenterId': currentUserModel.uid,
+                              'commenterName': currentUserModel.displayName,
+                              'commenterPhoto': currentUserModel.photoUrl,
+                              'text': controller.text,
+                              'timestamp': Timestamp.now()
+                            });
+                            QuerySnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
+                            int numberOfComments= snap.documents.length;
+                            Firestore.instance.collection('socialPosts').document(postId).updateData({
+                              'comments':numberOfComments
+                            });
 
-            }
-        )
-    ),
+
+                            setState(() {
+                              getComments();
+                              controller.clear();
+                            });
+                          })),
                 ],
               ),
             ),
@@ -238,10 +253,11 @@ Container(
     );
   }
 }
-class UserTag extends StatelessWidget {
-  final String id, name,photo;
 
-  const UserTag({this.id,this.name,this.photo});
+class UserTag extends StatelessWidget {
+  final String id, name, photo;
+
+  const UserTag({this.id, this.name, this.photo});
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -252,16 +268,12 @@ class UserTag extends StatelessWidget {
       ),
       title: Row(
         children: <Widget>[
-          Text(name,
+          Text(
+            name,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-
-
         ],
       ),
-
     );
   }
 }
-
-

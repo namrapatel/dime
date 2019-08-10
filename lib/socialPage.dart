@@ -6,8 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'login.dart';
 import 'EditCardsScreen.dart';
-import 'inviteFriends.dart';
-import 'profileScreen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'createSocialPost.dart';
 import 'socialComments.dart';
@@ -17,14 +16,9 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
+//var university = currentUserModel.university;
 
-Future getPosts() async {
-  QuerySnapshot qn = await Firestore.instance
-      .collection('socialPosts')
-      .orderBy('timeStamp', descending: false)
-      .getDocuments();
-  return qn.documents;
-}
+
 
 class SocialPage extends StatefulWidget {
   @override
@@ -32,6 +26,18 @@ class SocialPage extends StatefulWidget {
 }
 
 class _SocialPageState extends State<SocialPage> {
+  Future getPosts() async {
+    QuerySnapshot qn = await Firestore.instance
+        .collection('socialPosts')
+        .orderBy('timeStamp', descending: false)
+        .getDocuments();
+
+
+
+    return qn.documents;
+  }
+  int commentLengths;
+
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -58,7 +64,7 @@ class _SocialPageState extends State<SocialPage> {
                       height: 20,
                     ),
                     Text(
-                      "University of Waterloo",
+                     "waterloo",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,
@@ -115,17 +121,23 @@ class _SocialPageState extends State<SocialPage> {
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: Text("loading..."));
-            } else {
+            } else{
+
               return ListView.builder(
                   itemCount: snapshot?.data?.length,
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (_, index) {
+                    Timestamp storedDate=snapshot.data[index].data["timeStamp"];
+                    String elapsedTime = timeago.format(storedDate.toDate());
+                    String timestamp = '$elapsedTime';
+
                     return SocialPost(
                       postId: snapshot.data[index].documentID,
                       caption: snapshot.data[index].data["caption"],
-                      comments: 20,
-                      timeStamp: snapshot.data[index].data["timeStamp"],
+                      comments: snapshot.data[index].data["comments"],
+                      timeStamp: timestamp,
                       postPic: snapshot.data[index].data["postPic"],
+                      upVotes: snapshot.data[index].data["upVotes"],
                     );
                   });
             }

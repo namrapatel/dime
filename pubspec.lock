@@ -120,6 +120,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1+1"
+  esys_flutter_share:
+    dependency: "direct dev"
+    description:
+      name: esys_flutter_share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   fancy_on_boarding:
     dependency: "direct dev"
     description:
@@ -141,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.0+1"
+  firebase_messaging:
+    dependency: "direct dev"
+    description:
+      name: firebase_messaging
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.2"
   firebase_storage:
     dependency: "direct dev"
     description:
@@ -386,6 +400,13 @@ packages:
     dependency: transitive
     description:
       name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.1"
+  platform:
+    dependency: transitive
+    description:
+      name: platform
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"

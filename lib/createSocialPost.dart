@@ -1,4 +1,5 @@
 import 'package:Dime/services/usermanagement.dart';
+import 'package:Dime/socialPage.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,8 +26,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   String elapsedTime;
   String caption;
   String postPic;
-  String timeStamp;
+  Timestamp timeStamp;
   var storedDate;
+  String postId;
+  int upVotes;
 
   @override
   Widget build(BuildContext context) {
@@ -270,26 +273,38 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   }
 
   void post() {
+    timeStamp = Timestamp.now();
+    upVotes = 0;
     if (file != null) {
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
         postPic = data;
         caption = descriptionController.text;
+        postId = currentUserModel.uid + Timestamp.now().toString();
+
         uploader.addSocialPost(
-            caption, timeStamp, postPic, currentUserModel.uid);
+            caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
       }).then((_) {
         setState(() {
-          print('THIS IS THE FIRST ONE');
           file = null;
-          //uploading = false;
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SocialPage()),
+          );
         });
       });
     } else {
-      print('-----------------THIS IS THE SECOND ONE----------');
       // elapsedTime = timeago.format(storedDate.toDate());
       // timeStamp = '$elapsedTime';
+      postId = currentUserModel.uid + Timestamp.now().toString();
       caption = descriptionController.text;
-      uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid);
+
+      uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SocialPage(),
+          ));
     }
   }
 }

@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:page_transition/page_transition.dart';
+import 'login.dart';
+import 'chat.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -71,6 +74,7 @@ class _ExploreState extends State<Explore> {
         var tempSet = [];
         for (int i = 0; i < docs.documents.length; ++i) {
           tempSet.add(docs.documents[i].data);
+          print(docs.documents[i].documentID);
         }
         setState(() {
           tempSearchStore = tempSet;
@@ -197,7 +201,16 @@ class _ExploreState extends State<Explore> {
           IconButton(
             icon: Icon(MaterialCommunityIcons.chat),
             color: Colors.black,
-            onPressed: () {},
+            onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: Chat(
+                            fromUserId: currentUserModel.uid,
+                            toUserId: data.uid,
+                          )));
+            },
           ),
           IconButton(
             icon: Icon(MaterialCommunityIcons.card_bulleted),

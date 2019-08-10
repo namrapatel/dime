@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'chat.dart';
 
 void main() => runApp(Dime());
 

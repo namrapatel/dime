@@ -1,5 +1,7 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
+import 'models/commentTags.dart';
+import 'socialComments.dart';
 
 class ProfComments extends StatefulWidget {
   @override
@@ -7,6 +9,43 @@ class ProfComments extends StatefulWidget {
 }
 
 class _ProfCommentsState extends State<ProfComments> {
+   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
+
+     List<UserTag> suggestions = [
+//    "Apple",
+//    "Armidillo",
+//    "Actual",
+//    "Actuary",
+//    "America",
+//    "Argentina",
+//    "Australia",
+//    "Antarctica",
+//    "Blueberry",
+//    "Cheese",
+//    "Danish",
+//    "Eclair",
+//    "Fudge",
+//    "Granola",
+//    "Hazelnut",
+//    "Ice Cream",
+//    "Jely",
+//    "Kiwi Fruit",
+//    "Lamb",
+//    "Macadamia",
+//    "Nachos",
+//    "Oatmeal",
+//    "Palm Oil",
+//    "Quail",
+//    "Rabbit",
+//    "Salad",
+//    "T-Bone Steak",
+//    "Urid Dal",
+//    "Vanilla",
+//    "Waffles",
+//    "Yam",
+//    "Zest"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,21 +95,32 @@ class _ProfCommentsState extends State<ProfComments> {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       return ListTile(
+                        contentPadding: EdgeInsets.all(15),
                         leading: CircleAvatar(
                           backgroundImage: AssetImage('assets/img/dhruvpatel.jpeg'),
+                          radius: 25,
                         ),
                         title: Row(
                           children: <Widget>[
-                            Text("Dhruv Patel"),
+                            Text("Dhruv Patel",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             Spacer(),
                             Text("2 hrs ago",
                             style: TextStyle(fontSize: 12,
-                            color: Color(0xFF1976d2)
+                            color: Color(0xFF063F3E)
                             ),
                             ),
                           ],
                         ),
-                        subtitle: Text("This was a really dope post about cool stuff lololol"),
+                        subtitle: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: screenH(10),
+                            ),
+                            Text("This was a really dope post about cool stuff and stuff and stuff"),
+                          ],
+                        ),
                       );
                     },
                   ),
@@ -94,10 +144,10 @@ class _ProfCommentsState extends State<ProfComments> {
               child: Row(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 15),
+                    padding: EdgeInsets.only(left: 15,),
                   ),
                   Expanded(
-                    child:                     Container(
+                    child:  Container(
                       width: MediaQuery.of(context).size.width / 1.3,
                       decoration: BoxDecoration(
                           color: Colors.grey[200],
@@ -106,10 +156,9 @@ class _ProfCommentsState extends State<ProfComments> {
                         padding: EdgeInsets.symmetric(
                             horizontal: MediaQuery.of(context).size.width / 22,
                             vertical: MediaQuery.of(context).size.height / 72),
-                        child: TextField(
-                          onTap: (){
-                          },
-                          decoration: new InputDecoration(
+                        child: SimpleAutoCompleteTextField(
+                        key: key,
+                        decoration: new InputDecoration(
                               border: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               contentPadding: EdgeInsets.only(
@@ -117,11 +166,18 @@ class _ProfCommentsState extends State<ProfComments> {
                                   bottom: MediaQuery.of(context).size.height / 155,
                                   top: MediaQuery.of(context).size.height / 155,
                                   right: MediaQuery.of(context).size.width / 30),
-                              hintText: 'Enter Comment'),
-                        ),
+                              hintText: 'Enter Comment',
+                              hintStyle: TextStyle(color: Colors.grey)
+                              ),
+                        controller: TextEditingController(),
+                        suggestions: suggestions,
+                        clearOnSubmit: false,
+                            
+                            ),
+                      ),
+
                       ),
                     ),
-                  ),
 
                   SizedBox(
                     width: screenW(20),
@@ -132,7 +188,7 @@ Container(
         height: 40,
         child: FloatingActionButton(
             elevation: 5,
-            backgroundColor: Color(0xFF1976d2),
+            backgroundColor: Color(0xFF063F3E),
             heroTag: 'fabb4',
             child: Icon(Icons.send, color: Colors.white, size: 20,),
             onPressed: (){}

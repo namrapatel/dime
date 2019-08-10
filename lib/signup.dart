@@ -323,6 +323,7 @@ class _SignupPageState extends State<SignupPage> {
       body: Form(
         key: _formKey,
         child: ListView(
+          physics: BouncingScrollPhysics(),
           padding: const EdgeInsets.fromLTRB(22.0, 0.0, 22.0, 22.0),
           children: <Widget>[
             SizedBox(height: kToolbarHeight),
@@ -349,7 +350,7 @@ class _SignupPageState extends State<SignupPage> {
             ),
             buildSignUpText(),
             SizedBox(
-              height: 120.0,
+              height: 30.0,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0),

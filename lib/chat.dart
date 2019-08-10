@@ -99,7 +99,7 @@ class _ChatState extends State<Chat> {
       //backgroundColor: Color(0xFFECE9E4),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF48A9A6),
+        backgroundColor: Color(0xFF1458EA),
         elevation: 5,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
@@ -160,7 +160,52 @@ class _ChatState extends State<Chat> {
                   shrinkWrap: true,
                   controller: scrollController,
                   children: <Widget>[
-                    ...messages,
+
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width/50,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.3,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width / 22,
+                            vertical: MediaQuery.of(context).size.height / 72),
+                        child: TextField(
+                          onTap: (){
+                            scrollController.animateTo(0.0,
+                              curve: Curves.easeOut,
+                              duration: const Duration(milliseconds: 300),
+                            );
+                          },
+                          onSubmitted: (value) => callback(),
+                          controller: messageController,
+
+
+                          decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 30,
+                                  bottom: MediaQuery.of(context).size.height / 155,
+                                  top: MediaQuery.of(context).size.height / 155,
+                                  right: MediaQuery.of(context).size.width / 30),
+                              hintText: 'Write a message',
+                              hintStyle: TextStyle(color: Colors.grey)
+                              ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width/15,
+                    ),
+                    SendButton(
+                      text: "Send",
+                      callback: callback,
+                    )
+
                   ],
                 );
               },
@@ -256,7 +301,7 @@ class SendButton extends StatelessWidget {
         height: 40,
         child: FloatingActionButton(
             elevation: 5,
-            backgroundColor: Color(0xFF48A9A6),
+            backgroundColor: Color(0xFF1458EA),
             heroTag: 'fabb4',
             child: Icon(
               Icons.send,
@@ -303,7 +348,7 @@ class Message extends StatelessWidget {
           //   from,
           // ),
           Material(
-            color: me ? Color(0xFF48A9A6) : Color(0xFFF3F4F5),
+            color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
             borderRadius: me
                 ? BorderRadius.only(
                     topRight: Radius.circular(15),

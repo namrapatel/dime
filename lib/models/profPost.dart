@@ -5,19 +5,23 @@ import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
+import 'package:Dime/profComments.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfPost extends StatelessWidget {
   final String caption;
   final String postPic;
   final int comments;
   final String timeStamp;
+  final int upVotes;
 
   const ProfPost(
       {
         this.caption,
         this.comments,
         this.timeStamp,
-        this.postPic
+        this.postPic,
+        this.upVotes
       }
       
       );
@@ -58,7 +62,12 @@ class ProfPost extends StatelessWidget {
                     children: <Widget>[
                       IconButton(
                         icon: Icon(FontAwesome.comments, color: Colors.black,),
-                        onPressed: (){},
+                        onPressed: (){ 
+                                          Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfComments()));
+                         },
                       ),
                       comments != null?
                       Text("$comments Comments")
@@ -66,7 +75,30 @@ class ProfPost extends StatelessWidget {
                       Spacer(),
                       timeStamp != null?
                       Text(timeStamp):
-                      SizedBox(width: 1,)
+                      SizedBox(width: 1,),
+
+                        Spacer(),
+                        GestureDetector(
+                          onTap: (){},
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Colors.grey[200]
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                  height: screenH(10),
+                                ),
+                                Icon(Icons.keyboard_arrow_up, color: Color(0xFF063F3E)),
+                                //Text("$upVotes", style: TextStyle(color:Color(0xFF063F3E), fontWeight: FontWeight.bold),)
+                                Text("266", style: TextStyle(color:Color(0xFF063F3E), fontWeight: FontWeight.bold),)
+                              ],
+                            ),
+                          ),
+                        )
                     ],
                   )
                 ),

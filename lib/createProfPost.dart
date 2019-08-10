@@ -27,6 +27,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
   String postPic;
   String timeStamp;
   var storedDate;
+  String postID;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                            color: Color(0xFF1976d2), fontSize: screenF(18)),
+                            color: Color(0xFF063F3E), fontSize: screenF(18)),
                       ),
                     ),
                     onTap: () {
@@ -63,7 +64,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     padding: EdgeInsets.fromLTRB(
                         screenW(20), screenH(50), screenW(20), screenH(0)),
                     child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xFF1976d2),
+                      backgroundColor: Color(0xFF063F3E),
                       onPressed: () {
                         post();
                       },
@@ -169,6 +170,8 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
+                      maxLength: 140,
+                      maxLengthEnforced: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "What's going on?",
@@ -272,7 +275,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         postPic = data;
         caption = descriptionController.text;
         uploader.addProfPost(
-            caption, timeStamp, postPic, currentUserModel.uid);
+            caption, timeStamp, postPic, currentUserModel.uid, postID);
       }).then((_) {
         setState(() {
           print('THIS IS THE FIRST ONE');
@@ -285,7 +288,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
       // elapsedTime = timeago.format(storedDate.toDate());
       // timeStamp = '$elapsedTime';
       caption = descriptionController.text;
-      uploader.addProfPost(caption, timeStamp, postPic, currentUserModel.uid);
+      uploader.addProfPost(caption, timeStamp, postPic, currentUserModel.uid, postID);
     }
   }
 }

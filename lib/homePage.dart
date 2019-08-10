@@ -153,13 +153,6 @@ class _ScrollPageState extends State<ScrollPage>
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-            // Text(
-            //   "Hey " + currentUserModel.displayName + "!",
-            //   style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 25,
-            //       fontWeight: FontWeight.bold),
-            // ),
                         Container(
                         width: MediaQuery.of(context).size.width/1.6,
                         child: AutoSizeText(
@@ -268,7 +261,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          upperLayer: _getUpperLayer(),
+          //upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),

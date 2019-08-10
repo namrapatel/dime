@@ -102,7 +102,7 @@ class _ChatState extends State<Chat> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
-          iconSize: screenH(20),
+          
           onPressed: (){
             Navigator.pop(context);
           },
@@ -111,7 +111,7 @@ class _ChatState extends State<Chat> {
           children: <Widget>[
             toUserPhoto!=null?
             CircleAvatar(
-              radius: screenH(17),
+              radius: screenH(25),
               backgroundImage: NetworkImage(toUserPhoto),
             ):CircularProgressIndicator(),
             SizedBox(width: MediaQuery.of(context).size.width / 33,),
@@ -261,7 +261,7 @@ class SendButton extends StatelessWidget {
             elevation: screenH(5),
             backgroundColor: Color(0xFF1458EA),
             heroTag: 'fabb4',
-            child: Icon(Icons.send, color: Colors.white, size: 20),
+            child: Icon(Icons.send, color: Colors.white, size: 17),
             onPressed: callback
         )
     );
@@ -300,37 +300,47 @@ class Message extends StatelessWidget {
           // ),
           Column(
             children: <Widget>[
-              Material(
-                color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
-                borderRadius: me
-                    ? BorderRadius.only(
-                  topRight: Radius.circular(screenH(16)),
-                  topLeft: Radius.circular(screenH(16)),
-                  bottomRight: Radius.circular(screenH(0)),
-                  bottomLeft: Radius.circular(screenH(16)),
-                )
-                    : BorderRadius.only(
-                  topRight: Radius.circular(screenH(16)),
-                  topLeft: Radius.circular(screenH(16)),
-                  bottomRight: Radius.circular(screenH(16)),
-                  bottomLeft: Radius.circular(screenH(0)),
-                ),
-                elevation: screenH(2),
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: screenH(11.0), horizontal: screenW(16.0)),
-                  child: Text(
-                    text,
-                    style: TextStyle(
-                      color: me ? Colors.white : Colors.black,
+              Row(
+                mainAxisAlignment: me? MainAxisAlignment.end: MainAxisAlignment.start,
+                children: <Widget>[
+                  Material(
+                    color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
+                    borderRadius: me
+                        ? BorderRadius.only(
+                      topRight: Radius.circular(screenH(16)),
+                      topLeft: Radius.circular(screenH(16)),
+                      bottomRight: Radius.circular(screenH(0)),
+                      bottomLeft: Radius.circular(screenH(16)),
+                    )
+                        : BorderRadius.only(
+                      topRight: Radius.circular(screenH(16)),
+                      topLeft: Radius.circular(screenH(16)),
+                      bottomRight: Radius.circular(screenH(16)),
+                      bottomLeft: Radius.circular(screenH(0)),
+                    ),
+                    elevation: screenH(2),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: screenH(11.0), horizontal: screenW(16.0)),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          color: me ? Colors.white : Colors.black,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
-              Text("a moment ago",
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.grey
-              ),
+              Row(
+                mainAxisAlignment: me? MainAxisAlignment.end: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text("a moment ago",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey
+                  ),
+                  ),
+                ],
               ),
             ],
           ),

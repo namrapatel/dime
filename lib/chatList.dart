@@ -8,10 +8,9 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
-  final screenH = ScreenUtil.instance.setHeight;
-  final screenW = ScreenUtil.instance.setWidth;
-  final screenF = ScreenUtil.instance.setSp;
+final screenH = ScreenUtil.instance.setHeight;
+final screenW = ScreenUtil.instance.setWidth;
+final screenF = ScreenUtil.instance.setSp;
 
 class ChatList extends StatefulWidget {
   final String title = '';
@@ -101,18 +100,28 @@ class _ChatListState extends State<ChatList> {
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: (50.0)),
+                    padding: EdgeInsets.symmetric(vertical: screenH(50.0)),
                     child: Container(
-                        width: (100),
+                        width: screenW(200),
                         child: Text(
-                          "No Messages to show",
+                          "No Messages to Show",
                           style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
+                              color: Colors.black,
+                              fontSize: screenF(20),
+                              fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         )),
                   ),
+                  SizedBox(
+                    height: screenH(20),
+                  ),
+                  Container(
+                    height: screenH(300),
+                    width: screenW(500),
+                    child: Image(
+                      image: AssetImage('assets/undraw_messages.png'),
+                    ),
+                  )
                 ],
               ),
             ));

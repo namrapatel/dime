@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'socialTags.dart';
 import 'professionalTags.dart';
 import 'viewCards.dart';
+
 String selectedItemString;
 String selectedWItemString;
 
@@ -102,7 +103,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
-        gradYear=document['gradYear'];
+        gradYear = document['gradYear'];
         major = document['major'];
         name = document['displayName'];
         university = document['university'];
@@ -273,7 +274,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         boxShadow: [
                           BoxShadow(
                               color: Colors.black.withOpacity(0.35),
-                              blurRadius: (20),
+                              blurRadius: (15),
                               spreadRadius: (5),
                               offset: Offset(0, 5)),
                         ],
@@ -313,15 +314,15 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                       SizedBox(
                                         height: screenH(2),
                                       ),
-                                      major != null&&gradYear!=null
-                                          ? Text(major+", "+gradYear,
+                                      major != null && gradYear != null
+                                          ? Text(major + ", " + gradYear,
                                               style: TextStyle(
                                                   fontSize: screenF(13),
                                                   color: Colors.grey))
-                                          : Text(major!=null?major:"",
-                                          style: TextStyle(
-                                              fontSize: screenF(13),
-                                              color: Colors.grey)),
+                                          : Text(major != null ? major : "",
+                                              style: TextStyle(
+                                                  fontSize: screenF(13),
+                                                  color: Colors.grey)),
                                       email != null
                                           ? Text(email,
                                               style: TextStyle(
@@ -483,43 +484,42 @@ class _SocialCardEditState extends State<SocialCardEdit> {
             Container(
                 color: Colors.white,
                 height: screenH(415),
-                child: ListView(physics: BouncingScrollPhysics(), children: <
-                    Widget>[
-                  Column(children: <Widget>[
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
+                child: ListView(
+                    padding: EdgeInsets.all(0),
+                    physics: BouncingScrollPhysics(),
+                    children: <Widget>[
+                      Column(children: <Widget>[
                         SizedBox(
-                          width: screenW(20),
+                          height: 20.0,
+                          width: screenW(70),
                         ),
-                        Text(
-                          'Display Social Media?',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(20),
+                            ),
+                            Text(
+                              'Display Your Social Media?',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(width: screenW(75)),
+                            Switch(
+                                value: isSwitched,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isSwitched = value;
+                                  });
+                                },
+                                activeTrackColor: Colors.blue[200],
+                                activeColor: Color(0xff1976d2)),
+                          ],
                         ),
-                        Switch(
-                          value: isSwitched,
-                          onChanged: (value) {
-                            setState(() {
-                              isSwitched = value;
-                            });
-                          },
-                          activeTrackColor: Colors.grey,
-                          activeColor: Colors.black,
+                        SizedBox(
+                          height: screenH(20),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: screenH(20),
-                    ),
 //                     Row(
 //                       children: <Widget>[
 //                         SizedBox(
@@ -757,228 +757,236 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 //                         ],
 //                       ),
 //                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
                         SizedBox(
-                          width: 20,
+                          height: 20.0,
                         ),
-                        Text(
-                          'Snapchat',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    snapchat = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  prefixText: '@',
-                                  prefixStyle: TextStyle(color: Colors.grey),
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Instagram',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    instagram = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  prefixText: '@',
-                                  prefixStyle: TextStyle(color: Colors.grey),
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Twitter',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    twitter = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  prefixText: '@',
-                                  prefixStyle: TextStyle(color: Colors.grey),
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: screenW(20),
-                        ),
-                        Text(
-                          'Interests',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: screenW(30),
-                        ),
-                        new OutlineButton(
-                            padding: EdgeInsets.all(15),
-                            color: Color(0xFF8803fc),
-                            child: new Text(
-                              "Choose 3 social interest tags",
-                              style: TextStyle(
-                                  color: Color(0xFF8803fc), fontSize: 15),
-                            ),
-                            onPressed: () {
-                              showSearch(
-                                  context: context,
-                                  delegate: SocialDataSearch());
-                            },
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0)))
-                      ],
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 40.0,
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        width: 200,
-                        height: 50,
-                        child: FloatingActionButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16.0))),
-                          elevation: screenH(5),
-                          onPressed: () {
-                            updateSocialCard();
-                            setState(() {
-                              saved = 'Changes saved';
-                            });
-                          },
-                          backgroundColor: Color(0xFFECE9E4),
-                          child: Text(
-                            "Save",
-                            style: TextStyle(
-                                fontSize: screenF(20), color: Colors.black),
+
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                    onSubmitted: (value) {
+                                      if (value != '' && value != null) {
+                                        setState(() {
+                                          snapchat = value;
+                                        });
+                                      }
+                                    },
+                                    decoration: InputDecoration(
+                                        prefixText: '@',
+                                        prefixStyle:
+                                            TextStyle(color: Colors.grey),
+                                        labelText: 'Snapchat',
+                                        labelStyle: TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.blueGrey),
+                                        contentPadding: EdgeInsets.all(20),
+                                        border: new OutlineInputBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(25.0),
+                                          borderSide: new BorderSide(
+                                            color: Color(0xFF1458EA),
+                                          ),
+                                        ),
+                                        focusedBorder: new OutlineInputBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(25.0),
+                                          borderSide: new BorderSide(
+                                            color: Color(0xFF1458EA),
+                                          ),
+                                        ))),
+                              )
+                            ],
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                  onSubmitted: (value) {
+                                    if (value != '' && value != null) {
+                                      setState(() {
+                                        instagram = value;
+                                      });
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    prefixText: '@',
+                                    prefixStyle: TextStyle(color: Colors.grey),
+                                    labelText: 'Instagram',
+                                    labelStyle: TextStyle(
+                                        fontSize: 15, color: Colors.blueGrey),
+                                    contentPadding: EdgeInsets.all(20),
+                                    border: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                  onSubmitted: (value) {
+                                    if (value != '' && value != null) {
+                                      setState(() {
+                                        twitter = value;
+                                      });
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    prefixText: '@',
+                                    prefixStyle: TextStyle(color: Colors.grey),
+                                    labelText: 'Twitter',
+                                    labelStyle: TextStyle(
+                                        fontSize: 15, color: Colors.blueGrey),
+                                    contentPadding: EdgeInsets.all(20),
+                                    border: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenH(30.0),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(35),
+                            ),
+                            // Text(
+                            //   'Interests',
+                            //   style: TextStyle(
+                            //       color: Color(0xFF8803fc),
+                            //       fontSize: screenF(18),
+                            //       fontWeight: FontWeight.bold),
+                            // ),
+                            SizedBox(
+                              width: screenW(30),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: screenW(22.0)),
+                              child: new OutlineButton(
+                                  padding: EdgeInsets.all(screenH(16)),
+                                  color: Color(0xFF8803fc),
+                                  child: new Text(
+                                    "Choose your 3 social interests",
+                                    style: TextStyle(
+                                        color: Color(0xFF8803fc),
+                                        fontSize: screenF(16)),
+                                  ),
+                                  onPressed: () {
+                                    showSearch(
+                                        context: context,
+                                        delegate: SocialDataSearch());
+                                  },
+                                  shape: new RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                      borderRadius:
+                                          new BorderRadius.circular(30.0))),
+                            )
+                          ],
+                        ),
+                      ]),
                       SizedBox(
-                        height: 20,
+                        height: screenH(40.0),
                       ),
-                      Text(saved,
-                          style: TextStyle(
-                              fontSize: screenF(20), color: Colors.black)),
-                      SizedBox(
-                        height: 50,
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            width: screenW(250),
+                            height: screenH(60),
+                            child: FloatingActionButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16.0))),
+                              elevation: screenH(5),
+                              onPressed: () {
+                                updateSocialCard();
+                                setState(() {
+                                  saved = 'Changes saved';
+                                });
+                              },
+                              backgroundColor: Color(0xFF1458EA),
+                              child: Text(
+                                "Save",
+                                style: TextStyle(
+                                    fontSize: screenF(20), color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(saved,
+                              style: TextStyle(
+                                  fontSize: screenF(20), color: Colors.black)),
+                          SizedBox(
+                            height: 50,
+                          )
+                        ],
                       )
-                    ],
-                  )
-                ]))
+                    ]))
           ]),
         ])
       ],
@@ -1007,7 +1015,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String linkedIn;
   String github;
   String twitter;
-String gradYear;
+  String gradYear;
   String photoUrl;
 
   File _image;
@@ -1022,7 +1030,7 @@ String gradYear;
     for (var document in query.documents) {
       setState(() {
         profCardId = document.documentID;
-gradYear=document['gradYear'];
+        gradYear = document['gradYear'];
         major = document['major'];
         name = document['displayName'];
         university = document['university'];
@@ -1217,7 +1225,7 @@ gradYear=document['gradYear'];
                         boxShadow: [
                           BoxShadow(
                               color: Colors.black.withOpacity(0.35),
-                              blurRadius: (20),
+                              blurRadius: (15),
                               spreadRadius: (5),
                               offset: Offset(0, 5)),
                         ],
@@ -1257,15 +1265,15 @@ gradYear=document['gradYear'];
                                       SizedBox(
                                         height: screenH(2),
                                       ),
-                                      major != null&&gradYear!=null
-                                          ? Text(major+", "+gradYear,
-                                          style: TextStyle(
-                                              fontSize: screenF(13),
-                                              color: Colors.grey))
-                                          : Text(major!=null?major:"",
-                                          style: TextStyle(
-                                              fontSize: screenF(13),
-                                              color: Colors.grey)),
+                                      major != null && gradYear != null
+                                          ? Text(major + ", " + gradYear,
+                                              style: TextStyle(
+                                                  fontSize: screenF(13),
+                                                  color: Colors.grey))
+                                          : Text(major != null ? major : "",
+                                              style: TextStyle(
+                                                  fontSize: screenF(13),
+                                                  color: Colors.grey)),
                                       email != null
                                           ? Text(email,
                                               style: TextStyle(
@@ -1314,12 +1322,6 @@ gradYear=document['gradYear'];
                                       )
                                     ],
                                   ),
-
-                                  // IconButton(
-                                  //   onPressed: () {},
-                                  //   color: Colors.black,
-                                  //   icon: Icon(Icons.create),
-                                  // )
                                 ],
                               ),
                               Padding(
@@ -1427,40 +1429,40 @@ gradYear=document['gradYear'];
             Container(
                 color: Colors.white,
                 height: screenH(415),
-                child: ListView(physics: BouncingScrollPhysics(), children: <
-                    Widget>[
-                  Column(children: <Widget>[
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                      width: screenW(70),
-                    ),
-                    Row(
-                      children: <Widget>[
+                child: ListView(
+                    padding: EdgeInsets.all(0),
+                    physics: BouncingScrollPhysics(),
+                    children: <Widget>[
+                      Column(children: <Widget>[
                         SizedBox(
-                          width: screenW(20),
+                          height: 20.0,
+                          width: screenW(70),
                         ),
-                        Text(
-                          'Display Social Media?',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(20),
+                            ),
+                            Text(
+                              'Display Your Social Media?',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(width: screenW(75)),
+                            Switch(
+                              value: isSwitched2,
+                              onChanged: (value) {
+                                setState(() {
+                                  isSwitched2 = value;
+                                });
+                              },
+                              activeTrackColor: Colors.blue[200],
+                              activeColor: Color(0xFF1458EA),
+                            ),
+                          ],
                         ),
-                        Switch(
-                          value: isSwitched2,
-                          onChanged: (value) {
-                            setState(() {
-                              isSwitched2 = value;
-                            });
-                          },
-                          activeTrackColor: Colors.grey,
-                          activeColor: Colors.black,
-                        ),
-                      ],
-                    ),
 //                     Row(
 //                       children: <Widget>[
 //                         SizedBox(
@@ -1724,229 +1726,217 @@ gradYear=document['gradYear'];
 //                         ],
 //                       ),
 //                     ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-
-                    Row(
-                      children: <Widget>[
                         SizedBox(
-                          width: 20,
+                          height: 20.0,
                         ),
-                        Text(
-                          'LinkedIn',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    linkedIn = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  prefixText: '@',
-                                  prefixStyle: TextStyle(color: Colors.grey),
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Github',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    github = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  prefixText: '@',
-                                  prefixStyle: TextStyle(color: Colors.grey),
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Twitter',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: <Widget>[
-                          Theme(
-                            // data: theme.copyWith(primaryColor: Colors.black),
-                            data: new ThemeData(
-                                primaryColor: Colors.black,
-                                accentColor: Colors.black,
-                                hintColor: Colors.black),
-                            child: TextField(
-                              onSubmitted: (value) {
-                                if (value != '' && value != null) {
-                                  setState(() {
-                                    twitter = value;
-                                  });
-                                }
-                              },
-                              decoration: InputDecoration(
-                                  prefixText: '@',
-                                  prefixStyle: TextStyle(color: Colors.grey),
-                                  border: new UnderlineInputBorder(
-                                      borderSide:
-                                          new BorderSide(color: Colors.black))),
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.grey),
-                              cursorColor: Colors.black,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15.0,
-                    ),
-
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: screenW(20),
-                        ),
-                        Text(
-                          'Interests',
-                          style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: screenW(30),
-                        ),
-                        new OutlineButton(
-                            padding: EdgeInsets.all(15),
-                            color: Color(0xFF1976d2),
-                            child: new Text(
-                              "Choose 3 professional interest tags",
-                              style: TextStyle(
-                                  color: Color(0xFF1976d2), fontSize: 15),
-                            ),
-                            onPressed: () {
-                              showSearch(
-                                  context: context, delegate: ProfDataSearch());
-                            },
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(30.0)))
-                      ],
-                    ),
-                  ]),
-                  SizedBox(
-                    height: 50.0,
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        width: 200,
-                        height: 50,
-                        child: FloatingActionButton(
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16.0))),
-                          elevation: screenH(5),
-                          onPressed: () {
-                            updateProfCard();
-                            setState(() {
-                              saved = 'Changes saved';
-                            });
-                          },
-                          backgroundColor: Color(0xFFECE9E4),
-                          child: Text(
-                            "Save",
-                            style: TextStyle(
-                                fontSize: screenF(20), color: Colors.black),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                  onSubmitted: (value) {
+                                    if (value != '' && value != null) {
+                                      setState(() {
+                                        linkedIn = value;
+                                      });
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    prefixText: '@',
+                                    prefixStyle: TextStyle(color: Colors.grey),
+                                    labelText: 'LinkedIn',
+                                    labelStyle: TextStyle(
+                                        fontSize: 15, color: Colors.blueGrey),
+                                    contentPadding: EdgeInsets.all(20),
+                                    border: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                  onSubmitted: (value) {
+                                    if (value != '' && value != null) {
+                                      setState(() {
+                                        github = value;
+                                      });
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    prefixText: '@',
+                                    prefixStyle: TextStyle(color: Colors.grey),
+                                    labelText: 'GitHub',
+                                    labelStyle: TextStyle(
+                                        fontSize: 15, color: Colors.blueGrey),
+                                    contentPadding: EdgeInsets.all(20),
+                                    border: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          child: Column(
+                            children: <Widget>[
+                              Theme(
+                                // data: theme.copyWith(primaryColor: Colors.black),
+                                data: new ThemeData(
+                                    primaryColor: Colors.black,
+                                    accentColor: Colors.black,
+                                    hintColor: Colors.black),
+                                child: TextField(
+                                  onSubmitted: (value) {
+                                    if (value != '' && value != null) {
+                                      setState(() {
+                                        twitter = value;
+                                      });
+                                    }
+                                  },
+                                  decoration: InputDecoration(
+                                    prefixText: '@',
+                                    prefixStyle: TextStyle(color: Colors.grey),
+                                    labelText: 'Twitter',
+                                    labelStyle: TextStyle(
+                                        fontSize: 15, color: Colors.blueGrey),
+                                    contentPadding: EdgeInsets.all(20),
+                                    border: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                    focusedBorder: new OutlineInputBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25.0),
+                                      borderSide: new BorderSide(
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: screenH(35.0),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(75),
+                            ),
+                            new OutlineButton(
+                                padding: EdgeInsets.all(15),
+                                color: Color(0xFF1458EA),
+                                child: new Text(
+                                  "Choose 3 professional interests",
+                                  style: TextStyle(
+                                      color: Color(0xFF1458EA), fontSize: 15),
+                                ),
+                                onPressed: () {
+                                  showSearch(
+                                      context: context,
+                                      delegate: ProfDataSearch());
+                                },
+                                shape: new RoundedRectangleBorder(
+                                    borderRadius:
+                                        new BorderRadius.circular(30.0)))
+                          ],
+                        ),
+                      ]),
                       SizedBox(
-                        height: 20,
+                        height: screenH(40.0),
                       ),
-                      Text(saved,
-                          style: TextStyle(
-                              fontSize: screenF(20), color: Colors.black)),
-                      SizedBox(
-                        height: 50,
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            width: screenW(250),
+                            height: screenH(60),
+                            child: FloatingActionButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(16.0))),
+                              elevation: screenH(5),
+                              onPressed: () {
+                                updateProfCard();
+                                setState(() {
+                                  saved = 'Changes saved';
+                                });
+                              },
+                              backgroundColor: Color(0xFF1458EA),
+                              child: Text(
+                                "Save",
+                                style: TextStyle(
+                                    fontSize: screenF(20), color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(saved,
+                              style: TextStyle(
+                                  fontSize: screenF(20), color: Colors.black)),
+                          SizedBox(
+                            height: 50,
+                          )
+                        ],
                       )
-                    ],
-                  )
-                ]))
+                    ]))
           ]),
         ])
       ],
@@ -1969,7 +1959,7 @@ class _CardEditState extends State<CardEdit> {
           leading: Row(
             children: <Widget>[
               SizedBox(
-                width: 8,
+                width: screenW(8),
               ),
               IconButton(
                 onPressed: () {
@@ -1978,27 +1968,27 @@ class _CardEditState extends State<CardEdit> {
                     MaterialPageRoute(builder: (context) => ProfilePage()),
                   );
                 },
-                color: Colors.black,
+                color: Colors.white,
                 icon: Icon(Icons.arrow_back_ios),
               ),
             ],
           ),
           elevation: 0.0,
-          backgroundColor: Color(0xFFECE9E4),
+          backgroundColor: Color(0xFF1458EA),
           title: Text(' '),
           bottom: TabBar(
-            indicatorColor: Colors.black,
+            indicatorColor: Colors.white,
             tabs: <Widget>[
               Tab(
                 child: Text(
                   'Social',
-                  style: TextStyle(color: Colors.black, fontSize: 17),
+                  style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
               ),
               Tab(
                 child: Text(
                   'Professional',
-                  style: TextStyle(color: Colors.black, fontSize: 17),
+                  style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
               ),
             ],

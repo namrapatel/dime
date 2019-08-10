@@ -11,6 +11,9 @@ import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/services.dart';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:Dime/login.dart';
 
 class SocialPost extends StatefulWidget {
  final String postId;
@@ -33,22 +36,17 @@ class _SocialPostState extends State<SocialPost> {
    String timeStamp;
    int upVotes ;
 bool liked=false;
+String name = currentUserModel.displayName;
 
   _SocialPostState({this.caption, this.comments, this.timeStamp, this.postPic, this.postId, this.upVotes});
 
-  Future<void> _shareMixed() async {
+  Future<void> _shareImageFromUrl() async {
     try {
-      final ByteData bytes1 = await rootBundle.load('assets/trip.png');
-      final ByteData bytes2 = await rootBundle.load('assets/groupselfie.png');
-
-      await Share.files(
-          'esys images',
-          {
-            'trip.png': bytes1.buffer.asUint8List(),
-            'groupselfie.png': bytes2.buffer.asUint8List(),
-          },
-          '*/*',
-          text: 'My optional text.');
+      var request = await HttpClient().getUrl(Uri.parse(
+          postPic));
+      var response = await request.close();
+      Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+      await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
     } catch (e) {
       print('error: $e');
     }
@@ -164,7 +162,7 @@ bool liked=false;
                         ),
                         IconButton(
                           icon: Icon(Icons.share),
-                          onPressed: () async => await _shareMixed(),
+                          onPressed: () async => await _shareImageFromUrl(),
                         ),
                       ],
                     )),

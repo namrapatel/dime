@@ -69,7 +69,6 @@ class _SocialCommentsState extends State<SocialComments> {
   getAllUsers() async {
     QuerySnapshot users = await Firestore.instance
         .collection('users')
-        .orderBy('timestamp', descending: false)
         .getDocuments();
   }
 
@@ -80,6 +79,7 @@ class _SocialCommentsState extends State<SocialComments> {
         .collection('socialPosts')
         .document(postId)
         .collection('comments')
+        .orderBy('timestamp', descending: false)
         .getDocuments();
     for (var doc in query.documents) {
       postComments.add(Comment.fromDocument(doc));
@@ -220,7 +220,7 @@ class _SocialCommentsState extends State<SocialComments> {
                             color: Colors.white,
                             size: 20,
                           ),
-                          onPressed: () {
+                          onPressed: () async{
                             Firestore.instance
                                 .collection('socialPosts')
                                 .document(postId)
@@ -232,6 +232,10 @@ class _SocialCommentsState extends State<SocialComments> {
                               'text': controller.text,
                               'timestamp': Timestamp.now()
                             });
+                            QuerySnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
+                            int numberOfComments= snap.documents.length;
+
+
                             setState(() {
                               getComments();
                               controller.clear();

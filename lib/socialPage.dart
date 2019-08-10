@@ -18,13 +18,7 @@ final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
 //var university = currentUserModel.university;
 
-Future getPosts() async {
-  QuerySnapshot qn = await Firestore.instance
-      .collection('socialPosts')
-      .orderBy('timeStamp', descending: false)
-      .getDocuments();
-  return qn.documents;
-}
+
 
 class SocialPage extends StatefulWidget {
   @override
@@ -32,6 +26,18 @@ class SocialPage extends StatefulWidget {
 }
 
 class _SocialPageState extends State<SocialPage> {
+  Future getPosts() async {
+    QuerySnapshot qn = await Firestore.instance
+        .collection('socialPosts')
+        .orderBy('timeStamp', descending: false)
+        .getDocuments();
+
+
+
+    return qn.documents;
+  }
+  int commentLengths;
+
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -123,6 +129,7 @@ class _SocialPageState extends State<SocialPage> {
                     Timestamp storedDate=snapshot.data[index].data["timeStamp"];
                     String elapsedTime = timeago.format(storedDate.toDate());
                     String timestamp = '$elapsedTime';
+
                     return SocialPost(
                       postId: snapshot.data[index].documentID,
                       caption: snapshot.data[index].data["caption"],

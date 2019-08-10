@@ -81,7 +81,7 @@ class ProfCard extends StatelessWidget {
               ),
 
               Container(
-                height: screenH(265),
+                height: screenH(260),
                 width: screenW(350),
                 decoration: BoxDecoration(
                     boxShadow: [
@@ -95,175 +95,167 @@ class ProfCard extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Stack(
                   children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: screenH(20),
+                    Positioned(
+                      top: screenH(25),
+                      left: screenW(30),
+                      child: Text(displayName,
+                        style: TextStyle(
+                          fontSize: screenF(20),
+                        )),
                     ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          width: screenW(20),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(displayName,
-                                    style: TextStyle(
-                                      fontSize: screenF(18),
-                                    )),
-                                  SizedBox(width: screenW(4),),
-                                  Icon(Entypo.feather, size: 20, color: Color(0xFFf0bf43),),
-                                  
-                                  Icon(EvilIcons.sc_odnoklassniki, size: 25, color: Color(0xFFe61c5e),)
-                              ],
-                            ),
-                            SizedBox(
-                              height: screenH(10),
-                            ),university==null?
-                            Text("",
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Color(0xFF1976d2))):
-                            Text(university,
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Color(0xFF1976d2))),
-                            SizedBox(
-                              height: screenH(4),
-                            ),
-                            major!=null&&gradYear!=null?
-                            Text(major+", "+gradYear,
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Colors.grey)):
-                            Text(major!=null?major:"",
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Colors.grey)),
-                            email==null?
-                            Text("",
+                    Positioned(
+                      top: screenH(25),
+                      left: screenW(140),
+                      child: Icon(
+                      FontAwesome.superpowers,
+                      size: 20,
+                      color: Color(0xFFf0bf43),
+                    ),
+                    ),
+                    Positioned(
+                      top: screenH(22),
+                      left: screenW(165),
+                      child: Icon(
+                      EvilIcons.sc_odnoklassniki,
+                      size: 25,
+                      color: Color(0xFFe61c5e),
+                    ),
+                    ),
+                    Positioned(
+                      top: screenH(65),
+                      left: screenW(30),
+                      child: university == null
+                        ? SizedBox(
+                            height: screenH(1),
+                          )
+                        : Text(university,
                             style: TextStyle(
-                            fontSize: screenF(13),
-                            color: Colors.grey)):
-
-                            Text(email,
-                                style: TextStyle(
-                                    fontSize: screenF(13),
-                                    color: Colors.grey)),
-                          ],
-                        ),
-                        SizedBox(
-                          width: screenW(75),
-                        ),
-                      ],
+                                fontSize: screenF(15),
+                                color: Color(0xFF063F3E))),
                     ),
-                    Padding(
-                      padding:
-                      EdgeInsets.symmetric(horizontal: screenW(30.0), vertical: screenH(20)),
-                      child:Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          linkedIn != null
-                              ? isSwitched == true?
-                          Column(
-                            children: <Widget>[
-                              Icon(
-                                FontAwesome.linkedin_square,
-                                color: Color(0xFF0077B5),
-                              ),
-                              SizedBox(
-                                width: screenW(10),
-                              ),
-                              Text(linkedIn,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          )
-                              : SizedBox(
-                            height: screenH(1),
-                          ):
-                          SizedBox(
+                    Positioned(
+                      top: screenH(90),
+                      left: screenW(30),
+                      child: major != null && gradYear != null
+                        ? Text(major + ", " + gradYear,
+                            style: TextStyle(
+                                fontSize: screenF(15),
+                                color: Colors.grey))
+                        : Text(major != null ? major : "",
+                            style: TextStyle(
+                                fontSize: screenF(15),
+                                color: Colors.grey)),
+                    ),
+                    Positioned(
+                      top: screenH(115),
+                      left: screenW(30),
+                      child:  email == null
+                        ? Text("",
+                            style: TextStyle(
+                                fontSize: screenF(13),
+                                color: Colors.grey))
+                        : Text(email,
+                            style: TextStyle(
+                                fontSize: screenF(13),
+                                color: Colors.grey)),
+                    ),
+                    Positioned(
+                      top: screenH(150),
+                      left: screenW(40),
+                      child: linkedIn != null
+                        ? isSwitched == true
+                            ? Column(
+                                children: <Widget>[
+                                  Icon(
+                                    FontAwesome.linkedin_square,
+                                    
+                                    color: Color(0xFF0077B5),
+                                  ),
+                                  SizedBox(
+                                    width: screenW(10),
+                                  ),
+                                  Text(linkedIn,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: screenF(12))),
+                                ],
+                              )
+                            : SizedBox(
+                                height: screenH(1),
+                              )
+                        : SizedBox(
                             height: screenH(1),
                           ),
-                          github != null
-                              ? isSwitched == true?
-                          Column(
-                            children: <Widget>[
-                              Icon(
-                                MaterialCommunityIcons
-                                    .github_box,
-                                color: Colors.black,
-                              ),
-                              SizedBox(
-                                width: screenW(10),
-                              ),
-                              Text(github,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          )
-                              : SizedBox(
-                            height: screenH(1),
-                          ): SizedBox(
+                    ),
+                    Positioned(
+                      top: screenH(150),
+                      left: screenW(160),
+                      child:  github != null
+                        ? isSwitched == true
+                            ? Column(
+                                children: <Widget>[
+                                  Icon(
+                                    MaterialCommunityIcons.github_box,
+                                    color: Colors.black,
+                                  ),
+                                  SizedBox(
+                                    width: screenW(10),
+                                  ),
+                                  Text(github,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: screenF(12))),
+                                ],
+                              )
+                            : SizedBox(
+                                height: screenH(1),
+                              )
+                        : SizedBox(
                             height: screenH(1),
                           ),
-                          twitter != null
-                              ? isSwitched == true?
-                          Column(
-                            children: <Widget>[
-                              Icon(
-                                MaterialCommunityIcons
-                                    .twitter_box,
-                                color: Colors.blue,
-                              ),
-                              Text(twitter,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: screenF(12))),
-                            ],
-                          )
-                              : SizedBox(
+                    ),
+                    Positioned(
+                      top: screenH(150),
+                      left: screenW(260),
+                      child: twitter != null
+                        ? isSwitched == true
+                            ? Column(
+                                children: <Widget>[
+                                  Icon(
+                                    MaterialCommunityIcons
+                                        .twitter_box,
+                                    color: Colors.blue,
+                                  ),
+                                  Text(twitter,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: screenF(12))),
+                                ],
+                              )
+                            : SizedBox(
+                                height: screenH(1),
+                              )
+                        : SizedBox(
                             height: screenH(1),
-                          ): SizedBox(
-                            height: screenH(1),
-                          )
-                        ],
+                          ),
+                    ),
+                    Positioned(
+                      top: screenH(225),
+                      left: screenW(30),
+                      child: 
+                    Text(interestString != null ? interestString : "",
+                        style: TextStyle(
+                            color: Color(0xFF063F3E),
+                            fontSize: screenF(13))) ,
+                    ),
+                    Positioned(
+                      left: screenW(265),
+                      top: screenH(20),
+                      child: CircleAvatar(
+                        backgroundImage: NetworkImage(photoUrl),
+                        radius: 30,
                       ),
-
-
-
-
                     ),
-                    SizedBox(
-                      height: screenH(7),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(width: 20.0),
-                        Text(interestString!=null?interestString:"",
-                            style: TextStyle(
-                                color: Color(0xFF1976d2), fontSize: screenF(13))
-                                )
-                      ],
-                    )
-                  ],
-                ),
-                Positioned(
-                  left: screenW(275),
-                  top: screenH(20),
-                  
-                  child:  CircleAvatar(
-                          backgroundImage:
-                          NetworkImage(photoUrl),
-                          radius: 30,
-                        ),
-                ),
                   ],
                 ),
               )

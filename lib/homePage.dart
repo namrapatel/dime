@@ -26,6 +26,9 @@ import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
 import 'package:firebase_messaging/firebase_messaging.dart';
 
+
+
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -296,6 +299,7 @@ class _ScrollPageState extends State<ScrollPage>
     return new Stack(
       children: <Widget>[
         ListView(
+          padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: <Widget>[

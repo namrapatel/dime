@@ -3,6 +3,8 @@ import 'package:Dime/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() => runApp(Dime());
 
@@ -38,11 +40,15 @@ class _SplashScreenState extends State<SplashScreen> {
               MaterialPageRoute(builder: (context) => Login()),
             ));
   }
+  final FirebaseMessaging _messaging = FirebaseMessaging();
 
   @override
   void initState() {
     super.initState();
     startTime();
+    _messaging.getToken().then((token) {
+      print(token);
+    });
   }
 
   @override
@@ -62,4 +68,23 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     ));
   }
+
+}
+
+
+class MessageHandler extends StatefulWidget {
+  @override
+  State<MessageHandler> createState() {
+    return _MessageHandlerState();
+  }
+}
+
+class _MessageHandlerState extends State<MessageHandler> {
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  @override
+  Widget build(BuildContext context) {
+    return null;
+  }
+
 }

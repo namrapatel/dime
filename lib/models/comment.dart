@@ -1,5 +1,6 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:Dime/homePage.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -30,10 +31,10 @@ class Comment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.all(15),
+      contentPadding: EdgeInsets.all(screenH(15)),
       leading: CircleAvatar(
         backgroundImage: NetworkImage(commenterPhoto),
-        radius: 25,
+        radius: screenH(27.5),
       ),
       title: Row(
         children: <Widget>[
@@ -42,7 +43,7 @@ class Comment extends StatelessWidget {
           ),
           Spacer(),
           Text(timestamp,
-            style: TextStyle(fontSize: 12,
+            style: TextStyle(fontSize: screenF(13.5),
                 color: Color(0xFF8803fc)
             ),
           ),

@@ -40,17 +40,59 @@ String name = currentUserModel.displayName;
 
   _SocialPostState({this.caption, this.comments, this.timeStamp, this.postPic, this.postId, this.upVotes});
 
-  Future<void> _shareImageFromUrl() async {
-    try {
+  Future<void> _sharePost() async {
+    if(caption == ""){
+      try {
       var request = await HttpClient().getUrl(Uri.parse(
           postPic));
       var response = await request.close();
       Uint8List bytes = await consolidateHttpClientResponseBytes(response);
-      await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+      await Share.files(
+          'Message from Dime',
+          {
+            'esys.png': bytes.buffer.asUint8List(),
+          },
+          '*/*',
+          text: "Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
+
     } catch (e) {
       print('error: $e');
     }
+    }
+    else if(postPic == null){
+    try {
+      Share.text('Message from Dime',
+          caption + "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/", 'text/plain');
+    } catch (e) {
+      print('error: $e');
+    }
+    }
+    else{
+      try {
+      var request = await HttpClient().getUrl(Uri.parse(
+          postPic));
+      var response = await request.close();
+      Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+      await Share.files(
+          'Message from Dime',
+          {
+            'esys.png': bytes.buffer.asUint8List(),
+          },
+          '*/*',
+          text: caption + "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
+
+    } catch (e) {
+      print('error: $e');
+    }
+    }
+
   }
+
+
+
+
+
+    
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +123,21 @@ String name = currentUserModel.displayName;
                 ),
                 ListTile(
                     contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    title: caption != null
-                        ? Text(caption)
-                        : SizedBox(
-                            width: 1,
-                          ),
+                    title: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        caption != null
+                            ? Text(caption)
+                            : SizedBox(
+                                width: 1,
+                              ),
+                        IconButton(
+                          icon: Icon(FontAwesome.share_square_o),
+                          iconSize: 25,
+                          onPressed: () async => await _sharePost(),
+                        ),
+                      ],
+                    ),
                     subtitle: Row(
                       children: <Widget>[
                         IconButton(
@@ -103,18 +155,35 @@ String name = currentUserModel.displayName;
                                     )));
                           },
                         ),
-                        comments != null
-                            ? Text("$comments Comments")
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(height: screenH(20),),
+                            comments != null
+                                ? GestureDetector(
+                                  child: Text("$comments Comments", style: TextStyle(color: Colors.black),),
+                                  onTap: (){
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.fade,
+                                    child: SocialComments(
+                                      postId: postId,
+                                    )));
+                                  },
+                                )
+                                : SizedBox(
+                                    width: 1,
+                                  ),
+                               timeStamp != null  
+                            ? Text(timeStamp, style: TextStyle(fontSize: 12, color: Colors.grey),)
                             : SizedBox(
                                 width: 1,
                               ),
+                          ],
+                        ),
                         Spacer(),
-                        timeStamp != null
-                            ? Text(timeStamp)
-                            : SizedBox(
-                                width: 1,
-                              ),
-                        Spacer(),
+
                         GestureDetector(
                           onTap: () {
                             if(liked==false){
@@ -159,10 +228,6 @@ String name = currentUserModel.displayName;
                               ],
                             ),
                           ),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.share),
-                          onPressed: () async => await _shareImageFromUrl(),
                         ),
                       ],
                     )),

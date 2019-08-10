@@ -161,10 +161,10 @@ class _ScrollPageState extends State<ScrollPage>
             //       fontWeight: FontWeight.bold),
             // ),
                         Container(
-                        width: screenW(260),
+                        width: MediaQuery.of(context).size.width/1.6,
                         child: AutoSizeText(
                         "Hey " + currentUserModel.displayName + "!",
-                        style: TextStyle(fontSize: screenF(25), color: Colors.white, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                         minFontSize: 12,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -268,7 +268,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          // upperLayer: _getUpperLayer(),
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -654,6 +654,7 @@ class UserTile extends StatelessWidget {
                           type: PageTransitionType.fade,
                           child: UserCard(
                             userId: uid,
+                            userName: contactName,
                           )));
                 },
               ),

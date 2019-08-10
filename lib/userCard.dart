@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'models/profPost.dart';
 import 'models/socialPost.dart';
 import 'login.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 
 
@@ -57,13 +58,23 @@ _UserCardState(this.userId, this.type, this.userName);
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-            Text(
-              userName,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
+            // Text(
+            //   userName,
+            //   style: TextStyle(
+            //       color: Colors.white,
+            //       fontSize: 25,
+            //       fontWeight: FontWeight.bold),
+            // ),
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.4,
+                        child: AutoSizeText(
+                        userName,
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      ),
           ],
         ),
       ),

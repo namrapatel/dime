@@ -269,8 +269,3 @@ class ProfCard extends StatelessWidget {
     );
   }
 }
-
-
-
-
-

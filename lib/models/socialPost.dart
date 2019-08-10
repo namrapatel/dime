@@ -7,6 +7,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Dime/homePage.dart';
 import 'package:Dime/socialComments.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
 
 class SocialPost extends StatefulWidget {
  final String postId;
@@ -29,7 +33,26 @@ class _SocialPostState extends State<SocialPost> {
    String timeStamp;
    int upVotes ;
 bool liked=false;
+
   _SocialPostState({this.caption, this.comments, this.timeStamp, this.postPic, this.postId, this.upVotes});
+
+  Future<void> _shareMixed() async {
+    try {
+      final ByteData bytes1 = await rootBundle.load('assets/trip.png');
+      final ByteData bytes2 = await rootBundle.load('assets/groupselfie.png');
+
+      await Share.files(
+          'esys images',
+          {
+            'trip.png': bytes1.buffer.asUint8List(),
+            'groupselfie.png': bytes2.buffer.asUint8List(),
+          },
+          '*/*',
+          text: 'My optional text.');
+    } catch (e) {
+      print('error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +161,11 @@ bool liked=false;
                               ],
                             ),
                           ),
-                        )
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.share),
+                          onPressed: () async => await _shareMixed(),
+                        ),
                       ],
                     )),
               ],

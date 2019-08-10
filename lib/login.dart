@@ -60,7 +60,6 @@ class _LoginState extends State<Login> {
   _saveDeviceToken() async {
     print("here");
     String uid = 'angHcPRj5yXFKQoxUfNQdvlEA9u1';
-
     String fcmToken = await _fcm.getToken();
     print(fcmToken);
     if (fcmToken != null) {

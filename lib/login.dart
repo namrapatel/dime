@@ -31,10 +31,6 @@ class _LoginState extends State<Login> {
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
       if (firebaseUser != null) {
         print('in login');
-        await _messaging.getToken().then((token) {
-          _saveDeviceToken();
-          print(token);
-        });
         print(firebaseUser);
         print(firebaseUser.displayName);
         print("you're in");
@@ -54,28 +50,7 @@ class _LoginState extends State<Login> {
     });
   }
 
-  final Firestore _db = Firestore.instance;
-  final FirebaseMessaging _fcm = FirebaseMessaging();
 
-  _saveDeviceToken() async {
-    print("here");
-    String uid = 'angHcPRj5yXFKQoxUfNQdvlEA9u1';
-
-    String fcmToken = await _fcm.getToken();
-    print(fcmToken);
-    if (fcmToken != null) {
-      await _db.collection('users').document(uid).get().then((document) {
-        print("im in here");
-        var initTokens = document['tokens'] == null ? document['tokens'] : [];
-        var tokenList = new List<String>.from(initTokens);
-        if (!tokenList.contains(fcmToken)) {
-          tokenList.add(fcmToken);
-          _db.collection('users').document(uid).updateData(
-              {'tokens': tokenList});
-        }
-      });
-    }
-  }
   final _formKey = GlobalKey<FormState>();
   String _email, _password;
   bool _isObscured = true;

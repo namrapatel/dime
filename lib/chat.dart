@@ -41,8 +41,6 @@ class _ChatState extends State<Chat> {
         toUserPhoto = doc['photoUrl'];
       });
     }
-
-
   }
    callback() {
     if (messageController.text.length > 0) {

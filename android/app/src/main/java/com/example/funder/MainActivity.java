@@ -1,4 +1,4 @@
-package com.example.funder;
+package com.dime.inc;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

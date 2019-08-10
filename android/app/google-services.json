@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:464417786059:android:0582414c81f0bd51",
+        "mobilesdk_app_id": "1:464417786059:android:8aed656979647067",
         "android_client_info": {
-          "package_name": "com.example.funder"
+          "package_name": "com.dime.inc"
         }
       },
       "oauth_client": [
@@ -30,6 +30,57 @@
             {
               "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "464417786059-gfi1pgagmpkvsvi9cgsmd6vqqagp4b9j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dime.inc"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464417786059:android:0582414c81f0bd51",
+        "android_client_info": {
+          "package_name": "com.example.funder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464417786059-hvrshbss620qvid0bni641j3r7746mh5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.funder",
+            "certificate_hash": "bca656f0a67a0759124a6c2b5dddecbc8944e258"
+          }
+        },
+        {
+          "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbKyJhj89yJLSuxg_bJI-qZaD5NzlEVXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464417786059-gfi1pgagmpkvsvi9cgsmd6vqqagp4b9j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dime.inc"
+              }
             }
           ]
         }

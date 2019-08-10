@@ -69,7 +69,7 @@ class SocialCard extends StatelessWidget {
           Column(
             children: <Widget>[
               Container(
-                height: screenH(260),
+                height: screenH(245),
                 width: screenW(350),
                 decoration: BoxDecoration(
                     boxShadow: [
@@ -148,7 +148,7 @@ class SocialCard extends StatelessWidget {
                                 color: Colors.grey)),
                     ),
                     Positioned(
-                      top: screenH(150),
+                      top: screenH(140),
                       left: screenW(40),
                       child: snapchat != null
                         ? isSwitched == true
@@ -176,7 +176,7 @@ class SocialCard extends StatelessWidget {
                           ),
                     ),
                     Positioned(
-                      top: screenH(150),
+                      top: screenH(140),
                       left: screenW(160),
                       child:  instagram != null
                         ? isSwitched == true
@@ -203,7 +203,7 @@ class SocialCard extends StatelessWidget {
                           ),
                     ),
                     Positioned(
-                      top: screenH(150),
+                      top: screenH(140),
                       left: screenW(260),
                       child: twitter != null
                         ? isSwitched == true
@@ -228,7 +228,7 @@ class SocialCard extends StatelessWidget {
                           ),
                     ),
                     Positioned(
-                      top: screenH(225),
+                      top: screenH(210),
                       left: screenW(30),
                       child: 
                     Text(interestString != null ? interestString : "",

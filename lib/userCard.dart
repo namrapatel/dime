@@ -11,18 +11,18 @@ import 'login.dart';
 
 
 class UserCard extends StatefulWidget {
-  const UserCard({this.userId, this.type});
-  final String userId, type;
+  const UserCard({this.userId, this.type, this.userName});
+  final String userId, type, userName;
 
   @override
-  _UserCardState createState() => _UserCardState(this.userId, this.type);
+  _UserCardState createState() => _UserCardState(this.userId, this.type, this.userName);
 }
 
 class _UserCardState extends State<UserCard>{
 
-  final String userId, type;
+  final String userId, type, userName;
 
-_UserCardState(this.userId, this.type);
+_UserCardState(this.userId, this.type, this.userName);
 
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
@@ -58,7 +58,7 @@ _UserCardState(this.userId, this.type);
         title: Row(
           children: <Widget>[
             Text(
-              "Taher Ankleshwaria",
+              userName,
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 25,
@@ -86,7 +86,7 @@ _UserCardState(this.userId, this.type);
                   children: <Widget>[
                     Center(
                         child: ViewCards(
-                      userId: currentUserModel.uid,
+                      userId: userId,
                       type: 'social',
                     )),
                   ],
@@ -106,7 +106,7 @@ _UserCardState(this.userId, this.type);
                   children: <Widget>[
                     Center(
                         child: ViewCards(
-                      userId: currentUserModel.uid,
+                      userId: userId,
                       type: 'prof',
                     )),
                   ],

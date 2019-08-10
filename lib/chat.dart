@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
 import 'package:Dime/homePage.dart';
+import 'userCard.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
@@ -113,6 +116,21 @@ class _ChatState extends State<Chat> {
             ):CircularProgressIndicator(),
             SizedBox(width: MediaQuery.of(context).size.width / 33,),
             toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.white),):CircularProgressIndicator(),
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: UserCard(
+                            userId: widget.toUserId,
+                            userName: toUserName,
+                          )));
+                },
+              ),
+
           ],
         ),
       ),
@@ -280,31 +298,41 @@ class Message extends StatelessWidget {
           // Text(
           //   from,
           // ),
-          Material(
-            color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
-            borderRadius: me
-                ? BorderRadius.only(
-              topRight: Radius.circular(screenH(16)),
-              topLeft: Radius.circular(screenH(16)),
-              bottomRight: Radius.circular(screenH(0)),
-              bottomLeft: Radius.circular(screenH(16)),
-            )
-                : BorderRadius.only(
-              topRight: Radius.circular(screenH(16)),
-              topLeft: Radius.circular(screenH(16)),
-              bottomRight: Radius.circular(screenH(16)),
-              bottomLeft: Radius.circular(screenH(0)),
-            ),
-            elevation: screenH(2),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: screenH(11.0), horizontal: screenW(16.0)),
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: me ? Colors.white : Colors.black,
+          Column(
+            children: <Widget>[
+              Material(
+                color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
+                borderRadius: me
+                    ? BorderRadius.only(
+                  topRight: Radius.circular(screenH(16)),
+                  topLeft: Radius.circular(screenH(16)),
+                  bottomRight: Radius.circular(screenH(0)),
+                  bottomLeft: Radius.circular(screenH(16)),
+                )
+                    : BorderRadius.only(
+                  topRight: Radius.circular(screenH(16)),
+                  topLeft: Radius.circular(screenH(16)),
+                  bottomRight: Radius.circular(screenH(16)),
+                  bottomLeft: Radius.circular(screenH(0)),
+                ),
+                elevation: screenH(2),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: screenH(11.0), horizontal: screenW(16.0)),
+                  child: Text(
+                    text,
+                    style: TextStyle(
+                      color: me ? Colors.white : Colors.black,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              Text("a moment ago",
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey
+              ),
+              ),
+            ],
           ),
           SizedBox(
             height: screenH(11),

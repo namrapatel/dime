@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class SocialCard extends StatelessWidget {
   final String type;
@@ -19,6 +20,7 @@ class SocialCard extends StatelessWidget {
   final String interestString;
   final String email;
   final bool isSwitched;
+  
 
   const SocialCard(
       {this.type,
@@ -86,31 +88,20 @@ class SocialCard extends StatelessWidget {
                     Positioned(
                       top: screenH(25),
                       left: screenW(30),
-                      child: Text(displayName,
-                        style: TextStyle(
-                          fontSize: screenF(20),
-                        )),
+                      child: Container(
+                        width: 230,
+                        
+                        child: AutoSizeText(
+                        displayName,
+                        style: TextStyle(fontSize: screenF(20), color: Colors.black),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      )
                     ),
                     Positioned(
-                      top: screenH(25),
-                      left: screenW(140),
-                      child: Icon(
-                      FontAwesome.superpowers,
-                      size: 20,
-                      color: Color(0xFFf0bf43),
-                    ),
-                    ),
-                    Positioned(
-                      top: screenH(22),
-                      left: screenW(165),
-                      child: Icon(
-                      EvilIcons.sc_odnoklassniki,
-                      size: 25,
-                      color: Color(0xFFe61c5e),
-                    ),
-                    ),
-                    Positioned(
-                      top: screenH(65),
+                      top: screenH(60),
                       left: screenW(30),
                       child: university == null
                         ? SizedBox(
@@ -122,7 +113,7 @@ class SocialCard extends StatelessWidget {
                                 color: Color(0xFF8803fc))),
                     ),
                     Positioned(
-                      top: screenH(90),
+                      top: screenH(85),
                       left: screenW(30),
                       child: major != null && gradYear != null
                         ? Text(major + ", " + gradYear,
@@ -148,7 +139,7 @@ class SocialCard extends StatelessWidget {
                                 color: Colors.grey)),
                     ),
                     Positioned(
-                      top: screenH(140),
+                      top: screenH(125),
                       left: screenW(40),
                       child: snapchat != null
                         ? isSwitched == true
@@ -156,11 +147,12 @@ class SocialCard extends StatelessWidget {
                                 children: <Widget>[
                                   Icon(
                                     FontAwesome.snapchat_square,
-                                    
+                                    size: 30,
                                     color: Color(0xFFfffc00),
                                   ),
                                   SizedBox(
                                     width: screenW(10),
+                                    height: screenH(5),
                                   ),
                                   Text(snapchat,
                                       style: TextStyle(
@@ -176,7 +168,7 @@ class SocialCard extends StatelessWidget {
                           ),
                     ),
                     Positioned(
-                      top: screenH(140),
+                      top: screenH(125),
                       left: screenW(160),
                       child:  instagram != null
                         ? isSwitched == true
@@ -185,9 +177,11 @@ class SocialCard extends StatelessWidget {
                                   Icon(
                                     MaterialCommunityIcons.instagram,
                                     color: Color(0xFF8803fc),
+                                    size: 30,
                                   ),
                                   SizedBox(
                                     width: screenW(10),
+                                    height: screenH(5),
                                   ),
                                   Text(instagram,
                                       style: TextStyle(
@@ -203,7 +197,7 @@ class SocialCard extends StatelessWidget {
                           ),
                     ),
                     Positioned(
-                      top: screenH(140),
+                      top: screenH(125),
                       left: screenW(260),
                       child: twitter != null
                         ? isSwitched == true
@@ -213,6 +207,11 @@ class SocialCard extends StatelessWidget {
                                     MaterialCommunityIcons
                                         .twitter_box,
                                     color: Colors.blue,
+                                    size: 30,
+                                  ),
+                                  SizedBox(
+                                    width: screenW(10),
+                                    height: screenH(5),
                                   ),
                                   Text(twitter,
                                       style: TextStyle(

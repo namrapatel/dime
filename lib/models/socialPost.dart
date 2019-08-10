@@ -200,7 +200,7 @@ String name = currentUserModel.displayName;
                                 .updateData({'upVotes': upVotes});
                           },
                           child: Container(
-                            width: screenW(66),
+                            width: screenW(60),
                             height: screenH(66),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(screenH(16)),
@@ -208,7 +208,7 @@ String name = currentUserModel.displayName;
                             child: Column(
                               children: <Widget>[
                                 SizedBox(
-                                  height: screenH(10),
+                                  height: screenH(5),
                                 ),
                                 Icon(Icons.keyboard_arrow_up,
                                     color: Color(0xFF8803fc)),

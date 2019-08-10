@@ -24,6 +24,7 @@ import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
+import 'package:auto_size_text/auto_size_text.dart';
 
 
 
@@ -152,13 +153,24 @@ class _ScrollPageState extends State<ScrollPage>
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-            Text(
-              "Hey " + currentUserModel.displayName + "!",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
+            // Text(
+            //   "Hey " + currentUserModel.displayName + "!",
+            //   style: TextStyle(
+            //       color: Colors.white,
+            //       fontSize: 25,
+            //       fontWeight: FontWeight.bold),
+            // ),
+                        Container(
+                        width: screenW(260),
+                        child: AutoSizeText(
+                        "Hey " + currentUserModel.displayName + "!",
+                        style: TextStyle(fontSize: screenF(25), color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      ),
+
             Spacer(),
             IconButton(
               icon: Icon(

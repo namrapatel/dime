@@ -227,6 +227,7 @@ class _ExploreState extends State<Explore> {
                           type: PageTransitionType.fade,
                           child: UserCard(
                             userId: data['userId'],
+                            userName: data['userData']['displayName'],
                           )));
             },
           ),

@@ -41,7 +41,7 @@ class _ExploreState extends State<Explore> {
       });
 
       for (var user in allUsers) {
-        if (user['displayName'].toLowerCase().startsWith(standardValue)) {
+        if (user['userData']['displayName'].toLowerCase().startsWith(standardValue)) {
           setState(() {
             tempSearchStore.add(user);
             queryResultSet.add(user);
@@ -56,7 +56,7 @@ class _ExploreState extends State<Explore> {
       });
 
       for (var user in allUsers) {
-        if (user['displayName'].toLowerCase().startsWith(standardValue)) {
+        if (user['userData']['displayName'].toLowerCase().startsWith(standardValue)) {
           print("IM HERE");
           setState(() {
             tempSearchStore.add(user);
@@ -73,7 +73,11 @@ class _ExploreState extends State<Explore> {
       getAllUsers().then((QuerySnapshot docs) {
         var tempSet = [];
         for (int i = 0; i < docs.documents.length; ++i) {
-          tempSet.add(docs.documents[i].data);
+          var userMap = new Map();
+          userMap['userData'] = docs.documents[i].data;
+          userMap['userId'] = docs.documents[i].documentID;
+//          tempSet.add(docs.documents[i].data);
+          tempSet.add(userMap);
           print(docs.documents[i].documentID);
         }
         setState(() {
@@ -191,10 +195,10 @@ class _ExploreState extends State<Explore> {
   Widget _buildTile(data) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(data['photoUrl']),
+        backgroundImage: NetworkImage(data['userData']['photoUrl']),
       ),
-      title: Text(data['displayName']),
-      subtitle: Text(data['major'] != null ? data['major'] : ""),
+      title: Text(data['userData']['displayName']),
+      subtitle: Text(data['userData']['major'] != null ? data['userData']['major'] : ""),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -208,7 +212,7 @@ class _ExploreState extends State<Explore> {
                           type: PageTransitionType.fade,
                           child: Chat(
                             fromUserId: currentUserModel.uid,
-                            toUserId: data.uid,
+                            toUserId: data['userId'],
                           )));
             },
           ),

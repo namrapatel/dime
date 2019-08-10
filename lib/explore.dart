@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
 import 'chat.dart';
+import 'userCard.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -219,7 +220,15 @@ class _ExploreState extends State<Explore> {
           IconButton(
             icon: Icon(MaterialCommunityIcons.card_bulleted),
             color: Colors.black,
-            onPressed: () {},
+            onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: UserCard(
+                            userId: data['userId'],
+                          )));
+            },
           ),
         ],
       ),

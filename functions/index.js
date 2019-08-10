@@ -19,9 +19,10 @@ exports.chatTrigger = functions.firestore.document('notifMessages/{messageId}').
     console.log(fromId);
     console.log(toId);
 
-    await admin.firestore().collection('users').doc(toId).get().then(function(doc) {
+    admin.firestore().collection('users').doc(toId).get().then(function(doc) {
         sendTokens = doc.data().tokens;
-        await admin.firestore().collection('users').doc(fromId).get().then(function(doc) {
+        console.log(sendTokens);
+        admin.firestore().collection('users').doc(fromId).get().then(function(doc) {
             fromName = doc.data().displayName;
             payLoad = {
                 "notification": {
@@ -35,37 +36,34 @@ exports.chatTrigger = functions.firestore.document('notifMessages/{messageId}').
                 }
             }
             console.log(fromName);
-            console.log(sendTokens);
-
-
+            return admin.messaging().sendToDevice(sendTokens, payLoad).then((response) => {
+                console.log('Pushed them all');
+            }).catch((err) => {
+                console.log(err);
+            });
         });
     });
 
-    return admin.messaging().sendToDevice("dX4lKMAvq_Q:APA91bFY_hCFMgRQIxV334etgAlxIBFLmt5Tc5GkFG9ROi9MUx-DKVcmHp5abMt3cM8J8EzEOsajg_nCd5Z_NLBZUHHQ7splFA3FUrP6C1GSDYQWuMjemCRz16UdgQ4mVPT6Gbpcxh0g", payLoad).then((response) => {
-        console.log('Pushed them all');
-    }).catch((err) => {
-        console.log(err);
-    });
+    // payLoad = {
+    //     "notification": {
+    //         "title": "New message from " + fromName,
+    //         "body": "test",
+    //         "sound": "default"
+    //     },
+    //     "data": {
+    //         "senderName": fromName,
+    //         "message": "test"
+    //     }
+    // }
+    // console.log(fromName);
+    // console.log(sendTokens);
 
-//     payLoad = {
-//         "notification": {
-//             "title": "New message from " + fromName,
-//             "body": "test",
-//             "sound": "default"
-//         },
-//         "data": {
-//             "senderName": fromName,
-//             "message": "test"
-//         }
-//     }
-//     console.log(fromName);
-//     console.log(sendTokens);
-
-//     return admin.messaging().sendToDevice("dX4lKMAvq_Q:APA91bFY_hCFMgRQIxV334etgAlxIBFLmt5Tc5GkFG9ROi9MUx-DKVcmHp5abMt3cM8J8EzEOsajg_nCd5Z_NLBZUHHQ7splFA3FUrP6C1GSDYQWuMjemCRz16UdgQ4mVPT6Gbpcxh0g", payLoad).then((response) => {
-//         console.log('Pushed them all');
-//     }).catch((err) => {
-//         console.log(err);
-//     });
+    // return admin.messaging().sendToDevice("eRc5HvOhUVo:APA91bEkJHQF4hJcBUH8QqGTjg0IQ_GeEJpIvL5EnfqW7sHWURYC7gNmPUY-uOLJMvH5ysMzBYTsKnvliWszXyFdgEUMMcbAhh7aEbaHYNwxNNYpmjrvK20FJmdvq0go4QB044yJhDkh", payLoad).then((response) => {
+    //     console.log('Pushed them all');
+    // }).catch((err) => {
+    //     console.log(err);
+    //"eRc5HvOhUVo:APA91bEkJHQF4hJcBUH8QqGTjg0IQ_GeEJpIvL5EnfqW7sHWURYC7gNmPUY-uOLJMvH5ysMzBYTsKnvliWszXyFdgEUMMcbAhh7aEbaHYNwxNNYpmjrvK20FJmdvq0go4QB044yJhDkh"
+    // });
 });
 
 

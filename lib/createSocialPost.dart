@@ -269,7 +269,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
     });
   }
 
- void post() {
+  void post() {
     if (file != null) {
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
@@ -302,4 +302,3 @@ Future<String> uploadImage(var imageFile) async {
   String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
   return downloadUrl;
 }
-

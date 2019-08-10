@@ -24,6 +24,7 @@ import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -123,8 +124,40 @@ class _ScrollPageState extends State<ScrollPage>
 //    });
   }
 
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+
+  _saveDeviceToken() async {
+    String uid = currentUserModel.uid;
+
+    String fcmToken = await _fcm.getToken();
+    print(fcmToken);
+    if (fcmToken != null) {
+      await _db.collection('users').document(uid).get().then((document) {
+        if (document['tokens'] == null) {
+          List<String> newTokenList = [fcmToken];
+          _db
+              .collection('users')
+              .document(uid)
+              .updateData({'tokens': newTokenList});
+        } else {
+          var initTokens = document.data['tokens'];
+          var tokenList = new List<String>.from(initTokens);
+          if (!tokenList.contains(fcmToken)) {
+            tokenList.add(fcmToken);
+            _db
+                .collection('users')
+                .document(uid)
+                .updateData({'tokens': tokenList});
+          }
+        }
+      });
+    }
+  }
+
   @override
   void initState() {
+    _saveDeviceToken();
     getLocation();
 
     _controller = RubberAnimationController(

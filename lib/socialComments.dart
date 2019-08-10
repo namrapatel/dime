@@ -234,6 +234,9 @@ class _SocialCommentsState extends State<SocialComments> {
                             });
                             QuerySnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
                             int numberOfComments= snap.documents.length;
+                            Firestore.instance.collection('socialPosts').document(postId).updateData({
+                              'comments':numberOfComments
+                            });
 
 
                             setState(() {

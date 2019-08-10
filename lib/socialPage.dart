@@ -121,7 +121,8 @@ class _SocialPageState extends State<SocialPage> {
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: Text("loading..."));
-            } else {
+            } else{
+
               return ListView.builder(
                   itemCount: snapshot?.data?.length,
                   physics: BouncingScrollPhysics(),
@@ -133,7 +134,7 @@ class _SocialPageState extends State<SocialPage> {
                     return SocialPost(
                       postId: snapshot.data[index].documentID,
                       caption: snapshot.data[index].data["caption"],
-                      comments: 20,
+                      comments: snapshot.data[index].data["comments"],
                       timeStamp: timestamp,
                       postPic: snapshot.data[index].data["postPic"],
                       upVotes: snapshot.data[index].data["upVotes"],

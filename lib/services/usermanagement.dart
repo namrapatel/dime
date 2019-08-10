@@ -36,6 +36,7 @@ class UserManagement {
   addSocialPost(String caption, Timestamp timeStamp, String postPic,
       String ownerID, String postId, int upVotes) {
     Firestore.instance.collection('socialPosts').add({
+      'comments':0,
       'caption': caption,
       'timeStamp': timeStamp,
       'postPic': postPic,

@@ -43,6 +43,8 @@
 	<string>1150757578459762</string>
 	<key>FacebookDisplayName</key>
 	<string>Dime</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<string>NO</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -58,8 +60,6 @@
 	<string>This app requires contacts access to function properly.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>The app needs your location in order to determine which events and users are around you.</string>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<string>NO</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>The app needs your location in order to determine which events and users are around you.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>

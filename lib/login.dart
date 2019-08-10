@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Dime/models/user.dart';
 import 'package:Dime/services/googleauth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'homePage.dart';
 
 
 User currentUserModel;
@@ -71,6 +72,7 @@ class _LoginState extends State<Login> {
       });
     }
   }
+
   final _formKey = GlobalKey<FormState>();
   String _email, _password;
   bool _isObscured = true;
@@ -78,7 +80,7 @@ class _LoginState extends State<Login> {
 
   Padding buildTitle() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width/100),
       child: Text(
         'Welcome Back.',
         style: TextStyle(
@@ -92,12 +94,12 @@ class _LoginState extends State<Login> {
 
   Padding buildTitleLine() {
     return Padding(
-      padding: const EdgeInsets.only(top: 4.0, left: 12.0),
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/110, left: MediaQuery.of(context).size.width/100),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: 78.0,
-          height: 1.5,
+          width: MediaQuery.of(context).size.width/6,
+          height: MediaQuery.of(context).size.height/250,
           color: Colors.black,
         ),
       ),
@@ -115,7 +117,7 @@ class _LoginState extends State<Login> {
         decoration: InputDecoration(
             labelText: 'Email Address',
             labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-            contentPadding: EdgeInsets.all(20),
+            contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
             border: new OutlineInputBorder(
               borderRadius: new BorderRadius.circular(25.0),
               borderSide: new BorderSide(
@@ -142,7 +144,7 @@ class _LoginState extends State<Login> {
         labelText: 'Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Color(0xFF1458EA),
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -179,7 +181,7 @@ class _LoginState extends State<Login> {
 
   Padding buildPasswordText() {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
+      padding: EdgeInsets.only(top: 8.0),
       child: Align(
           alignment: Alignment.centerRight,
           child: InkWell(
@@ -226,8 +228,8 @@ class _LoginState extends State<Login> {
   Align buildLoginButton(BuildContext context) {
     return Align(
       child: SizedBox(
-        height: 50.0,
-        width: 270.0,
+        height: MediaQuery.of(context).size.height/13,
+        width: MediaQuery.of(context).size.width/1.5,
         child: Container(
           decoration: BoxDecoration(
               color: Color(0xFF1458EA),
@@ -381,9 +383,9 @@ class _LoginState extends State<Login> {
               height: 30.0,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/17,),
               child: Divider(
-                height: 1,
+                height: MediaQuery.of(context).size.height/330,
                 color: Colors.blueGrey,
               ),
             ),
@@ -394,8 +396,8 @@ class _LoginState extends State<Login> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Container(
-                height: 50,
-                width: 270.0,
+                height: MediaQuery.of(context).size.height/13,
+                width: MediaQuery.of(context).size.width/1.5,
                 child: OutlineButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0)),

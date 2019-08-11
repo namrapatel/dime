@@ -105,52 +105,46 @@ String name = currentUserModel.displayName;
 
   }
 
-
-
-
-
-    
-
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.all(8.0),
+        margin: EdgeInsets.all(screenH(9.0)),
         child: Card(
-            elevation: 10,
+            elevation: screenH(10),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                borderRadius: BorderRadius.all(Radius.circular(screenH(15.0)))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15.0),
-                    topRight: Radius.circular(15.0),
+                    topLeft: Radius.circular(screenH(15.0)),
+                    topRight: Radius.circular(screenH(15.0)),
                   ),
                   child: postPic != null
                       ? Image(
                           image: NetworkImage(postPic),
-                          width: 200,
-                          height: 250,
+                          width: screenW(200),
+                          height: screenH(275),
                           fit: BoxFit.fill,
                         )
                       : SizedBox(
-                          width: 1,
+                          width: screenH(1.2),
                         ),
                 ),
                 ListTile(
-                    contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    contentPadding: EdgeInsets.fromLTRB(screenH(22), screenH(11), screenH(22), screenH(11)),
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         caption != null
                             ? Text(caption)
                             : SizedBox(
-                                width: 1,
+                                width: screenW(1.2),
                               ),
                         IconButton(
                           icon: Icon(FontAwesome.share_square_o),
-                          iconSize: 25,
+                          iconSize: screenF(25),
                           onPressed: () async => await _sharePost(),
                         ),
                       ],
@@ -190,12 +184,13 @@ String name = currentUserModel.displayName;
                                   },
                                 )
                                 : SizedBox(
-                                    width: 1,
+                                    width: screenW(1.2),
                                   ),
-                               timeStamp != null
-                            ? Text(timeStamp, style: TextStyle(fontSize: 12, color: Colors.grey),)
+                               timeStamp != null  
+                            ? Text(timeStamp, style: TextStyle(fontSize: screenF(13.5), color: Colors.grey),)
+
                             : SizedBox(
-                                width: 1,
+                                width: screenW(1.2),
                               ),
                           ],
                         ),
@@ -232,15 +227,15 @@ String name = currentUserModel.displayName;
                                 .updateData({'upVotes': upVotes});
                           },
                           child: Container(
-                            width: 60,
-                            height: 60,
+                            width: screenW(60),
+                            height: screenH(66),
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(screenH(16)),
                                 color: liked==false?Colors.grey[100]:Color(0xFFdeb8ff)),
                             child: Column(
                               children: <Widget>[
                                 SizedBox(
-                                  height: screenH(10),
+                                  height: screenH(5),
                                 ),
                                 Icon(Icons.keyboard_arrow_up,
                                     color: Color(0xFF8803fc)),

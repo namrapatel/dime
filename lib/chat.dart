@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
+import 'package:Dime/homePage.dart';
+import 'userCard.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
 
 class Chat extends StatefulWidget {
   static const String id = "CHAT";
@@ -18,7 +25,6 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
-
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
@@ -92,11 +98,11 @@ class _ChatState extends State<Chat> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFF1458EA),
-        elevation: 5,
+        elevation: screenH(5),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
-          iconSize: 20,
+          
           onPressed: (){
             Navigator.pop(context);
           },
@@ -105,11 +111,26 @@ class _ChatState extends State<Chat> {
           children: <Widget>[
             toUserPhoto!=null?
             CircleAvatar(
-              radius: 15,
+              radius: screenH(25),
               backgroundImage: NetworkImage(toUserPhoto),
             ):CircularProgressIndicator(),
-            SizedBox(width: MediaQuery.of(context).size.width/30,),
+            SizedBox(width: MediaQuery.of(context).size.width / 33,),
             toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.white),):CircularProgressIndicator(),
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: UserCard(
+                            userId: widget.toUserId,
+                            userName: toUserName,
+                          )));
+                },
+              ),
+
           ],
         ),
       ),
@@ -144,13 +165,13 @@ class _ChatState extends State<Chat> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height/55,
+                height: MediaQuery.of(context).size.height / 55,
               ),
               Container(
                 child: Row(
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width/50,
+                      width: MediaQuery.of(context).size.width / 50,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.3,
@@ -187,7 +208,7 @@ class _ChatState extends State<Chat> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width/15,
+                      width: MediaQuery.of(context).size.width / 15,
                     ),
                     SendButton(
                       text: "Send",
@@ -216,7 +237,7 @@ class _ChatState extends State<Chat> {
                 // ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height/55,
+                height: MediaQuery.of(context).size.height / 55,
               )
             ],
           )),
@@ -225,6 +246,7 @@ class _ChatState extends State<Chat> {
 }
 
 class SendButton extends StatelessWidget {
+  
   final String text;
   final VoidCallback callback;
 
@@ -233,13 +255,13 @@ class SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-        width: 40,
-        height: 40,
+        width: screenW(44),
+        height: screenH(44),
         child: FloatingActionButton(
-            elevation: 5,
+            elevation: screenH(5),
             backgroundColor: Color(0xFF1458EA),
             heroTag: 'fabb4',
-            child: Icon(Icons.send, color: Colors.white, size: 20,),
+            child: Icon(Icons.send, color: Colors.white, size: 17),
             onPressed: callback
         )
     );
@@ -264,9 +286,9 @@ class Message extends StatelessWidget {
     // TODO: implement build
     return Container(
       padding: me?
-      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.5, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/50, 0)
+      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/ 3.5, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/50, 0)
           :
-      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/50, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/3.5, 0)
+      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/ 50, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/3.5, 0)
       ,
 
       child: Column(
@@ -276,34 +298,54 @@ class Message extends StatelessWidget {
           // Text(
           //   from,
           // ),
-          Material(
-            color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
-            borderRadius: me
-                ? BorderRadius.only(
-              topRight: Radius.circular(15),
-              topLeft: Radius.circular(15),
-              bottomRight: Radius.circular(0),
-              bottomLeft: Radius.circular(15),
-            )
-                : BorderRadius.only(
-              topRight: Radius.circular(15),
-              topLeft: Radius.circular(15),
-              bottomRight: Radius.circular(15),
-              bottomLeft: Radius.circular(0),
-            ),
-            elevation: 2,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
-              child: Text(
-                text,
-                style: TextStyle(
-                  color: me ? Colors.white : Colors.black,
-                ),
+          Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: me? MainAxisAlignment.end: MainAxisAlignment.start,
+                children: <Widget>[
+                  Material(
+                    color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
+                    borderRadius: me
+                        ? BorderRadius.only(
+                      topRight: Radius.circular(screenH(16)),
+                      topLeft: Radius.circular(screenH(16)),
+                      bottomRight: Radius.circular(screenH(0)),
+                      bottomLeft: Radius.circular(screenH(16)),
+                    )
+                        : BorderRadius.only(
+                      topRight: Radius.circular(screenH(16)),
+                      topLeft: Radius.circular(screenH(16)),
+                      bottomRight: Radius.circular(screenH(16)),
+                      bottomLeft: Radius.circular(screenH(0)),
+                    ),
+                    elevation: screenH(2),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: screenH(11.0), horizontal: screenW(16.0)),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          color: me ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ),
+              Row(
+                mainAxisAlignment: me? MainAxisAlignment.end: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text("a moment ago",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey
+                  ),
+                  ),
+                ],
+              ),
+            ],
           ),
           SizedBox(
-            height: 10,
+            height: screenH(11),
           )
         ],
       ),

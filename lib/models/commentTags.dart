@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:Dime/socialComments.dart';
+import 'package:Dime/homePage.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 typedef Widget AutoCompleteOverlayItemBuilder<T>(
     BuildContext context, T suggestion);

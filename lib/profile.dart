@@ -19,9 +19,14 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: <Widget>[
-      HomePageOne() /*, HomePageTwo(), HomePageThree()*/
-    ]));
+        body: ListView(
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+            HomePageOne() 
+          ],
+        )
+    
+    );
   }
 }
 
@@ -140,7 +145,7 @@ updateProfile() async{
 
     return Column(children: <Widget>[
       SizedBox(
-        height: 45,
+        height: 15,
       ),
       Row(
         children: <Widget>[
@@ -155,7 +160,7 @@ updateProfile() async{
               );
             },
             color: Colors.black,
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back_ios),
             iconSize: 25.0,
           ),
         ],
@@ -179,24 +184,33 @@ updateProfile() async{
           SizedBox(
             width: 150.0,
           ),
-          InkWell(
-              onTap: updateProfile,
-              child: Container(
-                  height: 25,
-                  width: 45,
-                  child: Center(
-                      child: Text(
-                    'Save',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: Color(0xFF1458EA),
-                  )))
+          FlatButton(
+            color: Color(0xFF1458EA),
+            child: Text("Save", style: TextStyle(color: Colors.white),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+              updateProfile();
+            },
+          ),
+          // InkWell(
+          //     onTap: updateProfile,
+          //     child: Container(
+          //         padding: EdgeInsets.all(8),
+          //         height: 25,
+          //         width: 45,
+          //         child: Center(
+          //             child: Text(
+          //           'Save',
+          //           style: TextStyle(color: Colors.white),
+          //         )),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(40),
+          //           color: Color(0xFF1458EA),
+          //         )))
         ],
       ),
       SizedBox(
-        height: 50,
+        height: 30,
       ),
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
@@ -298,6 +312,7 @@ updateProfile() async{
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+            keyboardType: TextInputType.number,
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {

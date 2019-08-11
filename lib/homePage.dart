@@ -24,7 +24,10 @@ import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
+
+
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -34,7 +37,6 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
-  var type = false;
 //  List<UserTile> nearbyUsers = [
 //    UserTile(
 //      'Shehab Salem',
@@ -95,21 +97,22 @@ class _ScrollPageState extends State<ScrollPage>
 
   geoLoc.Position position;
   GeoPoint current;
-  getLocation() async {
-    geoLoc.Position idiot = await geoLoc.Geolocator()
-        .getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
+  getLocation() async{
+
+
+    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
 
     setState(() {
-      position = idiot;
+      position=idiot;
     });
 
     print(position.latitude);
     print(position.longitude);
-    double distanceInMeters = await geoLoc.Geolocator()
-        .distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
     print('distance is');
     print(distanceInMeters);
-    current = new GeoPoint(position.latitude, position.longitude);
+    current =
+    new GeoPoint(position.latitude, position.longitude);
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -124,40 +127,8 @@ class _ScrollPageState extends State<ScrollPage>
 //    });
   }
 
-  final Firestore _db = Firestore.instance;
-  final FirebaseMessaging _fcm = FirebaseMessaging();
-
-  _saveDeviceToken() async {
-    String uid = currentUserModel.uid;
-
-    String fcmToken = await _fcm.getToken();
-    print(fcmToken);
-    if (fcmToken != null) {
-      await _db.collection('users').document(uid).get().then((document) {
-        if (document['tokens'] == null) {
-          List<String> newTokenList = [fcmToken];
-          _db
-              .collection('users')
-              .document(uid)
-              .updateData({'tokens': newTokenList});
-        } else {
-          var initTokens = document.data['tokens'];
-          var tokenList = new List<String>.from(initTokens);
-          if (!tokenList.contains(fcmToken)) {
-            tokenList.add(fcmToken);
-            _db
-                .collection('users')
-                .document(uid)
-                .updateData({'tokens': tokenList});
-          }
-        }
-      });
-    }
-  }
-
   @override
   void initState() {
-    _saveDeviceToken();
     getLocation();
 
     _controller = RubberAnimationController(
@@ -171,6 +142,8 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,13 +153,17 @@ class _ScrollPageState extends State<ScrollPage>
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-            Text(
-              "Hey " + currentUserModel.displayName + "!",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.6,
+                        child: AutoSizeText(
+                        "Hey " + currentUserModel.displayName + "!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      ),
+
             Spacer(),
             IconButton(
               icon: Icon(
@@ -296,6 +273,7 @@ class _ScrollPageState extends State<ScrollPage>
     return new Stack(
       children: <Widget>[
         ListView(
+          padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: <Widget>[
@@ -429,19 +407,16 @@ class _ScrollPageState extends State<ScrollPage>
 
     final Lat.Distance distance = new Lat.Distance();
     QuerySnapshot query =
-        await Firestore.instance.collection('users').getDocuments();
+    await Firestore.instance.collection('users').getDocuments();
     final docs = query.documents;
     for (var doc in docs) {
       if (doc.data['currentLocation'] != null) {
+
 //
 //        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
 //            doc.data['currentLocation'].longitude);
 
-        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(
-            position.latitude,
-            position.longitude,
-            doc.data['currentLocation'].latitude,
-            doc.data['currentLocation'].longitude);
+        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position.latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
 //        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
 
         print(doc.documentID);
@@ -449,8 +424,6 @@ class _ScrollPageState extends State<ScrollPage>
         print(distanceInMeters);
         if (distanceInMeters <= 6000.0 &&
             doc.documentID != currentUserModel.uid) {
-          type = true;
-          print('-------------------_ADDED-----------');
           userList.add(new UserTile(
               doc.data['displayName'], doc.data['photoUrl'], doc.documentID,
               major: doc.data['major'],
@@ -470,47 +443,29 @@ class _ScrollPageState extends State<ScrollPage>
         child: ListView(
           children: <Widget>[
             FutureBuilder<List<UserTile>>(
-                future: getUsers(),
-                builder: (context, snapshot) {
-                  if (type == false) {
-                    return Column(
-                      children: <Widget>[
-                        Container(
-                          color: Colors.white,
-                          height: 10,
-                          width: 400,
-                        ),
-                        SizedBox(
-                          height: screenH(1),
-                        ),
-                        Text("No users nearby, go get a walk in!",
-                            style: TextStyle(color: Colors.black)),
-                        Container(
-                            height: screenH(200),
-                            width: screenW(350),
-                            alignment: FractionalOffset.center,
-                            child: Image(
-                                image: AssetImage(
-                                    'assets/undraw_peoplearoundyou.png'))),
-                      ],
-                    );
-                  } else {
-                    return Container(
-                      child: Column(
-                          children:
-                              // snapshot.data.length == 0?
-                              // ListView(
-                              //   children: <Widget>[
+            future: getUsers(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Container(
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
 
-                              //   ],
-                              // )
-                              // :
-                              snapshot.data),
-                    );
-                  }
-                })
+              return Container(
+                child: Column(children: 
+                // snapshot.data.length == 0?
+                // ListView(
+                //   children: <Widget>[
+                    
+                //   ],
+                // )
+                // :
+                snapshot.data),
+              );
+            })
           ],
-        ));
+        )
+            
+            );
   }
 
   double _value = 5.0;
@@ -692,6 +647,7 @@ class UserTile extends StatelessWidget {
                           type: PageTransitionType.fade,
                           child: UserCard(
                             userId: uid,
+                            userName: contactName,
                           )));
                 },
               ),

@@ -1,5 +1,7 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/login.dart';
+import 'package:Dime/profComments.dart';
+import 'package:Dime/socialComments.dart';
 import 'package:flutter/material.dart';
 import 'package:Dime/homePage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -10,9 +12,9 @@ import 'package:Dime/userCard.dart';
 
 class Comment extends StatelessWidget {
 
-  final String commenterId, commenterName, commenterPhoto, text, timestamp;
+  final String commentId,commenterId, commenterName, commenterPhoto, text, timestamp,type,postId;
   final List tags;
-  const Comment({this.commenterId,this.commenterName,this.commenterPhoto,this.text,this.timestamp,this.tags});
+  const Comment({this.commenterId,this.commenterName,this.commenterPhoto,this.text,this.timestamp,this.tags,this.type,this.postId,this.commentId});
 
 
   factory Comment.fromDocument(DocumentSnapshot document) {
@@ -21,7 +23,9 @@ class Comment extends StatelessWidget {
     String timestamp = '$elapsedTime';
     return Comment(commenterId: document['commenterId'],
       commenterName:document['commenterName'],
-
+      commentId: document.documentID,
+      postId: document['postId'],
+      type: document['type'],
 
       commenterPhoto:document['commenterPhoto'],
       tags: document['tags'],
@@ -82,7 +86,63 @@ class Comment extends StatelessWidget {
           commenterId == currentUserModel.uid?
           IconButton(
             icon: Icon(FontAwesome.trash),
-            onPressed: (){},
+            onPressed: ()async{
+              DocumentSnapshot documentSnap= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(postId).get();
+              if (documentSnap['upvoted'] !=true&&documentSnap['numberOfComments']==1) {
+                Firestore.instance.collection('users')
+                    .document(currentUserModel.uid)
+                    .collection('recentActivity').document(
+                    postId)
+                    .delete();
+              } else{
+                Firestore.instance.collection('users').document(
+                    currentUserModel.uid)
+                    .collection('recentActivity')
+                    .document(postId)
+                    .setData({
+                  'numberOfComments':FieldValue.increment(-1),
+
+
+                }, merge: true);
+              }
+              
+              if(type=='social') {
+                DocumentSnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).get();
+                int commentsNumber=snap['comments'];
+
+                Firestore.instance.collection('socialPosts').document(postId).collection('comments').document(commentId).delete();
+                Firestore.instance.collection('socialPosts').document(postId).updateData({
+                  'comments':commentsNumber-1
+                });
+
+
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: SocialComments(
+                          postId: postId,
+                        )));
+              }else if(type=='prof'){
+                DocumentSnapshot snap= await Firestore.instance.collection('profPosts').document(postId).get();
+                int commentsNumber=snap['comments'];
+                Firestore.instance.collection('profPosts').document(postId).collection('comments').document(commentId).delete();
+                Firestore.instance.collection('profPosts').document(postId).updateData({
+                  'comments':commentsNumber-1
+                });
+
+
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: ProfComments(
+                          postId: postId,
+                        )));
+              }
+
+
+            },
             color: Colors.grey,
             iconSize: 17,
           ) :SizedBox(height: 1,)

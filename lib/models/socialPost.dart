@@ -14,47 +14,75 @@ import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:Dime/login.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 class SocialPost extends StatefulWidget {
  final String postId;
- final  String caption;
- final String postPic;
- final int comments;
- final String timeStamp;
- final int upVotes ;
- final List<dynamic> likes;
+// final  String caption;
+// final String postPic;
+// final int comments;
+// final String timeStamp;
+// final int upVotes ;
+// final List<dynamic> likes;
 
-  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic,this.postId, this.upVotes,this.likes});
+  const SocialPost({this.postId});
   @override
-  _SocialPostState createState() => _SocialPostState(postId:this.postId,caption:this.caption,postPic:this.postPic,comments:this.comments,timeStamp:this.timeStamp,upVotes:this.upVotes,likes:this.likes);
+  _SocialPostState createState() => _SocialPostState();
 }
 
 class _SocialPostState extends State<SocialPost> {
   List<dynamic> likes;
-  String postId;
+//  String postId;
    String caption;
    String postPic;
    int comments;
    String timeStamp;
    int upVotes ;
+   String university;
 bool liked;
 
 String name = currentUserModel.displayName;
 
-  _SocialPostState({this.caption, this.comments, this.timeStamp, this.postPic, this.postId, this.upVotes,this.likes});
+
 
   @override
   void initState() {
     super.initState();
+    getPostInfo();
     print(caption);
+
+  }
+
+  getPostInfo() async{
+    DocumentSnapshot doc= await Firestore.instance.collection('socialPosts').document(widget.postId).get();
+    Timestamp storedDate=doc["timeStamp"];
+    String elapsedTime = timeago.format(storedDate.toDate());
+    String times = '$elapsedTime';
+    setState(() {
+       likes=doc['likes'];
+    university=doc['university'];
+      caption=doc['caption'];
+       postPic=doc['postPic'];
+      comments=doc['comments'];
+       timeStamp=times;
+       upVotes= doc['upVotes'];
+
+
+    });
     if(likes.length!=0) {
       if (likes.contains(currentUserModel.uid)) {
-        liked = true;
+        setState(() {
+          liked = true;
+        });
+
       }
     }else{
-      liked=false;
+      setState(() {
+        liked=false;
+      });
+
     }
   }
+
 
 
   Future<void> _sharePost() async {
@@ -109,7 +137,9 @@ String name = currentUserModel.displayName;
   Widget build(BuildContext context) {
     return Container(
         margin: EdgeInsets.all(screenH(9.0)),
-        child: Card(
+        child:
+            caption==null?CircularProgressIndicator():
+        Card(
             elevation: screenH(10),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(screenH(15.0)))),
@@ -162,7 +192,7 @@ String name = currentUserModel.displayName;
                                 PageTransition(
                                     type: PageTransitionType.fade,
                                     child: SocialComments(
-                                      postId: postId,
+                                      postId: widget.postId,
                                     )));
                           },
                         ),
@@ -179,7 +209,7 @@ String name = currentUserModel.displayName;
                                 PageTransition(
                                     type: PageTransitionType.fade,
                                     child: SocialComments(
-                                      postId: postId,
+                                      postId: widget.postId,
                                     )));
                                   },
                                 )
@@ -197,7 +227,7 @@ String name = currentUserModel.displayName;
                         Spacer(),
 
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async{
                             if(liked==false){
                               setState(() {
                                 liked=true;
@@ -205,25 +235,45 @@ String name = currentUserModel.displayName;
 
                               });
 
-                              Firestore.instance.collection('socialPosts').document(postId).updateData({
+                              Firestore.instance.collection('socialPosts').document(widget.postId).updateData({
                                 'likes':FieldValue.arrayUnion([currentUserModel.uid])
                               });
+                              Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).setData({
+                                'type':'social',
+                                'upvoted':true,
+                                'postId':widget.postId,
+                                'timeStamp':Timestamp.now()
+                              },merge: true);
 
                             }else{
                                   setState(() {
                                   liked=false;
                                   upVotes--;
                                   });
-                                  Firestore.instance.collection('socialPosts').document(postId).updateData({
+                                  Firestore.instance.collection('socialPosts').document(widget.postId).updateData({
                                     'likes':FieldValue.arrayRemove([currentUserModel.uid])
                                   });
+                                  DocumentSnapshot documentSnap= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).get();
 
+                                  if(documentSnap['commented']!=true) {
+                                    Firestore.instance.collection('users')
+                                        .document(currentUserModel.uid)
+                                        .collection('recentActivity').document(
+                                        widget.postId)
+                                        .delete();
+                                  }else{
+                                    Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).setData({
+
+                                      'upvoted':false,
+
+                                    },merge: true);
+                                  }
                             }
 
 
                             Firestore.instance
                                 .collection('socialPosts')
-                                .document(postId)
+                                .document(widget.postId)
                                 .updateData({'upVotes': upVotes});
                           },
                           child: Container(

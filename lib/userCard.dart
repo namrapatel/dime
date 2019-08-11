@@ -8,7 +8,7 @@ import 'models/profPost.dart';
 import 'models/socialPost.dart';
 import 'login.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class UserCard extends StatefulWidget {
@@ -42,6 +42,13 @@ _UserCardState(this.userId, this.type, this.userName);
 
   }
 
+  Future getRecentActivity() async{
+    QuerySnapshot querySnapshot= await Firestore.instance.collection('users').document(userId).collection('recentActivity').orderBy('timeStamp',descending: true).getDocuments();
+      final docs= querySnapshot.documents;
+
+      return docs;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,65 +145,169 @@ _UserCardState(this.userId, this.type, this.userName);
           child: Container(
             height: 500,
             width: 500,
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text("Taher upvoted",
-                      style: TextStyle(
-                        color: Colors.white
+            child: FutureBuilder(
+              future: getRecentActivity(),
+              builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: Text("loading..."));
+              } else{
+                String action;
+
+                return  ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                    itemCount: snapshot?.data?.length,
+                    itemBuilder: (_, index) {
+
+
+                      return Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                              snapshot.data[index].data['upvoted']==true&&snapshot.data[index].data['commented']==true?
+                                Text(userName+" upvoted and commented"
+
+                                  ,
+                                  style: TextStyle(
+                                      color: Colors.white
+                                  ),
+                                ):
+                                  Text(snapshot.data[index].data['upvoted']==true?userName+" upvoted":userName+" commented",style: TextStyle(
+                      color: Colors.white ))
+
+                              ],
+                            ),
+                          ),
+                      snapshot.data[index].data['type']=='social'?
+                          SocialPost(
+                            postId: snapshot.data[index].data['postId'],
+                          ):ProfPost(
+                      postId:snapshot.data[index].data['postId'],
                       ),
-                      ),
-                    ],
-                  ),
-                ),
-                ProfPost(
-                  caption: "Hello",
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text("Taher commented",
-                      style: TextStyle(
-                        color: Colors.white
-                      ),
-                      ),
-                    ],
-                  ),
-                ),
-                ProfPost(
-                  caption: "Hello",
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Text("Taher upvoted and commented",
-                      style: TextStyle(
-                        color: Colors.white
-                      ),
-                      ),
-                    ],
-                  ),
-                ),
-                ProfPost(
-                  caption: "Hello",
-                ),
-              ],
-            ),
+
+                          SizedBox(
+                            height: 10,
+                          ),
+//                          Padding(
+//                            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+//                            child: Row(
+//                              mainAxisAlignment: MainAxisAlignment.end,
+//                              children: <Widget>[
+//                                Text("Taher commented",
+//                                  style: TextStyle(
+//                                      color: Colors.white
+//                                  ),
+//                                ),
+//                              ],
+//                            ),
+//                          ),
+//                          ProfPost(
+//                            caption: "Hello",
+//                          ),
+//                          SizedBox(
+//                            height: 10,
+//                          ),
+//                          Padding(
+//                            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+//                            child: Row(
+//                              mainAxisAlignment: MainAxisAlignment.end,
+//                              children: <Widget>[
+//                                Text("Taher upvoted and commented",
+//                                  style: TextStyle(
+//                                      color: Colors.white
+//                                  ),
+//                                ),
+//                              ],
+//                            ),
+//                          ),
+//                          ProfPost(
+//                            caption: "Hello",
+//                          ),
+                        ],
+                      );
+                    });
+//                  children: <Widget>[
+//                    Padding(
+//                      padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.end,
+//                        children: <Widget>[
+//                          Text(userName+snapshot.data[index].data['action'],
+//                            style: TextStyle(
+//                                color: Colors.white
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                    ProfPost(
+//                      caption: "Hello",
+//                    ),
+//                    SizedBox(
+//                      height: 10,
+//                    ),
+//                    Padding(
+//                      padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.end,
+//                        children: <Widget>[
+//                          Text("Taher commented",
+//                            style: TextStyle(
+//                                color: Colors.white
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                    ProfPost(
+//                      caption: "Hello",
+//                    ),
+//                    SizedBox(
+//                      height: 10,
+//                    ),
+//                    Padding(
+//                      padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.end,
+//                        children: <Widget>[
+//                          Text("Taher upvoted and commented",
+//                            style: TextStyle(
+//                                color: Colors.white
+//                            ),
+//                          ),
+//                        ],
+//                      ),
+//                    ),
+//                    ProfPost(
+//                      caption: "Hello",
+//                    ),
+//                  ],
+//                );
+
+//              return ListView.builder(
+//              itemCount: snapshot?.data?.length,
+//              physics: BouncingScrollPhysics(),
+//              itemBuilder: (_, index) {
+//              Timestamp storedDate=snapshot.data[index].data["timeStamp"];
+//              String elapsedTime = timeago.format(storedDate.toDate());
+//              String timestamp = '$elapsedTime';
+//
+//              return SocialPost(
+//
+//              postId: snapshot.data[index].documentID,
+//              caption: snapshot.data[index].data["caption"],
+//              comments: snapshot.data[index].data["comments"],
+//              timeStamp: timestamp,
+//              postPic: snapshot.data[index].data["postPic"],
+//              upVotes: snapshot.data[index].data["upVotes"],
+//              likes:snapshot.data[index].data['likes']
+//              );
+//              });
+              }
+              })
+
           )
         ),
       ],

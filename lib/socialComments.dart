@@ -220,18 +220,35 @@ class _SocialCommentsState extends State<SocialComments> {
                             color: Colors.white,
                             size: 20,
                           ),
+
                           onPressed: () async{
+                            String docName=postId+Timestamp.now().toString();
                             Firestore.instance
                                 .collection('socialPosts')
                                 .document(postId)
-                                .collection('comments')
-                                .add({
+                                .collection('comments').document(docName)
+                                .setData({
+                              'type':'social',
+                              'postId':postId,
+
+
+//                              'commentId':docName,
                               'commenterId': currentUserModel.uid,
                               'commenterName': currentUserModel.displayName,
                               'commenterPhoto': currentUserModel.photoUrl,
                               'text': controller.text,
                               'timestamp': Timestamp.now()
                             });
+
+
+                            Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).setData({
+                              'type':'social',
+                              'commented':true,
+                              'postId':widget.postId,
+                            'numberOfComments':FieldValue.increment(1),
+                              'timeStamp':Timestamp.now()
+                            },merge: true);
+
                             QuerySnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
                             int numberOfComments= snap.documents.length;
                             Firestore.instance.collection('socialPosts').document(postId).updateData({

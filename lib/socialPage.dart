@@ -188,19 +188,12 @@ for (var list in twoD){
                   itemCount: snapshot?.data?.length,
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (_, index) {
-                    Timestamp storedDate=snapshot.data[index].data["timeStamp"];
-                    String elapsedTime = timeago.format(storedDate.toDate());
-                    String timestamp = '$elapsedTime';
+
 
                     return SocialPost(
 
                       postId: snapshot.data[index].documentID,
-                      caption: snapshot.data[index].data["caption"],
-                      comments: snapshot.data[index].data["comments"],
-                      timeStamp: timestamp,
-                      postPic: snapshot.data[index].data["postPic"],
-                      upVotes: snapshot.data[index].data["upVotes"],
-                      likes:snapshot.data[index].data['likes']
+
                     );
                   });
             }

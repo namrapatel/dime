@@ -99,7 +99,7 @@ updateProfile() async{
     DocumentSnapshot user=await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid).get();
-    currentUserModel=User.fromDocument( user);
+    currentUserModel=User.fromDocument(user);
 
     Firestore.instance
         .collection('users')

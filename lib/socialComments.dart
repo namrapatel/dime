@@ -129,7 +129,7 @@ class _SocialCommentsState extends State<SocialComments> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'University of Waterloo',
+                  currentUserModel.university,
                   style: TextStyle(color: Colors.black),
                 ),
                 Text(

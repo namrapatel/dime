@@ -1,3 +1,4 @@
+import 'package:Dime/profile.dart';
 import 'package:Dime/viewCards.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +17,7 @@ final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 final _firestore = Firestore.instance;
-//var university = currentUserModel.university;
+
 
 
 
@@ -26,15 +27,63 @@ class SocialPage extends StatefulWidget {
 }
 
 class _SocialPageState extends State<SocialPage> {
+
+  var university = currentUserModel.university;
+  @override
+  void initState() {
+
+    super.initState();
+
+
+  }
+
+
   Future getPosts() async {
+
     QuerySnapshot qn = await Firestore.instance
-        .collection('socialPosts')
-        .orderBy('timeStamp', descending: false)
+        .collection('socialPosts').where('university',isEqualTo: currentUserModel.university)
+
         .getDocuments();
+   List<dynamic> docs= qn.documents;
+   List<List<dynamic>> twoD=[];
+List<DocumentSnapshot> finalSorted=[];
 
+    print('length');
+   print(docs.length);
+for(var doc in docs){
+  double counter=0;
+  List<dynamic> toAdd=[];
+  Timestamp time=doc.data['timeStamp'];
 
+  print(doc.data['caption']);
 
-    return qn.documents;
+  print(DateTime.now().difference(time.toDate()));
+  if(DateTime.now().difference(time.toDate()).inMinutes<=60){
+    print('difference between posted and time from an hour ago is');
+    print(DateTime.now().difference(time.toDate()).inMinutes);
+    counter=counter+5;
+  }
+  int upvotes=doc.data['upVotes'];
+  counter=counter+(0.1*upvotes);
+  int comments= doc.data['comments'];
+  counter=counter+(0.2*comments);
+  toAdd.add(doc);
+  toAdd.add(counter);
+  twoD.add(toAdd);
+}
+    for (var list in twoD){
+      print(list[0].data['caption']);
+      print(list[1]);
+    }
+twoD.sort((b, a) => a[1].compareTo(b[1]));
+print('after sort');
+for (var list in twoD){
+  print(list[0].data['caption']);
+  print(list[1]);
+  finalSorted.add(list[0]);
+}
+
+  return finalSorted;
   }
   int commentLengths;
 
@@ -64,7 +113,7 @@ class _SocialPageState extends State<SocialPage> {
                       height: 20,
                     ),
                     Text(
-                     "waterloo",
+                     university!=null?university:"Add your university to see posts",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,
@@ -98,7 +147,9 @@ class _SocialPageState extends State<SocialPage> {
             ),
           )),
       backgroundColor: Color(0xFF8803fc),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: currentUserModel.university!=null?FloatingActionButton(
+
+
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16.0))),
         onPressed: () {
@@ -115,8 +166,18 @@ class _SocialPageState extends State<SocialPage> {
           // color: Color(0xFF8803fc),
           color: Colors.white,
         ),
+      ):
+      RaisedButton(
+        child: Text('Add your university'),
+
+        onPressed: (){
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.fade, child: Profile()));
+        },
       ),
-      body: FutureBuilder(
+    body:university!=null? FutureBuilder(
           future: getPosts(),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -132,16 +193,19 @@ class _SocialPageState extends State<SocialPage> {
                     String timestamp = '$elapsedTime';
 
                     return SocialPost(
+
                       postId: snapshot.data[index].documentID,
                       caption: snapshot.data[index].data["caption"],
                       comments: snapshot.data[index].data["comments"],
                       timeStamp: timestamp,
                       postPic: snapshot.data[index].data["postPic"],
                       upVotes: snapshot.data[index].data["upVotes"],
+                      likes:snapshot.data[index].data['likes']
                     );
                   });
             }
-          }),
+          }):SizedBox(height: 1)
+
     );
   }
 }

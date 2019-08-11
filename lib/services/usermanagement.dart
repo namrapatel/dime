@@ -34,7 +34,8 @@ class UserManagement {
   }
 
   addSocialPost(String caption, Timestamp timeStamp, String postPic,
-      String ownerID, String postId, int upVotes) {
+       String postId, int upVotes) {
+    List<dynamic> likes=[];
     Firestore.instance.collection('socialPosts').add({
       'comments':0,
       'caption': caption,
@@ -42,18 +43,22 @@ class UserManagement {
       'postPic': postPic,
       "ownerId": currentUserModel.uid,
       "postID": postId,
-      'upVotes': upVotes
+      'upVotes': upVotes,
+      "likes":likes,
+      "university":currentUserModel.university
     });
   }
 
-  addProfPost(String caption, String timeStamp, String postPic, String ownerID,
+  addProfPost(String caption, String timeStamp, String postPic,
       String postId) {
+    List<dynamic> likes=[];
     Firestore.instance.collection('profPosts').add({
       'caption': caption,
       'timeStamp': timeStamp,
       'postPic': postPic,
       "ownerId": currentUserModel.uid,
       "postID": postId,
+      "likes":likes
       //'upVotes': upVotes
     });
   }

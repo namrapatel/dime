@@ -283,7 +283,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         postId = currentUserModel.uid + Timestamp.now().toString();
 
         uploader.addSocialPost(
-            caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
+            caption, timeStamp, postPic, postId, upVotes);
       }).then((_) {
         setState(() {
           file = null;
@@ -299,7 +299,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       postId = currentUserModel.uid + Timestamp.now().toString();
       caption = descriptionController.text;
 
-      uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
+      uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
       Navigator.push(
           context,
           MaterialPageRoute(

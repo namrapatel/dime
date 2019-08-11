@@ -167,30 +167,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                university == null
-                    ? Text('')
-                    : Text(
-                        university,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.0,
-                          color: Color(0xFF1458EA),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                major == null
-                    ? Text('')
-                    : Text(
-                        major + ', ' + gradYear,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12.0,
-                          color: Color(0xFF1458EA),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
                 SizedBox(
-                  height: screenH(140),
+                  height: screenH(50),
                 ),
               ],
             ),

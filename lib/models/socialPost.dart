@@ -38,7 +38,7 @@ class _SocialPostState extends State<SocialPost> {
    String timeStamp;
    int upVotes ;
    String university;
-bool liked;
+bool liked=false;
 
 String name = currentUserModel.displayName;
 
@@ -68,8 +68,13 @@ String name = currentUserModel.displayName;
 
 
     });
+    print(likes);
     if(likes.length!=0) {
+      print('my id issssss');
+      print(currentUserModel.uid);
       if (likes.contains(currentUserModel.uid)) {
+        print('my id is');
+        print(currentUserModel.uid);
         setState(() {
           liked = true;
         });

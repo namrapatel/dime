@@ -39,7 +39,7 @@ class _ProfPostState extends State<ProfPost> {
   String timeStamp;
   int upVotes ;
   String university;
-  bool liked;
+  bool liked=false;
 
   String name = currentUserModel.displayName;
 
@@ -71,6 +71,8 @@ class _ProfPostState extends State<ProfPost> {
     });
     if(likes.length!=0) {
       if (likes.contains(currentUserModel.uid)) {
+        print('id');
+        print(currentUserModel.uid);
         setState(() {
           liked = true;
         });

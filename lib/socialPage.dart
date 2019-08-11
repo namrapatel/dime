@@ -12,6 +12,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'createSocialPost.dart';
 import 'socialComments.dart';
 import 'models/socialPost.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -105,22 +106,23 @@ for (var list in twoD){
             automaticallyImplyLeading: false,
             title: Row(
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
+                // Text(
+                //  university!=null?university:"Whoops!",
+                //   style: TextStyle(
+                //       color: Colors.white,
+                //       fontSize: 25,
+                //       fontWeight: FontWeight.bold),
+                // ),
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.25,
+                        child: AutoSizeText(
+                        university!=null?university:"Whoops!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
-                     university!=null?university:"Add your university to see posts",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                      ),
                 Spacer(),
                 Column(
                   children: <Widget>[
@@ -166,17 +168,7 @@ for (var list in twoD){
           // color: Color(0xFF8803fc),
           color: Colors.white,
         ),
-      ):
-      RaisedButton(
-        child: Text('Add your university'),
-
-        onPressed: (){
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.fade, child: Profile()));
-        },
-      ),
+      ):SizedBox(height: 1,),
     body:university!=null? FutureBuilder(
           future: getPosts(),
           builder: (_, snapshot) {
@@ -204,7 +196,43 @@ for (var list in twoD){
                     );
                   });
             }
-          }):SizedBox(height: 1)
+          }): Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height/18
+              ),
+              Image.asset('assets/img/login_logo.png'),
+              SizedBox(
+                height: MediaQuery.of(context).size.height/88,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Please go to settings and add a university to see your feed!",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
+                ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height/88,
+              ),
+          FlatButton(
+            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            color: Colors.white,
+            child: Text("Add University", style: TextStyle(color: Color(0xFF8803fc), fontSize: 20, fontWeight: FontWeight.bold),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: Profile()));
+            },
+          ),
+
+            ],
+          )
 
     );
   }

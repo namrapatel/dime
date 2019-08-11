@@ -94,8 +94,13 @@ class _ChatListState extends State<ChatList> {
     return FutureBuilder(
         future: getMessages(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Center(
+          if (!snapshot.hasData){
+            return CircularProgressIndicator();
+          }
+
+          else {
+            if(snapshot.data.length == 0){
+              return Center(
                 child: Container(
               child: Column(
                 children: <Widget>[
@@ -125,7 +130,7 @@ class _ChatListState extends State<ChatList> {
                 ],
               ),
             ));
-          else {
+            }
             return Column(children: snapshot.data);
           }
         });

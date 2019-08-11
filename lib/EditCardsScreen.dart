@@ -504,9 +504,39 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                   padding: EdgeInsets.all(0),
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[
-                    Column(children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                       SizedBox(
+                         height: screenH(20),
+                       ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(20),
+                            ),
+                                photoUrl != null
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(photoUrl),
+                                        radius: 45,
+                                      )
+                                    : CircularProgressIndicator(),
+                                  SizedBox(
+                                    width: screenW(20),
+                                  ),
+                                  FlatButton(
+                                    color: Color(0xFF1458EA),
+                                    child: Text("Edit Social Image", style: TextStyle(color: Colors.white),),
+                                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                                    onPressed: (){
+                                      setImage();
+                                    },
+                                  ),
+
+                          ],
+                        ),
                       SizedBox(
-                        height: 20.0,
+                        height: 10.0,
                         width: screenW(70),
                       ),
                       Row(
@@ -534,7 +564,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         ],
                       ),
                       SizedBox(
-                        height: screenH(20),
+                        height: screenH(10),
                       ),
 //                     Row(
 //                       children: <Widget>[
@@ -773,9 +803,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 //                         ],
 //                       ),
 //                     ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
+         
 
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
@@ -925,7 +953,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                         ),
                       ),
                       SizedBox(
-                        height: screenH(30.0),
+                        height: screenH(20.0),
                       ),
                       Row(
                         children: <Widget>[
@@ -948,7 +976,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                 padding: EdgeInsets.all(screenH(16)),
                                 color: Color(0xFF8803fc),
                                 child: new Text(
-                                  "Choose your 3 social interests",
+                                  "Choose 3 social interest tags",
                                   style: TextStyle(
                                       color: Color(0xFF8803fc),
                                       fontSize: screenF(16)),
@@ -969,7 +997,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       ),
                     ]),
                     SizedBox(
-                      height: screenH(40.0),
+                      height: screenH(20.0),
                     ),
                     Column(
                       children: <Widget>[
@@ -996,11 +1024,16 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
-                        Text(saved,
-                            style: TextStyle(
-                                fontSize: screenF(20), color: Colors.black)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(saved,
+                                style: TextStyle(
+                                    fontSize: screenF(15), color: Colors.grey)),
+                          ],
+                        ),
                       ],
                     )
                   ]))
@@ -1467,6 +1500,32 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         height: 20.0,
                         width: screenW(70),
                       ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(20),
+                            ),
+                                photoUrl != null
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(photoUrl),
+                                        radius: 45,
+                                      )
+                                    : CircularProgressIndicator(),
+                                  SizedBox(
+                                    width: screenW(20),
+                                  ),
+                                  FlatButton(
+                                    color: Color(0xFF1458EA),
+                                    child: Text("Edit Professional Image", style: TextStyle(color: Colors.white),),
+                                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                                    onPressed: (){
+                                      setImage();
+                                    },
+                                  ),
+
+                          ],
+                        ),
                       Row(
                         children: <Widget>[
                           SizedBox(
@@ -1756,8 +1815,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
 //                       ),
 //                     ),
                       SizedBox(
-                        height: 20.0,
+                        height: 10.0,
                       ),
+
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
@@ -1905,7 +1965,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         ),
                       ),
                       SizedBox(
-                        height: screenH(35.0),
+                        height: screenH(30.0),
                       ),
                       Row(
                         children: <Widget>[
@@ -1916,7 +1976,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                               padding: EdgeInsets.all(15),
                               color: Color(0xFF1458EA),
                               child: new Text(
-                                "Choose 3 professional interests",
+                                "Choose 3 professional interest tags",
                                 style: TextStyle(
                                     color: Color(0xFF1458EA), fontSize: 15),
                               ),
@@ -1932,7 +1992,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                       ),
                     ]),
                     SizedBox(
-                      height: screenH(40.0),
+                      height: screenH(20.0),
                     ),
                     Column(
                       children: <Widget>[
@@ -1959,11 +2019,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
-                        Text(saved,
-                            style: TextStyle(
-                                fontSize: screenF(20), color: Colors.black)),
+                            Text(saved,
+                                style: TextStyle(
+                                    fontSize: screenF(15), color: Colors.grey)),
                       ],
                     )
                   ]))

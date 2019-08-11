@@ -227,8 +227,8 @@ String name = currentUserModel.displayName;
                                 .updateData({'upVotes': upVotes});
                           },
                           child: Container(
-                            width: screenW(60),
-                            height: screenH(66),
+                            width: screenW(55),
+                            height: screenW(55),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(screenH(16)),
                                 color: liked==false?Colors.grey[100]:Color(0xFFdeb8ff)),

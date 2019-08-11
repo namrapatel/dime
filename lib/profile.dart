@@ -44,6 +44,9 @@ String major;
 String gradYear;
 String university;
 
+    
+
+
 @override
 void initState() {
   // TODO: implement initState
@@ -135,6 +138,18 @@ updateProfile() async{
   ];
 
   Widget build(BuildContext context) {
+    TextEditingController _controllerName = new TextEditingController();
+    _controllerName.text = name;
+
+    TextEditingController _controllerProgram = new TextEditingController();
+    _controllerProgram.text = major;
+
+    TextEditingController _controllerGrad = new TextEditingController();
+    _controllerGrad.text = gradYear;
+
+
+
+
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -215,7 +230,7 @@ updateProfile() async{
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
-
+            controller: _controllerName,
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -281,6 +296,7 @@ updateProfile() async{
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+            controller: _controllerProgram,
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -312,6 +328,7 @@ updateProfile() async{
       Container(
           margin: EdgeInsets.symmetric(horizontal: 40.0),
           child: TextField(
+            controller: _controllerGrad,
             keyboardType: TextInputType.number,
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {

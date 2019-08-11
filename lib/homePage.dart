@@ -146,6 +146,8 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   Widget build(BuildContext context) {
+    var string = currentUserModel.displayName.split(" ");
+    String firstName = string[0];
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -156,7 +158,7 @@ class _ScrollPageState extends State<ScrollPage>
                         Container(
                         width: MediaQuery.of(context).size.width/1.6,
                         child: AutoSizeText(
-                        "Hey " + currentUserModel.displayName + "!",
+                        "Hey " + firstName + "!",
                         style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                         minFontSize: 12,
                         maxLines: 1,
@@ -261,7 +263,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          upperLayer: _getUpperLayer(),
+          //upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -416,7 +418,7 @@ class _ScrollPageState extends State<ScrollPage>
 //        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
 //            doc.data['currentLocation'].longitude);
 
-        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position.latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
+        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
 //        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
 
         print(doc.documentID);

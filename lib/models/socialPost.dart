@@ -22,23 +22,40 @@ class SocialPost extends StatefulWidget {
  final int comments;
  final String timeStamp;
  final int upVotes ;
+ final List<dynamic> likes;
 
-  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic,this.postId, this.upVotes});
+  const SocialPost({this.caption, this.comments, this.timeStamp, this.postPic,this.postId, this.upVotes,this.likes});
   @override
-  _SocialPostState createState() => _SocialPostState(postId:this.postId,caption:this.caption,postPic:this.postPic,comments:this.comments,timeStamp:this.timeStamp,upVotes:this.upVotes);
+  _SocialPostState createState() => _SocialPostState(postId:this.postId,caption:this.caption,postPic:this.postPic,comments:this.comments,timeStamp:this.timeStamp,upVotes:this.upVotes,likes:this.likes);
 }
 
 class _SocialPostState extends State<SocialPost> {
+  List<dynamic> likes;
   String postId;
    String caption;
    String postPic;
    int comments;
    String timeStamp;
    int upVotes ;
-bool liked=false;
+bool liked;
+
 String name = currentUserModel.displayName;
 
-  _SocialPostState({this.caption, this.comments, this.timeStamp, this.postPic, this.postId, this.upVotes});
+  _SocialPostState({this.caption, this.comments, this.timeStamp, this.postPic, this.postId, this.upVotes,this.likes});
+
+  @override
+  void initState() {
+    super.initState();
+    print(caption);
+    if(likes.length!=0) {
+      if (likes.contains(currentUserModel.uid)) {
+        liked = true;
+      }
+    }else{
+      liked=false;
+    }
+  }
+
 
   Future<void> _sharePost() async {
     if(caption == ""){
@@ -171,6 +188,7 @@ String name = currentUserModel.displayName;
                                   ),
                                timeStamp != null  
                             ? Text(timeStamp, style: TextStyle(fontSize: screenF(13.5), color: Colors.grey),)
+
                             : SizedBox(
                                 width: screenW(1.2),
                               ),
@@ -186,11 +204,20 @@ String name = currentUserModel.displayName;
                                 upVotes++;
 
                               });
+
+                              Firestore.instance.collection('socialPosts').document(postId).updateData({
+                                'likes':FieldValue.arrayUnion([currentUserModel.uid])
+                              });
+
                             }else{
                                   setState(() {
                                   liked=false;
                                   upVotes--;
                                   });
+                                  Firestore.instance.collection('socialPosts').document(postId).updateData({
+                                    'likes':FieldValue.arrayRemove([currentUserModel.uid])
+                                  });
+
                             }
 
 

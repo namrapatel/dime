@@ -275,7 +275,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         postPic = data;
         caption = descriptionController.text;
         uploader.addProfPost(
-            caption, timeStamp, postPic, currentUserModel.uid, postID);
+            caption, timeStamp, postPic,  postID);
       }).then((_) {
         setState(() {
           print('THIS IS THE FIRST ONE');
@@ -288,7 +288,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
       // elapsedTime = timeago.format(storedDate.toDate());
       // timeStamp = '$elapsedTime';
       caption = descriptionController.text;
-      uploader.addProfPost(caption, timeStamp, postPic, currentUserModel.uid, postID);
+      uploader.addProfPost(caption, timeStamp, postPic, postID);
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/models/user.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -60,7 +61,7 @@ getProfileInfo() async{
     university= doc.data['university'];
   });
 }
-updateProfile() {
+updateProfile() async{
 
 //  QuerySnapshot query = await Firestore.instance
 //      .collection('users')
@@ -95,6 +96,11 @@ updateProfile() {
       'gradYear': gradYear
     });
 
+    DocumentSnapshot user=await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid).get();
+    currentUserModel=User.fromDocument( user);
+
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -122,10 +128,10 @@ updateProfile() {
 
   @override
   List<SearchItem<int>> data2 = [
-    SearchItem(0, 'Please select your university'),
-    SearchItem(1, 'University of Waterloo'),
-    SearchItem(2, 'University of Western Ontario'),
-    SearchItem(3, "University of Calgary"),
+
+    SearchItem(0, 'University of Waterloo'),
+    SearchItem(1, 'University of Western Ontario'),
+    SearchItem(2, "University of Calgary"),
   ];
 
   Widget build(BuildContext context) {
@@ -247,7 +253,7 @@ updateProfile() {
             height: 70,
             child: FlutterSearchPanel<int>(
               padding: EdgeInsets.all(10.0),
-              selected: 0,
+              selected: data2.indexWhere((SearchItem element)=>element.text==currentUserModel.university),
               title: "Select your university",
               data: data2,
               color: Colors.white,

@@ -180,23 +180,25 @@ class _ScrollPageState extends State<ScrollPage>
                         type: PageTransitionType.fade, child: ProfilePage()));
               },
             ),
-            IconButton(
-              icon: Icon(
-                Icons.add,
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.card_bulleted),
                 color: Colors.white,
-                size: 25,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: UserCard(
+                            userId: currentUserModel.uid,
+                            userName: currentUserModel.displayName,
+                          )));
+                },
               ),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: InviteFriends()));
-              },
-            ),
           ],
         ),
       ),
       backgroundColor: Color(0xFF1458EA),
+      
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -263,7 +265,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          upperLayer: _getUpperLayer(),
+           upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),

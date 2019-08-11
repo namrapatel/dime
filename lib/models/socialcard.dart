@@ -160,12 +160,16 @@ class SocialCard extends StatelessWidget {
                                           fontSize: screenF(12))),
                                 ],
                               )
-                            : SizedBox(
-                                height: screenH(1),
-                              )
-                        : SizedBox(
-                            height: screenH(1),
-                          ),
+                            :    Icon(
+                                    FontAwesome.snapchat_square,
+                                    size: 30,
+                                    color: Color(0xFFfffc00),
+                                  )
+                        :    Icon(
+                                    FontAwesome.snapchat_square,
+                                    size: 30,
+                                    color: Color(0xFFfffc00),
+                                  ),
                     ),
                     Positioned(
                       top: screenH(125),
@@ -189,12 +193,16 @@ class SocialCard extends StatelessWidget {
                                           fontSize: screenF(12))),
                                 ],
                               )
-                            : SizedBox(
-                                height: screenH(1),
-                              )
-                        : SizedBox(
-                            height: screenH(1),
-                          ),
+                            :      Icon(
+                                    MaterialCommunityIcons.instagram,
+                                    color: Color(0xFF8803fc),
+                                    size: 30,
+                                  )
+                        :      Icon(
+                                    MaterialCommunityIcons.instagram,
+                                    color: Color(0xFF8803fc),
+                                    size: 30,
+                                  ),
                     ),
                     Positioned(
                       top: screenH(125),
@@ -219,12 +227,18 @@ class SocialCard extends StatelessWidget {
                                           fontSize: screenF(12))),
                                 ],
                               )
-                            : SizedBox(
-                                height: screenH(1),
-                              )
-                        : SizedBox(
-                            height: screenH(1),
-                          ),
+                            :     Icon(
+                                    MaterialCommunityIcons
+                                        .twitter_box,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  )
+                        :     Icon(
+                                    MaterialCommunityIcons
+                                        .twitter_box,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  ),
                     ),
                     Positioned(
                       top: screenH(210),

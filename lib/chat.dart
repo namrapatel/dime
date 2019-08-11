@@ -116,6 +116,9 @@ class _ChatState extends State<Chat> {
             ):CircularProgressIndicator(),
             SizedBox(width: MediaQuery.of(context).size.width / 33,),
             toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.white),):CircularProgressIndicator(),
+            SizedBox(
+              width: MediaQuery.of(context).size.width/4.5,
+            ),
               IconButton(
                 icon: Icon(MaterialCommunityIcons.card_bulleted),
                 color: Colors.white,

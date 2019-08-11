@@ -70,8 +70,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       onPressed: () {
                         post();
                       },
-                      icon: Icon(Ionicons.ios_send),
-                      label: Text("Post"),
+                      icon: Icon(Ionicons.ios_send, color: Colors.white,),
+                      label: Text("Post", style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 ],
@@ -141,11 +141,14 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                             borderRadius: BorderRadius.all(
                               Radius.circular(15.0),
                             ),
-                            child: Image(
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Image(
                               image: FileImage(file),
                               width: screenW(170),
                               height: screenH(250),
                               fit: BoxFit.fill,
+                            ),
                             ),
                           ),
                         ],

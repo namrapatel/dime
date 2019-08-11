@@ -7,6 +7,7 @@ import 'package:Dime/homePage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:Dime/chat.dart' as chat;
 import 'package:page_transition/page_transition.dart';
 import 'package:Dime/userCard.dart';
 
@@ -65,6 +66,20 @@ class Comment extends StatelessWidget {
                           )));
                 },
               ),
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.chat),
+            color: Colors.black,
+            onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: chat.Chat(
+                            fromUserId: currentUserModel.uid,
+                            toUserId: commenterId
+                          )));
+            },
+          ),
               Spacer(),
           Text(timestamp,
             style: TextStyle(fontSize: screenF(13.5),
@@ -76,16 +91,16 @@ class Comment extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          SizedBox(
-            height: screenH(2),
-          ),
-          Text(text),
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+              Container(child: Text(text),
+              width: screenW(270),
+              ),
+
           commenterId == currentUserModel.uid?
           IconButton(
-            icon: Icon(FontAwesome.trash),
+            icon: Icon(FontAwesome.trash, color: Colors.red,),
             onPressed: ()async{
               DocumentSnapshot documentSnap= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(postId).get();
               if (documentSnap['upvoted'] !=true&&documentSnap['numberOfComments']==1) {
@@ -147,7 +162,7 @@ class Comment extends StatelessWidget {
             iconSize: 17,
           ) :SizedBox(height: 1,)
             ],
-          )
+          ),
         ],
       ),
     );

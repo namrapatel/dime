@@ -157,12 +157,16 @@ String name = currentUserModel.displayName;
                     topRight: Radius.circular(screenH(15.0)),
                   ),
                   child: postPic != null
-                      ? Image(
+                      ? 
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: Image(
                           image: NetworkImage(postPic),
                           width: screenW(200),
                           height: screenH(275),
                           fit: BoxFit.fill,
-                        )
+                        ),
+                      )
                       : SizedBox(
                           width: screenH(1.2),
                         ),
@@ -172,11 +176,14 @@ String name = currentUserModel.displayName;
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        caption != null
+                        Container(
+                          width: screenW(290),
+                          child: caption != null
                             ? Text(caption)
                             : SizedBox(
                                 width: screenW(1.2),
                               ),
+                        ),
                         IconButton(
                           icon: Icon(FontAwesome.share_square_o),
                           iconSize: screenF(25),

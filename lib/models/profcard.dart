@@ -159,12 +159,16 @@ class ProfCard extends StatelessWidget {
                                           fontSize: screenF(12))),
                                 ],
                               )
-                            : SizedBox(
-                                height: screenH(1),
-                              )
-                        : SizedBox(
-                            height: screenH(1),
-                          ),
+                            :    Icon(
+                                    FontAwesome.linkedin_square,
+                                    size: 30,
+                                    color: Color(0xFF0077b5),
+                                  )
+                        :      Icon(
+                                    FontAwesome.linkedin_square,
+                                    size: 30,
+                                    color: Color(0xFF0077b5),
+                                  ),
                     ),
                     Positioned(
                       top: screenH(125),
@@ -188,12 +192,16 @@ class ProfCard extends StatelessWidget {
                                           fontSize: screenF(12))),
                                 ],
                               )
-                            : SizedBox(
-                                height: screenH(1),
-                              )
-                        : SizedBox(
-                            height: screenH(1),
-                          ),
+                            :                                   Icon(
+                                    MaterialCommunityIcons.github_box,
+                                    color: Color(0xFF3c3744),
+                                    size: 30,
+                                  )
+                        :    Icon(
+                                    MaterialCommunityIcons.github_box,
+                                    color: Color(0xFF3c3744),
+                                    size: 30,
+                                  ),
                     ),
                     Positioned(
                       top: screenH(125),
@@ -218,12 +226,18 @@ class ProfCard extends StatelessWidget {
                                           fontSize: screenF(12))),
                                 ],
                               )
-                            : SizedBox(
-                                height: screenH(1),
-                              )
-                        : SizedBox(
-                            height: screenH(1),
-                          ),
+                            :                                   Icon(
+                                    MaterialCommunityIcons
+                                        .twitter_box,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  )
+                        :                                   Icon(
+                                    MaterialCommunityIcons
+                                        .twitter_box,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  ),
                     ),
                     Positioned(
                       top: screenH(210),

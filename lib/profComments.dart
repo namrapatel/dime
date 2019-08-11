@@ -92,6 +92,7 @@ class _ProfCommentsState extends State<ProfComments> {
     return Container(
         color: Colors.white,
         child: ListView(
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             FutureBuilder<List<Comment>>(
                 future: getComments(),
@@ -104,7 +105,10 @@ class _ProfCommentsState extends State<ProfComments> {
                   return Container(
                     child: Column(children: snapshot.data),
                   );
-                })
+                }),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height/10,
+                )
           ],
         ));
   }

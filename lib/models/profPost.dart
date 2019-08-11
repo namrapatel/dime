@@ -155,12 +155,16 @@ class _ProfPostState extends State<ProfPost> {
                     topRight: Radius.circular(screenH(15.0)),
                   ),
                   child: postPic != null
-                      ? Image(
+                      ? 
+                      AspectRatio(
+                        aspectRatio: 1,
+                        child: Image(
                     image: NetworkImage(postPic),
                     width: screenW(200),
                     height: screenH(275),
                     fit: BoxFit.fill,
-                  )
+                  ),
+                      )
                       : SizedBox(
                     width: screenH(1.2),
                   ),
@@ -170,10 +174,13 @@ class _ProfPostState extends State<ProfPost> {
                     title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        caption != null
+                        Container(
+                          width: screenW(290),
+                          child: caption != null
                             ? Text(caption)
                             : SizedBox(
                           width: screenW(1.2),
+                        ),
                         ),
                         IconButton(
                           icon: Icon(FontAwesome.share_square_o),
@@ -280,8 +287,8 @@ class _ProfPostState extends State<ProfPost> {
                                 .updateData({'upVotes': upVotes});
                           },
                           child: Container(
-                            width: screenW(60),
-                            height: screenH(66),
+                            width: screenW(55),
+                            height: screenW(55),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(screenH(16)),
                                 color: liked==false?Colors.grey[100]:Colors.green[500]),

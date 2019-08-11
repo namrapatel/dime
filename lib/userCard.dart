@@ -9,6 +9,7 @@ import 'models/socialPost.dart';
 import 'login.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'chat.dart';
 
 
 class UserCard extends StatefulWidget {
@@ -52,6 +53,9 @@ _UserCardState(this.userId, this.type, this.userName);
 
   @override
   Widget build(BuildContext context) {
+    var string = userName.split(" ");
+    String firstName = string[0];
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -65,15 +69,8 @@ _UserCardState(this.userId, this.type, this.userName);
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-            // Text(
-            //   userName,
-            //   style: TextStyle(
-            //       color: Colors.white,
-            //       fontSize: 25,
-            //       fontWeight: FontWeight.bold),
-            // ),
                         Container(
-                        width: MediaQuery.of(context).size.width/1.4,
+                        width: MediaQuery.of(context).size.width/1.5,
                         child: AutoSizeText(
                         userName,
                         style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
@@ -82,6 +79,20 @@ _UserCardState(this.userId, this.type, this.userName);
                         overflow: TextOverflow.ellipsis,
                     ),
                       ),
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.chat),
+            color: Colors.white,
+            onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: Chat(
+                            fromUserId: currentUserModel.uid,
+                            toUserId: userId
+                          )));
+            },
+          ),
           ],
         ),
       ),
@@ -167,14 +178,14 @@ _UserCardState(this.userId, this.type, this.userName);
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                               snapshot.data[index].data['upvoted']==true&&snapshot.data[index].data['commented']==true?
-                                Text(userName+" upvoted and commented"
+                                Text(firstName+" upvoted and commented"
 
                                   ,
                                   style: TextStyle(
                                       color: Colors.white
                                   ),
                                 ):
-                                  Text(snapshot.data[index].data['upvoted']==true?userName+" upvoted":userName+" commented",style: TextStyle(
+                                  Text(snapshot.data[index].data['upvoted']==true?firstName+" upvoted":firstName+" commented",style: TextStyle(
                       color: Colors.white ))
 
                               ],

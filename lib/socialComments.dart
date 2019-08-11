@@ -91,6 +91,7 @@ class _SocialCommentsState extends State<SocialComments> {
     return Container(
         color: Colors.white,
         child: ListView(
+          physics: BouncingScrollPhysics(),
           children: <Widget>[
             FutureBuilder<List<Comment>>(
                 future: getComments(),
@@ -103,7 +104,11 @@ class _SocialCommentsState extends State<SocialComments> {
                   return Container(
                     child: Column(children: snapshot.data),
                   );
-                })
+                }),
+
+                SizedBox(
+                  height: MediaQuery.of(context).size.height/10,
+                )
           ],
         ));
   }
@@ -150,10 +155,13 @@ class _SocialCommentsState extends State<SocialComments> {
             color: Colors.white,
             child: Column(
               children: <Widget>[
-                Flexible(child: buildComments()),
+                Flexible(child: 
+                buildComments(),
+                ),
               ],
             ),
           ),
+          
           Positioned(
             bottom: 0,
             left: 0,

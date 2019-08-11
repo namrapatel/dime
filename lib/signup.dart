@@ -227,7 +227,7 @@ class _SignupPageState extends State<SignupPage> {
                           context,
                           PageTransition(
                               type: PageTransitionType.fade,
-                              child: onBoarding()));
+                              child: ScrollPage()));
                     });
                   } catch (e) {
                     print(e.message);

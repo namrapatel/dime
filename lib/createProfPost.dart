@@ -175,6 +175,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     padding: EdgeInsets.symmetric(
                         horizontal: screenW(15.0), vertical: screenH(3.0)),
                     child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,

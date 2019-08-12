@@ -160,12 +160,12 @@ updateProfile() async{
 
     return Column(children: <Widget>[
       SizedBox(
-        height: 15,
+        height: MediaQuery.of(context).size.height/60,
       ),
       Row(
         children: <Widget>[
           SizedBox(
-            width: 10,
+            width: MediaQuery.of(context).size.width/40,
           ),
           IconButton(
             onPressed: () {
@@ -181,15 +181,15 @@ updateProfile() async{
         ],
       ),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/100
       ),
       SizedBox(
-        height: 5,
+        height: MediaQuery.of(context).size.height/100
       ),
       Row(
         children: <Widget>[
           SizedBox(
-            width: 40,
+            width: MediaQuery.of(context).size.width/10
           ),
           Text(
             'Edit profile',
@@ -197,7 +197,7 @@ updateProfile() async{
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            width: 150.0,
+            width: MediaQuery.of(context).size.width/3,
           ),
           FlatButton(
             color: Color(0xFF1458EA),
@@ -225,11 +225,12 @@ updateProfile() async{
         ],
       ),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
+            textCapitalization: TextCapitalization.sentences,
             controller: _controllerName,
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
@@ -257,15 +258,15 @@ updateProfile() async{
             ),
           )),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
         child: Align(
           alignment: Alignment.topLeft,
           child: Container(
-            width: 800,
-            height: 70,
+            width: MediaQuery.of(context).size.width/1.1,
+            height: MediaQuery.of(context).size.height/9,
             child: FlutterSearchPanel<int>(
               padding: EdgeInsets.all(10.0),
               selected: data2.indexWhere((SearchItem element)=>element.text==currentUserModel.university),
@@ -291,11 +292,12 @@ updateProfile() async{
         ),
       ),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
+            textCapitalization: TextCapitalization.words,
             controller: _controllerProgram,
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
@@ -323,10 +325,10 @@ updateProfile() async{
             ),
           )),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
             controller: _controllerGrad,
             keyboardType: TextInputType.number,
@@ -354,11 +356,11 @@ updateProfile() async{
             ),
           )),
       SizedBox(
-        height: 40,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-        width: 250,
-        height: 50,
+        width: MediaQuery.of(context).size.width/1.5,
+        height: MediaQuery.of(context).size.height/13,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

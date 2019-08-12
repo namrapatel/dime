@@ -190,6 +190,7 @@ class _ProfCommentsState extends State<ProfComments> {
                             horizontal: MediaQuery.of(context).size.width / 22,
                             vertical: MediaQuery.of(context).size.height / 72),
                         child: SimpleAutoCompleteTextField(
+                          textCapitalization: TextCapitalization.sentences,
                           key: key,
                           decoration: new InputDecoration(
                               border: InputBorder.none,

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -227,7 +228,7 @@ class MessageTile extends StatelessWidget {
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(text.length >= 39 ? text.substring(0, 39) : text),
+          Text(text.length >= 39 ? text.substring(0, 39) + "..." : text),
         ],
       ),
       //MAX OF 40 CHARACTERS BEFORE "..."

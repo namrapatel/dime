@@ -142,7 +142,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                               Radius.circular(15.0),
                             ),
                             child: AspectRatio(
-                              aspectRatio: 1,
+                              aspectRatio: 0.92,
                               child: Image(
                               image: FileImage(file),
                               width: screenW(170),

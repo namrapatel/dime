@@ -14,6 +14,7 @@ import 'socialComments.dart';
 import 'models/socialPost.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;

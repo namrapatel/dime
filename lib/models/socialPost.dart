@@ -159,7 +159,7 @@ String name = currentUserModel.displayName;
                   child: postPic != null
                       ? 
                       AspectRatio(
-                        aspectRatio: 1,
+                        aspectRatio: 0.92,
                         child: Image(
                           image: NetworkImage(postPic),
                           width: screenW(200),

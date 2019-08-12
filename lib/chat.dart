@@ -2,9 +2,13 @@ import 'package:Dime/socialPage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'login.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'userCard.dart';
 import 'package:page_transition/page_transition.dart';
 

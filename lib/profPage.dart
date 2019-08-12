@@ -1,29 +1,17 @@
-
-
   import 'package:Dime/createProfPost.dart';
-import 'package:Dime/profile.dart';
-  import 'package:Dime/viewCards.dart';
+  import 'package:Dime/profile.dart';
   import 'package:flutter/material.dart';
   import 'package:cloud_firestore/cloud_firestore.dart';
   import 'package:flutter_screenutil/flutter_screenutil.dart';
   import 'package:page_transition/page_transition.dart';
   import 'homePage.dart';
   import 'login.dart';
-  import 'EditCardsScreen.dart';
-  import 'package:timeago/timeago.dart' as timeago;
-  import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-  import 'createSocialPost.dart';
   import 'models/profPost.dart';
-import 'socialComments.dart';
-  import 'models/socialPost.dart';
 
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
   final _firestore = Firestore.instance;
-
-
-
 
   class ProfPage extends StatefulWidget {
   @override

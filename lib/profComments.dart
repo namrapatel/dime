@@ -154,22 +154,24 @@ class _ProfCommentsState extends State<ProfComments> {
           ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Flexible(child: buildComments()),
-              ],
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Flexible(child: 
+                  buildComments(),
+                  ),
+                ],
+              ),
             ),
-          ),
           Positioned(
-            bottom: 0,
+            bottom: MediaQuery.of(context).size.height/200,
             left: 0,
             width: MediaQuery.of(context).size.width,
             child: Container(
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 30),
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
                   color: Colors.grey[300],
@@ -275,7 +277,8 @@ class _ProfCommentsState extends State<ProfComments> {
               ),
             ),
           )
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -167,6 +167,10 @@ class _ProfInterestPageState extends State<ProfInterestPage> {
                           .updateData({
                         'interests': interests
                       });
+                      Firestore.instance.collection('users').document(currentUserModel.uid)
+                          .updateData({
+                        'profInterests': interests
+                      });
                       profInterests.clear();
 
                       Navigator.pop(context);

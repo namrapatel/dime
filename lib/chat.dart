@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
 import 'package:Dime/homePage.dart';
@@ -164,12 +164,23 @@ class _ChatState extends State<Chat> {
 
                     List<DocumentSnapshot> docs = snapshot.data.documents;
 
-                    List<Widget> messages = docs
-                        .map((doc) => Message(
-                        from: doc.data['from'],
-                        text: doc.data['text'],
-                        me: widget.fromUserId == doc.data['from']))
-                        .toList();
+                    List<Message> messages=[];
+                    for(var doc in docs){
+                      var storedDate = doc.data['timestamp'];
+//
+                      String elapsedTime =
+                      timeago.format(storedDate.toDate());
+                      String timestamp = '$elapsedTime';
+                      messages.add(Message( from: doc.data['from'],
+                        text: doc.data['text'],me: widget.fromUserId == doc.data['from'],timestamp:timestamp));
+                    }
+//                    List<Widget> messages = docs
+//                        .map((doc) => Message(
+//                        from: doc.data['from'],
+//                        text: doc.data['text'],
+//                        timestamp: doc.data['timestamp']((Timestamp time)=>timeago.format(time.toDate()).toString()),
+//                        me: widget.fromUserId == doc.data['from']))
+//                        .toList();
                     return ListView(
                       reverse: true,
                       shrinkWrap: true,
@@ -269,6 +280,7 @@ class SendButton extends StatelessWidget {
 
   const SendButton({Key key, this.text, this.callback}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -293,11 +305,18 @@ class SendButton extends StatelessWidget {
 class Message extends StatelessWidget {
   final String from;
   final String text;
+  final String timestamp;
 
   final bool me;
 
-  const Message({Key key, this.from, this.text, this.me}) : super(key: key);
+  const Message({Key key, this.from, this.text, this.me,this.timestamp}) : super(key: key);
 
+
+//  String convertTimestamp(){
+//                              String elapsedTime =
+//                              timeago.format(timestamp.toDate());
+//                              String timestamp = '$elapsedTime';
+//  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -338,7 +357,9 @@ class Message extends StatelessWidget {
               ),
             ),
           ),
+
           Text('a moment ago', style: TextStyle(color: Colors.grey, fontSize: 11),),
+
           SizedBox(
             height: 10,
           )

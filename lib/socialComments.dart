@@ -154,132 +154,126 @@ class _SocialCommentsState extends State<SocialComments> {
           ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Flexible(child: 
-                buildComments(),
-                ),
-              ],
-            ),
-          ),
-          
-          Positioned(
-            bottom: 0,
-            left: 0,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[300],
-                  offset: Offset(-2, 0),
-                  blurRadius: 5,
-                ),
-              ]),
-              child: Row(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Column(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 15,
-                    ),
+                  Flexible(child: 
+                  buildComments(),
                   ),
-                  Expanded(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width / 22,
-                            vertical: MediaQuery.of(context).size.height / 72),
-                        child: SimpleAutoCompleteTextField(
-                          textCapitalization: TextCapitalization.sentences,
-                          key: key,
-                          decoration: new InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 30,
-                                  bottom:
-                                      MediaQuery.of(context).size.height / 155,
-                                  top: MediaQuery.of(context).size.height / 155,
-                                  right:
-                                      MediaQuery.of(context).size.width / 30),
-                              hintText: 'Enter Comment',
-                              hintStyle: TextStyle(color: Colors.grey)),
-                          controller: controller,
-                          suggestions: suggestions,
-                          clearOnSubmit: false,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: screenW(20),
-                  ),
-                  Container(
-                      width: 40,
-                      height: 40,
-                      child: FloatingActionButton(
-                          elevation: 5,
-                          backgroundColor: Color(0xFF8803fc),
-                          heroTag: 'fabb4',
-                          child: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-
-                          onPressed: () async{
-                            String docName=postId+Timestamp.now().toString();
-                            Firestore.instance
-                                .collection('socialPosts')
-                                .document(postId)
-                                .collection('comments').document(docName)
-                                .setData({
-                              'type':'social',
-                              'postId':postId,
-
-
-//                              'commentId':docName,
-                              'commenterId': currentUserModel.uid,
-                              'commenterName': currentUserModel.displayName,
-                              'commenterPhoto': currentUserModel.photoUrl,
-                              'text': controller.text,
-                              'timestamp': Timestamp.now()
-                            });
-
-
-                            Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).setData({
-                              'type':'social',
-                              'commented':true,
-                              'postId':widget.postId,
-                            'numberOfComments':FieldValue.increment(1),
-                              'timeStamp':Timestamp.now()
-                            },merge: true);
-
-                            QuerySnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
-                            int numberOfComments= snap.documents.length;
-                            Firestore.instance.collection('socialPosts').document(postId).updateData({
-                              'comments':numberOfComments
-                            });
-
-
-                            setState(() {
-                              getComments();
-                              controller.clear();
-                            });
-                          })),
                 ],
               ),
             ),
+          
+          Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Colors.white, boxShadow: [
+              BoxShadow(
+                color: Colors.grey[300],
+                offset: Offset(0, 0),
+                blurRadius: 5,
+              ),
+            ]),
+            child: Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 15,
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 22,
+                        vertical: MediaQuery.of(context).size.height / 72),
+                    child: SimpleAutoCompleteTextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      key: key,
+                      decoration: new InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width / 30,
+                              bottom:
+                                  MediaQuery.of(context).size.height / 155,
+                              top: MediaQuery.of(context).size.height / 155,
+                              right:
+                                  MediaQuery.of(context).size.width / 30),
+                          hintText: 'Enter Comment',
+                          hintStyle: TextStyle(color: Colors.grey)),
+                      controller: controller,
+                      suggestions: suggestions,
+                      clearOnSubmit: false,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: screenW(20),
+                ),
+                Container(
+                    width: 40,
+                    height: 40,
+                    child: FloatingActionButton(
+                        elevation: 5,
+                        backgroundColor: Color(0xFF8803fc),
+                        heroTag: 'fabb4',
+                        child: Icon(
+                          Icons.send,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+
+                        onPressed: () async{
+                          String docName=postId+Timestamp.now().toString();
+                          Firestore.instance
+                              .collection('socialPosts')
+                              .document(postId)
+                              .collection('comments').document(docName)
+                              .setData({
+                            'type':'social',
+                            'postId':postId,
+
+
+//                              'commentId':docName,
+                            'commenterId': currentUserModel.uid,
+                            'commenterName': currentUserModel.displayName,
+                            'commenterPhoto': currentUserModel.photoUrl,
+                            'text': controller.text,
+                            'timestamp': Timestamp.now()
+                          });
+
+
+                          Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).setData({
+                            'type':'social',
+                            'commented':true,
+                            'postId':widget.postId,
+                          'numberOfComments':FieldValue.increment(1),
+                            'timeStamp':Timestamp.now()
+                          },merge: true);
+
+                          QuerySnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).collection('comments').getDocuments();
+                          int numberOfComments= snap.documents.length;
+                          Firestore.instance.collection('socialPosts').document(postId).updateData({
+                            'comments':numberOfComments
+                          });
+
+
+                          setState(() {
+                            getComments();
+                            controller.clear();
+                          });
+                        })),
+              ],
+            ),
           )
-        ],
+          ],
+        ),
       ),
     );
   }

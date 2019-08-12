@@ -36,7 +36,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
     return Timer(
-        Duration(seconds: 12),
+        Duration(seconds: 3),
         () => Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => Login()),

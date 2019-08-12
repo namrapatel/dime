@@ -6,6 +6,7 @@ import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfCard extends StatelessWidget {
   final String type;
@@ -62,6 +63,59 @@ class ProfCard extends StatelessWidget {
     );
 
   }
+
+
+
+    Future<void> _launchLinkedin(String url) async {
+    if (await canLaunch('https://www.linkedin.com/in/' + linkedIn)) {
+      final bool nativeAppLaunchSucceeded = await launch(
+        'https://www.linkedin.com/in/' + linkedIn,
+        forceSafariVC: false,
+        universalLinksOnly: true,
+      );
+      if (!nativeAppLaunchSucceeded) {
+        await launch(
+          'https://www.linkedin.com/in/' + linkedIn,
+          forceSafariVC: true,
+        );
+      }
+    }
+  }
+
+      Future<void> _launchGit(String url) async {
+    if (await canLaunch('https://github.com/' + github)) {
+      final bool nativeAppLaunchSucceeded = await launch(
+        'https://github.com/' + github,
+        forceSafariVC: false,
+        universalLinksOnly: true,
+      );
+      if (!nativeAppLaunchSucceeded) {
+        await launch(
+          'https://github.com/' + github,
+          forceSafariVC: true,
+        );
+      }
+    }
+  }
+
+        Future<void> _launchTwitter(String url) async {
+    if (await canLaunch('https://twitter.com/' + twitter)) {
+      final bool nativeAppLaunchSucceeded = await launch(
+        'https://twitter.com/' + twitter,
+        forceSafariVC: false,
+        universalLinksOnly: true,
+      );
+      if (!nativeAppLaunchSucceeded) {
+        await launch(
+          'https://twitter.com/' + twitter,
+          forceSafariVC: true,
+        );
+      }
+    }
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -138,21 +192,23 @@ class ProfCard extends StatelessWidget {
                                 color: Colors.grey)),
                     ),
                     Positioned(
-                      top: screenH(125),
+                      top: screenH(105),
                       left: screenW(40),
                       child: linkedIn != null
                         ? isSwitched == true
                             ? Column(
                                 children: <Widget>[
-                                  Icon(
+                                  IconButton(
+                                    icon: Icon(
                                     FontAwesome.linkedin_square,
                                     size: 30,
                                     color: Color(0xFF0077b5),
                                   ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                    height: screenH(5),
+                                  onPressed: (){
+                                    _launchLinkedin('https://www.linkedin.com/in/' + linkedIn);
+                                  },
                                   ),
+
                                   Text(linkedIn,
                                       style: TextStyle(
                                           color: Colors.black,
@@ -171,20 +227,21 @@ class ProfCard extends StatelessWidget {
                                   ),
                     ),
                     Positioned(
-                      top: screenH(125),
+                      top: screenH(105),
                       left: screenW(160),
                       child:  github != null
                         ? isSwitched == true
                             ? Column(
                                 children: <Widget>[
-                                  Icon(
+                                  IconButton(
+                                    icon: Icon(
                                     MaterialCommunityIcons.github_box,
                                     color: Color(0xFF3c3744),
                                     size: 30,
                                   ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                    height: screenH(5),
+                                  onPressed: (){
+                                    _launchGit('https://github.com/' + github);
+                                  },
                                   ),
                                   Text(github,
                                       style: TextStyle(
@@ -204,21 +261,22 @@ class ProfCard extends StatelessWidget {
                                   ),
                     ),
                     Positioned(
-                      top: screenH(125),
+                      top: screenH(105),
                       left: screenW(260),
                       child: twitter != null
                         ? isSwitched == true
                             ? Column(
                                 children: <Widget>[
-                                  Icon(
+                                  IconButton(
+                                    icon: Icon(
                                     MaterialCommunityIcons
                                         .twitter_box,
                                     color: Colors.blue,
                                     size: 30,
                                   ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                    height: screenH(5),
+                                  onPressed: (){
+                                    _launchTwitter('https://twitter.com/' + twitter);
+                                  },
                                   ),
                                   Text(twitter,
                                       style: TextStyle(

@@ -52,7 +52,7 @@ class _SocialInterestTileState extends State<SocialInterestTile> {
                   child: Row(
                     children: <Widget>[
 
-                      SizedBox(width: 150),
+                      SizedBox(width: screenW(150)),
 
                       Checkbox(
                           activeColor: Colors.black,

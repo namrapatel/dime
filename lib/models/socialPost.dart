@@ -15,6 +15,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:Dime/login.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+
+
 class SocialPost extends StatefulWidget {
  final String postId;
 // final  String caption;

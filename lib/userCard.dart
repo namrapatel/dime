@@ -161,7 +161,30 @@ _UserCardState(this.userId, this.type, this.userName);
               builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: Text("loading..."));
-              } else{
+              } 
+              else if(snapshot.data.length == 0){
+                return Column(
+            children: <Widget>[
+              Image.asset('assets/img/improvingDrawing.png',
+              height: MediaQuery.of(context).size.height/4,
+              width: MediaQuery.of(context).size.height/4,
+              
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text("Interactions from the feeds will show up here!",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+                ),
+                ),
+              ),
+
+            ],
+          );
+              }
+              else{
                 String action;
 
                 return  ListView.builder(

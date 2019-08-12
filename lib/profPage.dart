@@ -106,7 +106,7 @@
                 },
               ),
               title: Text(
-                university!=null?university:"Add your university to see posts",
+                university!=null?university:"Whoops!",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -125,7 +125,7 @@
                 PageTransition(
                     type: PageTransitionType.fade, child: CreateProfPost()));
           },
-          elevation: 50,
+          elevation: 350,
           heroTag: 'btn1',
           backgroundColor: Color(0xFF3c3744),
           child: Icon(
@@ -134,16 +134,7 @@
             color: Colors.white,
           ),
         ):
-        RaisedButton(
-          child: Text('Add your university'),
-
-          onPressed: (){
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: Profile()));
-          },
-        ),
+        SizedBox(height: 1,),
 //
         body:university!=null? FutureBuilder(
   future: getPosts(),
@@ -165,7 +156,43 @@
   );
   });
   }
-  }):SizedBox(height: 1)
+  }):Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height/18
+              ),
+              Image.asset('assets/img/login_logo.png'),
+              SizedBox(
+                height: MediaQuery.of(context).size.height/88,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Please go to settings and add a university to see your feed!",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
+                ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height/88,
+              ),
+          FlatButton(
+            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            color: Colors.white,
+            child: Text("Add University", style: TextStyle(color: Color(0xFF063F3E), fontSize: 20, fontWeight: FontWeight.bold),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: Profile()));
+            },
+          ),
+
+            ],
+          )
 
   );
   }

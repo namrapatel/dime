@@ -10,6 +10,7 @@ import 'createSocialPost.dart';
 import 'models/socialPost.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -160,7 +161,8 @@ for (var list in twoD){
           // color: Color(0xFF8803fc),
           color: Colors.white,
         ),
-      ):SizedBox(height: 1,),
+      )
+      :SizedBox(height: 1,),
     body:university!=null? FutureBuilder(
           future: getPosts(),
           builder: (_, snapshot) {

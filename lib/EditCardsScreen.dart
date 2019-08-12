@@ -815,6 +815,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerSnap,
                                   onSubmitted: (value) {
                                     if (value != '' && value != null) {
@@ -865,6 +866,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerInsta,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
@@ -916,7 +918,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                 controller: _controllerTweet,
-                                
+                                textCapitalization: TextCapitalization.sentences,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -1828,6 +1830,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerLink,
                                 
                                 onSubmitted: (value) {
@@ -1879,6 +1882,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerGit,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
@@ -1928,6 +1932,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerTweet,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {

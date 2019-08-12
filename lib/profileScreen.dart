@@ -114,14 +114,11 @@ class _ProfilePageState extends State<ProfilePage> {
             left: (MediaQuery.of(context).size.width / 2 - 50.0),
             child: photoUrl == null
                 ? CircularProgressIndicator()
-                : Container(
-                    height: screenH(125),
-                    width: screenH(125),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50.0),
-                        image: DecorationImage(
-                            image: NetworkImage(photoUrl), fit: BoxFit.cover)),
-                  ),
+                : CircleAvatar(
+                  backgroundImage: NetworkImage(photoUrl),
+                  radius: screenW(50),
+                ),
+                
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.4),
@@ -190,7 +187,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           );
                         },
                         title: Text(
-                          "Profile",
+                          "Basic Info",
                         ),
                         leading: Icon(
                           SimpleLineIcons.user,

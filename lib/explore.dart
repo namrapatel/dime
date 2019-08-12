@@ -155,6 +155,7 @@ class _ExploreState extends State<Explore> {
                         horizontal: MediaQuery.of(context).size.width / 22,
                         vertical: MediaQuery.of(context).size.height / 72),
                     child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
                       onChanged: (val) {
                         initiateSearch(val);
                       },

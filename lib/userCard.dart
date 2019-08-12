@@ -154,8 +154,8 @@ _UserCardState(this.userId, this.type, this.userName);
           padding: EdgeInsets.fromLTRB(
               0, MediaQuery.of(context).size.height / 2.4, 0, 0),
           child: Container(
-            height: 500,
-            width: 500,
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.width,
             child: FutureBuilder(
               future: getRecentActivity(),
               builder: (_, snapshot) {
@@ -168,7 +168,6 @@ _UserCardState(this.userId, this.type, this.userName);
                   physics: BouncingScrollPhysics(),
                     itemCount: snapshot?.data?.length,
                     itemBuilder: (_, index) {
-
 
                       return Column(
                         children: <Widget>[

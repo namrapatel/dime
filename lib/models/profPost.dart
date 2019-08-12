@@ -291,7 +291,7 @@ class _ProfPostState extends State<ProfPost> {
                             height: screenW(55),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(screenH(16)),
-                                color: liked==false?Colors.grey[100]:Colors.green[500]),
+                                color: liked==false?Colors.grey[100]:Color(0xFF76c2c0)),
                             child: Column(
                               children: <Widget>[
                                 SizedBox(

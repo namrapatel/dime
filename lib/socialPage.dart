@@ -169,7 +169,8 @@ for (var list in twoD){
           // color: Color(0xFF8803fc),
           color: Colors.white,
         ),
-      ):SizedBox(height: 1,),
+      )
+      :SizedBox(height: 1,),
     body:university!=null? FutureBuilder(
           future: getPosts(),
           builder: (_, snapshot) {

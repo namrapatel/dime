@@ -1,4 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/socialPage.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'models/commentTags.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +7,8 @@ import 'homePage.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'models/comment.dart';
-
+import 'package:page_transition/page_transition.dart';
+import 'socialPage.dart' as socialPage;
 
 class SocialComments extends StatefulWidget {
   final String postId;
@@ -121,7 +123,10 @@ class _SocialCommentsState extends State<SocialComments> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: socialPage.SocialPage()));
           },
         ),
         elevation: 0.4,

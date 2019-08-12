@@ -148,6 +148,8 @@ class _ScrollPageState extends State<ScrollPage>
   Widget build(BuildContext context) {
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
+
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -155,6 +157,7 @@ class _ScrollPageState extends State<ScrollPage>
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
+            firstName != "No"?
                         Container(
                         width: MediaQuery.of(context).size.width/1.6,
                         child: AutoSizeText(
@@ -164,6 +167,26 @@ class _ScrollPageState extends State<ScrollPage>
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                     ),
+                      ):
+                      Row(
+                        children: <Widget>[
+                        AutoSizeText(
+                        "Hey!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width/20,),
+          FlatButton(
+            color: Colors.white,
+            child: Text("Set up Profile", style: TextStyle(color: Color(0xFF1458EA)),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+              
+            },
+          ),
+                        ],
                       ),
 
             Spacer(),

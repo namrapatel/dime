@@ -58,7 +58,7 @@ String name = currentUserModel.displayName;
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     setState(() {
-       likes=doc['likes'];
+       likes=doc['likes'];  
     university=doc['university'];
       caption=doc['caption'];
        postPic=doc['postPic'];

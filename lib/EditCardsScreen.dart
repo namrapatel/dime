@@ -1125,6 +1125,10 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'socialToggled': isSwitched2,
       'email': email
     });
+
+    Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
+      'photoUrl':photoUrl
+    });
   }
 
   Future<void> uploadImage() async {

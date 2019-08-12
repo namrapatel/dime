@@ -163,6 +163,10 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
                           .updateData({
                         'interests': interests
                       });
+                      Firestore.instance.collection('users').document(currentUserModel.uid)
+                          .updateData({
+                        'socialInterests': interests
+                      });
                       socialInterests.clear();
                       Navigator.pop(context);
                       Navigator.pop(context);

@@ -137,141 +137,42 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Color(0xFFECE9E4),
-      body: ListView(
-        padding: EdgeInsets.all(0.0),
-        physics: NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              SizedBox(height: screenH(20)),
-              Stack(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height / 5,
-                    //color: Color(0xFFECE9E4),
-                  ),
-                  Positioned(
-                      top: MediaQuery.of(context).size.height / 55,
-                      left: MediaQuery.of(context).size.width / 55,
-                      child: IconButton(
+      appBar: AppBar(
+        backgroundColor: Color(0xFF1458EA),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
                         icon: Icon(
                           Icons.arrow_back_ios,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                      )),
-                  Positioned(
-                    top: MediaQuery.of(context).size.height / 10,
-                    left: MediaQuery.of(context).size.width / 22,
-                    child: Text(
+                      ),
+        title: Text(
                       "Messages",
                       style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 40,
+                          color: Colors.white,
+                          fontSize: 25,
                           fontWeight: FontWeight.bold),
                     ),
-                  )
-                ],
-              ),
+      ),
+      body: ListView(
+        padding: EdgeInsets.all(0.0),
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SizedBox(height: screenH(20)),
               Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 1.2,
+                  height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: <Widget>[
                       Column(
                         children: <Widget>[buildMessages()],
                       )
 
-//                      FutureBuilder<List<MessageTile>>(
-//                      future: getMessages(),
-//                      builder: (context, snapshot) {
-//                      if (!snapshot.hasData)
-//                        return Center(
-//                            child: Container(
-//
-//                              child: Column(
-//                                children: <Widget>[
-//                                  Padding(
-//                                    padding: EdgeInsets.symmetric(
-//                                        vertical: (50.0)),
-//                                    child: Container(
-//                                        width: (100),
-//                                        child: Text(
-//                                          "You currently have no messages",
-//                                          textAlign: TextAlign.center,
-//                                        )),
-//                                  ),
-//                                ],
-//                              ),
-//                            ));
-//
-//                      return Column(
-//                        children:
-//                          snapshot.data
-//
-//                      );
-//                      }),
-
-//                           StreamBuilder<QuerySnapshot>(
-//                          stream: Firestore.instance
-//                              .collection('chatMessages').where('to',isEqualTo: currentUserModel.uid).orderBy('timestamp',descending: true).snapshots(),
-//                          builder: (context, snapshot) {
-//                            if (!snapshot.hasData ||
-//                                snapshot.data.documents.length == 0) {
-//                              return Center(
-//                                  child: Container(
-//
-//                                    child: Column(
-//                                      children: <Widget>[
-//                                        Padding(
-//                                          padding: EdgeInsets.symmetric(
-//                                              vertical: (50.0)),
-//                                          child: Container(
-//                                              width: (100),
-//                                              child: Text(
-//                                                "You currently have no messages",
-//                                                textAlign: TextAlign.center,
-//                                              )),
-//                                        ),
-//                                      ],
-//                                    ),
-//                                  ));
-//                            }
-//                            final docs = snapshot.data.documents;
-//                            List<MessageTile> messageTiles = [];
-//                            for (var doc in docs) {
-//                              String text= doc.data['text'];
-//                              String photo=doc.data['receiverPhoto'];
-//                              String name=doc.data['receiverName'];
-//                              String from=doc.data['from'];
-//                                  String to=doc.data['to'];
-//                              var storedDate = doc.data['timestamp'];
-//
-//                              String elapsedTime =
-//                              timeago.format(storedDate.toDate());
-//                              String timestamp = '$elapsedTime';
-//
-//                              messageTiles.add(new MessageTile(text: text,from: from,timestamp: timestamp,senderName:name,senderPhoto: photo,to:to));
-//                            }
-//
-//                            return Container(
-//                              child: ListView.separated(
-//                                itemCount: messageTiles.length,scrollDirection: Axis.vertical,shrinkWrap: true,
-//                                itemBuilder: (context, index) {
-//                                  return messageTiles[index];
-//                                },
-//
-//                                separatorBuilder: (context, index) {
-//                                  return Divider();
-//                                },
-//                              ),
-//
-//                            );
-//                          }),
                     ],
                   )),
             ],

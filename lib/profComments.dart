@@ -244,45 +244,57 @@ class _ProfCommentsState extends State<ProfComments> {
                           ),
 
                           onPressed: () async{
-                            String docName=postId+Timestamp.now().toString();
-                            Firestore.instance
-                                .collection('profPosts')
-                                .document(postId)
-                                .collection('comments').document(docName)
-                                .setData({
-                              'type':'prof',
-                              'postId':postId,
+                            if(controller.text!="") {
+                              String docName = postId +
+                                  Timestamp.now().toString();
+                              Firestore.instance
+                                  .collection('profPosts')
+                                  .document(postId)
+                                  .collection('comments').document(docName)
+                                  .setData({
+                                'type': 'prof',
+                                'postId': postId,
 
 
 //                              'commentId':docName,
-                              'commenterId': currentUserModel.uid,
-                              'commenterName': currentUserModel.displayName,
-                              'commenterPhoto': currentUserModel.photoUrl,
-                              'text': controller.text,
-                              'timestamp': Timestamp.now()
-                            });
+                                'commenterId': currentUserModel.uid,
+                                'commenterName': currentUserModel.displayName,
+                                'commenterPhoto': currentUserModel.photoUrl,
+                                'text': controller.text,
+                                'timestamp': Timestamp.now()
+                              });
 
 
-                            Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).setData({
-                              'type':'prof',
-                              'commented':true,
-                              'postId':widget.postId,
-                              'numberOfComments':FieldValue.increment(1),
-                              'timeStamp':Timestamp.now()
-                            },merge: true);
+                              Firestore.instance.collection('users').document(
+                                  currentUserModel.uid).collection(
+                                  'recentActivity')
+                                  .document(widget.postId)
+                                  .setData({
+                                'type': 'prof',
+                                'commented': true,
+                                'postId': widget.postId,
+                                'numberOfComments': FieldValue.increment(1),
+                                'timeStamp': Timestamp.now()
+                              }, merge: true);
 
-                            QuerySnapshot snap= await Firestore.instance.collection('profPosts').document(postId).collection('comments').getDocuments();
-                            int numberOfComments= snap.documents.length;
-                            Firestore.instance.collection('profPosts').document(postId).updateData({
-                              'comments':numberOfComments
-                            });
+                              QuerySnapshot snap = await Firestore.instance
+                                  .collection('profPosts')
+                                  .document(postId)
+                                  .collection('comments')
+                                  .getDocuments();
+                              int numberOfComments = snap.documents.length;
+                              Firestore.instance.collection('profPosts')
+                                  .document(postId)
+                                  .updateData({
+                                'comments': numberOfComments
+                              });
 
 
-                            setState(() {
-                              getComments();
-                              controller.clear();
-                            });
-                          })),
+                              setState(() {
+                                getComments();
+                                controller.clear();
+                              });
+                            }})),
                 ],
               ),
             )

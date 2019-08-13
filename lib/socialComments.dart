@@ -244,6 +244,7 @@ class _SocialCommentsState extends State<SocialComments> {
                         ),
 
                         onPressed: () async{
+                          if(controller.text!=""){
                           String docName=postId+Timestamp.now().toString();
                           Firestore.instance
                               .collection('socialPosts')
@@ -282,7 +283,7 @@ class _SocialCommentsState extends State<SocialComments> {
                             getComments();
                             controller.clear();
                           });
-                        })),
+                        }})),
               ],
             ),
           )
@@ -290,6 +291,7 @@ class _SocialCommentsState extends State<SocialComments> {
         ),
       ),
     );
+
   }
 }
 

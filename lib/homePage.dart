@@ -300,7 +300,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-           //upperLayer: _getUpperLayer(),
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -479,7 +479,9 @@ class _ScrollPageState extends State<ScrollPage>
   Widget _getUpperLayer() {
     return Container(
         decoration: BoxDecoration(color: Colors.white),
-        child: StreamBuilder(
+        child: ListView(
+          children: <Widget>[
+          StreamBuilder(
 
           stream: stream,
           builder: ( context,
@@ -511,7 +513,10 @@ class _ScrollPageState extends State<ScrollPage>
               return Center(child: CircularProgressIndicator());
             }
           },
-        ));
+        )
+          ],
+        )
+        );
 //    return Container(
 //        color: Colors.white,
 //        child: ListView(
@@ -540,6 +545,7 @@ class _ScrollPageState extends State<ScrollPage>
 //        )
 //
 //            );
+
   }
 
   double _value = 6.0;

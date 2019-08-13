@@ -6,6 +6,7 @@ import '../viewCards.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SocialCard extends StatelessWidget {
   final String type;
@@ -63,6 +64,58 @@ class SocialCard extends StatelessWidget {
       isSwitched: document['socialToggled'],
     );
   }
+
+
+
+    Future<void> _launchSnap(String url) async {
+    if (await canLaunch('https://www.snapchat.com/add/' + snapchat)) {
+      final bool nativeAppLaunchSucceeded = await launch(
+        'https://www.snapchat.com/add/' + snapchat,
+        forceSafariVC: false,
+        universalLinksOnly: true,
+      );
+      if (!nativeAppLaunchSucceeded) {
+        await launch(
+          'https://www.snapchat.com/add/' + snapchat,
+          forceSafariVC: true,
+        );
+      }
+    }
+  }
+
+      Future<void> _launchInsta(String url) async {
+    if (await canLaunch('https://www.instagram.com/' + instagram)) {
+      final bool nativeAppLaunchSucceeded = await launch(
+        'https://www.instagram.com/' + instagram,
+        forceSafariVC: false,
+        universalLinksOnly: true,
+      );
+      if (!nativeAppLaunchSucceeded) {
+        await launch(
+          'https://www.instagram.com/' + instagram,
+          forceSafariVC: true,
+        );
+      }
+    }
+  }
+
+        Future<void> _launchTwitter(String url) async {
+    if (await canLaunch('https://twitter.com/' + twitter)) {
+      final bool nativeAppLaunchSucceeded = await launch(
+        'https://twitter.com/' + twitter,
+        forceSafariVC: false,
+        universalLinksOnly: true,
+      );
+      if (!nativeAppLaunchSucceeded) {
+        await launch(
+          'https://twitter.com/' + twitter,
+          forceSafariVC: true,
+        );
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -139,20 +192,21 @@ class SocialCard extends StatelessWidget {
                                 color: Colors.grey)),
                     ),
                     Positioned(
-                      top: screenH(125),
+                      top: screenH(105),
                       left: screenW(40),
                       child: snapchat != null
                         ? isSwitched == true
                             ? Column(
                                 children: <Widget>[
-                                  Icon(
+                                  IconButton(
+                                    icon: Icon(
                                     FontAwesome.snapchat_square,
                                     size: 30,
                                     color: Color(0xFFfffc00),
                                   ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                    height: screenH(5),
+                                  onPressed: (){
+                                    _launchSnap('https://www.snapchat.com/add/' + snapchat);
+                                  },
                                   ),
                                   Text(snapchat,
                                       style: TextStyle(
@@ -172,20 +226,21 @@ class SocialCard extends StatelessWidget {
                                   ),
                     ),
                     Positioned(
-                      top: screenH(125),
+                      top: screenH(105),
                       left: screenW(160),
                       child:  instagram != null
                         ? isSwitched == true
                             ? Column(
                                 children: <Widget>[
-                                  Icon(
+                                  IconButton(
+                                    icon: Icon(
                                     MaterialCommunityIcons.instagram,
                                     color: Color(0xFF8803fc),
                                     size: 30,
                                   ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                    height: screenH(5),
+                                  onPressed: (){
+                                    _launchInsta('https://www.instagram.com/' + instagram);
+                                  },
                                   ),
                                   Text(instagram,
                                       style: TextStyle(
@@ -205,21 +260,22 @@ class SocialCard extends StatelessWidget {
                                   ),
                     ),
                     Positioned(
-                      top: screenH(125),
+                      top: screenH(105),
                       left: screenW(260),
                       child: twitter != null
                         ? isSwitched == true
                             ? Column(
                                 children: <Widget>[
-                                  Icon(
+                                  IconButton(
+                                    icon: Icon(
                                     MaterialCommunityIcons
                                         .twitter_box,
                                     color: Colors.blue,
                                     size: 30,
                                   ),
-                                  SizedBox(
-                                    width: screenW(10),
-                                    height: screenH(5),
+                                  onPressed: (){
+                                    _launchTwitter('https://twitter.com/' + twitter); 
+                                  },
                                   ),
                                   Text(twitter,
                                       style: TextStyle(

@@ -1,5 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
-import 'package:Dime/socialComments.dart';
+import 'package:Dime/socialPage.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'models/commentTags.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +7,8 @@ import 'homePage.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'models/comment.dart';
-
+import 'package:page_transition/page_transition.dart';
+import 'package:Dime/profPage.dart';
 
 class ProfComments extends StatefulWidget {
   final String postId;
@@ -18,6 +19,7 @@ class ProfComments extends StatefulWidget {
 
 class _ProfCommentsState extends State<ProfComments> {
   final String postId;
+  String university;
   _ProfCommentsState(this.postId);
   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
@@ -65,6 +67,18 @@ class _ProfCommentsState extends State<ProfComments> {
   @override
   void initState() {
     super.initState();
+    getPostUni();
+  }
+  getPostUni() async{
+    DocumentSnapshot query = await Firestore.instance
+        .collection('profPosts')
+        .document(postId)
+        .get();
+    setState(() {
+      university =query.data['university'];
+    });
+
+
   }
 
   getAllUsers() async {
@@ -106,9 +120,10 @@ class _ProfCommentsState extends State<ProfComments> {
                     child: Column(children: snapshot.data),
                   );
                 }),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height/10,
-                )
+
+            SizedBox(
+              height: MediaQuery.of(context).size.height/10,
+            )
           ],
         ));
   }
@@ -121,7 +136,10 @@ class _ProfCommentsState extends State<ProfComments> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade, child: ProfPage()));
           },
         ),
         elevation: 0.4,
@@ -133,10 +151,11 @@ class _ProfCommentsState extends State<ProfComments> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                university!=null?
                 Text(
-                  currentUserModel.university,
+                  university,
                   style: TextStyle(color: Colors.black),
-                ),
+                ):CircularProgressIndicator(),
                 Text(
                   'Professional Feed',
                   style: TextStyle(
@@ -149,26 +168,25 @@ class _ProfCommentsState extends State<ProfComments> {
           ],
         ),
       ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: Colors.white,
-            child: Column(
-              children: <Widget>[
-                Flexible(child: buildComments()),
-              ],
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                children: <Widget>[
+                  Flexible(child:
+                  buildComments(),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            width: MediaQuery.of(context).size.width,
-            child: Container(
+
+            Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
                   color: Colors.grey[300],
-                  offset: Offset(-2, 0),
+                  offset: Offset(0, 0),
                   blurRadius: 5,
                 ),
               ]),
@@ -179,39 +197,38 @@ class _ProfCommentsState extends State<ProfComments> {
                       left: 15,
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width / 22,
-                            vertical: MediaQuery.of(context).size.height / 72),
-                        child: SimpleAutoCompleteTextField(
-                          key: key,
-                          decoration: new InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 30,
-                                  bottom:
-                                  MediaQuery.of(context).size.height / 155,
-                                  top: MediaQuery.of(context).size.height / 155,
-                                  right:
-                                  MediaQuery.of(context).size.width / 30),
-                              hintText: 'Enter Comment',
-                              hintStyle: TextStyle(color: Colors.grey)),
-                          controller: controller,
-                          suggestions: suggestions,
-                          clearOnSubmit: false,
-                        ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1.3,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 22,
+                          vertical: MediaQuery.of(context).size.height / 72),
+                      child: SimpleAutoCompleteTextField(
+                        textCapitalization: TextCapitalization.sentences,
+//                        key: key,
+                        decoration: new InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width / 30,
+                                bottom:
+                                MediaQuery.of(context).size.height / 155,
+                                top: MediaQuery.of(context).size.height / 155,
+                                right:
+                                MediaQuery.of(context).size.width / 30),
+                            hintText: 'Enter Comment',
+                            hintStyle: TextStyle(color: Colors.grey)),
+                        controller: controller,
+//                        suggestions: suggestions,
+                        clearOnSubmit: false,
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: screenW(20),
+                    width: (20),
                   ),
                   Container(
                       width: 40,
@@ -235,21 +252,22 @@ class _ProfCommentsState extends State<ProfComments> {
                                 .setData({
                               'type':'prof',
                               'postId':postId,
-                              'numberOfComments':FieldValue.increment(1),
+
+
 //                              'commentId':docName,
                               'commenterId': currentUserModel.uid,
                               'commenterName': currentUserModel.displayName,
                               'commenterPhoto': currentUserModel.photoUrl,
                               'text': controller.text,
-                              'timestamp': Timestamp.now(),
-
+                              'timestamp': Timestamp.now()
                             });
+
 
                             Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(widget.postId).setData({
                               'type':'prof',
                               'commented':true,
                               'postId':widget.postId,
-                            'numberOfComments':FieldValue.increment(1),
+                              'numberOfComments':FieldValue.increment(1),
                               'timeStamp':Timestamp.now()
                             },merge: true);
 
@@ -267,12 +285,34 @@ class _ProfCommentsState extends State<ProfComments> {
                           })),
                 ],
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
 }
 
+class UserTag extends StatelessWidget {
+  final String id, name, photo;
 
+  const UserTag({this.id, this.name, this.photo});
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      contentPadding: EdgeInsets.all(15),
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(photo),
+        radius: 25,
+      ),
+      title: Row(
+        children: <Widget>[
+          Text(
+            name,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+}

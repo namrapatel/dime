@@ -52,7 +52,7 @@ class _SocialInterestTileState extends State<SocialInterestTile> {
                   child: Row(
                     children: <Widget>[
 
-                      SizedBox(width: 150),
+                      SizedBox(width: screenW(150)),
 
                       Checkbox(
                           activeColor: Colors.black,
@@ -162,6 +162,10 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
                       Firestore.instance.collection('users').document(currentUserModel.uid).collection('socialcard').document(socialCardId)
                           .updateData({
                         'interests': interests
+                      });
+                      Firestore.instance.collection('users').document(currentUserModel.uid)
+                          .updateData({
+                        'socialInterests': interests
                       });
                       socialInterests.clear();
                       Navigator.pop(context);

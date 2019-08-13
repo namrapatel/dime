@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_search_panel/flutter_search_panel.dart';
 import 'package:flutter_search_panel/search_item.dart';
 import 'login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -816,6 +815,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerSnap,
                                   onSubmitted: (value) {
                                     if (value != '' && value != null) {
@@ -866,6 +866,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerInsta,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
@@ -917,7 +918,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                 controller: _controllerTweet,
-                                
+                                textCapitalization: TextCapitalization.sentences,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -1123,6 +1124,10 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'photoUrl': photoUrl,
       'socialToggled': isSwitched2,
       'email': email
+    });
+
+    Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
+      'photoUrl':photoUrl
     });
   }
 
@@ -1829,6 +1834,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerLink,
                                 
                                 onSubmitted: (value) {
@@ -1880,6 +1886,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerGit,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
@@ -1929,6 +1936,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                textCapitalization: TextCapitalization.sentences,
                                 controller: _controllerTweet,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {

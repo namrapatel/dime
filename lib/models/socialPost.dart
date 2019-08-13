@@ -15,6 +15,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:Dime/login.dart';
 import 'package:timeago/timeago.dart' as timeago;
+
+
+
 class SocialPost extends StatefulWidget {
  final String postId;
 // final  String caption;
@@ -58,7 +61,7 @@ String name = currentUserModel.displayName;
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     setState(() {
-       likes=doc['likes'];
+       likes=doc['likes'];  
     university=doc['university'];
       caption=doc['caption'];
        postPic=doc['postPic'];
@@ -159,7 +162,7 @@ String name = currentUserModel.displayName;
                   child: postPic != null
                       ? 
                       AspectRatio(
-                        aspectRatio: 1,
+                        aspectRatio: 0.92,
                         child: Image(
                           image: NetworkImage(postPic),
                           width: screenW(200),

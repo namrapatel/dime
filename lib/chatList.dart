@@ -94,43 +94,38 @@ class _ChatListState extends State<ChatList> {
     return FutureBuilder(
         future: getMessages(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData){
-            return CircularProgressIndicator();
-          }
-
-          else {
-            if(snapshot.data.length == 0){
-              return Center(
+          if (!snapshot.hasData)
+            return Center(
                 child: Container(
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: screenH(50.0)),
-                    child: Container(
-                        width: screenW(200),
-                        child: Text(
-                          "No Messages to Show",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: screenF(20),
-                              fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        )),
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: screenH(50.0)),
+                        child: Container(
+                            width: screenW(200),
+                            child: Text(
+                              "No Messages to Show",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: screenF(20),
+                                  fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                            )),
+                      ),
+                      SizedBox(
+                        height: screenH(20),
+                      ),
+                      Container(
+                        height: screenH(300),
+                        width: screenW(500),
+                        child: Image(
+                          image: AssetImage('assets/undraw_messages.png'),
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: screenH(20),
-                  ),
-                  Container(
-                    height: screenH(300),
-                    width: screenW(500),
-                    child: Image(
-                      image: AssetImage('assets/undraw_messages.png'),
-                    ),
-                  )
-                ],
-              ),
-            ));
-            }
+                ));
+          else {
             return Column(children: snapshot.data);
           }
         });
@@ -289,11 +284,11 @@ class MessageTile extends StatelessWidget {
 
   MessageTile(
       {this.text,
-      this.to,
-      this.from,
-      this.timestamp,
-      this.senderPhoto,
-      this.senderName});
+        this.to,
+        this.from,
+        this.timestamp,
+        this.senderPhoto,
+        this.senderName});
   @override
   Widget build(BuildContext context) {
     return ListTile(

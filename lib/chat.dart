@@ -7,10 +7,10 @@ import 'package:Dime/homePage.dart';
 import 'userCard.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-
-  final screenH = ScreenUtil.instance.setHeight;
-  final screenW = ScreenUtil.instance.setWidth;
-  final screenF = ScreenUtil.instance.setSp;
+import 'package:timeago/timeago.dart' as timeago;
+final screenH = ScreenUtil.instance.setHeight;
+final screenW = ScreenUtil.instance.setWidth;
+final screenF = ScreenUtil.instance.setSp;
 
 class Chat extends StatefulWidget {
   static const String id = "CHAT";
@@ -48,18 +48,18 @@ class _ChatState extends State<Chat> {
       });
     }
   }
-   callback() {
+  callback() {
     if (messageController.text.length > 0) {
 
-        _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).setData({
-          'timestamp':Timestamp.now()
-        },merge: true);
-        _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
-          'text': messageController.text,
-          'from': widget.fromUserId,
+      _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).setData({
+        'timestamp':Timestamp.now()
+      },merge: true);
+      _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
+        'text': messageController.text,
+        'from': widget.fromUserId,
 
-          'timestamp': Timestamp.now(),
-        });
+        'timestamp': Timestamp.now(),
+      });
       _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).setData({
         'timestamp':Timestamp.now()
       },merge: true);
@@ -75,7 +75,7 @@ class _ChatState extends State<Chat> {
         'text': messageController.text,
         'from': widget.fromUserId,
         'to': widget.toUserId,
-      });              
+      });
 
       messageController.clear();
       scrollController.animateTo(scrollController.position.minScrollExtent,
@@ -102,7 +102,7 @@ class _ChatState extends State<Chat> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
-          
+
           onPressed: (){
             Navigator.pop(context);
           },
@@ -116,23 +116,20 @@ class _ChatState extends State<Chat> {
             ):CircularProgressIndicator(),
             SizedBox(width: MediaQuery.of(context).size.width / 33,),
             toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.white),):CircularProgressIndicator(),
-            SizedBox(
-              width: MediaQuery.of(context).size.width/4.5,
+            IconButton(
+              icon: Icon(MaterialCommunityIcons.card_bulleted),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: UserCard(
+                          userId: widget.toUserId,
+                          userName: toUserName,
+                        )));
+              },
             ),
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: UserCard(
-                            userId: widget.toUserId,
-                            userName: toUserName,
-                          )));
-                },
-              ),
 
           ],
         ),
@@ -150,12 +147,17 @@ class _ChatState extends State<Chat> {
 
                     List<DocumentSnapshot> docs = snapshot.data.documents;
 
-                    List<Widget> messages = docs
-                        .map((doc) => Message(
-                        from: doc.data['from'],
-                        text: doc.data['text'],
-                        me: widget.fromUserId == doc.data['from']))
-                        .toList();
+                    List<Message> messages=[];
+                    for(var doc in docs){
+                      var storedDate = doc.data['timestamp'];
+//
+                      String elapsedTime =
+                      timeago.format(storedDate.toDate());
+                      String timestamp = '$elapsedTime';
+                      messages.add(Message( from: doc.data['from'],
+                          text: doc.data['text'],me: widget.fromUserId == doc.data['from'],timestamp:timestamp));
+                    }
+
                     return ListView(
                       reverse: true,
                       shrinkWrap: true,
@@ -206,7 +208,7 @@ class _ChatState extends State<Chat> {
                                   right: MediaQuery.of(context).size.width / 30),
                               hintText: 'Write a message',
                               hintStyle: TextStyle(color: Colors.grey)
-                              ),
+                          ),
                         ),
                       ),
                     ),
@@ -249,7 +251,7 @@ class _ChatState extends State<Chat> {
 }
 
 class SendButton extends StatelessWidget {
-  
+
   final String text;
   final VoidCallback callback;
 
@@ -279,10 +281,11 @@ class SendButton extends StatelessWidget {
 class Message extends StatelessWidget {
   final String from;
   final String text;
+  final String timestamp;
 
   final bool me;
 
-  const Message({Key key, this.from, this.text, this.me}) : super(key: key);
+  const Message({Key key, this.from, this.text, this.me,this.timestamp}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -332,19 +335,14 @@ class Message extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Text(timestamp,
+                      style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey
+                      )),
                 ],
               ),
-              Row(
-                mainAxisAlignment: me? MainAxisAlignment.end: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text("a moment ago",
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey
-                  ),
-                  ),
-                ],
-              ),
+
             ],
           ),
           SizedBox(

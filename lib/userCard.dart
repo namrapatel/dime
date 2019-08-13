@@ -154,21 +154,43 @@ _UserCardState(this.userId, this.type, this.userName);
           padding: EdgeInsets.fromLTRB(
               0, MediaQuery.of(context).size.height / 2.4, 0, 0),
           child: Container(
-            height: 500,
-            width: 500,
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.width,
             child: FutureBuilder(
               future: getRecentActivity(),
               builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: Text("loading..."));
-              } else{
+              } 
+              else if(snapshot.data.length == 0){
+                return Column(
+            children: <Widget>[
+              Image.asset('assets/img/improvingDrawing.png',
+              height: MediaQuery.of(context).size.height/4,
+              width: MediaQuery.of(context).size.height/4,
+              
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text("Interactions from the feeds will show up here!",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+                ),
+                ),
+              ),
+
+            ],
+          );
+              }
+              else{
                 String action;
 
                 return  ListView.builder(
                   physics: BouncingScrollPhysics(),
                     itemCount: snapshot?.data?.length,
                     itemBuilder: (_, index) {
-
 
                       return Column(
                         children: <Widget>[

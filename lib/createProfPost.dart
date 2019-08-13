@@ -1,6 +1,5 @@
 import 'package:Dime/profPage.dart';
 import 'package:Dime/services/usermanagement.dart';
-import 'package:Dime/socialPage.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -143,7 +142,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                           Radius.circular(15.0),
                         ),
                         child: AspectRatio(
-                          aspectRatio: 1,
+                          aspectRatio: 0.92,
                           child: Image(
                           image: FileImage(file),
                           width: screenW(170),
@@ -175,6 +174,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     padding: EdgeInsets.symmetric(
                         horizontal: screenW(15.0), vertical: screenH(3.0)),
                     child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,

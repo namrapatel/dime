@@ -101,7 +101,7 @@ class _ExploreState extends State<Explore> {
         //backgroundColor: Color(0xFFECE9E4),
         body: ListView(
       padding: EdgeInsets.all(0.0),
-      //physics: const NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
         Column(
           children: <Widget>[
@@ -155,6 +155,7 @@ class _ExploreState extends State<Explore> {
                         horizontal: MediaQuery.of(context).size.width / 22,
                         vertical: MediaQuery.of(context).size.height / 72),
                     child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
                       onChanged: (val) {
                         initiateSearch(val);
                       },
@@ -177,16 +178,16 @@ class _ExploreState extends State<Explore> {
               height: MediaQuery.of(context).size.height / 20,
             ),
             Container(
-              height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.fromLTRB(
-                  0, 0, 0, MediaQuery.of(context).size.height / 10),
+              height: MediaQuery.of(context).size.height/1.65,
               child: ListView(
-                padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                children: tempSearchStore.map((element) {
-                  return _buildTile(element);
-                }).toList(),
-              ),
+                physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+              children: tempSearchStore.map((element) {
+                return _buildTile(element);
+              }).toList(),
             ),
+            ),
+
           ],
         )
       ],
@@ -227,6 +228,7 @@ class _ExploreState extends State<Explore> {
                           type: PageTransitionType.fade,
                           child: UserCard(
                             userId: data['userId'],
+                            userName: data['userData']['displayName'],
                           )));
             },
           ),

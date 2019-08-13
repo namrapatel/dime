@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
+import 'package:Dime/homePage.dart';
+import 'userCard.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:auto_size_text/auto_size_text.dart';
 
 
+final screenH = ScreenUtil.instance.setHeight;
+final screenW = ScreenUtil.instance.setWidth;
+final screenF = ScreenUtil.instance.setSp;
 
 class Chat extends StatefulWidget {
   static const String id = "CHAT";
@@ -18,7 +28,6 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
-
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _firestore = Firestore.instance;
@@ -42,18 +51,18 @@ class _ChatState extends State<Chat> {
       });
     }
   }
-   callback() {
+  callback() {
     if (messageController.text.length > 0) {
 
-        _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).setData({
-          'timestamp':Timestamp.now()
-        },merge: true);
-        _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
-          'text': messageController.text,
-          'from': widget.fromUserId,
+      _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).setData({
+        'timestamp':Timestamp.now()
+      },merge: true);
+      _firestore.collection('users').document(widget.fromUserId).collection('messages').document(widget.toUserId).collection('texts').add({
+        'text': messageController.text,
+        'from': widget.fromUserId,
 
-          'timestamp': Timestamp.now(),
-        });
+        'timestamp': Timestamp.now(),
+      });
       _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).setData({
         'timestamp':Timestamp.now()
       },merge: true);
@@ -69,7 +78,7 @@ class _ChatState extends State<Chat> {
         'text': messageController.text,
         'from': widget.fromUserId,
         'to': widget.toUserId,
-      });              
+      });
 
       messageController.clear();
       scrollController.animateTo(scrollController.position.minScrollExtent,
@@ -92,11 +101,11 @@ class _ChatState extends State<Chat> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xFF1458EA),
-        elevation: 5,
+        elevation: screenH(5),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
-          iconSize: 20,
+
           onPressed: (){
             Navigator.pop(context);
           },
@@ -105,11 +114,38 @@ class _ChatState extends State<Chat> {
           children: <Widget>[
             toUserPhoto!=null?
             CircleAvatar(
-              radius: 15,
+              radius: screenH(25),
               backgroundImage: NetworkImage(toUserPhoto),
             ):CircularProgressIndicator(),
-            SizedBox(width: MediaQuery.of(context).size.width/30,),
-            toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.white),):CircularProgressIndicator(),
+            SizedBox(width: MediaQuery.of(context).size.width / 33,),
+            toUserName!=null?
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.9,
+                        child: AutoSizeText(
+                        toUserName,
+                        style: TextStyle(color: Colors.white,),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      )
+            
+            :CircularProgressIndicator(),
+            IconButton(
+              icon: Icon(MaterialCommunityIcons.card_bulleted),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: UserCard(
+                          userId: widget.toUserId,
+                          userName: toUserName,
+                        )));
+              },
+            ),
+
           ],
         ),
       ),
@@ -126,13 +162,19 @@ class _ChatState extends State<Chat> {
 
                     List<DocumentSnapshot> docs = snapshot.data.documents;
 
-                    List<Widget> messages = docs
-                        .map((doc) => Message(
-                        from: doc.data['from'],
-                        text: doc.data['text'],
-                        me: widget.fromUserId == doc.data['from']))
-                        .toList();
+                    List<Message> messages=[];
+                    for(var doc in docs){
+                      var storedDate = doc.data['timestamp'];
+//
+                      String elapsedTime =
+                      timeago.format(storedDate.toDate());
+                      String timestamp = '$elapsedTime';
+                      messages.add(Message( from: doc.data['from'],
+                          text: doc.data['text'],me: widget.fromUserId == doc.data['from'],timestamp:timestamp));
+                    }
+
                     return ListView(
+                      physics: BouncingScrollPhysics(),
                       reverse: true,
                       shrinkWrap: true,
                       controller: scrollController,
@@ -144,13 +186,13 @@ class _ChatState extends State<Chat> {
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height/55,
+                height: MediaQuery.of(context).size.height / 55,
               ),
               Container(
                 child: Row(
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width/50,
+                      width: MediaQuery.of(context).size.width / 50,
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 1.3,
@@ -182,12 +224,12 @@ class _ChatState extends State<Chat> {
                                   right: MediaQuery.of(context).size.width / 30),
                               hintText: 'Write a message',
                               hintStyle: TextStyle(color: Colors.grey)
-                              ),
+                          ),
                         ),
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width/15,
+                      width: MediaQuery.of(context).size.width / 15,
                     ),
                     SendButton(
                       text: "Send",
@@ -216,7 +258,7 @@ class _ChatState extends State<Chat> {
                 // ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height/55,
+                height: MediaQuery.of(context).size.height / 55,
               )
             ],
           )),
@@ -225,6 +267,7 @@ class _ChatState extends State<Chat> {
 }
 
 class SendButton extends StatelessWidget {
+
   final String text;
   final VoidCallback callback;
 
@@ -233,13 +276,13 @@ class SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-        width: 40,
-        height: 40,
+        width: screenW(44),
+        height: screenH(44),
         child: FloatingActionButton(
-            elevation: 5,
+            elevation: screenH(5),
             backgroundColor: Color(0xFF1458EA),
             heroTag: 'fabb4',
-            child: Icon(Icons.send, color: Colors.white, size: 20,),
+            child: Icon(Icons.send, color: Colors.white, size: 17),
             onPressed: callback
         )
     );
@@ -254,28 +297,26 @@ class SendButton extends StatelessWidget {
 class Message extends StatelessWidget {
   final String from;
   final String text;
+  final String timestamp;
 
   final bool me;
 
-  const Message({Key key, this.from, this.text, this.me}) : super(key: key);
+  const Message({Key key, this.from, this.text, this.me,this.timestamp}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
       padding: me?
-      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.5, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/50, 0)
+      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/ 3.5, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/50, 0)
           :
-      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/50, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/3.5, 0)
+      EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/ 50, MediaQuery.of(context).size.height/50, MediaQuery.of(context).size.width/3.5, 0)
       ,
 
       child: Column(
         crossAxisAlignment:
         me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
-          // Text(
-          //   from,
-          // ),
           Material(
             color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
             borderRadius: me
@@ -302,6 +343,9 @@ class Message extends StatelessWidget {
               ),
             ),
           ),
+
+          Text(timestamp, style: TextStyle(color: Colors.grey, fontSize: 11),),
+
           SizedBox(
             height: 10,
           )

@@ -37,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
 
   Padding buildTitle() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width/100),
       child: Text(
         'Hello There.',
         style: TextStyle(
@@ -55,8 +55,8 @@ class _SignupPageState extends State<SignupPage> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: 78.0,
-          height: 1.5,
+          width: MediaQuery.of(context).size.width/6,
+          height: MediaQuery.of(context).size.height/250,
           color: Colors.black,
         ),
       ),
@@ -75,7 +75,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Email Address',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -102,7 +102,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -150,7 +150,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Confirm Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -188,8 +188,8 @@ class _SignupPageState extends State<SignupPage> {
   Align buildLoginButton(BuildContext context) {
     return Align(
       child: SizedBox(
-        height: 50.0,
-        width: 270.0,
+        height: MediaQuery.of(context).size.height/13,
+        width: MediaQuery.of(context).size.width/1.5,
         child: Container(
           decoration: BoxDecoration(
               color: Color(0xFF1458EA),
@@ -330,32 +330,32 @@ class _SignupPageState extends State<SignupPage> {
             buildTitle(),
             buildTitleLine(),
             SizedBox(
-              height: 40.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             buildEmailTextField(),
             SizedBox(
-              height: 30.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             buildPasswordInput(context),
             SizedBox(
-              height: 30.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             buildConfirmInput(context),
             SizedBox(
-              height: 30.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             buildLoginButton(context),
             SizedBox(
-              height: 20.0,
+              height: MediaQuery.of(context).size.height/20,
             ),
             buildSignUpText(),
             SizedBox(
-              height: 30.0,
+              height: MediaQuery.of(context).size.height/40,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.0),
+              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/17),
               child: Divider(
-                height: 1,
+                height: MediaQuery.of(context).size.height/330,
                 color: Colors.blueGrey,
               ),
             ),
@@ -368,8 +368,8 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  height: 50,
-                  width: 270.0,
+                height: MediaQuery.of(context).size.height/13,
+                width: MediaQuery.of(context).size.width/1.5,
                   child: OutlineButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),

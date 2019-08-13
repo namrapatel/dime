@@ -217,7 +217,9 @@ class _LoginState extends State<Login> {
           actions: <Widget>[
             FlatButton(
               child: Text('Send'),
-              onPressed: () {
+              onPressed: () async{
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: myController.text);
+
                 //sendPasswordResetEmail(email: myController.text);
                 Navigator.of(context).pop();
               },

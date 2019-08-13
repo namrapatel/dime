@@ -8,6 +8,9 @@ import 'userCard.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:auto_size_text/auto_size_text.dart';
+
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -115,7 +118,19 @@ class _ChatState extends State<Chat> {
               backgroundImage: NetworkImage(toUserPhoto),
             ):CircularProgressIndicator(),
             SizedBox(width: MediaQuery.of(context).size.width / 33,),
-            toUserName!=null?Text(toUserName, style: TextStyle(color: Colors.white),):CircularProgressIndicator(),
+            toUserName!=null?
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.9,
+                        child: AutoSizeText(
+                        toUserName,
+                        style: TextStyle(color: Colors.white,),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      )
+            
+            :CircularProgressIndicator(),
             IconButton(
               icon: Icon(MaterialCommunityIcons.card_bulleted),
               color: Colors.white,
@@ -159,6 +174,7 @@ class _ChatState extends State<Chat> {
                     }
 
                     return ListView(
+                      physics: BouncingScrollPhysics(),
                       reverse: true,
                       shrinkWrap: true,
                       controller: scrollController,
@@ -301,52 +317,37 @@ class Message extends StatelessWidget {
         crossAxisAlignment:
         me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
-          // Text(
-          //   from,
-          // ),
-          Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: me? MainAxisAlignment.end: MainAxisAlignment.start,
-                children: <Widget>[
-                  Material(
-                    color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
-                    borderRadius: me
-                        ? BorderRadius.only(
-                      topRight: Radius.circular(screenH(16)),
-                      topLeft: Radius.circular(screenH(16)),
-                      bottomRight: Radius.circular(screenH(0)),
-                      bottomLeft: Radius.circular(screenH(16)),
-                    )
-                        : BorderRadius.only(
-                      topRight: Radius.circular(screenH(16)),
-                      topLeft: Radius.circular(screenH(16)),
-                      bottomRight: Radius.circular(screenH(16)),
-                      bottomLeft: Radius.circular(screenH(0)),
-                    ),
-                    elevation: screenH(2),
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: screenH(11.0), horizontal: screenW(16.0)),
-                      child: Text(
-                        text,
-                        style: TextStyle(
-                          color: me ? Colors.white : Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text(timestamp,
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey
-                      )),
-                ],
+          Material(
+            color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
+            borderRadius: me
+                ? BorderRadius.only(
+              topRight: Radius.circular(15),
+              topLeft: Radius.circular(15),
+              bottomRight: Radius.circular(0),
+              bottomLeft: Radius.circular(15),
+            )
+                : BorderRadius.only(
+              topRight: Radius.circular(15),
+              topLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+              bottomLeft: Radius.circular(0),
+            ),
+            elevation: 2,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              child: Text(
+                text,
+                style: TextStyle(
+                  color: me ? Colors.white : Colors.black,
+                ),
               ),
-
-            ],
+            ),
           ),
+
+          Text(timestamp, style: TextStyle(color: Colors.grey, fontSize: 11),),
+
           SizedBox(
-            height: screenH(11),
+            height: 10,
           )
         ],
       ),

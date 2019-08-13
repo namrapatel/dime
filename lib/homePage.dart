@@ -24,6 +24,8 @@ import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
 import 'package:auto_size_text/auto_size_text.dart';
 
+
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -92,21 +94,22 @@ class _ScrollPageState extends State<ScrollPage>
 
   geoLoc.Position position;
   GeoPoint current;
-  getLocation() async {
-    geoLoc.Position idiot = await geoLoc.Geolocator()
-        .getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
+  getLocation() async{
+
+
+    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
 
     setState(() {
-      position = idiot;
+      position=idiot;
     });
 
     print(position.latitude);
     print(position.longitude);
-    double distanceInMeters = await geoLoc.Geolocator()
-        .distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
     print('distance is');
     print(distanceInMeters);
-    current = new GeoPoint(position.latitude, position.longitude);
+    current =
+    new GeoPoint(position.latitude, position.longitude);
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -136,10 +139,13 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
+
 
     return Scaffold(
       appBar: AppBar(
@@ -148,53 +154,41 @@ class _ScrollPageState extends State<ScrollPage>
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-            firstName != "No"
-                ? Container(
-                    width: MediaQuery.of(context).size.width / 1.6,
-                    child: AutoSizeText(
-                      "Hey " + firstName + "!",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                      minFontSize: 12,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                : Row(
-                    children: <Widget>[
-                      AutoSizeText(
-                        "Hey!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+            firstName != "No"?
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.6,
+                        child: AutoSizeText(
+                        "Hey " + firstName + "!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                         minFontSize: 12,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                    ),
+                      ):
+                      Row(
+                        children: <Widget>[
+                        AutoSizeText(
+                        "Hey!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width/20,),
+          FlatButton(
+            color: Colors.white,
+            child: Text("Set up Profile", style: TextStyle(color: Color(0xFF1458EA)),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfilePage()));
+            },
+          ),
+                        ],
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 20,
-                      ),
-                      FlatButton(
-                        color: Colors.white,
-                        child: Text(
-                          "Set up Profile",
-                          style: TextStyle(color: Color(0xFF1458EA)),
-                        ),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(10.0)),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.fade,
-                                  child: ProfilePage()));
-                        },
-                      ),
-                    ],
-                  ),
+
             Spacer(),
             IconButton(
               icon: Icon(
@@ -209,24 +203,25 @@ class _ScrollPageState extends State<ScrollPage>
                         type: PageTransitionType.fade, child: ProfilePage()));
               },
             ),
-            IconButton(
-              icon: Icon(MaterialCommunityIcons.card_bulleted),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade,
-                        child: UserCard(
-                          userId: currentUserModel.uid,
-                          userName: currentUserModel.displayName,
-                        )));
-              },
-            ),
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: UserCard(
+                            userId: currentUserModel.uid,
+                            userName: currentUserModel.displayName,
+                          )));
+                },
+              ),
           ],
         ),
       ),
       backgroundColor: Color(0xFF1458EA),
+      
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -439,19 +434,16 @@ class _ScrollPageState extends State<ScrollPage>
 
     final Lat.Distance distance = new Lat.Distance();
     QuerySnapshot query =
-        await Firestore.instance.collection('users').getDocuments();
+    await Firestore.instance.collection('users').getDocuments();
     final docs = query.documents;
     for (var doc in docs) {
       if (doc.data['currentLocation'] != null) {
+
 //
 //        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
 //            doc.data['currentLocation'].longitude);
 
-        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(
-            position.latitude,
-            position.longitude,
-            doc.data['currentLocation'].latitude,
-            doc.data['currentLocation'].longitude);
+        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
 //        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
 
         print(doc.documentID);
@@ -478,35 +470,36 @@ class _ScrollPageState extends State<ScrollPage>
         child: ListView(
           children: <Widget>[
             FutureBuilder<List<UserTile>>(
-                future: getUsers(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return Container(
-                        alignment: FractionalOffset.center,
-                        child: CircularProgressIndicator());
+            future: getUsers(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Container(
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
 
-                  return Container(
-                    child: snapshot.data.length == 0
-                        ? Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.all(
-                                    MediaQuery.of(context).size.height / 20),
-                                child: Text(
-                                  "There's nobody around. \n Go get a walk in and meet new people!",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                              ),
-                              Image.asset(
-                                  'assets/img/undraw_peoplearoundyou.png')
-                            ],
-                          )
-                        : Column(children: snapshot.data),
-                  );
-                })
+              return Container(
+                child: 
+                snapshot.data.length == 0?
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
+                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20),
+                      ),
+                    ), 
+                    Image.asset('assets/img/undraw_peoplearoundyou.png')
+                  ],
+                ):
+                Column(children: 
+                snapshot.data),
+              );
+            })
           ],
-        ));
+        )
+            
+            );
   }
 
   double _value = 5.0;

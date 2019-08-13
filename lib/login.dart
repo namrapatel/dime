@@ -1,3 +1,4 @@
+import 'package:Dime/main.dart';
 import 'package:Dime/services/facebookauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -30,7 +31,9 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
+
       if (firebaseUser != null) {
+
         print('in login');
         print(firebaseUser);
         print(firebaseUser.displayName);
@@ -43,7 +46,7 @@ class _LoginState extends State<Login> {
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
           Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => ScrollPage()));
+              new MaterialPageRoute(builder: (context) => SplashScreen()));
         }
       } else {
         print("floppps");
@@ -214,7 +217,9 @@ class _LoginState extends State<Login> {
           actions: <Widget>[
             FlatButton(
               child: Text('Send'),
-              onPressed: () {
+              onPressed: () async{
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: myController.text);
+
                 //sendPasswordResetEmail(email: myController.text);
                 Navigator.of(context).pop();
               },

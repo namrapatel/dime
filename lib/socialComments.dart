@@ -181,22 +181,11 @@ class _SocialCommentsState extends State<SocialComments> {
               ),
             ),
           
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(color: Colors.white, boxShadow: [
-              BoxShadow(
-                color: Colors.grey[300],
-                offset: Offset(0, 0),
-                blurRadius: 5,
-              ),
-            ]),
+          Padding(
+            padding: const EdgeInsets.all(8),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 15,
-                  ),
-                ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.3,
                   decoration: BoxDecoration(
@@ -244,6 +233,7 @@ class _SocialCommentsState extends State<SocialComments> {
                         ),
 
                         onPressed: () async{
+                          if(controller.text!=""){
                           String docName=postId+Timestamp.now().toString();
                           Firestore.instance
                               .collection('socialPosts')
@@ -282,7 +272,7 @@ class _SocialCommentsState extends State<SocialComments> {
                             getComments();
                             controller.clear();
                           });
-                        })),
+                        }})),
               ],
             ),
           )
@@ -290,6 +280,7 @@ class _SocialCommentsState extends State<SocialComments> {
         ),
       ),
     );
+
   }
 }
 

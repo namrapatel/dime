@@ -26,7 +26,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 
 
-
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -181,7 +180,10 @@ class _ScrollPageState extends State<ScrollPage>
             child: Text("Set up Profile", style: TextStyle(color: Color(0xFF1458EA)),),
             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
             onPressed: (){
-              
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfilePage()));
             },
           ),
                         ],
@@ -286,7 +288,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-           upperLayer: _getUpperLayer(),
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -476,14 +478,21 @@ class _ScrollPageState extends State<ScrollPage>
                     child: CircularProgressIndicator());
 
               return Container(
-                child: Column(children: 
-                // snapshot.data.length == 0?
-                // ListView(
-                //   children: <Widget>[
-                    
-                //   ],
-                // )
-                // :
+                child: 
+                snapshot.data.length == 0?
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
+                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20),
+                      ),
+                    ), 
+                    Image.asset('assets/img/undraw_peoplearoundyou.png')
+                  ],
+                ):
+                Column(children: 
                 snapshot.data),
               );
             })

@@ -107,7 +107,6 @@ String name = currentUserModel.displayName;
           },
           '*/*',
           text: "Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
-
     } catch (e) {
       print('error: $e');
     }

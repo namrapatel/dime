@@ -138,14 +138,7 @@ updateProfile() async{
   ];
 
   Widget build(BuildContext context) {
-    TextEditingController _controllerName = new TextEditingController();
-    _controllerName.text = name;
 
-    TextEditingController _controllerProgram = new TextEditingController();
-    _controllerProgram.text = major;
-
-    TextEditingController _controllerGrad = new TextEditingController();
-    _controllerGrad.text = gradYear;
 
 
 
@@ -205,6 +198,37 @@ updateProfile() async{
             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
             onPressed: (){
               updateProfile();
+            //   showDialog<void>(
+            //     context: context,
+            //     barrierDismissible: false,
+            //     builder: (BuildContext context) {
+            //       return AlertDialog(
+            //         title: Text('Saved!'),
+            //         content: SingleChildScrollView(
+            //           child: Text(
+            //             "Your profile has been saved! Please edit your cards to ensure you meet cool people!"
+            //           ),
+            //         ),
+            //         actions: <Widget>[
+            //           FlatButton(
+            //             child: Text("I'm good"),
+            //             onPressed: () {
+            //               Navigator.of(context).pop();
+            //             },
+            //           ),
+            //           FlatButton(
+            //             child: Text("Edit Cards"),
+            //             onPressed: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => TabsApp()),
+            // );
+            //             },
+            //           ),
+            //         ],
+            //       );
+            //     },
+            //   );
             },
           ),
           // InkWell(
@@ -231,7 +255,7 @@ updateProfile() async{
           margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
             textCapitalization: TextCapitalization.sentences,
-            controller: _controllerName,
+            
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -240,7 +264,8 @@ updateProfile() async{
               }
             },
             decoration: InputDecoration(
-              labelText: 'Name',
+              hintText: name=="No Display Name"?"Name":name,
+              hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
               border: new OutlineInputBorder(
@@ -298,7 +323,7 @@ updateProfile() async{
           margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
             textCapitalization: TextCapitalization.words,
-            controller: _controllerProgram,
+          
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -307,7 +332,8 @@ updateProfile() async{
               }
             },
             decoration: InputDecoration(
-              labelText: 'Program',
+              hintText: major==null?"Program":major,
+              hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
               border: new OutlineInputBorder(
@@ -330,8 +356,7 @@ updateProfile() async{
       Container(
           margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
-            controller: _controllerGrad,
-            keyboardType: TextInputType.number,
+            
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -340,7 +365,8 @@ updateProfile() async{
               }
             },
             decoration: InputDecoration(
-              labelText: 'Graduation Year',
+              hintText: gradYear==null?"Graduation Year":gradYear,
+              hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
               border: new OutlineInputBorder(

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue">#1e7dff</color>
+    <color name="blue">#FF1458EA</color>
     <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
 
         <item name= "android:windowFullscreen">true</item>

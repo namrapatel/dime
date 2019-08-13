@@ -139,8 +139,8 @@ class SocialCard extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Positioned(
-                      top: screenH(25),
-                      left: screenW(30),
+                      top: screenH(15),
+                      left: screenW(20),
                       child: Container(
                         width: 230,
                         
@@ -154,8 +154,8 @@ class SocialCard extends StatelessWidget {
                       )
                     ),
                     Positioned(
-                      top: screenH(60),
-                      left: screenW(30),
+                      top: screenH(40),
+                      left: screenW(20),
                       child: university == null
                         ? SizedBox(
                             height: screenH(1),
@@ -166,8 +166,8 @@ class SocialCard extends StatelessWidget {
                                 color: Color(0xFF8803fc))),
                     ),
                     Positioned(
-                      top: screenH(85),
-                      left: screenW(30),
+                      top: screenH(60),
+                      left: screenW(20),
                       child: major != null && gradYear != null
                         ? Text(major + ", " + gradYear,
                             style: TextStyle(
@@ -193,7 +193,7 @@ class SocialCard extends StatelessWidget {
                     ),
                     Positioned(
                       top: screenH(105),
-                      left: screenW(40),
+                      left: screenW(30),
                       child: snapchat != null
                         ? isSwitched == true
                             ? Column(
@@ -227,7 +227,7 @@ class SocialCard extends StatelessWidget {
                     ),
                     Positioned(
                       top: screenH(105),
-                      left: screenW(160),
+                      left: screenW(150),
                       child:  instagram != null
                         ? isSwitched == true
                             ? Column(
@@ -298,7 +298,7 @@ class SocialCard extends StatelessWidget {
                     ),
                     Positioned(
                       top: screenH(210),
-                      left: screenW(30),
+                      left: screenW(20),
                       child: 
                     Text(interestString != null ? interestString : "",
                         style: TextStyle(

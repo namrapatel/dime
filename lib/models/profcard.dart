@@ -213,7 +213,7 @@ class ProfCard extends StatelessWidget {
                                       icon: Icon(
                                         FontAwesome.linkedin_square,
                                         size: 30,
-                                        color: Color(0xFFfffc00),
+                                        color: Color(0xFF0077b5),
                                       ),
                                     ),
                                     Text("           ",
@@ -226,7 +226,7 @@ class ProfCard extends StatelessWidget {
                                   icon: Icon(
                                     FontAwesome.linkedin_square,
                                     size: 30,
-                                    color: Color(0xFFfffc00),
+                                    color: Color(0xFF0077b5),
                                   ),
                                 ),
                                 Text("           ",
@@ -263,7 +263,7 @@ class ProfCard extends StatelessWidget {
                                       icon: Icon(
                                         MaterialCommunityIcons.github_box,
                                         size: 30,
-                                        color: Color(0xFFfffc00),
+                                        color: Color(0xFF3c3744),
                                       ),
                                     ),
                                     Text("           ",
@@ -276,7 +276,7 @@ class ProfCard extends StatelessWidget {
                                   icon: Icon(
                                     MaterialCommunityIcons.github_box,
                                     size: 30,
-                                    color: Color(0xFFfffc00),
+                                    color: Color(0xFF3c3744),
                                   ),
                                 ),
                                 Text("           ",
@@ -313,7 +313,7 @@ class ProfCard extends StatelessWidget {
                                       icon: Icon(
                                         MaterialCommunityIcons.twitter_box,
                                         size: 30,
-                                        color: Color(0xFFfffc00),
+                                        color: Colors.blue,
                                       ),
                                     ),
                                     Text("           ",
@@ -326,7 +326,7 @@ class ProfCard extends StatelessWidget {
                                   icon: Icon(
                                     MaterialCommunityIcons.twitter_box,
                                     size: 30,
-                                    color: Color(0xFFfffc00),
+                                    color: Colors.blue,
                                   ),
                                 ),
                                 Text("           ",

@@ -313,7 +313,7 @@ class SocialCard extends StatelessWidget {
                                       icon: Icon(
                                         MaterialCommunityIcons.twitter_box,
                                         size: 30,
-                                        color: Color(0xFFfffc00),
+                                        color: Colors.blue
                                       ),
                                     ),
                                     Text("           ",
@@ -326,7 +326,7 @@ class SocialCard extends StatelessWidget {
                                   icon: Icon(
                                     MaterialCommunityIcons.twitter_box,
                                     size: 30,
-                                    color: Color(0xFFfffc00),
+                                    color: Colors.blue,
                                   ),
                                 ),
                                 Text("           ",

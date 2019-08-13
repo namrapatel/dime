@@ -1,5 +1,6 @@
 import 'package:Dime/homePage.dart';
 import 'package:Dime/login.dart';
+import 'package:Dime/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
@@ -7,7 +8,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {
@@ -18,6 +19,7 @@ class Dime extends StatelessWidget {
       title: "Dime",
       home: SplashScreen(),
       theme: appTheme,
+
     );
   }
 }
@@ -29,6 +31,8 @@ ThemeData appTheme = ThemeData(
     fontFamily: 'Futura');
 
 class SplashScreen extends StatefulWidget {
+  final String route;
+  const SplashScreen({this.route});
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -36,17 +40,46 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
     return Timer(
-        Duration(seconds: 3),
-        () => Navigator.push(
+        Duration(seconds: 2),
+        () =>
+        widget.route=='login'?
+            Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Login()),
-            ));
+              MaterialPageRoute(builder: (context)=>Login()),
+            ):Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context)=>ScrollPage())));
   }
 
   @override
   void initState() {
     super.initState();
-    startTime();
+//    startTime();
+    FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
+
+      if (firebaseUser != null) {
+
+        print('in login');
+        print(firebaseUser);
+        print(firebaseUser.displayName);
+        print("you're in");
+//check for exception, may only be if emulator not wiped
+        DocumentSnapshot userRecord = await Firestore.instance
+            .collection('users')
+            .document(firebaseUser.uid)
+            .get();
+        if (userRecord.data != null) {
+          currentUserModel = User.fromDocument(userRecord);
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => ScrollPage()));
+        }
+      } else {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => Login()));
+        print("floppps");
+      }
+    });
+
   }
 
   @override

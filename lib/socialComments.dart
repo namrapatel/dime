@@ -19,6 +19,7 @@ class SocialComments extends StatefulWidget {
 
 class _SocialCommentsState extends State<SocialComments> {
   final String postId;
+  String university;
   _SocialCommentsState(this.postId);
   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
@@ -66,6 +67,18 @@ class _SocialCommentsState extends State<SocialComments> {
   @override
   void initState() {
     super.initState();
+    getPostUni();
+  }
+  getPostUni() async{
+    DocumentSnapshot query = await Firestore.instance
+        .collection('socialPosts')
+        .document(postId)
+        .get();
+    setState(() {
+      university =query.data['university'];
+    });
+
+
   }
 
   getAllUsers() async {
@@ -138,10 +151,11 @@ class _SocialCommentsState extends State<SocialComments> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+              university!=null?
                 Text(
-                  currentUserModel.university,
+                  university,
                   style: TextStyle(color: Colors.black),
-                ),
+                ):CircularProgressIndicator(),
                 Text(
                   'Social Feed',
                   style: TextStyle(

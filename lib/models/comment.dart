@@ -83,7 +83,7 @@ class Comment extends StatelessWidget {
               Spacer(),
           Text(timestamp,
             style: TextStyle(fontSize: screenF(13.5),
-                color: Color(0xFF8803fc)
+                color: type=='social'?Color(0xFF8803fc):Color(0xFF063F3E)
             ),
           ),
         ],

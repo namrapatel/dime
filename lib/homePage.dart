@@ -123,9 +123,50 @@ class _ScrollPageState extends State<ScrollPage>
 //    });
   }
 
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  StreamSubscription iosSubscription;
+  _saveDeviceToken() async {
+    String uid = currentUserModel.uid;
+
+    String fcmToken = await _fcm.getToken();
+    print(fcmToken);
+    if (fcmToken != null) {
+      await _db.collection('users').document(uid).get().then((document) {
+        if (document['tokens'] == null) {
+          List<String> newTokenList = [fcmToken];
+          _db
+              .collection('users')
+              .document(uid)
+              .updateData({'tokens': newTokenList});
+        } else {
+          var initTokens = document.data['tokens'];
+          var tokenList = new List<String>.from(initTokens);
+          if (!tokenList.contains(fcmToken)) {
+            tokenList.add(fcmToken);
+            _db
+                .collection('users')
+                .document(uid)
+                .updateData({'tokens': tokenList});
+          }
+        }
+      });
+    }
+  }
   @override
   void initState() {
     getLocation();
+    if (Platform.isIOS) {
+      _fcm.requestNotificationPermissions(IosNotificationSettings());
+
+      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
+        _saveDeviceToken();
+        print("Settings registered: $data");
+      });
+    }
+    else {
+      _saveDeviceToken();
+    }
 
     _controller = RubberAnimationController(
         vsync: this,

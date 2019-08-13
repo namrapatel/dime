@@ -94,7 +94,10 @@ class _ChatListState extends State<ChatList> {
     return FutureBuilder(
         future: getMessages(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData)
+          if (!snapshot.hasData){
+            return CircularProgressIndicator();
+          }
+          else if(snapshot.data.length == 0){
             return Center(
                 child: Container(
                   child: Column(
@@ -125,6 +128,8 @@ class _ChatListState extends State<ChatList> {
                     ],
                   ),
                 ));
+          }
+
           else {
             return Column(children: snapshot.data);
           }
@@ -227,7 +232,9 @@ class MessageTile extends StatelessWidget {
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(text.length >= 39 ? text.substring(0, 39) : text),
+          Text(text.length >= 29 ? text.substring(0, 29) + "..." 
+          : text,
+          ),
         ],
       ),
       //MAX OF 40 CHARACTERS BEFORE "..."

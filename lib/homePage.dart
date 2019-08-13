@@ -92,7 +92,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   final Map<String, Marker> _markers = {};
   GeoPoint userLoc;
-  var rad = BehaviorSubject<double>.seeded(6.0);
+
   geoLoc.Position position;
   GeoPoint current;
   getLocation() async{
@@ -103,34 +103,20 @@ class _ScrollPageState extends State<ScrollPage>
     setState(() {
       position=idiot;
     });
-    GeoFirePoint userLoc = geo.point(latitude: position.latitude, longitude: position.longitude);
+
     print(position.latitude);
     print(position.longitude);
     double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
     print('distance is');
+    print(distanceInMeters);
+    current =
+    new GeoPoint(position.latitude, position.longitude);
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .setData({
-      'position': userLoc.data,
+      'currentLocation': current,
     }, merge: true);
-
-    stream = radius.switchMap((rad) {
-      var collectionReference = Firestore.instance.collection('users');
-      return geo.collection(collectionRef: collectionReference).within(
-          center: userLoc, radius: rad, field: 'position', strictMode: true);
-    });
-
-    changed(_value);
-    print(distanceInMeters);
-//    current =
-//    new GeoPoint(position.latitude, position.longitude);
-//    Firestore.instance
-//        .collection('users')
-//        .document(currentUserModel.uid)
-//        .setData({
-//      'currentLocation': current,
-//    }, merge: true);
     DocumentSnapshot userRecord = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -441,108 +427,73 @@ class _ScrollPageState extends State<ScrollPage>
     );
   }
 
-//  Future<List<UserTile>> getUsers() async {
-//    List<UserTile> userList = [];
+  Future<List<UserTile>> getUsers() async {
+    List<UserTile> userList = [];
+
+    final Lat.Distance distance = new Lat.Distance();
+    QuerySnapshot query =
+    await Firestore.instance.collection('users').getDocuments();
+    final docs = query.documents;
+    for (var doc in docs) {
+      if (doc.data['currentLocation'] != null) {
+
 //
-//    final Lat.Distance distance = new Lat.Distance();
-//    QuerySnapshot query =
-//    await Firestore.instance.collection('users').getDocuments();
-//    final docs = query.documents;
-//    for (var doc in docs) {
-//      if (doc.data['currentLocation'] != null) {
-//
-////
-////        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
-////            doc.data['currentLocation'].longitude);
-//
-//        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
-////        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
-//
-//        print(doc.documentID);
-//        print('distance away is');
-//        print(distanceInMeters);
-//        if (distanceInMeters <= 6000.0 &&
-//            doc.documentID != currentUserModel.uid) {
-//          userList.add(new UserTile(
-//              doc.data['displayName'], doc.data['photoUrl'], doc.documentID,
-//              major: doc.data['major'],
-//              profInterests: doc.data['profInterests'],
-//              socialInterests: doc.data['socialInterests'],
-//              university: doc.data['university'],
-//              gradYear: doc.data['gradYear']));
-//        }
-//      }
-//    }
-//    return userList;
-//  }
+//        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
+//            doc.data['currentLocation'].longitude);
+
+        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
+//        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
+
+        print(doc.documentID);
+        print('distance away is');
+        print(distanceInMeters);
+        if (distanceInMeters <= 6000.0 &&
+            doc.documentID != currentUserModel.uid) {
+          userList.add(new UserTile(
+              doc.data['displayName'], doc.data['photoUrl'], doc.documentID,
+              major: doc.data['major'],
+              profInterests: doc.data['profInterests'],
+              socialInterests: doc.data['socialInterests'],
+              university: doc.data['university'],
+              gradYear: doc.data['gradYear']));
+        }
+      }
+    }
+    return userList;
+  }
 
   Widget _getUpperLayer() {
     return Container(
-        decoration: BoxDecoration(color: Colors.white),
-        child: StreamBuilder(
+        color: Colors.white,
+        child: ListView(
+          children: <Widget>[
+            FutureBuilder<List<UserTile>>(
+            future: getUsers(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData)
+                return Container(
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
 
-          stream: stream,
-          builder: ( context,
-              AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-            if (
-            snapshots.hasData) {
-              print('data ${snapshots.data}');
               return Container(
-                height: MediaQuery.of(context).size.height * 2 / 3,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot doc = snapshots.data[index];
-                    print(
-                        'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                    GeoPoint point = doc.data['position']['geopoint'];
-
-                    return UserTile(
-                        doc.data['displayName'], doc.data['photoUrl'], doc.documentID,
-                        major: doc.data['major'],
-                        profInterests: doc.data['profInterests'],
-                        socialInterests: doc.data['socialInterests'],
-                        university: doc.data['university'],
-                        gradYear: doc.data['gradYear']);
-                  },
-                  itemCount: snapshots.data.length,
-                ),
+                child: Column(children: 
+                // snapshot.data.length == 0?
+                // ListView(
+                //   children: <Widget>[
+                    
+                //   ],
+                // )
+                // :
+                snapshot.data),
               );
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
-        ));
-//    return Container(
-//        color: Colors.white,
-//        child: ListView(
-//          children: <Widget>[
-//            FutureBuilder<List<UserTile>>(
-//            future: getUsers(),
-//            builder: (context, snapshot) {
-//              if (!snapshot.hasData)
-//                return Container(
-//                    alignment: FractionalOffset.center,
-//                    child: CircularProgressIndicator());
-//
-//              return Container(
-//                child: Column(children:
-//                // snapshot.data.length == 0?
-//                // ListView(
-//                //   children: <Widget>[
-//
-//                //   ],
-//                // )
-//                // :
-//                snapshot.data),
-//              );
-//            })
-//          ],
-//        )
-//
-//            );
+            })
+          ],
+        )
+            
+            );
   }
 
-  double _value = 6.0;
+  double _value = 5.0;
   String _label = '';
 
   changed(value) {

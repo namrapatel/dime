@@ -146,10 +146,11 @@ class SocialCard extends StatelessWidget {
                             minFontSize: 12,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
+                            
                           ),
                         )),
                     Positioned(
-                      top: screenH(40),
+                      top: screenH(46),
                       left: screenW(20),
                       child: university == null
                           ? SizedBox(
@@ -161,7 +162,7 @@ class SocialCard extends StatelessWidget {
                                   color: Color(0xFF8803fc))),
                     ),
                     Positioned(
-                      top: screenH(60),
+                      top: screenH(65),
                       left: screenW(20),
                       child: major != null && gradYear != null
                           ? Text(major + ", " + gradYear,
@@ -263,7 +264,7 @@ class SocialCard extends StatelessWidget {
                                       icon: Icon(
                                         MaterialCommunityIcons.instagram,
                                         size: 30,
-                                        color: Color(0xFFfffc00),
+                                        color: Color(0xFF8803fc),
                                       ),
                                     ),
                                     Text("           ",
@@ -276,7 +277,7 @@ class SocialCard extends StatelessWidget {
                                   icon: Icon(
                                     MaterialCommunityIcons.instagram,
                                     size: 30,
-                                    color: Color(0xFFfffc00),
+                                    color: Color(0xFF8803fc),
                                   ),
                                 ),
                                 Text("           ",

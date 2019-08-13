@@ -150,7 +150,7 @@ class ProfCard extends StatelessWidget {
                           ),
                         )),
                     Positioned(
-                      top: screenH(40),
+                      top: screenH(46),
                       left: screenW(20),
                       child: university == null
                           ? SizedBox(
@@ -162,7 +162,7 @@ class ProfCard extends StatelessWidget {
                                   color: Color(0xFF063F3E))),
                     ),
                     Positioned(
-                      top: screenH(60),
+                      top: screenH(65),
                       left: screenW(20),
                       child: major != null && gradYear != null
                           ? Text(major + ", " + gradYear,

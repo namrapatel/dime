@@ -228,7 +228,7 @@ class _ProfCommentsState extends State<ProfComments> {
                     ),
                   ),
                   SizedBox(
-                    width: (20),
+                    width: MediaQuery.of(context).size.width/30,
                   ),
                   Container(
                       width: 40,

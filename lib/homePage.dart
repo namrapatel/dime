@@ -300,7 +300,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-           upperLayer: _getUpperLayer(),
+           //upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),

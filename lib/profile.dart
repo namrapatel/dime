@@ -331,7 +331,6 @@ updateProfile() async{
           margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
             controller: _controllerGrad,
-            keyboardType: TextInputType.number,
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {

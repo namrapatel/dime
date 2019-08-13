@@ -181,16 +181,10 @@ class _ProfCommentsState extends State<ProfComments> {
               ),
             ),
 
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                BoxShadow(
-                  color: Colors.grey[300],
-                  offset: Offset(0, 0),
-                  blurRadius: 5,
-                ),
-              ]),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(

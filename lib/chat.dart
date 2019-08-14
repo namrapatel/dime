@@ -208,6 +208,7 @@ class _ChatState extends State<Chat> {
                             horizontal: MediaQuery.of(context).size.width / 22,
                             vertical: MediaQuery.of(context).size.height / 72),
                         child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
                           onTap: (){
                             scrollController.animateTo(0.0,
                               curve: Curves.easeOut,

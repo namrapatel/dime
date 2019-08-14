@@ -15,6 +15,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:Dime/login.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SocialPost extends StatefulWidget {
   final String postId;
@@ -136,7 +137,7 @@ class _SocialPostState extends State<SocialPost> {
     return Container(
         margin: EdgeInsets.all(screenH(9.0)),
         child: caption == null
-            ? CircularProgressIndicator()
+            ? SizedBox(height: 1,)
             : Card(
                 elevation: screenH(10),
                 shape: RoundedRectangleBorder(

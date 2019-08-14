@@ -134,7 +134,7 @@ class _ProfPostState extends State<ProfPost> {
     return Container(
         margin: EdgeInsets.all(screenH(9.0)),
         child: caption == null
-            ? CircularProgressIndicator()
+            ? SizedBox(height: 1,)
             : Card(
                 elevation: screenH(10),
                 shape: RoundedRectangleBorder(

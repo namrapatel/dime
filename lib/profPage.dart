@@ -8,6 +8,8 @@ import 'homePage.dart';
 import 'login.dart';
 import 'package:flutter/cupertino.dart';
 import 'models/profPost.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -134,7 +136,7 @@ class _ProfPageState extends State<ProfPage> {
                 future: getPosts(),
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: Text("loading..."));
+                    return Center(child: SpinKitThreeBounce(color: Colors.white),);
                   } else {
                     return ListView.builder(
                         itemCount: snapshot?.data?.length,

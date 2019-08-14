@@ -13,7 +13,7 @@ import 'package:Dime/services/googleauth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'homePage.dart';
 
-
+import 'package:flutter/services.dart';
 User currentUserModel;
 
 class Login extends StatefulWidget {
@@ -26,6 +26,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+//  String validate="";
   final FirebaseMessaging _messaging = FirebaseMessaging();
   @override
   void initState() {
@@ -116,6 +117,9 @@ class _LoginState extends State<Login> {
           if (emailInput.isEmpty) {
             return 'Please enter an email';
           }
+//          }else{
+//            return validate;
+//          }
         },
         decoration: InputDecoration(
             labelText: 'Email Address',
@@ -204,7 +208,7 @@ class _LoginState extends State<Login> {
     final myController = TextEditingController();
     showDialog<void>(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('No worries, enter your email for a magic link!'),
@@ -269,14 +273,53 @@ class _LoginState extends State<Login> {
                               builder: (context) => ScrollPage()));
                     }
                   });
-                } catch (e) {
-                  print(e);
+                } on PlatformException catch(e)  {
+                  String errorMessage;
+                  if(e.code=="ERROR_USER_NOT_FOUND"){
+                    errorMessage='The email entered does not match any account';
+                    print('user doesnt exist');
+                  }else if(e.code=="ERROR_INVALID_EMAIL"){
+//                    setState(() {
+//                      validate='email is not formatted properly';
+//                    });
+                  errorMessage='Please enter a valid email address';
+                    print('email is not formatted properly dude');
+                  }else if(e.code=="ERROR_WRONG_PASSWORD"){
+                    errorMessage='The password entered is incorrect';
+                  }
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(errorMessage),
+                        content: SingleChildScrollView(
+//                          child: TextField(
+//                            controller: myController,
+//                            decoration: InputDecoration(hintText: 'Please enter your email'),
+//                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Ok'),
+                            onPressed: (){
+
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                  print(e.message);
+                  print(e.code);
+                  print(e.details);
                 }
 
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ScrollPage()));
+//                Navigator.push(
+//                    context,
+//                    PageTransition(
+//                        type: PageTransitionType.fade, child: ScrollPage()));
               }
             },
             shape: RoundedRectangleBorder(

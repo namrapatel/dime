@@ -216,6 +216,7 @@ class _SocialCommentsState extends State<SocialComments> {
                       clearOnSubmit: false,
                     ),
                   ),
+                ),
 
                   SizedBox(
                     width: screenW(20),
@@ -265,7 +266,8 @@ class _SocialCommentsState extends State<SocialComments> {
                                 .document(postId)
                                 .updateData({'comments': numberOfComments});
 
-                ),
+                          })
+                  ),
                 SizedBox(
                   width: screenW(20),
                 ),
@@ -324,7 +326,7 @@ class _SocialCommentsState extends State<SocialComments> {
                             controller.clear();
                           });
                         }})),
-              ],
+                  ],
             ),
           )
           ],

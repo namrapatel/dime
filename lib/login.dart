@@ -14,6 +14,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'homePage.dart';
 
 import 'package:flutter/services.dart';
+
+
+
 User currentUserModel;
 
 class Login extends StatefulWidget {
@@ -203,6 +206,44 @@ class _LoginState extends State<Login> {
           )),
     );
   }
+  void _showCupertinoDialog(String exception) {
+    String errorMessage='';
+     if(exception=="ERROR_INVALID_EMAIL") {
+       errorMessage = 'Please enter a valid email address';
+     }else if(exception=="ERROR_USER_NOT_FOUND"){
+      errorMessage='The email entered does not match any account';
+      print('user doesnt exist');
+    }else if(exception=="ERROR_WRONG_PASSWORD"){
+      errorMessage='The password entered is incorrect';
+    }
+    else{
+      errorMessage="There was an unexpected error";
+    }
+    showDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text('Oops!'),
+            content: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                errorMessage,
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Try again',
+                    style: TextStyle(fontSize: 18),
+                  )),
+            ],
+          );
+        });
+  }
 
   void forgotPass() {
     final myController = TextEditingController();
@@ -210,26 +251,56 @@ class _LoginState extends State<Login> {
       context: context,
       barrierDismissible: true,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return CupertinoAlertDialog(
           title: Text('No worries, enter your email for a magic link!'),
+
           content: SingleChildScrollView(
-            child: TextField(
-              controller: myController,
-              decoration: InputDecoration(hintText: 'Please enter your email'),
+            child: Material(
+              child: TextField(
+                controller: myController,
+                decoration: InputDecoration(hintText: 'Please enter your email'),
+              ),
             ),
           ),
+//          ,Padding(
+//            padding: const EdgeInsets.all(8.0),
+//            child: Text(
+//                'No worries, enter your email for a magic link!',
+//              style: TextStyle(color: Colors.grey[600]),
+//            ),
+//          ),
           actions: <Widget>[
             FlatButton(
-              child: Text('Send'),
-              onPressed: () async{
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: myController.text);
-
-                //sendPasswordResetEmail(email: myController.text);
-                Navigator.of(context).pop();
-              },
-            ),
+                onPressed: () async{
+                  await FirebaseAuth.instance.sendPasswordResetEmail(email: myController.text);
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Send',
+                  style: TextStyle(fontSize: 18),
+                )),
           ],
         );
+//          AlertDialog(
+//          title: Text('No worries, enter your email for a magic link!'),
+//          content: SingleChildScrollView(
+//            child: TextField(
+//              controller: myController,
+//              decoration: InputDecoration(hintText: 'Please enter your email'),
+//            ),
+//          ),
+//          actions: <Widget>[
+//            FlatButton(
+//              child: Text('Send'),
+//              onPressed: () async{
+//        await FirebaseAuth.instance.sendPasswordResetEmail(email: myController.text);
+//
+//                //sendPasswordResetEmail(email: myController.text);
+//                Navigator.of(context).pop();
+//              },
+//            ),
+//          ],
+//        );
       },
     );
   }
@@ -274,46 +345,14 @@ class _LoginState extends State<Login> {
                     }
                   });
                 } on PlatformException catch(e)  {
-                  String errorMessage;
-                  if(e.code=="ERROR_USER_NOT_FOUND"){
-                    errorMessage='The email entered does not match any account';
-                    print('user doesnt exist');
-                  }else if(e.code=="ERROR_INVALID_EMAIL"){
-//                    setState(() {
-//                      validate='email is not formatted properly';
-//                    });
-                  errorMessage='Please enter a valid email address';
-                    print('email is not formatted properly dude');
-                  }else if(e.code=="ERROR_WRONG_PASSWORD"){
-                    errorMessage='The password entered is incorrect';
-                  }
-                  showDialog<void>(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(errorMessage),
-                        content: SingleChildScrollView(
-//                          child: TextField(
-//                            controller: myController,
-//                            decoration: InputDecoration(hintText: 'Please enter your email'),
-//                          ),
-                        ),
-                        actions: <Widget>[
-                          FlatButton(
-                            child: Text('Ok'),
-                            onPressed: (){
-
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  _showCupertinoDialog(e.code);
                   print(e.message);
                   print(e.code);
                   print(e.details);
+                } catch(i){
+                  print('undefined exception');
+                  _showCupertinoDialog('unexpected');
+                  print(i);
                 }
 
 //                Navigator.push(

@@ -92,21 +92,11 @@ flutter:
   assets:
     - assets/login_logo.png
     - assets/namrapatel.png
-    - assets/trip.png
-    - assets/roommates.jpeg
-    - assets/family.png
-    - assets/childhoodhomies.jpeg
-    - assets/lakersnation.jpeg
-    - assets/sorority.jpeg
     - assets/dimelogo.png
     - assets/dimelogo1.png
     - assets/dimewhite.png
     - assets/shehabsalem.jpeg
     - assets/taher.jpeg
-    - assets/purplecharacters.png
-    - assets/bluecharacters.png
-    - assets/greencharacters.png
-    - assets/dimeloginbackground.jpg
     - assets/defaultprofile.png
     - assets/dhruvpatel.jpeg
     - assets/groupselfie.png
@@ -121,6 +111,7 @@ flutter:
     - assets/undraw_peoplearoundyou.png
     - assets/undraw_messages.png
     - assets/feeds.png
+    - assets/DimeLogoBlue.png
     
 
 

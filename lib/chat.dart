@@ -66,13 +66,16 @@ class _ChatState extends State<Chat> {
       _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).setData({
         'timestamp':Timestamp.now()
       },merge: true);
-      _firestore.collection('users').document(widget.toUserId).collection('messages').document(widget.fromUserId).collection('texts').add({
-        'text': messageController.text,
-        'from': widget.fromUserId,
+      if(widget.toUserId!=widget.fromUserId) {
+        _firestore.collection('users').document(widget.toUserId).collection(
+            'messages').document(widget.fromUserId).collection('texts').add({
+          'text': messageController.text,
+          'from': widget.fromUserId,
 
-        'timestamp': Timestamp.now(),
+          'timestamp': Timestamp.now(),
 
-      });
+        });
+      }
 
       _firestore.collection('notifMessages').document().setData({
         'text': messageController.text,
@@ -173,6 +176,7 @@ class _ChatState extends State<Chat> {
                           text: doc.data['text'],me: widget.fromUserId == doc.data['from'],timestamp:timestamp));
                     }
 
+
                     return ListView(
                       physics: BouncingScrollPhysics(),
                       reverse: true,
@@ -204,6 +208,7 @@ class _ChatState extends State<Chat> {
                             horizontal: MediaQuery.of(context).size.width / 22,
                             vertical: MediaQuery.of(context).size.height / 72),
                         child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
                           onTap: (){
                             scrollController.animateTo(0.0,
                               curve: Curves.easeOut,

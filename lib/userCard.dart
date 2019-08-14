@@ -100,6 +100,7 @@ _UserCardState(this.userId, this.type, this.userName);
       body: Stack(
       children: <Widget>[
         ListView(
+          padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
           physics: BouncingScrollPhysics(),
           scrollDirection: Axis.horizontal,
           children: <Widget>[

@@ -21,7 +21,6 @@ class SocialCard extends StatelessWidget {
   final String interestString;
   final String email;
   final bool isSwitched;
-  
 
   const SocialCard(
       {this.type,
@@ -65,9 +64,7 @@ class SocialCard extends StatelessWidget {
     );
   }
 
-
-
-    Future<void> _launchSnap(String url) async {
+  Future<void> _launchSnap(String url) async {
     if (await canLaunch('https://www.snapchat.com/add/' + snapchat)) {
       final bool nativeAppLaunchSucceeded = await launch(
         'https://www.snapchat.com/add/' + snapchat,
@@ -83,7 +80,7 @@ class SocialCard extends StatelessWidget {
     }
   }
 
-      Future<void> _launchInsta(String url) async {
+  Future<void> _launchInsta(String url) async {
     if (await canLaunch('https://www.instagram.com/' + instagram)) {
       final bool nativeAppLaunchSucceeded = await launch(
         'https://www.instagram.com/' + instagram,
@@ -99,7 +96,7 @@ class SocialCard extends StatelessWidget {
     }
   }
 
-        Future<void> _launchTwitter(String url) async {
+  Future<void> _launchTwitter(String url) async {
     if (await canLaunch('https://twitter.com/' + twitter)) {
       final bool nativeAppLaunchSucceeded = await launch(
         'https://twitter.com/' + twitter,
@@ -114,7 +111,6 @@ class SocialCard extends StatelessWidget {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -139,171 +135,212 @@ class SocialCard extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Positioned(
-                      top: screenH(25),
-                      left: screenW(30),
-                      child: Container(
-                        width: 230,
-                        
-                        child: AutoSizeText(
-                        displayName,
-                        style: TextStyle(fontSize: screenF(20), color: Colors.black),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                      )
-                    ),
+                        top: screenH(15),
+                        left: screenW(20),
+                        child: Container(
+                          width: 230,
+                          child: AutoSizeText(
+                            displayName,
+                            style: TextStyle(
+                                fontSize: screenF(20), color: Colors.black),
+                            minFontSize: 12,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            
+                          ),
+                        )),
                     Positioned(
-                      top: screenH(60),
-                      left: screenW(30),
+                      top: screenH(46),
+                      left: screenW(20),
                       child: university == null
-                        ? SizedBox(
-                            height: screenH(1),
-                          )
-                        : Text(university,
-                            style: TextStyle(
-                                fontSize: screenF(15),
-                                color: Color(0xFF8803fc))),
+                          ? SizedBox(
+                              height: screenH(1),
+                            )
+                          : Text(university,
+                              style: TextStyle(
+                                  fontSize: screenF(15),
+                                  color: Color(0xFF8803fc))),
                     ),
                     Positioned(
-                      top: screenH(85),
-                      left: screenW(30),
+                      top: screenH(65),
+                      left: screenW(20),
                       child: major != null && gradYear != null
-                        ? Text(major + ", " + gradYear,
-                            style: TextStyle(
-                                fontSize: screenF(15),
-                                color: Colors.grey))
-                        : Text(major != null ? major : "",
-                            style: TextStyle(
-                                fontSize: screenF(15),
-                                color: Colors.grey)),
+                          ? Text(major + ", " + gradYear,
+                              style: TextStyle(
+                                  fontSize: screenF(15), color: Colors.grey))
+                          : Text(major != null ? major : "",
+                              style: TextStyle(
+                                  fontSize: screenF(15), color: Colors.grey)),
                     ),
                     Positioned(
                       top: screenH(115),
                       left: screenW(30),
-                      child:  email == null
-                        ? Text("",
-                            style: TextStyle(
-                                fontSize: screenF(13),
-                                color: Colors.grey))
-                        : Text(email,
-                            style: TextStyle(
-                                fontSize: screenF(13),
-                                color: Colors.grey)),
+                      child: email == null
+                          ? Text("           ",
+                              style: TextStyle(
+                                  fontSize: screenF(13), color: Colors.grey))
+                          : Text(email,
+                              style: TextStyle(
+                                  fontSize: screenF(13), color: Colors.grey)),
                     ),
                     Positioned(
-                      top: screenH(105),
-                      left: screenW(40),
-                      child: snapchat != null
-                        ? isSwitched == true
-                            ? Column(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
+                        top: screenH(105),
+                        left: screenW(30),
+                        child: snapchat != null
+                            ? isSwitched == true
+                                ? Column(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          FontAwesome.snapchat_square,
+                                          size: 30,
+                                          color: Color(0xFFfffc00),
+                                        ),
+                                        onPressed: () {
+                                          _launchSnap(
+                                              'https://www.snapchat.com/add/' +
+                                                  snapchat);
+                                        },
+                                      ),
+                                      Text(snapchat,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: screenF(12))),
+                                    ],
+                                  )
+                                : Column(children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        FontAwesome.snapchat_square,
+                                        size: 30,
+                                        color: Color(0xFFfffc00),
+                                      ),
+                                    ),
+                                    Text("           ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenF(12))),
+                                  ])
+                            : Column(children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
                                     FontAwesome.snapchat_square,
                                     size: 30,
                                     color: Color(0xFFfffc00),
                                   ),
-                                  onPressed: (){
-                                    _launchSnap('https://www.snapchat.com/add/' + snapchat);
-                                  },
-                                  ),
-                                  Text(snapchat,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            :    Icon(
-                                    FontAwesome.snapchat_square,
-                                    size: 30,
-                                    color: Color(0xFFfffc00),
-                                  )
-                        :    Icon(
-                                    FontAwesome.snapchat_square,
-                                    size: 30,
-                                    color: Color(0xFFfffc00),
-                                  ),
-                    ),
+                                ),
+                                Text("           ",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ])),
                     Positioned(
-                      top: screenH(105),
-                      left: screenW(160),
-                      child:  instagram != null
-                        ? isSwitched == true
-                            ? Column(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                    MaterialCommunityIcons.instagram,
-                                    color: Color(0xFF8803fc),
-                                    size: 30,
-                                  ),
-                                  onPressed: (){
-                                    _launchInsta('https://www.instagram.com/' + instagram);
-                                  },
-                                  ),
-                                  Text(instagram,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            :      Icon(
-                                    MaterialCommunityIcons.instagram,
-                                    color: Color(0xFF8803fc),
-                                    size: 30,
+                        top: screenH(105),
+                        left: screenW(150),
+                        child: instagram != null
+                            ? isSwitched == true
+                                ? Column(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          MaterialCommunityIcons.instagram,
+                                          color: Color(0xFF8803fc),
+                                          size: 30,
+                                        ),
+                                        onPressed: () {
+                                          _launchInsta(
+                                              'https://www.instagram.com/' +
+                                                  instagram);
+                                        },
+                                      ),
+                                      Text(instagram,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: screenF(12))),
+                                    ],
                                   )
-                        :      Icon(
+                                : Column(children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        MaterialCommunityIcons.instagram,
+                                        size: 30,
+                                        color: Color(0xFF8803fc),
+                                      ),
+                                    ),
+                                    Text("           ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenF(12))),
+                                  ])
+                            : Column(children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
                                     MaterialCommunityIcons.instagram,
-                                    color: Color(0xFF8803fc),
                                     size: 30,
+                                    color: Color(0xFF8803fc),
                                   ),
-                    ),
+                                ),
+                                Text("           ",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ])),
                     Positioned(
-                      top: screenH(105),
-                      left: screenW(260),
-                      child: twitter != null
-                        ? isSwitched == true
-                            ? Column(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                    MaterialCommunityIcons
-                                        .twitter_box,
-                                    color: Colors.blue,
-                                    size: 30,
-                                  ),
-                                  onPressed: (){
-                                    _launchTwitter('https://twitter.com/' + twitter); 
-                                  },
-                                  ),
-                                  Text(twitter,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            :     Icon(
-                                    MaterialCommunityIcons
-                                        .twitter_box,
-                                    color: Colors.blue,
-                                    size: 30,
+                        top: screenH(105),
+                        left: screenW(260),
+                        child: twitter != null
+                            ? isSwitched == true
+                                ? Column(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          MaterialCommunityIcons.twitter_box,
+                                          color: Colors.blue,
+                                          size: 30,
+                                        ),
+                                        onPressed: () {
+                                          _launchTwitter(
+                                              'https://twitter.com/' + twitter);
+                                        },
+                                      ),
+                                      Text(twitter,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: screenF(12))),
+                                    ],
                                   )
-                        :     Icon(
-                                    MaterialCommunityIcons
-                                        .twitter_box,
-                                    color: Colors.blue,
+                                : Column(children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        MaterialCommunityIcons.twitter_box,
+                                        size: 30,
+                                        color: Colors.blue
+                                      ),
+                                    ),
+                                    Text("           ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenF(12))),
+                                  ])
+                            : Column(children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
+                                    MaterialCommunityIcons.twitter_box,
                                     size: 30,
+                                    color: Colors.blue,
                                   ),
-                    ),
+                                ),
+                                Text("           ",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ])),
                     Positioned(
                       top: screenH(210),
-                      left: screenW(30),
-                      child: 
-                    Text(interestString != null ? interestString : "",
-                        style: TextStyle(
-                            color: Color(0xFF8803fc),
-                            fontSize: screenF(13))) ,
+                      left: screenW(20),
+                      child: Text(interestString != null ? interestString : "",
+                          style: TextStyle(
+                              color: Color(0xFF8803fc), fontSize: screenF(13))),
                     ),
                     Positioned(
                       left: screenW(265),

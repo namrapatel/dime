@@ -22,23 +22,25 @@ class ProfCard extends StatelessWidget {
   final String email;
   final bool isSwitched;
 
-
-
   const ProfCard(
-      {
-        this.type,this.major,
-        this.university,this.twitter,
-        this.github,this.linkedIn,
-        this.photoUrl,
-        this.displayName,
-        this.gradYear,this.interestString,this.email,this.isSwitched
-      });
+      {this.type,
+      this.major,
+      this.university,
+      this.twitter,
+      this.github,
+      this.linkedIn,
+      this.photoUrl,
+      this.displayName,
+      this.gradYear,
+      this.interestString,
+      this.email,
+      this.isSwitched});
 
   factory ProfCard.fromDocument(DocumentSnapshot document) {
-    String interest="";
+    String interest = "";
 
-    List<dynamic> interests=document['interests'];
-    if(interests!=null) {
+    List<dynamic> interests = document['interests'];
+    if (interests != null) {
       for (int i = 0; i < interests.length; i++) {
         if (i == interests.length - 1) {
           interest = interest + interests[i];
@@ -58,15 +60,12 @@ class ProfCard extends StatelessWidget {
       gradYear: document['gradYear'],
       twitter: document['twitter'],
       interestString: interest,
-      email:document['email'],
+      email: document['email'],
       isSwitched: document['socialToggled'],
     );
-
   }
 
-
-
-    Future<void> _launchLinkedin(String url) async {
+  Future<void> _launchLinkedin(String url) async {
     if (await canLaunch('https://www.linkedin.com/in/' + linkedIn)) {
       final bool nativeAppLaunchSucceeded = await launch(
         'https://www.linkedin.com/in/' + linkedIn,
@@ -82,7 +81,7 @@ class ProfCard extends StatelessWidget {
     }
   }
 
-      Future<void> _launchGit(String url) async {
+  Future<void> _launchGit(String url) async {
     if (await canLaunch('https://github.com/' + github)) {
       final bool nativeAppLaunchSucceeded = await launch(
         'https://github.com/' + github,
@@ -98,7 +97,7 @@ class ProfCard extends StatelessWidget {
     }
   }
 
-        Future<void> _launchTwitter(String url) async {
+  Future<void> _launchTwitter(String url) async {
     if (await canLaunch('https://twitter.com/' + twitter)) {
       final bool nativeAppLaunchSucceeded = await launch(
         'https://twitter.com/' + twitter,
@@ -113,8 +112,6 @@ class ProfCard extends StatelessWidget {
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -139,172 +136,210 @@ class ProfCard extends StatelessWidget {
                 child: Stack(
                   children: <Widget>[
                     Positioned(
-                      top: screenH(25),
-                      left: screenW(30),
-                      child: Container(
-                        width: 230,
-                        
-                        child: AutoSizeText(
-                        displayName,
-                        style: TextStyle(fontSize: screenF(20), color: Colors.black),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                      )
-                    ),
+                        top: screenH(15),
+                        left: screenW(20),
+                        child: Container(
+                          width: 230,
+                          child: AutoSizeText(
+                            displayName,
+                            style: TextStyle(
+                                fontSize: screenF(20), color: Colors.black),
+                            minFontSize: 12,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        )),
                     Positioned(
-                      top: screenH(60),
-                      left: screenW(30),
+                      top: screenH(46),
+                      left: screenW(20),
                       child: university == null
-                        ? SizedBox(
-                            height: screenH(1),
-                          )
-                        : Text(university,
-                            style: TextStyle(
-                                fontSize: screenF(15),
-                                color: Color(0xFF063F3E))),
+                          ? SizedBox(
+                              height: screenH(1),
+                            )
+                          : Text(university,
+                              style: TextStyle(
+                                  fontSize: screenF(15),
+                                  color: Color(0xFF063F3E))),
                     ),
                     Positioned(
-                      top: screenH(85),
-                      left: screenW(30),
+                      top: screenH(65),
+                      left: screenW(20),
                       child: major != null && gradYear != null
-                        ? Text(major + ", " + gradYear,
-                            style: TextStyle(
-                                fontSize: screenF(15),
-                                color: Colors.grey))
-                        : Text(major != null ? major : "",
-                            style: TextStyle(
-                                fontSize: screenF(15),
-                                color: Colors.grey)),
+                          ? Text(major + ", " + gradYear,
+                              style: TextStyle(
+                                  fontSize: screenF(15), color: Colors.grey))
+                          : Text(major != null ? major : "",
+                              style: TextStyle(
+                                  fontSize: screenF(15), color: Colors.grey)),
                     ),
                     Positioned(
                       top: screenH(115),
                       left: screenW(30),
-                      child:  email == null
-                        ? Text("",
-                            style: TextStyle(
-                                fontSize: screenF(13),
-                                color: Colors.grey))
-                        : Text(email,
-                            style: TextStyle(
-                                fontSize: screenF(13),
-                                color: Colors.grey)),
+                      child: email == null
+                          ? Text("",
+                              style: TextStyle(
+                                  fontSize: screenF(13), color: Colors.grey))
+                          : Text(email,
+                              style: TextStyle(
+                                  fontSize: screenF(13), color: Colors.grey)),
                     ),
                     Positioned(
-                      top: screenH(105),
-                      left: screenW(40),
-                      child: linkedIn != null
-                        ? isSwitched == true
-                            ? Column(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
+                        top: screenH(105),
+                        left: screenW(30),
+                        child: linkedIn != null
+                            ? isSwitched == true
+                                ? Column(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          FontAwesome.linkedin_square,
+                                          size: 30,
+                                          color: Color(0xFF0077b5),
+                                        ),
+                                        onPressed: () {
+                                          _launchLinkedin(
+                                              'https://www.linkedin.com/in/' +
+                                                  linkedIn);
+                                        },
+                                      ),
+                                      Text(linkedIn,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: screenF(12))),
+                                    ],
+                                  )
+                                : Column(children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        FontAwesome.linkedin_square,
+                                        size: 30,
+                                        color: Color(0xFF0077b5),
+                                      ),
+                                    ),
+                                    Text("           ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenF(12))),
+                                  ])
+                            : Column(children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
                                     FontAwesome.linkedin_square,
                                     size: 30,
                                     color: Color(0xFF0077b5),
                                   ),
-                                  onPressed: (){
-                                    _launchLinkedin('https://www.linkedin.com/in/' + linkedIn);
-                                  },
-                                  ),
-
-                                  Text(linkedIn,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            :    Icon(
-                                    FontAwesome.linkedin_square,
-                                    size: 30,
-                                    color: Color(0xFF0077b5),
-                                  )
-                        :      Icon(
-                                    FontAwesome.linkedin_square,
-                                    size: 30,
-                                    color: Color(0xFF0077b5),
-                                  ),
-                    ),
+                                ),
+                                Text("           ",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ])),
                     Positioned(
-                      top: screenH(105),
-                      left: screenW(160),
-                      child:  github != null
-                        ? isSwitched == true
-                            ? Column(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                    MaterialCommunityIcons.github_box,
-                                    color: Color(0xFF3c3744),
-                                    size: 30,
-                                  ),
-                                  onPressed: (){
-                                    _launchGit('https://github.com/' + github);
-                                  },
-                                  ),
-                                  Text(github,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            :                                   Icon(
-                                    MaterialCommunityIcons.github_box,
-                                    color: Color(0xFF3c3744),
-                                    size: 30,
+                        top: screenH(105),
+                        left: screenW(140),
+                        child: github != null
+                            ? isSwitched == true
+                                ? Column(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          MaterialCommunityIcons.github_box,
+                                          color: Color(0xFF3c3744),
+                                          size: 30,
+                                        ),
+                                        onPressed: () {
+                                          _launchGit(
+                                              'https://github.com/' + github);
+                                        },
+                                      ),
+                                      Text(github,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: screenF(12))),
+                                    ],
                                   )
-                        :    Icon(
+                                : Column(children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        MaterialCommunityIcons.github_box,
+                                        size: 30,
+                                        color: Color(0xFF3c3744),
+                                      ),
+                                    ),
+                                    Text("           ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenF(12))),
+                                  ])
+                            : Column(children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
                                     MaterialCommunityIcons.github_box,
-                                    color: Color(0xFF3c3744),
                                     size: 30,
+                                    color: Color(0xFF3c3744),
                                   ),
-                    ),
+                                ),
+                                Text("           ",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ])),
                     Positioned(
-                      top: screenH(105),
-                      left: screenW(260),
-                      child: twitter != null
-                        ? isSwitched == true
-                            ? Column(
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                    MaterialCommunityIcons
-                                        .twitter_box,
-                                    color: Colors.blue,
-                                    size: 30,
-                                  ),
-                                  onPressed: (){
-                                    _launchTwitter('https://twitter.com/' + twitter);
-                                  },
-                                  ),
-                                  Text(twitter,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: screenF(12))),
-                                ],
-                              )
-                            :                                   Icon(
-                                    MaterialCommunityIcons
-                                        .twitter_box,
-                                    color: Colors.blue,
-                                    size: 30,
+                        top: screenH(105),
+                        left: screenW(250),
+                        child: twitter != null
+                            ? isSwitched == true
+                                ? Column(
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          MaterialCommunityIcons.twitter_box,
+                                          color: Colors.blue,
+                                          size: 30,
+                                        ),
+                                        onPressed: () {
+                                          _launchTwitter(
+                                              'https://twitter.com/' + twitter);
+                                        },
+                                      ),
+                                      Text(twitter,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: screenF(12))),
+                                    ],
                                   )
-                        :                                   Icon(
-                                    MaterialCommunityIcons
-                                        .twitter_box,
-                                    color: Colors.blue,
+                                : Column(children: <Widget>[
+                                    IconButton(
+                                      icon: Icon(
+                                        MaterialCommunityIcons.twitter_box,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    Text("           ",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: screenF(12))),
+                                  ])
+                            : Column(children: <Widget>[
+                                IconButton(
+                                  icon: Icon(
+                                    MaterialCommunityIcons.twitter_box,
                                     size: 30,
+                                    color: Colors.blue,
                                   ),
-                    ),
+                                ),
+                                Text("           ",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: screenF(12))),
+                              ])),
                     Positioned(
                       top: screenH(210),
-                      left: screenW(30),
-                      child: 
-                    Text(interestString != null ? interestString : "",
-                        style: TextStyle(
-                            color: Color(0xFF063F3E),
-                            fontSize: screenF(13))) ,
+                      left: screenW(20),
+                      child: Text(interestString != null ? interestString : "",
+                          style: TextStyle(
+                              color: Color(0xFF063F3E), fontSize: screenF(13))),
                     ),
                     Positioned(
                       left: screenW(265),

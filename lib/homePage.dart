@@ -22,10 +22,9 @@ import 'package:latlong/latlong.dart' as Lat;
 import 'package:rxdart/rxdart.dart';
 import 'viewCards.dart';
 import 'package:geolocator/geolocator.dart' as geoLoc;
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
-
-
-
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -124,9 +123,53 @@ class _ScrollPageState extends State<ScrollPage>
 //    });
   }
 
+  final Firestore _db = Firestore.instance;
+  final FirebaseMessaging _fcm = FirebaseMessaging();
+  StreamSubscription iosSubscription;
+   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  _saveDeviceToken() async {
+    String uid = currentUserModel.uid;
+
+    String fcmToken = await _fcm.getToken();
+    print(fcmToken);
+    if (fcmToken != null) {
+      await _db.collection('users').document(uid).get().then((document) {
+        if (document['tokens'] == null) {
+          List<String> newTokenList = [fcmToken];
+          _db
+              .collection('users')
+              .document(uid)
+              .updateData({'tokens': newTokenList});
+        } else {
+          var initTokens = document.data['tokens'];
+          var tokenList = new List<String>.from(initTokens);
+          if (!tokenList.contains(fcmToken)) {
+            tokenList.add(fcmToken);
+            _db
+                .collection('users')
+                .document(uid)
+                .updateData({'tokens': tokenList});
+          }
+        }
+      });
+    }
+  }
   @override
   void initState() {
     getLocation();
+     firebaseCloudMessaging_Listeners();
+    _saveDeviceToken();
+    // if (Platform.isIOS) {
+    //   _fcm.requestNotificationPermissions(IosNotificationSettings());
+
+    //   iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
+    //     _saveDeviceToken();
+    //     print("Settings registered: $data");
+    //   });
+    // }
+    // else {
+    //   _saveDeviceToken();
+    // }
 
     _controller = RubberAnimationController(
         vsync: this,
@@ -137,6 +180,36 @@ class _ScrollPageState extends State<ScrollPage>
     super.initState();
 
     getPermission();
+  }
+
+void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+      _saveDeviceToken();
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+   );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
   }
 
 
@@ -180,7 +253,10 @@ class _ScrollPageState extends State<ScrollPage>
             child: Text("Set up Profile", style: TextStyle(color: Color(0xFF1458EA)),),
             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
             onPressed: (){
-              
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfilePage()));
             },
           ),
                         ],
@@ -285,7 +361,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-           //upperLayer: _getUpperLayer(),
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -475,14 +551,21 @@ class _ScrollPageState extends State<ScrollPage>
                     child: CircularProgressIndicator());
 
               return Container(
-                child: Column(children: 
-                // snapshot.data.length == 0?
-                // ListView(
-                //   children: <Widget>[
-                    
-                //   ],
-                // )
-                // :
+                child: 
+                snapshot.data.length == 0?
+                Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
+                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20),
+                      ),
+                    ), 
+                    Image.asset('assets/img/undraw_peoplearoundyou.png')
+                  ],
+                ):
+                Column(children: 
                 snapshot.data),
               );
             })

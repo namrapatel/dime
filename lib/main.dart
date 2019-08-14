@@ -10,6 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 void main() => runApp(Dime());
 
 class Dime extends StatelessWidget {
@@ -20,7 +21,6 @@ class Dime extends StatelessWidget {
       title: "Dime",
       home: SplashScreen(),
       theme: appTheme,
-
     );
   }
 }
@@ -42,14 +42,13 @@ class _SplashScreenState extends State<SplashScreen> {
   startTime() async {
     return Timer(
         Duration(seconds: 2),
-        () =>
-        widget.route=='login'?
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context)=>Login()),
-            ):Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context)=>ScrollPage())));
+        () => widget.route == 'login'
+            ? Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Login()),
+              )
+            : Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ScrollPage())));
   }
 
   @override
@@ -57,9 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 //    startTime();
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
-
       if (firebaseUser != null) {
-
         print('in login');
         print(firebaseUser);
         print(firebaseUser.displayName);
@@ -75,12 +72,11 @@ class _SplashScreenState extends State<SplashScreen> {
               new MaterialPageRoute(builder: (context) => ScrollPage()));
         }
       } else {
-        Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => Login()));
+        Navigator.push(
+            context, new MaterialPageRoute(builder: (context) => Login()));
         print("floppps");
       }
     });
-
   }
 
   @override
@@ -105,12 +101,12 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [Color(0xFF1458EA), Color(0xFF003cbf)]
-            )),
+            color: Color(0xFF1458EA),
+            // decoration: BoxDecoration(
+            //     gradient: LinearGradient(
+            //         begin: Alignment.topRight,
+            //         end: Alignment.bottomLeft,
+            //         colors: [Color(0xFF1458EA), Color(0xFF003cbf)])),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -122,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 200,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[Image.asset('assets/dimelogo.png')],
+                    children: <Widget>[Image.asset('assets/DimeLogoBlue.png')],
                   ),
                 ),
               ),
@@ -135,7 +131,9 @@ class _SplashScreenState extends State<SplashScreen> {
                       height: 90,
                     ),
                     SpinKitRipple(
-                        color: Colors.white, duration: Duration(milliseconds: 1000),),
+                      color: Colors.white,
+                      duration: Duration(milliseconds: 1000),
+                    ),
                     // CircularProgressIndicator(),
                     Padding(
                       padding: EdgeInsets.only(top: 30.0),

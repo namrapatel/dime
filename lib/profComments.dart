@@ -186,11 +186,6 @@ class _ProfCommentsState extends State<ProfComments> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 15,
-                    ),
-                  ),
                   Container(
                     width: MediaQuery.of(context).size.width / 1.3,
                     decoration: BoxDecoration(

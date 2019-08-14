@@ -175,15 +175,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   @override
   Widget build(BuildContext context) {
 
-    TextEditingController _controllerSnap = new TextEditingController();
-    _controllerSnap.text = snapchat;
-
-    TextEditingController _controllerInsta = new TextEditingController();
-    _controllerInsta.text = instagram;
-
-    TextEditingController _controllerTweet = new TextEditingController();
-    _controllerTweet.text = twitter;
-
 
 
 
@@ -815,8 +806,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                textCapitalization: TextCapitalization.sentences,
-                                controller: _controllerSnap,
+                                
+                                
                                   onSubmitted: (value) {
                                     if (value != '' && value != null) {
                                       setState(() {
@@ -825,10 +816,17 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                     }
                                   },
                                   decoration: InputDecoration(
+                                    hintText: snapchat==null? "Snapchat":snapchat,
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    prefixIcon: Icon(
+                                    FontAwesome.snapchat_square,
+                                    size: 30,
+                                    color: Color(0xFFfffc00),
+                                  ),
                                       prefixText: '@',
                                       prefixStyle:
                                           TextStyle(color: Colors.grey),
-                                      labelText: 'Snapchat',
+                                      
                                       labelStyle: TextStyle(
                                           fontSize: 15,
                                           color: Colors.blueGrey),
@@ -866,8 +864,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                textCapitalization: TextCapitalization.sentences,
-                                controller: _controllerInsta,
+                                
+                                
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -876,9 +874,15 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   }
                                 },
                                 decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    MaterialCommunityIcons.instagram,
+                                    color: Color(0xFF8803fc),
+                                    size: 30,
+                                  ),
+                                  hintText: instagram==null?"Instagram":instagram,
+                                  hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
-                                  labelText: 'Instagram',
                                   labelStyle: TextStyle(
                                       fontSize: 15, color: Colors.blueGrey),
                                   contentPadding: EdgeInsets.all(20),
@@ -917,8 +921,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                controller: _controllerTweet,
-                                textCapitalization: TextCapitalization.sentences,
+                                
+                               
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -927,9 +931,16 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   }
                                 },
                                 decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                    MaterialCommunityIcons
+                                        .twitter_box,
+                                    color: Colors.blue,
+                                    size: 30,
+                                  ),
+                                  hintText: twitter==null?"Twitter":twitter,
+                                  hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
-                                  labelText: 'Twitter',
                                   labelStyle: TextStyle(
                                       fontSize: 15, color: Colors.blueGrey),
                                   contentPadding: EdgeInsets.all(20),
@@ -1182,16 +1193,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controllerLink = new TextEditingController();
-    _controllerLink.text = linkedIn;
-
-    TextEditingController _controllerGit = new TextEditingController();
-    _controllerGit.text = github;
-
-    TextEditingController _controllerTweet = new TextEditingController();
-    _controllerTweet.text = twitter;
-
-
 
     List<SearchItem<int>> data2 = [
       SearchItem(0, 'Please select your university'),
@@ -1834,8 +1835,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                textCapitalization: TextCapitalization.sentences,
-                                controller: _controllerLink,
+                               
+                                
                                 
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
@@ -1845,9 +1846,15 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   }
                                 },
                                 decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                        FontAwesome.linkedin_square,
+                                        size: 30,
+                                        color: Color(0xFF0077b5),
+                                      ),
+                                  hintText: linkedIn==null?"LinkedIn":linkedIn,
+                                  hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
-                                  labelText: 'LinkedIn',
                                   labelStyle: TextStyle(
                                       fontSize: 15, color: Colors.blueGrey),
                                   contentPadding: EdgeInsets.all(20),
@@ -1886,8 +1893,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                textCapitalization: TextCapitalization.sentences,
-                                controller: _controllerGit,
+                                
+                                
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -1896,9 +1903,15 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   }
                                 },
                                 decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                        MaterialCommunityIcons.github_box,
+                                        color: Color(0xFF3c3744),
+                                        size: 30,
+                                      ),
+                                  hintText: github==null?"GitHub":github,
+                                  hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
-                                  labelText: 'GitHub',
                                   labelStyle: TextStyle(
                                       fontSize: 15, color: Colors.blueGrey),
                                   contentPadding: EdgeInsets.all(20),
@@ -1936,8 +1949,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                textCapitalization: TextCapitalization.sentences,
-                                controller: _controllerTweet,
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -1946,9 +1957,15 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   }
                                 },
                                 decoration: InputDecoration(
+                                  prefixIcon: Icon(
+                                        MaterialCommunityIcons.twitter_box,
+                                        color: Colors.blue,
+                                        size: 30,
+                                      ),
+                                  hintText: twitter==null?"Twitter":twitter,
+                                  hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
-                                  labelText: 'Twitter',
                                   labelStyle: TextStyle(
                                       fontSize: 15, color: Colors.blueGrey),
                                   contentPadding: EdgeInsets.all(20),

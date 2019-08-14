@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:rubber/rubber.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
@@ -25,6 +24,9 @@ import 'package:geolocator/geolocator.dart' as geoLoc;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flushbar/flushbar.dart';
+
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -58,7 +60,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   // Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(1.0);
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
   List<DocumentSnapshot> list = [];
   // getPermission() async {
   //   final GeolocationResult result =
@@ -88,7 +90,6 @@ class _ScrollPageState extends State<ScrollPage>
 
   ScrollController _scrollController = ScrollController();
 
-  final Map<String, Marker> _markers = {};
   GeoPoint userLoc;
 
   geoLoc.Position position;
@@ -158,7 +159,7 @@ class _ScrollPageState extends State<ScrollPage>
   void initState() {
     getLocation();
      firebaseCloudMessaging_Listeners();
-    _saveDeviceToken();
+    //_saveDeviceToken();
     // if (Platform.isIOS) {
     //   _fcm.requestNotificationPermissions(IosNotificationSettings());
 
@@ -227,6 +228,41 @@ void firebaseCloudMessaging_Listeners() {
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
+          RaisedButton(
+            child: Text("Local Notif UI"),
+            onPressed: (){
+            Flushbar(
+              margin: EdgeInsets.all(8),
+              borderRadius: 15,
+              messageText: Padding(
+                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("New message from Dhruv Patel",
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    Text("Hey, how's it going? I'm a big baller",
+                    style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.white,
+               flushbarPosition: FlushbarPosition.TOP,
+                        icon: Padding(
+                          padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                          child: Icon(
+                            Icons.info_outline,
+                            size: 28.0,
+                            color: Color(0xFF1458EA),
+                            ),
+                        ),
+                        duration: Duration(seconds: 3),
+                      )..show(context);
+            }
+          ),
             firstName != "No"?
                         Container(
                         width: MediaQuery.of(context).size.width/1.6,
@@ -262,7 +298,8 @@ void firebaseCloudMessaging_Listeners() {
                         ],
                       ),
 
-            Spacer(),
+            //Spacer(),
+
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -361,7 +398,7 @@ void firebaseCloudMessaging_Listeners() {
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          upperLayer: _getUpperLayer(),
+          //upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -443,6 +480,8 @@ void firebaseCloudMessaging_Listeners() {
                   color: Color(0xFF8803fc),
                 ),
               ),
+              Stack(
+                children: <Widget>[
               FloatingActionButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -459,6 +498,16 @@ void firebaseCloudMessaging_Listeners() {
                   MaterialCommunityIcons.chat,
                   color: Colors.black,
                 ),
+              ),
+              Positioned(
+                top: MediaQuery.of(context).size.height/48,
+                left: MediaQuery.of(context).size.width/13.5,
+                child: CircleAvatar(
+                backgroundColor: Colors.red,
+                radius: 6,
+              )
+              )
+                ],
               ),
               FloatingActionButton(
                 shape: RoundedRectangleBorder(

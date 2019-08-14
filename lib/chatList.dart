@@ -2,7 +2,6 @@ import 'package:Dime/chat.dart';
 import 'package:Dime/homePage.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:page_transition/page_transition.dart';
@@ -210,8 +209,20 @@ class MessageTile extends StatelessWidget {
                   toUserId: from,
                 )));
       },
-      leading: CircleAvatar(
+      leading: Stack(
+        children: <Widget>[
+        CircleAvatar(
         backgroundImage: NetworkImage(senderPhoto),
+      ),
+              Positioned(
+                top: MediaQuery.of(context).size.height/738,
+                left: MediaQuery.of(context).size.width/15,
+                child: CircleAvatar(
+                backgroundColor: Colors.red,
+                radius: 6,
+              )
+              )
+        ],
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -5,14 +5,13 @@ import 'login.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'viewCards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
-List<String> socialInterests=[];
+List<String> socialInterests = [];
 
-class SocialInterestTile extends StatefulWidget{
+class SocialInterestTile extends StatefulWidget {
   SocialInterestTile(this.interest);
   final String interest;
-
-
 
   @override
   _SocialInterestTileState createState() => _SocialInterestTileState();
@@ -20,8 +19,6 @@ class SocialInterestTile extends StatefulWidget{
 
 class _SocialInterestTileState extends State<SocialInterestTile> {
   bool value1 = false;
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +40,13 @@ class _SocialInterestTileState extends State<SocialInterestTile> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ListTile(
-                onTap: () {
-                },
-
+                onTap: () {},
                 trailing: Container(
                   height: screenH(97),
                   width: screenW(200),
                   child: Row(
                     children: <Widget>[
-
                       SizedBox(width: screenW(150)),
-
                       Checkbox(
                           activeColor: Colors.black,
                           checkColor: Colors.white,
@@ -63,8 +56,13 @@ class _SocialInterestTileState extends State<SocialInterestTile> {
                               value1 = value;
                               if (value1 == true) {
                                 socialInterests.add(widget.interest);
-                                if(socialInterests.length==3){
-                                  Navigator.push(context, PageTransition(type: PageTransitionType.fade, child: SocialInterestPage(interests:socialInterests)));
+                                if (socialInterests.length == 3) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) =>
+                                              SocialInterestPage(
+                                                  interests: socialInterests)));
                                 }
                               } else {
                                 socialInterests.remove(widget.interest);
@@ -75,13 +73,10 @@ class _SocialInterestTileState extends State<SocialInterestTile> {
                               socialInterests = selections.toList();
                             });
                           }),
-
                     ],
                   ),
                 ),
-
-                title: Text(widget.interest)
-            ),
+                title: Text(widget.interest)),
             Divider(
               color: Colors.grey[400],
               height: screenH(1),
@@ -97,7 +92,8 @@ class SocialInterestPage extends StatefulWidget {
   final List<String> interests;
 
   @override
-  _SocialInterestPageState createState() => _SocialInterestPageState(this.interests);
+  _SocialInterestPageState createState() =>
+      _SocialInterestPageState(this.interests);
 }
 
 class _SocialInterestPageState extends State<SocialInterestPage> {
@@ -105,16 +101,14 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
   _SocialInterestPageState(this.interests);
   @override
   Widget build(BuildContext context) {
-
     return Container(
         child: Card(
-          child: Column(
-
-            children: <Widget>[
-              SizedBox(height: screenH(100)),
-              Text("Selected Interests",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-              SizedBox(height: screenH(10)),
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: screenH(100)),
+          Text("Selected Interests",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+          SizedBox(height: screenH(10)),
           Padding(
             padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
             child: Center(
@@ -133,114 +127,115 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
             height: MediaQuery.of(context).size.height / 900,
             color: Colors.grey[300],
           ),
-              ListView.builder(itemBuilder:
-
-                  (BuildContext context, int index) {
-                return ListTile(
-                  leading: Icon(Entypo.drink, color: Colors.black,),
-                  trailing: Icon(Icons.done, color: Colors.black,),
-                  title:Text( interests[index]),
-                );
-              },itemCount: interests.length,shrinkWrap: true, ),
-             SizedBox(
+          ListView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                leading: Icon(
+                  Entypo.drink,
+                  color: Colors.black,
+                ),
+                trailing: Icon(
+                  Icons.done,
+                  color: Colors.black,
+                ),
+                title: Text(interests[index]),
+              );
+            },
+            itemCount: interests.length,
+            shrinkWrap: true,
+          ),
+          SizedBox(
             height: screenH(20),
           ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
-                    color: Color(0xFF8803fc),
-                    child: Text("Save",
-                    style: TextStyle(
-                      color: Colors.white
-                    ),
-                    
-                    ),
-                    onPressed: (){
-
-                      Firestore.instance.collection('users').document(currentUserModel.uid).collection('socialcard').document(socialCardId)
-                          .updateData({
-                        'interests': interests
-                      });
-                      Firestore.instance.collection('users').document(currentUserModel.uid)
-                          .updateData({
-                        'socialInterests': interests
-                      });
-                      socialInterests.clear();
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                    },
-                  ),
-                  SizedBox(
-                  width: screenW(20),
-                ),
-              OutlineButton(
-                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(20.0)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton(
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(20.0)),
                 color: Color(0xFF8803fc),
-                child: Text("Edit Interests",
-                    style: TextStyle(
-                      color: Colors.black
-                    ),
-                    ),
-                onPressed: (){
+                child: Text(
+                  "Save",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  Firestore.instance
+                      .collection('users')
+                      .document(currentUserModel.uid)
+                      .collection('socialcard')
+                      .document(socialCardId)
+                      .updateData({'interests': interests});
+                  Firestore.instance
+                      .collection('users')
+                      .document(currentUserModel.uid)
+                      .updateData({'socialInterests': interests});
                   socialInterests.clear();
                   Navigator.pop(context);
-
-
-
+                  Navigator.pop(context);
+                },
+              ),
+              SizedBox(
+                width: screenW(20),
+              ),
+              OutlineButton(
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(20.0)),
+                color: Color(0xFF8803fc),
+                child: Text(
+                  "Edit Interests",
+                  style: TextStyle(color: Colors.black),
+                ),
+                onPressed: () {
+                  socialInterests.clear();
+                  Navigator.pop(context);
                 },
               )
-                ],
-              ),
-
-
             ],
           ),
-
-        )
-    );
-
+        ],
+      ),
+    ));
   }
 }
 
-
-class SocialDataSearch extends SearchDelegate<
-    String> {
-  Iterable<SocialInterestTile> suggestions=[];
-  dynamic suggestionList=[];
-  List<SocialInterestTile> interestList=[new SocialInterestTile("Badminton"),new SocialInterestTile("Flutter")
-    ,new SocialInterestTile("Basketball")
-    ,new SocialInterestTile("Philosophy")
-    ,new SocialInterestTile("Acting")
-    ,new SocialInterestTile("Music")
-    ,new SocialInterestTile("Painting")
-    ,new SocialInterestTile("Startups")
-    ,new SocialInterestTile( "Watching Movies")
-    ,new SocialInterestTile("Pop music")
-    ,new SocialInterestTile("Social Ventures")
-
+class SocialDataSearch extends SearchDelegate<String> {
+  Iterable<SocialInterestTile> suggestions = [];
+  dynamic suggestionList = [];
+  List<SocialInterestTile> interestList = [
+    new SocialInterestTile("Badminton"),
+    new SocialInterestTile("Flutter"),
+    new SocialInterestTile("Basketball"),
+    new SocialInterestTile("Philosophy"),
+    new SocialInterestTile("Acting"),
+    new SocialInterestTile("Music"),
+    new SocialInterestTile("Painting"),
+    new SocialInterestTile("Startups"),
+    new SocialInterestTile("Watching Movies"),
+    new SocialInterestTile("Pop music"),
+    new SocialInterestTile("Social Ventures")
   ];
-
 
   @override
   List<Widget> buildActions(BuildContext context) {
     // TODO: implement buildActions
-    return [IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: (){
-        query='';
-
-      },
-    )];
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      )
+    ];
   }
 
   @override
   Widget buildLeading(BuildContext context) {
     // TODO: implement buildLeading
 
-    return IconButton(icon: AnimatedIcon(icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
-        onPressed: (){
+    return IconButton(
+        icon: AnimatedIcon(
+            icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
+        onPressed: () {
           socialInterests.clear();
           close(context, null);
         });
@@ -258,19 +253,16 @@ class SocialDataSearch extends SearchDelegate<
     // TODO: implement buildSuggestions
 
     print('less than 3 interests');
-    suggestions =
-    query.isEmpty ? interestList : interestList.where((interest) => (interest.interest
-        .toLowerCase().contains(query)));
+    suggestions = query.isEmpty
+        ? interestList
+        : interestList.where(
+            (interest) => (interest.interest.toLowerCase().contains(query)));
     suggestions.toList();
-    return
-      ListView.builder(
-          shrinkWrap: true,
-
-          itemBuilder: (BuildContext context, int index) {
-            return suggestions.toList()[index];
-          }, itemCount: suggestions.length);
-
-
+    return ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          return suggestions.toList()[index];
+        },
+        itemCount: suggestions.length);
   }
-
 }

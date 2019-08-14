@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:page_transition/page_transition.dart';
 import 'login.dart';
+import 'package:flutter/cupertino.dart';
 import 'chat.dart';
 import 'userCard.dart';
 
@@ -42,7 +43,9 @@ class _ExploreState extends State<Explore> {
       });
 
       for (var user in allUsers) {
-        if (user['userData']['displayName'].toLowerCase().startsWith(standardValue)) {
+        if (user['userData']['displayName']
+            .toLowerCase()
+            .startsWith(standardValue)) {
           setState(() {
             tempSearchStore.add(user);
             queryResultSet.add(user);
@@ -57,7 +60,9 @@ class _ExploreState extends State<Explore> {
       });
 
       for (var user in allUsers) {
-        if (user['userData']['displayName'].toLowerCase().startsWith(standardValue)) {
+        if (user['userData']['displayName']
+            .toLowerCase()
+            .startsWith(standardValue)) {
           print("IM HERE");
           setState(() {
             tempSearchStore.add(user);
@@ -178,16 +183,15 @@ class _ExploreState extends State<Explore> {
               height: MediaQuery.of(context).size.height / 20,
             ),
             Container(
-              height: MediaQuery.of(context).size.height/1.65,
+              height: MediaQuery.of(context).size.height / 1.65,
               child: ListView(
                 physics: BouncingScrollPhysics(),
-              padding: EdgeInsets.only(left: 10.0, right: 10.0),
-              children: tempSearchStore.map((element) {
-                return _buildTile(element);
-              }).toList(),
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                children: tempSearchStore.map((element) {
+                  return _buildTile(element);
+                }).toList(),
+              ),
             ),
-            ),
-
           ],
         )
       ],
@@ -200,7 +204,8 @@ class _ExploreState extends State<Explore> {
         backgroundImage: NetworkImage(data['userData']['photoUrl']),
       ),
       title: Text(data['userData']['displayName']),
-      subtitle: Text(data['userData']['major'] != null ? data['userData']['major'] : ""),
+      subtitle: Text(
+          data['userData']['major'] != null ? data['userData']['major'] : ""),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -208,11 +213,10 @@ class _ExploreState extends State<Explore> {
             icon: Icon(MaterialCommunityIcons.chat),
             color: Colors.black,
             onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: Chat(
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => Chat(
                             fromUserId: currentUserModel.uid,
                             toUserId: data['userId'],
                           )));
@@ -222,13 +226,20 @@ class _ExploreState extends State<Explore> {
             icon: Icon(MaterialCommunityIcons.card_bulleted),
             color: Colors.black,
             onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: UserCard(
-                            userId: data['userId'],
-                            userName: data['userData']['displayName'],
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade,
+                      child: UserCard(
+                        userId: data['userId'],
+                        userName: data['userData']['displayName'],
+                      )));
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => Chat(
+                            fromUserId: currentUserModel.uid,
+                            toUserId: data['userId'],
                           )));
             },
           ),

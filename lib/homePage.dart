@@ -25,6 +25,7 @@ import 'package:geolocator/geolocator.dart' as geoLoc;
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -93,22 +94,21 @@ class _ScrollPageState extends State<ScrollPage>
 
   geoLoc.Position position;
   GeoPoint current;
-  getLocation() async{
-
-
-    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
+  getLocation() async {
+    geoLoc.Position idiot = await geoLoc.Geolocator()
+        .getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
 
     setState(() {
-      position=idiot;
+      position = idiot;
     });
 
     print(position.latitude);
     print(position.longitude);
-    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+    double distanceInMeters = await geoLoc.Geolocator()
+        .distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
     print('distance is');
     print(distanceInMeters);
-    current =
-    new GeoPoint(position.latitude, position.longitude);
+    current = new GeoPoint(position.latitude, position.longitude);
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -126,7 +126,7 @@ class _ScrollPageState extends State<ScrollPage>
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   _saveDeviceToken() async {
     String uid = currentUserModel.uid;
 
@@ -154,10 +154,11 @@ class _ScrollPageState extends State<ScrollPage>
       });
     }
   }
+
   @override
   void initState() {
     getLocation();
-     firebaseCloudMessaging_Listeners();
+    firebaseCloudMessaging_Listeners();
     _saveDeviceToken();
     // if (Platform.isIOS) {
     //   _fcm.requestNotificationPermissions(IosNotificationSettings());
@@ -182,7 +183,7 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
-void firebaseCloudMessaging_Listeners() {
+  void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) iOS_Permission();
 
     _firebaseMessaging.getToken().then((token) {
@@ -200,7 +201,7 @@ void firebaseCloudMessaging_Listeners() {
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
       },
-   );
+    );
   }
 
   void iOS_Permission() {
@@ -212,13 +213,10 @@ void firebaseCloudMessaging_Listeners() {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
-
 
     return Scaffold(
       appBar: AppBar(
@@ -227,41 +225,52 @@ void firebaseCloudMessaging_Listeners() {
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-            firstName != "No"?
-                        Container(
-                        width: MediaQuery.of(context).size.width/1.6,
-                        child: AutoSizeText(
-                        "Hey " + firstName + "!",
-                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
+            firstName != "No"
+                ? Container(
+                    width: MediaQuery.of(context).size.width / 1.6,
+                    child: AutoSizeText(
+                      "Hey " + firstName + "!",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      minFontSize: 12,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
-                      ):
-                      Row(
-                        children: <Widget>[
-                        AutoSizeText(
+                  )
+                : Row(
+                    children: <Widget>[
+                      AutoSizeText(
                         "Hey!",
-                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                         minFontSize: 12,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width/20,),
-          FlatButton(
-            color: Colors.white,
-            child: Text("Set up Profile", style: TextStyle(color: Color(0xFF1458EA)),),
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-            onPressed: (){
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ProfilePage()));
-            },
-          ),
-                        ],
                       ),
-
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 20,
+                      ),
+                      FlatButton(
+                        color: Colors.white,
+                        child: Text(
+                          "Set up Profile",
+                          style: TextStyle(color: Color(0xFF1458EA)),
+                        ),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => ProfilePage()));
+                        },
+                      ),
+                    ],
+                  ),
             Spacer(),
             IconButton(
               icon: Icon(
@@ -270,31 +279,27 @@ void firebaseCloudMessaging_Listeners() {
                 size: 20,
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ProfilePage()));
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => ProfilePage()));
               },
             ),
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: UserCard(
-                            userId: currentUserModel.uid,
-                            userName: currentUserModel.displayName,
-                          )));
-                },
-              ),
+            IconButton(
+              icon: Icon(MaterialCommunityIcons.card_bulleted),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => UserCard(
+                              userId: currentUserModel.uid,
+                              userName: currentUserModel.displayName,
+                            )));
+              },
+            ),
           ],
         ),
       ),
       backgroundColor: Color(0xFF1458EA),
-      
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -361,7 +366,7 @@ void firebaseCloudMessaging_Listeners() {
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          upperLayer: _getUpperLayer(),
+          // upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -429,11 +434,8 @@ void firebaseCloudMessaging_Listeners() {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: SocialPage()));
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => SocialPage()));
                 },
                 elevation: 3,
                 heroTag: 'btn1',
@@ -447,10 +449,8 @@ void firebaseCloudMessaging_Listeners() {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade, child: ChatList()));
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => ChatList()));
                 },
                 elevation: 3,
                 heroTag: 'btn2',
@@ -464,10 +464,8 @@ void firebaseCloudMessaging_Listeners() {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade, child: Explore()));
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => Explore()));
                 },
                 elevation: 3,
                 heroTag: 'btn3',
@@ -481,11 +479,8 @@ void firebaseCloudMessaging_Listeners() {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: ProfPage()));
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => ProfPage()));
                 },
                 elevation: 3,
                 heroTag: 'btn4',
@@ -507,16 +502,19 @@ void firebaseCloudMessaging_Listeners() {
 
     final Lat.Distance distance = new Lat.Distance();
     QuerySnapshot query =
-    await Firestore.instance.collection('users').getDocuments();
+        await Firestore.instance.collection('users').getDocuments();
     final docs = query.documents;
     for (var doc in docs) {
       if (doc.data['currentLocation'] != null) {
-
 //
 //        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
 //            doc.data['currentLocation'].longitude);
 
-        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
+        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(
+            position.latitude,
+            position.longitude,
+            doc.data['currentLocation'].latitude,
+            doc.data['currentLocation'].longitude);
 //        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
 
         print(doc.documentID);
@@ -543,36 +541,35 @@ void firebaseCloudMessaging_Listeners() {
         child: ListView(
           children: <Widget>[
             FutureBuilder<List<UserTile>>(
-            future: getUsers(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
-                return Container(
-                    alignment: FractionalOffset.center,
-                    child: CircularProgressIndicator());
+                future: getUsers(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Container(
+                        alignment: FractionalOffset.center,
+                        child: CircularProgressIndicator());
 
-              return Container(
-                child: 
-                snapshot.data.length == 0?
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
-                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
-                      ),
-                    ), 
-                    Image.asset('assets/img/undraw_peoplearoundyou.png')
-                  ],
-                ):
-                Column(children: 
-                snapshot.data),
-              );
-            })
+                  return Container(
+                    child: snapshot.data.length == 0
+                        ? Column(
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.all(
+                                    MediaQuery.of(context).size.height / 20),
+                                child: Text(
+                                  "There's nobody around. \n Go get a walk in and meet new people!",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
+                              Image.asset(
+                                  'assets/img/undraw_peoplearoundyou.png')
+                            ],
+                          )
+                        : Column(children: snapshot.data),
+                  );
+                })
           ],
-        )
-            
-            );
+        ));
   }
 
   double _value = 5.0;
@@ -736,12 +733,11 @@ class UserTile extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: Chat(
-                            fromUserId: currentUserModel.uid,
-                            toUserId: uid,
-                          )));
+                      CupertinoPageRoute(
+                          builder: (context) => Chat(
+                                fromUserId: currentUserModel.uid,
+                                toUserId: uid,
+                              )));
                 },
               ),
               IconButton(
@@ -750,12 +746,11 @@ class UserTile extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: UserCard(
-                            userId: uid,
-                            userName: contactName,
-                          )));
+                      CupertinoPageRoute(
+                          builder: (context) => UserCard(
+                                userId: uid,
+                                userName: contactName,
+                              )));
                 },
               ),
             ],

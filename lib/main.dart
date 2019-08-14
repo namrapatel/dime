@@ -44,11 +44,9 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration(seconds: 2),
         () => widget.route == 'login'
             ? Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => Login()),
-              )
+                context, CupertinoPageRoute(builder: (context) => Login()))
             : Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ScrollPage())));
+                CupertinoPageRoute(builder: (context) => ScrollPage())));
   }
 
   @override
@@ -68,12 +66,12 @@ class _SplashScreenState extends State<SplashScreen> {
             .get();
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => ScrollPage()));
+          Navigator.push(
+              context, CupertinoPageRoute(builder: (context) => ScrollPage()));
         }
       } else {
         Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => Login()));
+            context, CupertinoPageRoute(builder: (context) => Login()));
         print("floppps");
       }
     });

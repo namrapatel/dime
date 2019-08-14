@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -70,8 +71,14 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       onPressed: () {
                         post();
                       },
-                      icon: Icon(Ionicons.ios_send, color: Colors.white,),
-                      label: Text("Post", style: TextStyle(color: Colors.white),),
+                      icon: Icon(
+                        Ionicons.ios_send,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        "Post",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -144,11 +151,11 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                             child: AspectRatio(
                               aspectRatio: 0.92,
                               child: Image(
-                              image: FileImage(file),
-                              width: screenW(170),
-                              height: screenH(250),
-                              fit: BoxFit.fill,
-                            ),
+                                image: FileImage(file),
+                                width: screenW(170),
+                                height: screenH(250),
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
                         ],
@@ -286,15 +293,12 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         caption = descriptionController.text;
         postId = currentUserModel.uid + Timestamp.now().toString();
 
-        uploader.addSocialPost(
-            caption, timeStamp, postPic, postId, upVotes);
+        uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
       }).then((_) {
         setState(() {
           file = null;
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SocialPage()),
-          );
+              context, CupertinoPageRoute(builder: (context) => SocialPage()));
         });
       });
     } else {
@@ -305,10 +309,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 
       uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
       Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SocialPage(),
-          ));
+          context, CupertinoPageRoute(builder: (context) => SocialPage()));
     }
   }
 }

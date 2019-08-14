@@ -15,7 +15,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'homePage.dart';
 import 'onboarding.dart';
 
-
 User currentUserModel;
 
 class Login extends StatefulWidget {
@@ -33,9 +32,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
-
       if (firebaseUser != null) {
-
         print('in login');
         print(firebaseUser);
         print(firebaseUser.displayName);
@@ -48,7 +45,7 @@ class _LoginState extends State<Login> {
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
           Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SplashScreen()));
+              CupertinoPageRoute(builder: (context) => SplashScreen()));
         }
       } else {
         print("floppps");
@@ -71,8 +68,10 @@ class _LoginState extends State<Login> {
         var tokenList = new List<String>.from(initTokens);
         if (!tokenList.contains(fcmToken)) {
           tokenList.add(fcmToken);
-          _db.collection('users').document(uid).updateData(
-              {'tokens': tokenList});
+          _db
+              .collection('users')
+              .document(uid)
+              .updateData({'tokens': tokenList});
         }
       });
     }
@@ -85,7 +84,7 @@ class _LoginState extends State<Login> {
 
   Padding buildTitle() {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width/100),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 100),
       child: Text(
         'Welcome Back.',
         style: TextStyle(
@@ -99,12 +98,14 @@ class _LoginState extends State<Login> {
 
   Padding buildTitleLine() {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/110, left: MediaQuery.of(context).size.width/100),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 110,
+          left: MediaQuery.of(context).size.width / 100),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: MediaQuery.of(context).size.width/6,
-          height: MediaQuery.of(context).size.height/250,
+          width: MediaQuery.of(context).size.width / 6,
+          height: MediaQuery.of(context).size.height / 250,
           color: Colors.black,
         ),
       ),
@@ -122,7 +123,8 @@ class _LoginState extends State<Login> {
         decoration: InputDecoration(
             labelText: 'Email Address',
             labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-            contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+            contentPadding:
+                EdgeInsets.all(MediaQuery.of(context).size.width / 22),
             border: new OutlineInputBorder(
               borderRadius: new BorderRadius.circular(25.0),
               borderSide: new BorderSide(
@@ -149,7 +151,7 @@ class _LoginState extends State<Login> {
         labelText: 'Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Color(0xFF1458EA),
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -219,8 +221,9 @@ class _LoginState extends State<Login> {
           actions: <Widget>[
             FlatButton(
               child: Text('Send'),
-              onPressed: () async{
-        await FirebaseAuth.instance.sendPasswordResetEmail(email: myController.text);
+              onPressed: () async {
+                await FirebaseAuth.instance
+                    .sendPasswordResetEmail(email: myController.text);
 
                 //sendPasswordResetEmail(email: myController.text);
                 Navigator.of(context).pop();
@@ -235,8 +238,8 @@ class _LoginState extends State<Login> {
   Align buildLoginButton(BuildContext context) {
     return Align(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height/13,
-        width: MediaQuery.of(context).size.width/1.5,
+        height: MediaQuery.of(context).size.height / 13,
+        width: MediaQuery.of(context).size.width / 1.5,
         child: Container(
           decoration: BoxDecoration(
               color: Color(0xFF1458EA),
@@ -267,7 +270,7 @@ class _LoginState extends State<Login> {
                       currentUserModel = User.fromDocument(userRecord);
                       Navigator.push(
                           context,
-                          new MaterialPageRoute(
+                          CupertinoPageRoute(
                               builder: (context) => ScrollPage()));
                     }
                   });
@@ -275,10 +278,8 @@ class _LoginState extends State<Login> {
                   print(e);
                 }
 
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ScrollPage()));
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => ScrollPage()));
               }
             },
             shape: RoundedRectangleBorder(
@@ -292,21 +293,6 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   Align buildOrText() {
     return Align(
@@ -342,10 +328,8 @@ class _LoginState extends State<Login> {
             SizedBox(width: 5.0),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: SignupPage()));
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => SignupPage()));
               },
               child: Text('Sign up',
                   style: TextStyle(
@@ -370,29 +354,31 @@ class _LoginState extends State<Login> {
             buildTitle(),
             buildTitleLine(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/10,
+              height: MediaQuery.of(context).size.height / 10,
             ),
             buildEmailTextField(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildPasswordInput(context),
             buildPasswordText(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildLoginButton(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/30,
+              height: MediaQuery.of(context).size.height / 30,
             ),
             buildSignUpText(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/17,),
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 17,
+              ),
               child: Divider(
-                height: MediaQuery.of(context).size.height/330,
+                height: MediaQuery.of(context).size.height / 330,
                 color: Colors.blueGrey,
               ),
             ),
@@ -403,8 +389,8 @@ class _LoginState extends State<Login> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height/13,
-                width: MediaQuery.of(context).size.width/1.5,
+                height: MediaQuery.of(context).size.height / 13,
+                width: MediaQuery.of(context).size.width / 1.5,
                 child: OutlineButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0)),

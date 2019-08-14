@@ -1,5 +1,6 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/login.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:Dime/profComments.dart';
 import 'package:Dime/socialComments.dart';
 import 'package:flutter/material.dart';
@@ -12,26 +13,40 @@ import 'package:page_transition/page_transition.dart';
 import 'package:Dime/userCard.dart';
 
 class Comment extends StatelessWidget {
-
-  final String commentId,commenterId, commenterName, commenterPhoto, text, timestamp,type,postId;
+  final String commentId,
+      commenterId,
+      commenterName,
+      commenterPhoto,
+      text,
+      timestamp,
+      type,
+      postId;
   final List tags;
-  const Comment({this.commenterId,this.commenterName,this.commenterPhoto,this.text,this.timestamp,this.tags,this.type,this.postId,this.commentId});
-
+  const Comment(
+      {this.commenterId,
+      this.commenterName,
+      this.commenterPhoto,
+      this.text,
+      this.timestamp,
+      this.tags,
+      this.type,
+      this.postId,
+      this.commentId});
 
   factory Comment.fromDocument(DocumentSnapshot document) {
-    Timestamp storedDate=document['timestamp'];
+    Timestamp storedDate = document['timestamp'];
     String elapsedTime = timeago.format(storedDate.toDate());
     String timestamp = '$elapsedTime';
-    return Comment(commenterId: document['commenterId'],
-      commenterName:document['commenterName'],
+    return Comment(
+      commenterId: document['commenterId'],
+      commenterName: document['commenterName'],
       commentId: document.documentID,
       postId: document['postId'],
       type: document['type'],
-
-      commenterPhoto:document['commenterPhoto'],
+      commenterPhoto: document['commenterPhoto'],
       tags: document['tags'],
-      text:document['text'],
-      timestamp:timestamp,
+      text: document['text'],
+      timestamp: timestamp,
     );
   }
 
@@ -49,42 +64,40 @@ class Comment extends StatelessWidget {
       ),
       title: Row(
         children: <Widget>[
-          Text(commenterName,
+          Text(
+            commenterName,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: UserCard(
-                            userId: commenterId,
-                            userName: commenterName
-                          )));
-                },
-              ),
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.card_bulleted),
+            color: Colors.black,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => UserCard(
+                          userId: commenterId, userName: commenterName)));
+            },
+          ),
           IconButton(
             icon: Icon(MaterialCommunityIcons.chat),
             color: Colors.black,
             onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: chat.Chat(
-                            fromUserId: currentUserModel.uid,
-                            toUserId: commenterId
-                          )));
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => chat.Chat(
+                          fromUserId: currentUserModel.uid,
+                          toUserId: commenterId)));
             },
           ),
-              Spacer(),
-          Text(timestamp,
-            style: TextStyle(fontSize: screenF(13.5),
-                color: type=='social'?Color(0xFF8803fc):Color(0xFF063F3E)
-            ),
+          Spacer(),
+          Text(
+            timestamp,
+            style: TextStyle(
+                fontSize: screenF(13.5),
+                color:
+                    type == 'social' ? Color(0xFF8803fc) : Color(0xFF063F3E)),
           ),
         ],
       ),
@@ -94,73 +107,97 @@ class Comment extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Container(child: Text(text),
-              width: screenW(270),
+              Container(
+                child: Text(text),
+                width: screenW(270),
               ),
+              commenterId == currentUserModel.uid
+                  ? IconButton(
+                      icon: Icon(
+                        FontAwesome.trash,
+                        color: Colors.red,
+                      ),
+                      onPressed: () async {
+                        DocumentSnapshot documentSnap = await Firestore.instance
+                            .collection('users')
+                            .document(currentUserModel.uid)
+                            .collection('recentActivity')
+                            .document(postId)
+                            .get();
+                        if (documentSnap['upvoted'] != true &&
+                            documentSnap['numberOfComments'] == 1) {
+                          Firestore.instance
+                              .collection('users')
+                              .document(currentUserModel.uid)
+                              .collection('recentActivity')
+                              .document(postId)
+                              .delete();
+                        } else {
+                          Firestore.instance
+                              .collection('users')
+                              .document(currentUserModel.uid)
+                              .collection('recentActivity')
+                              .document(postId)
+                              .setData({
+                            'numberOfComments': FieldValue.increment(-1),
+                          }, merge: true);
+                        }
 
-          commenterId == currentUserModel.uid?
-          IconButton(
-            icon: Icon(FontAwesome.trash, color: Colors.red,),
-            onPressed: ()async{
-              DocumentSnapshot documentSnap= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('recentActivity').document(postId).get();
-              if (documentSnap['upvoted'] !=true&&documentSnap['numberOfComments']==1) {
-                Firestore.instance.collection('users')
-                    .document(currentUserModel.uid)
-                    .collection('recentActivity').document(
-                    postId)
-                    .delete();
-              } else{
-                Firestore.instance.collection('users').document(
-                    currentUserModel.uid)
-                    .collection('recentActivity')
-                    .document(postId)
-                    .setData({
-                  'numberOfComments':FieldValue.increment(-1),
+                        if (type == 'social') {
+                          DocumentSnapshot snap = await Firestore.instance
+                              .collection('socialPosts')
+                              .document(postId)
+                              .get();
+                          int commentsNumber = snap['comments'];
 
+                          Firestore.instance
+                              .collection('socialPosts')
+                              .document(postId)
+                              .collection('comments')
+                              .document(commentId)
+                              .delete();
+                          Firestore.instance
+                              .collection('socialPosts')
+                              .document(postId)
+                              .updateData({'comments': commentsNumber - 1});
 
-                }, merge: true);
-              }
-              
-              if(type=='social') {
-                DocumentSnapshot snap= await Firestore.instance.collection('socialPosts').document(postId).get();
-                int commentsNumber=snap['comments'];
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => SocialComments(
+                                        postId: postId,
+                                      )));
+                        } else if (type == 'prof') {
+                          DocumentSnapshot snap = await Firestore.instance
+                              .collection('profPosts')
+                              .document(postId)
+                              .get();
+                          int commentsNumber = snap['comments'];
+                          Firestore.instance
+                              .collection('profPosts')
+                              .document(postId)
+                              .collection('comments')
+                              .document(commentId)
+                              .delete();
+                          Firestore.instance
+                              .collection('profPosts')
+                              .document(postId)
+                              .updateData({'comments': commentsNumber - 1});
 
-                Firestore.instance.collection('socialPosts').document(postId).collection('comments').document(commentId).delete();
-                Firestore.instance.collection('socialPosts').document(postId).updateData({
-                  'comments':commentsNumber-1
-                });
-
-
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade,
-                        child: SocialComments(
-                          postId: postId,
-                        )));
-              }else if(type=='prof'){
-                DocumentSnapshot snap= await Firestore.instance.collection('profPosts').document(postId).get();
-                int commentsNumber=snap['comments'];
-                Firestore.instance.collection('profPosts').document(postId).collection('comments').document(commentId).delete();
-                Firestore.instance.collection('profPosts').document(postId).updateData({
-                  'comments':commentsNumber-1
-                });
-
-
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade,
-                        child: ProfComments(
-                          postId: postId,
-                        )));
-              }
-
-
-            },
-            color: Colors.grey,
-            iconSize: 17,
-          ) :SizedBox(height: 1,)
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => ProfComments(
+                                        postId: postId,
+                                      )));
+                        }
+                      },
+                      color: Colors.grey,
+                      iconSize: 17,
+                    )
+                  : SizedBox(
+                      height: 1,
+                    )
             ],
           ),
         ],
@@ -168,4 +205,3 @@ class Comment extends StatelessWidget {
     );
   }
 }
-

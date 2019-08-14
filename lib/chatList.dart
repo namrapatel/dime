@@ -1,5 +1,6 @@
 import 'package:Dime/chat.dart';
 import 'package:Dime/homePage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:flutter_tagging/flutter_tagging.dart';
@@ -94,42 +95,40 @@ class _ChatListState extends State<ChatList> {
     return FutureBuilder(
         future: getMessages(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData){
+          if (!snapshot.hasData) {
             return CircularProgressIndicator();
-          }
-          else if(snapshot.data.length == 0){
+          } else if (snapshot.data.length == 0) {
             return Center(
                 child: Container(
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: screenH(50.0)),
-                        child: Container(
-                            width: screenW(200),
-                            child: Text(
-                              "No Messages to Show",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: screenF(20),
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            )),
-                      ),
-                      SizedBox(
-                        height: screenH(20),
-                      ),
-                      Container(
-                        height: screenH(300),
-                        width: screenW(500),
-                        child: Image(
-                          image: AssetImage('assets/undraw_messages.png'),
-                        ),
-                      )
-                    ],
+              child: Column(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: screenH(50.0)),
+                    child: Container(
+                        width: screenW(200),
+                        child: Text(
+                          "No Messages to Show",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: screenF(20),
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        )),
                   ),
-                ));
-          }
-          else {
+                  SizedBox(
+                    height: screenH(20),
+                  ),
+                  Container(
+                    height: screenH(300),
+                    width: screenW(500),
+                    child: Image(
+                      image: AssetImage('assets/undraw_messages.png'),
+                    ),
+                  )
+                ],
+              ),
+            ));
+          } else {
             return Column(children: snapshot.data);
           }
         });
@@ -143,21 +142,19 @@ class _ChatListState extends State<ChatList> {
         backgroundColor: Color(0xFF1458EA),
         automaticallyImplyLeading: false,
         leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-        title:  Text(
-                "Messages",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
-              ),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        title: Text(
+          "Messages",
+          style: TextStyle(
+              color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.all(0.0),
@@ -166,7 +163,7 @@ class _ChatListState extends State<ChatList> {
           Column(
             children: <Widget>[
               SizedBox(
-                height: MediaQuery.of(context).size.height/35,
+                height: MediaQuery.of(context).size.height / 35,
               ),
               Container(
                   width: MediaQuery.of(context).size.width,
@@ -176,7 +173,6 @@ class _ChatListState extends State<ChatList> {
                       Column(
                         children: <Widget>[buildMessages()],
                       )
-
                     ],
                   )),
             ],
@@ -192,23 +188,22 @@ class MessageTile extends StatelessWidget {
 
   MessageTile(
       {this.text,
-        this.to,
-        this.from,
-        this.timestamp,
-        this.senderPhoto,
-        this.senderName});
+      this.to,
+      this.from,
+      this.timestamp,
+      this.senderPhoto,
+      this.senderName});
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
         Navigator.push(
             context,
-            PageTransition(
-                type: PageTransitionType.leftToRight,
-                child: Chat(
-                  fromUserId: to,
-                  toUserId: from,
-                )));
+            CupertinoPageRoute(
+                builder: (context) => Chat(
+                      fromUserId: to,
+                      toUserId: from,
+                    )));
       },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(senderPhoto),

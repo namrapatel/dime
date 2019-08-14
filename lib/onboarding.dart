@@ -1,6 +1,7 @@
 import 'package:Dime/homePage.dart';
 import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -225,12 +226,8 @@ class onBoarding extends StatelessWidget {
         builder: (context) => IntroViewsFlutter(
               pages,
               onTapDoneButton: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Profile(),
-                  ), //MaterialPageRoute
-                );
+                Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => Profile()));
               },
               pageButtonTextStyles: TextStyle(
                 color: Colors.white,

@@ -25,7 +25,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
-
+import 'package:location/location.dart';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -92,24 +92,30 @@ class _ScrollPageState extends State<ScrollPage>
 
   GeoPoint userLoc;
 
-  geoLoc.Position position;
+  LocationData position;
   GeoPoint current;
   getLocation() async{
+    var location = new Location();
+    LocationData currentLocation= await location.getLocation();
+
+//    location.onLocationChanged().listen((LocationData currentLocation) async {
 
 
-    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
+      current = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+
+//    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
 
     setState(() {
-      position=idiot;
+      position=currentLocation;
     });
 
     print(position.latitude);
     print(position.longitude);
-    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
-    print('distance is');
-    print(distanceInMeters);
-    current =
-    new GeoPoint(position.latitude, position.longitude);
+//    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+//    print('distance is');
+//    print(distanceInMeters);
+//    current =
+//    new GeoPoint(position.latitude, position.longitude);
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -120,9 +126,10 @@ class _ScrollPageState extends State<ScrollPage>
         .collection('users')
         .document(currentUserModel.uid)
         .get();
-    currentUserModel = User.fromDocument(userRecord);
+//    currentUserModel = User.fromDocument(userRecord);
 //    });
-  }
+//
+        }
 
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();

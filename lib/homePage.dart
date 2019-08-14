@@ -126,6 +126,7 @@ class _ScrollPageState extends State<ScrollPage>
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
+   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   _saveDeviceToken() async {
     String uid = currentUserModel.uid;
 
@@ -156,17 +157,19 @@ class _ScrollPageState extends State<ScrollPage>
   @override
   void initState() {
     getLocation();
-    if (Platform.isIOS) {
-      _fcm.requestNotificationPermissions(IosNotificationSettings());
+     firebaseCloudMessaging_Listeners();
+    _saveDeviceToken();
+    // if (Platform.isIOS) {
+    //   _fcm.requestNotificationPermissions(IosNotificationSettings());
 
-      iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
-        _saveDeviceToken();
-        print("Settings registered: $data");
-      });
-    }
-    else {
-      _saveDeviceToken();
-    }
+    //   iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
+    //     _saveDeviceToken();
+    //     print("Settings registered: $data");
+    //   });
+    // }
+    // else {
+    //   _saveDeviceToken();
+    // }
 
     _controller = RubberAnimationController(
         vsync: this,
@@ -177,6 +180,36 @@ class _ScrollPageState extends State<ScrollPage>
     super.initState();
 
     getPermission();
+  }
+
+void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+      _saveDeviceToken();
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+   );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
   }
 
 

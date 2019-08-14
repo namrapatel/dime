@@ -228,41 +228,41 @@ void firebaseCloudMessaging_Listeners() {
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-          RaisedButton(
-            child: Text("Local Notif UI"),
-            onPressed: (){
-            Flushbar(
-              margin: EdgeInsets.all(8),
-              borderRadius: 15,
-              messageText: Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("New message from Dhruv Patel",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    Text("Hey, how's it going? I'm a big baller",
-                    style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
-              ),
-              backgroundColor: Colors.white,
-               flushbarPosition: FlushbarPosition.TOP,
-                        icon: Padding(
-                          padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                          child: Icon(
-                            Icons.info_outline,
-                            size: 28.0,
-                            color: Color(0xFF1458EA),
-                            ),
-                        ),
-                        duration: Duration(seconds: 3),
-                      )..show(context);
-            }
-          ),
+          // RaisedButton(
+          //   child: Text("Local Notif UI"),
+          //   onPressed: (){
+          //   Flushbar(
+          //     margin: EdgeInsets.all(8),
+          //     borderRadius: 15,
+          //     messageText: Padding(
+          //       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+          //       child: Column(
+          //         mainAxisAlignment: MainAxisAlignment.start,
+          //         crossAxisAlignment: CrossAxisAlignment.start,
+          //         children: <Widget>[
+          //           Text("New message from Dhruv Patel",
+          //           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          //           ),
+          //           Text("Hey, how's it going? I'm a big baller",
+          //           style: TextStyle(color: Colors.grey),
+          //           )
+          //         ],
+          //       ),
+          //     ),
+          //     backgroundColor: Colors.white,
+          //      flushbarPosition: FlushbarPosition.TOP,
+          //               icon: Padding(
+          //                 padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+          //                 child: Icon(
+          //                   Icons.info_outline,
+          //                   size: 28.0,
+          //                   color: Color(0xFF1458EA),
+          //                   ),
+          //               ),
+          //               duration: Duration(seconds: 3),
+          //             )..show(context);
+          //   }
+          // ),
             firstName != "No"?
                         Container(
                         width: MediaQuery.of(context).size.width/1.6,
@@ -398,7 +398,7 @@ void firebaseCloudMessaging_Listeners() {
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          //upperLayer: _getUpperLayer(),
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -658,8 +658,18 @@ class UserTile extends StatelessWidget {
       }
       return Row(
         children: <Widget>[
-          Text(interests,
-              style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
+          // Text(interests,
+          //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
+                        Container(
+                        width: 200,
+                        child: AutoSizeText(
+                        interests,
+                        style: TextStyle(color: Color(0xFF1976d2), fontSize: 13),
+                        minFontSize: 10,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      )
         ],
       );
     } else {
@@ -670,6 +680,7 @@ class UserTile extends StatelessWidget {
   }
 
   Widget buildSocialInterests() {
+    
     String interests = "";
     if (socialInterests != null) {
       for (int i = 0; i < socialInterests.length; i++) {
@@ -681,10 +692,20 @@ class UserTile extends StatelessWidget {
       }
       return Row(
         children: <Widget>[
-          Text(
-            interests,
-            style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-          )
+          // Text(
+          //   interests,
+          //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
+          // )
+                        Container(
+                        width: 200,
+                        child: AutoSizeText(
+                        interests,
+                        style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
+                        minFontSize: 10,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      )
         ],
       );
     } else {
@@ -732,10 +753,6 @@ class UserTile extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.fromLTRB(
                     0, MediaQuery.of(context).size.height / 100, 0, 0),
-              ),
-              Align(
-                alignment: Alignment.bottomLeft,
-                child: Text(university != null ? university : ""),
               ),
               major != null && gradYear != null
                   ? Align(

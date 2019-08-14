@@ -7,8 +7,10 @@ import 'homePage.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'models/comment.dart';
+
 import 'package:page_transition/page_transition.dart';
 import 'socialPage.dart' as socialPage;
+
 
 class SocialComments extends StatefulWidget {
   final String postId;
@@ -82,9 +84,8 @@ class _SocialCommentsState extends State<SocialComments> {
   }
 
   getAllUsers() async {
-    QuerySnapshot users = await Firestore.instance
-        .collection('users')
-        .getDocuments();
+    QuerySnapshot users =
+        await Firestore.instance.collection('users').getDocuments();
   }
 
   Future<List<Comment>> getComments() async {
@@ -215,6 +216,55 @@ class _SocialCommentsState extends State<SocialComments> {
                       clearOnSubmit: false,
                     ),
                   ),
+
+                  SizedBox(
+                    width: screenW(20),
+                  ),
+                  Container(
+                      width: 40,
+                      height: 40,
+                      child: FloatingActionButton(
+                          elevation: 5,
+                          backgroundColor: Color(0xFF8803fc),
+                          heroTag: 'fabb4',
+                          child: Icon(
+                            Icons.send,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                          onPressed: () async {
+                            DocumentSnapshot info = await Firestore.instance.collection('socialPosts').document(postId).get();
+                            var ownerId = info.data['ownerId'];
+                            Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .collection('comments')
+                                .add({
+                              'commenterId': currentUserModel.uid,
+                              'commenterName': currentUserModel.displayName,
+                              'commenterPhoto': currentUserModel.photoUrl,
+                              'text': controller.text,
+                              'timestamp': Timestamp.now()
+                            });
+                            Firestore.instance.collection('postNotifs').add({
+                              'commenterId': currentUserModel.uid,
+                              'commenterName': currentUserModel.displayName,
+                              'commenterPhoto': currentUserModel.photoUrl,
+                              'text': controller.text,
+                              'timestamp': Timestamp.now(),
+                              'ownerId': ownerId
+                            });
+                            QuerySnapshot snap = await Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .collection('comments')
+                                .getDocuments();
+                            int numberOfComments = snap.documents.length;
+                            Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .updateData({'comments': numberOfComments});
+
                 ),
                 SizedBox(
                   width: screenW(20),
@@ -242,6 +292,7 @@ class _SocialCommentsState extends State<SocialComments> {
                               .setData({
                             'type':'social',
                             'postId':postId,
+
 
 
 //                              'commentId':docName,

@@ -198,37 +198,37 @@ updateProfile() async{
             shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
             onPressed: (){
               updateProfile();
-            //   showDialog<void>(
-            //     context: context,
-            //     barrierDismissible: false,
-            //     builder: (BuildContext context) {
-            //       return AlertDialog(
-            //         title: Text('Saved!'),
-            //         content: SingleChildScrollView(
-            //           child: Text(
-            //             "Your profile has been saved! Please edit your cards to ensure you meet cool people!"
-            //           ),
-            //         ),
-            //         actions: <Widget>[
-            //           FlatButton(
-            //             child: Text("I'm good"),
-            //             onPressed: () {
-            //               Navigator.of(context).pop();
-            //             },
-            //           ),
-            //           FlatButton(
-            //             child: Text("Edit Cards"),
-            //             onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => TabsApp()),
-            // );
-            //             },
-            //           ),
-            //         ],
-            //       );
-            //     },
-            //   );
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Saved!'),
+                    content: SingleChildScrollView(
+                      child: Text(
+                        "Your profile has been saved! Please edit your cards to ensure you meet cool people!"
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("I'm good"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("Edit Cards"),
+                        onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TabsApp()),
+            );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
           // InkWell(

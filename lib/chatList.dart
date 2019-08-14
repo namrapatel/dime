@@ -3,7 +3,6 @@ import 'package:Dime/homePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'package:flutter_tagging/flutter_tagging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:page_transition/page_transition.dart';

@@ -94,8 +94,7 @@ class _ProfPageState extends State<ProfPage> {
                 icon: Icon(Icons.arrow_back_ios),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ScrollPage()));
+                  Navigator.pop(context);
                 },
               ),
               title: Text(

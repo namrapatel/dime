@@ -26,13 +26,8 @@ final screenF = ScreenUtil.instance.setSp;
 class TabsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Tabs App',
-      theme: ThemeData(
-          primarySwatch: Colors.amber,
-          primaryColor: Colors.black,
-          fontFamily: 'Futura'),
-      home: CardEdit(),
+    return Scaffold(
+      body: CardEdit(),
     );
   }
 }

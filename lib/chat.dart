@@ -119,13 +119,7 @@ class _ChatState extends State<Chat> {
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
-            CupertinoDialogAction(
-              child: const Text('Cancel'),
-              isDefaultAction: true,
-              onPressed: () {
-                Navigator.pop(context, 'Cancel');
-              },
-            );
+            Navigator.pop(context);
           },
         ),
         title: Row(

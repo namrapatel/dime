@@ -1,4 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/models/user.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,9 +19,14 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: <Widget>[
-      HomePageOne() /*, HomePageTwo(), HomePageThree()*/
-    ]));
+        body: ListView(
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+            HomePageOne() 
+          ],
+        )
+    
+    );
   }
 }
 
@@ -37,6 +43,9 @@ String name;
 String major;
 String gradYear;
 String university;
+
+    
+
 
 @override
 void initState() {
@@ -55,7 +64,7 @@ getProfileInfo() async{
     university= doc.data['university'];
   });
 }
-updateProfile() {
+updateProfile() async{
 
 //  QuerySnapshot query = await Firestore.instance
 //      .collection('users')
@@ -90,6 +99,11 @@ updateProfile() {
       'gradYear': gradYear
     });
 
+    DocumentSnapshot user=await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid).get();
+    currentUserModel=User.fromDocument(user);
+
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -117,13 +131,18 @@ updateProfile() {
 
   @override
   List<SearchItem<int>> data2 = [
-    SearchItem(0, 'Please select your university'),
-    SearchItem(1, 'University of Waterloo'),
-    SearchItem(2, 'University of Western Ontario'),
-    SearchItem(3, "University of Calgary"),
+
+    SearchItem(0, 'University of Waterloo'),
+    SearchItem(1, 'University of Western Ontario'),
+    SearchItem(2, "University of Calgary"),
   ];
 
   Widget build(BuildContext context) {
+
+
+
+
+
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -134,12 +153,12 @@ updateProfile() {
 
     return Column(children: <Widget>[
       SizedBox(
-        height: 45,
+        height: MediaQuery.of(context).size.height/60,
       ),
       Row(
         children: <Widget>[
           SizedBox(
-            width: 10,
+            width: MediaQuery.of(context).size.width/40,
           ),
           IconButton(
             onPressed: () {
@@ -149,21 +168,21 @@ updateProfile() {
               );
             },
             color: Colors.black,
-            icon: Icon(Icons.arrow_back),
+            icon: Icon(Icons.arrow_back_ios),
             iconSize: 25.0,
           ),
         ],
       ),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/100
       ),
       SizedBox(
-        height: 5,
+        height: MediaQuery.of(context).size.height/100
       ),
       Row(
         children: <Widget>[
           SizedBox(
-            width: 40,
+            width: MediaQuery.of(context).size.width/10
           ),
           Text(
             'Edit profile',
@@ -171,31 +190,72 @@ updateProfile() {
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            width: 150.0,
+            width: MediaQuery.of(context).size.width/3,
           ),
-          InkWell(
-              onTap: updateProfile,
-              child: Container(
-                  height: 25,
-                  width: 45,
-                  child: Center(
+          FlatButton(
+            color: Color(0xFF1458EA),
+            child: Text("Save", style: TextStyle(color: Colors.white),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+              updateProfile();
+              showDialog<void>(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Saved!'),
+                    content: SingleChildScrollView(
                       child: Text(
-                    'Save',
-                    style: TextStyle(color: Colors.white),
-                  )),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(40),
-                    color: Color(0xFF1458EA),
-                  )))
+                        "Your profile has been saved! Please edit your cards to ensure you meet cool people!"
+                      ),
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: Text("I'm good"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      FlatButton(
+                        child: Text("Edit Cards"),
+                        onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => TabsApp()),
+            );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+          // InkWell(
+          //     onTap: updateProfile,
+          //     child: Container(
+          //         padding: EdgeInsets.all(8),
+          //         height: 25,
+          //         width: 45,
+          //         child: Center(
+          //             child: Text(
+          //           'Save',
+          //           style: TextStyle(color: Colors.white),
+          //         )),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(40),
+          //           color: Color(0xFF1458EA),
+          //         )))
         ],
       ),
       SizedBox(
-        height: 50,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
-
+            textCapitalization: TextCapitalization.sentences,
+            
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -204,7 +264,8 @@ updateProfile() {
               }
             },
             decoration: InputDecoration(
-              labelText: 'Name',
+              hintText: name=="No Display Name"?"Name":name,
+              hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
               border: new OutlineInputBorder(
@@ -222,18 +283,18 @@ updateProfile() {
             ),
           )),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
         child: Align(
           alignment: Alignment.topLeft,
           child: Container(
-            width: 800,
-            height: 70,
+            width: MediaQuery.of(context).size.width/1.1,
+            height: MediaQuery.of(context).size.height/9,
             child: FlutterSearchPanel<int>(
               padding: EdgeInsets.all(10.0),
-              selected: 0,
+              selected: data2.indexWhere((SearchItem element)=>element.text==currentUserModel.university),
               title: "Select your university",
               data: data2,
               color: Colors.white,
@@ -256,11 +317,13 @@ updateProfile() {
         ),
       ),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
+            textCapitalization: TextCapitalization.words,
+          
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -269,7 +332,8 @@ updateProfile() {
               }
             },
             decoration: InputDecoration(
-              labelText: 'Program',
+              hintText: major==null?"Program":major,
+              hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
               border: new OutlineInputBorder(
@@ -287,11 +351,12 @@ updateProfile() {
             ),
           )),
       SizedBox(
-        height: 30,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: 40.0),
+          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
           child: TextField(
+            
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -300,7 +365,8 @@ updateProfile() {
               }
             },
             decoration: InputDecoration(
-              labelText: 'Graduation Year',
+              hintText: gradYear==null?"Graduation Year":gradYear,
+              hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
               border: new OutlineInputBorder(
@@ -316,11 +382,11 @@ updateProfile() {
             ),
           )),
       SizedBox(
-        height: 40,
+        height: MediaQuery.of(context).size.height/20,
       ),
       Container(
-        width: 250,
-        height: 50,
+        width: MediaQuery.of(context).size.width/1.5,
+        height: MediaQuery.of(context).size.height/13,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

@@ -1,24 +1,19 @@
-import 'package:Dime/viewCards.dart';
+import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'login.dart';
-import 'EditCardsScreen.dart';
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'createSocialPost.dart';
-import 'socialComments.dart';
 import 'models/socialPost.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
-final _firestore = Firestore.instance;
-//var university = currentUserModel.university;
-
-
 
 class SocialPage extends StatefulWidget {
   @override
@@ -26,15 +21,63 @@ class SocialPage extends StatefulWidget {
 }
 
 class _SocialPageState extends State<SocialPage> {
+
+  var university = currentUserModel.university;
+  @override
+  void initState() {
+
+    super.initState();
+
+
+  }
+
+
   Future getPosts() async {
+
     QuerySnapshot qn = await Firestore.instance
-        .collection('socialPosts')
-        .orderBy('timeStamp', descending: false)
+        .collection('socialPosts').where('university',isEqualTo: currentUserModel.university)
+
         .getDocuments();
+   List<dynamic> docs= qn.documents;
+   List<List<dynamic>> twoD=[];
+List<DocumentSnapshot> finalSorted=[];
 
+    print('length');
+   print(docs.length);
+for(var doc in docs){
+  double counter=0;
+  List<dynamic> toAdd=[];
+  Timestamp time=doc.data['timeStamp'];
 
+  print(doc.data['caption']);
 
-    return qn.documents;
+  print(DateTime.now().difference(time.toDate()));
+  if(DateTime.now().difference(time.toDate()).inMinutes<=60){
+    print('difference between posted and time from an hour ago is');
+    print(DateTime.now().difference(time.toDate()).inMinutes);
+    counter=counter+5;
+  }
+  int upvotes=doc.data['upVotes'];
+  counter=counter+(0.1*upvotes);
+  int comments= doc.data['comments'];
+  counter=counter+(0.2*comments);
+  toAdd.add(doc);
+  toAdd.add(counter);
+  twoD.add(toAdd);
+}
+    for (var list in twoD){
+      print(list[0].data['caption']);
+      print(list[1]);
+    }
+twoD.sort((b, a) => a[1].compareTo(b[1]));
+print('after sort');
+for (var list in twoD){
+  print(list[0].data['caption']);
+  print(list[1]);
+  finalSorted.add(list[0]);
+}
+
+  return finalSorted;
   }
   int commentLengths;
 
@@ -56,22 +99,23 @@ class _SocialPageState extends State<SocialPage> {
             automaticallyImplyLeading: false,
             title: Row(
               children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(
-                      height: 20,
+                // Text(
+                //  university!=null?university:"Whoops!",
+                //   style: TextStyle(
+                //       color: Colors.white,
+                //       fontSize: 25,
+                //       fontWeight: FontWeight.bold),
+                // ),
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.25,
+                        child: AutoSizeText(
+                        university!=null?university:"Whoops!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
-                     "waterloo",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
+                      ),
                 Spacer(),
                 Column(
                   children: <Widget>[
@@ -98,7 +142,9 @@ class _SocialPageState extends State<SocialPage> {
             ),
           )),
       backgroundColor: Color(0xFF8803fc),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: currentUserModel.university!=null?FloatingActionButton(
+
+
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16.0))),
         onPressed: () {
@@ -115,8 +161,9 @@ class _SocialPageState extends State<SocialPage> {
           // color: Color(0xFF8803fc),
           color: Colors.white,
         ),
-      ),
-      body: FutureBuilder(
+      )
+      :SizedBox(height: 1,),
+    body:university!=null? FutureBuilder(
           future: getPosts(),
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -127,21 +174,53 @@ class _SocialPageState extends State<SocialPage> {
                   itemCount: snapshot?.data?.length,
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (_, index) {
-                    Timestamp storedDate=snapshot.data[index].data["timeStamp"];
-                    String elapsedTime = timeago.format(storedDate.toDate());
-                    String timestamp = '$elapsedTime';
+
 
                     return SocialPost(
+
                       postId: snapshot.data[index].documentID,
-                      caption: snapshot.data[index].data["caption"],
-                      comments: snapshot.data[index].data["comments"],
-                      timeStamp: timestamp,
-                      postPic: snapshot.data[index].data["postPic"],
-                      upVotes: snapshot.data[index].data["upVotes"],
+
                     );
                   });
             }
-          }),
+          }): Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height/18
+              ),
+              Image.asset('assets/img/login_logo.png'),
+              SizedBox(
+                height: MediaQuery.of(context).size.height/88,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Please go to settings and add a university to see your feed!",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
+                ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height/88,
+              ),
+          FlatButton(
+            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+            color: Colors.white,
+            child: Text("Add University", style: TextStyle(color: Color(0xFF8803fc), fontSize: 20, fontWeight: FontWeight.bold),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade, child: Profile()));
+            },
+          ),
+
+            ],
+          )
+
     );
   }
 }

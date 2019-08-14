@@ -23,10 +23,8 @@ dependencies:
 dev_dependencies:
   geoflutterfire: ^2.0.3+5
   grouped_buttons:
-  xlive_switch:
   flutter_search_panel:
   fancy_on_boarding:
-  circular_splash_transition:
   page_transition:
   flutter_test:
     sdk: flutter
@@ -48,17 +46,20 @@ dev_dependencies:
   contacts_service: ^0.2.8
   sticky_infinite_list:
   rubber:
-  google_maps_flutter:
-  flutter_tagging: ^1.1.0
   carousel_slider: ^1.3.0
   google_sign_in:
   url_launcher: ^5.1.2
   share:
   esys_flutter_share:
   wc_flutter_share:
-  flutter_fluid_slider:
+  flushbar:
   image: ^2.0.7
+  auto_size_text:
+  intro_views_flutter:
+    git: git://github.com/aagarwal1012/IntroViews-Flutter
   latlong: ^0.6.1
+  flutter_spinkit: ^3.1.0
+
 
   firebase_messaging:
 
@@ -87,21 +88,11 @@ flutter:
   assets:
     - assets/login_logo.png
     - assets/namrapatel.png
-    - assets/trip.png
-    - assets/roommates.jpeg
-    - assets/family.png
-    - assets/childhoodhomies.jpeg
-    - assets/lakersnation.jpeg
-    - assets/sorority.jpeg
     - assets/dimelogo.png
     - assets/dimelogo1.png
     - assets/dimewhite.png
     - assets/shehabsalem.jpeg
     - assets/taher.jpeg
-    - assets/purplecharacters.png
-    - assets/bluecharacters.png
-    - assets/greencharacters.png
-    - assets/dimeloginbackground.jpg
     - assets/defaultprofile.png
     - assets/dhruvpatel.jpeg
     - assets/groupselfie.png
@@ -115,6 +106,8 @@ flutter:
     - assets/pplNearbyUI.png
     - assets/undraw_peoplearoundyou.png
     - assets/undraw_messages.png
+    - assets/feeds.png
+    - assets/DimeLogoBlue.png
     
 
 

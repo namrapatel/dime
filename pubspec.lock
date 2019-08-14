@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  auto_size_text:
+    dependency: "direct dev"
+    description:
+      name: auto_size_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2+1"
   boolean_selector:
     dependency: transitive
     description:
@@ -71,13 +78,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.0"
-  circular_splash_transition:
-    dependency: "direct dev"
-    description:
-      name: circular_splash_transition
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.1"
   cloud_firestore:
     dependency: "direct dev"
     description:
@@ -162,6 +162,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  flushbar:
+    dependency: "direct dev"
+    description:
+      name: flushbar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.8.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -174,13 +181,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  flutter_fluid_slider:
-    dependency: "direct dev"
-    description:
-      name: flutter_fluid_slider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.1"
   flutter_screenutil:
     dependency: "direct dev"
     description:
@@ -195,25 +195,18 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
-  flutter_tagging:
+  flutter_spinkit:
     dependency: "direct dev"
     description:
-      name: flutter_tagging
+      name: flutter_spinkit
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "3.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_typeahead:
-    dependency: transitive
-    description:
-      name: flutter_typeahead
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.6.1"
   flutter_vector_icons:
     dependency: "direct dev"
     description:
@@ -249,13 +242,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
-  google_maps_flutter:
-    dependency: "direct dev"
-    description:
-      name: google_maps_flutter
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.19+2"
   google_sign_in:
     dependency: "direct dev"
     description:
@@ -305,13 +291,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.15.8"
-  keyboard_visibility:
-    dependency: transitive
+  intro_views_flutter:
+    dependency: "direct dev"
     description:
-      name: keyboard_visibility
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.6"
+      path: "."
+      ref: HEAD
+      resolved-ref: "349a89924c5a2bb7ed823ec6661e2a8c0ae603e5"
+      url: "git://github.com/aagarwal1012/IntroViews-Flutter"
+    source: git
+    version: "2.6.0"
   latlong:
     dependency: "direct dev"
     description:
@@ -548,13 +536,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1"
-  xlive_switch:
-    dependency: "direct dev"
-    description:
-      name: xlive_switch
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
   xml:
     dependency: transitive
     description:

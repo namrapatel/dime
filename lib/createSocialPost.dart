@@ -70,8 +70,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       onPressed: () {
                         post();
                       },
-                      icon: Icon(Ionicons.ios_send),
-                      label: Text("Post"),
+                      icon: Icon(Ionicons.ios_send, color: Colors.white,),
+                      label: Text("Post", style: TextStyle(color: Colors.white),),
                     ),
                   ),
                 ],
@@ -141,11 +141,14 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                             borderRadius: BorderRadius.all(
                               Radius.circular(15.0),
                             ),
-                            child: Image(
+                            child: AspectRatio(
+                              aspectRatio: 0.92,
+                              child: Image(
                               image: FileImage(file),
                               width: screenW(170),
                               height: screenH(250),
                               fit: BoxFit.fill,
+                            ),
                             ),
                           ),
                         ],
@@ -171,6 +174,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     padding: EdgeInsets.symmetric(
                         horizontal: screenW(15.0), vertical: screenH(3.0)),
                     child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
@@ -283,7 +287,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         postId = currentUserModel.uid + Timestamp.now().toString();
 
         uploader.addSocialPost(
-            caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
+            caption, timeStamp, postPic, postId, upVotes);
       }).then((_) {
         setState(() {
           file = null;
@@ -299,7 +303,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       postId = currentUserModel.uid + Timestamp.now().toString();
       caption = descriptionController.text;
 
-      uploader.addSocialPost(caption, timeStamp, postPic, currentUserModel.uid, postId, upVotes);
+      uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
       Navigator.push(
           context,
           MaterialPageRoute(

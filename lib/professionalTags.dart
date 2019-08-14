@@ -56,7 +56,7 @@ class _ProfInterestTileState extends State<ProfInterestTile> {
                   child: Row(
                     children: <Widget>[
 
-                      SizedBox(width: 150),
+                      SizedBox(width: screenW(150)),
 
                       Checkbox(
                           activeColor: Colors.black,
@@ -166,6 +166,10 @@ class _ProfInterestPageState extends State<ProfInterestPage> {
                       Firestore.instance.collection('users').document(currentUserModel.uid).collection('profcard').document(profCardId)
                           .updateData({
                         'interests': interests
+                      });
+                      Firestore.instance.collection('users').document(currentUserModel.uid)
+                          .updateData({
+                        'profInterests': interests
                       });
                       profInterests.clear();
 

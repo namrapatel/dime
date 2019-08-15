@@ -232,6 +232,11 @@ class _ProfCommentsState extends State<ProfComments> {
                             if (controller.text != "") {
                               String docName =
                                   postId + Timestamp.now().toString();
+                              DocumentSnapshot info = await Firestore.instance
+                                  .collection('socialPosts')
+                                  .document(postId)
+                                  .get();
+                              String ownerID = info.data['ownerId'];
                               Firestore.instance
                                   .collection('profPosts')
                                   .document(postId)
@@ -249,6 +254,14 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'timestamp': Timestamp.now()
                               });
 
+                              Firestore.instance.collection('postNotifs').add({
+                                'commenterId': currentUserModel.uid,
+                                'commenterName': currentUserModel.displayName,
+                                'commenterPhoto': currentUserModel.photoUrl,
+                                'text': controller.text,
+                                'timestamp': Timestamp.now(),
+                                'ownerId': ownerID
+                              });
                               Firestore.instance
                                   .collection('users')
                                   .document(currentUserModel.uid)

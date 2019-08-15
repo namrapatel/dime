@@ -11,19 +11,20 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
 
+
 class UserCard extends StatefulWidget {
   const UserCard({this.userId, this.type, this.userName});
   final String userId, type, userName;
 
   @override
-  _UserCardState createState() =>
-      _UserCardState(this.userId, this.type, this.userName);
+  _UserCardState createState() => _UserCardState(this.userId, this.type, this.userName);
 }
 
-class _UserCardState extends State<UserCard> {
+class _UserCardState extends State<UserCard>{
+
   final String userId, type, userName;
 
-  _UserCardState(this.userId, this.type, this.userName);
+_UserCardState(this.userId, this.type, this.userName);
 
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
@@ -32,23 +33,22 @@ class _UserCardState extends State<UserCard> {
   @override
   void initState() {
     super.initState();
+
   }
+
 
   @override
   void dispose() {
     super.dispose();
+
   }
 
-  Future getRecentActivity() async {
-    QuerySnapshot querySnapshot = await Firestore.instance
-        .collection('users')
-        .document(userId)
-        .collection('recentActivity')
-        .orderBy('timeStamp', descending: true)
-        .getDocuments();
-    final docs = querySnapshot.documents;
+  Future getRecentActivity() async{
+    QuerySnapshot querySnapshot= await Firestore.instance.collection('users').document(userId).collection('recentActivity').orderBy('timeStamp',descending: true).getDocuments();
+      final docs= querySnapshot.documents;
 
-    return docs;
+      return docs;
+
   }
 
   @override
@@ -57,199 +57,173 @@ class _UserCardState extends State<UserCard> {
     String firstName = string[0];
 
     return Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Color(0xFF1458EA),
+        title: Row(
+          children: <Widget>[
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.5,
+                        child: AutoSizeText(
+                        userName,
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                      ),
+          IconButton(
+            icon: Icon(MaterialCommunityIcons.chat),
+            color: Colors.white,
             onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          backgroundColor: Color(0xFF1458EA),
-          title: Row(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: AutoSizeText(
-                  userName,
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
-                  minFontSize: 12,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.chat),
-                color: Colors.white,
-                onPressed: () {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.rightToLeft,
+                          type: PageTransitionType.fade,
                           child: Chat(
-                              fromUserId: currentUserModel.uid,
-                              toUserId: userId)));
-                },
-              ),
-            ],
+                            fromUserId: currentUserModel.uid,
+                            toUserId: userId
+                          )));
+            },
           ),
+          ],
         ),
-        backgroundColor: Color(0xFF1458EA),
-        body: Stack(
+      ),
+      backgroundColor: Color(0xFF1458EA), 
+      body: Stack(
+      children: <Widget>[
+        ListView(
+          padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+          physics: BouncingScrollPhysics(),
+          scrollDirection: Axis.horizontal,
           children: <Widget>[
-            ListView(
-              padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-              physics: BouncingScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width / 20,
-                      MediaQuery.of(context).size.height / 18,
-                      0,
-                      0),
-                  child: Align(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                            child: ViewCards(
-                          userId: userId,
-                          type: 'social',
-                        )),
-                      ],
-                    ),
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width / 35,
-                      MediaQuery.of(context).size.height / 18,
-                      0,
-                      0),
-                  child: Align(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Center(
-                            child: ViewCards(
-                          userId: userId,
-                          type: 'prof',
-                        )),
-                      ],
-                    ),
-                    alignment: Alignment.topCenter,
-                  ),
-                ),
-              ],
-            ),
             Padding(
               padding: EdgeInsets.fromLTRB(
                   MediaQuery.of(context).size.width / 20,
-                  MediaQuery.of(context).size.height / 2.6,
+                  MediaQuery.of(context).size.height / 18,
                   0,
                   0),
-              child: Text(
-                "Recent Activity",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
+              child: Align(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                        child: ViewCards(
+                      userId: userId,
+                      type: 'social',
+                    )),
+                  ],
+                ),
+                alignment: Alignment.topCenter,
               ),
             ),
             Padding(
-                padding: EdgeInsets.fromLTRB(
-                    0, MediaQuery.of(context).size.height / 2.4, 0, 0),
-                child: Container(
-                    height: MediaQuery.of(context).size.height / 2,
-                    width: MediaQuery.of(context).size.width,
-                    child: FutureBuilder(
-                        future: getRecentActivity(),
-                        builder: (_, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: Text("loading..."));
-                          } else if (snapshot.data.length == 0) {
-                            return Column(
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 35,
+                  MediaQuery.of(context).size.height / 18,
+                  0,
+                  0),
+              child: Align(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Center(
+                        child: ViewCards(
+                      userId: userId,
+                      type: 'prof',
+                    )),
+                  ],
+                ),
+                alignment: Alignment.topCenter,
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width/20, MediaQuery.of(context).size.height / 2.6, 0, 0),
+          child: Text("Recent Activity", style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(
+              0, MediaQuery.of(context).size.height / 2.4, 0, 0),
+          child: Container(
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.width,
+            child: FutureBuilder(
+              future: getRecentActivity(),
+              builder: (_, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: Text("loading..."));
+              } 
+              else if(snapshot.data.length == 0){
+                return Column(
+            children: <Widget>[
+              Image.asset('assets/img/improvingDrawing.png',
+              height: MediaQuery.of(context).size.height/4,
+              width: MediaQuery.of(context).size.height/4,
+              
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text("Interactions from the feeds will show up here!",
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+                ),
+                ),
+              ),
+
+            ],
+          );
+              }
+              else{
+                String action;
+
+                return  ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                    itemCount: snapshot?.data?.length,
+                    itemBuilder: (_, index) {
+
+                      return Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Image.asset(
-                                  'assets/img/improvingDrawing.png',
-                                  height:
-                                      MediaQuery.of(context).size.height / 4,
-                                  width: MediaQuery.of(context).size.height / 4,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Text(
-                                    "Interactions from the feeds will show up here!",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                              snapshot.data[index].data['upvoted']==true&&snapshot.data[index].data['commented']==true?
+                                Text(firstName+" upvoted and commented"
+
+                                  ,
+                                  style: TextStyle(
+                                      color: Colors.white
                                   ),
-                                ),
+                                ):
+                                  Text(snapshot.data[index].data['upvoted']==true?firstName+" upvoted":firstName+" commented",style: TextStyle(
+                      color: Colors.white ))
+
                               ],
-                            );
-                          } else {
-                            String action;
+                            ),
+                          ),
+                      snapshot.data[index].data['type']=='social'?
+                          SocialPost(
+                            postId: snapshot.data[index].data['postId'],
+                          ):ProfPost(
+                      postId:snapshot.data[index].data['postId'],
+                      ),
 
-                            return ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                itemCount: snapshot?.data?.length,
-                                itemBuilder: (_, index) {
-                                  return Column(
-                                    children: <Widget>[
-                                      Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(0, 0, 15, 0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: <Widget>[
-                                            snapshot.data[index]
-                                                            .data['upvoted'] ==
-                                                        true &&
-                                                    snapshot.data[index].data[
-                                                            'commented'] ==
-                                                        true
-                                                ? Text(
-                                                    firstName +
-                                                        " upvoted and commented",
-                                                    style: TextStyle(
-                                                        color: Colors.white),
-                                                  )
-                                                : Text(
-                                                    snapshot.data[index].data[
-                                                                'upvoted'] ==
-                                                            true
-                                                        ? firstName + " upvoted"
-                                                        : firstName +
-                                                            " commented",
-                                                    style: TextStyle(
-                                                        color: Colors.white))
-                                          ],
-                                        ),
-                                      ),
-                                      snapshot.data[index].data['type'] ==
-                                              'social'
-                                          ? SocialPost(
-                                              postId: snapshot
-                                                  .data[index].data['postId'],
-                                            )
-                                          : ProfPost(
-                                              postId: snapshot
-                                                  .data[index].data['postId'],
-                                            ),
-
-                                      SizedBox(
-                                        height: 10,
-                                      ),
+                          SizedBox(
+                            height: 10,
+                          ),
 //                          Padding(
 //                            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
 //                            child: Row(
@@ -285,9 +259,9 @@ class _UserCardState extends State<UserCard> {
 //                          ProfPost(
 //                            caption: "Hello",
 //                          ),
-                                    ],
-                                  );
-                                });
+                        ],
+                      );
+                    });
 //                  children: <Widget>[
 //                    Padding(
 //                      padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
@@ -365,9 +339,14 @@ class _UserCardState extends State<UserCard> {
 //              likes:snapshot.data[index].data['likes']
 //              );
 //              });
-                          }
-                        }))),
-          ],
-        ));
+              }
+              })
+
+          )
+        ),
+      ],
+    )
+    );
   }
+
 }

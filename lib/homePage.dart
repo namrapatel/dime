@@ -27,7 +27,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
-
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -60,9 +59,8 @@ class _ScrollPageState extends State<ScrollPage>
   Stream<List<DocumentSnapshot>> stream;
 
   // Stream<List<DocumentSnapshot>> stream;
-
   var radius = BehaviorSubject<double>.seeded(6.0);
-  
+
   List<DocumentSnapshot> list = [];
   // getPermission() async {
   //   final GeolocationResult result =
@@ -149,7 +147,7 @@ class _ScrollPageState extends State<ScrollPage>
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   _saveDeviceToken() async {
     String uid = currentUserModel.uid;
 
@@ -177,7 +175,6 @@ class _ScrollPageState extends State<ScrollPage>
       });
     }
   }
-
   @override
   void initState() {
     getLocation();
@@ -206,7 +203,7 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
-  void firebaseCloudMessaging_Listeners() {
+void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) iOS_Permission();
 
     _firebaseMessaging.getToken().then((token) {
@@ -224,7 +221,7 @@ class _ScrollPageState extends State<ScrollPage>
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
       },
-    );
+   );
   }
 
   void iOS_Permission() {
@@ -236,10 +233,13 @@ class _ScrollPageState extends State<ScrollPage>
     });
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
+
 
     return Scaffold(
       appBar: AppBar(
@@ -248,56 +248,79 @@ class _ScrollPageState extends State<ScrollPage>
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
+          RaisedButton(
+            child: Text("Local Notif UI"),
+            onPressed: (){
 
-            firstName != "No"
-                ? Container(
-                    width: MediaQuery.of(context).size.width / 1.6,
-                    child: AutoSizeText(
-                      "Hey " + firstName + "!",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                      minFontSize: 12,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+            Flushbar(
+              margin: EdgeInsets.all(8),
+              borderRadius: 15,
+              messageText: Padding(
+                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text("New message from Dhruv Patel",
+                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                     ),
-                  )
-                : Row(
-                    children: <Widget>[
-                      AutoSizeText(
-                        "Hey!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
+                    Text("Hey, how's it going? I'm a big baller",
+                    style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.white,
+               flushbarPosition: FlushbarPosition.TOP,
+                        icon: Padding(
+                          padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                          child: Icon(
+                            Icons.info_outline,
+                            size: 28.0,
+                            color: Color(0xFF1458EA),
+                            ),
+                        ),
+                        duration: Duration(seconds: 3),
+                      )..show(context);
+            }
+          ),
+            firstName != "No"?
+                        Container(
+                        width: MediaQuery.of(context).size.width/1.6,
+                        child: AutoSizeText(
+                        "Hey " + firstName + "!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
                         minFontSize: 12,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                    ),
+                      ):
+                      Row(
+                        children: <Widget>[
+                        AutoSizeText(
+                        "Hey!",
+                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(width: MediaQuery.of(context).size.width/20,),
+          FlatButton(
+            color: Colors.white,
+            child: Text("Set up Profile", style: TextStyle(color: Color(0xFF1458EA)),),
+            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: (){
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade, child: ProfilePage()));
+            },
+          ),
+                        ],
                       ),
 
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 20,
-                      ),
-                      FlatButton(
-                        color: Colors.white,
-                        child: Text(
-                          "Set up Profile",
-                          style: TextStyle(color: Color(0xFF1458EA)),
-                        ),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(10.0)),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.leftToRight,
-                                  child: ProfilePage()));
-                        },
-                      ),
-                    ],
-                  ),
-            Spacer(),
+            //Spacer(),
+
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -308,28 +331,28 @@ class _ScrollPageState extends State<ScrollPage>
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: ProfilePage()));
+                        type: PageTransitionType.fade, child: ProfilePage()));
               },
             ),
-            IconButton(
-              icon: Icon(MaterialCommunityIcons.card_bulleted),
-              color: Colors.white,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: UserCard(
-                          userId: currentUserModel.uid,
-                          userName: currentUserModel.displayName,
-                        )));
-              },
-            ),
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.fade,
+                          child: UserCard(
+                            userId: currentUserModel.uid,
+                            userName: currentUserModel.displayName,
+                          )));
+                },
+              ),
           ],
         ),
       ),
       backgroundColor: Color(0xFF1458EA),
+      
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -396,7 +419,7 @@ class _ScrollPageState extends State<ScrollPage>
             ),
           ),
           headerHeight: MediaQuery.of(context).size.height / 6.5,
-          // upperLayer: _getUpperLayer(),
+          upperLayer: _getUpperLayer(),
           animationController: _controller,
         ),
       ),
@@ -487,8 +510,7 @@ class _ScrollPageState extends State<ScrollPage>
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.downToUp,
-                          child: ChatList()));
+                          type: PageTransitionType.fade, child: ChatList()));
                 },
                 elevation: 3,
                 heroTag: 'btn2',
@@ -515,7 +537,7 @@ class _ScrollPageState extends State<ScrollPage>
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.downToUp, child: Explore()));
+                          type: PageTransitionType.fade, child: Explore()));
                 },
                 elevation: 3,
                 heroTag: 'btn3',
@@ -549,7 +571,6 @@ class _ScrollPageState extends State<ScrollPage>
       ],
     );
   }
-
 
 //  Future<List<UserTile>> getUsers() async {
 //    List<UserTile> userList = [];
@@ -910,7 +931,7 @@ class UserTile extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.downToUp,
+                          type: PageTransitionType.fade,
                           child: Chat(
                             fromUserId: currentUserModel.uid,
                             toUserId: uid,
@@ -924,7 +945,7 @@ class UserTile extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.rightToLeft,
+                          type: PageTransitionType.fade,
                           child: UserCard(
                             userId: uid,
                             userName: contactName,

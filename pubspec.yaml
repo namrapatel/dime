@@ -25,8 +25,7 @@ dev_dependencies:
   grouped_buttons:
   flutter_search_panel:
   fancy_on_boarding:
-  circular_splash_transition:
-  page_transition: "^1.1.4"
+  page_transition:
   flutter_test:
     sdk: flutter
   firebase_auth:

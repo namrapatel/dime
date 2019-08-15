@@ -25,7 +25,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
-
+import 'package:location/location.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -59,7 +60,9 @@ class _ScrollPageState extends State<ScrollPage>
   Stream<List<DocumentSnapshot>> stream;
 
   // Stream<List<DocumentSnapshot>> stream;
-  var radius = BehaviorSubject<double>.seeded(1.0);
+
+  var radius = BehaviorSubject<double>.seeded(6.0);
+
 
   List<DocumentSnapshot> list = [];
   // getPermission() async {
@@ -228,41 +231,6 @@ void firebaseCloudMessaging_Listeners() {
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-          RaisedButton(
-            child: Text("Local Notif UI"),
-            onPressed: (){
-            Flushbar(
-              margin: EdgeInsets.all(8),
-              borderRadius: 15,
-              messageText: Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("New message from Dhruv Patel",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    Text("Hey, how's it going? I'm a big baller",
-                    style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
-              ),
-              backgroundColor: Colors.white,
-               flushbarPosition: FlushbarPosition.TOP,
-                        icon: Padding(
-                          padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                          child: Icon(
-                            Icons.info_outline,
-                            size: 28.0,
-                            color: Color(0xFF1458EA),
-                            ),
-                        ),
-                        duration: Duration(seconds: 3),
-                      )..show(context);
-            }
-          ),
             firstName != "No"?
                         Container(
                         width: MediaQuery.of(context).size.width/1.6,
@@ -297,9 +265,7 @@ void firebaseCloudMessaging_Listeners() {
           ),
                         ],
                       ),
-
-            //Spacer(),
-
+            Spacer(),
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -331,7 +297,6 @@ void firebaseCloudMessaging_Listeners() {
         ),
       ),
       backgroundColor: Color(0xFF1458EA),
-      
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -551,16 +516,23 @@ void firebaseCloudMessaging_Listeners() {
     );
   }
 
-  Future<List<UserTile>> getUsers() async {
-    List<UserTile> userList = [];
 
-    final Lat.Distance distance = new Lat.Distance();
-    QuerySnapshot query =
-    await Firestore.instance.collection('users').getDocuments();
-    final docs = query.documents;
-    for (var doc in docs) {
-      if (doc.data['currentLocation'] != null) {
-
+//  Future<List<UserTile>> getUsers() async {
+//    List<UserTile> userList = [];
+//
+//    final Lat.Distance distance = new Lat.Distance();
+//    QuerySnapshot query =
+//    await Firestore.instance.collection('users').getDocuments();
+//    final docs = query.documents;
+//    for (var doc in docs) {
+//      if (doc.data['currentLocation'] != null) {
+//
+////
+////        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
+////            doc.data['currentLocation'].longitude);
+//
+//        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
+////        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
 //
 //        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
 //            doc.data['currentLocation'].longitude);

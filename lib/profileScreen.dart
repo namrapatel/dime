@@ -6,7 +6,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'login.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -86,8 +85,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: ScrollPage()));
+                          type: PageTransitionType.fade, child: ScrollPage()));
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
@@ -115,11 +113,12 @@ class _ProfilePageState extends State<ProfilePage> {
             top: (MediaQuery.of(context).size.height / 6.5),
             left: (MediaQuery.of(context).size.width / 2 - 50.0),
             child: photoUrl == null
-                ? SizedBox(height: 0.0,)
+                ? CircularProgressIndicator()
                 : CircleAvatar(
-                    backgroundImage: NetworkImage(photoUrl),
-                    radius: screenW(50),
-                  ),
+                  backgroundImage: NetworkImage(photoUrl),
+                  radius: screenW(50),
+                ),
+                
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.4),
@@ -132,9 +131,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       FirebaseAuth.instance.signOut().then((value) {
                         Navigator.push(
                             context,
-                            PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: Login()));
+                            new MaterialPageRoute(
+                                builder: (context) => Login()));
                       }).catchError((e) {
                         print(e);
                       });
@@ -157,7 +155,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 displayName == null
-                    ? SizedBox(height: 0.0,)
+                    ? CircularProgressIndicator()
                     : Text(
                         displayName,
                         style: TextStyle(
@@ -184,10 +182,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ListTile(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: Profile()));
+                            context,
+                            MaterialPageRoute(builder: (context) => Profile()),
+                          );
                         },
                         title: Text(
                           "Basic Info",
@@ -206,10 +203,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ListTile(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
+                            context,
+                            MaterialPageRoute(builder: (context) => TabsApp()),
+                          );
                         },
                         title: Text(
                           "Edit Cards",
@@ -228,10 +224,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ListTile(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
+                            context,
+                            MaterialPageRoute(builder: (context) => TabsApp()),
+                          );
                         },
                         title: Text(
                           "Terms and Conditions",
@@ -250,10 +245,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ListTile(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
+                            context,
+                            MaterialPageRoute(builder: (context) => TabsApp()),
+                          );
                         },
                         title: Text(
                           "Privacy and Security",
@@ -272,10 +266,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: ListTile(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
+                            context,
+                            MaterialPageRoute(builder: (context) => TabsApp()),
+                          );
                         },
                         title: Text(
                           "Report",

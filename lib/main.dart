@@ -10,7 +10,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:page_transition/page_transition.dart';
 
 void main() => runApp(Dime());
 
@@ -46,13 +45,10 @@ class _SplashScreenState extends State<SplashScreen> {
         () => widget.route == 'login'
             ? Navigator.push(
                 context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: Login()))
-            : Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: ScrollPage())));
+                MaterialPageRoute(builder: (context) => Login()),
+              )
+            : Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ScrollPage())));
   }
 
   @override
@@ -72,16 +68,12 @@ class _SplashScreenState extends State<SplashScreen> {
             .get();
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft, child: ScrollPage()));
+          Navigator.push(context,
+              new MaterialPageRoute(builder: (context) => ScrollPage()));
         }
       } else {
         Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: Login()));
+            context, new MaterialPageRoute(builder: (context) => Login()));
         print("floppps");
       }
     });

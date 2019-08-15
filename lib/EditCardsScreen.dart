@@ -7,13 +7,11 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_search_panel/search_item.dart';
 import 'login.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'socialTags.dart';
 import 'professionalTags.dart';
 import 'viewCards.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 String selectedItemString;
 String selectedWItemString;
@@ -30,6 +28,7 @@ class TabsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CardEdit(),
+      
     );
   }
 }
@@ -171,6 +170,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
+
+
+
+
+
+
+
     List<SearchItem<int>> data2 = [
       SearchItem(0, 'Please select your university'),
       SearchItem(1, 'Athabasca University'),
@@ -252,7 +258,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     )..init(context);
     return ListView(
       children: <Widget>[
-        Column(children: <Widget>[
+        Column(
+          children: <Widget>[
           // Container(
           //   color: Colors.white,
           //   height: screenH(310),
@@ -483,38 +490,37 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                   padding: EdgeInsets.all(0),
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[
-                    Column(children: <Widget>[
-                      SizedBox(
-                        height: screenH(20),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: screenW(20),
-                          ),
-                          photoUrl != null
-                              ? CircleAvatar(
-                                  backgroundImage: NetworkImage(photoUrl),
-                                  radius: 45,
-                                )
-                              : SizedBox(height: 0.0,),
-                          SizedBox(
-                            width: screenW(20),
-                          ),
-                          FlatButton(
-                            color: Color(0xFF1458EA),
-                            child: Text(
-                              "Edit Social Image",
-                              style: TextStyle(color: Colors.white),
+                    Column(
+                      children: <Widget>[
+                       SizedBox(
+                         height: screenH(20),
+                       ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(20),
                             ),
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0)),
-                            onPressed: () {
-                              setImage();
-                            },
-                          ),
-                        ],
-                      ),
+                                photoUrl != null
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(photoUrl),
+                                        radius: 45,
+                                      )
+                                    : CircularProgressIndicator(),
+                                  SizedBox(
+                                    width: screenW(20),
+                                  ),
+                                  FlatButton(
+                                    color: Color(0xFF1458EA),
+                                    child: Text("Edit Social Image", style: TextStyle(color: Colors.white),),
+                                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                                    onPressed: (){
+                                      setImage();
+                                    },
+                                  ),
+
+                          ],
+                        ),
                       SizedBox(
                         height: 10.0,
                         width: screenW(70),
@@ -783,6 +789,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 //                         ],
 //                       ),
 //                     ),
+         
 
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
@@ -795,6 +802,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                
+                                
                                   onSubmitted: (value) {
                                     if (value != '' && value != null) {
                                       setState(() {
@@ -803,20 +812,20 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                     }
                                   },
                                   decoration: InputDecoration(
-                                      hintText: snapchat == null
-                                          ? "Snapchat"
-                                          : snapchat,
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      prefixIcon: Icon(
-                                        FontAwesome.snapchat_square,
-                                        size: 30,
-                                        color: Color(0xFFfffc00),
-                                      ),
+                                    hintText: snapchat==null? "Snapchat":snapchat,
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    prefixIcon: Icon(
+                                    FontAwesome.snapchat_square,
+                                    size: 30,
+                                    color: Color(0xFFfffc00),
+                                  ),
                                       prefixText: '@',
                                       prefixStyle:
                                           TextStyle(color: Colors.grey),
+                                      
                                       labelStyle: TextStyle(
-                                          fontSize: 15, color: Colors.blueGrey),
+                                          fontSize: 15,
+                                          color: Colors.blueGrey),
                                       contentPadding: EdgeInsets.all(20),
                                       border: new OutlineInputBorder(
                                         borderRadius:
@@ -851,6 +860,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                
+                                
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -864,9 +875,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                     color: Color(0xFF8803fc),
                                     size: 30,
                                   ),
-                                  hintText: instagram == null
-                                      ? "Instagram"
-                                      : instagram,
+                                  hintText: instagram==null?"Instagram":instagram,
                                   hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
@@ -908,6 +917,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                
+                               
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -917,12 +928,12 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                 },
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
-                                    MaterialCommunityIcons.twitter_box,
+                                    MaterialCommunityIcons
+                                        .twitter_box,
                                     color: Colors.blue,
                                     size: 30,
                                   ),
-                                  hintText:
-                                      twitter == null ? "Twitter" : twitter,
+                                  hintText: twitter==null?"Twitter":twitter,
                                   hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
@@ -1122,10 +1133,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'email': email
     });
 
-    Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .updateData({'photoUrl': photoUrl});
+    Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
+      'photoUrl':photoUrl
+    });
   }
 
   Future<void> uploadImage() async {
@@ -1176,8 +1186,10 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   String text = "Nothing to show";
   bool isSwitched2 = true;
 
+
   @override
   Widget build(BuildContext context) {
+
     List<SearchItem<int>> data2 = [
       SearchItem(0, 'Please select your university'),
       SearchItem(1, 'Athabasca University'),
@@ -1259,7 +1271,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     )..init(context);
     return ListView(
       children: <Widget>[
-        Column(children: <Widget>[
+        Column(
+          children: <Widget>[
           // Container(
           //   color: Colors.white,
           //   height: screenH(310),
@@ -1489,34 +1502,32 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         height: 20.0,
                         width: screenW(70),
                       ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: screenW(20),
-                          ),
-                          photoUrl != null
-                              ? CircleAvatar(
-                                  backgroundImage: NetworkImage(photoUrl),
-                                  radius: 45,
-                                )
-                              : SizedBox(height: 0.0,),
-                          SizedBox(
-                            width: screenW(20),
-                          ),
-                          FlatButton(
-                            color: Color(0xFF1458EA),
-                            child: Text(
-                              "Edit Professional Image",
-                              style: TextStyle(color: Colors.white),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: screenW(20),
                             ),
-                            shape: new RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(10.0)),
-                            onPressed: () {
-                              setImage();
-                            },
-                          ),
-                        ],
-                      ),
+                                photoUrl != null
+                                    ? CircleAvatar(
+                                        backgroundImage:
+                                            NetworkImage(photoUrl),
+                                        radius: 45,
+                                      )
+                                    : CircularProgressIndicator(),
+                                  SizedBox(
+                                    width: screenW(20),
+                                  ),
+                                  FlatButton(
+                                    color: Color(0xFF1458EA),
+                                    child: Text("Edit Professional Image", style: TextStyle(color: Colors.white),),
+                                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
+                                    onPressed: (){
+                                      setImage();
+                                    },
+                                  ),
+
+                          ],
+                        ),
                       Row(
                         children: <Widget>[
                           SizedBox(
@@ -1820,6 +1831,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                               
+                                
+                                
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -1829,12 +1843,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                 },
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
-                                    FontAwesome.linkedin_square,
-                                    size: 30,
-                                    color: Color(0xFF0077b5),
-                                  ),
-                                  hintText:
-                                      linkedIn == null ? "LinkedIn" : linkedIn,
+                                        FontAwesome.linkedin_square,
+                                        size: 30,
+                                        color: Color(0xFF0077b5),
+                                      ),
+                                  hintText: linkedIn==null?"LinkedIn":linkedIn,
                                   hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
@@ -1876,6 +1889,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                
+                                
                                 onSubmitted: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
@@ -1885,11 +1900,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                 },
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
-                                    MaterialCommunityIcons.github_box,
-                                    color: Color(0xFF3c3744),
-                                    size: 30,
-                                  ),
-                                  hintText: github == null ? "GitHub" : github,
+                                        MaterialCommunityIcons.github_box,
+                                        color: Color(0xFF3c3744),
+                                        size: 30,
+                                      ),
+                                  hintText: github==null?"GitHub":github,
                                   hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
@@ -1939,12 +1954,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                 },
                                 decoration: InputDecoration(
                                   prefixIcon: Icon(
-                                    MaterialCommunityIcons.twitter_box,
-                                    color: Colors.blue,
-                                    size: 30,
-                                  ),
-                                  hintText:
-                                      twitter == null ? "Twitter" : twitter,
+                                        MaterialCommunityIcons.twitter_box,
+                                        color: Colors.blue,
+                                        size: 30,
+                                      ),
+                                  hintText: twitter==null?"Twitter":twitter,
                                   hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
@@ -2028,9 +2042,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         SizedBox(
                           height: 10,
                         ),
-                        Text(saved,
-                            style: TextStyle(
-                                fontSize: screenF(15), color: Colors.grey)),
+                            Text(saved,
+                                style: TextStyle(
+                                    fontSize: screenF(15), color: Colors.grey)),
                       ],
                     )
                   ]))
@@ -2046,6 +2060,9 @@ class CardEdit extends StatefulWidget {
 }
 
 class _CardEditState extends State<CardEdit> {
+
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -2060,10 +2077,9 @@ class _CardEditState extends State<CardEdit> {
               IconButton(
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: ProfilePage()));
+                    context,
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
                 },
                 color: Colors.white,
                 icon: Icon(Icons.arrow_back_ios),
@@ -2072,10 +2088,7 @@ class _CardEditState extends State<CardEdit> {
           ),
           elevation: 0.0,
           backgroundColor: Color(0xFF1458EA),
-          title: Text(
-            'Edit Cards',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+          title: Text('Edit Cards', style: TextStyle(fontWeight: FontWeight.bold),),
           bottom: TabBar(
             indicatorColor: Colors.white,
             tabs: <Widget>[

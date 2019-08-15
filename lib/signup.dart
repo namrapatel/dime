@@ -37,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
 
   Padding buildTitle() {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width/100),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 100),
       child: Text(
         'Hello There.',
         style: TextStyle(
@@ -55,8 +55,8 @@ class _SignupPageState extends State<SignupPage> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: MediaQuery.of(context).size.width/6,
-          height: MediaQuery.of(context).size.height/250,
+          width: MediaQuery.of(context).size.width / 6,
+          height: MediaQuery.of(context).size.height / 250,
           color: Colors.black,
         ),
       ),
@@ -75,7 +75,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Email Address',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -102,7 +102,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -150,7 +150,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Confirm Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -188,8 +188,8 @@ class _SignupPageState extends State<SignupPage> {
   Align buildLoginButton(BuildContext context) {
     return Align(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height/13,
-        width: MediaQuery.of(context).size.width/1.5,
+        height: MediaQuery.of(context).size.height / 13,
+        width: MediaQuery.of(context).size.width / 1.5,
         child: Container(
           decoration: BoxDecoration(
               color: Color(0xFF1458EA),
@@ -226,7 +226,7 @@ class _SignupPageState extends State<SignupPage> {
                       Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.fade,
+                              type: PageTransitionType.rightToLeft,
                               child: ScrollPage()));
                     });
                   } catch (e) {
@@ -277,7 +277,7 @@ class _SignupPageState extends State<SignupPage> {
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade, child: Login()));
+                        type: PageTransitionType.leftToRight, child: Login()));
               },
               child: Text('Sign in',
                   style: TextStyle(
@@ -330,32 +330,33 @@ class _SignupPageState extends State<SignupPage> {
             buildTitle(),
             buildTitleLine(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildEmailTextField(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildPasswordInput(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildConfirmInput(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildLoginButton(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildSignUpText(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/40,
+              height: MediaQuery.of(context).size.height / 40,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/17),
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 17),
               child: Divider(
-                height: MediaQuery.of(context).size.height/330,
+                height: MediaQuery.of(context).size.height / 330,
                 color: Colors.blueGrey,
               ),
             ),
@@ -368,8 +369,8 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                height: MediaQuery.of(context).size.height/13,
-                width: MediaQuery.of(context).size.width/1.5,
+                  height: MediaQuery.of(context).size.height / 13,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   child: OutlineButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),

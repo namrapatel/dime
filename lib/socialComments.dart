@@ -84,7 +84,8 @@ class _SocialCommentsState extends State<SocialComments> {
   }
 
   getAllUsers() async {
-    QuerySnapshot users = await Firestore.instance.collection('users').getDocuments();
+    QuerySnapshot users =
+        await Firestore.instance.collection('users').getDocuments();
   }
 
   Future<List<Comment>> getComments() async {
@@ -114,7 +115,9 @@ class _SocialCommentsState extends State<SocialComments> {
                   if (!snapshot.hasData)
                     return Container(
                         alignment: FractionalOffset.center,
-                        child: SizedBox(height: 0.0,));
+                        child: SizedBox(
+                          height: 0.0,
+                        ));
 
                   return Container(
                     child: Column(children: snapshot.data),
@@ -155,7 +158,9 @@ class _SocialCommentsState extends State<SocialComments> {
                         university,
                         style: TextStyle(color: Colors.black),
                       )
-                    : SizedBox(height: 0.0,),
+                    : SizedBox(
+                        height: 0.0,
+                      ),
                 Text(
                   'Social Feed',
                   style: TextStyle(
@@ -233,6 +238,11 @@ class _SocialCommentsState extends State<SocialComments> {
                             if (controller.text != "") {
                               String docName =
                                   postId + Timestamp.now().toString();
+                              DocumentSnapshot info = await Firestore.instance
+                                  .collection('socialPosts')
+                                  .document(postId)
+                                  .get();
+                              String ownerID = info.data['ownerId'];
                               Firestore.instance
                                   .collection('socialPosts')
                                   .document(postId)
@@ -249,7 +259,14 @@ class _SocialCommentsState extends State<SocialComments> {
                                 'text': controller.text,
                                 'timestamp': Timestamp.now()
                               });
-
+                              Firestore.instance.collection('postNotifs').add({
+                                'commenterId': currentUserModel.uid,
+                                'commenterName': currentUserModel.displayName,
+                                'commenterPhoto': currentUserModel.photoUrl,
+                                'text': controller.text,
+                                'timestamp': Timestamp.now(),
+                                'ownerId': ownerID
+                              });
                               Firestore.instance
                                   .collection('users')
                                   .document(currentUserModel.uid)

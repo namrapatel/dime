@@ -114,11 +114,11 @@ class _ChatState extends State<Chat> {
       //backgroundColor: Color(0xFFECE9E4),
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Color(0xFF1458EA),
-        elevation: screenH(5),
+        elevation: screenH(1),
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          color: Colors.white,
+          color: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
@@ -127,7 +127,7 @@ class _ChatState extends State<Chat> {
           children: <Widget>[
             toUserPhoto != null
                 ? CircleAvatar(
-                    radius: screenH(25),
+                    radius: screenH(20),
                     backgroundImage: NetworkImage(toUserPhoto),
                   )
                 : SizedBox(height: 0.0,),
@@ -140,8 +140,9 @@ class _ChatState extends State<Chat> {
                     child: AutoSizeText(
                       toUserName,
                       style: TextStyle(
-                        color: Colors.white,
-                      ),
+                          color: Colors.black,
+                          fontSize: screenF(17),
+                          fontWeight: FontWeight.bold),
                       minFontSize: 12,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -150,7 +151,7 @@ class _ChatState extends State<Chat> {
                 : SizedBox(height: 0.0,),
             IconButton(
               icon: Icon(MaterialCommunityIcons.card_bulleted),
-              color: Colors.white,
+              color: Color(0xFF1458EA),
               onPressed: () {
                 Navigator.push(
                     context,
@@ -182,13 +183,11 @@ class _ChatState extends State<Chat> {
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
                   return Center(child: SizedBox(height: 0.0,));
-
                 List<DocumentSnapshot> docs = snapshot.data.documents;
 
                 List<Message> messages = [];
                 for (var doc in docs) {
                   var storedDate = doc.data['timestamp'];
-//
                   String elapsedTime = timeago.format(storedDate.toDate());
                   String timestamp = '$elapsedTime';
                   messages.add(Message(
@@ -217,7 +216,7 @@ class _ChatState extends State<Chat> {
             child: Row(
               children: <Widget>[
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 50,
+                  width: MediaQuery.of(context).size.width / 25,
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width / 1.3,
@@ -253,7 +252,7 @@ class _ChatState extends State<Chat> {
                   ),
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 15,
+                  width: MediaQuery.of(context).size.width / 20,
                 ),
                 SendButton(
                   text: "Send",
@@ -298,8 +297,8 @@ class SendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: screenW(44),
-        height: screenH(44),
+        width: screenW(46),
+        height: screenH(46),
         child: FloatingActionButton(
             elevation: screenH(5),
             backgroundColor: Color(0xFF1458EA),
@@ -332,10 +331,10 @@ class Message extends StatelessWidget {
           ? EdgeInsets.fromLTRB(
               MediaQuery.of(context).size.width / 3.5,
               MediaQuery.of(context).size.height / 50,
-              MediaQuery.of(context).size.width / 50,
+              MediaQuery.of(context).size.width / 25,
               0)
           : EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.width / 50,
+              MediaQuery.of(context).size.width / 25,
               MediaQuery.of(context).size.height / 50,
               MediaQuery.of(context).size.width / 3.5,
               0),
@@ -344,7 +343,7 @@ class Message extends StatelessWidget {
             me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Material(
-            color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
+            color: me ? Color(0xFFF3F4F5) : Color(0xFF1458EA),
             borderRadius: me
                 ? BorderRadius.only(
                     topRight: Radius.circular(15),
@@ -358,23 +357,26 @@ class Message extends StatelessWidget {
                     bottomRight: Radius.circular(15),
                     bottomLeft: Radius.circular(0),
                   ),
-            elevation: 2,
+            elevation: 0,
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
               child: Text(
                 text,
                 style: TextStyle(
-                  color: me ? Colors.white : Colors.black,
+                  color: me ? Colors.black : Colors.white,
                 ),
               ),
             ),
+          ),
+          SizedBox(
+            height: screenH(5),
           ),
           Text(
             timestamp,
             style: TextStyle(color: Colors.grey, fontSize: 11),
           ),
           SizedBox(
-            height: 10,
+            height: screenH(10),
           )
         ],
       ),

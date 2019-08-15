@@ -251,7 +251,6 @@ void firebaseCloudMessaging_Listeners() {
           RaisedButton(
             child: Text("Local Notif UI"),
             onPressed: (){
-
             Flushbar(
               margin: EdgeInsets.all(8),
               borderRadius: 15,

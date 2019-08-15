@@ -10,7 +10,6 @@ import 'package:Dime/models/user.dart';
 import 'services/usermanagement.dart';
 import 'services/facebookauth.dart';
 import 'homePage.dart';
-import 'package:flutter/services.dart';
 
 //TODO: display text if email already registered etc..
 
@@ -230,21 +229,13 @@ class _SignupPageState extends State<SignupPage> {
                               type: PageTransitionType.fade,
                               child: ScrollPage()));
                     });
-                  } on PlatformException catch(e)  {
-                    _showCupertinoDialog(e.code);
+                  } catch (e) {
                     print(e.message);
-                    print(e.code);
-                    print(e.details);
-                  } catch(i){
-                    _showCupertinoDialog('unexpected');
-                    print('undefined exception');
-                    print(i);
-
                   }
                   //NAVIGATE TO ONBOARDING
 
                 } else if (_password != _confirm) {
-                  _showCupertinoDialog('matching');
+                  _showCupertinoDialog();
                 }
               }
             },
@@ -298,26 +289,7 @@ class _SignupPageState extends State<SignupPage> {
         ));
   }
 
-  void _showCupertinoDialog(String exception) {
-    String errorMessage='';
-    if(exception=="ERROR_WEAK_PASSWORD"){
-      errorMessage='Please enter a password with at least 6 characters';
-      print('user doesnt exist');
-    }else if(exception=="ERROR_INVALID_EMAIL"){
-      errorMessage='Please enter a valid email address';
-    }else if(exception=="ERROR_EMAIL_ALREADY_IN_USE"){
-      errorMessage='This email address is already in use by another account';
-    }else if(exception=="matching"){
-      errorMessage="Please enter passwords that match";
-    }else if(exception=="ERROR_USER_NOT_FOUND"){
-      errorMessage='The email entered does not match any account';
-      print('user doesnt exist');
-    }else if(exception=="ERROR_WRONG_PASSWORD"){
-      errorMessage='The password entered is incorrect';
-    }
-    else{
-      errorMessage="There was an unexpected error";
-    }
+  void _showCupertinoDialog() {
     showDialog(
         context: context,
         builder: (context) {
@@ -326,7 +298,7 @@ class _SignupPageState extends State<SignupPage> {
             content: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                errorMessage,
+                "There was an error in your password confirmation!",
                 style: TextStyle(color: Colors.grey[600]),
               ),
             ),

@@ -3,15 +3,17 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flushbar/flushbar.dart';
 
+
+
 class LocalNotification extends StatelessWidget {
-//  final String titleMessage;
-//  final String bodyMessage;
-//
-//  const LocalNotification(this.titleMessage, this.bodyMessage);
+  final String titleMessage;
+  final String bodyMessage;
+  const LocalNotification(this.titleMessage, this.bodyMessage);
 
   @override
   Widget build(BuildContext context) {
     return Flushbar(
+      message: "hello",
       margin: EdgeInsets.all(8),
       borderRadius: 15,
       messageText: Padding(
@@ -21,12 +23,12 @@ class LocalNotification extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "New message from Dhruv Patel",
+              titleMessage,
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             Text(
-              "Hey, how's it going? I'm a big baller",
+              bodyMessage,
               style: TextStyle(color: Colors.grey),
             )
           ],

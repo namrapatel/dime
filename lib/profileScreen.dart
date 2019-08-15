@@ -115,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
             top: (MediaQuery.of(context).size.height / 6.5),
             left: (MediaQuery.of(context).size.width / 2 - 50.0),
             child: photoUrl == null
-                ? CircularProgressIndicator()
+                ? SizedBox(height: 0.0,)
                 : CircleAvatar(
                     backgroundImage: NetworkImage(photoUrl),
                     radius: screenW(50),

@@ -497,7 +497,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SpinKitThreeBounce(color: Colors.white),
+                              : SizedBox(height: 0.0,),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -1499,7 +1499,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SpinKitThreeBounce(color: Colors.white),
+                              : SizedBox(height: 0.0,),
                           SizedBox(
                             width: screenW(20),
                           ),

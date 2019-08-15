@@ -111,7 +111,9 @@ class _ProfCommentsState extends State<ProfComments> {
                   if (!snapshot.hasData)
                     return Container(
                         alignment: FractionalOffset.center,
-                        child: CircularProgressIndicator());
+                        child: SizedBox(
+                          height: 0.0,
+                        ));
 
                   return Container(
                     child: Column(children: snapshot.data),
@@ -152,7 +154,7 @@ class _ProfCommentsState extends State<ProfComments> {
                         university,
                         style: TextStyle(color: Colors.black),
                       )
-                    : CircularProgressIndicator(),
+                    : SizedBox(height: 0.0,),
                 Text(
                   'Professional Feed',
                   style: TextStyle(

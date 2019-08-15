@@ -177,7 +177,7 @@ class _SocialPageState extends State<SocialPage> {
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: SpinKitThreeBounce(color: Colors.white),
+                      child: SizedBox(height: 0.0,),
                     );
                   } else {
                     return ListView.builder(

@@ -115,7 +115,7 @@ class _SocialCommentsState extends State<SocialComments> {
                   if (!snapshot.hasData)
                     return Container(
                         alignment: FractionalOffset.center,
-                        child: CircularProgressIndicator());
+                        child: SizedBox(height: 0.0,));
 
                   return Container(
                     child: Column(children: snapshot.data),
@@ -156,7 +156,7 @@ class _SocialCommentsState extends State<SocialComments> {
                         university,
                         style: TextStyle(color: Colors.black),
                       )
-                    : CircularProgressIndicator(),
+                    : SizedBox(height: 0.0,),
                 Text(
                   'Social Feed',
                   style: TextStyle(

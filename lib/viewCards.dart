@@ -30,7 +30,7 @@ class _ViewCardsState extends State<ViewCards> {
           if (!snapshot.hasData)
             return Container(
                 alignment: FractionalOffset.center,
-                child: CircularProgressIndicator());
+                child: SizedBox(height: 0.0,));
 
           return Row(children: snapshot.data);
         });
@@ -61,7 +61,7 @@ socialCardId= document.documentID;
           if (!snapshot.hasData)
             return Container(
                 alignment: FractionalOffset.center,
-                child: CircularProgressIndicator());
+                child: SizedBox(height: 0.0,));
 
           return Row(children: snapshot.data);
         });

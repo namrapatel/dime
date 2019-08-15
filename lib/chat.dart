@@ -130,7 +130,7 @@ class _ChatState extends State<Chat> {
                     radius: screenH(25),
                     backgroundImage: NetworkImage(toUserPhoto),
                   )
-                : CircularProgressIndicator(),
+                : SizedBox(height: 0.0,),
             SizedBox(
               width: MediaQuery.of(context).size.width / 33,
             ),
@@ -147,7 +147,7 @@ class _ChatState extends State<Chat> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
-                : CircularProgressIndicator(),
+                : SizedBox(height: 0.0,),
             IconButton(
               icon: Icon(MaterialCommunityIcons.card_bulleted),
               color: Colors.white,
@@ -181,7 +181,7 @@ class _ChatState extends State<Chat> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return Center(child: CircularProgressIndicator());
+                  return Center(child: SizedBox(height: 0.0,));
 
                 List<DocumentSnapshot> docs = snapshot.data.documents;
 

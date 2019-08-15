@@ -260,7 +260,9 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'commenterPhoto': currentUserModel.photoUrl,
                                 'text': controller.text,
                                 'timestamp': Timestamp.now(),
-                                'ownerId': ownerID
+                                'ownerId': ownerID,
+                                "postID": widget.postId,
+                                "type": "prof",
                               });
                               Firestore.instance
                                   .collection('users')

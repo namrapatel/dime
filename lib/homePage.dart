@@ -28,6 +28,8 @@ import 'package:flushbar/flushbar.dart';
 import 'package:Dime/models/localnotif.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'profComments.dart';
+import 'socialComments.dart';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -215,8 +217,34 @@ class _ScrollPageState extends State<ScrollPage>
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        LocalNotifcation(context, message['notification']['title'],
-            message['notification']['body']);
+        if (message['data']['notifType'] == "chat") {
+          LocalNotifcation(
+              context,
+              message['notification']['title'],
+              message['notification']['body'],
+              message['data']['senderId'],
+              "chat");
+        }
+        else if (message['data']['notifType'] == "postNotif") {
+          print(message);
+          if (message['data']['type'] == "prof") {
+            LocalNotifcation(
+                context,
+                message['notification']['title'],
+                message['notification']['body'],
+                message['data']['postId'],
+                "postNotifProf");
+          }
+          else {
+            print(message);
+            LocalNotifcation(
+                context,
+                message['notification']['title'],
+                message['notification']['body'],
+                message['data']['postId'],
+                "postNotifSocial");
+          }
+        }
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
@@ -581,7 +609,6 @@ class _ScrollPageState extends State<ScrollPage>
       ],
     );
   }
-
 
 //  Future<List<UserTile>> getUsers() async {
 //    List<UserTile> userList = [];
@@ -958,10 +985,38 @@ class UserTile extends StatelessWidget {
   }
 }
 
-Widget LocalNotifcation(
-    BuildContext context, String titleMessage, String bodyMessage) {
+Widget LocalNotifcation(BuildContext context, String titleMessage,
+    String bodyMessage, String key, String notifType) {
   return Flushbar(
     // message: "hello",
+    onTap: (Flushbar) {
+      if (notifType == "chat") {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: Chat(
+                  fromUserId: currentUserModel.uid,
+                  toUserId: key,
+                )));
+      } else if (notifType == "postNotifProf") {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: ProfComments(
+                  postId: key,
+                )));
+      } else if (notifType == "postNotifSocial") {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.leftToRight,
+                child: SocialComments(
+                  postId: key,
+                )));
+      }
+    },
     margin: EdgeInsets.all(8),
     borderRadius: 15,
     messageText: Padding(

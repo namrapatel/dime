@@ -31,8 +31,11 @@ exports.chatTrigger = functions.firestore.document('notifMessages/{messageId}').
                     "sound": "default"
                 },
                 "data": {
+                    "click_action": "FLUTTER_NOTIFICATION_CLICK",
                     "senderName": fromName,
-                    "message": msgData.text
+                    "message": msgData.text,
+                    "senderId": fromId,
+                    "notifType": "chat"
                 }
             }
             console.log(fromName);
@@ -62,8 +65,12 @@ exports.postNotifTrigger = functions.firestore.document('postNotifs/{notifId}').
                     "sound": "default"
                 },
                 "data": {
+                    "click_action": "FLUTTER_NOTIFICATION_CLICK",
                     "senderName": fromName,
-                    "message": notifData.text
+                    "message": notifData.text,
+                    "notifType": "postNotif",
+                    "postId": notifData.postID,
+                    "type": notifData.type
                 }
             }
             console.log(payLoad)

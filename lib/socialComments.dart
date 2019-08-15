@@ -265,7 +265,9 @@ class _SocialCommentsState extends State<SocialComments> {
                                 'commenterPhoto': currentUserModel.photoUrl,
                                 'text': controller.text,
                                 'timestamp': Timestamp.now(),
-                                'ownerId': ownerID
+                                'ownerId': ownerID,
+                                "postID": widget.postId,
+                                "type": "social",
                               });
                               Firestore.instance
                                   .collection('users')

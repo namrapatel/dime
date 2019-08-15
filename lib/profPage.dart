@@ -1,82 +1,80 @@
-  import 'package:Dime/createProfPost.dart';
-  import 'package:Dime/profile.dart';
-  import 'package:flutter/material.dart';
-  import 'package:cloud_firestore/cloud_firestore.dart';
-  import 'package:flutter_screenutil/flutter_screenutil.dart';
-  import 'package:page_transition/page_transition.dart';
-  import 'homePage.dart';
-  import 'login.dart';
-  import 'models/profPost.dart';
+import 'package:Dime/createProfPost.dart';
+import 'package:Dime/profile.dart';
+import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:page_transition/page_transition.dart';
+import 'homePage.dart';
+import 'login.dart';
+import 'package:flutter/cupertino.dart';
+import 'models/profPost.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-  final screenH = ScreenUtil.instance.setHeight;
-  final screenW = ScreenUtil.instance.setWidth;
-  final screenF = ScreenUtil.instance.setSp;
-  final _firestore = Firestore.instance;
 
-  class ProfPage extends StatefulWidget {
+final screenH = ScreenUtil.instance.setHeight;
+final screenW = ScreenUtil.instance.setWidth;
+final screenF = ScreenUtil.instance.setSp;
+final _firestore = Firestore.instance;
+
+class ProfPage extends StatefulWidget {
   @override
   _ProfPageState createState() => _ProfPageState();
-  }
+}
 
-  class _ProfPageState extends State<ProfPage> {
-
+class _ProfPageState extends State<ProfPage> {
   var university = currentUserModel.university;
   @override
   void initState() {
-
-  super.initState();
-
-
+    super.initState();
   }
-
 
   Future getPosts() async {
+    QuerySnapshot qn = await Firestore.instance
+        .collection('profPosts')
+        .where('university', isEqualTo: currentUserModel.university)
+        .getDocuments();
+    List<dynamic> docs = qn.documents;
+    List<List<dynamic>> twoD = [];
+    List<DocumentSnapshot> finalSorted = [];
 
-  QuerySnapshot qn = await Firestore.instance
-      .collection('profPosts').where('university',isEqualTo: currentUserModel.university)
+    print('length');
+    print(docs.length);
+    for (var doc in docs) {
+      double counter = 0;
+      List<dynamic> toAdd = [];
+      Timestamp time = doc.data['timeStamp'];
 
-      .getDocuments();
-  List<dynamic> docs= qn.documents;
-  List<List<dynamic>> twoD=[];
-  List<DocumentSnapshot> finalSorted=[];
+      print(doc.data['caption']);
 
-  print('length');
-  print(docs.length);
-  for(var doc in docs){
-  double counter=0;
-  List<dynamic> toAdd=[];
-  Timestamp time=doc.data['timeStamp'];
+      print(DateTime.now().difference(time.toDate()));
+      if (DateTime.now().difference(time.toDate()).inMinutes <= 60) {
+        print('difference between posted and time from an hour ago is');
+        print(DateTime.now().difference(time.toDate()).inMinutes);
+        counter = counter + 5;
+      }
+      int upvotes = doc.data['upVotes'];
+      counter = counter + (0.1 * upvotes);
+      int comments = doc.data['comments'];
+      counter = counter + (0.2 * comments);
+      toAdd.add(doc);
+      toAdd.add(counter);
+      twoD.add(toAdd);
+    }
+    for (var list in twoD) {
+      print(list[0].data['caption']);
+      print(list[1]);
+    }
+    twoD.sort((b, a) => a[1].compareTo(b[1]));
+    print('after sort');
+    for (var list in twoD) {
+      print(list[0].data['caption']);
+      print(list[1]);
+      finalSorted.add(list[0]);
+    }
 
-  print(doc.data['caption']);
-
-  print(DateTime.now().difference(time.toDate()));
-  if(DateTime.now().difference(time.toDate()).inMinutes<=60){
-  print('difference between posted and time from an hour ago is');
-  print(DateTime.now().difference(time.toDate()).inMinutes);
-  counter=counter+5;
+    return finalSorted;
   }
-  int upvotes=doc.data['upVotes'];
-  counter=counter+(0.1*upvotes);
-  int comments= doc.data['comments'];
-  counter=counter+(0.2*comments);
-  toAdd.add(doc);
-  toAdd.add(counter);
-  twoD.add(toAdd);
-  }
-  for (var list in twoD){
-  print(list[0].data['caption']);
-  print(list[1]);
-  }
-  twoD.sort((b, a) => a[1].compareTo(b[1]));
-  print('after sort');
-  for (var list in twoD){
-  print(list[0].data['caption']);
-  print(list[1]);
-  finalSorted.add(list[0]);
-  }
 
-  return finalSorted;
-  }
   int commentLengths;
 
   @override
@@ -106,7 +104,7 @@
                 },
               ),
               title: Text(
-                university!=null?university:"Whoops!",
+                university != null ? university : "Whoops!",
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 25,
@@ -114,86 +112,89 @@
               ),
             )),
         backgroundColor: Color(0xFF063F3E),
-        floatingActionButton: currentUserModel.university!=null?FloatingActionButton(
-
-
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(16.0))),
-          onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: CreateProfPost()));
-          },
-          elevation: 350,
-          heroTag: 'btn1',
-          backgroundColor: Color(0xFF3c3744),
-          child: Icon(
-            Icons.add,
-            // color: Color(0xFF8803fc),
-            color: Colors.white,
-          ),
-        ):
-        SizedBox(height: 1,),
-//
-        body:university!=null? FutureBuilder(
-  future: getPosts(),
-  builder: (_, snapshot) {
-  if (snapshot.connectionState == ConnectionState.waiting) {
-  return Center(child: Text("loading..."));
-  } else{
-
-  return ListView.builder(
-  itemCount: snapshot?.data?.length,
-  physics: BouncingScrollPhysics(),
-  itemBuilder: (_, index) {
-
-
-  return ProfPost(
-
-  postId: snapshot.data[index].documentID,
-
-  );
-  });
-  }
-  }):Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height/18
-              ),
-              Image.asset('assets/img/login_logo.png'),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/88,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text("Please go to settings and add a university to see your feed!",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-                ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/88,
-              ),
-          FlatButton(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            color: Colors.white,
-            child: Text("Add University", style: TextStyle(color: Color(0xFF063F3E), fontSize: 20, fontWeight: FontWeight.bold),),
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-            onPressed: (){
+        floatingActionButton: currentUserModel.university != null
+            ? FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.fade, child: Profile()));
-            },
-          ),
-
-            ],
-          )
-
-  );
+                          type: PageTransitionType.rightToLeft,
+                          child: CreateProfPost()));
+                },
+                elevation: 350,
+                heroTag: 'btn1',
+                backgroundColor: Color(0xFF3c3744),
+                child: Icon(
+                  Icons.add,
+                  // color: Color(0xFF8803fc),
+                  color: Colors.white,
+                ),
+              )
+            : SizedBox(
+                height: 1,
+              ),
+//
+        body: university != null
+            ? FutureBuilder(
+                future: getPosts(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return SizedBox(height: 0.0,);
+                  } else {
+                    return ListView.builder(
+                        itemCount: snapshot?.data?.length,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          return ProfPost(
+                            postId: snapshot.data[index].documentID,
+                          );
+                        });
+                  }
+                })
+            : Column(
+                children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height / 18),
+                  Image.asset('assets/img/login_logo.png'),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 88,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Please go to settings and add a university to see your feed!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 88,
+                  ),
+                  FlatButton(
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    color: Colors.white,
+                    child: Text(
+                      "Add University",
+                      style: TextStyle(
+                          color: Color(0xFF063F3E),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: Profile()));
+                    },
+                  ),
+                ],
+              ));
   }
-  }
+}

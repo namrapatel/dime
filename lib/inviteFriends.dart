@@ -70,7 +70,7 @@ class _InviteFriendsState extends State<InviteFriends> {
               IconButton(
                 icon: Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.pop(context); 
                 },
               ),
             ],

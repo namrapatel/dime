@@ -47,7 +47,6 @@ dev_dependencies:
   contacts_service: ^0.2.8
   sticky_infinite_list:
   rubber:
-  google_maps_flutter:
   flushbar: ^1.8.2
   flutter_tagging: ^1.1.0
   carousel_slider: ^1.3.0

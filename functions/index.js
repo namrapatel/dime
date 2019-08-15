@@ -26,7 +26,7 @@ exports.chatTrigger = functions.firestore.document('notifMessages/{messageId}').
             fromName = doc.data().displayName;
             payLoad = {
                 "notification": {
-                    "title": "New message from " + fromName,
+                    "title": fromName,
                     "body": msgData.text,
                     "sound": "default"
                 },

@@ -138,13 +138,13 @@ class _ChatListState extends State<ChatList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Color(0xFF1458EA),
+        elevation: 1,
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -153,9 +153,9 @@ class _ChatListState extends State<ChatList> {
         title:  Text(
                 "Messages",
                 style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 25,
-                    fontWeight: FontWeight.bold),
+                    ),
               ),
       ),
       body: ListView(

@@ -1,6 +1,7 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/socialPage.dart' as prefix0;
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'models/commentTags.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'homePage.dart';
@@ -27,7 +28,7 @@ class _ProfCommentsState extends State<ProfComments> {
     UserTag(
       id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',
       photo:
-      "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",
+          "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",
       name: "Shehab Salem",
     )
 //    "Apple",
@@ -69,22 +70,18 @@ class _ProfCommentsState extends State<ProfComments> {
     super.initState();
     getPostUni();
   }
-  getPostUni() async{
-    DocumentSnapshot query = await Firestore.instance
-        .collection('profPosts')
-        .document(postId)
-        .get();
+
+  getPostUni() async {
+    DocumentSnapshot query =
+        await Firestore.instance.collection('profPosts').document(postId).get();
     setState(() {
-      university =query.data['university'];
+      university = query.data['university'];
     });
-
-
   }
 
   getAllUsers() async {
-    QuerySnapshot users = await Firestore.instance
-        .collection('users')
-        .getDocuments();
+    QuerySnapshot users =
+        await Firestore.instance.collection('users').getDocuments();
   }
 
   Future<List<Comment>> getComments() async {
@@ -114,15 +111,16 @@ class _ProfCommentsState extends State<ProfComments> {
                   if (!snapshot.hasData)
                     return Container(
                         alignment: FractionalOffset.center,
-                        child: CircularProgressIndicator());
+                        child: SizedBox(
+                          height: 0.0,
+                        ));
 
                   return Container(
                     child: Column(children: snapshot.data),
                   );
                 }),
-
             SizedBox(
-              height: MediaQuery.of(context).size.height/10,
+              height: MediaQuery.of(context).size.height / 10,
             )
           ],
         ));
@@ -139,7 +137,7 @@ class _ProfCommentsState extends State<ProfComments> {
             Navigator.push(
                 context,
                 PageTransition(
-                    type: PageTransitionType.fade, child: ProfPage()));
+                    type: PageTransitionType.leftToRight, child: ProfPage()));
           },
         ),
         elevation: 0.4,
@@ -151,11 +149,12 @@ class _ProfCommentsState extends State<ProfComments> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                university!=null?
-                Text(
-                  university,
-                  style: TextStyle(color: Colors.black),
-                ):CircularProgressIndicator(),
+                university != null
+                    ? Text(
+                        university,
+                        style: TextStyle(color: Colors.black),
+                      )
+                    : SizedBox(height: 0.0,),
                 Text(
                   'Professional Feed',
                   style: TextStyle(
@@ -174,13 +173,12 @@ class _ProfCommentsState extends State<ProfComments> {
             Expanded(
               child: Column(
                 children: <Widget>[
-                  Flexible(child:
-                  buildComments(),
+                  Flexible(
+                    child: buildComments(),
                   ),
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -204,10 +202,9 @@ class _ProfCommentsState extends State<ProfComments> {
                             contentPadding: EdgeInsets.only(
                                 left: MediaQuery.of(context).size.width / 30,
                                 bottom:
-                                MediaQuery.of(context).size.height / 155,
+                                    MediaQuery.of(context).size.height / 155,
                                 top: MediaQuery.of(context).size.height / 155,
-                                right:
-                                MediaQuery.of(context).size.width / 30),
+                                right: MediaQuery.of(context).size.width / 30),
                             hintText: 'Enter Comment',
                             hintStyle: TextStyle(color: Colors.grey)),
                         controller: controller,
@@ -231,19 +228,18 @@ class _ProfCommentsState extends State<ProfComments> {
                             color: Colors.white,
                             size: 20,
                           ),
-
-                          onPressed: () async{
-                            if(controller.text!="") {
-                              String docName = postId +
-                                  Timestamp.now().toString();
+                          onPressed: () async {
+                            if (controller.text != "") {
+                              String docName =
+                                  postId + Timestamp.now().toString();
                               Firestore.instance
                                   .collection('profPosts')
                                   .document(postId)
-                                  .collection('comments').document(docName)
+                                  .collection('comments')
+                                  .document(docName)
                                   .setData({
                                 'type': 'prof',
                                 'postId': postId,
-
 
 //                              'commentId':docName,
                                 'commenterId': currentUserModel.uid,
@@ -253,10 +249,10 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'timestamp': Timestamp.now()
                               });
 
-
-                              Firestore.instance.collection('users').document(
-                                  currentUserModel.uid).collection(
-                                  'recentActivity')
+                              Firestore.instance
+                                  .collection('users')
+                                  .document(currentUserModel.uid)
+                                  .collection('recentActivity')
                                   .document(widget.postId)
                                   .setData({
                                 'type': 'prof',
@@ -272,18 +268,17 @@ class _ProfCommentsState extends State<ProfComments> {
                                   .collection('comments')
                                   .getDocuments();
                               int numberOfComments = snap.documents.length;
-                              Firestore.instance.collection('profPosts')
+                              Firestore.instance
+                                  .collection('profPosts')
                                   .document(postId)
-                                  .updateData({
-                                'comments': numberOfComments
-                              });
-
+                                  .updateData({'comments': numberOfComments});
 
                               setState(() {
                                 getComments();
                                 controller.clear();
                               });
-                            }})),
+                            }
+                          })),
                 ],
               ),
             )

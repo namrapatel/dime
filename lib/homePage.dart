@@ -25,7 +25,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
-
+import 'package:location/location.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -59,7 +60,7 @@ class _ScrollPageState extends State<ScrollPage>
   Stream<List<DocumentSnapshot>> stream;
 
   // Stream<List<DocumentSnapshot>> stream;
-  var radius = BehaviorSubject<double>.seeded(1.0);
+  var radius = BehaviorSubject<double>.seeded(6.0);
 
   List<DocumentSnapshot> list = [];
   // getPermission() async {
@@ -92,42 +93,62 @@ class _ScrollPageState extends State<ScrollPage>
 
   GeoPoint userLoc;
 
-  geoLoc.Position position;
+  LocationData position;
   GeoPoint current;
-  getLocation() async{
+  getLocation() async {
+    var location = new Location();
+    LocationData currentLocation = await location.getLocation();
 
+//    location.onLocationChanged().listen((LocationData currentLocation) async {
 
-    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
+    current = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
+
+//    geoLoc.Position idiot = await geoLoc.Geolocator().getCurrentPosition(desiredAccuracy: geoLoc.LocationAccuracy.high);
 
     setState(() {
-      position=idiot;
+      position = currentLocation;
     });
-
+    GeoFirePoint userLoc =
+        geo.point(latitude: position.latitude, longitude: position.longitude);
     print(position.latitude);
     print(position.longitude);
-    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
-    print('distance is');
-    print(distanceInMeters);
-    current =
-    new GeoPoint(position.latitude, position.longitude);
+//    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
+//    print('distance is');
+//    print(distanceInMeters);
+//    current =
+//    new GeoPoint(position.latitude, position.longitude);
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .setData({
-      'currentLocation': current,
+      'position': userLoc.data,
     }, merge: true);
-    DocumentSnapshot userRecord = await Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .get();
-    currentUserModel = User.fromDocument(userRecord);
+
+//    DocumentSnapshot userRecord = await Firestore.instance
+//        .collection('users')
+//        .document(currentUserModel.uid)
+//        .get();
+//    currentUserModel = User.fromDocument(userRecord);
 //    });
+//
+    stream = geo
+        .collection(collectionRef: Firestore.instance.collection('users'))
+        .within(
+            center: userLoc, radius: 6, field: 'position', strictMode: false);
+//    stream = radius.switchMap((rad) {
+//      var collectionReference = Firestore.instance.collection('users');
+//      return geo.collection(collectionRef: collectionReference).within(
+//          center: userLoc, radius: rad, field: 'position', strictMode: true);
+//    });
+
+//    changed(_value);
+//    print(distanceInMeters);
   }
 
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   _saveDeviceToken() async {
     String uid = currentUserModel.uid;
 
@@ -155,10 +176,11 @@ class _ScrollPageState extends State<ScrollPage>
       });
     }
   }
+
   @override
   void initState() {
     getLocation();
-     firebaseCloudMessaging_Listeners();
+    firebaseCloudMessaging_Listeners();
     //_saveDeviceToken();
     // if (Platform.isIOS) {
     //   _fcm.requestNotificationPermissions(IosNotificationSettings());
@@ -183,7 +205,7 @@ class _ScrollPageState extends State<ScrollPage>
     getPermission();
   }
 
-void firebaseCloudMessaging_Listeners() {
+  void firebaseCloudMessaging_Listeners() {
     if (Platform.isIOS) iOS_Permission();
 
     _firebaseMessaging.getToken().then((token) {
@@ -201,7 +223,7 @@ void firebaseCloudMessaging_Listeners() {
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
       },
-   );
+    );
   }
 
   void iOS_Permission() {
@@ -213,13 +235,10 @@ void firebaseCloudMessaging_Listeners() {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
-
 
     return Scaffold(
       appBar: AppBar(
@@ -228,77 +247,91 @@ void firebaseCloudMessaging_Listeners() {
         backgroundColor: Color(0xFF1458EA),
         title: Row(
           children: <Widget>[
-          RaisedButton(
-            child: Text("Local Notif UI"),
-            onPressed: (){
-            Flushbar(
-              margin: EdgeInsets.all(8),
-              borderRadius: 15,
-              messageText: Padding(
-                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("New message from Dhruv Patel",
-                    style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                    Text("Hey, how's it going? I'm a big baller",
-                    style: TextStyle(color: Colors.grey),
-                    )
-                  ],
-                ),
-              ),
-              backgroundColor: Colors.white,
-               flushbarPosition: FlushbarPosition.TOP,
-                        icon: Padding(
-                          padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                          child: Icon(
-                            Icons.info_outline,
-                            size: 28.0,
-                            color: Color(0xFF1458EA),
-                            ),
-                        ),
-                        duration: Duration(seconds: 3),
-                      )..show(context);
-            }
-          ),
-            firstName != "No"?
-                        Container(
-                        width: MediaQuery.of(context).size.width/1.6,
-                        child: AutoSizeText(
-                        "Hey " + firstName + "!",
-                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                      ):
-                      Row(
-                        children: <Widget>[
-                        AutoSizeText(
-                        "Hey!",
-                        style: TextStyle(fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width/20,),
-          FlatButton(
-            color: Colors.white,
-            child: Text("Set up Profile", style: TextStyle(color: Color(0xFF1458EA)),),
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-            onPressed: (){
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.fade, child: ProfilePage()));
-            },
-          ),
-                        ],
-                      ),
+            // RaisedButton(
+            //   child: Text("Local Notif UI"),
+            //   onPressed: (){
 
-            //Spacer(),
+            //   Flushbar(
+            //     margin: EdgeInsets.all(8),
+            //     borderRadius: 15,
+            //     messageText: Padding(
+            //       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: <Widget>[
+            //           Text("New message from Dhruv Patel",
+            //           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            //           ),
+            //           Text("Hey, how's it going? I'm a big baller",
+            //           style: TextStyle(color: Colors.grey),
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //     backgroundColor: Colors.white,
+            //      flushbarPosition: FlushbarPosition.TOP,
+            //               icon: Padding(
+            //                 padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+            //                 child: Icon(
+            //                   Icons.info_outline,
+            //                   size: 28.0,
+            //                   color: Color(0xFF1458EA),
+            //                   ),
+            //               ),
+            //               duration: Duration(seconds: 3),
+            //             )..show(context);
+            //   }
+            // ),
+            firstName != "No"
+                ? Container(
+                    width: MediaQuery.of(context).size.width / 1.6,
+                    child: AutoSizeText(
+                      "Hey " + firstName + "!",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      minFontSize: 12,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                : Row(
+                    children: <Widget>[
+                      AutoSizeText(
+                        "Hey!",
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 20,
+                      ),
+                      FlatButton(
+                        color: Colors.white,
+                        child: Text(
+                          "Set up Profile",
+                          style: TextStyle(color: Color(0xFF1458EA)),
+                        ),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.fade,
+                                  child: ProfilePage()));
+                        },
+                      ),
+                    ],
+                  ),
+
+            Spacer(),
 
             IconButton(
               icon: Icon(
@@ -313,25 +346,24 @@ void firebaseCloudMessaging_Listeners() {
                         type: PageTransitionType.fade, child: ProfilePage()));
               },
             ),
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: UserCard(
-                            userId: currentUserModel.uid,
-                            userName: currentUserModel.displayName,
-                          )));
-                },
-              ),
+            IconButton(
+              icon: Icon(MaterialCommunityIcons.card_bulleted),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.fade,
+                        child: UserCard(
+                          userId: currentUserModel.uid,
+                          userName: currentUserModel.displayName,
+                        )));
+              },
+            ),
           ],
         ),
       ),
       backgroundColor: Color(0xFF1458EA),
-      
       body: Container(
         child: RubberBottomSheet(
           scrollController: _scrollController,
@@ -482,31 +514,31 @@ void firebaseCloudMessaging_Listeners() {
               ),
               Stack(
                 children: <Widget>[
-              FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade, child: ChatList()));
-                },
-                elevation: 3,
-                heroTag: 'btn2',
-                backgroundColor: Colors.white,
-                child: Icon(
-                  MaterialCommunityIcons.chat,
-                  color: Colors.black,
-                ),
-              ),
-              Positioned(
-                top: MediaQuery.of(context).size.height/48,
-                left: MediaQuery.of(context).size.width/13.5,
-                child: CircleAvatar(
-                backgroundColor: Colors.red,
-                radius: 6,
-              )
-              )
+                  FloatingActionButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.fade,
+                              child: ChatList()));
+                    },
+                    elevation: 3,
+                    heroTag: 'btn2',
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      MaterialCommunityIcons.chat,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Positioned(
+                      top: MediaQuery.of(context).size.height / 48,
+                      left: MediaQuery.of(context).size.width / 13.5,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.red,
+                        radius: 6,
+                      ))
                 ],
               ),
               FloatingActionButton(
@@ -551,80 +583,175 @@ void firebaseCloudMessaging_Listeners() {
     );
   }
 
-  Future<List<UserTile>> getUsers() async {
-    List<UserTile> userList = [];
-
-    final Lat.Distance distance = new Lat.Distance();
-    QuerySnapshot query =
-    await Firestore.instance.collection('users').getDocuments();
-    final docs = query.documents;
-    for (var doc in docs) {
-      if (doc.data['currentLocation'] != null) {
-
+//  Future<List<UserTile>> getUsers() async {
+//    List<UserTile> userList = [];
 //
-//        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
-//            doc.data['currentLocation'].longitude);
-
-        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
-//        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
-
-        print(doc.documentID);
-        print('distance away is');
-        print(distanceInMeters);
-        if (distanceInMeters <= 6000.0 &&
-            doc.documentID != currentUserModel.uid) {
-          userList.add(new UserTile(
-              doc.data['displayName'], doc.data['photoUrl'], doc.documentID,
-              major: doc.data['major'],
-              profInterests: doc.data['profInterests'],
-              socialInterests: doc.data['socialInterests'],
-              university: doc.data['university'],
-              gradYear: doc.data['gradYear']));
-        }
-      }
-    }
-    return userList;
-  }
+//    final Lat.Distance distance = new Lat.Distance();
+//    QuerySnapshot query =
+//    await Firestore.instance.collection('users').getDocuments();
+//    final docs = query.documents;
+//    for (var doc in docs) {
+//      if (doc.data['currentLocation'] != null) {
+//
+////
+////        geoLat.LatLng point2=  geoLat.LatLng(doc.data['currentLocation'].latitude,
+////            doc.data['currentLocation'].longitude);
+//
+//        double distanceInMeters = await geoLoc.Geolocator().distanceBetween(position. latitude, position.longitude, doc.data['currentLocation'].latitude,  doc.data['currentLocation'].longitude);
+////        final double distanceInMeters =geoLat.computeDistanceHaversine(userLoc,point2);
+//
+//        print(doc.documentID);
+//        print('distance away is');
+//        print(distanceInMeters);
+//        if (distanceInMeters <= 6000.0 &&
+//            doc.documentID != currentUserModel.uid) {
+//          userList.add(new UserTile(
+//              doc.data['displayName'], doc.data['photoUrl'], doc.documentID,
+//              major: doc.data['major'],
+//              profInterests: doc.data['profInterests'],
+//              socialInterests: doc.data['socialInterests'],
+//              university: doc.data['university'],
+//              gradYear: doc.data['gradYear']));
+//        }
+//      }
+//    }
+//    return userList;
+//  }
 
   Widget _getUpperLayer() {
     return Container(
         color: Colors.white,
-        child: ListView(
-          children: <Widget>[
-            FutureBuilder<List<UserTile>>(
-            future: getUsers(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
+        child: ListView(children: <Widget>[
+          StreamBuilder(
+            stream: stream,
+            builder:
+                (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+              if (!snapshots.hasData) {
                 return Container(
                     alignment: FractionalOffset.center,
                     child: CircularProgressIndicator());
+              } else {
+                if (snapshots.data.length != 0) {
+                  snapshots.data.removeWhere((DocumentSnapshot doc) =>
+                      doc.documentID == currentUserModel.uid);
+                }
 
-              return Container(
-                child: 
-                snapshot.data.length == 0?
-                Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
-                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
-                      ),
-                    ), 
-                    Image.asset('assets/img/undraw_peoplearoundyou.png')
-                  ],
-                ):
-                Column(children: 
-                snapshot.data),
-              );
-            })
-          ],
-        )
-            
-            );
+                return Container(
+                    child: Container(
+                  child: (snapshots.data.length == 0)
+                      ? Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 20),
+                              child: Text(
+                                "There's nobody around. \n Go get a walk in and meet new people!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                            Image.asset('assets/img/undraw_peoplearoundyou.png')
+                          ],
+                        )
+                      : Container(
+                          height: MediaQuery.of(context).size.height * 2 / 3,
+                          child: ListView.builder(
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot doc = snapshots.data[index];
+                              print(
+                                  'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                              GeoPoint point = doc.data['position']['geopoint'];
+
+                              return UserTile(doc.data['displayName'],
+                                  doc.data['photoUrl'], doc.documentID,
+                                  major: doc.data['major'],
+                                  profInterests: doc.data['profInterests'],
+                                  socialInterests: doc.data['socialInterests'],
+                                  university: doc.data['university'],
+                                  gradYear: doc.data['gradYear']);
+                            },
+                            itemCount: snapshots.data.length,
+                          ),
+                        ),
+                ));
+//              else {
+//                snapshots.data.removeWhere((DocumentSnapshot doc) =>
+//                doc.documentID == currentUserModel.uid);
+//                print('data ${snapshots.data}');
+//                return Container(
+//                  height: MediaQuery
+//                      .of(context)
+//                      .size
+//                      .height * 2 / 3,
+//                  child: ListView.builder(
+//                    itemBuilder: (context, index) {
+//                      DocumentSnapshot doc = snapshots.data[index];
+//                      print(
+//                          'doc with id ${doc.documentID} distance ${doc
+//                              .data['distance']}');
+//                      GeoPoint point = doc.data['position']['geopoint'];
+//
+//                      return UserTile(
+//                          doc.data['displayName'], doc.data['photoUrl'],
+//                          doc.documentID,
+//                          major: doc.data['major'],
+//                          profInterests: doc.data['profInterests'],
+//                          socialInterests: doc.data['socialInterests'],
+//                          university: doc.data['university'],
+//                          gradYear: doc.data['gradYear']);
+//                    },
+//                    itemCount: snapshots.data.length,
+//                  ),
+//                );
+//              }
+////            else {
+////              return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ]));
   }
 
-  double _value = 5.0;
+//  Widget _getUpperLayer() {
+//    return Container(
+//        color: Colors.white,
+//        child: ListView(
+//          children: <Widget>[
+//
+//            FutureBuilder<List<UserTile>>(
+//            future: getUsers(),
+//            builder: (context, snapshot) {
+//              if (!snapshot.hasData)
+//                return Container(
+//                    alignment: FractionalOffset.center,
+//                    child: CircularProgressIndicator());
+//
+//              return Container(
+//                child:
+//                snapshot.data.length == 0?
+//                Column(
+//                  children: <Widget>[
+//                    Padding(
+//                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
+//                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
+//                      textAlign: TextAlign.center,
+//                      style: TextStyle(fontSize: 20),
+//                      ),
+//                    ),
+//                    Image.asset('assets/img/undraw_peoplearoundyou.png')
+//                  ],
+//                ):
+//                Column(children:
+//                snapshot.data),
+//              );
+//            })
+//          ],
+//        )
+//
+//            );
+//  }
+
+  double _value = 6.0;
   String _label = '';
 
   changed(value) {
@@ -660,16 +787,16 @@ class UserTile extends StatelessWidget {
         children: <Widget>[
           // Text(interests,
           //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
-                        Container(
-                        width: 200,
-                        child: AutoSizeText(
-                        interests,
-                        style: TextStyle(color: Color(0xFF1976d2), fontSize: 13),
-                        minFontSize: 10,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                      )
+          Container(
+            width: 200,
+            child: AutoSizeText(
+              interests,
+              style: TextStyle(color: Color(0xFF1976d2), fontSize: 13),
+              minFontSize: 10,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
         ],
       );
     } else {
@@ -680,7 +807,6 @@ class UserTile extends StatelessWidget {
   }
 
   Widget buildSocialInterests() {
-    
     String interests = "";
     if (socialInterests != null) {
       for (int i = 0; i < socialInterests.length; i++) {
@@ -696,16 +822,16 @@ class UserTile extends StatelessWidget {
           //   interests,
           //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
           // )
-                        Container(
-                        width: 200,
-                        child: AutoSizeText(
-                        interests,
-                        style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-                        minFontSize: 10,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                      )
+          Container(
+            width: 200,
+            child: AutoSizeText(
+              interests,
+              style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
+              minFontSize: 10,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
         ],
       );
     } else {

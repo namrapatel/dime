@@ -1,8 +1,10 @@
+import 'package:Dime/chatList.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:Dime/homePage.dart';
 import 'userCard.dart';
 import 'package:page_transition/page_transition.dart';
@@ -128,7 +130,7 @@ class _ChatState extends State<Chat> {
                     radius: screenH(20),
                     backgroundImage: NetworkImage(toUserPhoto),
                   )
-                : CircularProgressIndicator(),
+                : SizedBox(height: 0.0,),
             SizedBox(
               width: MediaQuery.of(context).size.width / 33,
             ),
@@ -146,7 +148,7 @@ class _ChatState extends State<Chat> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
-                : CircularProgressIndicator(),
+                : SizedBox(height: 0.0,),
             IconButton(
               icon: Icon(MaterialCommunityIcons.card_bulleted),
               color: Color(0xFF1458EA),
@@ -154,7 +156,7 @@ class _ChatState extends State<Chat> {
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade,
+                        type: PageTransitionType.rightToLeft,
                         child: UserCard(
                           userId: widget.toUserId,
                           userName: toUserName,
@@ -180,14 +182,12 @@ class _ChatState extends State<Chat> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return Center(child: CircularProgressIndicator());
-
+                  return Center(child: SizedBox(height: 0.0,));
                 List<DocumentSnapshot> docs = snapshot.data.documents;
 
                 List<Message> messages = [];
                 for (var doc in docs) {
                   var storedDate = doc.data['timestamp'];
-//
                   String elapsedTime = timeago.format(storedDate.toDate());
                   String timestamp = '$elapsedTime';
                   messages.add(Message(

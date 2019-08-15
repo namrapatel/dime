@@ -96,8 +96,6 @@ class SocialCard extends StatelessWidget {
     }
   }
 
-
-
   Future<void> _launchTwitter(String url) async {
     if (await canLaunch('https://twitter.com/' + twitter)) {
       final bool nativeAppLaunchSucceeded = await launch(

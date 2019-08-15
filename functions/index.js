@@ -32,8 +32,8 @@ exports.chatTrigger = functions.firestore.document('notifMessages/{messageId}').
                 },
                 "data": {
                     "click_action": "FLUTTER_NOTIFICATION_CLICK",
-                    "senderName": fromName,
-                    "message": msgData.text,
+                     "title": fromName,
+                     "body": msgData.text,
                     "senderId": fromId,
                     "notifType": "chat"
                 }
@@ -66,8 +66,8 @@ exports.postNotifTrigger = functions.firestore.document('postNotifs/{notifId}').
                 },
                 "data": {
                     "click_action": "FLUTTER_NOTIFICATION_CLICK",
-                    "senderName": fromName,
-                    "message": notifData.text,
+                    "title": "Your post has a new comment from " + fromName,
+                    "body": notifData.text,
                     "notifType": "postNotif",
                     "postId": notifData.postID,
                     "type": notifData.type

@@ -224,8 +224,7 @@ class _ScrollPageState extends State<ScrollPage>
               message['notification']['body'],
               message['data']['senderId'],
               "chat");
-        }
-        else if (message['data']['notifType'] == "postNotif") {
+        } else if (message['data']['notifType'] == "postNotif") {
           print(message);
           if (message['data']['type'] == "prof") {
             LocalNotifcation(
@@ -234,8 +233,7 @@ class _ScrollPageState extends State<ScrollPage>
                 message['notification']['body'],
                 message['data']['postId'],
                 "postNotifProf");
-          }
-          else {
+          } else {
             print(message);
             LocalNotifcation(
                 context,
@@ -247,10 +245,65 @@ class _ScrollPageState extends State<ScrollPage>
         }
       },
       onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
+        if (message['data']['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['data']['senderId'],
+                  )));
+        } else if (message['data']['notifType'] == "postNotif") {
+          if (message['data']['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['data']['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['data']['postId'],
+                    )));
+          }
+        }
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
+        if (message['data']['notifType'] == "chat") {
+          print("HERE");
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['data']['senderId'],
+                  )));
+        } else if (message['data']['notifType'] == "postNotif") {
+          if (message['data']['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['data']['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['data']['postId'],
+                    )));
+          }
+        }
       },
     );
   }

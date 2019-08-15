@@ -321,4 +321,3 @@ Future<String> uploadImage(var imageFile) async {
   String downloadUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
   return downloadUrl;
 }
-

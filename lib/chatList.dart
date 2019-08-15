@@ -209,8 +209,20 @@ class MessageTile extends StatelessWidget {
                   toUserId: from,
                 )));
       },
-      leading: CircleAvatar(
+      leading: Stack(
+        children: <Widget>[
+        CircleAvatar(
         backgroundImage: NetworkImage(senderPhoto),
+      ),
+              Positioned(
+                top: MediaQuery.of(context).size.height/738,
+                left: MediaQuery.of(context).size.width/15,
+                child: CircleAvatar(
+                backgroundColor: Colors.red,
+                radius: 6,
+              )
+              )
+        ],
       ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

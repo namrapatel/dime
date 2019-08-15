@@ -610,66 +610,105 @@ void firebaseCloudMessaging_Listeners() {
   Widget _getUpperLayer() {
     return Container(
         color: Colors.white,
-        child: StreamBuilder(
 
-          stream: stream,
-          builder: ( context,
-              AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+        child: ListView(
+          children:<Widget>[
+            StreamBuilder(
 
-            if (
-            snapshots.hasData) {
-              if (snapshots.data.length == 0) {
-                return Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.all(MediaQuery
-                          .of(context)
-                          .size
-                          .height / 20),
-                      child: Text(
-                        "There's nobody around. \n Go get a walk in and meet new people!",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 20),
-                      ),
-                    ),
-                    Image.asset('assets/img/undraw_peoplearoundyou.png')
-                  ],
-                );
-              } else {
-                snapshots.data.removeWhere((DocumentSnapshot doc) =>
-                doc.documentID == currentUserModel.uid);
-                print('data ${snapshots.data}');
+            stream: stream,
+            builder: ( context,
+                AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+
+              if (!snapshots.hasData) {
                 return Container(
-                  height: MediaQuery
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
+              }else{
+                if(snapshots.data.length !=0){
+                  snapshots.data.removeWhere((DocumentSnapshot doc) =>
+                doc.documentID == currentUserModel.uid);
+                }
+
+                  return Container(
+
+                      child: Container(
+                        child: (snapshots.data.length == 0)?Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.all(MediaQuery
+                                  .of(context)
+                                  .size
+                                  .height / 20),
+                              child: Text(
+                                "There's nobody around. \n Go get a walk in and meet new people!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                            Image.asset('assets/img/undraw_peoplearoundyou.png')
+                          ],
+                        ):Container(
+                          height: MediaQuery
                       .of(context)
                       .size
                       .height * 2 / 3,
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
-                      DocumentSnapshot doc = snapshots.data[index];
-                      print(
-                          'doc with id ${doc.documentID} distance ${doc
-                              .data['distance']}');
-                      GeoPoint point = doc.data['position']['geopoint'];
+                          child:ListView.builder(
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot doc = snapshots.data[index];
+                            print(
+                                'doc with id ${doc.documentID} distance ${doc
+                                    .data['distance']}');
+                            GeoPoint point = doc.data['position']['geopoint'];
 
-                      return UserTile(
-                          doc.data['displayName'], doc.data['photoUrl'],
-                          doc.documentID,
-                          major: doc.data['major'],
-                          profInterests: doc.data['profInterests'],
-                          socialInterests: doc.data['socialInterests'],
-                          university: doc.data['university'],
-                          gradYear: doc.data['gradYear']);
-                    },
-                    itemCount: snapshots.data.length,
-                  ),
-                );
+                            return UserTile(
+                                doc.data['displayName'], doc.data['photoUrl'],
+                                doc.documentID,
+                                major: doc.data['major'],
+                                profInterests: doc.data['profInterests'],
+                                socialInterests: doc.data['socialInterests'],
+                                university: doc.data['university'],
+                                gradYear: doc.data['gradYear']);
+                          },
+                          itemCount: snapshots.data.length,
+                        ),
+                      ),
+                  ));
+//              else {
+//                snapshots.data.removeWhere((DocumentSnapshot doc) =>
+//                doc.documentID == currentUserModel.uid);
+//                print('data ${snapshots.data}');
+//                return Container(
+//                  height: MediaQuery
+//                      .of(context)
+//                      .size
+//                      .height * 2 / 3,
+//                  child: ListView.builder(
+//                    itemBuilder: (context, index) {
+//                      DocumentSnapshot doc = snapshots.data[index];
+//                      print(
+//                          'doc with id ${doc.documentID} distance ${doc
+//                              .data['distance']}');
+//                      GeoPoint point = doc.data['position']['geopoint'];
+//
+//                      return UserTile(
+//                          doc.data['displayName'], doc.data['photoUrl'],
+//                          doc.documentID,
+//                          major: doc.data['major'],
+//                          profInterests: doc.data['profInterests'],
+//                          socialInterests: doc.data['socialInterests'],
+//                          university: doc.data['university'],
+//                          gradYear: doc.data['gradYear']);
+//                    },
+//                    itemCount: snapshots.data.length,
+//                  ),
+//                );
+//              }
+////            else {
+////              return Center(child: CircularProgressIndicator());
               }
-            }
-            else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
+            },
+          ),
+      ]
         ));
 
   }

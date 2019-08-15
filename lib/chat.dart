@@ -120,7 +120,10 @@ class _ChatState extends State<Chat> {
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.black,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight, child: ChatList()));
           },
         ),
         title: Row(
@@ -130,7 +133,9 @@ class _ChatState extends State<Chat> {
                     radius: screenH(20),
                     backgroundImage: NetworkImage(toUserPhoto),
                   )
-                : SizedBox(height: 0.0,),
+                : SizedBox(
+                    height: 0.0,
+                  ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 33,
             ),
@@ -148,7 +153,9 @@ class _ChatState extends State<Chat> {
                       overflow: TextOverflow.ellipsis,
                     ),
                   )
-                : SizedBox(height: 0.0,),
+                : SizedBox(
+                    height: 0.0,
+                  ),
             IconButton(
               icon: Icon(MaterialCommunityIcons.card_bulleted),
               color: Color(0xFF1458EA),
@@ -182,7 +189,10 @@ class _ChatState extends State<Chat> {
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData)
-                  return Center(child: SizedBox(height: 0.0,));
+                  return Center(
+                      child: SizedBox(
+                    height: 0.0,
+                  ));
                 List<DocumentSnapshot> docs = snapshot.data.documents;
 
                 List<Message> messages = [];

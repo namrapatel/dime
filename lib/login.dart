@@ -17,8 +17,6 @@ import 'onboarding.dart';
 
 import 'package:flutter/services.dart';
 
-
-
 User currentUserModel;
 
 class Login extends StatefulWidget {
@@ -37,9 +35,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
-
       if (firebaseUser != null) {
-
         print('in login');
         print(firebaseUser);
         print(firebaseUser.displayName);
@@ -51,8 +47,10 @@ class _LoginState extends State<Login> {
             .get();
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
-          Navigator.push(context,
-              new MaterialPageRoute(builder: (context) => SplashScreen()));
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft, child: SplashScreen()));
         }
       } else {
         print("floppps");
@@ -75,8 +73,10 @@ class _LoginState extends State<Login> {
         var tokenList = new List<String>.from(initTokens);
         if (!tokenList.contains(fcmToken)) {
           tokenList.add(fcmToken);
-          _db.collection('users').document(uid).updateData(
-              {'tokens': tokenList});
+          _db
+              .collection('users')
+              .document(uid)
+              .updateData({'tokens': tokenList});
         }
       });
     }
@@ -89,7 +89,7 @@ class _LoginState extends State<Login> {
 
   Padding buildTitle() {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width/100),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 100),
       child: Text(
         'Welcome Back.',
         style: TextStyle(
@@ -103,12 +103,14 @@ class _LoginState extends State<Login> {
 
   Padding buildTitleLine() {
     return Padding(
-      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height/110, left: MediaQuery.of(context).size.width/100),
+      padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height / 110,
+          left: MediaQuery.of(context).size.width / 100),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: MediaQuery.of(context).size.width/6,
-          height: MediaQuery.of(context).size.height/250,
+          width: MediaQuery.of(context).size.width / 6,
+          height: MediaQuery.of(context).size.height / 250,
           color: Colors.black,
         ),
       ),
@@ -129,7 +131,8 @@ class _LoginState extends State<Login> {
         decoration: InputDecoration(
             labelText: 'Email Address',
             labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-            contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+            contentPadding:
+                EdgeInsets.all(MediaQuery.of(context).size.width / 22),
             border: new OutlineInputBorder(
               borderRadius: new BorderRadius.circular(25.0),
               borderSide: new BorderSide(
@@ -156,7 +159,7 @@ class _LoginState extends State<Login> {
         labelText: 'Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Color(0xFF1458EA),
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -208,18 +211,18 @@ class _LoginState extends State<Login> {
           )),
     );
   }
+
   void _showCupertinoDialog(String exception) {
-    String errorMessage='';
-     if(exception=="ERROR_INVALID_EMAIL") {
-       errorMessage = 'Please enter a valid email address';
-     }else if(exception=="ERROR_USER_NOT_FOUND"){
-      errorMessage='The email entered does not match any account';
+    String errorMessage = '';
+    if (exception == "ERROR_INVALID_EMAIL") {
+      errorMessage = 'Please enter a valid email address';
+    } else if (exception == "ERROR_USER_NOT_FOUND") {
+      errorMessage = 'The email entered does not match any account';
       print('user doesnt exist');
-    }else if(exception=="ERROR_WRONG_PASSWORD"){
-      errorMessage='The password entered is incorrect';
-    }
-    else{
-      errorMessage="There was an unexpected error";
+    } else if (exception == "ERROR_WRONG_PASSWORD") {
+      errorMessage = 'The password entered is incorrect';
+    } else {
+      errorMessage = "There was an unexpected error";
     }
     showDialog(
         context: context,
@@ -260,7 +263,8 @@ class _LoginState extends State<Login> {
             child: Material(
               child: TextField(
                 controller: myController,
-                decoration: InputDecoration(hintText: 'Please enter your email'),
+                decoration:
+                    InputDecoration(hintText: 'Please enter your email'),
               ),
             ),
           ),
@@ -273,8 +277,9 @@ class _LoginState extends State<Login> {
 //          ),
           actions: <Widget>[
             FlatButton(
-                onPressed: () async{
-                  await FirebaseAuth.instance.sendPasswordResetEmail(email: myController.text);
+                onPressed: () async {
+                  await FirebaseAuth.instance
+                      .sendPasswordResetEmail(email: myController.text);
                   Navigator.pop(context);
                 },
                 child: Text(
@@ -310,8 +315,8 @@ class _LoginState extends State<Login> {
   Align buildLoginButton(BuildContext context) {
     return Align(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height/13,
-        width: MediaQuery.of(context).size.width/1.5,
+        height: MediaQuery.of(context).size.height / 13,
+        width: MediaQuery.of(context).size.width / 1.5,
         child: Container(
           decoration: BoxDecoration(
               color: Color(0xFF1458EA),
@@ -342,16 +347,17 @@ class _LoginState extends State<Login> {
                       currentUserModel = User.fromDocument(userRecord);
                       Navigator.push(
                           context,
-                          new MaterialPageRoute(
-                              builder: (context) => ScrollPage()));
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: ScrollPage()));
                     }
                   });
-                } on PlatformException catch(e)  {
+                } on PlatformException catch (e) {
                   _showCupertinoDialog(e.code);
                   print(e.message);
                   print(e.code);
                   print(e.details);
-                } catch(i){
+                } catch (i) {
                   print('undefined exception');
                   _showCupertinoDialog('unexpected');
                   print(i);
@@ -374,21 +380,6 @@ class _LoginState extends State<Login> {
       ),
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   Align buildOrText() {
     return Align(
@@ -427,7 +418,8 @@ class _LoginState extends State<Login> {
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade, child: SignupPage()));
+                        type: PageTransitionType.rightToLeft,
+                        child: SignupPage()));
               },
               child: Text('Sign up',
                   style: TextStyle(
@@ -452,29 +444,31 @@ class _LoginState extends State<Login> {
             buildTitle(),
             buildTitleLine(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/10,
+              height: MediaQuery.of(context).size.height / 10,
             ),
             buildEmailTextField(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildPasswordInput(context),
             buildPasswordText(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildLoginButton(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/30,
+              height: MediaQuery.of(context).size.height / 30,
             ),
             buildSignUpText(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/17,),
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 17,
+              ),
               child: Divider(
-                height: MediaQuery.of(context).size.height/330,
+                height: MediaQuery.of(context).size.height / 330,
                 color: Colors.blueGrey,
               ),
             ),
@@ -485,8 +479,8 @@ class _LoginState extends State<Login> {
             ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height/13,
-                width: MediaQuery.of(context).size.width/1.5,
+                height: MediaQuery.of(context).size.height / 13,
+                width: MediaQuery.of(context).size.width / 1.5,
                 child: OutlineButton(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0)),

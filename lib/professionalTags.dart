@@ -59,10 +59,10 @@ class _ProfInterestTileState extends State<ProfInterestTile> {
                                 if (profInterests.length == 3) {
                                   Navigator.push(
                                       context,
-                                      CupertinoPageRoute(
-                                          builder: (context) =>
-                                              ProfInterestPage(
-                                                  interests: profInterests)));
+                                      PageTransition(
+                                          type: PageTransitionType.rightToLeft,
+                                          child: ProfInterestPage(
+                                              interests: profInterests)));
                                 }
                               } else {
                                 profInterests.remove(widget.interest);

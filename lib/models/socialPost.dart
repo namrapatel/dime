@@ -196,10 +196,11 @@ class _SocialPostState extends State<SocialPost> {
                               onPressed: () {
                                 Navigator.push(
                                     context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => SocialComments(
-                                              postId: widget.postId,
-                                            )));
+                                    PageTransition(
+                                        type: PageTransitionType.leftToRight,
+                                        child: SocialComments(
+                                          postId: widget.postId,
+                                        )));
                               },
                             ),
                             Column(
@@ -217,11 +218,12 @@ class _SocialPostState extends State<SocialPost> {
                                         onTap: () {
                                           Navigator.push(
                                               context,
-                                              CupertinoPageRoute(
-                                                  builder: (context) =>
-                                                      SocialComments(
-                                                        postId: widget.postId,
-                                                      )));
+                                              PageTransition(
+                                                  type: PageTransitionType
+                                                      .leftToRight,
+                                                  child: SocialComments(
+                                                    postId: widget.postId,
+                                                  )));
                                         },
                                       )
                                     : SizedBox(

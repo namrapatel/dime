@@ -15,6 +15,7 @@ import 'login.dart';
 import 'chatList.dart';
 import 'chat.dart';
 import 'explore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong/latlong.dart' as Lat;
@@ -264,8 +265,9 @@ class _ScrollPageState extends State<ScrollPage>
                         onPressed: () {
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => ProfilePage()));
+                              PageTransition(
+                                  type: PageTransitionType.leftToRight,
+                                  child: ProfilePage()));
                         },
                       ),
                     ],
@@ -278,8 +280,11 @@ class _ScrollPageState extends State<ScrollPage>
                 size: 20,
               ),
               onPressed: () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => ProfilePage()));
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: ProfilePage()));
               },
             ),
             IconButton(
@@ -288,11 +293,12 @@ class _ScrollPageState extends State<ScrollPage>
               onPressed: () {
                 Navigator.push(
                     context,
-                    CupertinoPageRoute(
-                        builder: (context) => UserCard(
-                              userId: currentUserModel.uid,
-                              userName: currentUserModel.displayName,
-                            )));
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: UserCard(
+                          userId: currentUserModel.uid,
+                          userName: currentUserModel.displayName,
+                        )));
               },
             ),
           ],
@@ -433,8 +439,11 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => SocialPage()));
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: SocialPage()));
                 },
                 elevation: 3,
                 heroTag: 'btn1',
@@ -448,8 +457,11 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ChatList()));
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.downToUp,
+                          child: ChatList()));
                 },
                 elevation: 3,
                 heroTag: 'btn2',
@@ -463,8 +475,10 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => Explore()));
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.downToUp, child: Explore()));
                 },
                 elevation: 3,
                 heroTag: 'btn3',
@@ -478,8 +492,11 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ProfPage()));
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: ProfPage()));
                 },
                 elevation: 3,
                 heroTag: 'btn4',
@@ -545,7 +562,7 @@ class _ScrollPageState extends State<ScrollPage>
                   if (!snapshot.hasData)
                     return Container(
                         alignment: FractionalOffset.center,
-                        child: CircularProgressIndicator());
+                        child: SpinKitThreeBounce(color: Colors.white);
 
                   return Container(
                     child: snapshot.data.length == 0
@@ -732,11 +749,12 @@ class UserTile extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      CupertinoPageRoute(
-                          builder: (context) => Chat(
-                                fromUserId: currentUserModel.uid,
-                                toUserId: uid,
-                              )));
+                      PageTransition(
+                          type: PageTransitionType.downToUp,
+                          child: Chat(
+                            fromUserId: currentUserModel.uid,
+                            toUserId: uid,
+                          )));
                 },
               ),
               IconButton(
@@ -745,11 +763,12 @@ class UserTile extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      CupertinoPageRoute(
-                          builder: (context) => UserCard(
-                                userId: uid,
-                                userName: contactName,
-                              )));
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: UserCard(
+                            userId: uid,
+                            userName: contactName,
+                          )));
                 },
               ),
             ],

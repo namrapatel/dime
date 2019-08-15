@@ -1,3 +1,4 @@
+import 'package:Dime/chatList.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -153,11 +154,12 @@ class _ChatState extends State<Chat> {
               onPressed: () {
                 Navigator.push(
                     context,
-                    CupertinoPageRoute(
-                        builder: (context) => UserCard(
-                              userId: widget.toUserId,
-                              userName: toUserName,
-                            )));
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: UserCard(
+                          userId: widget.toUserId,
+                          userName: toUserName,
+                        )));
               },
             ),
           ],

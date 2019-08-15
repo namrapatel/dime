@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:page_transition/page_transition.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -59,7 +60,11 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       ),
                     ),
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: ProfPage()));
                     },
                   ),
                   Spacer(),
@@ -298,7 +303,9 @@ class _CreateProfPostState extends State<CreateProfPost> {
         setState(() {
           file = null;
           Navigator.push(
-              context, CupertinoPageRoute(builder: (context) => ProfPage()));
+              context,
+              PageTransition(
+                  type: PageTransitionType.leftToRight, child: ProfPage()));
         });
       });
     } else {
@@ -309,7 +316,9 @@ class _CreateProfPostState extends State<CreateProfPost> {
 
       uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
       Navigator.push(
-          context, CupertinoPageRoute(builder: (context) => ProfPage()));
+          context,
+          PageTransition(
+              type: PageTransitionType.leftToRight, child: ProfPage()));
     }
   }
 }

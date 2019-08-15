@@ -1,3 +1,4 @@
+import 'package:Dime/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -120,10 +121,14 @@ class _ExploreState extends State<Explore> {
                 ),
                 IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.upToDown,
+                            child: ScrollPage()));
                   },
                   icon: Icon(
-                    Icons.arrow_back_ios,
+                    Icons.keyboard_arrow_down,
                     color: Colors.black,
                   ),
                 ),
@@ -215,11 +220,12 @@ class _ExploreState extends State<Explore> {
             onPressed: () {
               Navigator.push(
                   context,
-                  CupertinoPageRoute(
-                      builder: (context) => Chat(
-                            fromUserId: currentUserModel.uid,
-                            toUserId: data['userId'],
-                          )));
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: Chat(
+                        fromUserId: currentUserModel.uid,
+                        toUserId: data['userId'],
+                      )));
             },
           ),
           IconButton(
@@ -229,18 +235,11 @@ class _ExploreState extends State<Explore> {
               Navigator.push(
                   context,
                   PageTransition(
-                      type: PageTransitionType.fade,
+                      type: PageTransitionType.rightToLeft,
                       child: UserCard(
                         userId: data['userId'],
                         userName: data['userData']['displayName'],
                       )));
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => Chat(
-                            fromUserId: currentUserModel.uid,
-                            toUserId: data['userId'],
-                          )));
             },
           ),
         ],

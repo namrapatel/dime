@@ -142,11 +142,14 @@ class _ChatListState extends State<ChatList> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back_ios,
+            Icons.keyboard_arrow_down,
             color: Colors.white,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.upToDown, child: ScrollPage()));
           },
         ),
         title: Text(
@@ -198,11 +201,12 @@ class MessageTile extends StatelessWidget {
       onTap: () {
         Navigator.push(
             context,
-            CupertinoPageRoute(
-                builder: (context) => Chat(
-                      fromUserId: to,
-                      toUserId: from,
-                    )));
+            PageTransition(
+                type: PageTransitionType.leftToRight,
+                child: Chat(
+                  fromUserId: to,
+                  toUserId: from,
+                )));
       },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(senderPhoto),

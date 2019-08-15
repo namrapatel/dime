@@ -8,7 +8,9 @@ import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'models/comment.dart';
 import 'package:flutter/cupertino.dart';
+import 'socialPage.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'socialPage.dart' as socialPage;
 
 class SocialComments extends StatefulWidget {
@@ -136,8 +138,8 @@ class _SocialCommentsState extends State<SocialComments> {
           onPressed: () {
             Navigator.push(
                 context,
-                CupertinoPageRoute(
-                    builder: (context) => socialPage.SocialPage()));
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: SocialPage()));
           },
         ),
         elevation: 0.4,

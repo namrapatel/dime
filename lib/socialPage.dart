@@ -12,11 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
-
 class SocialPage extends StatefulWidget {
   @override
   _SocialPageState createState() => _SocialPageState();
@@ -97,15 +92,59 @@ class _SocialPageState extends State<SocialPage> {
                 icon: Icon(Icons.arrow_back_ios),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: ScrollPage()));
                 },
               ),
-              title: Text(
-                university != null ? university : "Whoops!",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold),
+              automaticallyImplyLeading: false,
+              title: Row(
+                children: <Widget>[
+                  // Text(
+                  //  university!=null?university:"Whoops!",
+                  //   style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontSize: 25,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1.25,
+                    child: AutoSizeText(
+                      university != null ? university : "Whoops!",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      minFontSize: 12,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Spacer(),
+                  Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 8,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: ScrollPage()));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
             )),
         backgroundColor: Color(0xFF8803fc),
@@ -116,8 +155,9 @@ class _SocialPageState extends State<SocialPage> {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      CupertinoPageRoute(
-                          builder: (context) => CreateSocialPost()));
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: CreateSocialPost()));
                 },
                 elevation: 50,
                 heroTag: 'btn1',
@@ -136,8 +176,8 @@ class _SocialPageState extends State<SocialPage> {
                 future: getPosts(),
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: 
-                    SpinKitThreeBounce(color: Colors.white),
+                    return Center(
+                      child: SpinKitThreeBounce(color: Colors.white),
                     );
                   } else {
                     return ListView.builder(
@@ -184,8 +224,11 @@ class _SocialPageState extends State<SocialPage> {
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(10.0)),
                     onPressed: () {
-                      Navigator.push(context,
-                          CupertinoPageRoute(builder: (context) => Profile()));
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: Profile()));
                     },
                   ),
                 ],

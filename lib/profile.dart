@@ -150,7 +150,11 @@ class _HomePageOneState extends State<HomePageOne> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: ProfilePage()));
             },
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios),
@@ -203,8 +207,9 @@ class _HomePageOneState extends State<HomePageOne> {
                         onPressed: () {
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => TabsApp()));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: TabsApp()));
                         },
                       ),
                     ],
@@ -387,7 +392,9 @@ class _HomePageOneState extends State<HomePageOne> {
           elevation: (5),
           onPressed: () {
             Navigator.push(
-                context, CupertinoPageRoute(builder: (context) => TabsApp()));
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: TabsApp()));
           },
           backgroundColor: Color(0xFF1458EA),
           child: Text(

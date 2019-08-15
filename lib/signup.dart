@@ -225,8 +225,9 @@ class _SignupPageState extends State<SignupPage> {
                       }
                       Navigator.push(
                           context,
-                          CupertinoPageRoute(
-                              builder: (context) => ScrollPage()));
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: ScrollPage()));
                     });
                   } catch (e) {
                     print(e.message);
@@ -274,7 +275,9 @@ class _SignupPageState extends State<SignupPage> {
             InkWell(
               onTap: () {
                 Navigator.push(
-                    context, CupertinoPageRoute(builder: (context) => Login()));
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.leftToRight, child: Login()));
               },
               child: Text('Sign in',
                   style: TextStyle(

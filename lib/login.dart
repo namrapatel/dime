@@ -44,8 +44,10 @@ class _LoginState extends State<Login> {
             .get();
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
-          Navigator.push(context,
-              CupertinoPageRoute(builder: (context) => SplashScreen()));
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft, child: SplashScreen()));
         }
       } else {
         print("floppps");
@@ -270,16 +272,20 @@ class _LoginState extends State<Login> {
                       currentUserModel = User.fromDocument(userRecord);
                       Navigator.push(
                           context,
-                          CupertinoPageRoute(
-                              builder: (context) => ScrollPage()));
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: ScrollPage()));
                     }
                   });
                 } catch (e) {
                   print(e);
                 }
 
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => ScrollPage()));
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: ScrollPage()));
               }
             },
             shape: RoundedRectangleBorder(
@@ -328,8 +334,11 @@ class _LoginState extends State<Login> {
             SizedBox(width: 5.0),
             InkWell(
               onTap: () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => SignupPage()));
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: SignupPage()));
               },
               child: Text('Sign up',
                   style: TextStyle(

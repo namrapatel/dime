@@ -59,10 +59,10 @@ class _SocialInterestTileState extends State<SocialInterestTile> {
                                 if (socialInterests.length == 3) {
                                   Navigator.push(
                                       context,
-                                      CupertinoPageRoute(
-                                          builder: (context) =>
-                                              SocialInterestPage(
-                                                  interests: socialInterests)));
+                                      PageTransition(
+                                          type: PageTransitionType.rightToLeft,
+                                          child: SocialInterestPage(
+                                              interests: socialInterests)));
                                 }
                               } else {
                                 socialInterests.remove(widget.interest);

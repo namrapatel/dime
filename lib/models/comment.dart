@@ -74,8 +74,9 @@ class Comment extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                   context,
-                  CupertinoPageRoute(
-                      builder: (context) => UserCard(
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: UserCard(
                           userId: commenterId, userName: commenterName)));
             },
           ),
@@ -85,8 +86,9 @@ class Comment extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                   context,
-                  CupertinoPageRoute(
-                      builder: (context) => chat.Chat(
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: chat.Chat(
                           fromUserId: currentUserModel.uid,
                           toUserId: commenterId)));
             },
@@ -163,10 +165,11 @@ class Comment extends StatelessWidget {
 
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => SocialComments(
-                                        postId: postId,
-                                      )));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: SocialComments(
+                                    postId: postId,
+                                  )));
                         } else if (type == 'prof') {
                           DocumentSnapshot snap = await Firestore.instance
                               .collection('profPosts')
@@ -186,10 +189,11 @@ class Comment extends StatelessWidget {
 
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => ProfComments(
-                                        postId: postId,
-                                      )));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: ProfComments(
+                                    postId: postId,
+                                  )));
                         }
                       },
                       color: Colors.grey,

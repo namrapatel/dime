@@ -88,8 +88,9 @@ class _UserCardState extends State<UserCard> {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      CupertinoPageRoute(
-                          builder: (context) => Chat(
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: Chat(
                               fromUserId: currentUserModel.uid,
                               toUserId: userId)));
                 },

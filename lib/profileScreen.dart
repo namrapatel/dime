@@ -83,7 +83,11 @@ class _ProfilePageState extends State<ProfilePage> {
               left: (MediaQuery.of(context).size.width / 30),
               child: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: ScrollPage()));
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
@@ -126,8 +130,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 IconButton(
                     onPressed: () async {
                       FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.push(context,
-                            CupertinoPageRoute(builder: (context) => Login()));
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: Login()));
                       }).catchError((e) {
                         print(e);
                       });
@@ -150,7 +157,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 displayName == null
-                    ? CircularProgressIndicator()
+                    ? SizedBox(height: 0.0,)
                     : Text(
                         displayName,
                         style: TextStyle(
@@ -178,8 +185,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => Profile()));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: Profile()));
                         },
                         title: Text(
                           "Basic Info",
@@ -199,8 +207,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => TabsApp()));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: TabsApp()));
                         },
                         title: Text(
                           "Edit Cards",
@@ -220,8 +229,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => TabsApp()));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: TabsApp()));
                         },
                         title: Text(
                           "Terms and Conditions",
@@ -241,8 +251,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => TabsApp()));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: TabsApp()));
                         },
                         title: Text(
                           "Privacy and Security",
@@ -262,8 +273,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: () {
                           Navigator.push(
                               context,
-                              CupertinoPageRoute(
-                                  builder: (context) => TabsApp()));
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: TabsApp()));
                         },
                         title: Text(
                           "Report",

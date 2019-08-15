@@ -193,10 +193,11 @@ class _ProfPostState extends State<ProfPost> {
                               onPressed: () {
                                 Navigator.push(
                                     context,
-                                    CupertinoPageRoute(
-                                        builder: (context) => ProfComments(
-                                              postId: widget.postId,
-                                            )));
+                                    PageTransition(
+                                        type: PageTransitionType.rightToLeft,
+                                        child: ProfComments(
+                                          postId: widget.postId,
+                                        )));
                               },
                             ),
                             Column(
@@ -214,11 +215,12 @@ class _ProfPostState extends State<ProfPost> {
                                         onTap: () {
                                           Navigator.push(
                                               context,
-                                              CupertinoPageRoute(
-                                                  builder: (context) =>
-                                                      ProfComments(
-                                                        postId: widget.postId,
-                                                      )));
+                                              PageTransition(
+                                                  type: PageTransitionType
+                                                      .rightToLeft,
+                                                  child: ProfComments(
+                                                    postId: widget.postId,
+                                                  )));
                                         },
                                       )
                                     : SizedBox(

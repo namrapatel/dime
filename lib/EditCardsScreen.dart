@@ -7,11 +7,13 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_search_panel/search_item.dart';
 import 'login.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'socialTags.dart';
 import 'professionalTags.dart';
 import 'viewCards.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 String selectedItemString;
 String selectedWItemString;
@@ -495,7 +497,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : CircularProgressIndicator(),
+                              : SpinKitThreeBounce(color: Colors.white),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -1497,7 +1499,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : CircularProgressIndicator(),
+                              : SpinKitThreeBounce(color: Colors.white),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -2057,8 +2059,11 @@ class _CardEditState extends State<CardEdit> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ProfilePage()));
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: ProfilePage()));
                 },
                 color: Colors.white,
                 icon: Icon(Icons.arrow_back_ios),

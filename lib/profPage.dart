@@ -96,7 +96,11 @@ class _ProfPageState extends State<ProfPage> {
                 icon: Icon(Icons.arrow_back_ios),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.leftToRight,
+                          child: ScrollPage()));
                 },
               ),
               title: Text(
@@ -115,8 +119,9 @@ class _ProfPageState extends State<ProfPage> {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      CupertinoPageRoute(
-                          builder: (context) => CreateProfPost()));
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: CreateProfPost()));
                 },
                 elevation: 350,
                 heroTag: 'btn1',
@@ -182,8 +187,11 @@ class _ProfPageState extends State<ProfPage> {
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(10.0)),
                     onPressed: () {
-                      Navigator.push(context,
-                          CupertinoPageRoute(builder: (context) => Profile()));
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: Profile()));
                     },
                   ),
                 ],

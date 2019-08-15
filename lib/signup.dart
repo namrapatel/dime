@@ -10,7 +10,6 @@ import 'package:Dime/models/user.dart';
 import 'services/usermanagement.dart';
 import 'services/facebookauth.dart';
 import 'homePage.dart';
-import 'package:flutter/services.dart';
 
 //TODO: display text if email already registered etc..
 
@@ -38,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
 
   Padding buildTitle() {
     return Padding(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width/100),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width / 100),
       child: Text(
         'Hello There.',
         style: TextStyle(
@@ -56,8 +55,8 @@ class _SignupPageState extends State<SignupPage> {
       child: Align(
         alignment: Alignment.centerLeft,
         child: Container(
-          width: MediaQuery.of(context).size.width/6,
-          height: MediaQuery.of(context).size.height/250,
+          width: MediaQuery.of(context).size.width / 6,
+          height: MediaQuery.of(context).size.height / 250,
           color: Colors.black,
         ),
       ),
@@ -76,7 +75,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Email Address',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -103,7 +102,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -151,7 +150,7 @@ class _SignupPageState extends State<SignupPage> {
         labelText: 'Confirm Password',
         labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
         fillColor: Colors.blueAccent[700],
-        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width/22),
+        contentPadding: EdgeInsets.all(MediaQuery.of(context).size.width / 22),
         border: new OutlineInputBorder(
           borderRadius: new BorderRadius.circular(25.0),
           borderSide: new BorderSide(),
@@ -189,8 +188,8 @@ class _SignupPageState extends State<SignupPage> {
   Align buildLoginButton(BuildContext context) {
     return Align(
       child: SizedBox(
-        height: MediaQuery.of(context).size.height/13,
-        width: MediaQuery.of(context).size.width/1.5,
+        height: MediaQuery.of(context).size.height / 13,
+        width: MediaQuery.of(context).size.width / 1.5,
         child: Container(
           decoration: BoxDecoration(
               color: Color(0xFF1458EA),
@@ -227,24 +226,16 @@ class _SignupPageState extends State<SignupPage> {
                       Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.fade,
+                              type: PageTransitionType.rightToLeft,
                               child: ScrollPage()));
                     });
-                  } on PlatformException catch(e)  {
-                    _showCupertinoDialog(e.code);
+                  } catch (e) {
                     print(e.message);
-                    print(e.code);
-                    print(e.details);
-                  } catch(i){
-                    _showCupertinoDialog('unexpected');
-                    print('undefined exception');
-                    print(i);
-
                   }
                   //NAVIGATE TO ONBOARDING
 
                 } else if (_password != _confirm) {
-                  _showCupertinoDialog('matching');
+                  _showCupertinoDialog();
                 }
               }
             },
@@ -286,7 +277,7 @@ class _SignupPageState extends State<SignupPage> {
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade, child: Login()));
+                        type: PageTransitionType.leftToRight, child: Login()));
               },
               child: Text('Sign in',
                   style: TextStyle(
@@ -298,26 +289,7 @@ class _SignupPageState extends State<SignupPage> {
         ));
   }
 
-  void _showCupertinoDialog(String exception) {
-    String errorMessage='';
-    if(exception=="ERROR_WEAK_PASSWORD"){
-      errorMessage='Please enter a password with at least 6 characters';
-      print('user doesnt exist');
-    }else if(exception=="ERROR_INVALID_EMAIL"){
-      errorMessage='Please enter a valid email address';
-    }else if(exception=="ERROR_EMAIL_ALREADY_IN_USE"){
-      errorMessage='This email address is already in use by another account';
-    }else if(exception=="matching"){
-      errorMessage="Please enter passwords that match";
-    }else if(exception=="ERROR_USER_NOT_FOUND"){
-      errorMessage='The email entered does not match any account';
-      print('user doesnt exist');
-    }else if(exception=="ERROR_WRONG_PASSWORD"){
-      errorMessage='The password entered is incorrect';
-    }
-    else{
-      errorMessage="There was an unexpected error";
-    }
+  void _showCupertinoDialog() {
     showDialog(
         context: context,
         builder: (context) {
@@ -326,7 +298,7 @@ class _SignupPageState extends State<SignupPage> {
             content: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                errorMessage,
+                "There was an error in your password confirmation!",
                 style: TextStyle(color: Colors.grey[600]),
               ),
             ),
@@ -358,32 +330,33 @@ class _SignupPageState extends State<SignupPage> {
             buildTitle(),
             buildTitleLine(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildEmailTextField(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildPasswordInput(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildConfirmInput(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildLoginButton(context),
             SizedBox(
-              height: MediaQuery.of(context).size.height/20,
+              height: MediaQuery.of(context).size.height / 20,
             ),
             buildSignUpText(),
             SizedBox(
-              height: MediaQuery.of(context).size.height/40,
+              height: MediaQuery.of(context).size.height / 40,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/17),
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 17),
               child: Divider(
-                height: MediaQuery.of(context).size.height/330,
+                height: MediaQuery.of(context).size.height / 330,
                 color: Colors.blueGrey,
               ),
             ),
@@ -396,8 +369,8 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                height: MediaQuery.of(context).size.height/13,
-                width: MediaQuery.of(context).size.width/1.5,
+                  height: MediaQuery.of(context).size.height / 13,
+                  width: MediaQuery.of(context).size.width / 1.5,
                   child: OutlineButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),

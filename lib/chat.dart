@@ -35,7 +35,7 @@ class _ChatState extends State<Chat> {
   String toUserName;
   TextEditingController messageController = TextEditingController();
   ScrollController scrollController = ScrollController();
-  FocusNode _focus = new FocusNode();
+
 
 
   getUserProfile() async{

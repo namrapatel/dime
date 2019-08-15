@@ -15,7 +15,6 @@ import 'login.dart';
 import 'chatList.dart';
 import 'chat.dart';
 import 'explore.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'userCard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:latlong/latlong.dart' as Lat;
@@ -562,7 +561,7 @@ class _ScrollPageState extends State<ScrollPage>
                   if (!snapshot.hasData)
                     return Container(
                         alignment: FractionalOffset.center,
-                        child: SpinKitThreeBounce(color: Colors.white);
+                        child: CircularProgressIndicator());
 
                   return Container(
                     child: snapshot.data.length == 0

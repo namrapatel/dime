@@ -325,7 +325,7 @@ class _ScrollPageState extends State<ScrollPage>
                           Navigator.push(
                               context,
                               PageTransition(
-                                  type: PageTransitionType.fade,
+                                  type: PageTransitionType.rightToLeft,
                                   child: ProfilePage()));
                         },
                       ),
@@ -342,7 +342,8 @@ class _ScrollPageState extends State<ScrollPage>
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade, child: ProfilePage()));
+                        type: PageTransitionType.rightToLeft,
+                        child: ProfilePage()));
               },
             ),
             IconButton(
@@ -352,7 +353,7 @@ class _ScrollPageState extends State<ScrollPage>
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade,
+                        type: PageTransitionType.rightToLeft,
                         child: UserCard(
                           userId: currentUserModel.uid,
                           userName: currentUserModel.displayName,
@@ -520,7 +521,7 @@ class _ScrollPageState extends State<ScrollPage>
                       Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.fade,
+                              type: PageTransitionType.downToUp,
                               child: ChatList()));
                     },
                     elevation: 3,
@@ -547,7 +548,7 @@ class _ScrollPageState extends State<ScrollPage>
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.fade, child: Explore()));
+                          type: PageTransitionType.downToUp, child: Explore()));
                 },
                 elevation: 3,
                 heroTag: 'btn3',
@@ -581,7 +582,6 @@ class _ScrollPageState extends State<ScrollPage>
       ],
     );
   }
-
 
 //  Future<List<UserTile>> getUsers() async {
 //    List<UserTile> userList = [];
@@ -629,7 +629,7 @@ class _ScrollPageState extends State<ScrollPage>
               if (!snapshots.hasData) {
                 return Container(
                     alignment: FractionalOffset.center,
-                    child: CircularProgressIndicator());
+                    child: SizedBox(height: 0.0));
               } else {
                 if (snapshots.data.length != 0) {
                   snapshots.data.removeWhere((DocumentSnapshot doc) =>
@@ -929,7 +929,7 @@ class UserTile extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.fade,
+                          type: PageTransitionType.rightToLeft,
                           child: Chat(
                             fromUserId: currentUserModel.uid,
                             toUserId: uid,

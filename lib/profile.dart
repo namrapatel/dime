@@ -20,52 +20,44 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            HomePageOne() 
-          ],
-        )
-    
-    );
+      physics: BouncingScrollPhysics(),
+      children: <Widget>[HomePageOne()],
+    ));
   }
 }
 
 class HomePageOne extends StatefulWidget {
-
-
   @override
   _HomePageOneState createState() => _HomePageOneState();
 }
 
+class _HomePageOneState extends State<HomePageOne> {
+  String name;
+  String major;
+  String gradYear;
+  String university;
 
-class _HomePageOneState extends State<HomePageOne>{
-String name;
-String major;
-String gradYear;
-String university;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProfileInfo();
+  }
 
-    
+  getProfileInfo() async {
+    DocumentSnapshot doc = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .get();
+    setState(() {
+      name = doc.data['displayName'];
+      major = doc.data['major'];
+      gradYear = doc.data['gradYear'];
+      university = doc.data['university'];
+    });
+  }
 
-
-@override
-void initState() {
-  // TODO: implement initState
-  super.initState();
-  getProfileInfo();
-}
-
-
-getProfileInfo() async{
-  DocumentSnapshot doc= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
-  setState(() {
-    name=doc.data['displayName'];
-    major=doc.data['major'];
-    gradYear=doc.data['gradYear'];
-    university= doc.data['university'];
-  });
-}
-updateProfile() async{
-
+  updateProfile() async {
 //  QuerySnapshot query = await Firestore.instance
 //      .collection('users')
 //      .document(currentUserModel.uid)
@@ -99,10 +91,11 @@ updateProfile() async{
       'gradYear': gradYear
     });
 
-    DocumentSnapshot user=await Firestore.instance
+    DocumentSnapshot user = await Firestore.instance
         .collection('users')
-        .document(currentUserModel.uid).get();
-    currentUserModel=User.fromDocument(user);
+        .document(currentUserModel.uid)
+        .get();
+    currentUserModel = User.fromDocument(user);
 
     Firestore.instance
         .collection('users')
@@ -131,18 +124,12 @@ updateProfile() async{
 
   @override
   List<SearchItem<int>> data2 = [
-
     SearchItem(0, 'University of Waterloo'),
     SearchItem(1, 'University of Western Ontario'),
     SearchItem(2, "University of Calgary"),
   ];
 
   Widget build(BuildContext context) {
-
-
-
-
-
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -153,19 +140,20 @@ updateProfile() async{
 
     return Column(children: <Widget>[
       SizedBox(
-        height: MediaQuery.of(context).size.height/60,
+        height: MediaQuery.of(context).size.height / 60,
       ),
       Row(
         children: <Widget>[
           SizedBox(
-            width: MediaQuery.of(context).size.width/40,
+            width: MediaQuery.of(context).size.width / 40,
           ),
           IconButton(
             onPressed: () {
               Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: ProfilePage()));
             },
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios),
@@ -173,30 +161,28 @@ updateProfile() async{
           ),
         ],
       ),
-      SizedBox(
-        height: MediaQuery.of(context).size.height/100
-      ),
-      SizedBox(
-        height: MediaQuery.of(context).size.height/100
-      ),
+      SizedBox(height: MediaQuery.of(context).size.height / 100),
+      SizedBox(height: MediaQuery.of(context).size.height / 100),
       Row(
         children: <Widget>[
-          SizedBox(
-            width: MediaQuery.of(context).size.width/10
-          ),
+          SizedBox(width: MediaQuery.of(context).size.width / 10),
           Text(
             'Edit profile',
             style: TextStyle(
                 color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
           ),
           SizedBox(
-            width: MediaQuery.of(context).size.width/3,
+            width: MediaQuery.of(context).size.width / 3,
           ),
           FlatButton(
             color: Color(0xFF1458EA),
-            child: Text("Save", style: TextStyle(color: Colors.white),),
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0)),
-            onPressed: (){
+            child: Text(
+              "Save",
+              style: TextStyle(color: Colors.white),
+            ),
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(10.0)),
+            onPressed: () {
               updateProfile();
               showDialog<void>(
                 context: context,
@@ -206,8 +192,7 @@ updateProfile() async{
                     title: Text('Saved!'),
                     content: SingleChildScrollView(
                       child: Text(
-                        "Your profile has been saved! Please edit your cards to ensure you meet cool people!"
-                      ),
+                          "Your profile has been saved! Please edit your cards to ensure you meet cool people!"),
                     ),
                     actions: <Widget>[
                       FlatButton(
@@ -219,10 +204,11 @@ updateProfile() async{
                       FlatButton(
                         child: Text("Edit Cards"),
                         onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TabsApp()),
-            );
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: TabsApp()));
                         },
                       ),
                     ],
@@ -249,13 +235,13 @@ updateProfile() async{
         ],
       ),
       SizedBox(
-        height: MediaQuery.of(context).size.height/20,
+        height: MediaQuery.of(context).size.height / 20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
+          margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 15),
           child: TextField(
             textCapitalization: TextCapitalization.sentences,
-            
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -264,15 +250,15 @@ updateProfile() async{
               }
             },
             decoration: InputDecoration(
-              hintText: name=="No Display Name"?"Name":name,
+              hintText: name == "No Display Name" ? "Name" : name,
               hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
-                    color: Color(0xFF1458EA),
-                    ),
+                  color: Color(0xFF1458EA),
+                ),
               ),
               focusedBorder: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
@@ -283,18 +269,20 @@ updateProfile() async{
             ),
           )),
       SizedBox(
-        height: MediaQuery.of(context).size.height/20,
+        height: MediaQuery.of(context).size.height / 20,
       ),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width / 15),
         child: Align(
           alignment: Alignment.topLeft,
           child: Container(
-            width: MediaQuery.of(context).size.width/1.1,
-            height: MediaQuery.of(context).size.height/9,
+            width: MediaQuery.of(context).size.width / 1.1,
+            height: MediaQuery.of(context).size.height / 9,
             child: FlutterSearchPanel<int>(
               padding: EdgeInsets.all(10.0),
-              selected: data2.indexWhere((SearchItem element)=>element.text==currentUserModel.university),
+              selected: data2.indexWhere((SearchItem element) =>
+                  element.text == currentUserModel.university),
               title: "Select your university",
               data: data2,
               color: Colors.white,
@@ -305,7 +293,8 @@ updateProfile() async{
               ),
               onChanged: (int value) {
                 if (value != null) {
-                  if(data2[value].text.isNotEmpty&& data2[value].text!=null) {
+                  if (data2[value].text.isNotEmpty &&
+                      data2[value].text != null) {
                     setState(() {
                       university = data2[value].text;
                     });
@@ -317,13 +306,13 @@ updateProfile() async{
         ),
       ),
       SizedBox(
-        height: MediaQuery.of(context).size.height/20,
+        height: MediaQuery.of(context).size.height / 20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
+          margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 15),
           child: TextField(
             textCapitalization: TextCapitalization.words,
-          
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -332,7 +321,7 @@ updateProfile() async{
               }
             },
             decoration: InputDecoration(
-              hintText: major==null?"Program":major,
+              hintText: major == null ? "Program" : major,
               hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
@@ -351,12 +340,12 @@ updateProfile() async{
             ),
           )),
       SizedBox(
-        height: MediaQuery.of(context).size.height/20,
+        height: MediaQuery.of(context).size.height / 20,
       ),
       Container(
-          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width/15),
+          margin: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 15),
           child: TextField(
-            
             onSubmitted: (value) {
               if (value.isNotEmpty && value != null) {
                 setState(() {
@@ -365,7 +354,7 @@ updateProfile() async{
               }
             },
             decoration: InputDecoration(
-              hintText: gradYear==null?"Graduation Year":gradYear,
+              hintText: gradYear == null ? "Graduation Year" : gradYear,
               hintStyle: TextStyle(color: Colors.grey),
               labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
               contentPadding: EdgeInsets.all(20),
@@ -382,11 +371,11 @@ updateProfile() async{
             ),
           )),
       SizedBox(
-        height: MediaQuery.of(context).size.height/20,
+        height: MediaQuery.of(context).size.height / 20,
       ),
       Container(
-        width: MediaQuery.of(context).size.width/1.5,
-        height: MediaQuery.of(context).size.height/13,
+        width: MediaQuery.of(context).size.width / 1.5,
+        height: MediaQuery.of(context).size.height / 13,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -402,9 +391,9 @@ updateProfile() async{
           elevation: (5),
           onPressed: () {
             Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => TabsApp()),
-            );
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: TabsApp()));
           },
           backgroundColor: Color(0xFF1458EA),
           child: Text(

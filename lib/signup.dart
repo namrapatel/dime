@@ -211,7 +211,7 @@ class _SignupPageState extends State<SignupPage> {
                   try {
                     await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
-                        email: _email, password: _password)
+                            email: _email, password: _password)
                         .then((signedInUser) async {
                       UserManagement().storeNewUser(signedInUser, context);
                       DocumentSnapshot userRecord = await Firestore.instance
@@ -226,19 +226,18 @@ class _SignupPageState extends State<SignupPage> {
                       Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.fade,
+                              type: PageTransitionType.rightToLeft,
                               child: ScrollPage()));
                     });
-                  } on PlatformException catch(e)  {
+                  } on PlatformException catch (e) {
                     _showCupertinoDialog(e.code);
                     print(e.message);
                     print(e.code);
                     print(e.details);
-                  } catch(i){
+                  } catch (i) {
                     _showCupertinoDialog('unexpected');
                     print('undefined exception');
                     print(i);
-
                   }
                   //NAVIGATE TO ONBOARDING
 
@@ -298,19 +297,18 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   void _showCupertinoDialog(String exception) {
-    String errorMessage='';
-    if(exception=="ERROR_WEAK_PASSWORD"){
-      errorMessage='Please enter a password with at least 6 characters';
+    String errorMessage = '';
+    if (exception == "ERROR_WEAK_PASSWORD") {
+      errorMessage = 'Please enter a password with at least 6 characters';
       print('user doesnt exist');
-    }else if(exception=="ERROR_INVALID_EMAIL"){
-      errorMessage='Please enter a valid email address';
-    }else if(exception=="ERROR_EMAIL_ALREADY_IN_USE"){
-      errorMessage='This email address is already in use by another account';
-    }else if(exception=="matching"){
-      errorMessage="Please enter passwords that match";
-    }
-    else{
-      errorMessage="There was an unexpected error";
+    } else if (exception == "ERROR_INVALID_EMAIL") {
+      errorMessage = 'Please enter a valid email address';
+    } else if (exception == "ERROR_EMAIL_ALREADY_IN_USE") {
+      errorMessage = 'This email address is already in use by another account';
+    } else if (exception == "matching") {
+      errorMessage = "Please enter passwords that match";
+    } else {
+      errorMessage = "There was an unexpected error";
     }
     showDialog(
         context: context,
@@ -337,7 +335,6 @@ class _SignupPageState extends State<SignupPage> {
           );
         });
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -96,7 +96,10 @@ class _ChatListState extends State<ChatList> {
         future: getMessages(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return SpinKitThreeBounce(color: Colors.black, size: 25.0,);
+            return SpinKitThreeBounce(
+              color: Colors.black,
+              size: 25.0,
+            );
           } else if (snapshot.data.length == 0) {
             return Center(
                 child: Container(
@@ -147,16 +150,12 @@ class _ChatListState extends State<ChatList> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.upToDown, child: ScrollPage()));
+            Navigator.pop(context);
           },
         ),
         title: Text(
           "Messages",
-          style: TextStyle(
-              color: Colors.black, fontSize: 25),
+          style: TextStyle(color: Colors.black, fontSize: 25),
         ),
       ),
       body: ListView(
@@ -203,7 +202,7 @@ class MessageTile extends StatelessWidget {
         Navigator.push(
             context,
             PageTransition(
-                type: PageTransitionType.leftToRight,
+                type: PageTransitionType.rightToLeft,
                 child: Chat(
                   fromUserId: to,
                   toUserId: from,

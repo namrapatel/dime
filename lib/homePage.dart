@@ -25,6 +25,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:Dime/models/localnotif.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 
@@ -193,7 +194,6 @@ class _ScrollPageState extends State<ScrollPage>
     // else {
     //   _saveDeviceToken();
     // }
-
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
@@ -215,7 +215,8 @@ class _ScrollPageState extends State<ScrollPage>
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
-        print('on message $message');
+        LocalNotifcation(context, message['notification']['title'],
+            message['notification']['body']);
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
@@ -330,9 +331,7 @@ class _ScrollPageState extends State<ScrollPage>
                       ),
                     ],
                   ),
-
             Spacer(),
-
             IconButton(
               icon: Icon(
                 Icons.settings,
@@ -582,6 +581,7 @@ class _ScrollPageState extends State<ScrollPage>
       ],
     );
   }
+
 
 //  Future<List<UserTile>> getUsers() async {
 //    List<UserTile> userList = [];
@@ -956,4 +956,41 @@ class UserTile extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget LocalNotifcation(
+    BuildContext context, String titleMessage, String bodyMessage) {
+  return Flushbar(
+    // message: "hello",
+    margin: EdgeInsets.all(8),
+    borderRadius: 15,
+    messageText: Padding(
+      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            titleMessage,
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            bodyMessage,
+            style: TextStyle(color: Colors.grey),
+          )
+        ],
+      ),
+    ),
+    backgroundColor: Colors.white,
+    flushbarPosition: FlushbarPosition.TOP,
+    icon: Padding(
+      padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+      child: Icon(
+        Icons.info_outline,
+        size: 28.0,
+        color: Color(0xFF1458EA),
+      ),
+    ),
+    duration: Duration(seconds: 3),
+  )..show(context);
 }

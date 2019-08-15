@@ -82,9 +82,7 @@ class _SocialCommentsState extends State<SocialComments> {
   }
 
   getAllUsers() async {
-    QuerySnapshot users = await Firestore.instance
-        .collection('users')
-        .getDocuments();
+    QuerySnapshot users = await Firestore.instance.collection('users').getDocuments();
   }
 
   Future<List<Comment>> getComments() async {

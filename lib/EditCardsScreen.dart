@@ -497,7 +497,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SizedBox(height: 0.0,),
+                              : SizedBox(
+                                  height: 0.0,
+                                ),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -795,7 +797,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                  onSubmitted: (value) {
+                                  onChanged: (value) {
                                     if (value != '' && value != null) {
                                       setState(() {
                                         snapchat = value;
@@ -851,7 +853,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
+                                onChanged: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
                                       instagram = value;
@@ -908,7 +910,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
+                                onChanged: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
                                       twitter = value;
@@ -1499,7 +1501,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SizedBox(height: 0.0,),
+                              : SizedBox(
+                                  height: 0.0,
+                                ),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -1820,7 +1824,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
+                                onChanged: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
                                       linkedIn = value;
@@ -1876,7 +1880,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
+                                onChanged: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
                                       github = value;
@@ -1930,7 +1934,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
+                                onChanged: (value) {
                                   if (value != '' && value != null) {
                                     setState(() {
                                       twitter = value;

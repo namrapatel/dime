@@ -16,38 +16,62 @@ import 'package:flutter/foundation.dart';
 import 'package:Dime/login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class SocialPost extends StatefulWidget {
+  final String university;
   final String postId;
-// final  String caption;
-// final String postPic;
-// final int comments;
-// final String timeStamp;
-// final int upVotes ;
-// final List<dynamic> likes;
+ final  String caption;
+ final String postPic;
+ final int comments;
+ final String timeStamp;
+ final int upVotes ;
+ final List<dynamic> likes;
+//  final bool liked;
 
-  const SocialPost({this.postId});
+  factory SocialPost.fromDocument(DocumentSnapshot document) {
+    Timestamp storedDate = document["timeStamp"];
+    String elapsedTime = timeago.format(storedDate.toDate());
+    String times = '$elapsedTime';
+    return SocialPost(
+      university: document['university'],
+      postPic: document['postPic'],
+      comments: document['comments'],
+      likes: document['likes'],
+      caption: document['caption'],
+      postId: document.documentID,
+      timeStamp: times,
+      upVotes: document['upVotes'],
+
+    );
+  }
+
+  const SocialPost({this.university,this.postId,this.caption,this.postPic,this.comments,this.timeStamp,this.upVotes,this.likes});
   @override
-  _SocialPostState createState() => _SocialPostState();
+  _SocialPostState createState() => _SocialPostState(university:university,postId:postId,caption: caption,postPic: postPic,comments: comments,timeStamp: timeStamp,upVotes: upVotes,likes: likes);
 }
 
 class _SocialPostState extends State<SocialPost> {
   List<dynamic> likes;
-//  String postId;
+  String postId;
   String caption;
   String postPic;
   int comments;
   String timeStamp;
   int upVotes;
   String university;
-  bool liked = false;
-
+  bool liked ;
+_SocialPostState({this.university,this.postId,this.caption,this.postPic,this.comments,this.timeStamp,this.upVotes,this.likes});
   String name = currentUserModel.displayName;
-
+//bool editLike=liked;
   @override
   void initState() {
     super.initState();
-    getPostInfo();
+    setState(() {
+      liked=(likes.contains(currentUserModel.uid));
+    });
+
+//    getPostInfo();
     print(caption);
   }
 
@@ -131,9 +155,16 @@ class _SocialPostState extends State<SocialPost> {
       }
     }
   }
+  Container loadingPlaceHolder = Container(
+    height: 400.0,
+    child: Center(child: CircularProgressIndicator()),
+  );
 
   @override
   Widget build(BuildContext context) {
+
+    print('boolean liked is');
+    print(liked);
     return Container(
         margin: EdgeInsets.all(screenH(9.0)),
         child: caption == null
@@ -152,15 +183,19 @@ class _SocialPostState extends State<SocialPost> {
                         topRight: Radius.circular(screenH(15.0)),
                       ),
                       child: postPic != null
-                          ? AspectRatio(
-                              aspectRatio: 0.92,
-                              child: Image(
-                                image: NetworkImage(postPic),
-                                width: screenW(200),
-                                height: screenH(275),
-                                fit: BoxFit.fill,
-                              ),
-                            )
+                          ? CachedNetworkImage(
+                          imageUrl: postPic,
+                          fit: BoxFit.fitWidth,
+                          placeholder: (context, url) => loadingPlaceHolder,
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        )
+//                              child: Image(
+//                                image: NetworkImage(postPic),
+//                                width: screenW(200),
+//                                height: screenH(275),
+//                                fit: BoxFit.fill,
+//                              ),
+
                           : SizedBox(
                               width: screenH(1.2),
                             ),

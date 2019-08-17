@@ -146,11 +146,14 @@ class _ChatListState extends State<ChatList> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(
-            Icons.keyboard_arrow_down,
+            Icons.cancel,
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.upToDown, child: ScrollPage()));
           },
         ),
         title: Text(

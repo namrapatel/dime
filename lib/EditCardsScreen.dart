@@ -10,6 +10,7 @@ import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flushbar/flushbar.dart';
 import 'socialTags.dart';
 import 'professionalTags.dart';
 import 'viewCards.dart';
@@ -497,7 +498,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SizedBox(height: 0.0,),
+                              : SizedBox(
+                                  height: 0.0,
+                                ),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -1008,9 +1011,48 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                             elevation: screenH(5),
                             onPressed: () {
                               updateSocialCard();
-                              setState(() {
-                                saved = 'Changes saved';
-                              });
+                              Flushbar(
+                                // message: "hello",
+                                borderRadius: 15,
+                                messageText: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'Saved!',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'Your basic information has been updated.',
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                                boxShadows: [
+                                  BoxShadow(
+                                      color: Colors.black12.withOpacity(0.1),
+                                      blurRadius: (15),
+                                      spreadRadius: (5),
+                                      offset: Offset(0, 3)),
+                                ],
+                                flushbarPosition: FlushbarPosition.BOTTOM,
+                                icon: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                  child: Icon(
+                                    Icons.save_alt,
+                                    size: 28.0,
+                                    color: Color(0xFF1458EA),
+                                  ),
+                                ),
+                                duration: Duration(seconds: 3),
+                              )..show(context);
                             },
                             backgroundColor: Color(0xFF1458EA),
                             child: Text(
@@ -1499,7 +1541,9 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SizedBox(height: 0.0,),
+                              : SizedBox(
+                                  height: 0.0,
+                                ),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -2013,9 +2057,48 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                             elevation: screenH(5),
                             onPressed: () {
                               updateProfCard();
-                              setState(() {
-                                saved = 'Changes saved';
-                              });
+                              Flushbar(
+                                // message: "hello",
+                                borderRadius: 15,
+                                messageText: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'Saved!',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'Your basic information has been updated.',
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                                boxShadows: [
+                                  BoxShadow(
+                                      color: Colors.black12.withOpacity(0.1),
+                                      blurRadius: (15),
+                                      spreadRadius: (5),
+                                      offset: Offset(0, 3)),
+                                ],
+                                flushbarPosition: FlushbarPosition.BOTTOM,
+                                icon: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                  child: Icon(
+                                    Icons.save_alt,
+                                    size: 28.0,
+                                    color: Color(0xFF1458EA),
+                                  ),
+                                ),
+                                duration: Duration(seconds: 3),
+                              )..show(context);
                             },
                             backgroundColor: Color(0xFF1458EA),
                             child: Text(

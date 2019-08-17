@@ -134,7 +134,9 @@ class _ProfPostState extends State<ProfPost> {
     return Container(
         margin: EdgeInsets.all(screenH(9.0)),
         child: caption == null
-            ? SizedBox(height: 1,)
+            ? SizedBox(
+                height: 1,
+              )
             : Card(
                 elevation: screenH(10),
                 shape: RoundedRectangleBorder(
@@ -143,201 +145,228 @@ class _ProfPostState extends State<ProfPost> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(screenH(15.0)),
-                        topRight: Radius.circular(screenH(15.0)),
-                      ),
-                      child: postPic != null
-                          ? AspectRatio(
-                              aspectRatio: 0.92,
-                              child: Image(
-                                image: NetworkImage(postPic),
-                                width: screenW(200),
-                                height: screenH(275),
-                                fit: BoxFit.fill,
-                              ),
-                            )
-                          : SizedBox(
-                              width: screenH(1.2),
-                            ),
-                    ),
-                    ListTile(
-                        contentPadding: EdgeInsets.fromLTRB(
-                            screenH(22), screenH(11), screenH(22), screenH(11)),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              width: screenW(290),
-                              child: caption != null
-                                  ? Text(caption)
-                                  : SizedBox(
-                                      width: screenW(1.2),
-                                    ),
-                            ),
-                            IconButton(
-                              icon: Icon(FontAwesome.share_square_o),
-                              iconSize: screenF(25),
-                              onPressed: () async => await _sharePost(),
-                            ),
-                          ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(screenH(15.0)),
+                          topRight: Radius.circular(screenH(15.0)),
+                          bottomLeft: Radius.circular(screenH(15.0)),
+                          bottomRight: Radius.circular(screenH(15.0)),
                         ),
-                        subtitle: Row(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                FontAwesome.comments,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        type: PageTransitionType.rightToLeft,
-                                        child: ProfComments(
-                                          postId: widget.postId,
-                                        )));
-                              },
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                SizedBox(
-                                  height: screenH(20),
+                        child: postPic != null
+                            ? AspectRatio(
+                                aspectRatio: 0.92,
+                                child: Image(
+                                  image: NetworkImage(postPic),
+                                  width: screenW(200),
+                                  height: screenH(275),
+                                  fit: BoxFit.fill,
                                 ),
-                                comments != null
-                                    ? GestureDetector(
-                                        child: Text(
-                                          "$comments Comments",
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                  type: PageTransitionType
-                                                      .rightToLeft,
-                                                  child: ProfComments(
-                                                    postId: widget.postId,
-                                                  )));
-                                        },
-                                      )
-                                    : SizedBox(
-                                        width: screenW(1.2),
-                                      ),
-                                timeStamp != null
-                                    ? Text(
-                                        timeStamp,
-                                        style: TextStyle(
-                                            fontSize: screenF(13.5),
-                                            color: Colors.grey),
-                                      )
-                                    : SizedBox(
-                                        width: screenW(1.2),
-                                      ),
-                              ],
-                            ),
-                            Spacer(),
-                            GestureDetector(
-                              onTap: () async {
-                                if (liked == false) {
-                                  setState(() {
-                                    liked = true;
-                                    upVotes++;
-                                  });
+                              )
+                            : SizedBox(
+                                width: screenH(1.2),
+                              ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          SizedBox(
+                            width: 2.0,
+                          ),
+                          Container(
+                            width: screenW(290),
+                            child: caption != null
+                                ? Text(caption,
+                                    style: TextStyle(fontSize: 16.0))
+                                : SizedBox(
+                                    width: screenW(1.2),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Divider(
+                        color: Colors.grey[400],
+                        height: screenH(1),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () async {
+                              if (liked == false) {
+                                setState(() {
+                                  liked = true;
+                                  upVotes++;
+                                });
 
+                                Firestore.instance
+                                    .collection('profPosts')
+                                    .document(widget.postId)
+                                    .updateData({
+                                  'likes': FieldValue.arrayUnion(
+                                      [currentUserModel.uid])
+                                });
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(currentUserModel.uid)
+                                    .collection('recentActivity')
+                                    .document(widget.postId)
+                                    .setData({
+                                  'type': 'prof',
+                                  'upvoted': true,
+                                  'postId': widget.postId,
+                                  'timeStamp': Timestamp.now()
+                                }, merge: true);
+                              } else {
+                                setState(() {
+                                  liked = false;
+                                  upVotes--;
+                                });
+                                Firestore.instance
+                                    .collection('profPosts')
+                                    .document(widget.postId)
+                                    .updateData({
+                                  'likes': FieldValue.arrayRemove(
+                                      [currentUserModel.uid])
+                                });
+                                DocumentSnapshot documentSnap = await Firestore
+                                    .instance
+                                    .collection('users')
+                                    .document(currentUserModel.uid)
+                                    .collection('recentActivity')
+                                    .document(widget.postId)
+                                    .get();
+
+                                if (documentSnap['commented'] != true) {
                                   Firestore.instance
-                                      .collection('profPosts')
+                                      .collection('users')
+                                      .document(currentUserModel.uid)
+                                      .collection('recentActivity')
                                       .document(widget.postId)
-                                      .updateData({
-                                    'likes': FieldValue.arrayUnion(
-                                        [currentUserModel.uid])
-                                  });
+                                      .delete();
+                                } else {
                                   Firestore.instance
                                       .collection('users')
                                       .document(currentUserModel.uid)
                                       .collection('recentActivity')
                                       .document(widget.postId)
                                       .setData({
-                                    'type': 'prof',
-                                    'upvoted': true,
-                                    'postId': widget.postId,
-                                    'timeStamp': Timestamp.now()
+                                    'upvoted': false,
                                   }, merge: true);
-                                } else {
-                                  setState(() {
-                                    liked = false;
-                                    upVotes--;
-                                  });
-                                  Firestore.instance
-                                      .collection('profPosts')
-                                      .document(widget.postId)
-                                      .updateData({
-                                    'likes': FieldValue.arrayRemove(
-                                        [currentUserModel.uid])
-                                  });
-                                  DocumentSnapshot documentSnap =
-                                      await Firestore.instance
-                                          .collection('users')
-                                          .document(currentUserModel.uid)
-                                          .collection('recentActivity')
-                                          .document(widget.postId)
-                                          .get();
-
-                                  if (documentSnap['commented'] != true) {
-                                    Firestore.instance
-                                        .collection('users')
-                                        .document(currentUserModel.uid)
-                                        .collection('recentActivity')
-                                        .document(widget.postId)
-                                        .delete();
-                                  } else {
-                                    Firestore.instance
-                                        .collection('users')
-                                        .document(currentUserModel.uid)
-                                        .collection('recentActivity')
-                                        .document(widget.postId)
-                                        .setData({
-                                      'upvoted': false,
-                                    }, merge: true);
-                                  }
                                 }
+                              }
 
-                                Firestore.instance
-                                    .collection('profPosts')
-                                    .document(widget.postId)
-                                    .updateData({'upVotes': upVotes});
-                              },
-                              child: Container(
-                                width: screenW(55),
-                                height: screenW(55),
-                                decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(screenH(16)),
-                                    color: liked == false
-                                        ? Colors.grey[100]
-                                        : Color(0xFF76c2c0)),
-                                child: Column(
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height: screenH(5),
+                              Firestore.instance
+                                  .collection('profPosts')
+                                  .document(widget.postId)
+                                  .updateData({'upVotes': upVotes});
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: Row(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 14.0,
+                                  ),
+                                  Icon(FontAwesome.arrow_up,
+                                      color: Color(0xFF063F3E)),
+                                  //Text("$upVotes", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
+                                  SizedBox(
+                                    width: 8.0,
+                                  ),
+                                  Text(
+                                    '$upVotes',
+                                    style: TextStyle(
+                                        color: Color(0xFF063F3E),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(
+                                    width: 12.0,
+                                  ),
+                                  IconButton(
+                                    icon: Icon(
+                                      FontAwesome.comments,
+                                      color: Colors.black,
                                     ),
-                                    Icon(Icons.keyboard_arrow_up,
-                                        color: Color(0xFF063F3E)),
-                                    //Text("$upVotes", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
-                                    Text(
-                                      '$upVotes',
-                                      style: TextStyle(
-                                          color: Color(0xFF063F3E),
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          PageTransition(
+                                              type: PageTransitionType
+                                                  .rightToLeft,
+                                              child: ProfComments(
+                                                postId: widget.postId,
+                                              )));
+                                    },
+                                  ),
+                                  comments != null
+                                      ? GestureDetector(
+                                          child: Text(
+                                            "$comments",
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                    type: PageTransitionType
+                                                        .rightToLeft,
+                                                    child: ProfComments(
+                                                      postId: widget.postId,
+                                                    )));
+                                          },
+                                        )
+                                      : SizedBox(
+                                          width: screenW(1.2),
+                                        ),
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 6.0,
+                                      ),
+                                      IconButton(
+                                        icon: Icon(FontAwesome.share_square_o),
+                                        iconSize: screenF(25),
+                                        onPressed: () async =>
+                                            await _sharePost(),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        )),
+                          ),
+                          Spacer(),
+                          timeStamp != null
+                              ? Text(
+                                  timeStamp,
+                                  style: TextStyle(
+                                      fontSize: screenF(13.5),
+                                      color: Colors.grey),
+                                )
+                              : SizedBox(
+                                  width: screenW(1.2),
+                                ),
+                          SizedBox(
+                            width: 15.0,
+                          )
+                        ],
+                      ),
+                    ),
                   ],
                 )));
   }

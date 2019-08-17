@@ -93,8 +93,24 @@ class _ProfCommentsState extends State<ProfComments> {
         .collection('comments')
         .orderBy('timestamp', descending: false)
         .getDocuments();
+
     for (var doc in query.documents) {
-      postComments.add(Comment.fromDocument(doc));
+      String id = doc['commenterId'];
+      DocumentSnapshot document =
+          await Firestore.instance.collection('users').document(id).get();
+      Timestamp storedDate = doc['timestamp'];
+      String elapsedTime = timeago.format(storedDate.toDate());
+      String times = '$elapsedTime';
+
+      postComments.add(Comment(
+          commenterId: id,
+          commenterName: document['displayName'],
+          commenterPhoto: document['photoUrl'],
+          postId: doc['postId'],
+          text: doc['text'],
+          timestamp: times,
+          type: doc['type'],
+          commentId: doc.documentID));
     }
     return postComments;
   }
@@ -154,7 +170,9 @@ class _ProfCommentsState extends State<ProfComments> {
                         university,
                         style: TextStyle(color: Colors.black),
                       )
-                    : SizedBox(height: 0.0,),
+                    : SizedBox(
+                        height: 0.0,
+                      ),
                 Text(
                   'Professional Feed',
                   style: TextStyle(

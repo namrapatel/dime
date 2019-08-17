@@ -21,12 +21,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 class SocialPost extends StatefulWidget {
   final String university;
   final String postId;
- final  String caption;
- final String postPic;
- final int comments;
- final String timeStamp;
- final int upVotes ;
- final List<dynamic> likes;
+  final String caption;
+  final String postPic;
+  final int comments;
+  final String timeStamp;
+  final int upVotes;
+  final List<dynamic> likes;
 //  final bool liked;
 
   factory SocialPost.fromDocument(DocumentSnapshot document) {
@@ -42,13 +42,28 @@ class SocialPost extends StatefulWidget {
       postId: document.documentID,
       timeStamp: times,
       upVotes: document['upVotes'],
-
     );
   }
 
-  const SocialPost({this.university,this.postId,this.caption,this.postPic,this.comments,this.timeStamp,this.upVotes,this.likes});
+  const SocialPost(
+      {this.university,
+      this.postId,
+      this.caption,
+      this.postPic,
+      this.comments,
+      this.timeStamp,
+      this.upVotes,
+      this.likes});
   @override
-  _SocialPostState createState() => _SocialPostState(university:university,postId:postId,caption: caption,postPic: postPic,comments: comments,timeStamp: timeStamp,upVotes: upVotes,likes: likes);
+  _SocialPostState createState() => _SocialPostState(
+      university: university,
+      postId: postId,
+      caption: caption,
+      postPic: postPic,
+      comments: comments,
+      timeStamp: timeStamp,
+      upVotes: upVotes,
+      likes: likes);
 }
 
 class _SocialPostState extends State<SocialPost> {
@@ -60,15 +75,23 @@ class _SocialPostState extends State<SocialPost> {
   String timeStamp;
   int upVotes;
   String university;
-  bool liked ;
-_SocialPostState({this.university,this.postId,this.caption,this.postPic,this.comments,this.timeStamp,this.upVotes,this.likes});
+  bool liked;
+  _SocialPostState(
+      {this.university,
+      this.postId,
+      this.caption,
+      this.postPic,
+      this.comments,
+      this.timeStamp,
+      this.upVotes,
+      this.likes});
   String name = currentUserModel.displayName;
 //bool editLike=liked;
   @override
   void initState() {
     super.initState();
     setState(() {
-      liked=(likes.contains(currentUserModel.uid));
+      liked = (likes.contains(currentUserModel.uid));
     });
 
 //    getPostInfo();
@@ -155,6 +178,7 @@ _SocialPostState({this.university,this.postId,this.caption,this.postPic,this.com
       }
     }
   }
+
   Container loadingPlaceHolder = Container(
     height: 400.0,
     child: Center(child: CircularProgressIndicator()),
@@ -162,7 +186,6 @@ _SocialPostState({this.university,this.postId,this.caption,this.postPic,this.com
 
   @override
   Widget build(BuildContext context) {
-
     print('boolean liked is');
     print(liked);
     return Container(
@@ -314,7 +337,9 @@ _SocialPostState({this.university,this.postId,this.caption,this.postPic,this.com
                                     width: 14.0,
                                   ),
                                   Icon(FontAwesome.arrow_up,
-                                      color: Color(0xFF8803fc)),
+                                      color: liked == true
+                                          ? Color(0xFF8803fc)
+                                          : Colors.black),
                                   //Text("$upVotes", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
                                   SizedBox(
                                     width: 8.0,
@@ -322,7 +347,7 @@ _SocialPostState({this.university,this.postId,this.caption,this.postPic,this.com
                                   Text(
                                     '$upVotes',
                                     style: TextStyle(
-                                        color: Color(0xFF8803fc),
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(

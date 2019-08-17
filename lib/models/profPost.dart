@@ -21,11 +21,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 class ProfPost extends StatefulWidget {
   final String university;
   final String postId;
-  final  String caption;
+  final String caption;
   final String postPic;
   final int comments;
   final String timeStamp;
-  final int upVotes ;
+  final int upVotes;
   final List<dynamic> likes;
 //  final bool liked;
 
@@ -42,13 +42,28 @@ class ProfPost extends StatefulWidget {
       postId: document.documentID,
       timeStamp: times,
       upVotes: document['upVotes'],
-
     );
   }
 
-  const ProfPost({this.university,this.postId,this.caption,this.postPic,this.comments,this.timeStamp,this.upVotes,this.likes});
+  const ProfPost(
+      {this.university,
+      this.postId,
+      this.caption,
+      this.postPic,
+      this.comments,
+      this.timeStamp,
+      this.upVotes,
+      this.likes});
   @override
-  _ProfPostState createState() => _ProfPostState(university:university,postId:postId,caption: caption,postPic: postPic,comments: comments,timeStamp: timeStamp,upVotes: upVotes,likes: likes);
+  _ProfPostState createState() => _ProfPostState(
+      university: university,
+      postId: postId,
+      caption: caption,
+      postPic: postPic,
+      comments: comments,
+      timeStamp: timeStamp,
+      upVotes: upVotes,
+      likes: likes);
 }
 
 class _ProfPostState extends State<ProfPost> {
@@ -60,15 +75,23 @@ class _ProfPostState extends State<ProfPost> {
   String timeStamp;
   int upVotes;
   String university;
-  bool liked ;
-  _ProfPostState({this.university,this.postId,this.caption,this.postPic,this.comments,this.timeStamp,this.upVotes,this.likes});
+  bool liked;
+  _ProfPostState(
+      {this.university,
+      this.postId,
+      this.caption,
+      this.postPic,
+      this.comments,
+      this.timeStamp,
+      this.upVotes,
+      this.likes});
   String name = currentUserModel.displayName;
 //bool editLike=liked;
   @override
   void initState() {
     super.initState();
     setState(() {
-      liked=(likes.contains(currentUserModel.uid));
+      liked = (likes.contains(currentUserModel.uid));
     });
 
 //    getPostInfo();
@@ -90,7 +113,7 @@ class _ProfPostState extends State<ProfPost> {
             },
             '*/*',
             text:
-            "Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
+                "Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
       } catch (e) {
         print('error: $e');
       }
@@ -122,6 +145,7 @@ class _ProfPostState extends State<ProfPost> {
       }
     }
   }
+
   Container loadingPlaceHolder = Container(
     height: 400.0,
     child: Center(child: CircularProgressIndicator()),
@@ -129,7 +153,6 @@ class _ProfPostState extends State<ProfPost> {
 
   @override
   Widget build(BuildContext context) {
-
     print('boolean liked is');
     print(liked);
     return Container(
@@ -280,7 +303,9 @@ class _ProfPostState extends State<ProfPost> {
                                     width: 14.0,
                                   ),
                                   Icon(FontAwesome.arrow_up,
-                                      color: Color(0xFF063F3E)),
+                                      color: liked == true
+                                          ? Color(0xFF063F3E)
+                                          : Colors.black),
                                   //Text("$upVotes", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
                                   SizedBox(
                                     width: 8.0,
@@ -288,7 +313,7 @@ class _ProfPostState extends State<ProfPost> {
                                   Text(
                                     '$upVotes',
                                     style: TextStyle(
-                                        color: Color(0xFF063F3E),
+                                        color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   SizedBox(
@@ -370,6 +395,5 @@ class _ProfPostState extends State<ProfPost> {
                     ),
                   ],
                 )));
-
   }
 }

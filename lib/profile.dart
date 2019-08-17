@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_search_panel/flutter_search_panel.dart';
 import 'package:flutter_search_panel/search_item.dart';
 import 'viewCards.dart';
+import 'package:flushbar/flushbar.dart';
 
 class Profile extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey =
@@ -184,37 +185,46 @@ class _HomePageOneState extends State<HomePageOne> {
                 borderRadius: new BorderRadius.circular(10.0)),
             onPressed: () {
               updateProfile();
-              showDialog<void>(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Saved!'),
-                    content: SingleChildScrollView(
-                      child: Text(
-                          "Your profile has been saved! Please edit your cards to ensure you meet cool people!"),
-                    ),
-                    actions: <Widget>[
-                      FlatButton(
-                        child: Text("I'm good"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
+              Flushbar(
+                // message: "hello",
+                borderRadius: 15,
+                messageText: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        'Saved!',
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ),
-                      FlatButton(
-                        child: Text("Edit Cards"),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
-                        },
-                      ),
+                      Text(
+                        'Your basic information has been updated.',
+                        style: TextStyle(color: Colors.grey),
+                      )
                     ],
-                  );
-                },
-              );
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                boxShadows: [
+                  BoxShadow(
+                      color: Colors.black12.withOpacity(0.1),
+                      blurRadius: (15),
+                      spreadRadius: (5),
+                      offset: Offset(0, 3)),
+                ],
+                flushbarPosition: FlushbarPosition.BOTTOM,
+                icon: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                  child: Icon(
+                    Icons.save_alt,
+                    size: 28.0,
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+                duration: Duration(seconds: 3),
+              )..show(context);
             },
           ),
           // InkWell(

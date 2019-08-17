@@ -145,7 +145,7 @@ class _ChatListState extends State<ChatList> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(
-            Icons.cancel,
+            Icons.keyboard_arrow_down,
             color: Colors.black,
           ),
           onPressed: () {

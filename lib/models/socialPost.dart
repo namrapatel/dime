@@ -212,14 +212,15 @@ class _SocialPostState extends State<SocialPost> {
                           bottomRight: Radius.circular(screenH(15.0)),
                         ),
                         child: postPic != null
-                            ? AspectRatio(
-                                aspectRatio: 0.92,
-                                child: Image(
-                                  image: NetworkImage(postPic),
-                                  width: screenW(200),
-                                  height: screenH(275),
-                                  fit: BoxFit.fill,
-                                ),
+                            ? CachedNetworkImage(
+                                imageUrl: postPic,
+                                fit: BoxFit.fitWidth,
+                                placeholder: (context, url) =>
+                                    loadingPlaceHolder,
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                width: screenW(200),
+                                height: screenH(275),
                               )
                             : SizedBox(
                                 width: screenH(1.2),

@@ -125,11 +125,7 @@ class _ProfCommentsState extends State<ProfComments> {
                 future: getComments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
-                    return Container(
-                        alignment: FractionalOffset.center,
-                        child: SizedBox(
-                          height: 0.0,
-                        ));
+                    return Center(child: CircularProgressIndicator());
 
                   return Container(
                     child: Column(children: snapshot.data),

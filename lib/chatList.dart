@@ -39,6 +39,7 @@ class _ChatListState extends State<ChatList> {
       String displayName;
       String photoUrl;
       String senderId = document.documentID;
+      bool unread = document['unread'];
       QuerySnapshot cardQuery = await Firestore.instance
           .collection('users')
           .document(senderId)
@@ -83,6 +84,7 @@ class _ChatListState extends State<ChatList> {
         senderName: displayName,
         to: currentUserModel.uid,
         from: senderId,
+        unread: unread,
       ));
     }
     print('messagetiles');
@@ -190,6 +192,7 @@ class _ChatListState extends State<ChatList> {
 
 class MessageTile extends StatelessWidget {
   final String to, from, text, timestamp, senderPhoto, senderName;
+  final bool unread;
 
   MessageTile(
       {this.text,
@@ -197,11 +200,18 @@ class MessageTile extends StatelessWidget {
       this.from,
       this.timestamp,
       this.senderPhoto,
-      this.senderName});
+      this.senderName,
+      this.unread});
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
+        Firestore.instance
+            .collection('users')
+            .document(to)
+            .collection('messages')
+            .document(from)
+            .setData({'unread': false}, merge: true);
         Navigator.push(
             context,
             PageTransition(
@@ -211,9 +221,32 @@ class MessageTile extends StatelessWidget {
                   toUserId: from,
                 )));
       },
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(senderPhoto),
+      leading: Stack(
+        children: <Widget>[
+          CircleAvatar(
+            backgroundImage: NetworkImage(senderPhoto),
+          ),
+          unread == true
+              ? Positioned(
+                  top: MediaQuery.of(context).size.height / 150,
+                  left: MediaQuery.of(context).size.width / 14.5,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.red,
+                    radius: 6,
+                  ))
+              : SizedBox(height: 0.0),
+        ],
       ),
+//          unread == true
+//              ? Positioned(
+//                  top: MediaQuery.of(context).size.height / 48,
+//                  left: MediaQuery.of(context).size.width / 13.5,
+//                  child: CircleAvatar(
+//                    backgroundColor: Colors.red,
+//                    radius: 6,
+//                  ))
+//              : SizedBox(height: 0.0),
+
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

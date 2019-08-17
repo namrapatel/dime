@@ -1,5 +1,6 @@
-import 'package:Dime/profPage.dart';
 import 'package:Dime/services/usermanagement.dart';
+import 'package:Dime/profPage.dart';
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,10 +9,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:page_transition/page_transition.dart';
 import 'login.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:image/image.dart' as Im;
+import 'dart:math' as Math;
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -32,6 +36,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
   var storedDate;
   String postId;
   int upVotes;
+  bool loading=false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +52,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         body: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
           Column(
             children: <Widget>[
+
               Row(
                 children: <Widget>[
                   GestureDetector(
@@ -63,7 +69,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.leftToRight,
+                              type: PageTransitionType.rightToLeft,
                               child: ProfPage()));
                     },
                   ),
@@ -75,6 +81,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       backgroundColor: Color(0xFF063F3E),
                       onPressed: () {
                         post();
+
                       },
                       icon: Icon(
                         Ionicons.ios_send,
@@ -88,6 +95,9 @@ class _CreateProfPostState extends State<CreateProfPost> {
                   ),
                 ],
               ),
+              loading
+                  ? LinearProgressIndicator()
+                  : Padding(padding: EdgeInsets.only(top: 0.0)),
               Padding(
                 padding: EdgeInsets.fromLTRB(
                     screenW(30), screenH(20), screenW(30), screenH(0)),
@@ -98,73 +108,73 @@ class _CreateProfPostState extends State<CreateProfPost> {
               ),
               file == null
                   ? Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      // height: screenH(50),
+                      // width: screenW(50),
+                      child: FloatingActionButton(
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(16.0))),
+                        onPressed: () {
+                          _selectImage(context);
+                        },
+                        elevation: 5,
+                        heroTag: 'imgbtn',
+                        backgroundColor: Colors.white,
+                        // label: Text(
+                        //   "Add an Image",
+                        //   style: TextStyle(
+                        //       color: Colors.black, fontSize: 17),
+                        // ),
+                        child: Icon(
+                          SimpleLineIcons.picture,
+                          color: Colors.black,
+                          size: 25,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+                  : Card(
+                  color: Colors.grey[200],
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(15.0))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Row(
                         children: <Widget>[
-                          Container(
-                            // height: screenH(50),
-                            // width: screenW(50),
-                            child: FloatingActionButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16.0))),
-                              onPressed: () {
-                                _selectImage(context);
-                              },
-                              elevation: 5,
-                              heroTag: 'imgbtn',
-                              backgroundColor: Colors.white,
-                              // label: Text(
-                              //   "Add an Image",
-                              //   style: TextStyle(
-                              //       color: Colors.black, fontSize: 17),
-                              // ),
-                              child: Icon(
-                                SimpleLineIcons.picture,
-                                color: Colors.black,
-                                size: 25,
-                              ),
-                            ),
-                          ),
+                          IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () {
+                              clearImage();
+                            },
+                            color: Colors.black,
+                          )
                         ],
                       ),
-                    )
-                  : Card(
-                      color: Colors.grey[200],
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.close),
-                                onPressed: () {
-                                  clearImage();
-                                },
-                                color: Colors.black,
-                              )
-                            ],
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                        child: AspectRatio(
+                          aspectRatio: 0.92,
+                          child: Image(
+                            image: FileImage(file),
+                            width: screenW(170),
+                            height: screenH(250),
+                            fit: BoxFit.fill,
                           ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 0.92,
-                              child: Image(
-                                image: FileImage(file),
-                                width: screenW(170),
-                                height: screenH(250),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
+                        ),
+                      ),
+                    ],
+                  )),
               SizedBox(
                 height: screenH(12),
               ),
@@ -173,13 +183,13 @@ class _CreateProfPostState extends State<CreateProfPost> {
                 child: Container(
                   height: screenH(110),
                   decoration: BoxDecoration(
-                      // boxShadow: [
-                      //   BoxShadow(
-                      //       color: Colors.black.withOpacity(0.35),
-                      //       blurRadius: (10),
-                      //       spreadRadius: (3),
-                      //       offset: Offset(0, 3)),
-                      // ],
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //       color: Colors.black.withOpacity(0.35),
+                    //       blurRadius: (10),
+                    //       spreadRadius: (3),
+                    //       offset: Offset(0, 3)),
+                    // ],
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: Padding(
@@ -244,7 +254,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   File imageFile =
-                      await ImagePicker.pickImage(source: ImageSource.gallery);
+                  await ImagePicker.pickImage(source: ImageSource.gallery);
                   setState(() {
                     file = imageFile;
                   });
@@ -261,26 +271,26 @@ class _CreateProfPostState extends State<CreateProfPost> {
     );
   }
 
-//   void compressImage() async {
-//     print('starting compression');
-//     final tempDir = await getTemporaryDirectory();
-//     final path = tempDir.path;
-//     int rand = Math.Random().nextInt(10000);
+  void compressImage() async {
+    print('starting compression');
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    String rand = timeStamp.toString();
 
-//     Im.Image image = Im.decodeImage(file.readAsBytesSync());
-//     Im.copyResize(image, 500);
+    Im.Image image = Im.decodeImage(file.readAsBytesSync());
+//     Im.copyResize(image,width: 500,height: 500);
 
-// //    image.format = Im.Image.RGBA;
-// //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+    //    image.format = Im.Image.RGBA;
+    //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
 
-//     var newim2 = File('$path/img_$rand.jpg')
-//       ..writeAsBytesSync(Im.encodeJpg(image, quality: 85));
+    var newim2 = File('$path/img_$rand.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(image));
 
-//     setState(() {
-//       file = newim2;
-//     });
-//     print('done');
-//   }
+    setState(() {
+      file = newim2;
+    });
+    print('done');
+  }
 
   void clearImage() {
     setState(() {
@@ -292,6 +302,10 @@ class _CreateProfPostState extends State<CreateProfPost> {
     timeStamp = Timestamp.now();
     upVotes = 0;
     if (file != null) {
+      setState(() {
+        loading = true;
+      });
+      compressImage();
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
         postPic = data;
@@ -305,10 +319,13 @@ class _CreateProfPostState extends State<CreateProfPost> {
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.leftToRight, child: ProfPage()));
+                  type: PageTransitionType.rightToLeft, child: ProfPage()));
         });
       });
     } else {
+      setState(() {
+        loading = false;
+      });
       // elapsedTime = timeago.format(storedDate.toDate());
       // timeStamp = '$elapsedTime';
       postId = currentUserModel.uid + Timestamp.now().toString();
@@ -318,12 +335,13 @@ class _CreateProfPostState extends State<CreateProfPost> {
       Navigator.push(
           context,
           PageTransition(
-              type: PageTransitionType.leftToRight, child: ProfPage()));
+              type: PageTransitionType.rightToLeft, child: ProfPage()));
     }
   }
 }
 
 Future<String> uploadImage(var imageFile) async {
+
   var uuid = currentUserModel.uid + Timestamp.now().toString();
   StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
   StorageUploadTask uploadTask = ref.putFile(imageFile);

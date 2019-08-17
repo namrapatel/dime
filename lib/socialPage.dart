@@ -188,8 +188,8 @@ class _SocialPageState extends State<SocialPage> {
                         itemCount: snapshot?.data?.length,
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (_, index) {
-                          return SocialPost(
-                            postId: snapshot.data[index].documentID,
+                          return SocialPost.fromDocument(
+                            snapshot.data[index]
                           );
                         });
                   }

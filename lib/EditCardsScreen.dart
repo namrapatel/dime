@@ -798,8 +798,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                  onSubmitted: (value) {
-                                    if (value != '' && value != null) {
+                                  onChanged: (value) {
+                                    if (value != null) {
                                       setState(() {
                                         snapchat = value;
                                       });
@@ -854,8 +854,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
-                                  if (value != '' && value != null) {
+                                onChanged: (value) {
+                                  if (value != null) {
                                     setState(() {
                                       instagram = value;
                                     });
@@ -911,8 +911,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
-                                  if (value != '' && value != null) {
+                                onChanged: (value) {
+                                  if (value != null) {
                                     setState(() {
                                       twitter = value;
                                     });
@@ -1864,8 +1864,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
-                                  if (value != '' && value != null) {
+                                onChanged: (value) {
+                                  if (value != null) {
                                     setState(() {
                                       linkedIn = value;
                                     });
@@ -1920,8 +1920,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
-                                  if (value != '' && value != null) {
+                                onChanged: (value) {
+                                  if (value != null) {
                                     setState(() {
                                       github = value;
                                     });
@@ -1974,8 +1974,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                onSubmitted: (value) {
-                                  if (value != '' && value != null) {
+                                onChanged: (value) {
+                                  if (value != null) {
                                     setState(() {
                                       twitter = value;
                                     });

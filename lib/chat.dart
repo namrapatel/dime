@@ -75,7 +75,7 @@ class _ChatState extends State<Chat> {
           .document(widget.toUserId)
           .collection('messages')
           .document(widget.fromUserId)
-          .setData({'timestamp': Timestamp.now()}, merge: true);
+          .setData({'timestamp': Timestamp.now(), 'unread': true}, merge: true);
       if (widget.toUserId != widget.fromUserId) {
         _firestore
             .collection('users')
@@ -120,6 +120,12 @@ class _ChatState extends State<Chat> {
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.black,
           onPressed: () {
+            Firestore.instance
+                .collection('users')
+                .document(widget.fromUserId)
+                .collection('messages')
+                .document(widget.toUserId)
+                .setData({'unread': false}, merge: true);
             Navigator.push(
                 context,
                 PageTransition(

@@ -798,7 +798,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                   onChanged: (value) {
-                                    if (value != '' && value != null) {
+                                    if (value != null) {
                                       setState(() {
                                         snapchat = value;
                                       });
@@ -854,7 +854,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                 onChanged: (value) {
-                                  if (value != '' && value != null) {
+                                  if (value != null) {
                                     setState(() {
                                       instagram = value;
                                     });
@@ -911,7 +911,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                 onChanged: (value) {
-                                  if (value != '' && value != null) {
+                                  if (value != null) {
                                     setState(() {
                                       twitter = value;
                                     });
@@ -1825,7 +1825,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                 onChanged: (value) {
-                                  if (value != '' && value != null) {
+                                  if (value != null) {
                                     setState(() {
                                       linkedIn = value;
                                     });
@@ -1881,7 +1881,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                 onChanged: (value) {
-                                  if (value != '' && value != null) {
+                                  if (value != null) {
                                     setState(() {
                                       github = value;
                                     });
@@ -1935,7 +1935,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   hintColor: Colors.black),
                               child: TextField(
                                 onChanged: (value) {
-                                  if (value != '' && value != null) {
+                                  if (value != null) {
                                     setState(() {
                                       twitter = value;
                                     });

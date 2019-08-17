@@ -53,7 +53,7 @@ class _ScrollPageState extends State<ScrollPage>
 //        interests: ['Java', 'Badminton'])
 //  ];
   RubberAnimationController _controller;
-
+  int unread = 0;
   FocusNode _focus = new FocusNode();
   StreamController<List<DocumentSnapshot>> streamController =
       new StreamController();
@@ -76,6 +76,18 @@ class _ScrollPageState extends State<ScrollPage>
     Map<PermissionGroup, PermissionStatus> permissions =
         await PermissionHandler()
             .requestPermissions([PermissionGroup.locationAlways]);
+  }
+
+  getUnreadMessages() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('messages')
+        .where('unread', isEqualTo: true)
+        .getDocuments();
+    setState(() {
+      unread = query.documents.length;
+    });
   }
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -180,6 +192,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
+    getUnreadMessages();
     getLocation();
     firebaseCloudMessaging_Listeners();
     //_saveDeviceToken();
@@ -530,15 +543,24 @@ class _ScrollPageState extends State<ScrollPage>
                     child: Icon(
                       MaterialCommunityIcons.chat,
                       color: Colors.black,
+                      size: 35.0,
                     ),
                   ),
-                  Positioned(
-                      top: MediaQuery.of(context).size.height / 48,
-                      left: MediaQuery.of(context).size.width / 13.5,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        radius: 6,
-                      ))
+                  unread > 0
+                      ? Positioned(
+                          top: MediaQuery.of(context).size.height / 48,
+                          left: MediaQuery.of(context).size.width / 13.5,
+                          child: CircleAvatar(
+                            child: Text(
+                              unread.toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.red,
+                            radius: 10,
+                          ))
+                      : SizedBox(
+                          height: 0.0,
+                        )
                 ],
               ),
               FloatingActionButton(

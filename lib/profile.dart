@@ -243,7 +243,7 @@ class _HomePageOneState extends State<HomePageOne> {
           child: TextField(
             textCapitalization: TextCapitalization.sentences,
             onChanged: (value) {
-              if (value.isNotEmpty && value != null) {
+              if (value != null) {
                 setState(() {
                   name = value;
                 });
@@ -314,7 +314,7 @@ class _HomePageOneState extends State<HomePageOne> {
           child: TextField(
             textCapitalization: TextCapitalization.words,
             onChanged: (value) {
-              if (value.isNotEmpty && value != null) {
+              if (value != null) {
                 setState(() {
                   major = value;
                 });
@@ -347,7 +347,7 @@ class _HomePageOneState extends State<HomePageOne> {
               horizontal: MediaQuery.of(context).size.width / 15),
           child: TextField(
             onChanged: (value) {
-              if (value.isNotEmpty && value != null) {
+              if (value != null) {
                 setState(() {
                   gradYear = "" + value;
                 });

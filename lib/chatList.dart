@@ -49,22 +49,25 @@ class _ChatListState extends State<ChatList> {
         displayName = card.data['displayName'];
         photoUrl = card.data['photoUrl'];
       }
-      DocumentSnapshot secondQuery = await Firestore.instance
+      QuerySnapshot secondQuery = await Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .collection('messages')
           .document(senderId)
-          .get();
+          .collection('texts')
+          .orderBy('timestamp', descending: true)
+          .getDocuments();
+      DocumentSnapshot lastMessageDoc = secondQuery.documents.first;
 
-      String message = secondQuery['lastMessage'];
+      String message = lastMessageDoc.data['text'];
       print(message);
       if (message.length >= 40) {
         message = message.substring(0, 39);
       }
-      if (secondQuery['fromMe'] == true) {
+      if (lastMessageDoc.data['from'] == currentUserModel.uid) {
         message = "You: " + message;
       }
-      var storedDate = secondQuery['timestamp'];
+      var storedDate = lastMessageDoc.data['timestamp'];
 
       String elapsedTime = timeago.format(storedDate.toDate());
       String timestamp = '$elapsedTime';

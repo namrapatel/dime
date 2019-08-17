@@ -128,7 +128,7 @@ class _ExploreState extends State<Explore> {
                             child: ScrollPage()));
                   },
                   icon: Icon(
-                    Icons.keyboard_arrow_down,
+                    Icons.cancel,
                     color: Colors.black,
                   ),
                 ),

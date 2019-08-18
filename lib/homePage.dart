@@ -39,21 +39,6 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
-//  List<UserTile> nearbyUsers = [
-//    UserTile(
-//      'Shehab Salem',
-//      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq',
-//      'BrA8IqEL8RcUYylQz4GHgVD4jBx1',
-//      major: 'Computer Science, 2022',
-//      interests: ['Flutter', 'Basketball'],
-//    ),
-//    UserTile(
-//        'Dhruv Patel',
-//        'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
-//        "ocBp1teYqlQkimXXkpSp4Q35C5B3",
-//        major: 'Mechatronics Engineering, 2022',
-//        interests: ['Java', 'Badminton'])
-//  ];
   RubberAnimationController _controller;
 
   FocusNode _focus = new FocusNode();
@@ -184,18 +169,6 @@ class _ScrollPageState extends State<ScrollPage>
   void initState() {
     getLocation();
     firebaseCloudMessaging_Listeners();
-    //_saveDeviceToken();
-    // if (Platform.isIOS) {
-    //   _fcm.requestNotificationPermissions(IosNotificationSettings());
-
-    //   iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
-    //     _saveDeviceToken();
-    //     print("Settings registered: $data");
-    //   });
-    // }
-    // else {
-    //   _saveDeviceToken();
-    // }
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
@@ -216,7 +189,29 @@ class _ScrollPageState extends State<ScrollPage>
     });
 
     _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
+        onMessage: (Map<String, dynamic> message) async {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (message['notifType'] == "chat") {
+          LocalNotifcation(context, message['aps']['alert']['title'],
+              message['aps']['alert']['body'], message['senderId'], "chat");
+        } else if (message['notifType'] == "postNotif") {
+          if (message['type'] == "prof") {
+            LocalNotifcation(
+                context,
+                message['aps']['alert']['title'],
+                message['aps']['alert']['body'],
+                message['postId'],
+                "postNotifProf");
+          } else {
+            LocalNotifcation(
+                context,
+                message['aps']['alert']['title'],
+                message['aps']['alert']['body'],
+                message['postId'],
+                "postNotifSocial");
+          }
+        }
+      } else {
         if (message['data']['notifType'] == "chat") {
           LocalNotifcation(
               context,
@@ -225,7 +220,6 @@ class _ScrollPageState extends State<ScrollPage>
               message['data']['senderId'],
               "chat");
         } else if (message['data']['notifType'] == "postNotif") {
-          print(message);
           if (message['data']['type'] == "prof") {
             LocalNotifcation(
                 context,
@@ -234,7 +228,6 @@ class _ScrollPageState extends State<ScrollPage>
                 message['data']['postId'],
                 "postNotifProf");
           } else {
-            print(message);
             LocalNotifcation(
                 context,
                 message['notification']['title'],
@@ -243,8 +236,38 @@ class _ScrollPageState extends State<ScrollPage>
                 "postNotifSocial");
           }
         }
-      },
-      onResume: (Map<String, dynamic> message) async {
+      }
+    }, onResume: (Map<String, dynamic> message) async {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (message['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['senderId'],
+                  )));
+        } else if (message['notifType'] == "postNotif") {
+          if (message['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['postId'],
+                    )));
+          }
+        }
+      } else {
         if (message['data']['notifType'] == "chat") {
           Navigator.push(
               context,
@@ -273,10 +296,39 @@ class _ScrollPageState extends State<ScrollPage>
                     )));
           }
         }
-      },
-      onLaunch: (Map<String, dynamic> message) async {
+      }
+    }, onLaunch: (Map<String, dynamic> message) async {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (message['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['senderId'],
+                  )));
+        } else if (message['notifType'] == "postNotif") {
+          if (message['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['postId'],
+                    )));
+          }
+        }
+      } else {
         if (message['data']['notifType'] == "chat") {
-          print("HERE");
           Navigator.push(
               context,
               PageTransition(
@@ -304,8 +356,8 @@ class _ScrollPageState extends State<ScrollPage>
                     )));
           }
         }
-      },
-    );
+      }
+    });
   }
 
   void iOS_Permission() {

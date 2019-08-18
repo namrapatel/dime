@@ -128,8 +128,11 @@ class _SocialCommentsState extends State<SocialComments> {
                 future: getComments(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData)
-                    return Center(child: CircularProgressIndicator());
-
+                    return Container(
+                        alignment: FractionalOffset.center,
+                        child: SizedBox(
+                          height: 0.0,
+                        ));
                   return Container(
                     child: Column(children: snapshot.data),
                   );
@@ -249,6 +252,11 @@ class _SocialCommentsState extends State<SocialComments> {
                             if (controller.text != "") {
                               String docName =
                                   postId + Timestamp.now().toString();
+                              DocumentSnapshot info = await Firestore.instance
+                                  .collection('socialPosts')
+                                  .document(postId)
+                                  .get();
+                              String ownerID = info.data['ownerId'];
                               Firestore.instance
                                   .collection('socialPosts')
                                   .document(postId)
@@ -265,7 +273,16 @@ class _SocialCommentsState extends State<SocialComments> {
                                 'text': controller.text,
                                 'timestamp': Timestamp.now()
                               });
-
+                              Firestore.instance.collection('postNotifs').add({
+                                'commenterId': currentUserModel.uid,
+                                'commenterName': currentUserModel.displayName,
+                                'commenterPhoto': currentUserModel.photoUrl,
+                                'text': controller.text,
+                                'timestamp': Timestamp.now(),
+                                'ownerId': ownerID,
+                                "postID": widget.postId,
+                                "type": "social",
+                              });
                               Firestore.instance
                                   .collection('users')
                                   .document(currentUserModel.uid)

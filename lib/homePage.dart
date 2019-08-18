@@ -28,6 +28,8 @@ import 'package:flushbar/flushbar.dart';
 import 'package:Dime/models/localnotif.dart';
 import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
+import 'profComments.dart';
+import 'socialComments.dart';
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -37,21 +39,6 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
-//  List<UserTile> nearbyUsers = [
-//    UserTile(
-//      'Shehab Salem',
-//      'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1566518177&hash=AeTueft3VEa1Wdwq',
-//      'BrA8IqEL8RcUYylQz4GHgVD4jBx1',
-//      major: 'Computer Science, 2022',
-//      interests: ['Flutter', 'Basketball'],
-//    ),
-//    UserTile(
-//        'Dhruv Patel',
-//        'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef',
-//        "ocBp1teYqlQkimXXkpSp4Q35C5B3",
-//        major: 'Mechatronics Engineering, 2022',
-//        interests: ['Java', 'Badminton'])
-//  ];
   RubberAnimationController _controller;
   int unread = 0;
   FocusNode _focus = new FocusNode();
@@ -195,18 +182,6 @@ class _ScrollPageState extends State<ScrollPage>
     getUnreadMessages();
     getLocation();
     firebaseCloudMessaging_Listeners();
-    //_saveDeviceToken();
-    // if (Platform.isIOS) {
-    //   _fcm.requestNotificationPermissions(IosNotificationSettings());
-
-    //   iosSubscription = _fcm.onIosSettingsRegistered.listen((data) {
-    //     _saveDeviceToken();
-    //     print("Settings registered: $data");
-    //   });
-    // }
-    // else {
-    //   _saveDeviceToken();
-    // }
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
@@ -227,17 +202,175 @@ class _ScrollPageState extends State<ScrollPage>
     });
 
     _firebaseMessaging.configure(
-      onMessage: (Map<String, dynamic> message) async {
-        LocalNotifcation(context, message['notification']['title'],
-            message['notification']['body']);
-      },
-      onResume: (Map<String, dynamic> message) async {
-        print('on resume $message');
-      },
-      onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message');
-      },
-    );
+        onMessage: (Map<String, dynamic> message) async {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (message['notifType'] == "chat") {
+          LocalNotifcation(context, message['aps']['alert']['title'],
+              message['aps']['alert']['body'], message['senderId'], "chat");
+        } else if (message['notifType'] == "postNotif") {
+          if (message['type'] == "prof") {
+            LocalNotifcation(
+                context,
+                message['aps']['alert']['title'],
+                message['aps']['alert']['body'],
+                message['postId'],
+                "postNotifProf");
+          } else {
+            LocalNotifcation(
+                context,
+                message['aps']['alert']['title'],
+                message['aps']['alert']['body'],
+                message['postId'],
+                "postNotifSocial");
+          }
+        }
+      } else {
+        if (message['data']['notifType'] == "chat") {
+          LocalNotifcation(
+              context,
+              message['notification']['title'],
+              message['notification']['body'],
+              message['data']['senderId'],
+              "chat");
+        } else if (message['data']['notifType'] == "postNotif") {
+          if (message['data']['type'] == "prof") {
+            LocalNotifcation(
+                context,
+                message['notification']['title'],
+                message['notification']['body'],
+                message['data']['postId'],
+                "postNotifProf");
+          } else {
+            LocalNotifcation(
+                context,
+                message['notification']['title'],
+                message['notification']['body'],
+                message['data']['postId'],
+                "postNotifSocial");
+          }
+        }
+      }
+    }, onResume: (Map<String, dynamic> message) async {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (message['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['senderId'],
+                  )));
+        } else if (message['notifType'] == "postNotif") {
+          if (message['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['postId'],
+                    )));
+          }
+        }
+      } else {
+        if (message['data']['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['data']['senderId'],
+                  )));
+        } else if (message['data']['notifType'] == "postNotif") {
+          if (message['data']['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['data']['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['data']['postId'],
+                    )));
+          }
+        }
+      }
+    }, onLaunch: (Map<String, dynamic> message) async {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (message['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['senderId'],
+                  )));
+        } else if (message['notifType'] == "postNotif") {
+          if (message['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['postId'],
+                    )));
+          }
+        }
+      } else {
+        if (message['data']['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.rightToLeft,
+                  child: Chat(
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['data']['senderId'],
+                  )));
+        } else if (message['data']['notifType'] == "postNotif") {
+          if (message['data']['type'] == "prof") {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: ProfComments(
+                      postId: message['data']['postId'],
+                    )));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.leftToRight,
+                    child: SocialComments(
+                      postId: message['data']['postId'],
+                    )));
+          }
+        }
+      }
+    });
   }
 
   void iOS_Permission() {
@@ -980,10 +1113,39 @@ class UserTile extends StatelessWidget {
   }
 }
 
-Widget LocalNotifcation(
-    BuildContext context, String titleMessage, String bodyMessage) {
+Widget LocalNotifcation(BuildContext context, String titleMessage,
+    String bodyMessage, String key, String notifType) {
   return Flushbar(
     // message: "hello",
+    onTap: (Flushbar) {
+      if (notifType == "chat") {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: Chat(
+                  fromUserId: currentUserModel.uid,
+                  toUserId: key,
+                )));
+      } else if (notifType == "postNotifProf") {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft,
+                child: ProfComments(
+                  postId: key,
+                )));
+      } else if (notifType == "postNotifSocial") {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.leftToRight,
+                child: SocialComments(
+                  postId: key,
+                )));
+      }
+    },
+    margin: EdgeInsets.all(8),
     borderRadius: 15,
     messageText: Padding(
       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

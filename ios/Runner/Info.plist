@@ -76,6 +76,10 @@
 	<string>To allow the user to select an image from their camera roll for the profile picture and other picture locations.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>This app does not use speech recognition.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

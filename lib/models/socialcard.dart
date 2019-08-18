@@ -7,6 +7,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class SocialCard extends StatelessWidget {
   final String type;
@@ -112,6 +113,17 @@ class SocialCard extends StatelessWidget {
     }
   }
 
+
+    Future<void> _shareText() async {
+    try {
+      Share.text('My Social Media:',
+          "'https://www.snapchat.com/add/' " + snapchat + "'https://www.instagram.com/'" + instagram + "'https://twitter.com/'" + twitter
+          , 'text/plain');
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -160,6 +172,16 @@ class SocialCard extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: screenF(15),
                                   color: Color(0xFF8803fc))),
+                    ),
+                    Positioned(
+                      top: screenH(50),
+                      left: screenW(15),
+                      child:  IconButton(
+                                        icon: Icon(FontAwesome.share_square_o),
+                                        iconSize: screenF(25),
+                                        onPressed: () async =>
+                                            await _shareText(),
+                                      ),
                     ),
                     Positioned(
                       top: screenH(65),

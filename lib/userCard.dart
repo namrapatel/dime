@@ -13,6 +13,7 @@ import 'chat.dart';
 
 class UserCard extends StatefulWidget {
   const UserCard({this.userId, this.type, this.userName});
+
   final String userId, type, userName;
 
   @override
@@ -55,6 +56,23 @@ class _UserCardState extends State<UserCard> {
   Widget build(BuildContext context) {
     var string = userName.split(" ");
     String firstName = string[0];
+
+    Future<Widget> createPost(
+        AsyncSnapshot<dynamic> snap, int index, String postType) async {
+      if (postType == "social") {
+        DocumentSnapshot doc = await Firestore.instance
+            .collection('socialPosts')
+            .document(snap.data[index].data['postId'])
+            .get();
+        return SocialPost.fromDocument(doc);
+      } else {
+        DocumentSnapshot doc = await Firestore.instance
+            .collection('profPosts')
+            .document(snap.data[index].data['postId'])
+            .get();
+        return ProfPost.fromDocument(doc);
+      }
+    }
 
     return Scaffold(
         appBar: AppBar(
@@ -236,17 +254,41 @@ class _UserCardState extends State<UserCard> {
                                           ],
                                         ),
                                       ),
-                                      snapshot.data[index].data['type'] ==
-                                              'social'
-                                          ? SocialPost(
-                                              postId: snapshot
-                                                  .data[index].data['postId'],
-                                            )
-                                          : ProfPost(
-                                              postId: snapshot
-                                                  .data[index].data['postId'],
-                                            ),
+                                      FutureBuilder(
+                                          future: snapshot.data[index]
+                                                      .data['type'] ==
+                                                  'social'
+                                              ? createPost(
+                                                  snapshot, index, 'social')
+                                              : createPost(
+                                                  snapshot, index, 'prof'),
+                                          builder: (_, snap) {
+                                            if (snap.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            } else {
+                                              return Container(
+                                                child: snap.data,
+                                              );
+                                            }
+                                          }
+                                          //,
 
+                                          )
+
+//                                                                                ? SocialPost.fromDocument (await Firestore.instance.collection('socialPosts').
+//                                      document(snapshot.data[index].data['postId']).get()
+////                                             snapshot
+////                                                  .data[index],
+//                                            )
+//                                          : ProfPost.fromDocument(
+//                                               snapshot
+//                                                  .data[index],
+//                                            ),
+
+                                      ,
                                       SizedBox(
                                         height: 10,
                                       ),

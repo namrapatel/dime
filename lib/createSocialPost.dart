@@ -11,7 +11,10 @@ import 'package:flutter/cupertino.dart';
 import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:image/image.dart' as Im;
+import 'dart:math' as Math;
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -32,6 +35,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   var storedDate;
   String postId;
   int upVotes;
+  bool loading=false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +51,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         body: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
           Column(
             children: <Widget>[
+
               Row(
                 children: <Widget>[
                   GestureDetector(
@@ -75,6 +80,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       backgroundColor: Color(0xFF8803fc),
                       onPressed: () {
                         post();
+
                       },
                       icon: Icon(
                         Ionicons.ios_send,
@@ -88,6 +94,9 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                   ),
                 ],
               ),
+              loading
+                  ? LinearProgressIndicator()
+                  : Padding(padding: EdgeInsets.only(top: 0.0)),
               Padding(
                 padding: EdgeInsets.fromLTRB(
                     screenW(30), screenH(20), screenW(30), screenH(0)),
@@ -261,26 +270,26 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
     );
   }
 
-//   void compressImage() async {
-//     print('starting compression');
-//     final tempDir = await getTemporaryDirectory();
-//     final path = tempDir.path;
-//     int rand = Math.Random().nextInt(10000);
+   void compressImage() async {
+     print('starting compression');
+     final tempDir = await getTemporaryDirectory();
+     final path = tempDir.path;
+     String rand = timeStamp.toString();
 
-//     Im.Image image = Im.decodeImage(file.readAsBytesSync());
-//     Im.copyResize(image, 500);
+     Im.Image image = Im.decodeImage(file.readAsBytesSync());
+//     Im.copyResize(image,width: 500,height: 500);
 
-// //    image.format = Im.Image.RGBA;
-// //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+ //    image.format = Im.Image.RGBA;
+ //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
 
-//     var newim2 = File('$path/img_$rand.jpg')
-//       ..writeAsBytesSync(Im.encodeJpg(image, quality: 85));
+     var newim2 = File('$path/img_$rand.jpg')
+       ..writeAsBytesSync(Im.encodeJpg(image));
 
-//     setState(() {
-//       file = newim2;
-//     });
-//     print('done');
-//   }
+     setState(() {
+       file = newim2;
+     });
+     print('done');
+   }
 
   void clearImage() {
     setState(() {
@@ -292,6 +301,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
     timeStamp = Timestamp.now();
     upVotes = 0;
     if (file != null) {
+      setState(() {
+        loading = true;
+      });
+      compressImage();
       uploadImage(file).then((String data) {
         elapsedTime = timeago.format(DateTime.now());
         postPic = data;
@@ -309,6 +322,9 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         });
       });
     } else {
+      setState(() {
+        loading = false;
+      });
       // elapsedTime = timeago.format(storedDate.toDate());
       // timeStamp = '$elapsedTime';
       postId = currentUserModel.uid + Timestamp.now().toString();
@@ -324,6 +340,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 }
 
 Future<String> uploadImage(var imageFile) async {
+
   var uuid = currentUserModel.uid + Timestamp.now().toString();
   StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
   StorageUploadTask uploadTask = ref.putFile(imageFile);

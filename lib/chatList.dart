@@ -39,6 +39,7 @@ class _ChatListState extends State<ChatList> {
       String displayName;
       String photoUrl;
       String senderId = document.documentID;
+      bool unread = document['unread'];
       QuerySnapshot cardQuery = await Firestore.instance
           .collection('users')
           .document(senderId)
@@ -48,25 +49,22 @@ class _ChatListState extends State<ChatList> {
         displayName = card.data['displayName'];
         photoUrl = card.data['photoUrl'];
       }
-      QuerySnapshot secondQuery = await Firestore.instance
+      DocumentSnapshot secondQuery = await Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .collection('messages')
           .document(senderId)
-          .collection('texts')
-          .orderBy('timestamp', descending: true)
-          .getDocuments();
-      DocumentSnapshot lastMessageDoc = secondQuery.documents.first;
+          .get();
 
-      String message = lastMessageDoc.data['text'];
+      String message = secondQuery['lastMessage'];
       print(message);
       if (message.length >= 40) {
         message = message.substring(0, 39);
       }
-      if (lastMessageDoc.data['from'] == currentUserModel.uid) {
+      if (secondQuery['fromMe'] == true) {
         message = "You: " + message;
       }
-      var storedDate = lastMessageDoc.data['timestamp'];
+      var storedDate = secondQuery['timestamp'];
 
       String elapsedTime = timeago.format(storedDate.toDate());
       String timestamp = '$elapsedTime';
@@ -83,6 +81,7 @@ class _ChatListState extends State<ChatList> {
         senderName: displayName,
         to: currentUserModel.uid,
         from: senderId,
+        unread: unread,
       ));
     }
     print('messagetiles');
@@ -96,7 +95,10 @@ class _ChatListState extends State<ChatList> {
         future: getMessages(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return SpinKitThreeBounce(color: Colors.black, size: 25.0,);
+            return SpinKitThreeBounce(
+              color: Colors.black,
+              size: 25.0,
+            );
           } else if (snapshot.data.length == 0) {
             return Center(
                 child: Container(
@@ -143,7 +145,7 @@ class _ChatListState extends State<ChatList> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           icon: Icon(
-            Icons.keyboard_arrow_down,
+            Icons.cancel,
             color: Colors.black,
           ),
           onPressed: () {
@@ -155,8 +157,7 @@ class _ChatListState extends State<ChatList> {
         ),
         title: Text(
           "Messages",
-          style: TextStyle(
-              color: Colors.black, fontSize: 25),
+          style: TextStyle(color: Colors.black, fontSize: 25),
         ),
       ),
       body: ListView(
@@ -188,6 +189,7 @@ class _ChatListState extends State<ChatList> {
 
 class MessageTile extends StatelessWidget {
   final String to, from, text, timestamp, senderPhoto, senderName;
+  final bool unread;
 
   MessageTile(
       {this.text,
@@ -195,23 +197,53 @@ class MessageTile extends StatelessWidget {
       this.from,
       this.timestamp,
       this.senderPhoto,
-      this.senderName});
+      this.senderName,
+      this.unread});
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
+        Firestore.instance
+            .collection('users')
+            .document(to)
+            .collection('messages')
+            .document(from)
+            .setData({'unread': false}, merge: true);
         Navigator.push(
             context,
             PageTransition(
-                type: PageTransitionType.leftToRight,
+                type: PageTransitionType.rightToLeft,
                 child: Chat(
                   fromUserId: to,
                   toUserId: from,
                 )));
       },
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(senderPhoto),
+      leading: Stack(
+        children: <Widget>[
+          CircleAvatar(
+            backgroundImage: NetworkImage(senderPhoto),
+          ),
+          unread == true
+              ? Positioned(
+                  top: MediaQuery.of(context).size.height / 150,
+                  left: MediaQuery.of(context).size.width / 14.5,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.red,
+                    radius: 6,
+                  ))
+              : SizedBox(height: 0.0),
+        ],
       ),
+//          unread == true
+//              ? Positioned(
+//                  top: MediaQuery.of(context).size.height / 48,
+//                  left: MediaQuery.of(context).size.width / 13.5,
+//                  child: CircleAvatar(
+//                    backgroundColor: Colors.red,
+//                    radius: 6,
+//                  ))
+//              : SizedBox(height: 0.0),
+
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

@@ -3,6 +3,7 @@ import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// App widget class
@@ -226,11 +227,10 @@ class onBoarding extends StatelessWidget {
               pages,
               onTapDoneButton: () {
                 Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Profile(),
-                  ), //MaterialPageRoute
-                );
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: Profile()));
               },
               pageButtonTextStyles: TextStyle(
                 color: Colors.white,

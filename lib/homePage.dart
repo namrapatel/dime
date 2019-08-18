@@ -40,7 +40,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
   RubberAnimationController _controller;
-
+  int unread = 0;
   FocusNode _focus = new FocusNode();
   StreamController<List<DocumentSnapshot>> streamController =
       new StreamController();
@@ -63,6 +63,18 @@ class _ScrollPageState extends State<ScrollPage>
     Map<PermissionGroup, PermissionStatus> permissions =
         await PermissionHandler()
             .requestPermissions([PermissionGroup.locationAlways]);
+  }
+
+  getUnreadMessages() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('messages')
+        .where('unread', isEqualTo: true)
+        .getDocuments();
+    setState(() {
+      unread = query.documents.length;
+    });
   }
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -167,6 +179,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
+    getUnreadMessages();
     getLocation();
     firebaseCloudMessaging_Listeners();
     _controller = RubberAnimationController(
@@ -458,7 +471,7 @@ class _ScrollPageState extends State<ScrollPage>
                           Navigator.push(
                               context,
                               PageTransition(
-                                  type: PageTransitionType.fade,
+                                  type: PageTransitionType.rightToLeft,
                                   child: ProfilePage()));
                         },
                       ),
@@ -475,7 +488,8 @@ class _ScrollPageState extends State<ScrollPage>
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade, child: ProfilePage()));
+                        type: PageTransitionType.rightToLeft,
+                        child: ProfilePage()));
               },
             ),
             IconButton(
@@ -485,7 +499,7 @@ class _ScrollPageState extends State<ScrollPage>
                 Navigator.push(
                     context,
                     PageTransition(
-                        type: PageTransitionType.fade,
+                        type: PageTransitionType.rightToLeft,
                         child: UserCard(
                           userId: currentUserModel.uid,
                           userName: currentUserModel.displayName,
@@ -653,7 +667,7 @@ class _ScrollPageState extends State<ScrollPage>
                       Navigator.push(
                           context,
                           PageTransition(
-                              type: PageTransitionType.fade,
+                              type: PageTransitionType.downToUp,
                               child: ChatList()));
                     },
                     elevation: 3,
@@ -662,15 +676,24 @@ class _ScrollPageState extends State<ScrollPage>
                     child: Icon(
                       MaterialCommunityIcons.chat,
                       color: Colors.black,
+                      size: 35.0,
                     ),
                   ),
-                  Positioned(
-                      top: MediaQuery.of(context).size.height / 48,
-                      left: MediaQuery.of(context).size.width / 13.5,
-                      child: CircleAvatar(
-                        backgroundColor: Colors.red,
-                        radius: 6,
-                      ))
+                  unread > 0
+                      ? Positioned(
+                          top: MediaQuery.of(context).size.height / 48,
+                          left: MediaQuery.of(context).size.width / 13.5,
+                          child: CircleAvatar(
+                            child: Text(
+                              unread.toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.red,
+                            radius: 10,
+                          ))
+                      : SizedBox(
+                          height: 0.0,
+                        )
                 ],
               ),
               FloatingActionButton(
@@ -680,7 +703,7 @@ class _ScrollPageState extends State<ScrollPage>
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.fade, child: Explore()));
+                          type: PageTransitionType.downToUp, child: Explore()));
                 },
                 elevation: 3,
                 heroTag: 'btn3',
@@ -761,7 +784,7 @@ class _ScrollPageState extends State<ScrollPage>
               if (!snapshots.hasData) {
                 return Container(
                     alignment: FractionalOffset.center,
-                    child: CircularProgressIndicator());
+                    child: SizedBox(height: 0.0));
               } else {
                 if (snapshots.data.length != 0) {
                   snapshots.data.removeWhere((DocumentSnapshot doc) =>
@@ -1061,7 +1084,7 @@ class UserTile extends StatelessWidget {
                   Navigator.push(
                       context,
                       PageTransition(
-                          type: PageTransitionType.fade,
+                          type: PageTransitionType.rightToLeft,
                           child: Chat(
                             fromUserId: currentUserModel.uid,
                             toUserId: uid,

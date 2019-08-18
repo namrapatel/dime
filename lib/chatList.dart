@@ -225,7 +225,7 @@ class MessageTile extends StatelessWidget {
           ),
           unread == true
               ? Positioned(
-                  top: MediaQuery.of(context).size.height / 150,
+                  top: MediaQuery.of(context).size.height / 100000,
                   left: MediaQuery.of(context).size.width / 14.5,
                   child: CircleAvatar(
                     backgroundColor: Colors.red,

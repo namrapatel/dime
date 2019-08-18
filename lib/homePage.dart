@@ -676,20 +676,20 @@ class _ScrollPageState extends State<ScrollPage>
                     child: Icon(
                       MaterialCommunityIcons.chat,
                       color: Colors.black,
-                      size: 35.0,
+                      size: 30.0,
                     ),
                   ),
                   unread > 0
                       ? Positioned(
-                          top: MediaQuery.of(context).size.height / 48,
-                          left: MediaQuery.of(context).size.width / 13.5,
+                          top: MediaQuery.of(context).size.height / 70,
+                          left: MediaQuery.of(context).size.width / 13,
                           child: CircleAvatar(
                             child: Text(
-                              unread.toString(),
-                              style: TextStyle(color: Colors.white),
+                              '6',
+                              style: TextStyle(color: Colors.white, fontSize: 14.0),
                             ),
                             backgroundColor: Colors.red,
-                            radius: 10,
+                            radius: 8.2,
                           ))
                       : SizedBox(
                           height: 0.0,
@@ -1117,35 +1117,35 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
     String bodyMessage, String key, String notifType) {
   return Flushbar(
     // message: "hello",
-    onTap: (Flushbar) {
-      if (notifType == "chat") {
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: Chat(
-                  fromUserId: currentUserModel.uid,
-                  toUserId: key,
-                )));
-      } else if (notifType == "postNotifProf") {
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: ProfComments(
-                  postId: key,
-                )));
-      } else if (notifType == "postNotifSocial") {
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.leftToRight,
-                child: SocialComments(
-                  postId: key,
-                )));
-      }
-    },
-    margin: EdgeInsets.all(8),
+    // onTap: (Flushbar) {
+    //   if (notifType == "chat") {
+    //     Navigator.push(
+    //         context,
+    //         PageTransition(
+    //             type: PageTransitionType.rightToLeft,
+    //             child: Chat(
+    //               fromUserId: currentUserModel.uid,
+    //               toUserId: key,
+    //             )));
+    //   } else if (notifType == "postNotifProf") {
+    //     Navigator.push(
+    //         context,
+    //         PageTransition(
+    //             type: PageTransitionType.rightToLeft,
+    //             child: ProfComments(
+    //               postId: key,
+    //             )));
+    //   } else if (notifType == "postNotifSocial") {
+    //     Navigator.push(
+    //         context,
+    //         PageTransition(
+    //             type: PageTransitionType.leftToRight,
+    //             child: SocialComments(
+    //               postId: key,
+    //             )));
+    //   }
+    // },
+    // margin: EdgeInsets.all(8),
     borderRadius: 15,
     messageText: Padding(
       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

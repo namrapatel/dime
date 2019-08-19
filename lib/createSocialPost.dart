@@ -78,7 +78,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       ratioY: 11.5,
       sourcePath: file.path,
       toolbarTitle: 'Cropper',
-      toolbarColor: Color(0xFF063F3E),
+      toolbarColor: Color(0xFF8803fc),
       toolbarWidgetColor: Colors.white,
     );
     if (croppedFile != null) {
@@ -121,7 +121,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                            color: Color(0xFF063F3E), fontSize: screenF(18)),
+                            color: Color(0xFF8803fc), fontSize: screenF(18)),
                       ),
                     ),
                     onTap: () {
@@ -137,7 +137,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     padding: EdgeInsets.fromLTRB(
                         screenW(20), screenH(50), screenW(20), screenH(0)),
                     child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xFF063F3E),
+                      backgroundColor: Color(0xFF8803fc),
                       onPressed: () {
                         post();
                       },
@@ -171,7 +171,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     // height: screenH(50),
                     // width: screenW(50),
                     FloatingActionButton(
-                      backgroundColor: Color(0xFF063F3E),
+                      backgroundColor: Color(0xFF8803fc),
                       onPressed: () {
                         if (state == AppState.free)
                           _selectImage(context);
@@ -187,7 +187,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     ),
                     state == AppState.picked
                         ? FloatingActionButton(
-                            backgroundColor: Color(0xFF063F3E),
+                            backgroundColor: Color(0xFF8803fc),
                             onPressed: () {
                               _clearImage();
                             },

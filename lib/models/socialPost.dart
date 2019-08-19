@@ -215,13 +215,13 @@ class _SocialPostState extends State<SocialPost> {
                         child: postPic != null
                             ? CachedNetworkImage(
                                 imageUrl: postPic,
-                                fit: BoxFit.fitWidth,
+                                fit: BoxFit.fitHeight,
                                 placeholder: (context, url) =>
                                     loadingPlaceHolder,
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
-                                // width: screenW(200),
-                                // height: screenH(275),
+//                                width: screenW(200),
+                                height: screenH(575),
                               )
                             : SizedBox(
                                 width: screenH(1.2),

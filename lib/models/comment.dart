@@ -274,7 +274,7 @@ class Comment extends StatelessWidget {
                         },
                         child: Text('Report',
                             style:
-                                TextStyle(fontSize: 8.0, color: Colors.black)),
+                                TextStyle(fontSize: 10.0, color: Colors.black)),
                       ),
                     )
             ],

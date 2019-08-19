@@ -131,8 +131,8 @@ class _UserCardState extends State<UserCard> {
                                 onPressed: () {
                                   // ADD REPORT FUNCTIONALITY HERE
                                   Flushbar(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 5),
                                     borderRadius: 15,
                                     messageText: Padding(
                                       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

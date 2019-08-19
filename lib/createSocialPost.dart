@@ -1,4 +1,5 @@
 import 'package:Dime/services/usermanagement.dart';
+import 'package:Dime/socialComments.dart';
 import 'package:Dime/socialPage.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';

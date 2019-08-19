@@ -140,168 +140,179 @@ class _ProfCommentsState extends State<ProfComments> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        elevation: 0.4,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        title: Row(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                university != null
-                    ? Text(
-                        university,
-                        style: TextStyle(color: Colors.black),
-                      )
-                    : SizedBox(
-                        height: 0.0,
-                      ),
-              ],
-            )
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  Flexible(
-                    child: buildComments(),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+    return GestureDetector(
+      onHorizontalDragEnd: (DragEndDetails details) {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft, child: ProfPage()));
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          elevation: 0.4,
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+          title: Row(
+            children: <Widget>[
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.3,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 22,
-                          vertical: MediaQuery.of(context).size.height / 72),
-                      child: SimpleAutoCompleteTextField(
-                        textCapitalization: TextCapitalization.sentences,
-                        // key: key,
-                        decoration: new InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width / 30,
-                                bottom:
-                                    MediaQuery.of(context).size.height / 155,
-                                top: MediaQuery.of(context).size.height / 155,
-                                right: MediaQuery.of(context).size.width / 30),
-                            hintText: 'Enter Comment',
-                            hintStyle: TextStyle(color: Colors.grey)),
-                        controller: controller,
+                  university != null
+                      ? Text(
+                          university,
+                          style: TextStyle(color: Colors.black),
+                        )
+                      : SizedBox(
+                          height: 0.0,
+                        ),
+                ],
+              )
+            ],
+          ),
+        ),
+        body: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Flexible(
+                      child: buildComments(),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.3,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width / 22,
+                            vertical: MediaQuery.of(context).size.height / 72),
+                        child: SimpleAutoCompleteTextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          // key: key,
+                          decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 30,
+                                  bottom:
+                                      MediaQuery.of(context).size.height / 155,
+                                  top: MediaQuery.of(context).size.height / 155,
+                                  right:
+                                      MediaQuery.of(context).size.width / 30),
+                              hintText: 'Enter Comment',
+                              hintStyle: TextStyle(color: Colors.grey)),
+                          controller: controller,
 //                        suggestions: suggestions,
-                        clearOnSubmit: false,
+                          clearOnSubmit: false,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: (20),
-                  ),
-                  Container(
-                      width: 40,
-                      height: 40,
-                      child: FloatingActionButton(
-                          elevation: 5,
-                          backgroundColor: Color(0xFF063F3E),
-                          heroTag: 'fabb4',
-                          child: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          onPressed: () async {
-                            if (controller.text != "") {
-                              String docName =
-                                  postId + Timestamp.now().toString();
-                              DocumentSnapshot info = await Firestore.instance
-                                  .collection('profPosts')
-                                  .document(postId)
-                                  .get();
-                              String ownerID = info.data['ownerId'];
-                              Firestore.instance
-                                  .collection('profPosts')
-                                  .document(postId)
-                                  .collection('comments')
-                                  .document(docName)
-                                  .setData({
-                                'type': 'prof',
-                                'postId': postId,
+                    SizedBox(
+                      width: (20),
+                    ),
+                    Container(
+                        width: 40,
+                        height: 40,
+                        child: FloatingActionButton(
+                            elevation: 5,
+                            backgroundColor: Color(0xFF063F3E),
+                            heroTag: 'fabb4',
+                            child: Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            onPressed: () async {
+                              if (controller.text != "") {
+                                String docName =
+                                    postId + Timestamp.now().toString();
+                                DocumentSnapshot info = await Firestore.instance
+                                    .collection('profPosts')
+                                    .document(postId)
+                                    .get();
+                                String ownerID = info.data['ownerId'];
+                                Firestore.instance
+                                    .collection('profPosts')
+                                    .document(postId)
+                                    .collection('comments')
+                                    .document(docName)
+                                    .setData({
+                                  'type': 'prof',
+                                  'postId': postId,
 
 //                              'commentId':docName,
-                                'commenterId': currentUserModel.uid,
-                                'commenterName': currentUserModel.displayName,
-                                'commenterPhoto': currentUserModel.photoUrl,
-                                'text': controller.text,
-                                'timestamp': Timestamp.now()
-                              });
+                                  'commenterId': currentUserModel.uid,
+                                  'commenterName': currentUserModel.displayName,
+                                  'commenterPhoto': currentUserModel.photoUrl,
+                                  'text': controller.text,
+                                  'timestamp': Timestamp.now()
+                                });
 
-                              Firestore.instance.collection('postNotifs').add({
-                                'commenterId': currentUserModel.uid,
-                                'commenterName': currentUserModel.displayName,
-                                'commenterPhoto': currentUserModel.photoUrl,
-                                'text': controller.text,
-                                'timestamp': Timestamp.now(),
-                                'ownerId': ownerID,
-                                "postID": widget.postId,
-                                "type": "prof",
-                              });
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(currentUserModel.uid)
-                                  .collection('recentActivity')
-                                  .document(widget.postId)
-                                  .setData({
-                                'type': 'prof',
-                                'commented': true,
-                                'postId': widget.postId,
-                                'numberOfComments': FieldValue.increment(1),
-                                'timeStamp': Timestamp.now()
-                              }, merge: true);
+                                Firestore.instance
+                                    .collection('postNotifs')
+                                    .add({
+                                  'commenterId': currentUserModel.uid,
+                                  'commenterName': currentUserModel.displayName,
+                                  'commenterPhoto': currentUserModel.photoUrl,
+                                  'text': controller.text,
+                                  'timestamp': Timestamp.now(),
+                                  'ownerId': ownerID,
+                                  "postID": widget.postId,
+                                  "type": "prof",
+                                });
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(currentUserModel.uid)
+                                    .collection('recentActivity')
+                                    .document(widget.postId)
+                                    .setData({
+                                  'type': 'prof',
+                                  'commented': true,
+                                  'postId': widget.postId,
+                                  'numberOfComments': FieldValue.increment(1),
+                                  'timeStamp': Timestamp.now()
+                                }, merge: true);
 
-                              QuerySnapshot snap = await Firestore.instance
-                                  .collection('profPosts')
-                                  .document(postId)
-                                  .collection('comments')
-                                  .getDocuments();
-                              int numberOfComments = snap.documents.length;
-                              Firestore.instance
-                                  .collection('profPosts')
-                                  .document(postId)
-                                  .updateData({'comments': numberOfComments});
+                                QuerySnapshot snap = await Firestore.instance
+                                    .collection('profPosts')
+                                    .document(postId)
+                                    .collection('comments')
+                                    .getDocuments();
+                                int numberOfComments = snap.documents.length;
+                                Firestore.instance
+                                    .collection('profPosts')
+                                    .document(postId)
+                                    .updateData({'comments': numberOfComments});
 
-                              setState(() {
-                                getComments();
-                                controller.clear();
-                              });
-                            }
-                          })),
-                ],
-              ),
-            )
-          ],
+                                setState(() {
+                                  getComments();
+                                  controller.clear();
+                                });
+                              }
+                            })),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

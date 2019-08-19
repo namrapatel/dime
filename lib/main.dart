@@ -59,32 +59,37 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 //    startTime();
-    FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
-      if (firebaseUser != null) {
-        print('in login');
-        print(firebaseUser);
-        print(firebaseUser.displayName);
-        print("you're in");
+    if (widget.route == null) {
+      FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
+        if (firebaseUser != null) {
+          print('in login');
+          print(firebaseUser);
+          print(firebaseUser.displayName);
+          print("you're in");
 //check for exception, may only be if emulator not wiped
-        DocumentSnapshot userRecord = await Firestore.instance
-            .collection('users')
-            .document(firebaseUser.uid)
-            .get();
-        if (userRecord.data != null) {
-          currentUserModel = User.fromDocument(userRecord);
+          DocumentSnapshot userRecord = await Firestore.instance
+              .collection('users')
+              .document(firebaseUser.uid)
+              .get();
+          if (userRecord.data != null) {
+            currentUserModel = User.fromDocument(userRecord);
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: ScrollPage()));
+          }
+        } else {
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.rightToLeft, child: ScrollPage()));
+                  type: PageTransitionType.rightToLeft, child: Login()));
+          print("floppps");
         }
-      } else {
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: Login()));
-        print("floppps");
-      }
-    });
+      });
+    } else {
+      Navigator.push(context,
+          PageTransition(type: PageTransitionType.rightToLeft, child: onBoarding()));
+    }
   }
 
   @override

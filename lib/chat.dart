@@ -175,7 +175,7 @@ class _ChatState extends State<Chat> {
                       height: 0.0,
                     ),
               IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                icon: Icon(Feather.user),
                 color: Color(0xFF1458EA),
                 onPressed: () {
                   Navigator.push(

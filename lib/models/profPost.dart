@@ -419,6 +419,28 @@ class _ProfPostState extends State<ProfPost> {
                                                               'Report'),
                                                           onPressed: () {
                                                             // ADD REPORT FUNCTIONALITY HERE
+                                                            List<String> id =
+                                                                [];
+                                                            id.add(
+                                                                currentUserModel
+                                                                    .uid);
+                                                            Firestore.instance
+                                                                .collection(
+                                                                    'reportedPosts')
+                                                                .document(
+                                                                    postId)
+                                                                .setData({
+                                                              'type': 'prof',
+                                                              'postID': postId,
+                                                              'reporterIDs':
+                                                                  FieldValue
+                                                                      .arrayUnion(
+                                                                          id),
+                                                              'caption':
+                                                                  caption,
+                                                              'photo': postPic
+                                                            }, merge: true);
+
                                                             Flushbar(
                                                               margin: EdgeInsets
                                                                   .symmetric(

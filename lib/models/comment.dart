@@ -222,6 +222,20 @@ class Comment extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
+                          List<String> id = [];
+                          id.add(currentUserModel.uid);
+                          Firestore.instance
+                              .collection('reportedComments')
+                              .document(commentId)
+                              .setData({
+                            'type': type,
+                            'postID': postId,
+                            'commentID': commentId,
+                            'commenterId': commenterId,
+                            'reporterIDs': FieldValue.arrayUnion(id),
+                            'text': text
+                          }, merge: true);
+
                           Flushbar(
                             margin: EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 5),

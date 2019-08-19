@@ -418,6 +418,28 @@ class _SocialPostState extends State<SocialPost> {
                                                           child: const Text(
                                                               'Report'),
                                                           onPressed: () {
+                                                            List<String> id =
+                                                                [];
+                                                            id.add(
+                                                                currentUserModel
+                                                                    .uid);
+                                                            Firestore.instance
+                                                                .collection(
+                                                                    'reportedPosts')
+                                                                .document(
+                                                                    postId)
+                                                                .setData({
+                                                              'type': 'social',
+                                                              'postID': postId,
+                                                              'reporterIDs':
+                                                                  FieldValue
+                                                                      .arrayUnion(
+                                                                          id),
+                                                              'caption':
+                                                                  caption,
+                                                              'photo': postPic
+                                                            }, merge: true);
+
                                                             // ADD REPORT FUNCTIONALITY HERE
                                                             Flushbar(
                                                               margin: EdgeInsets

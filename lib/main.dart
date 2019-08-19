@@ -59,37 +59,32 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 //    startTime();
-    if (widget.route == null) {
-      FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
-        if (firebaseUser != null) {
-          print('in login');
-          print(firebaseUser);
-          print(firebaseUser.displayName);
-          print("you're in");
+    FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
+      if (firebaseUser != null) {
+        print('in login');
+        print(firebaseUser);
+        print(firebaseUser.displayName);
+        print("you're in");
 //check for exception, may only be if emulator not wiped
-          DocumentSnapshot userRecord = await Firestore.instance
-              .collection('users')
-              .document(firebaseUser.uid)
-              .get();
-          if (userRecord.data != null) {
-            currentUserModel = User.fromDocument(userRecord);
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: ScrollPage()));
-          }
-        } else {
+        DocumentSnapshot userRecord = await Firestore.instance
+            .collection('users')
+            .document(firebaseUser.uid)
+            .get();
+        if (userRecord.data != null) {
+          currentUserModel = User.fromDocument(userRecord);
           Navigator.push(
               context,
               PageTransition(
-                  type: PageTransitionType.rightToLeft, child: Login()));
-          print("floppps");
+                  type: PageTransitionType.rightToLeft, child: ScrollPage()));
         }
-      });
-    } else {
-      Navigator.push(context,
-          PageTransition(type: PageTransitionType.rightToLeft, child: onBoarding()));
-    }
+      } else {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft, child: Login()));
+        print("floppps");
+      }
+    });
   }
 
   @override

@@ -103,7 +103,7 @@ class _UserCardState extends State<UserCard> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon(MaterialCommunityIcons.chat),
+                icon: Icon( Feather.message_circle,),
                 color: Colors.white,
                 onPressed: () {
                   Navigator.push(

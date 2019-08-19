@@ -56,151 +56,175 @@ class Comment extends StatelessWidget {
       contentPadding: EdgeInsets.all(screenH(15)),
       leading: Column(
         children: <Widget>[
-          CircleAvatar(
-            backgroundImage: NetworkImage(commenterPhoto),
-            radius: screenH(27.5),
+          SizedBox(
+            height: 8.0,
           ),
-        ],
-      ),
-      title: Row(
-        children: <Widget>[
-          Text(
-            commenterName,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          IconButton(
-            icon: Icon(MaterialCommunityIcons.card_bulleted),
-            color: Colors.black,
-            onPressed: () {
+          InkWell(
+            child: CircleAvatar(
+              backgroundImage: NetworkImage(commenterPhoto),
+              radius: screenH(22.0),
+            ),
+            onTap: () {
               Navigator.push(
                   context,
                   PageTransition(
                       type: PageTransitionType.rightToLeft,
                       child: UserCard(
-                          userId: commenterId, userName: commenterName)));
+                        userId: commenterId,
+                        userName: commenterName,
+                      )));
             },
-          ),
-          IconButton(
-            icon: Icon(MaterialCommunityIcons.chat),
-            color: Colors.black,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: chat.Chat(
-                          fromUserId: currentUserModel.uid,
-                          toUserId: commenterId)));
-            },
-          ),
-          Spacer(),
-          Text(
-            timestamp,
-            style: TextStyle(
-                fontSize: screenF(13.5),
-                color:
-                    type == 'social' ? Color(0xFF8803fc) : Color(0xFF063F3E)),
           ),
         ],
       ),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      title: Column(
         children: <Widget>[
+          Row(
+            children: <Widget>[
+              InkWell(
+                child: Text(
+                  commenterName,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: UserCard(
+                            userId: commenterId,
+                            userName: commenterName,
+                          )));
+                },
+              ),
+              Spacer(),
+              Text(
+                timestamp,
+                style: TextStyle(
+                    fontSize: screenF(13.5),
+                    color: type == 'social'
+                        ? Color(0xFF8803fc)
+                        : Color(0xFF063F3E)),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                child: Text(text),
+                child: Text(
+                  text,
+                  style: TextStyle(fontSize: 14.0),
+                ),
                 width: screenW(270),
               ),
               commenterId == currentUserModel.uid
-                  ? IconButton(
-                      icon: Icon(
-                        FontAwesome.trash,
-                        color: Colors.red,
+                  ? Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        color: Colors.grey[200],
                       ),
-                      onPressed: () async {
-                        DocumentSnapshot documentSnap = await Firestore.instance
-                            .collection('users')
-                            .document(currentUserModel.uid)
-                            .collection('recentActivity')
-                            .document(postId)
-                            .get();
-                        if (documentSnap['upvoted'] != true &&
-                            documentSnap['numberOfComments'] == 1) {
-                          Firestore.instance
+                      child: InkWell(
+                        child: Text('Delete',
+                            style:
+                                TextStyle(fontSize: 8.0, color: Colors.black)),
+                        onTap: () async {
+                          DocumentSnapshot documentSnap = await Firestore
+                              .instance
                               .collection('users')
                               .document(currentUserModel.uid)
                               .collection('recentActivity')
                               .document(postId)
-                              .delete();
-                        } else {
-                          Firestore.instance
-                              .collection('users')
-                              .document(currentUserModel.uid)
-                              .collection('recentActivity')
-                              .document(postId)
-                              .setData({
-                            'numberOfComments': FieldValue.increment(-1),
-                          }, merge: true);
-                        }
-
-                        if (type == 'social') {
-                          DocumentSnapshot snap = await Firestore.instance
-                              .collection('socialPosts')
-                              .document(postId)
                               .get();
-                          int commentsNumber = snap['comments'];
+                          if (documentSnap['upvoted'] != true &&
+                              documentSnap['numberOfComments'] == 1) {
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .collection('recentActivity')
+                                .document(postId)
+                                .delete();
+                          } else {
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .collection('recentActivity')
+                                .document(postId)
+                                .setData({
+                              'numberOfComments': FieldValue.increment(-1),
+                            }, merge: true);
+                          }
 
-                          Firestore.instance
-                              .collection('socialPosts')
-                              .document(postId)
-                              .collection('comments')
-                              .document(commentId)
-                              .delete();
-                          Firestore.instance
-                              .collection('socialPosts')
-                              .document(postId)
-                              .updateData({'comments': commentsNumber - 1});
+                          if (type == 'social') {
+                            DocumentSnapshot snap = await Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .get();
+                            int commentsNumber = snap['comments'];
 
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: SocialComments(
-                                    postId: postId,
-                                  )));
-                        } else if (type == 'prof') {
-                          DocumentSnapshot snap = await Firestore.instance
-                              .collection('profPosts')
-                              .document(postId)
-                              .get();
-                          int commentsNumber = snap['comments'];
-                          Firestore.instance
-                              .collection('profPosts')
-                              .document(postId)
-                              .collection('comments')
-                              .document(commentId)
-                              .delete();
-                          Firestore.instance
-                              .collection('profPosts')
-                              .document(postId)
-                              .updateData({'comments': commentsNumber - 1});
+                            Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .collection('comments')
+                                .document(commentId)
+                                .delete();
+                            Firestore.instance
+                                .collection('socialPosts')
+                                .document(postId)
+                                .updateData({'comments': commentsNumber - 1});
 
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: ProfComments(
-                                    postId: postId,
-                                  )));
-                        }
-                      },
-                      color: Colors.grey,
-                      iconSize: 17,
-                    )
-                  : SizedBox(
-                      height: 1,
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: SocialComments(
+                                      postId: postId,
+                                    )));
+                          } else if (type == 'prof') {
+                            DocumentSnapshot snap = await Firestore.instance
+                                .collection('profPosts')
+                                .document(postId)
+                                .get();
+                            int commentsNumber = snap['comments'];
+                            Firestore.instance
+                                .collection('profPosts')
+                                .document(postId)
+                                .collection('comments')
+                                .document(commentId)
+                                .delete();
+                            Firestore.instance
+                                .collection('profPosts')
+                                .document(postId)
+                                .updateData({'comments': commentsNumber - 1});
+
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: ProfComments(
+                                      postId: postId,
+                                    )));
+                          }
+                        },
+                      ))
+                  : Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.0, vertical: 3.5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        color: Colors.grey[200],
+                      ),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Text('Report',
+                            style:
+                                TextStyle(fontSize: 8.0, color: Colors.black)),
+                      ),
                     )
             ],
           ),

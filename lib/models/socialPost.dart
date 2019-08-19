@@ -219,8 +219,8 @@ class _SocialPostState extends State<SocialPost> {
                                     loadingPlaceHolder,
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
-                                width: screenW(200),
-                                height: screenH(275),
+                                // width: screenW(200),
+                                // height: screenH(275),
                               )
                             : SizedBox(
                                 width: screenH(1.2),
@@ -396,15 +396,43 @@ class _SocialPostState extends State<SocialPost> {
                                   ),
                                   Column(
                                     children: <Widget>[
-                                      SizedBox(
-                                        height: 6.0,
-                                      ),
                                       IconButton(
-                                        icon: Icon(FontAwesome.share_square_o),
-                                        iconSize: screenF(25),
-                                        onPressed: () async =>
-                                            await _sharePost(),
-                                      ),
+                                          icon: Icon(Feather.more_horizontal),
+                                          iconSize: screenF(25),
+                                          onPressed: () {
+                                            showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  CupertinoActionSheet(
+                                                      title: const Text(
+                                                          'What would you like to do?'),
+                                                      actions: <Widget>[
+                                                        CupertinoActionSheetAction(
+                                                          child: const Text(
+                                                              'Share'),
+                                                          onPressed: () async =>
+                                                              await _sharePost(),
+                                                        ),
+                                                        CupertinoActionSheetAction(
+                                                          child:
+                                                              const Text('Report'),
+                                                          onPressed: () {
+                                                            // ADD REPORT FUNCTIONALITY HERE
+                                                          },
+                                                        )
+                                                      ],
+                                                      cancelButton:
+                                                          CupertinoActionSheetAction(
+                                                        child: const Text(
+                                                            'Cancel'),
+                                                        isDefaultAction: true,
+                                                        onPressed: () {
+                                                          Navigator.pop(context,
+                                                              'Cancel');
+                                                        },
+                                                      )),
+                                            );
+                                          }),
                                     ],
                                   ),
                                 ],

@@ -16,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image/image.dart' as Im;
 import 'dart:math' as Math;
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -36,7 +37,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
   var storedDate;
   String postId;
   int upVotes;
-  bool loading=false;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,6 @@ class _CreateProfPostState extends State<CreateProfPost> {
         body: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
           Column(
             children: <Widget>[
-
               Row(
                 children: <Widget>[
                   GestureDetector(
@@ -78,10 +78,9 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     padding: EdgeInsets.fromLTRB(
                         screenW(20), screenH(50), screenW(20), screenH(0)),
                     child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xFF063F3E),
+                      backgroundColor: Color(0xFF096664),
                       onPressed: () {
                         post();
-
                       },
                       icon: Icon(
                         Ionicons.ios_send,
@@ -108,73 +107,77 @@ class _CreateProfPostState extends State<CreateProfPost> {
               ),
               file == null
                   ? Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  children: <Widget>[
-                    Container(
-                      // height: screenH(50),
-                      // width: screenW(50),
-                      child: FloatingActionButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(16.0))),
-                        onPressed: () {
-                          _selectImage(context);
-                        },
-                        elevation: 5,
-                        heroTag: 'imgbtn',
-                        backgroundColor: Colors.white,
-                        // label: Text(
-                        //   "Add an Image",
-                        //   style: TextStyle(
-                        //       color: Colors.black, fontSize: 17),
-                        // ),
-                        child: Icon(
-                          SimpleLineIcons.picture,
-                          color: Colors.black,
-                          size: 25,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-                  : Card(
-                  color: Colors.grey[200],
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.all(Radius.circular(15.0))),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Row(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
                         children: <Widget>[
-                          IconButton(
-                            icon: Icon(Icons.close),
-                            onPressed: () {
-                              clearImage();
-                            },
-                            color: Colors.black,
-                          )
+                          Container(
+                            // height: screenH(50),
+                            // width: screenW(50),
+                            child: Row(
+                              children: <Widget>[
+                                FloatingActionButton(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(16.0))),
+                                  onPressed: () {
+                                    _selectImage(context);
+                                  },
+                                  elevation: 5,
+                                  heroTag: 'imgbtn',
+                                  backgroundColor: Colors.white,
+                                  child: Icon(
+                                    SimpleLineIcons.picture,
+                                    color: Colors.black,
+                                    size: 25,
+                                  ),
+                                ),
+                                // Text(
+                                //   "image",
+                                //   style: TextStyle(
+                                //       color: Colors.black, fontSize: 17),
+                                // ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15.0),
-                        ),
-                        child: AspectRatio(
-                          aspectRatio: 0.92,
-                          child: Image(
-                            image: FileImage(file),
-                            width: screenW(170),
-                            height: screenH(250),
-                            fit: BoxFit.fill,
+                    )
+                  : Card(
+                      color: Colors.grey[200],
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(15.0))),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.close),
+                                onPressed: () {
+                                  clearImage();
+                                },
+                                color: Colors.black,
+                              )
+                            ],
                           ),
-                        ),
-                      ),
-                    ],
-                  )),
+                          ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(15.0),
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 0.92,
+                              child: Image(
+                                image: FileImage(file),
+                                width: screenW(170),
+                                height: screenH(250),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )),
               SizedBox(
                 height: screenH(12),
               ),
@@ -183,13 +186,13 @@ class _CreateProfPostState extends State<CreateProfPost> {
                 child: Container(
                   height: screenH(110),
                   decoration: BoxDecoration(
-                    // boxShadow: [
-                    //   BoxShadow(
-                    //       color: Colors.black.withOpacity(0.35),
-                    //       blurRadius: (10),
-                    //       spreadRadius: (3),
-                    //       offset: Offset(0, 3)),
-                    // ],
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //       color: Colors.black.withOpacity(0.35),
+                      //       blurRadius: (10),
+                      //       spreadRadius: (3),
+                      //       offset: Offset(0, 3)),
+                      // ],
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: Padding(
@@ -254,7 +257,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   File imageFile =
-                  await ImagePicker.pickImage(source: ImageSource.gallery);
+                      await ImagePicker.pickImage(source: ImageSource.gallery);
                   setState(() {
                     file = imageFile;
                   });
@@ -341,7 +344,6 @@ class _CreateProfPostState extends State<CreateProfPost> {
 }
 
 Future<String> uploadImage(var imageFile) async {
-
   var uuid = currentUserModel.uid + Timestamp.now().toString();
   StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
   StorageUploadTask uploadTask = ref.putFile(imageFile);

@@ -278,7 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: TabsApp()));
                         },
                         title: Text(
-                          "Report",
+                          "Report Bugs",
                         ),
                         leading: Icon(
                           SimpleLineIcons.exclamation,

@@ -12,10 +12,6 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:auto_size_text/auto_size_text.dart';
 
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
-
 class Chat extends StatefulWidget {
   static const String id = "CHAT";
 //  final FirebaseUser fromUser;

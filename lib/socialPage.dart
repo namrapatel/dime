@@ -128,7 +128,7 @@ class _SocialPageState extends State<SocialPage> {
                   Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 8,
+                        height: 4,
                       ),
                       IconButton(
                         icon: Icon(

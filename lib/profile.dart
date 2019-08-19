@@ -126,7 +126,7 @@ class _HomePageOneState extends State<HomePageOne> {
   @override
   List<SearchItem<int>> data2 = [
     SearchItem(0, 'University of Waterloo'),
-    SearchItem(1, 'University of Western Ontario'),
+    SearchItem(1, 'Western University'),
     SearchItem(2, "University of Calgary"),
   ];
 
@@ -178,53 +178,16 @@ class _HomePageOneState extends State<HomePageOne> {
           FlatButton(
             color: Color(0xFF1458EA),
             child: Text(
-              "Save",
+              "Edit Cards",
               style: TextStyle(color: Colors.white),
             ),
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(10.0)),
             onPressed: () {
-              updateProfile();
-              Flushbar(
-                // message: "hello",
-                borderRadius: 15,
-                messageText: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        'Saved!',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Your basic information has been updated.',
-                        style: TextStyle(color: Colors.grey),
-                      )
-                    ],
-                  ),
-                ),
-                backgroundColor: Colors.white,
-                boxShadows: [
-                  BoxShadow(
-                      color: Colors.black12.withOpacity(0.1),
-                      blurRadius: (15),
-                      spreadRadius: (5),
-                      offset: Offset(0, 3)),
-                ],
-                flushbarPosition: FlushbarPosition.BOTTOM,
-                icon: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                  child: Icon(
-                    Icons.save_alt,
-                    size: 28.0,
-                    color: Color(0xFF1458EA),
-                  ),
-                ),
-                duration: Duration(seconds: 3),
-              )..show(context);
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft, child: TabsApp()));
             },
           ),
           // InkWell(
@@ -400,14 +363,51 @@ class _HomePageOneState extends State<HomePageOne> {
               borderRadius: BorderRadius.all(Radius.circular(16.0))),
           elevation: (5),
           onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: TabsApp()));
+            updateProfile();
+            Flushbar(
+              // message: "hello",
+              borderRadius: 15,
+              messageText: Padding(
+                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      'Saved!',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Your basic information has been updated.',
+                      style: TextStyle(color: Colors.grey),
+                    )
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.white,
+              boxShadows: [
+                BoxShadow(
+                    color: Colors.black12.withOpacity(0.1),
+                    blurRadius: (15),
+                    spreadRadius: (5),
+                    offset: Offset(0, 3)),
+              ],
+              flushbarPosition: FlushbarPosition.TOP,
+              icon: Padding(
+                padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                child: Icon(
+                  Icons.save_alt,
+                  size: 28.0,
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+              duration: Duration(seconds: 3),
+            )..show(context);
           },
           backgroundColor: Color(0xFF1458EA),
           child: Text(
-            "Edit Your Cards",
+            "Save",
             style: TextStyle(fontSize: (20), color: Colors.white),
           ),
         ),

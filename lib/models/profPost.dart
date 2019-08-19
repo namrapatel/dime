@@ -305,7 +305,7 @@ class _ProfPostState extends State<ProfPost> {
                                   ),
                                   Icon(FontAwesome.arrow_up,
                                       color: liked == true
-                                          ? Color(0xFF063F3E)
+                                          ? Color(0xFF096664)
                                           : Colors.black),
                                   //Text("$upVotes", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
                                   SizedBox(
@@ -362,15 +362,43 @@ class _ProfPostState extends State<ProfPost> {
                                   ),
                                   Column(
                                     children: <Widget>[
-                                      SizedBox(
-                                        height: 6.0,
-                                      ),
                                       IconButton(
-                                        icon: Icon(FontAwesome.share_square_o),
-                                        iconSize: screenF(25),
-                                        onPressed: () async =>
-                                            await _sharePost(),
-                                      ),
+                                          icon: Icon(Feather.more_horizontal),
+                                          iconSize: screenF(25),
+                                          onPressed: () {
+                                            showCupertinoModalPopup(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  CupertinoActionSheet(
+                                                      title: const Text(
+                                                          'What would you like to do?'),
+                                                      actions: <Widget>[
+                                                        CupertinoActionSheetAction(
+                                                          child: const Text(
+                                                              'Share'),
+                                                          onPressed: () async =>
+                                                              await _sharePost(),
+                                                        ),
+                                                        CupertinoActionSheetAction(
+                                                          child: const Text(
+                                                              'Report'),
+                                                          onPressed: () {
+                                                            // ADD REPORT FUNCTIONALITY HERE
+                                                          },
+                                                        )
+                                                      ],
+                                                      cancelButton:
+                                                          CupertinoActionSheetAction(
+                                                        child: const Text(
+                                                            'Cancel'),
+                                                        isDefaultAction: true,
+                                                        onPressed: () {
+                                                          Navigator.pop(context,
+                                                              'Cancel');
+                                                        },
+                                                      )),
+                                            );
+                                          }),
                                     ],
                                   ),
                                 ],

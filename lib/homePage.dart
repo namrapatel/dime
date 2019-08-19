@@ -480,7 +480,7 @@ class _ScrollPageState extends State<ScrollPage>
             Spacer(),
             IconButton(
               icon: Icon(
-                Icons.settings,
+                Feather.settings,
                 color: Colors.white,
                 size: 20,
               ),
@@ -493,7 +493,7 @@ class _ScrollPageState extends State<ScrollPage>
               },
             ),
             IconButton(
-              icon: Icon(MaterialCommunityIcons.card_bulleted),
+              icon: Icon(Feather.user),
               color: Colors.white,
               onPressed: () {
                 Navigator.push(
@@ -685,8 +685,9 @@ class _ScrollPageState extends State<ScrollPage>
                           left: MediaQuery.of(context).size.width / 13,
                           child: CircleAvatar(
                             child: Text(
-                              '6',
-                              style: TextStyle(color: Colors.white, fontSize: 14.0),
+                              unread.toString(),
+                              style: TextStyle(
+                                  color: Colors.white, fontSize: 14.0),
                             ),
                             backgroundColor: Colors.red,
                             radius: 8.2,
@@ -728,7 +729,7 @@ class _ScrollPageState extends State<ScrollPage>
                 backgroundColor: Colors.white,
                 child: Icon(
                   MaterialCommunityIcons.account_tie,
-                  color: Color(0xFF063F3E),
+                  color: Color(0xFF096664),
                 ),
               ),
             ],
@@ -796,6 +797,11 @@ class _ScrollPageState extends State<ScrollPage>
                   child: (snapshots.data.length == 0)
                       ? Column(
                           children: <Widget>[
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Image.asset(
+                                'assets/img/undraw_peoplearoundyou.png'),
                             Padding(
                               padding: EdgeInsets.all(
                                   MediaQuery.of(context).size.height / 20),
@@ -805,7 +811,6 @@ class _ScrollPageState extends State<ScrollPage>
                                 style: TextStyle(fontSize: 20),
                               ),
                             ),
-                            Image.asset('assets/img/undraw_peoplearoundyou.png')
                           ],
                         )
                       : Container(
@@ -1024,88 +1029,95 @@ class UserTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        ListTile(
-          title: Text(
-            contactName,
-            style: TextStyle(fontSize: 18),
-          ),
-          subtitle: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    0, MediaQuery.of(context).size.height / 100, 0, 0),
-              ),
-              major != null && gradYear != null
-                  ? Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(major + ", " + gradYear),
-                    )
-                  : Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(major != null ? major : ""),
-                    ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    0, MediaQuery.of(context).size.height / 70, 0, 0),
-              ),
-              Column(
-                children: <Widget>[
-                  buildSocialInterests(),
-                  socialInterests != null
-                      ? SizedBox(
-                          height: MediaQuery.of(context).size.height / 300,
-                        )
-                      : SizedBox(
-                          height: (0.0),
-                        ),
-                  buildProfInterests()
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(
-                    0,
-                    MediaQuery.of(context).size.height / 50,
-                    MediaQuery.of(context).size.height / 50,
-                    0),
-              )
-            ],
-          ),
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(personImage),
-            radius: 20,
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.chat),
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: Chat(
-                            fromUserId: currentUserModel.uid,
-                            toUserId: uid,
-                          )));
-                },
-              ),
-              IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
-                color: Colors.black,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade,
-                          child: UserCard(
-                            userId: uid,
-                            userName: contactName,
-                          )));
-                },
-              ),
-            ],
+        SizedBox(
+          height: 5.0,
+        ),
+        InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft,
+                    child: UserCard(
+                      userId: uid,
+                      userName: contactName,
+                    )));
+          },
+          child: ListTile(
+            title: Text(
+              contactName,
+              style: TextStyle(fontSize: 18),
+            ),
+            subtitle: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, MediaQuery.of(context).size.height / 1000, 0, 0),
+                ),
+                major != null && gradYear != null
+                    ? Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(major + ", " + gradYear),
+                      )
+                    : Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(major != null ? major : ""),
+                      ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, MediaQuery.of(context).size.height / 70, 0, 0),
+                ),
+                Column(
+                  children: <Widget>[
+                    buildSocialInterests(),
+                    socialInterests != null
+                        ? SizedBox(
+                            height: MediaQuery.of(context).size.height / 300,
+                          )
+                        : SizedBox(
+                            height: (0.0),
+                          ),
+                    buildProfInterests()
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0,
+                      MediaQuery.of(context).size.height / 50,
+                      MediaQuery.of(context).size.height / 50,
+                      0),
+                )
+              ],
+            ),
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(personImage),
+              radius: 25,
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: Colors.grey[100],
+                  ),
+                  child: IconButton(
+                    icon: Icon(Feather.message_circle),
+                    color: Colors.black,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: Chat(
+                                fromUserId: currentUserModel.uid,
+                                toUserId: uid,
+                              )));
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         )
       ],

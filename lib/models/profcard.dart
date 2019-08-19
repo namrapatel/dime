@@ -7,6 +7,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:Dime/homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:esys_flutter_share/esys_flutter_share.dart';
 
 class ProfCard extends StatelessWidget {
   final String type;
@@ -113,6 +114,22 @@ class ProfCard extends StatelessWidget {
     }
   }
 
+  Future<void> _shareText() async {
+    try {
+      Share.text(
+          'Handles:',
+          "'https://www.linkedin.com/in/' " +
+              linkedIn +
+              " 'https://github.com/'" +
+              github +
+              " 'https://twitter.com/'" +
+              twitter,
+          'text/plain');
+    } catch (e) {
+      print('error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -159,7 +176,16 @@ class ProfCard extends StatelessWidget {
                           : Text(university,
                               style: TextStyle(
                                   fontSize: screenF(15),
-                                  color: Color(0xFF063F3E))),
+                                  color: Color(0xFF096664))),
+                    ),
+                    Positioned(
+                      top: screenH(190),
+                      left: screenW(395),
+                      child: IconButton(
+                        icon: Icon(FontAwesome.share_square_o),
+                        iconSize: screenF(25),
+                        onPressed: () async => await _shareText(),
+                      ),
                     ),
                     Positioned(
                       top: screenH(65),
@@ -339,7 +365,7 @@ class ProfCard extends StatelessWidget {
                       left: screenW(20),
                       child: Text(interestString != null ? interestString : "",
                           style: TextStyle(
-                              color: Color(0xFF063F3E), fontSize: screenF(13))),
+                              color: Color(0xFF096664), fontSize: screenF(13))),
                     ),
                     Positioned(
                       left: screenW(265),

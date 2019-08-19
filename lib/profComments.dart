@@ -146,10 +146,7 @@ class _ProfCommentsState extends State<ProfComments> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.leftToRight, child: ProfPage()));
+            Navigator.pop(context);
           },
         ),
         elevation: 0.4,
@@ -169,13 +166,6 @@ class _ProfCommentsState extends State<ProfComments> {
                     : SizedBox(
                         height: 0.0,
                       ),
-                Text(
-                  'Professional Feed',
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 12,
-                  ),
-                )
               ],
             )
           ],
@@ -209,7 +199,7 @@ class _ProfCommentsState extends State<ProfComments> {
                           vertical: MediaQuery.of(context).size.height / 72),
                       child: SimpleAutoCompleteTextField(
                         textCapitalization: TextCapitalization.sentences,
-//                        key: key,
+                        // key: key,
                         decoration: new InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -247,7 +237,7 @@ class _ProfCommentsState extends State<ProfComments> {
                               String docName =
                                   postId + Timestamp.now().toString();
                               DocumentSnapshot info = await Firestore.instance
-                                  .collection('socialPosts')
+                                  .collection('profPosts')
                                   .document(postId)
                                   .get();
                               String ownerID = info.data['ownerId'];

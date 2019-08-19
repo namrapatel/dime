@@ -15,6 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image/image.dart' as Im;
 import 'dart:math' as Math;
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -35,7 +36,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   var storedDate;
   String postId;
   int upVotes;
-  bool loading=false;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         body: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
           Column(
             children: <Widget>[
-
               Row(
                 children: <Widget>[
                   GestureDetector(
@@ -80,7 +80,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       backgroundColor: Color(0xFF8803fc),
                       onPressed: () {
                         post();
-
                       },
                       icon: Icon(
                         Ionicons.ios_send,
@@ -252,8 +251,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                 child: const Text('Choose from Gallery'),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  File imageFile =
-                      await ImagePicker.pickImage(source: ImageSource.gallery);
+                  File imageFile = await ImagePicker.pickImage(
+                      source: ImageSource.gallery,
+                      maxWidth: 200,
+                      maxHeight: 350);
                   setState(() {
                     file = imageFile;
                   });
@@ -270,26 +271,26 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
     );
   }
 
-   void compressImage() async {
-     print('starting compression');
-     final tempDir = await getTemporaryDirectory();
-     final path = tempDir.path;
-     String rand = timeStamp.toString();
+  void compressImage() async {
+    print('starting compression');
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    String rand = timeStamp.toString();
 
-     Im.Image image = Im.decodeImage(file.readAsBytesSync());
+    Im.Image image = Im.decodeImage(file.readAsBytesSync());
 //     Im.copyResize(image,width: 500,height: 500);
 
- //    image.format = Im.Image.RGBA;
- //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+    //    image.format = Im.Image.RGBA;
+    //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
 
-     var newim2 = File('$path/img_$rand.jpg')
-       ..writeAsBytesSync(Im.encodeJpg(image));
+    var newim2 = File('$path/img_$rand.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(image));
 
-     setState(() {
-       file = newim2;
-     });
-     print('done');
-   }
+    setState(() {
+      file = newim2;
+    });
+    print('done');
+  }
 
   void clearImage() {
     setState(() {
@@ -340,7 +341,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 }
 
 Future<String> uploadImage(var imageFile) async {
-
   var uuid = currentUserModel.uid + Timestamp.now().toString();
   StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
   StorageUploadTask uploadTask = ref.putFile(imageFile);

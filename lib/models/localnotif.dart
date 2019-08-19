@@ -3,8 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flushbar/flushbar.dart';
 
-
-
 class LocalNotification extends StatelessWidget {
   final String titleMessage;
   final String bodyMessage;
@@ -13,6 +11,7 @@ class LocalNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flushbar(
+      margin: EdgeInsets.all(8),
       message: "hello",
       borderRadius: 15,
       messageText: Padding(
@@ -34,6 +33,13 @@ class LocalNotification extends StatelessWidget {
         ),
       ),
       backgroundColor: Colors.white,
+      boxShadows: [
+        BoxShadow(
+            color: Colors.black12.withOpacity(0.1),
+            blurRadius: (15),
+            spreadRadius: (5),
+            offset: Offset(0, 3)),
+      ],
       flushbarPosition: FlushbarPosition.TOP,
       icon: Padding(
         padding: EdgeInsets.fromLTRB(15, 8, 8, 8),

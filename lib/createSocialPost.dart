@@ -52,7 +52,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   String postId;
   int upVotes;
   bool loading = false;
-
   Widget _buildButtonIcon() {
     if (state == AppState.free)
       return Icon(Icons.add);

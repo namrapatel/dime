@@ -10,6 +10,7 @@ import 'login.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
+import 'package:flushbar/flushbar.dart';
 
 class UserCard extends StatefulWidget {
   const UserCard({this.userId, this.type, this.userName});
@@ -88,7 +89,7 @@ class _UserCardState extends State<UserCard> {
           title: Row(
             children: <Widget>[
               Container(
-                width: MediaQuery.of(context).size.width / 1.5,
+                width: MediaQuery.of(context).size.width / 3.1,
                 child: AutoSizeText(
                   userName,
                   style: TextStyle(
@@ -100,6 +101,7 @@ class _UserCardState extends State<UserCard> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              Spacer(),
               IconButton(
                 icon: Icon(MaterialCommunityIcons.chat),
                 color: Colors.white,
@@ -113,6 +115,70 @@ class _UserCardState extends State<UserCard> {
                               toUserId: userId)));
                 },
               ),
+              IconButton(
+                  icon: Icon(Feather.more_vertical),
+                  color: Colors.white,
+                  onPressed: () {
+                    showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext context) => CupertinoActionSheet(
+                            title: const Text('What would you like to do?'),
+                            actions: <Widget>[
+                              CupertinoActionSheetAction(
+                                  child: const Text('Block'), onPressed: () {}),
+                              CupertinoActionSheetAction(
+                                child: const Text('Report'),
+                                onPressed: () {
+                                  // ADD REPORT FUNCTIONALITY HERE
+                                  Flushbar(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                    borderRadius: 15,
+                                    messageText: Padding(
+                                      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(
+                                            "Done",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          Text(
+                                            "Our team will review this users recent activity as per your report.",
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    backgroundColor: Colors.white,
+                                    flushbarPosition: FlushbarPosition.TOP,
+                                    icon: Padding(
+                                      padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                      child: Icon(
+                                        Icons.info_outline,
+                                        size: 28.0,
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    ),
+                                    duration: Duration(seconds: 3),
+                                  )..show(context);
+                                },
+                              )
+                            ],
+                            cancelButton: CupertinoActionSheetAction(
+                              child: const Text('Cancel'),
+                              isDefaultAction: true,
+                              onPressed: () {
+                                Navigator.pop(context, 'Cancel');
+                              },
+                            )));
+                  }),
             ],
           ),
         ),
@@ -175,9 +241,9 @@ class _UserCardState extends State<UserCard> {
               child: Text(
                 "Recent Activity",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold),
+                  color: Colors.white,
+                  fontSize: screenF(17),
+                ),
               ),
             ),
             Padding(
@@ -207,9 +273,9 @@ class _UserCardState extends State<UserCard> {
                                     "Interactions from the feeds will show up here!",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
+                                      color: Colors.white,
+                                      fontSize: screenF(19),
+                                    ),
                                   ),
                                 ),
                               ],

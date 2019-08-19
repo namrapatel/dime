@@ -86,7 +86,7 @@ class _ProfPageState extends State<ProfPage> {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(70.0), // here the desired height
             child: AppBar(
-              backgroundColor: Color(0xFF063F3E),
+              backgroundColor: Color(0xFF096664),
               elevation: 0,
               // actions: <Widget>[
               //   IconButton(
@@ -114,7 +114,7 @@ class _ProfPageState extends State<ProfPage> {
                   Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 8,
+                        height: 4,
                       ),
                       IconButton(
                         icon: Icon(
@@ -149,7 +149,7 @@ class _ProfPageState extends State<ProfPage> {
                 ],
               ),
             )),
-        backgroundColor: Color(0xFF063F3E),
+        backgroundColor: Color(0xFF096664),
         floatingActionButton: currentUserModel.university != null
             ? FloatingActionButton(
                 shape: RoundedRectangleBorder(

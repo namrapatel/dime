@@ -113,12 +113,14 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 6.5),
-            left: (MediaQuery.of(context).size.width / 2 - 50.0),
+            left: (MediaQuery.of(context).size.width / 2 - 60.0),
             child: photoUrl == null
-                ? SizedBox(height: 0.0,)
+                ? SizedBox(
+                    height: 0.0,
+                  )
                 : CircleAvatar(
                     backgroundImage: NetworkImage(photoUrl),
-                    radius: screenW(50),
+                    radius: screenW(60),
                   ),
           ),
           Positioned(
@@ -150,19 +152,20 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Positioned(
-            top: (MediaQuery.of(context).size.height / 3.1),
+            top: (MediaQuery.of(context).size.height / 3.2),
             //top: 220,
             left: (MediaQuery.of(context).size.width / 3.2),
             right: (MediaQuery.of(context).size.width / 3.2),
             child: Column(
               children: <Widget>[
                 displayName == null
-                    ? SizedBox(height: 0.0,)
+                    ? SizedBox(
+                        height: 0.0,
+                      )
                     : Text(
                         displayName,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17.0,
+                          fontSize: screenF(24),
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -173,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           Positioned(
-              top: (MediaQuery.of(context).size.height / 2.25),
+              top: (MediaQuery.of(context).size.height / 2.55),
               //top: 300,
               //left: 20,
               left: (MediaQuery.of(context).size.width / 22),
@@ -223,28 +226,28 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: Colors.grey[700],
                         ),
                       )),
-                  Container(
-                      width: screenW(378),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
-                        },
-                        title: Text(
-                          "Terms and Conditions",
-                        ),
-                        leading: Icon(
-                          SimpleLineIcons.doc,
-                          color: Colors.grey[700],
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey[700],
-                        ),
-                      )),
+                  // Container(
+                  //     width: screenW(378),
+                  //     child: ListTile(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //             context,
+                  //             PageTransition(
+                  //                 type: PageTransitionType.rightToLeft,
+                  //                 child: TabsApp()));
+                  //       },
+                  //       title: Text(
+                  //         "Terms and Conditions",
+                  //       ),
+                  //       leading: Icon(
+                  //         SimpleLineIcons.doc,
+                  //         color: Colors.grey[700],
+                  //       ),
+                  //       trailing: Icon(
+                  //         Icons.arrow_forward_ios,
+                  //         color: Colors.grey[700],
+                  //       ),
+                  //     )),
                   Container(
                       width: screenW(378),
                       child: ListTile(
@@ -278,7 +281,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: TabsApp()));
                         },
                         title: Text(
-                          "Report",
+                          "Report Bugs",
                         ),
                         leading: Icon(
                           SimpleLineIcons.exclamation,

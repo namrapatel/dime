@@ -152,10 +152,7 @@ class _SocialCommentsState extends State<SocialComments> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: SocialPage()));
+            Navigator.pop(context);
           },
         ),
         elevation: 0.4,
@@ -175,13 +172,6 @@ class _SocialCommentsState extends State<SocialComments> {
                     : SizedBox(
                         height: 0.0,
                       ),
-                Text(
-                  'Social Feed',
-                  style: TextStyle(
-                    color: Colors.grey[400],
-                    fontSize: 12,
-                  ),
-                )
               ],
             )
           ],

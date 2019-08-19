@@ -229,7 +229,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       SearchItem(53, 'University of Toronto'),
       SearchItem(54, "Huron University College"),
       SearchItem(55, 'University of Waterloo'),
-      SearchItem(56, "University of Western Ontario"),
+      SearchItem(56, "Western University"),
       SearchItem(57, 'University of Windsor'),
       SearchItem(58, 'Wilfrid Laurier University'),
       SearchItem(59, "York University"),
@@ -1028,21 +1028,21 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        'Your basic information has been updated.',
+                                        'Your cards have now been updated.',
                                         style: TextStyle(color: Colors.grey),
                                       )
                                     ],
                                   ),
                                 ),
                                 backgroundColor: Colors.white,
-                                boxShadows: [
-                                  BoxShadow(
-                                      color: Colors.black12.withOpacity(0.1),
-                                      blurRadius: (15),
-                                      spreadRadius: (5),
-                                      offset: Offset(0, 3)),
-                                ],
-                                flushbarPosition: FlushbarPosition.BOTTOM,
+                                // boxShadows: [
+                                //   BoxShadow(
+                                //       color: Colors.black12.withOpacity(0.1),
+                                //       blurRadius: (15),
+                                //       spreadRadius: (5),
+                                //       offset: Offset(0, 3)),
+                                // ],
+                                flushbarPosition: FlushbarPosition.TOP,
                                 icon: Padding(
                                   padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
                                   child: Icon(
@@ -1277,7 +1277,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       SearchItem(53, 'University of Toronto'),
       SearchItem(54, "Huron University College"),
       SearchItem(55, 'University of Waterloo'),
-      SearchItem(56, "University of Western Ontario"),
+      SearchItem(56, "Western University"),
       SearchItem(57, 'University of Windsor'),
       SearchItem(58, 'Wilfrid Laurier University'),
       SearchItem(59, "York University"),
@@ -2074,21 +2074,21 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        'Your basic information has been updated.',
+                                        'Your cards have now been updated.',
                                         style: TextStyle(color: Colors.grey),
                                       )
                                     ],
                                   ),
                                 ),
                                 backgroundColor: Colors.white,
-                                boxShadows: [
-                                  BoxShadow(
-                                      color: Colors.black12.withOpacity(0.1),
-                                      blurRadius: (15),
-                                      spreadRadius: (5),
-                                      offset: Offset(0, 3)),
-                                ],
-                                flushbarPosition: FlushbarPosition.BOTTOM,
+                                // boxShadows: [
+                                //   BoxShadow(
+                                //       color: Colors.black12.withOpacity(0.1),
+                                //       blurRadius: (15),
+                                //       spreadRadius: (5),
+                                //       offset: Offset(0, 3)),
+                                // ],
+                                flushbarPosition: FlushbarPosition.TOP,
                                 icon: Padding(
                                   padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
                                   child: Icon(

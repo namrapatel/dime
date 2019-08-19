@@ -138,7 +138,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     padding: EdgeInsets.fromLTRB(
                         screenW(20), screenH(50), screenW(20), screenH(0)),
                     child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xFF063F3E),
+                      backgroundColor: Color(0xFF096664),
                       onPressed: () {
                         post();
                       },

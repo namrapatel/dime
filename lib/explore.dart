@@ -134,9 +134,6 @@ class _ExploreState extends State<Explore> {
                 ),
               ],
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 45,
-            ),
             Row(
               children: <Widget>[
                 Padding(
@@ -146,7 +143,7 @@ class _ExploreState extends State<Explore> {
                 Text(
                   "Explore",
                   style: TextStyle(
-                    fontSize: 48,
+                    fontSize: screenF(48),
                   ),
                 ),
               ],
@@ -188,7 +185,7 @@ class _ExploreState extends State<Explore> {
               height: MediaQuery.of(context).size.height / 20,
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 1.65,
+              height: MediaQuery.of(context).size.height / 1.48,
               child: ListView(
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),

@@ -31,7 +31,7 @@ class SocialPost extends StatefulWidget {
 //  final bool liked;
 
   factory SocialPost.fromDocument(DocumentSnapshot document) {
-    Timestamp storedDate = document["timeStamp"];
+    Timestamp storedDate = document["timeStamp"]; 
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return SocialPost(

@@ -151,13 +151,12 @@ class SocialCard extends StatelessWidget {
       var bs64 = base64Encode(pngBytes);
       print(pngBytes);
       print(bs64);
-      await Share.file(
-          'Share your card', displayName + '.png', pngBytes, 'image/png',
-          text: 'https://www.snapchat.com/add/$snapchat'
-              '\n'
-              'https://www.instagram.com/$instagram'
-              '\n'
-              'https://twitter.com/$twitter');
+
+            await Share.file(
+          'Share card', displayName + '.png', pngBytes, 'image/png',
+         text:  'Snapchat: https://www.snapchat.com/add/$snapchat' '\n \n' 'Instagram: https://www.instagram.com/$instagram' '\n \n' 'Twitter: https://twitter.com/$twitter'
+              );
+
       return pngBytes;
     } catch (e) {
       print(e);

@@ -180,9 +180,10 @@ class ProfCard extends StatelessWidget {
                     ),
                     Positioned(
                       top: screenH(190),
-                      left: screenW(395),
+                      left: screenW(295),
                       child: IconButton(
-                        icon: Icon(FontAwesome.share_square_o),
+                        icon: Icon(Ionicons.ios_send),
+                        color: Color(0xFF096664),
                         iconSize: screenF(25),
                         onPressed: () async => await _shareText(),
                       ),

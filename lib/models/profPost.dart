@@ -17,6 +17,7 @@ import 'package:Dime/login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flushbar/flushbar.dart';
 
 class ProfPost extends StatefulWidget {
   final String university;
@@ -384,6 +385,75 @@ class _ProfPostState extends State<ProfPost> {
                                                               'Report'),
                                                           onPressed: () {
                                                             // ADD REPORT FUNCTIONALITY HERE
+                                                            Flushbar(
+                                                              margin: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          15,
+                                                                      vertical:
+                                                                          5),
+                                                              borderRadius: 15,
+                                                              messageText:
+                                                                  Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .fromLTRB(
+                                                                            15,
+                                                                            0,
+                                                                            0,
+                                                                            0),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .start,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: <
+                                                                      Widget>[
+                                                                    Text(
+                                                                      "Done",
+                                                                      style: TextStyle(
+                                                                          color: Colors
+                                                                              .black,
+                                                                          fontWeight:
+                                                                              FontWeight.bold),
+                                                                    ),
+                                                                    Text(
+                                                                      "Our team will review this post as per your report.",
+                                                                      style: TextStyle(
+                                                                          color:
+                                                                              Colors.grey),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  Colors.white,
+                                                              flushbarPosition:
+                                                                  FlushbarPosition
+                                                                      .TOP,
+                                                              icon: Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .fromLTRB(
+                                                                            15,
+                                                                            8,
+                                                                            8,
+                                                                            8),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .info_outline,
+                                                                  size: 28.0,
+                                                                  color: Color(
+                                                                      0xFF1458EA),
+                                                                ),
+                                                              ),
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          3),
+                                                            )..show(context);
                                                           },
                                                         )
                                                       ],

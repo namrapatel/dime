@@ -674,9 +674,9 @@ class _ScrollPageState extends State<ScrollPage>
                     heroTag: 'btn2',
                     backgroundColor: Colors.white,
                     child: Icon(
-                      MaterialCommunityIcons.chat,
+                      Feather.message_circle,
                       color: Colors.black,
-                      size: 30.0,
+                      size: 25.0,
                     ),
                   ),
                   unread > 0
@@ -712,6 +712,7 @@ class _ScrollPageState extends State<ScrollPage>
                 child: Icon(
                   Ionicons.md_search,
                   color: Colors.black,
+                  size: 25.0,
                 ),
               ),
               FloatingActionButton(
@@ -806,7 +807,7 @@ class _ScrollPageState extends State<ScrollPage>
                               padding: EdgeInsets.all(
                                   MediaQuery.of(context).size.height / 20),
                               child: Text(
-                                "There's nobody around. \n Go get a walk in and meet new people!",
+                                "There's nobody around. \n Go get a walk in and find some new people!",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 20),
                               ),
@@ -1128,36 +1129,7 @@ class UserTile extends StatelessWidget {
 Widget LocalNotifcation(BuildContext context, String titleMessage,
     String bodyMessage, String key, String notifType) {
   return Flushbar(
-    // message: "hello",
-    // onTap: (Flushbar) {
-    //   if (notifType == "chat") {
-    //     Navigator.push(
-    //         context,
-    //         PageTransition(
-    //             type: PageTransitionType.rightToLeft,
-    //             child: Chat(
-    //               fromUserId: currentUserModel.uid,
-    //               toUserId: key,
-    //             )));
-    //   } else if (notifType == "postNotifProf") {
-    //     Navigator.push(
-    //         context,
-    //         PageTransition(
-    //             type: PageTransitionType.rightToLeft,
-    //             child: ProfComments(
-    //               postId: key,
-    //             )));
-    //   } else if (notifType == "postNotifSocial") {
-    //     Navigator.push(
-    //         context,
-    //         PageTransition(
-    //             type: PageTransitionType.leftToRight,
-    //             child: SocialComments(
-    //               postId: key,
-    //             )));
-    //   }
-    // },
-    // margin: EdgeInsets.all(8),
+    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
     borderRadius: 15,
     messageText: Padding(
       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

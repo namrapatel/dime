@@ -111,9 +111,9 @@ class _ChatListState extends State<ChatList> {
                         child: Text(
                           "No Messages to Show",
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: screenF(20),
-                              fontWeight: FontWeight.bold),
+                            color: Colors.black,
+                            fontSize: screenF(21),
+                          ),
                           textAlign: TextAlign.center,
                         )),
                   ),

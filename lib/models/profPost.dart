@@ -98,7 +98,40 @@ class _ProfPostState extends State<ProfPost> {
     print(caption);
   }
 
-//
+  getPostInfo() async {
+    DocumentSnapshot doc = await Firestore.instance
+        .collection('profPosts')
+        .document(widget.postId)
+        .get();
+    Timestamp storedDate = doc["timeStamp"];
+    String elapsedTime = timeago.format(storedDate.toDate());
+    String times = '$elapsedTime';
+    setState(() {
+      likes = doc['likes'];
+      university = doc['university'];
+      caption = doc['caption'];
+      postPic = doc['postPic'];
+      comments = doc['comments'];
+      timeStamp = times;
+      upVotes = doc['upVotes'];
+    });
+    print(likes);
+    if (likes.length != 0) {
+      print('my id issssss');
+      print(currentUserModel.uid);
+      if (likes.contains(currentUserModel.uid)) {
+        print('my id is');
+        print(currentUserModel.uid);
+        setState(() {
+          liked = true;
+        });
+      }
+    } else {
+      setState(() {
+        liked = false;
+      });
+    }
+  }
 
   Future<void> _sharePost() async {
     if (caption == "") {
@@ -181,13 +214,13 @@ class _ProfPostState extends State<ProfPost> {
                         child: postPic != null
                             ? CachedNetworkImage(
                                 imageUrl: postPic,
-                                fit: BoxFit.fitWidth,
+                                fit: BoxFit.fitHeight,
                                 placeholder: (context, url) =>
                                     loadingPlaceHolder,
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
-                                width: screenW(200),
-                                height: screenH(275),
+//                                width: screenW(200),
+                                height: screenH(575),
                               )
                             : SizedBox(
                                 width: screenH(1.2),
@@ -205,8 +238,10 @@ class _ProfPostState extends State<ProfPost> {
                           Container(
                             width: screenW(290),
                             child: caption != null
-                                ? Text(caption,
-                                    style: TextStyle(fontSize: 16.0))
+                                ? Text(
+                                    caption,
+                                    style: TextStyle(fontSize: 16.0),
+                                  )
                                 : SizedBox(
                                     width: screenW(1.2),
                                   ),
@@ -289,7 +324,6 @@ class _ProfPostState extends State<ProfPost> {
                                   }, merge: true);
                                 }
                               }
-
                               Firestore.instance
                                   .collection('profPosts')
                                   .document(widget.postId)
@@ -297,7 +331,7 @@ class _ProfPostState extends State<ProfPost> {
                             },
                             child: Padding(
                               padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
+                                  const EdgeInsets.symmetric(vertical: 7.0),
                               child: Row(
                                 children: <Widget>[
                                   SizedBox(
@@ -305,7 +339,7 @@ class _ProfPostState extends State<ProfPost> {
                                   ),
                                   Icon(FontAwesome.arrow_up,
                                       color: liked == true
-                                          ? Color(0xFF063F3E)
+                                          ? Color(0xFF8803fc)
                                           : Colors.black),
                                   //Text("$upVotes", style: TextStyle(color:Color(0xFF8803fc), fontWeight: FontWeight.bold),)
                                   SizedBox(
@@ -330,7 +364,7 @@ class _ProfPostState extends State<ProfPost> {
                                           context,
                                           PageTransition(
                                               type: PageTransitionType
-                                                  .rightToLeft,
+                                                  .leftToRight,
                                               child: ProfComments(
                                                 postId: widget.postId,
                                               )));
@@ -348,7 +382,7 @@ class _ProfPostState extends State<ProfPost> {
                                                 context,
                                                 PageTransition(
                                                     type: PageTransitionType
-                                                        .rightToLeft,
+                                                        .leftToRight,
                                                     child: ProfComments(
                                                       postId: widget.postId,
                                                     )));
@@ -358,7 +392,7 @@ class _ProfPostState extends State<ProfPost> {
                                           width: screenW(1.2),
                                         ),
                                   SizedBox(
-                                    width: 12,
+                                    width: 15,
                                   ),
                                   Column(
                                     children: <Widget>[

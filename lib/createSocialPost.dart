@@ -14,7 +14,9 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image/image.dart' as Im;
+import 'package:image_cropper/image_cropper.dart';
 import 'dart:math' as Math;
+
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
@@ -25,9 +27,23 @@ class CreateSocialPost extends StatefulWidget {
   _CreateSocialPostState createState() => _CreateSocialPostState();
 }
 
+enum AppState {
+  free,
+  picked,
+  cropped,
+}
+
 class _CreateSocialPostState extends State<CreateSocialPost> {
+  @override
+  void initState() {
+    super.initState();
+    state = AppState.free;
+  }
+
   TextEditingController descriptionController = TextEditingController();
   File file;
+  AppState state;
+
   String elapsedTime;
   String caption;
   String postPic;
@@ -35,7 +51,53 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   var storedDate;
   String postId;
   int upVotes;
-  bool loading=false;
+  bool loading = false;
+
+  Widget _buildButtonIcon() {
+    if (state == AppState.free)
+      return Icon(Icons.add);
+    else if (state == AppState.picked)
+      return Icon(Icons.crop);
+    else if (state == AppState.cropped)
+      return Icon(Icons.clear);
+    else
+      return Container();
+  }
+
+  Future<Null> _pickImage() async {
+    file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (file != null) {
+      setState(() {
+        state = AppState.picked;
+      });
+    }
+  }
+
+  Future<Null> _cropImage() async {
+    File croppedFile = await ImageCropper.cropImage(
+      ratioX: 10.0,
+      ratioY: 11.5,
+      sourcePath: file.path,
+      toolbarTitle: 'Cropper',
+      toolbarColor: Color(0xFF063F3E),
+      toolbarWidgetColor: Colors.white,
+    );
+    if (croppedFile != null) {
+      file = croppedFile;
+      setState(() {
+        state = AppState.cropped;
+      });
+    }
+  }
+
+  Future<Null> _saveImage() async {}
+
+  void _clearImage() {
+    setState(() {
+      file = null;
+      state = AppState.free;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +113,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         body: ListView(padding: EdgeInsets.all(0.0), children: <Widget>[
           Column(
             children: <Widget>[
-
               Row(
                 children: <Widget>[
                   GestureDetector(
@@ -61,7 +122,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                            color: Color(0xFF8803fc), fontSize: screenF(18)),
+                            color: Color(0xFF063F3E), fontSize: screenF(18)),
                       ),
                     ),
                     onTap: () {
@@ -77,10 +138,9 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     padding: EdgeInsets.fromLTRB(
                         screenW(20), screenH(50), screenW(20), screenH(0)),
                     child: FloatingActionButton.extended(
-                      backgroundColor: Color(0xFF8803fc),
+                      backgroundColor: Color(0xFF063F3E),
                       onPressed: () {
                         post();
-
                       },
                       icon: Icon(
                         Ionicons.ios_send,
@@ -105,75 +165,96 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              file == null
-                  ? Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            // height: screenH(50),
-                            // width: screenW(50),
-                            child: FloatingActionButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(16.0))),
-                              onPressed: () {
-                                _selectImage(context);
-                              },
-                              elevation: 5,
-                              heroTag: 'imgbtn',
-                              backgroundColor: Colors.white,
-                              // label: Text(
-                              //   "Add an Image",
-                              //   style: TextStyle(
-                              //       color: Colors.black, fontSize: 17),
-                              // ),
-                              child: Icon(
-                                SimpleLineIcons.picture,
-                                color: Colors.black,
-                                size: 25,
-                              ),
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  children: <Widget>[
+                    // height: screenH(50),
+                    // width: screenW(50),
+                    FloatingActionButton(
+                      backgroundColor: Color(0xFF063F3E),
+                      onPressed: () {
+                        if (state == AppState.free)
+                          _selectImage(context);
+                        else if (state == AppState.picked)
+                          _cropImage();
+                        else if (state == AppState.cropped) _clearImage();
+                      },
+                      child: _buildButtonIcon(),
+                      heroTag: 'imgbtn',
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    state == AppState.picked
+                        ? FloatingActionButton(
+                            backgroundColor: Color(0xFF063F3E),
+                            onPressed: () {
+                              _clearImage();
+                            },
+                            child: Icon(
+                              Icons.clear,
+                              color: Colors.white,
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : Card(
-                      color: Colors.grey[200],
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(15.0))),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.close),
-                                onPressed: () {
-                                  clearImage();
-                                },
-                                color: Colors.black,
+                            heroTag: 'clearbtn',
+                          )
+                        : Container(),
+
+//                            child: FloatingActionButton(
+//                              shape: RoundedRectangleBorder(
+//                                  borderRadius:
+//                                      BorderRadius.all(Radius.circular(16.0))),
+//                              onPressed: () {
+//                                _selectImage(context);
+//                              },
+//                              elevation: 5,
+//                              heroTag: 'imgbtn',
+//                              backgroundColor: Colors.white,
+//                              // label: Text(
+//                              //   "Add an Image",
+//                              //   style: TextStyle(
+//                              //       color: Colors.black, fontSize: 17),
+//                              // ),
+//                              child: Icon(
+//                                SimpleLineIcons.picture,
+//                                color: Colors.black,
+//                                size: 25,
+//                              ),
+//                            ),
+
+//                    IconButton(
+//                      icon: Icon(Icons.close),
+//                      onPressed: () {
+//                        _clearImage();
+//                      },
+//                      color: Color(0xFF8803fc),
+//                    )
+                  ],
+                ),
+              ),
+              Card(
+                  color: Colors.grey[200],
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(15.0),
+                        ),
+                        child: file != null
+                            ? Image.file(
+                                file,
+//                                width: screenW(170),
+                                height: screenH(575),
+                                fit: BoxFit.fitHeight,
                               )
-                            ],
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15.0),
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 0.92,
-                              child: Image(
-                                image: FileImage(file),
-                                width: screenW(170),
-                                height: screenH(250),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                        ],
-                      )),
+                            : Container(),
+                      ),
+                    ],
+                  )),
               SizedBox(
                 height: screenH(12),
               ),
@@ -245,6 +326,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       maxWidth: 1920,
                       maxHeight: 1350);
                   setState(() {
+                    state = AppState.picked;
+
                     file = imageFile;
                   });
                 }),
@@ -252,10 +335,13 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                 child: const Text('Choose from Gallery'),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  File imageFile =
-                      await ImagePicker.pickImage(source: ImageSource.gallery);
+                  File imageFile = await ImagePicker.pickImage(
+                      source: ImageSource.gallery,
+                      maxWidth: 500,
+                      maxHeight: 200);
                   setState(() {
                     file = imageFile;
+                    state = AppState.picked;
                   });
                 }),
             SimpleDialogOption(
@@ -270,32 +356,32 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
     );
   }
 
-   void compressImage() async {
-     print('starting compression');
-     final tempDir = await getTemporaryDirectory();
-     final path = tempDir.path;
-     String rand = timeStamp.toString();
+  void compressImage() async {
+    print('starting compression');
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    String rand = timeStamp.toString();
 
-     Im.Image image = Im.decodeImage(file.readAsBytesSync());
+    Im.Image image = Im.decodeImage(file.readAsBytesSync());
 //     Im.copyResize(image,width: 500,height: 500);
 
- //    image.format = Im.Image.RGBA;
- //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+    //    image.format = Im.Image.RGBA;
+    //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
 
-     var newim2 = File('$path/img_$rand.jpg')
-       ..writeAsBytesSync(Im.encodeJpg(image));
+    var newim2 = File('$path/img_$rand.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(image));
 
-     setState(() {
-       file = newim2;
-     });
-     print('done');
-   }
-
-  void clearImage() {
     setState(() {
-      file = null;
+      file = newim2;
     });
+    print('done');
   }
+
+//  void clearImage() {
+//    setState(() {
+//      file = null;
+//    });
+//  }
 
   void post() {
     timeStamp = Timestamp.now();
@@ -340,7 +426,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 }
 
 Future<String> uploadImage(var imageFile) async {
-
   var uuid = currentUserModel.uid + Timestamp.now().toString();
   StorageReference ref = FirebaseStorage.instance.ref().child("post_$uuid.jpg");
   StorageUploadTask uploadTask = ref.putFile(imageFile);

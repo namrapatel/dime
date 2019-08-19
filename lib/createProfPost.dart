@@ -327,7 +327,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       maxHeight: 1350);
                   setState(() {
                     state = AppState.picked;
-
+                    _cropImage();
                     file = imageFile;
                   });
                 }),
@@ -342,6 +342,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                   setState(() {
                     file = imageFile;
                     state = AppState.picked;
+                    _cropImage();
                   });
                 }),
             SimpleDialogOption(

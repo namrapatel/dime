@@ -78,9 +78,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       ratioX: 10.0,
       ratioY: 11.5,
       sourcePath: file.path,
-      toolbarTitle: 'Cropper',
+      toolbarTitle: 'Crop your Image',
       toolbarColor: Color(0xFF8803fc),
       toolbarWidgetColor: Colors.white,
+      
     );
     if (croppedFile != null) {
       file = croppedFile;
@@ -327,14 +328,15 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       maxHeight: 1350);
                   setState(() {
                     state = AppState.picked;
-
                     file = imageFile;
+                    _cropImage();
                   });
                 }),
             SimpleDialogOption(
                 child: const Text('Choose from Gallery'),
                 onPressed: () async {
                   Navigator.of(context).pop();
+                  
                   File imageFile = await ImagePicker.pickImage(
                       source: ImageSource.gallery,
                       maxWidth: 500,
@@ -342,6 +344,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                   setState(() {
                     file = imageFile;
                     state = AppState.picked;
+                    _cropImage();
                   });
                 }),
             SimpleDialogOption(

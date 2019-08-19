@@ -715,7 +715,7 @@ class _ScrollPageState extends State<ScrollPage>
                 child: Icon(
                   Ionicons.md_search,
                   color: Colors.black,
-                  size: 25.0,
+                  size: 27.5,
                 ),
               ),
               FloatingActionButton(
@@ -731,9 +731,16 @@ class _ScrollPageState extends State<ScrollPage>
                 elevation: 3,
                 heroTag: 'btn4',
                 backgroundColor: Colors.white,
-                child: Icon(
-                  MaterialCommunityIcons.account_tie,
-                  color: Color(0xFF096664),
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width/30,
+                    ),
+                    Icon(
+                      FontAwesome.graduation_cap,
+                      color: Color(0xFF096664),
+                    ),
+                  ],
                 ),
               ),
             ],

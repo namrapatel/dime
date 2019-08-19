@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import '../viewCards.dart';
@@ -8,6 +9,11 @@ import 'package:Dime/homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
+
+import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 class ProfCard extends StatelessWidget {
   final String type;
@@ -22,8 +28,9 @@ class ProfCard extends StatelessWidget {
   final String interestString;
   final String email;
   final bool isSwitched;
+  GlobalKey globalKey2 = new GlobalKey();
 
-  const ProfCard(
+  ProfCard(
       {this.type,
       this.major,
       this.university,
@@ -130,11 +137,37 @@ class ProfCard extends StatelessWidget {
     }
   }
 
+
+     Future<Uint8List> _capturePng2() async {
+    try {
+      print('inside');
+      RenderRepaintBoundary boundary =
+          globalKey2.currentContext.findRenderObject();
+      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      var pngBytes = byteData.buffer.asUint8List();
+      var bs64 = base64Encode(pngBytes);
+      print(pngBytes);
+      print(bs64);
+            await Share.file(
+          'Share your card', displayName + '.png', pngBytes, 'image/png',
+         text:  'https://www.linkedin.com/in/$linkedIn' '\n' 'https://github.com/$github' '\n' 'https://twitter.com/$twitter'
+              );
+      return pngBytes;
+
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Stack(children: <Widget>[
+        RepaintBoundary(
+          key: globalKey2,
+          child: Stack(children: <Widget>[
           Column(
             children: <Widget>[
               Container(
@@ -185,7 +218,7 @@ class ProfCard extends StatelessWidget {
                         icon: Icon(Ionicons.ios_send),
                         color: Color(0xFF096664),
                         iconSize: screenF(25),
-                        onPressed: () async => await _shareText(),
+                        onPressed: () async => await _capturePng2()
                       ),
                     ),
                     Positioned(
@@ -382,6 +415,7 @@ class ProfCard extends StatelessWidget {
             ],
           ),
         ]),
+        ),
         SizedBox(
           height: 20,
         ),

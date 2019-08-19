@@ -1,4 +1,5 @@
 import 'package:Dime/homePage.dart';
+import 'package:Dime/login.dart';
 import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
@@ -230,7 +231,7 @@ class onBoarding extends StatelessWidget {
                     context,
                     PageTransition(
                         type: PageTransitionType.rightToLeft,
-                        child: Profile()));
+                        child: Login()));
               },
               pageButtonTextStyles: TextStyle(
                 color: Colors.white,

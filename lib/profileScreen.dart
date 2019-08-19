@@ -65,236 +65,244 @@ class _ProfilePageState extends State<ProfilePage> {
       allowFontScaling: true,
     )..init(context);
 
-    return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-            height: screenH(850),
-            width: double.infinity,
-          ),
-          Container(
-            height: screenH(350),
-            width: double.infinity,
-            color: Color(0xFF1458EA),
-          ),
-          Positioned(
-              top: (MediaQuery.of(context).size.height / 15),
-              //top: 70,
-              left: (MediaQuery.of(context).size.width / 30),
-              child: IconButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: ScrollPage()));
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
+    return GestureDetector(
+      onHorizontalDragEnd: (DragEndDetails details) {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.leftToRight, child: ScrollPage()));
+      },
+          child: Scaffold(
+        body: Stack(
+          children: <Widget>[
+            Container(
+              height: screenH(850),
+              width: double.infinity,
+            ),
+            Container(
+              height: screenH(350),
+              width: double.infinity,
+              color: Color(0xFF1458EA),
+            ),
+            Positioned(
+                top: (MediaQuery.of(context).size.height / 15),
+                //top: 70,
+                left: (MediaQuery.of(context).size.width / 30),
+                child: IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.leftToRight,
+                            child: ScrollPage()));
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  ),
+                )),
+            Positioned(
+              top: (MediaQuery.of(context).size.height / 4.5),
+              left: (MediaQuery.of(context).size.width / 21),
+              //top: 155.0,
+              //left: 20.0,
+              right: (MediaQuery.of(context).size.width / 21),
+              child: Material(
+                elevation: 3.0,
+                borderRadius: BorderRadius.circular(15.0),
+                child: Container(
+                  height: screenH(610),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: Colors.white),
                 ),
-              )),
-          Positioned(
-            top: (MediaQuery.of(context).size.height / 4.5),
-            left: (MediaQuery.of(context).size.width / 21),
-            //top: 155.0,
-            //left: 20.0,
-            right: (MediaQuery.of(context).size.width / 21),
-            child: Material(
-              elevation: 3.0,
-              borderRadius: BorderRadius.circular(15.0),
-              child: Container(
-                height: screenH(610),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    color: Colors.white),
               ),
             ),
-          ),
-          Positioned(
-            top: (MediaQuery.of(context).size.height / 6.5),
-            left: (MediaQuery.of(context).size.width / 2 - 60.0),
-            child: photoUrl == null
-                ? SizedBox(
-                    height: 0.0,
-                  )
-                : CircleAvatar(
-                    backgroundImage: NetworkImage(photoUrl),
-                    radius: screenW(60),
-                  ),
-          ),
-          Positioned(
-            top: (MediaQuery.of(context).size.height / 4.4),
-            //top: 220,
-            left: (MediaQuery.of(context).size.width / 1.23),
-            child: Column(
-              children: <Widget>[
-                IconButton(
-                    onPressed: () async {
-                      FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: Login()));
-                      }).catchError((e) {
-                        print(e);
-                      });
-                    },
-                    icon: Icon(AntDesign.logout)),
-                SizedBox(
-                  height: screenH(15),
-                ),
-                SizedBox(
-                  height: screenH(125),
-                ),
-              ],
+            Positioned(
+              top: (MediaQuery.of(context).size.height / 6.5),
+              left: (MediaQuery.of(context).size.width / 2 - 60.0),
+              child: photoUrl == null
+                  ? SizedBox(
+                      height: 0.0,
+                    )
+                  : CircleAvatar(
+                      backgroundImage: NetworkImage(photoUrl),
+                      radius: screenW(60),
+                    ),
             ),
-          ),
-          Positioned(
-            top: (MediaQuery.of(context).size.height / 3.2),
-            //top: 220,
-            left: (MediaQuery.of(context).size.width / 3.2),
-            right: (MediaQuery.of(context).size.width / 3.2),
-            child: Column(
-              children: <Widget>[
-                displayName == null
-                    ? SizedBox(
-                        height: 0.0,
-                      )
-                    : Text(
-                        displayName,
-                        style: TextStyle(
-                          fontSize: screenF(24),
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                SizedBox(
-                  height: screenH(50),
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-              top: (MediaQuery.of(context).size.height / 2.55),
-              //top: 300,
-              //left: 20,
-              left: (MediaQuery.of(context).size.width / 22),
+            Positioned(
+              top: (MediaQuery.of(context).size.height / 4.4),
+              //top: 220,
+              left: (MediaQuery.of(context).size.width / 1.23),
               child: Column(
                 children: <Widget>[
-                  Container(
-                      width: screenW(378),
-                      child: ListTile(
-                        onTap: () {
+                  IconButton(
+                      onPressed: () async {
+                        FirebaseAuth.instance.signOut().then((value) {
                           Navigator.push(
                               context,
                               PageTransition(
                                   type: PageTransitionType.rightToLeft,
-                                  child: Profile()));
-                        },
-                        title: Text(
-                          "Basic Info",
-                        ),
-                        leading: Icon(
-                          SimpleLineIcons.user,
-                          color: Colors.grey[700],
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey[700],
-                        ),
-                      )),
-                  Container(
-                      width: screenW(378),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
-                        },
-                        title: Text(
-                          "Edit Cards",
-                        ),
-                        leading: Icon(
-                          SimpleLineIcons.credit_card,
-                          color: Colors.grey[700],
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey[700],
-                        ),
-                      )),
-                  // Container(
-                  //     width: screenW(378),
-                  //     child: ListTile(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //             context,
-                  //             PageTransition(
-                  //                 type: PageTransitionType.rightToLeft,
-                  //                 child: TabsApp()));
-                  //       },
-                  //       title: Text(
-                  //         "Terms and Conditions",
-                  //       ),
-                  //       leading: Icon(
-                  //         SimpleLineIcons.doc,
-                  //         color: Colors.grey[700],
-                  //       ),
-                  //       trailing: Icon(
-                  //         Icons.arrow_forward_ios,
-                  //         color: Colors.grey[700],
-                  //       ),
-                  //     )),
-                  Container(
-                      width: screenW(378),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
-                        },
-                        title: Text(
-                          "Privacy and Security",
-                        ),
-                        leading: Icon(
-                          SimpleLineIcons.shield,
-                          color: Colors.grey[700],
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey[700],
-                        ),
-                      )),
-                  Container(
-                      width: screenW(378),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: TabsApp()));
-                        },
-                        title: Text(
-                          "Report Bugs",
-                        ),
-                        leading: Icon(
-                          SimpleLineIcons.exclamation,
-                          color: Colors.grey[700],
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.grey[700],
-                        ),
-                      )),
+                                  child: Login()));
+                        }).catchError((e) {
+                          print(e);
+                        });
+                      },
+                      icon: Icon(AntDesign.logout)),
+                  SizedBox(
+                    height: screenH(15),
+                  ),
+                  SizedBox(
+                    height: screenH(125),
+                  ),
                 ],
-              )),
-        ],
+              ),
+            ),
+            Positioned(
+              top: (MediaQuery.of(context).size.height / 3.2),
+              //top: 220,
+              left: (MediaQuery.of(context).size.width / 3.2),
+              right: (MediaQuery.of(context).size.width / 3.2),
+              child: Column(
+                children: <Widget>[
+                  displayName == null
+                      ? SizedBox(
+                          height: 0.0,
+                        )
+                      : Text(
+                          displayName,
+                          style: TextStyle(
+                            fontSize: screenF(24),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                  SizedBox(
+                    height: screenH(50),
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+                top: (MediaQuery.of(context).size.height / 2.55),
+                //top: 300,
+                //left: 20,
+                left: (MediaQuery.of(context).size.width / 22),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                        width: screenW(378),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: Profile()));
+                          },
+                          title: Text(
+                            "Basic Info",
+                          ),
+                          leading: Icon(
+                            SimpleLineIcons.user,
+                            color: Colors.grey[700],
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey[700],
+                          ),
+                        )),
+                    Container(
+                        width: screenW(378),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: TabsApp()));
+                          },
+                          title: Text(
+                            "Edit Cards",
+                          ),
+                          leading: Icon(
+                            SimpleLineIcons.credit_card,
+                            color: Colors.grey[700],
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey[700],
+                          ),
+                        )),
+                    // Container(
+                    //     width: screenW(378),
+                    //     child: ListTile(
+                    //       onTap: () {
+                    //         Navigator.push(
+                    //             context,
+                    //             PageTransition(
+                    //                 type: PageTransitionType.rightToLeft,
+                    //                 child: TabsApp()));
+                    //       },
+                    //       title: Text(
+                    //         "Terms and Conditions",
+                    //       ),
+                    //       leading: Icon(
+                    //         SimpleLineIcons.doc,
+                    //         color: Colors.grey[700],
+                    //       ),
+                    //       trailing: Icon(
+                    //         Icons.arrow_forward_ios,
+                    //         color: Colors.grey[700],
+                    //       ),
+                    //     )),
+                    Container(
+                        width: screenW(378),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: TabsApp()));
+                          },
+                          title: Text(
+                            "Privacy and Security",
+                          ),
+                          leading: Icon(
+                            SimpleLineIcons.shield,
+                            color: Colors.grey[700],
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey[700],
+                          ),
+                        )),
+                    // Container(
+                    //     width: screenW(378),
+                    //     child: ListTile(
+                    //       onTap: () {
+                    //         Navigator.push(
+                    //             context,
+                    //             PageTransition(
+                    //                 type: PageTransitionType.rightToLeft,
+                    //                 child: TabsApp()));
+                    //       },
+                    //       title: Text(
+                    //         "Report Bugs",
+                    //       ),
+                    //       leading: Icon(
+                    //         SimpleLineIcons.exclamation,
+                    //         color: Colors.grey[700],
+                    //       ),
+                    //       trailing: Icon(
+                    //         Icons.arrow_forward_ios,
+                    //         color: Colors.grey[700],
+                    //       ),
+                    //     )),
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }

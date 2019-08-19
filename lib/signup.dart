@@ -1,3 +1,4 @@
+import 'package:Dime/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'login.dart';
@@ -227,7 +228,7 @@ class _SignupPageState extends State<SignupPage> {
                           context,
                           PageTransition(
                               type: PageTransitionType.rightToLeft,
-                              child: ScrollPage()));
+                              child: SplashScreen(route: 'onBoarding',)));
                     });
                   } on PlatformException catch (e) {
                     _showCupertinoDialog(e.code);

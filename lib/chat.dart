@@ -115,196 +115,205 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //backgroundColor: Color(0xFFECE9E4),
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: screenH(1),
+    return GestureDetector(
+      onHorizontalDragEnd: (DragEndDetails details) {
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.leftToRight, child: ChatList()));
+      },
+      child: Scaffold(
+        //backgroundColor: Color(0xFFECE9E4),
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          color: Colors.black,
-          onPressed: () {
-            Firestore.instance
-                .collection('users')
-                .document(widget.fromUserId)
-                .collection('messages')
-                .document(widget.toUserId)
-                .setData({'unread': false}, merge: true);
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.leftToRight, child: ChatList()));
-          },
-        ),
-        title: Row(
-          children: <Widget>[
-            toUserPhoto != null
-                ? CircleAvatar(
-                    radius: screenH(20),
-                    backgroundImage: NetworkImage(toUserPhoto),
-                  )
-                : SizedBox(
-                    height: 0.0,
-                  ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width / 33,
-            ),
-            toUserName != null
-                ? Container(
-                    width: MediaQuery.of(context).size.width / 1.9,
-                    child: AutoSizeText(
-                      toUserName,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: screenF(17),
-                          fontWeight: FontWeight.bold),
-                      minFontSize: 12,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                : SizedBox(
-                    height: 0.0,
-                  ),
-            IconButton(
-              icon: Icon(MaterialCommunityIcons.card_bulleted),
-              color: Color(0xFF1458EA),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: UserCard(
-                          userId: widget.toUserId,
-                          userName: toUserName,
-                        )));
-              },
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
-              stream: _firestore
+        appBar: AppBar(
+          elevation: screenH(1),
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.black,
+            onPressed: () {
+              Firestore.instance
                   .collection('users')
                   .document(widget.fromUserId)
                   .collection('messages')
                   .document(widget.toUserId)
-                  .collection('texts')
-                  .orderBy('timestamp', descending: true)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData)
-                  return Center(
-                      child: SizedBox(
-                    height: 0.0,
-                  ));
-                List<DocumentSnapshot> docs = snapshot.data.documents;
+                  .setData({'unread': false}, merge: true);
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.leftToRight, child: ChatList()));
+            },
+          ),
+          title: Row(
+            children: <Widget>[
+              toUserPhoto != null
+                  ? CircleAvatar(
+                      radius: screenH(20),
+                      backgroundImage: NetworkImage(toUserPhoto),
+                    )
+                  : SizedBox(
+                      height: 0.0,
+                    ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 33,
+              ),
+              toUserName != null
+                  ? Container(
+                      width: MediaQuery.of(context).size.width / 1.9,
+                      child: AutoSizeText(
+                        toUserName,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: screenF(17),
+                            fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  : SizedBox(
+                      height: 0.0,
+                    ),
+              IconButton(
+                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                color: Color(0xFF1458EA),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: UserCard(
+                            userId: widget.toUserId,
+                            userName: toUserName,
+                          )));
+                },
+              ),
+            ],
+          ),
+        ),
+        body: SafeArea(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              child: StreamBuilder<QuerySnapshot>(
+                stream: _firestore
+                    .collection('users')
+                    .document(widget.fromUserId)
+                    .collection('messages')
+                    .document(widget.toUserId)
+                    .collection('texts')
+                    .orderBy('timestamp', descending: true)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData)
+                    return Center(
+                        child: SizedBox(
+                      height: 0.0,
+                    ));
+                  List<DocumentSnapshot> docs = snapshot.data.documents;
 
-                List<Message> messages = [];
-                for (var doc in docs) {
-                  var storedDate = doc.data['timestamp'];
-                  String elapsedTime = timeago.format(storedDate.toDate());
-                  String timestamp = '$elapsedTime';
-                  messages.add(Message(
-                      from: doc.data['from'],
-                      text: doc.data['text'],
-                      me: widget.fromUserId == doc.data['from'],
-                      timestamp: timestamp));
-                }
+                  List<Message> messages = [];
+                  for (var doc in docs) {
+                    var storedDate = doc.data['timestamp'];
+                    String elapsedTime = timeago.format(storedDate.toDate());
+                    String timestamp = '$elapsedTime';
+                    messages.add(Message(
+                        from: doc.data['from'],
+                        text: doc.data['text'],
+                        me: widget.fromUserId == doc.data['from'],
+                        timestamp: timestamp));
+                  }
 
-                return ListView(
-                  physics: BouncingScrollPhysics(),
-                  reverse: true,
-                  shrinkWrap: true,
-                  controller: scrollController,
-                  children: <Widget>[
-                    ...messages,
-                  ],
-                );
-              },
+                  return ListView(
+                    physics: BouncingScrollPhysics(),
+                    reverse: true,
+                    shrinkWrap: true,
+                    controller: scrollController,
+                    children: <Widget>[
+                      ...messages,
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 55,
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 25,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(50)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width / 22,
-                        vertical: MediaQuery.of(context).size.height / 72),
-                    child: TextField(
-                      textCapitalization: TextCapitalization.sentences,
-                      onTap: () {
-                        scrollController.animateTo(
-                          0.0,
-                          curve: Curves.easeOut,
-                          duration: const Duration(milliseconds: 300),
-                        );
-                      },
-                      onSubmitted: (value) => callback(),
-                      controller: messageController,
-                      decoration: new InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width / 30,
-                              bottom: MediaQuery.of(context).size.height / 155,
-                              top: MediaQuery.of(context).size.height / 155,
-                              right: MediaQuery.of(context).size.width / 30),
-                          hintText: 'Write a message',
-                          hintStyle: TextStyle(color: Colors.grey)),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 55,
+            ),
+            Container(
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 25,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1.3,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 22,
+                          vertical: MediaQuery.of(context).size.height / 72),
+                      child: TextField(
+                        textCapitalization: TextCapitalization.sentences,
+                        onTap: () {
+                          scrollController.animateTo(
+                            0.0,
+                            curve: Curves.easeOut,
+                            duration: const Duration(milliseconds: 300),
+                          );
+                        },
+                        onSubmitted: (value) => callback(),
+                        controller: messageController,
+                        decoration: new InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width / 30,
+                                bottom:
+                                    MediaQuery.of(context).size.height / 155,
+                                top: MediaQuery.of(context).size.height / 155,
+                                right: MediaQuery.of(context).size.width / 30),
+                            hintText: 'Write a message',
+                            hintStyle: TextStyle(color: Colors.grey)),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 20,
-                ),
-                SendButton(
-                  text: "Send",
-                  callback: callback,
-                )
-              ],
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 20,
+                  ),
+                  SendButton(
+                    text: "Send",
+                    callback: callback,
+                  )
+                ],
+              ),
+              // child: Row(
+              //   children: <Widget>[
+              //     Expanded(
+              //       child: TextField(
+              //         onSubmitted: (value) => callback(),
+              //         decoration: InputDecoration(
+              //           hintText: "Enter a Message ...",
+              //           border: const OutlineInputBorder(),
+              //         ),
+              //         controller: messageController,
+              //       ),
+              //     ),
+              //     SendButton(
+              //       text: "Send",
+              //       callback: callback,
+              //     )
+              //   ],
+              // ),
             ),
-            // child: Row(
-            //   children: <Widget>[
-            //     Expanded(
-            //       child: TextField(
-            //         onSubmitted: (value) => callback(),
-            //         decoration: InputDecoration(
-            //           hintText: "Enter a Message ...",
-            //           border: const OutlineInputBorder(),
-            //         ),
-            //         controller: messageController,
-            //       ),
-            //     ),
-            //     SendButton(
-            //       text: "Send",
-            //       callback: callback,
-            //     )
-            //   ],
-            // ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 55,
-          )
-        ],
-      )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 55,
+            )
+          ],
+        )),
+      ),
     );
   }
 }

@@ -133,7 +133,7 @@ class Comment extends StatelessWidget {
                       child: InkWell(
                         child: Text('Delete',
                             style:
-                                TextStyle(fontSize: 8.0, color: Colors.black)),
+                                TextStyle(fontSize: 10.0, color: Colors.black)),
                         onTap: () async {
                           DocumentSnapshot documentSnap = await Firestore
                               .instance

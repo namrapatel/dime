@@ -157,8 +157,8 @@ class SocialCard extends StatelessWidget {
       print(pngBytes);
       print(bs64);
             await Share.file(
-          'Share your card', displayName + '.png', pngBytes, 'image/png',
-         text:  'https://www.snapchat.com/add/$snapchat' '\n' 'https://www.instagram.com/$instagram' '\n' 'https://twitter.com/$twitter'
+          'Share card', displayName + '.png', pngBytes, 'image/png',
+         text:  'Snapchat: https://www.snapchat.com/add/$snapchat' '\n \n' 'Instagram: https://www.instagram.com/$instagram' '\n \n' 'Twitter: https://twitter.com/$twitter'
               );
       return pngBytes;
 

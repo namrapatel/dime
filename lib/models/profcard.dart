@@ -152,7 +152,7 @@ class ProfCard extends StatelessWidget {
       print(bs64);
             await Share.file(
           'Share your card', displayName + '.png', pngBytes, 'image/png',
-         text:  'https://www.linkedin.com/in/$linkedIn' '\n' 'https://github.com/$github' '\n' 'https://twitter.com/$twitter'
+         text:  'Linkedin: https://www.linkedin.com/in/$linkedIn' '\n \n' 'GitHub: https://github.com/$github' '\n \n' 'Twitter: https://twitter.com/$twitter'
               );
       return pngBytes;
 

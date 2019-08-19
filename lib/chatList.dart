@@ -226,43 +226,33 @@ class MessageTile extends StatelessWidget {
                   toUserId: from,
                 )));
       },
-      leading: Stack(
-        children: <Widget>[
-          CircleAvatar(
-            backgroundImage: NetworkImage(senderPhoto),
-          ),
-          unread == true
-              ? Positioned(
-                  top: MediaQuery.of(context).size.height / 100000,
-                  left: MediaQuery.of(context).size.width / 14.5,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.red,
-                    radius: 6,
-                  ))
-              : SizedBox(height: 0.0),
-        ],
+      leading: CircleAvatar(
+        backgroundImage: NetworkImage(senderPhoto),
       ),
-//          unread == true
-//              ? Positioned(
-//                  top: MediaQuery.of(context).size.height / 48,
-//                  left: MediaQuery.of(context).size.width / 13.5,
-//                  child: CircleAvatar(
-//                    backgroundColor: Colors.red,
-//                    radius: 6,
-//                  ))
-//              : SizedBox(height: 0.0),
 
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(senderName),
-          Text(
-            timestamp,
-            style: TextStyle(fontSize: 13, color: Colors.blueAccent[700]),
+          Row(
+            children: <Widget>[
+              Text(senderName, style: unread == true? TextStyle(fontWeight: FontWeight.bold): TextStyle(fontWeight: FontWeight.normal)),
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text(
+                timestamp,
+                style: TextStyle(fontSize: 13, color: Colors.blueAccent[700]),
+              ),
+            ],
           )
         ],
       ),
-      trailing: Icon(
+      
+      trailing: unread == true? CircleAvatar(
+                    backgroundColor: Color(0xFF1458EA),
+                    radius: 7,
+                  ): Icon(
         Icons.arrow_forward_ios,
         color: Colors.grey,
         size: 17,
@@ -270,10 +260,11 @@ class MessageTile extends StatelessWidget {
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(text.length >= 39 ? text.substring(0, 39) : text),
+          Text(text.length >= 39 ? text.substring(0, 39) : text,
+          style: unread == true? TextStyle(fontWeight: FontWeight.bold): TextStyle(fontWeight: FontWeight.normal),
+          ),
         ],
       ),
-      //MAX OF 40 CHARACTERS BEFORE "..."
     );
   }
 }

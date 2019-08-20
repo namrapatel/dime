@@ -1,6 +1,7 @@
 import 'package:Dime/homePage.dart';
 import 'package:Dime/login.dart';
 import 'package:Dime/profile.dart';
+import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
@@ -225,19 +226,18 @@ class onBoarding extends StatelessWidget {
       ), //ThemeData
       home: Builder(
         builder: (context) => IntroViewsFlutter(
-              pages,
-              onTapDoneButton: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: Login()));
-              },
-              pageButtonTextStyles: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
-            ), //IntroViewsFlutter
+          pages,
+          onTapDoneButton: () {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: Profile()));
+          },
+          pageButtonTextStyles: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+          ),
+        ), //IntroViewsFlutter
       ), //Builder
     ); //Material App
   }

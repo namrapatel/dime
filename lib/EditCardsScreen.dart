@@ -1053,7 +1053,67 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                     ),
                     Column(
                       children: <Widget>[
-
+                        Container(
+                          width: screenW(250),
+                          height: screenH(60),
+                          child: FloatingActionButton(
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16.0))),
+                            elevation: screenH(5),
+                            onPressed: () {
+                              updateSocialCard();
+                              Flushbar(
+                                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                borderRadius: 15,
+                                messageText: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'Saved!',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'Your cards have now been updated.',
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                                // boxShadows: [
+                                //   BoxShadow(
+                                //       color: Colors.black12.withOpacity(0.1),
+                                //       blurRadius: (15),
+                                //       spreadRadius: (5),
+                                //       offset: Offset(0, 3)),
+                                // ],
+                                flushbarPosition: FlushbarPosition.TOP,
+                                icon: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                  child: Icon(
+                                    Icons.save_alt,
+                                    size: 28.0,
+                                    color: Color(0xFF1458EA),
+                                  ),
+                                ),
+                                duration: Duration(seconds: 3),
+                              )..show(context);
+                            },
+                            backgroundColor: Color(0xFF1458EA),
+                            child: Text(
+                              "Save",
+                              style: TextStyle(
+                                  fontSize: screenF(20), color: Colors.white),
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 10,
                         ),

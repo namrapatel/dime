@@ -1,4 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/blockedusers.dart';
 import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -285,10 +286,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 context,
                                 PageTransition(
                                     type: PageTransitionType.rightToLeft,
-                                    child: TabsApp()));
+                                    child: BlockedUsers()));
                           },
                           title: Text(
-                            "Our Website",
+                            "Blocked Users",
                           ),
                           leading: Icon(
                             SimpleLineIcons.globe,
@@ -299,7 +300,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.grey[700],
                           ),
                         )),
-                        Container(
+                    Container(
                         width: screenW(378),
                         child: ListTile(
                           onTap: () {

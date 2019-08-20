@@ -34,6 +34,7 @@ class _ChatListState extends State<ChatList> {
         .document(currentUserModel.uid)
         .collection('messages')
         .orderBy('timestamp', descending: true)
+        .where('blocked', isEqualTo: false)
         .getDocuments();
     for (var document in query.documents) {
       String displayName;
@@ -229,13 +230,15 @@ class MessageTile extends StatelessWidget {
       leading: CircleAvatar(
         backgroundImage: NetworkImage(senderPhoto),
       ),
-
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text(senderName, style: unread == true? TextStyle(fontWeight: FontWeight.bold): TextStyle(fontWeight: FontWeight.normal)),
+              Text(senderName,
+                  style: unread == true
+                      ? TextStyle(fontWeight: FontWeight.bold)
+                      : TextStyle(fontWeight: FontWeight.normal)),
             ],
           ),
           Column(
@@ -248,20 +251,24 @@ class MessageTile extends StatelessWidget {
           )
         ],
       ),
-      
-      trailing: unread == true? CircleAvatar(
-                    backgroundColor: Color(0xFF1458EA),
-                    radius: 7,
-                  ): Icon(
-        Icons.arrow_forward_ios,
-        color: Colors.grey,
-        size: 17,
-      ),
+      trailing: unread == true
+          ? CircleAvatar(
+              backgroundColor: Color(0xFF1458EA),
+              radius: 7,
+            )
+          : Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.grey,
+              size: 17,
+            ),
       subtitle: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Text(text.length >= 39 ? text.substring(0, 39) : text,
-          style: unread == true? TextStyle(fontWeight: FontWeight.bold): TextStyle(fontWeight: FontWeight.normal),
+          Text(
+            text.length >= 39 ? text.substring(0, 39) : text,
+            style: unread == true
+                ? TextStyle(fontWeight: FontWeight.bold)
+                : TextStyle(fontWeight: FontWeight.normal),
           ),
         ],
       ),

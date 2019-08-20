@@ -57,7 +57,8 @@ class _ChatState extends State<Chat> {
           .setData({
         'timestamp': Timestamp.now(),
         'lastMessage': messageController.text,
-        'fromMe': true
+        'fromMe': true,
+        'blocked': false
       }, merge: true);
       _firestore
           .collection('users')

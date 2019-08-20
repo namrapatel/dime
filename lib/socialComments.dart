@@ -255,6 +255,7 @@ class _SocialCommentsState extends State<SocialComments> {
                                     .document(postId)
                                     .get();
                                 String ownerID = info.data['ownerId'];
+                                int points = info.data['points'];
                                 Firestore.instance
                                     .collection('socialPosts')
                                     .document(postId)
@@ -305,12 +306,40 @@ class _SocialCommentsState extends State<SocialComments> {
                                 Firestore.instance
                                     .collection('socialPosts')
                                     .document(postId)
-                                    .updateData({'comments': numberOfComments});
-
+                                    .updateData({
+                                  'comments': numberOfComments,
+                                  'points': FieldValue.increment(2)
+                                });
+                                points = points + 2;
                                 setState(() {
                                   getComments();
                                   controller.clear();
                                 });
+
+                                QuerySnapshot query = await Firestore.instance
+                                    .collection('users')
+                                    .document(ownerID)
+                                    .collection('socialcard')
+                                    .getDocuments();
+                                String socialID;
+                                for (var doc in query.documents) {
+                                  socialID = doc.documentID;
+                                }
+                                if (points >= 100) {
+                                  Firestore.instance
+                                      .collection('users')
+                                      .document(ownerID)
+                                      .collection('socialcard')
+                                      .document(socialID)
+                                      .updateData({'isFire': true});
+                                } else {
+                                  Firestore.instance
+                                      .collection('users')
+                                      .document(ownerID)
+                                      .collection('socialcard')
+                                      .document(socialID)
+                                      .updateData({'isFire': false});
+                                }
                               }
                             })),
                   ],

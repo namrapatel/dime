@@ -21,6 +21,8 @@ import 'dart:math' as Math;
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
+
+
 UserManagement uploader = new UserManagement();
 
 class CreateSocialPost extends StatefulWidget {
@@ -55,7 +57,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   bool loading = false;
   Widget _buildButtonIcon() {
     if (state == AppState.free)
-      return Icon(Icons.add);
+      return Icon(AntDesign.picture);
     else if (state == AppState.picked)
       return Icon(Icons.crop);
     else if (state == AppState.cropped)
@@ -75,6 +77,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 
   Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
+      
       ratioX: 10.0,
       ratioY: 11.5,
       sourcePath: file.path,
@@ -87,6 +90,12 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       file = croppedFile;
       setState(() {
         state = AppState.cropped;
+      });
+    }
+    if (croppedFile == null){
+      setState(() {
+         file = null;
+         state = AppState.free;
       });
     }
   }
@@ -252,7 +261,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                                 height: screenH(575),
                                 fit: BoxFit.fitHeight,
                               )
-                            : Container(),
+                            : 
+                            Container(),
                       ),
                     ],
                   )),

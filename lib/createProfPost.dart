@@ -55,7 +55,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
 
   Widget _buildButtonIcon() {
     if (state == AppState.free)
-      return Icon(Icons.add);
+      return Icon(AntDesign.picture);
     else if (state == AppState.picked)
       return Icon(Icons.crop);
     else if (state == AppState.cropped)
@@ -78,7 +78,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
       ratioX: 10.0,
       ratioY: 11.5,
       sourcePath: file.path,
-      toolbarTitle: 'Cropper',
+      toolbarTitle: 'Crop your Image',
       toolbarColor: Color(0xFF063F3E),
       toolbarWidgetColor: Colors.white,
     );
@@ -86,6 +86,12 @@ class _CreateProfPostState extends State<CreateProfPost> {
       file = croppedFile;
       setState(() {
         state = AppState.cropped;
+      });
+    }
+    if (croppedFile == null){
+      setState(() {
+         file = null;
+         state = AppState.free;
       });
     }
   }
@@ -172,7 +178,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     // height: screenH(50),
                     // width: screenW(50),
                     FloatingActionButton(
-                      backgroundColor: Color(0xFF063F3E),
+                      backgroundColor: Color(0xFF096664),
                       onPressed: () {
                         if (state == AppState.free)
                           _selectImage(context);

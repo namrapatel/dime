@@ -249,6 +249,7 @@ class _ProfCommentsState extends State<ProfComments> {
                                     .document(postId)
                                     .get();
                                 String ownerID = info.data['ownerId'];
+                                int points = info.data['points'];
                                 Firestore.instance
                                     .collection('profPosts')
                                     .document(postId)
@@ -265,7 +266,6 @@ class _ProfCommentsState extends State<ProfComments> {
                                   'text': controller.text,
                                   'timestamp': Timestamp.now()
                                 });
-
                                 Firestore.instance
                                     .collection('postNotifs')
                                     .add({
@@ -300,12 +300,40 @@ class _ProfCommentsState extends State<ProfComments> {
                                 Firestore.instance
                                     .collection('profPosts')
                                     .document(postId)
-                                    .updateData({'comments': numberOfComments});
-
+                                    .updateData({
+                                  'comments': numberOfComments,
+                                  'points': FieldValue.increment(2)
+                                });
+                                points = points + 2;
                                 setState(() {
                                   getComments();
                                   controller.clear();
                                 });
+
+                                QuerySnapshot query = await Firestore.instance
+                                    .collection('users')
+                                    .document(ownerID)
+                                    .collection('profcard')
+                                    .getDocuments();
+                                String profID;
+                                for (var doc in query.documents) {
+                                  profID = doc.documentID;
+                                }
+                                if (points >= 100) {
+                                  Firestore.instance
+                                      .collection('users')
+                                      .document(ownerID)
+                                      .collection('profcard')
+                                      .document(profID)
+                                      .updateData({'isFire': true});
+                                } else {
+                                  Firestore.instance
+                                      .collection('users')
+                                      .document(ownerID)
+                                      .collection('profcard')
+                                      .document(profID)
+                                      .updateData({'isFire': false});
+                                }
                               }
                             })),
                   ],

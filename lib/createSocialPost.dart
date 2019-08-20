@@ -143,7 +143,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   }
 
   Future<Null> _pickImage() async {
-    file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 1920, maxWidth: 1350);
     if (file != null) {
       setState(() {
         state = AppState.picked;
@@ -153,8 +153,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 
   Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
-      ratioX: 10.0,
-      ratioY: 11.5,
+      
+      ratioX: 1.5,
+      ratioY: 1,
+
       sourcePath: file.path,
       toolbarTitle: 'Crop your Image',
       toolbarColor: Color(0xFF8803fc),
@@ -331,8 +333,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                         child: file != null
                             ? Image.file(
                                 file,
+
 //                                width: screenW(170),
-                                height: screenH(575),
+                                height: screenH(375),
+
                                 fit: BoxFit.fitHeight,
                               )
                             : Container(),
@@ -406,6 +410,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                 onPressed: () async {
                   Navigator.pop(context);
                   File imageFile = await ImagePicker.pickImage(
+                    imageQuality: 100,
                       source: ImageSource.camera,
                       maxWidth: 1920,
                       maxHeight: 1350);
@@ -421,9 +426,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                   Navigator.of(context).pop();
 
                   File imageFile = await ImagePicker.pickImage(
+                      imageQuality: 100,
                       source: ImageSource.gallery,
-                      maxWidth: 500,
-                      maxHeight: 200);
+                      maxWidth: 1920,
+                      maxHeight: 1350);
                   setState(() {
                     file = imageFile;
                     state = AppState.picked;
@@ -483,11 +489,11 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
           context: context,
           builder: (context) {
             return CupertinoAlertDialog(
-              title: Text('Oops!'),
+              title: Text('Woah!'),
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Sorry, that post does not meet our community guidelines",
+                  "Sorry, the terminology in this post does not meet our community guidelines.",
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ),

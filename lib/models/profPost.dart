@@ -28,13 +28,16 @@ class ProfPost extends StatefulWidget {
   final String timeStamp;
   final int upVotes;
   final List<dynamic> likes;
+  final int points;
 //  final bool liked;
-
+  final String ownerId;
   factory ProfPost.fromDocument(DocumentSnapshot document) {
     Timestamp storedDate = document["timeStamp"];
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return ProfPost(
+      ownerId: document['ownerId'],
+      points: document['points'],
       university: document['university'],
       postPic: document['postPic'],
       comments: document['comments'],
@@ -48,13 +51,15 @@ class ProfPost extends StatefulWidget {
 
   const ProfPost(
       {this.university,
+      this.ownerId,
       this.postId,
       this.caption,
       this.postPic,
       this.comments,
       this.timeStamp,
       this.upVotes,
-      this.likes});
+      this.likes,
+      this.points});
   @override
   _ProfPostState createState() => _ProfPostState(
       university: university,
@@ -64,11 +69,14 @@ class ProfPost extends StatefulWidget {
       comments: comments,
       timeStamp: timeStamp,
       upVotes: upVotes,
-      likes: likes);
+      likes: likes,
+      points: points,
+      ownerId: ownerId);
 }
 
 class _ProfPostState extends State<ProfPost> {
   List<dynamic> likes;
+  String ownerId;
   String postId;
   String caption;
   String postPic;
@@ -77,15 +85,18 @@ class _ProfPostState extends State<ProfPost> {
   int upVotes;
   String university;
   bool liked;
+  int points;
   _ProfPostState(
-      {this.university,
+      {this.ownerId,
+      this.university,
       this.postId,
       this.caption,
       this.postPic,
       this.comments,
       this.timeStamp,
       this.upVotes,
-      this.likes});
+      this.likes,
+      this.points});
   String name = currentUserModel.displayName;
 //bool editLike=liked;
   @override
@@ -221,7 +232,7 @@ class _ProfPostState extends State<ProfPost> {
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
 //                                width: screenW(200),
-                                height: screenH(575),
+                                height: screenH(375),
                               )
                             : SizedBox(
                                 width: screenH(1.2),
@@ -267,6 +278,7 @@ class _ProfPostState extends State<ProfPost> {
                                 setState(() {
                                   liked = true;
                                   upVotes++;
+                                  points++;
                                 });
 
                                 Firestore.instance
@@ -291,6 +303,7 @@ class _ProfPostState extends State<ProfPost> {
                                 setState(() {
                                   liked = false;
                                   upVotes--;
+                                  points--;
                                 });
                                 Firestore.instance
                                     .collection('profPosts')
@@ -328,7 +341,34 @@ class _ProfPostState extends State<ProfPost> {
                               Firestore.instance
                                   .collection('profPosts')
                                   .document(widget.postId)
-                                  .updateData({'upVotes': upVotes});
+                                  .updateData(
+                                      {'upVotes': upVotes, 'points': points});
+
+                              QuerySnapshot query = await Firestore.instance
+                                  .collection('users')
+                                  .document(ownerId)
+                                  .collection('profcard')
+                                  .getDocuments();
+                              String profID;
+                              for (var doc in query.documents) {
+                                profID = doc.documentID;
+                              }
+
+                              if (points >= 100) {
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(ownerId)
+                                    .collection('profcard')
+                                    .document(profID)
+                                    .updateData({'isFire': true});
+                              } else {
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(ownerId)
+                                    .collection('profcard')
+                                    .document(profID)
+                                    .updateData({'isFire': false});
+                              }
                             },
                             child: Padding(
                               padding:
@@ -527,6 +567,9 @@ class _ProfPostState extends State<ProfPost> {
                                           }),
                                     ],
                                   ),
+                                  points >= 100
+                                      ? Icon(Feather.check_circle, color: Color(0xFF096664), size: 20,)
+                                      : Container()
                                 ],
                               ),
                             ),

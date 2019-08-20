@@ -365,7 +365,7 @@ class _HomePageOneState extends State<HomePageOne> {
           onPressed: () {
             updateProfile();
             Flushbar(
-              margin: EdgeInsets.all(8),
+               margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               borderRadius: 15,
               messageText: Padding(
                 padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

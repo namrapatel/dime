@@ -167,7 +167,8 @@ class Comment extends StatelessWidget {
                                 .document(postId)
                                 .get();
                             int commentsNumber = snap['comments'];
-
+                            String ownerID = snap['ownerId'];
+                            int points = snap['points'];
                             Firestore.instance
                                 .collection('socialPosts')
                                 .document(postId)
@@ -177,8 +178,35 @@ class Comment extends StatelessWidget {
                             Firestore.instance
                                 .collection('socialPosts')
                                 .document(postId)
-                                .updateData({'comments': commentsNumber - 1});
-
+                                .updateData({
+                              'comments': commentsNumber - 1,
+                              'points': FieldValue.increment(-2)
+                            });
+                            points = points - 2;
+                            QuerySnapshot query = await Firestore.instance
+                                .collection('users')
+                                .document(ownerID)
+                                .collection('socialcard')
+                                .getDocuments();
+                            String socialID;
+                            for (var doc in query.documents) {
+                              socialID = doc.documentID;
+                            }
+                            if (points >= 100) {
+                              Firestore.instance
+                                  .collection('users')
+                                  .document(ownerID)
+                                  .collection('socialcard')
+                                  .document(socialID)
+                                  .updateData({'isFire': true});
+                            } else {
+                              Firestore.instance
+                                  .collection('users')
+                                  .document(ownerID)
+                                  .collection('socialcard')
+                                  .document(socialID)
+                                  .updateData({'isFire': false});
+                            }
                             Navigator.push(
                                 context,
                                 PageTransition(
@@ -192,6 +220,8 @@ class Comment extends StatelessWidget {
                                 .document(postId)
                                 .get();
                             int commentsNumber = snap['comments'];
+                            String ownerID = snap['ownerId'];
+                            int points = snap['points'];
                             Firestore.instance
                                 .collection('profPosts')
                                 .document(postId)
@@ -201,7 +231,35 @@ class Comment extends StatelessWidget {
                             Firestore.instance
                                 .collection('profPosts')
                                 .document(postId)
-                                .updateData({'comments': commentsNumber - 1});
+                                .updateData({
+                              'comments': commentsNumber - 1,
+                              'points': FieldValue.increment(-2)
+                            });
+                            points = points - 2;
+                            QuerySnapshot query = await Firestore.instance
+                                .collection('users')
+                                .document(ownerID)
+                                .collection('profcard')
+                                .getDocuments();
+                            String profID;
+                            for (var doc in query.documents) {
+                              profID = doc.documentID;
+                            }
+                            if (points >= 100) {
+                              Firestore.instance
+                                  .collection('users')
+                                  .document(ownerID)
+                                  .collection('profcard')
+                                  .document(profID)
+                                  .updateData({'isFire': true});
+                            } else {
+                              Firestore.instance
+                                  .collection('users')
+                                  .document(ownerID)
+                                  .collection('profcard')
+                                  .document(profID)
+                                  .updateData({'isFire': false});
+                            }
 
                             Navigator.push(
                                 context,

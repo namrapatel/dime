@@ -31,6 +31,7 @@ class SocialCard extends StatelessWidget {
   final String interestString;
   final String email;
   final bool isSwitched;
+  final bool isFire;
   GlobalKey globalKey = new GlobalKey();
 
   SocialCard(
@@ -45,7 +46,8 @@ class SocialCard extends StatelessWidget {
       this.gradYear,
       this.interestString,
       this.email,
-      this.isSwitched});
+      this.isSwitched,
+      this.isFire});
 
   factory SocialCard.fromDocument(DocumentSnapshot document) {
     String interest = "";
@@ -60,6 +62,7 @@ class SocialCard extends StatelessWidget {
       }
     }
     return SocialCard(
+      isFire: document['isFire'],
       type: document['type'],
       photoUrl: document['photoUrl'],
       major: document['major'],
@@ -192,13 +195,26 @@ class SocialCard extends StatelessWidget {
                           left: screenW(20),
                           child: Container(
                             width: 230,
-                            child: AutoSizeText(
-                              displayName,
-                              style: TextStyle(
-                                  fontSize: screenF(20), color: Colors.black),
-                              minFontSize: 12,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+
+                            child: Row(
+                              children: <Widget>[
+                                AutoSizeText(
+                                  displayName,
+                                  style: TextStyle(
+                                      fontSize: screenF(20),
+                                      color: Colors.black),
+                                  minFontSize: 12,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(
+                                  width: screenW(5),
+                                ),
+                                isFire == true
+                                    ? Icon(Octicons.flame, color: Color(0xFF8803fc), size: screenF(17),)
+                                    : Container()
+                              ],
+
                             ),
                           )),
                       Positioned(
@@ -214,13 +230,16 @@ class SocialCard extends StatelessWidget {
                                     color: Color(0xFF8803fc))),
                       ),
                       Positioned(
-                          top: screenH(190),
-                          left: screenW(295),
-                          child: IconButton(
-                              icon: Icon(Ionicons.ios_send),
-                              color: Color(0xFF8803fc),
-                              iconSize: screenF(25),
-                              onPressed: () async => await _capturePng())),
+
+                        top: screenH(190),
+                        left: screenW(295),
+                        child: IconButton(
+                            icon: Icon(Ionicons.ios_send),
+                            color: Color(0xFF8803fc),
+                            iconSize: screenF(25),
+                            onPressed: () async => await _capturePng()),
+                      ),
+
                       Positioned(
                         top: screenH(65),
                         left: screenW(20),

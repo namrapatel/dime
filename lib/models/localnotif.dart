@@ -11,7 +11,7 @@ class LocalNotification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flushbar(
-      margin: EdgeInsets.all(8),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       message: "hello",
       borderRadius: 15,
       messageText: Padding(

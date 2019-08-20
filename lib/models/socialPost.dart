@@ -28,6 +28,8 @@ class SocialPost extends StatefulWidget {
   final String timeStamp;
   final int upVotes;
   final List<dynamic> likes;
+  final int points;
+  final String ownerId;
 //  final bool liked;
 
   factory SocialPost.fromDocument(DocumentSnapshot document) {
@@ -35,6 +37,8 @@ class SocialPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return SocialPost(
+      ownerId: document['ownerId'],
+      points: document['points'],
       university: document['university'],
       postPic: document['postPic'],
       comments: document['comments'],
@@ -48,6 +52,8 @@ class SocialPost extends StatefulWidget {
 
   const SocialPost(
       {this.university,
+      this.ownerId,
+      this.points,
       this.postId,
       this.caption,
       this.postPic,
@@ -57,6 +63,7 @@ class SocialPost extends StatefulWidget {
       this.likes});
   @override
   _SocialPostState createState() => _SocialPostState(
+      points: points,
       university: university,
       postId: postId,
       caption: caption,
@@ -64,10 +71,13 @@ class SocialPost extends StatefulWidget {
       comments: comments,
       timeStamp: timeStamp,
       upVotes: upVotes,
-      likes: likes);
+      likes: likes,
+      ownerId: ownerId);
 }
 
 class _SocialPostState extends State<SocialPost> {
+  String ownerId;
+  int points;
   List<dynamic> likes;
   String postId;
   String caption;
@@ -78,14 +88,16 @@ class _SocialPostState extends State<SocialPost> {
   String university;
   bool liked;
   _SocialPostState(
-      {this.university,
+      {this.ownerId,
+      this.university,
       this.postId,
       this.caption,
       this.postPic,
       this.comments,
       this.timeStamp,
       this.upVotes,
-      this.likes});
+      this.likes,
+      this.points});
   String name = currentUserModel.displayName;
 //bool editLike=liked;
   @override
@@ -220,8 +232,8 @@ class _SocialPostState extends State<SocialPost> {
                                     loadingPlaceHolder,
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
-//                                width: screenW(200),
-                                height: screenH(575),
+                                //width: screenW(200),
+                                height: screenH(375),
                               )
                             : SizedBox(
                                 width: screenH(1.2),
@@ -267,6 +279,7 @@ class _SocialPostState extends State<SocialPost> {
                                 setState(() {
                                   liked = true;
                                   upVotes++;
+                                  points++;
                                 });
 
                                 Firestore.instance
@@ -291,6 +304,7 @@ class _SocialPostState extends State<SocialPost> {
                                 setState(() {
                                   liked = false;
                                   upVotes--;
+                                  points--;
                                 });
                                 Firestore.instance
                                     .collection('socialPosts')
@@ -328,7 +342,34 @@ class _SocialPostState extends State<SocialPost> {
                               Firestore.instance
                                   .collection('socialPosts')
                                   .document(widget.postId)
-                                  .updateData({'upVotes': upVotes});
+                                  .updateData(
+                                      {'upVotes': upVotes, 'points': points});
+
+                              QuerySnapshot query = await Firestore.instance
+                                  .collection('users')
+                                  .document(ownerId)
+                                  .collection('socialcard')
+                                  .getDocuments();
+                              String socialID;
+                              for (var doc in query.documents) {
+                                socialID = doc.documentID;
+                              }
+
+                              if (points >= 100) {
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(ownerId)
+                                    .collection('socialcard')
+                                    .document(socialID)
+                                    .updateData({'isFire': true});
+                              } else {
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(ownerId)
+                                    .collection('socialcard')
+                                    .document(socialID)
+                                    .updateData({'isFire': false});
+                              }
                             },
                             child: Padding(
                               padding:
@@ -511,7 +552,7 @@ class _SocialPostState extends State<SocialPost> {
                                                                           3),
                                                             )..show(context);
                                                           },
-                                                        )
+                                                        ),
                                                       ],
                                                       cancelButton:
                                                           CupertinoActionSheetAction(
@@ -527,6 +568,9 @@ class _SocialPostState extends State<SocialPost> {
                                           }),
                                     ],
                                   ),
+                                  points >= 100
+                                      ? Icon(Octicons.flame, color: Color(0xFF8803fc), size: 17,)
+                                      : Container()
                                 ],
                               ),
                             ),

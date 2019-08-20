@@ -80,17 +80,21 @@ class _ExploreState extends State<Explore> {
       getAllUsers().then((QuerySnapshot docs) {
         var tempSet = [];
         for (int i = 0; i < docs.documents.length; ++i) {
-          var userMap = new Map();
-          userMap['userData'] = docs.documents[i].data;
-          userMap['userId'] = docs.documents[i].documentID;
+          if (docs.documents[i]['blocked${currentUserModel.uid}'] == true) {
+            print('blocked user');
+          } else {
+            var userMap = new Map();
+            userMap['userData'] = docs.documents[i].data;
+            userMap['userId'] = docs.documents[i].documentID;
 //          tempSet.add(docs.documents[i].data);
-          tempSet.add(userMap);
-          print(docs.documents[i].documentID);
+            tempSet.add(userMap);
+            print(docs.documents[i].documentID);
+          }
+          setState(() {
+            tempSearchStore = tempSet;
+            allUsers = tempSet;
+          });
         }
-        setState(() {
-          tempSearchStore = tempSet;
-          allUsers = tempSet;
-        });
       });
 
       alreadyBuilt = true;
@@ -211,6 +215,16 @@ class _ExploreState extends State<Explore> {
 
   Widget _buildTile(data) {
     return ListTile(
+      onTap: (){
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: UserCard(
+                        userId: data['userId'],
+                        userName: data['userData']['displayName'],
+                      )));
+      },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(data['userData']['photoUrl']),
       ),

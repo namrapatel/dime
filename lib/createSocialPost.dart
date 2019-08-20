@@ -485,11 +485,11 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
           context: context,
           builder: (context) {
             return CupertinoAlertDialog(
-              title: Text('Oops!'),
+              title: Text('Woah!'),
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Sorry, that post does not meet our community guidelines",
+                  "Sorry, the terminology in this post does not meet our community guidelines.",
                   style: TextStyle(color: Colors.grey[600]),
                 ),
               ),

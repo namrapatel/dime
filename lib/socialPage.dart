@@ -119,7 +119,7 @@ class _SocialPageState extends State<SocialPage> {
                     //       fontWeight: FontWeight.bold),
                     // ),
                     Container(
-                      width: MediaQuery.of(context).size.width / 1.25,
+                      width: MediaQuery.of(context).size.width / 1.55,
                       child: AutoSizeText(
                         university != null ? university : "Whoops!",
                         style: TextStyle(
@@ -135,7 +135,7 @@ class _SocialPageState extends State<SocialPage> {
                     Column(
                       children: <Widget>[
                         SizedBox(
-                          height: 4,
+                          height: MediaQuery.of(context).size.height/90,
                         ),
                         IconButton(
                           icon: Icon(

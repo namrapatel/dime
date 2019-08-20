@@ -154,8 +154,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
       
-      ratioX: 10.0,
-      ratioY: 11.5,
+      ratioX: 1.5,
+      ratioY: 1,
       sourcePath: file.path,
       toolbarTitle: 'Crop your Image',
       toolbarColor: Color(0xFF8803fc),
@@ -332,8 +332,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                         child: file != null
                             ? Image.file(
                                 file,
+
 //                                width: screenW(170),
-                                height: screenH(575),
+                                height: screenH(375),
+
                                 fit: BoxFit.fitHeight,
                               )
                             : 

@@ -141,7 +141,7 @@ class _ProfPageState extends State<ProfPage> {
                     ),
                     Spacer(),
                     Container(
-                      width: MediaQuery.of(context).size.width / 1.25,
+                      width: MediaQuery.of(context).size.width / 1.55,
                       child: AutoSizeText(
                         university != null ? university : "Whoops!",
                         style: TextStyle(

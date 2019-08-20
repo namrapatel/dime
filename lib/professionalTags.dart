@@ -45,8 +45,8 @@ class _ProfInterestTileState extends State<ProfInterestTile> {
                   height: screenH(97),
                   width: screenW(200),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      SizedBox(width: screenW(150)),
                       Checkbox(
                           activeColor: Colors.black,
                           checkColor: Colors.white,

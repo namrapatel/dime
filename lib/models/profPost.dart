@@ -232,7 +232,7 @@ class _ProfPostState extends State<ProfPost> {
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
 //                                width: screenW(200),
-                                height: screenH(575),
+                                height: screenH(375),
                               )
                             : SizedBox(
                                 width: screenH(1.2),

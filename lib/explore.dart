@@ -215,6 +215,16 @@ class _ExploreState extends State<Explore> {
 
   Widget _buildTile(data) {
     return ListTile(
+      onTap: (){
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: UserCard(
+                        userId: data['userId'],
+                        userName: data['userData']['displayName'],
+                      )));
+      },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(data['userData']['photoUrl']),
       ),

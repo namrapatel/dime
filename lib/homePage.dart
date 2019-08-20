@@ -971,11 +971,11 @@ class UserTile extends StatelessWidget {
           // Text(interests,
           //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
           Container(
-            width: 200,
+            width: 170,
             child: AutoSizeText(
               interests,
               style: TextStyle(color: Color(0xFF1976d2), fontSize: 13),
-              minFontSize: 10,
+              minFontSize: 13,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
@@ -1006,11 +1006,11 @@ class UserTile extends StatelessWidget {
           //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
           // )
           Container(
-            width: 200,
+            width: 170,
             child: AutoSizeText(
               interests,
               style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-              minFontSize: 10,
+              minFontSize: 13,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),

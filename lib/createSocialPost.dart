@@ -156,6 +156,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       
       ratioX: 1.5,
       ratioY: 1,
+
       sourcePath: file.path,
       toolbarTitle: 'Crop your Image',
       toolbarColor: Color(0xFF8803fc),
@@ -167,10 +168,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         state = AppState.cropped;
       });
     }
-    if (croppedFile == null){
+    if (croppedFile == null) {
       setState(() {
-         file = null;
-         state = AppState.free;
+        file = null;
+        state = AppState.free;
       });
     }
   }
@@ -338,8 +339,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 
                                 fit: BoxFit.fitHeight,
                               )
-                            : 
-                            Container(),
+                            : Container(),
                       ),
                     ],
                   )),
@@ -479,7 +479,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
     List<String> captionWords = descriptionController.text.split(" ");
     bool filterWordFound = false;
     for (String word in captionWords) {
-      if (filterWords.contains(word)) {
+      if (filterWords.contains(word.toLowerCase())) {
         filterWordFound = true;
         break;
       }

@@ -40,20 +40,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  startTime() async {
-    return Timer(
-        Duration(seconds: 2),
-        () => widget.route == 'login'
-            ? Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: Login()))
-            : Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: ScrollPage())));
-  }
+//  startTime() async {
+//    return Timer(
+//        Duration(seconds: 3))
+////        () => widget.route == 'login'
+////            ? Navigator.push(
+////                context,
+////                PageTransition(
+////                    type: PageTransitionType.rightToLeft, child: Login()))
+////            : Navigator.push(
+////                context,
+////                PageTransition(
+////                    type: PageTransitionType.rightToLeft,
+////                    child: ScrollPage())));
+//  }
 
   @override
   void initState() {
@@ -72,10 +72,17 @@ class _SplashScreenState extends State<SplashScreen> {
             .get();
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft, child: ScrollPage()));
+          if (widget.route == 'onBoarding') {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: onBoarding()));
+          } else {
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: ScrollPage()));
+          }
         }
       } else {
         Navigator.push(

@@ -20,6 +20,82 @@ import 'dart:math' as Math;
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
+final List<String> filterWords = [
+  "anal",
+  "anus",
+  "arse",
+  "ass",
+  "ass fuck",
+  "ass hole",
+  "assfucker",
+  "asshole",
+  "assshole",
+  "bastard",
+  "bitch",
+  "black cock",
+  "bloody hell",
+  "boong",
+  "cock",
+  "cockfucker",
+  "cocksuck",
+  "cocksucker",
+  "coon",
+  "coonnass",
+  "crap",
+  "cunt",
+  "cyberfuck",
+  "damn",
+  "darn",
+  "dick",
+  "dirty",
+  "douche",
+  "dummy",
+  "erect",
+  "erection",
+  "erotic",
+  "escort",
+  "fag",
+  "faggot",
+  "fuck",
+  "Fuck off",
+  "fuck you",
+  "fuckass",
+  "fuckhole",
+  "god damn",
+  "gook",
+  "hard core",
+  "hardcore",
+  "homoerotic",
+  "hore",
+  "lesbian",
+  "lesbians",
+  "mother fucker",
+  "motherfuck",
+  "motherfucker",
+  "negro",
+  "nigger",
+  "orgasim",
+  "orgasm",
+  "penis",
+  "penisfucker",
+  "piss",
+  "piss off",
+  "porn",
+  "porno",
+  "pornography",
+  "pussy",
+  "retard",
+  "sadist",
+  "sex",
+  "sexy",
+  "shit",
+  "slut",
+  "son of a bitch",
+  "suck",
+  "tits",
+  "viagra",
+  "whore"
+];
 UserManagement uploader = new UserManagement();
 
 class CreateProfPost extends StatefulWidget {
@@ -391,43 +467,78 @@ class _CreateProfPostState extends State<CreateProfPost> {
 //  }
 
   void post() {
-    timeStamp = Timestamp.now();
-    upVotes = 0;
-    if (file != null) {
-      setState(() {
-        loading = true;
-      });
-      compressImage();
-      uploadImage(file).then((String data) {
-        elapsedTime = timeago.format(DateTime.now());
-        postPic = data;
-        caption = descriptionController.text;
+    List<String> captionWords = descriptionController.text.split(" ");
+    bool filterWordFound = false;
+    for (String word in captionWords) {
+      if (filterWords.contains(word)) {
+        filterWordFound = true;
+        break;
+      }
+    }
+    if (filterWordFound) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: Text('Oops!'),
+              content: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Sorry, that post does not meet our community guidelines",
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Try again',
+                      style: TextStyle(fontSize: 18),
+                    )),
+              ],
+            );
+          });
+    } else {
+      timeStamp = Timestamp.now();
+      upVotes = 0;
+      if (file != null) {
+        setState(() {
+          loading = true;
+        });
+        compressImage();
+        uploadImage(file).then((String data) {
+          elapsedTime = timeago.format(DateTime.now());
+          postPic = data;
+          caption = descriptionController.text;
+          postId = currentUserModel.uid + Timestamp.now().toString();
+
+          uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
+        }).then((_) {
+          setState(() {
+            file = null;
+            Navigator.push(
+                context,
+                PageTransition(
+                    type: PageTransitionType.rightToLeft, child: ProfPage()));
+          });
+        });
+      } else {
+        setState(() {
+          loading = false;
+        });
+        // elapsedTime = timeago.format(storedDate.toDate());
+        // timeStamp = '$elapsedTime';
         postId = currentUserModel.uid + Timestamp.now().toString();
+        caption = descriptionController.text;
 
         uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
-      }).then((_) {
-        setState(() {
-          file = null;
-          Navigator.push(
-              context,
-              PageTransition(
-                  type: PageTransitionType.rightToLeft, child: ProfPage()));
-        });
-      });
-    } else {
-      setState(() {
-        loading = false;
-      });
-      // elapsedTime = timeago.format(storedDate.toDate());
-      // timeStamp = '$elapsedTime';
-      postId = currentUserModel.uid + Timestamp.now().toString();
-      caption = descriptionController.text;
-
-      uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
-      Navigator.push(
-          context,
-          PageTransition(
-              type: PageTransitionType.rightToLeft, child: ProfPage()));
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.rightToLeft, child: ProfPage()));
+      }
     }
   }
 }

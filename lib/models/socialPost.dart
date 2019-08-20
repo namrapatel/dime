@@ -33,7 +33,7 @@ class SocialPost extends StatefulWidget {
 //  final bool liked;
 
   factory SocialPost.fromDocument(DocumentSnapshot document) {
-    Timestamp storedDate = document["timeStamp"]; 
+    Timestamp storedDate = document["timeStamp"];
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return SocialPost(
@@ -568,24 +568,36 @@ class _SocialPostState extends State<SocialPost> {
                                           }),
                                     ],
                                   ),
-                                  points >= 100
-                                      ? Icon(Octicons.flame, color: Color(0xFF8803fc), size: 17,)
-                                      : Container()
                                 ],
                               ),
                             ),
                           ),
                           Spacer(),
-                          timeStamp != null
-                              ? Text(
-                                  timeStamp,
-                                  style: TextStyle(
-                                      fontSize: screenF(13.5),
-                                      color: Colors.grey),
+                          points >= 100
+                              ? Icon(
+                                  Octicons.flame,
+                                  color: Color(0xFF8803fc),
+                                  size: 17,
                                 )
-                              : SizedBox(
-                                  width: screenW(1.2),
-                                ),
+                              : Container(),
+                          SizedBox(
+                            width: screenW(7.0),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(height: 3.0,),
+                              timeStamp != null
+                                  ? Text(
+                                      timeStamp,
+                                      style: TextStyle(
+                                          fontSize: screenF(13.5),
+                                          color: Colors.grey),
+                                    )
+                                  : SizedBox(
+                                      width: screenW(1.2),
+                                    ),
+                            ],
+                          ),
                           SizedBox(
                             width: 15.0,
                           )

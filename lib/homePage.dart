@@ -1079,7 +1079,7 @@ class UserTile extends StatelessWidget {
                       )));
             } else {
               Flushbar(
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                // margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 borderRadius: 15,
                 messageText: Padding(
                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -1197,7 +1197,7 @@ class UserTile extends StatelessWidget {
 Widget LocalNotifcation(BuildContext context, String titleMessage,
     String bodyMessage, String key, String notifType) {
   return Flushbar(
-    margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+    // margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
     borderRadius: 15,
     messageText: Padding(
       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

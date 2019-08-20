@@ -135,7 +135,7 @@ class _SocialPageState extends State<SocialPage> {
                     Column(
                       children: <Widget>[
                         SizedBox(
-                          height: MediaQuery.of(context).size.height/90,
+                          height: MediaQuery.of(context).size.height/110,
                         ),
                         IconButton(
                           icon: Icon(

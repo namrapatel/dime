@@ -567,24 +567,45 @@ class _ProfPostState extends State<ProfPost> {
                                           }),
                                     ],
                                   ),
-                                  points >= 100
-                                      ? Icon(Feather.check_circle, color: Color(0xFF096664), size: 20,)
-                                      : Container()
                                 ],
                               ),
                             ),
                           ),
                           Spacer(),
-                          timeStamp != null
-                              ? Text(
-                                  timeStamp,
-                                  style: TextStyle(
-                                      fontSize: screenF(13.5),
-                                      color: Colors.grey),
-                                )
-                              : SizedBox(
-                                  width: screenW(1.2),
-                                ),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 3.0,
+                              ),
+                              points >= 100
+                                  ? Icon(
+                                      Feather.check_circle,
+                                      color: Color(0xFF096664),
+                                      size: 20,
+                                    )
+                                  : Container(),
+                            ],
+                          ),
+                          SizedBox(
+                            width: screenW(9.0),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 3.0,
+                              ),
+                              timeStamp != null
+                                  ? Text(
+                                      timeStamp,
+                                      style: TextStyle(
+                                          fontSize: screenF(13.5),
+                                          color: Colors.grey),
+                                    )
+                                  : SizedBox(
+                                      width: screenW(1.2),
+                                    ),
+                            ],
+                          ),
                           SizedBox(
                             width: 15.0,
                           )

@@ -807,7 +807,7 @@ class _ScrollPageState extends State<ScrollPage>
               if (!snapshots.hasData) {
                 return Container(
                     alignment: FractionalOffset.center,
-                    child: SizedBox(height: 0.0));
+                    child: CircularProgressIndicator());
               } else {
                 if (snapshots.data.length != 0) {
                   snapshots.data.removeWhere((DocumentSnapshot doc) =>

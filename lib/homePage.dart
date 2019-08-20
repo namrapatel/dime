@@ -98,7 +98,15 @@ class _ScrollPageState extends State<ScrollPage>
   getLocation() async {
     var location = new Location();
     LocationData currentLocation = await location.getLocation();
-
+    DocumentSnapshot distance = await Firestore.instance
+        .collection('distance')
+        .document('distance')
+        .get();
+    int firebaseRadius = distance['radius'];
+    bool strictmode = distance['strictmode'];
+    double radius = firebaseRadius.toDouble();
+    print('radius is');
+    print(radius);
 //    location.onLocationChanged().listen((LocationData currentLocation) async {
 
     current = new GeoPoint(currentLocation.latitude, currentLocation.longitude);
@@ -134,7 +142,10 @@ class _ScrollPageState extends State<ScrollPage>
     stream = geo
         .collection(collectionRef: Firestore.instance.collection('users'))
         .within(
-            center: userLoc, radius: 6, field: 'position', strictMode: false);
+            center: userLoc,
+            radius: radius,
+            field: 'position',
+            strictMode: strictmode);
 //    stream = radius.switchMap((rad) {
 //      var collectionReference = Firestore.instance.collection('users');
 //      return geo.collection(collectionRef: collectionReference).within(

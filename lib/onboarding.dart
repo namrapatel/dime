@@ -9,6 +9,9 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 /// App widget class
+final screenH = ScreenUtil.instance.setHeight;
+final screenW = ScreenUtil.instance.setWidth;
+final screenF = ScreenUtil.instance.setSp;
 
 class onBoarding extends StatelessWidget {
   //making list of pages needed to pass in IntroViewsFlutter constructor.
@@ -19,32 +22,34 @@ class onBoarding extends StatelessWidget {
         bubble: Image.asset('assets/dimelogo.png'),
         body: SizedBox(),
         title: SizedBox(
-          height: 30.0,
+          height: screenH(30.0),
         ),
         textStyle: TextStyle(fontFamily: 'futura', color: Colors.white),
         mainImage: Column(
           children: <Widget>[
             Image.asset(
               'assets/friendsDrawing.png',
-              height: 245.0,
-              width: 245.0,
+              height: screenH(245.0),
+              width: screenW(245.0),
               alignment: Alignment.center,
             ),
             Text('In the moment.',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 36.0,
+                    fontSize: screenF(36.0),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'futura')),
             SizedBox(
-              height: 20.0,
+              height: screenH(20.0),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(screenH(8.0)),
               child: Text(
                 'A tool to connect you with those around you and stay up to date with the social and professional scene at your university.',
                 style: TextStyle(
-                    fontFamily: 'futura', color: Colors.white, fontSize: 18.0),
+                    fontFamily: 'futura',
+                    color: Colors.white,
+                    fontSize: screenF(18.0)),
                 textAlign: TextAlign.center,
               ),
             )
@@ -56,18 +61,15 @@ class onBoarding extends StatelessWidget {
         bubble: Image.asset('assets/dimelogo.png'),
         body: SizedBox(),
         title: SizedBox(
-          height: 30.0,
+          height: screenH(30.0),
         ),
         textStyle: TextStyle(fontFamily: 'futura', color: Colors.white),
         mainImage: Column(
           children: <Widget>[
-            SizedBox(
-              height: 0.0,
-            ),
             Image.asset(
               'assets/socialAndProfCard.png',
-              height: 245.0,
-              width: 245.0,
+              height: screenH(245.0),
+              width: screenW(245.0),
               alignment: Alignment.center,
             ),
             Text('Your cards.',
@@ -77,14 +79,16 @@ class onBoarding extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'futura')),
             SizedBox(
-              height: 20.0,
+              height: screenW(20.0),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(screenH(8.0)),
               child: Text(
                 'All your online media handles and a small glimpse into who you are are easily accessible through your personal cards.',
                 style: TextStyle(
-                    fontFamily: 'futura', color: Colors.white, fontSize: 18.0),
+                    fontFamily: 'futura',
+                    color: Colors.white,
+                    fontSize: screenF(18.0)),
                 textAlign: TextAlign.center,
               ),
             )
@@ -96,35 +100,34 @@ class onBoarding extends StatelessWidget {
         bubble: Image.asset('assets/dimelogo.png'),
         body: SizedBox(),
         title: SizedBox(
-          height: 30.0,
+          height: screenH(30.0),
         ),
         textStyle: TextStyle(fontFamily: 'futura', color: Colors.black),
         mainImage: Column(
           children: <Widget>[
-            SizedBox(
-              height: 0.0,
-            ),
             Image.asset(
               'assets/feeds.png',
-              height: 245.0,
-              width: 245.0,
+              height: screenH(245.0),
+              width: screenW(245.0),
               alignment: Alignment.center,
             ),
             Text('Campus Feeds',
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 36.0,
+                    fontSize: screenF(36.0),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'futura')),
             SizedBox(
-              height: 20.0,
+              height: screenH(20.0),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(screenH(8.0)),
               child: Text(
                 'All your online profiles and a small glipse of who you are easily accessible through your cards.',
                 style: TextStyle(
-                    fontFamily: 'futura', color: Colors.black, fontSize: 18.0),
+                    fontFamily: 'futura',
+                    color: Colors.black,
+                    fontSize: screenF(18.0)),
                 textAlign: TextAlign.center,
               ),
             )
@@ -136,32 +139,34 @@ class onBoarding extends StatelessWidget {
         bubble: Image.asset('assets/dimelogo.png'),
         body: SizedBox(),
         title: SizedBox(
-          height: 30.0,
+          height: screenH(30.0),
         ),
         textStyle: TextStyle(fontFamily: 'futura', color: Colors.black),
         mainImage: Column(
           children: <Widget>[
             Image.asset(
               'assets/pplNearbyUI.png',
-              height: 245.0,
-              width: 245.0,
+              height: screenH(245.0),
+              width: screenW(245.0),
               alignment: Alignment.center,
             ),
             Text("Look who's around!",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 36.0,
+                    fontSize: screenF(36.0),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'futura')),
             SizedBox(
-              height: 20.0,
+              height: screenH(20.0),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(screenH(8.0)),
               child: Text(
                 'With our location technology you’ll be able to view the cards of those around you and connect with them instantly. ',
                 style: TextStyle(
-                    fontFamily: 'futura', color: Colors.white, fontSize: 18.0),
+                    fontFamily: 'futura',
+                    color: Colors.white,
+                    fontSize: screenF(18.0)),
                 textAlign: TextAlign.center,
               ),
             )
@@ -173,35 +178,34 @@ class onBoarding extends StatelessWidget {
         bubble: Image.asset('assets/dimelogo.png'),
         body: SizedBox(),
         title: SizedBox(
-          height: 30.0,
+          height: screenH(30.0),
         ),
         textStyle: TextStyle(fontFamily: 'futura', color: Colors.black),
         mainImage: Column(
           children: <Widget>[
-            SizedBox(
-              height: 0.0,
-            ),
             Image.asset(
               'assets/improvingDrawing.png',
-              height: 245.0,
-              width: 245.0,
+              height: screenH(245.0),
+              width: screenW(245.0),
               alignment: Alignment.center,
             ),
             Text("There's more to come!",
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 36.0,
+                    fontSize: screenF(36.0),
                     fontWeight: FontWeight.bold,
                     fontFamily: 'futura')),
             SizedBox(
-              height: 20.0,
+              height: screenH(20.0),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(screenH(8.0)),
               child: Text(
                 "We're constantly working to make your experience on our platform as seamless as possible. Stay tuned for new features!",
                 style: TextStyle(
-                    fontFamily: 'futura', color: Colors.white, fontSize: 18.0),
+                    fontFamily: 'futura',
+                    color: Colors.white,
+                    fontSize: screenF(8.0)),
                 textAlign: TextAlign.center,
               ),
             )
@@ -235,7 +239,7 @@ class onBoarding extends StatelessWidget {
           },
           pageButtonTextStyles: TextStyle(
             color: Colors.white,
-            fontSize: 18.0,
+            fontSize: screenF(18.0),
           ),
         ), //IntroViewsFlutter
       ), //Builder

@@ -153,7 +153,7 @@ class ProfCard extends StatelessWidget {
       print(pngBytes);
       print(bs64);
       await Share.file(
-          'Share your card', displayName + '.png', pngBytes, 'image/png',
+          'Share card', displayName + '.png', pngBytes, 'image/png',
 
          text:  'Linkedin: https://www.linkedin.com/in/$linkedIn' '\n \n' 'GitHub: https://github.com/$github' '\n \n' 'Twitter: https://twitter.com/$twitter'
               );
@@ -204,8 +204,11 @@ class ProfCard extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                                SizedBox(
+                                  width: screenW(5),
+                                ),
                                 isFire == true
-                                    ? Icon(MaterialCommunityIcons.fire)
+                                    ? Icon(Feather.check_circle, color: Color(0xFF096664), size: screenF(17),)
                                     : Container()
                               ],
                             ),

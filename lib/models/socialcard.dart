@@ -207,8 +207,11 @@ class SocialCard extends StatelessWidget {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                                SizedBox(
+                                  width: screenW(5),
+                                ),
                                 isFire == true
-                                    ? Icon(MaterialCommunityIcons.fire)
+                                    ? Icon(Octicons.flame, color: Color(0xFF8803fc), size: screenF(17),)
                                     : Container()
                               ],
 

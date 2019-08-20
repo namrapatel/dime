@@ -568,7 +568,7 @@ class _ProfPostState extends State<ProfPost> {
                                     ],
                                   ),
                                   points >= 100
-                                      ? Icon(MaterialCommunityIcons.fire)
+                                      ? Icon(Feather.check_circle, color: Color(0xFF096664), size: 20,)
                                       : Container()
                                 ],
                               ),

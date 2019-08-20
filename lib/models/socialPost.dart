@@ -569,7 +569,7 @@ class _SocialPostState extends State<SocialPost> {
                                     ],
                                   ),
                                   points >= 100
-                                      ? Icon(MaterialCommunityIcons.fire)
+                                      ? Icon(Octicons.flame, color: Color(0xFF8803fc), size: 17,)
                                       : Container()
                                 ],
                               ),

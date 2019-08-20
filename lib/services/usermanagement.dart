@@ -25,44 +25,55 @@ class UserManagement {
         .collection('users')
         .document(id)
         .collection('profcard')
-        .add({'photoUrl': url, 'displayName': name, 'socialToggled': true});
+        .add({
+      'photoUrl': url,
+      'displayName': name,
+      'socialToggled': true,
+      'isFire': false,
+    });
     Firestore.instance
         .collection('users')
         .document(id)
         .collection('socialcard')
-        .add({'photoUrl': url, 'displayName': name, 'socialToggled': true});
+        .add({
+      'photoUrl': url,
+      'displayName': name,
+      'socialToggled': true,
+      'isFire': false,
+    });
   }
 
   addSocialPost(String caption, Timestamp timeStamp, String postPic,
-       String postId, int upVotes) {
-    List<dynamic> likes=[];
+      String postId, int upVotes) {
+    List<dynamic> likes = [];
     Firestore.instance.collection('socialPosts').add({
-      'comments':0,
+      'points': 0,
+      'comments': 0,
       'caption': caption,
       'timeStamp': timeStamp,
       'postPic': postPic,
       "ownerId": currentUserModel.uid,
       "postID": postId,
       'upVotes': upVotes,
-      "likes":likes,
-      "university":currentUserModel.university,
-
+      "likes": likes,
+      "university": currentUserModel.university,
     });
   }
+
   addProfPost(String caption, Timestamp timeStamp, String postPic,
       String postId, int upVotes) {
-    List<dynamic> likes=[];
+    List<dynamic> likes = [];
     Firestore.instance.collection('profPosts').add({
-      'comments':0,
+      'points': 0,
+      'comments': 0,
       'caption': caption,
       'timeStamp': timeStamp,
       'postPic': postPic,
       "ownerId": currentUserModel.uid,
       "postID": postId,
       'upVotes': upVotes,
-      "likes":likes,
-      "university":currentUserModel.university
+      "likes": likes,
+      "university": currentUserModel.university
     });
   }
-
 }

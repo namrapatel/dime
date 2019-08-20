@@ -386,7 +386,7 @@ class _ScrollPageState extends State<ScrollPage>
   Widget build(BuildContext context) {
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
-    if(firstName == null) {
+    if (firstName == null) {
       firstName = "";
     }
 
@@ -734,7 +734,7 @@ class _ScrollPageState extends State<ScrollPage>
                 child: Row(
                   children: <Widget>[
                     SizedBox(
-                      width: MediaQuery.of(context).size.width/30,
+                      width: MediaQuery.of(context).size.width / 30,
                     ),
                     Icon(
                       FontAwesome.graduation_cap,
@@ -832,14 +832,21 @@ class _ScrollPageState extends State<ScrollPage>
                               print(
                                   'doc with id ${doc.documentID} distance ${doc.data['distance']}');
                               GeoPoint point = doc.data['position']['geopoint'];
-
-                              return UserTile(doc.data['displayName'],
-                                  doc.data['photoUrl'], doc.documentID,
-                                  major: doc.data['major'],
-                                  profInterests: doc.data['profInterests'],
-                                  socialInterests: doc.data['socialInterests'],
-                                  university: doc.data['university'],
-                                  gradYear: doc.data['gradYear']);
+                              if (doc.data['blocked${currentUserModel.uid}'] ==
+                                  true) {
+                                return UserTile(blocked: true);
+                              } else {
+                                return UserTile(
+                                    contactName: doc.data['displayName'],
+                                    personImage: doc.data['photoUrl'],
+                                    uid: doc.documentID,
+                                    major: doc.data['major'],
+                                    profInterests: doc.data['profInterests'],
+                                    socialInterests:
+                                        doc.data['socialInterests'],
+                                    university: doc.data['university'],
+                                    gradYear: doc.data['gradYear']);
+                              }
                             },
                             itemCount: snapshots.data.length,
                           ),
@@ -936,12 +943,17 @@ class _ScrollPageState extends State<ScrollPage>
 }
 
 class UserTile extends StatelessWidget {
-  UserTile(this.contactName, this.personImage, this.uid,
-      {this.major,
+  UserTile(
+      {this.contactName,
+      this.personImage,
+      this.uid,
+      this.major,
       this.university,
       this.gradYear,
       this.profInterests,
-      this.socialInterests});
+      this.socialInterests,
+      this.blocked});
+  final bool blocked;
   final String contactName, personImage, major, uid, university, gradYear;
   final List<dynamic> profInterests, socialInterests;
   Widget buildProfInterests() {
@@ -1045,18 +1057,49 @@ class UserTile extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft,
-                    child: UserCard(
-                      userId: uid,
-                      userName: contactName,
-                    )));
+            if (blocked != true) {
+              Navigator.push(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: UserCard(
+                        userId: uid,
+                        userName: contactName,
+                      )));
+            } else {
+              Flushbar(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                borderRadius: 15,
+                messageText: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "You can't interact with a blocked user",
+                        style: TextStyle(color: Colors.grey),
+                      )
+                    ],
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                flushbarPosition: FlushbarPosition.TOP,
+                icon: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 28.0,
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+                duration: Duration(seconds: 3),
+              )..show(context);
+            }
           },
           child: ListTile(
             title: Text(
-              contactName,
+              blocked == true ? "Blocked User" : contactName,
               style: TextStyle(fontSize: 18),
             ),
             subtitle: Column(
@@ -1101,32 +1144,36 @@ class UserTile extends StatelessWidget {
               ],
             ),
             leading: CircleAvatar(
-              backgroundImage: NetworkImage(personImage),
+              backgroundImage: NetworkImage(blocked == true
+                  ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                  : personImage),
               radius: 25,
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Colors.grey[100],
-                  ),
-                  child: IconButton(
-                    icon: Icon(Feather.message_circle),
-                    color: Colors.black,
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: Chat(
-                                fromUserId: currentUserModel.uid,
-                                toUserId: uid,
-                              )));
-                    },
-                  ),
-                ),
+                blocked != true
+                    ? Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          color: Colors.grey[100],
+                        ),
+                        child: IconButton(
+                          icon: Icon(Feather.message_circle),
+                          color: Colors.black,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: Chat(
+                                      fromUserId: currentUserModel.uid,
+                                      toUserId: uid,
+                                    )));
+                          },
+                        ),
+                      )
+                    : Container()
               ],
             ),
           ),

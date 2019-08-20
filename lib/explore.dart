@@ -225,7 +225,7 @@ class _ExploreState extends State<Explore> {
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           IconButton(
-            icon: Icon(MaterialCommunityIcons.chat),
+            icon: Icon(Feather.message_circle),
             color: Colors.black,
             onPressed: () {
               Navigator.push(
@@ -239,7 +239,7 @@ class _ExploreState extends State<Explore> {
             },
           ),
           IconButton(
-            icon: Icon(MaterialCommunityIcons.card_bulleted),
+            icon: Icon(Feather.user),
             color: Colors.black,
             onPressed: () {
               Navigator.push(

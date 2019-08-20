@@ -175,7 +175,7 @@ class _ChatState extends State<Chat> {
                       height: 0.0,
                     ),
               IconButton(
-                icon: Icon(MaterialCommunityIcons.card_bulleted),
+                icon: Icon(Feather.user),
                 color: Color(0xFF1458EA),
                 onPressed: () {
                   Navigator.push(
@@ -373,7 +373,7 @@ class Message extends StatelessWidget {
             me ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Material(
-            color: me ? Color(0xFFF3F4F5) : Color(0xFF1458EA),
+            color: me ? Color(0xFF1458EA) : Color(0xFFF3F4F5),
             borderRadius: me
                 ? BorderRadius.only(
                     topRight: Radius.circular(15),
@@ -393,7 +393,7 @@ class Message extends StatelessWidget {
               child: Text(
                 text,
                 style: TextStyle(
-                  color: me ? Colors.black : Colors.white,
+                  color: me ? Colors.white : Colors.black,
                 ),
               ),
             ),

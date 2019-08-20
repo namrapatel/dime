@@ -154,13 +154,12 @@ class SocialCard extends StatelessWidget {
       var bs64 = base64Encode(pngBytes);
       print(pngBytes);
       print(bs64);
-      await Share.file(
-          'Share your card', displayName + '.png', pngBytes, 'image/png',
-          text: 'https://www.snapchat.com/add/$snapchat'
-              '\n'
-              'https://www.instagram.com/$instagram'
-              '\n'
-              'https://twitter.com/$twitter');
+
+            await Share.file(
+          'Share card', displayName + '.png', pngBytes, 'image/png',
+         text:  'Snapchat: https://www.snapchat.com/add/$snapchat' '\n \n' 'Instagram: https://www.instagram.com/$instagram' '\n \n' 'Twitter: https://twitter.com/$twitter'
+              );
+
       return pngBytes;
     } catch (e) {
       print(e);
@@ -196,6 +195,7 @@ class SocialCard extends StatelessWidget {
                           left: screenW(20),
                           child: Container(
                             width: 230,
+
                             child: Row(
                               children: <Widget>[
                                 AutoSizeText(
@@ -211,6 +211,7 @@ class SocialCard extends StatelessWidget {
                                     ? Icon(MaterialCommunityIcons.fire)
                                     : Container()
                               ],
+
                             ),
                           )),
                       Positioned(
@@ -226,6 +227,7 @@ class SocialCard extends StatelessWidget {
                                     color: Color(0xFF8803fc))),
                       ),
                       Positioned(
+
                         top: screenH(190),
                         left: screenW(295),
                         child: IconButton(
@@ -234,6 +236,7 @@ class SocialCard extends StatelessWidget {
                             iconSize: screenF(25),
                             onPressed: () async => await _capturePng()),
                       ),
+
                       Positioned(
                         top: screenH(65),
                         left: screenW(20),

@@ -72,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
             PageTransition(
                 type: PageTransitionType.leftToRight, child: ScrollPage()));
       },
-          child: Scaffold(
+      child: Scaffold(
         body: Stack(
           children: <Widget>[
             Container(
@@ -159,7 +159,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Positioned(
-              top: (MediaQuery.of(context).size.height / 3.2),
+              top: (MediaQuery.of(context).size.height / 3.1),
               //top: 220,
               left: (MediaQuery.of(context).size.width / 3.2),
               right: (MediaQuery.of(context).size.width / 3.2),
@@ -183,7 +183,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
             Positioned(
-                top: (MediaQuery.of(context).size.height / 2.55),
+                top: (MediaQuery.of(context).size.height / 2.35),
                 //top: 300,
                 //left: 20,
                 left: (MediaQuery.of(context).size.width / 22),
@@ -225,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             "Edit Cards",
                           ),
                           leading: Icon(
-                            SimpleLineIcons.credit_card,
+                            AntDesign.idcard,
                             color: Colors.grey[700],
                           ),
                           trailing: Icon(
@@ -277,28 +277,50 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: Colors.grey[700],
                           ),
                         )),
-                    // Container(
-                    //     width: screenW(378),
-                    //     child: ListTile(
-                    //       onTap: () {
-                    //         Navigator.push(
-                    //             context,
-                    //             PageTransition(
-                    //                 type: PageTransitionType.rightToLeft,
-                    //                 child: TabsApp()));
-                    //       },
-                    //       title: Text(
-                    //         "Report Bugs",
-                    //       ),
-                    //       leading: Icon(
-                    //         SimpleLineIcons.exclamation,
-                    //         color: Colors.grey[700],
-                    //       ),
-                    //       trailing: Icon(
-                    //         Icons.arrow_forward_ios,
-                    //         color: Colors.grey[700],
-                    //       ),
-                    //     )),
+                    Container(
+                        width: screenW(378),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: TabsApp()));
+                          },
+                          title: Text(
+                            "Our Website",
+                          ),
+                          leading: Icon(
+                            SimpleLineIcons.globe,
+                            color: Colors.grey[700],
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey[700],
+                          ),
+                        )),
+                        Container(
+                        width: screenW(378),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child: Profile()));
+                          },
+                          title: Text(
+                            "Rating",
+                          ),
+                          leading: Icon(
+                            SimpleLineIcons.star,
+                            color: Colors.grey[700],
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey[700],
+                          ),
+                        )),
                   ],
                 )),
           ],

@@ -1012,7 +1012,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                             onPressed: () {
                               updateSocialCard();
                               Flushbar(
-                                // message: "hello",
+                                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                 borderRadius: 15,
                                 messageText: Padding(
                                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

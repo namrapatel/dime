@@ -70,7 +70,10 @@ class _BlockedUsersState extends State<BlockedUsers> {
                   if (snapshot.data.length == 0) {
                     return Container(
                         child: Center(
-                      child: Text("You have no blocked users"),
+                      child: Text(
+                        "You have no blocked users",
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ));
                   } else {
                     return ListView.builder(
@@ -122,6 +125,22 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                         'blockedby':
                                             FieldValue.arrayRemove(ids),
                                       });
+
+                                      Firestore.instance
+                                          .collection('users')
+                                          .document(currentUserModel.uid)
+                                          .collection('messages')
+                                          .document(userID)
+                                          .setData({'blocked': false},
+                                              merge: true);
+
+                                      Firestore.instance
+                                          .collection('users')
+                                          .document(userID)
+                                          .collection('messages')
+                                          .document(currentUserModel.uid)
+                                          .setData({'blocked': false},
+                                              merge: true);
                                       setState(() {
                                         getBlockedUsers();
                                       });

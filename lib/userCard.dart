@@ -1,3 +1,4 @@
+import 'package:Dime/homePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'viewCards.dart';
@@ -103,7 +104,9 @@ class _UserCardState extends State<UserCard> {
               ),
               Spacer(),
               IconButton(
-                icon: Icon( Feather.message_circle,),
+                icon: Icon(
+                  Feather.message_circle,
+                ),
                 color: Colors.white,
                 onPressed: () {
                   Navigator.push(
@@ -149,6 +152,27 @@ class _UserCardState extends State<UserCard> {
                                           FieldValue.arrayUnion(blocked)
                                     }, merge: true);
 
+                                    Firestore.instance
+                                        .collection('users')
+                                        .document(currentUserModel.uid)
+                                        .collection('messages')
+                                        .document(userId)
+                                        .setData({'blocked': true},
+                                            merge: true);
+
+                                    Firestore.instance
+                                        .collection('users')
+                                        .document(userId)
+                                        .collection('messages')
+                                        .document(currentUserModel.uid)
+                                        .setData({'blocked': true},
+                                            merge: true);
+                                    Navigator.push(
+                                        context,
+                                        PageTransition(
+                                            type:
+                                                PageTransitionType.rightToLeft,
+                                            child: ScrollPage()));
                                     Flushbar(
                                       margin: EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 5),

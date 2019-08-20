@@ -153,7 +153,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 
   Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
-      
       ratioX: 10.0,
       ratioY: 11.5,
       sourcePath: file.path,
@@ -167,10 +166,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         state = AppState.cropped;
       });
     }
-    if (croppedFile == null){
+    if (croppedFile == null) {
       setState(() {
-         file = null;
-         state = AppState.free;
+        file = null;
+        state = AppState.free;
       });
     }
   }
@@ -336,8 +335,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                                 height: screenH(575),
                                 fit: BoxFit.fitHeight,
                               )
-                            : 
-                            Container(),
+                            : Container(),
                       ),
                     ],
                   )),

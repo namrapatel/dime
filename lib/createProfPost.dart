@@ -164,10 +164,10 @@ class _CreateProfPostState extends State<CreateProfPost> {
         state = AppState.cropped;
       });
     }
-    if (croppedFile == null){
+    if (croppedFile == null) {
       setState(() {
-         file = null;
-         state = AppState.free;
+        file = null;
+        state = AppState.free;
       });
     }
   }

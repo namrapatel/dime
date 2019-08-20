@@ -955,46 +955,26 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       SizedBox(
                         height: screenH(20.0),
                       ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: screenW(35),
-                          ),
-                          // Text(
-                          //   'Interests',
-                          //   style: TextStyle(
-                          //       color: Color(0xFF8803fc),
-                          //       fontSize: screenF(18),
-                          //       fontWeight: FontWeight.bold),
-                          // ),
-                          SizedBox(
-                            width: screenW(30),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: screenW(22.0)),
-                            child: new OutlineButton(
-                                padding: EdgeInsets.all(screenH(16)),
+                      new OutlineButton(
+                          padding: EdgeInsets.all(screenH(16)),
+                          color: Color(0xFF8803fc),
+                          child: new Text(
+                            "Choose 3 social interest tags",
+                            style: TextStyle(
                                 color: Color(0xFF8803fc),
-                                child: new Text(
-                                  "Choose 3 social interest tags",
-                                  style: TextStyle(
-                                      color: Color(0xFF8803fc),
-                                      fontSize: screenF(16)),
-                                ),
-                                onPressed: () {
-                                  showSearch(
-                                      context: context,
-                                      delegate: SocialDataSearch());
-                                },
-                                shape: new RoundedRectangleBorder(
-                                    side: BorderSide(
-                                      color: Color(0xFF1458EA),
-                                    ),
-                                    borderRadius:
-                                        new BorderRadius.circular(30.0))),
-                          )
-                        ],
-                      ),
+                                fontSize: screenF(16)),
+                          ),
+                          onPressed: () {
+                            showSearch(
+                                context: context,
+                                delegate: SocialDataSearch());
+                          },
+                          shape: new RoundedRectangleBorder(
+                              side: BorderSide(
+                                color: Color(0xFF1458EA),
+                              ),
+                              borderRadius:
+                                  new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),
@@ -2016,31 +1996,24 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         ),
                       ),
                       SizedBox(
-                        height: screenH(30.0),
+                        height: screenH(20.0),
                       ),
-                      Row(
-                        children: <Widget>[
-                          SizedBox(
-                            width: screenW(75),
+                      new OutlineButton(
+                          padding: EdgeInsets.all(screenH(16)),
+                          color: Color(0xFF1458EA),
+                          child: new Text(
+                            "Choose 3 professional interest tags",
+                            style: TextStyle(
+                                color: Color(0xFF1458EA), fontSize: 15),
                           ),
-                          new OutlineButton(
-                              padding: EdgeInsets.all(15),
-                              color: Color(0xFF1458EA),
-                              child: new Text(
-                                "Choose 3 professional interest tags",
-                                style: TextStyle(
-                                    color: Color(0xFF1458EA), fontSize: 15),
-                              ),
-                              onPressed: () {
-                                showSearch(
-                                    context: context,
-                                    delegate: ProfDataSearch());
-                              },
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius:
-                                      new BorderRadius.circular(30.0)))
-                        ],
-                      ),
+                          onPressed: () {
+                            showSearch(
+                                context: context,
+                                delegate: ProfDataSearch());
+                          },
+                          shape: new RoundedRectangleBorder(
+                              borderRadius:
+                                  new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),

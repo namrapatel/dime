@@ -470,7 +470,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
     List<String> captionWords = descriptionController.text.split(" ");
     bool filterWordFound = false;
     for (String word in captionWords) {
-      if (filterWords.contains(word)) {
+      if (filterWords.contains(word.toLowerCase())) {
         filterWordFound = true;
         break;
       }

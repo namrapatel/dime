@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
@@ -226,9 +227,9 @@ class onBoarding extends StatelessWidget {
           showSkipButton: false,
           onTapDoneButton: () {
             Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: Profile()));
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => Profile()));
           },
           pageButtonTextStyles: TextStyle(
             color: Colors.white,

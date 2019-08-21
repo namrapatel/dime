@@ -201,23 +201,14 @@ class _CreateProfPostState extends State<CreateProfPost> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  GestureDetector(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          screenW(20), screenH(50), screenW(0), screenH(0)),
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                            color: Color(0xFF063F3E), fontSize: screenF(18)),
-                      ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        screenW(20), screenH(50), screenW(0), screenH(0)),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Color(0xFF063F3E), fontSize: screenF(18)),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: ProfPage()));
-                    },
                   ),
                   Spacer(),
                   Padding(
@@ -524,10 +515,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         }).then((_) {
           setState(() {
             file = null;
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: ProfPage()));
+            Navigator.pop(context);
           });
         });
       } else {
@@ -540,10 +528,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         caption = descriptionController.text;
 
         uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: ProfPage()));
+        Navigator.pop(context);
       }
     }
   }

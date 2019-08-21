@@ -113,6 +113,8 @@ PODS:
     - Flutter
   - flutter_search_panel (0.0.1):
     - Flutter
+  - flutter_webview_plugin (0.0.1):
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -234,6 +236,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - flutter_search_panel (from `.symlinks/plugins/flutter_search_panel/ios`)
+  - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
   - geoflutterfire (from `.symlinks/plugins/geoflutterfire/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
@@ -304,6 +307,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
   flutter_search_panel:
     :path: ".symlinks/plugins/flutter_search_panel/ios"
+  flutter_webview_plugin:
+    :path: ".symlinks/plugins/flutter_webview_plugin/ios"
   geoflutterfire:
     :path: ".symlinks/plugins/geoflutterfire/ios"
   geolocator:
@@ -364,6 +369,7 @@ SPEC CHECKSUMS:
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
   flutter_facebook_login: be61e24a4b7d621515353c6b4583d1981bdaa3d6
   flutter_search_panel: e2fa5ed4b86ace6add17b126dcb89f2564bd9968
+  flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   geoflutterfire: 2a6493e01fb6eef1a6c9046b1baf9a943d0c5ffe
   geolocator: 9041fddc3646e5144b49c9843632365ef78d6ac2
@@ -398,4 +404,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 88fdb039650266c9ebf8345359118111fd69b7c1
 
-COCOAPODS: 1.7.3
+COCOAPODS: 1.7.4

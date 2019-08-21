@@ -966,15 +966,13 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           ),
                           onPressed: () {
                             showSearch(
-                                context: context,
-                                delegate: SocialDataSearch());
+                                context: context, delegate: SocialDataSearch());
                           },
                           shape: new RoundedRectangleBorder(
                               side: BorderSide(
                                 color: Color(0xFF1458EA),
                               ),
-                              borderRadius:
-                                  new BorderRadius.circular(30.0))),
+                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),
@@ -2008,12 +2006,10 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           ),
                           onPressed: () {
                             showSearch(
-                                context: context,
-                                delegate: ProfDataSearch());
+                                context: context, delegate: ProfDataSearch());
                           },
                           shape: new RoundedRectangleBorder(
-                              borderRadius:
-                                  new BorderRadius.circular(30.0))),
+                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),
@@ -2115,11 +2111,7 @@ class _CardEditState extends State<CardEdit> {
               ),
               IconButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.leftToRight,
-                          child: ProfilePage()));
+                  Navigator.pop(context);
                 },
                 color: Colors.white,
                 icon: Icon(Icons.arrow_back_ios),

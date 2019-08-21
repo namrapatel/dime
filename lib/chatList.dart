@@ -139,58 +139,47 @@ class _ChatListState extends State<ChatList> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragEnd: (DragEndDetails details) {
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.upToDown, child: ScrollPage()));
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 1,
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          leading: IconButton(
-            icon: Icon(
-              Icons.cancel,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.upToDown, child: ScrollPage()));
-            },
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 1,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
           ),
-          title: Text(
-            "Messages",
-            style: TextStyle(color: Colors.black, fontSize: 25),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          "Messages",
+          style: TextStyle(color: Colors.black, fontSize: 25),
+        ),
+      ),
+      body: ListView(
+        padding: EdgeInsets.all(0.0),
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 35,
+              ),
+              Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  child: Column(
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[buildMessages()],
+                      )
+                    ],
+                  )),
+            ],
           ),
-        ),
-        body: ListView(
-          padding: EdgeInsets.all(0.0),
-          physics: BouncingScrollPhysics(),
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 35,
-                ),
-                Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    child: Column(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[buildMessages()],
-                        )
-                      ],
-                    )),
-              ],
-            ),
-          ],
-        ),
+        ],
       ),
     );
   }
@@ -220,12 +209,11 @@ class MessageTile extends StatelessWidget {
             .setData({'unread': false}, merge: true);
         Navigator.push(
             context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft,
-                child: Chat(
-                  fromUserId: to,
-                  toUserId: from,
-                )));
+            CupertinoPageRoute(
+                builder: (context) => Chat(
+                      fromUserId: to,
+                      toUserId: from,
+                    )));
       },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(senderPhoto),

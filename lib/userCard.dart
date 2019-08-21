@@ -111,9 +111,8 @@ class _UserCardState extends State<UserCard> {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: Chat(
+                      CupertinoPageRoute(
+                          builder: (context) => Chat(
                               fromUserId: currentUserModel.uid,
                               toUserId: userId)));
                 },
@@ -169,10 +168,9 @@ class _UserCardState extends State<UserCard> {
                                             merge: true);
                                     Navigator.push(
                                         context,
-                                        PageTransition(
-                                            type:
-                                                PageTransitionType.rightToLeft,
-                                            child: ScrollPage()));
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                ScrollPage()));
                                     Flushbar(
                                       margin: EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 5),

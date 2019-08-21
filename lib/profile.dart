@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter/cupertino.dart';
 import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -150,11 +151,7 @@ class _HomePageOneState extends State<HomePageOne> {
           ),
           IconButton(
             onPressed: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.leftToRight,
-                      child: ProfilePage()));
+              Navigator.pop(context);
             },
             color: Colors.black,
             icon: Icon(Icons.arrow_back_ios),
@@ -184,10 +181,10 @@ class _HomePageOneState extends State<HomePageOne> {
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(10.0)),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft, child: TabsApp()));
+             Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => TabsApp()));
             },
           ),
           // InkWell(

@@ -403,12 +403,11 @@ class _ProfPostState extends State<ProfPost> {
                                     onPressed: () {
                                       Navigator.push(
                                           context,
-                                          PageTransition(
-                                              type: PageTransitionType
-                                                  .leftToRight,
-                                              child: ProfComments(
-                                                postId: widget.postId,
-                                              )));
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  ProfComments(
+                                                    postId: widget.postId,
+                                                  )));
                                     },
                                   ),
                                   comments != null
@@ -421,12 +420,11 @@ class _ProfPostState extends State<ProfPost> {
                                           onTap: () {
                                             Navigator.push(
                                                 context,
-                                                PageTransition(
-                                                    type: PageTransitionType
-                                                        .leftToRight,
-                                                    child: ProfComments(
-                                                      postId: widget.postId,
-                                                    )));
+                                                CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        ProfComments(
+                                                          postId: widget.postId,
+                                                        )));
                                           },
                                         )
                                       : SizedBox(

@@ -68,12 +68,11 @@ class Comment extends StatelessWidget {
             onTap: () {
               Navigator.push(
                   context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: UserCard(
-                        userId: commenterId,
-                        userName: commenterName,
-                      )));
+                  CupertinoPageRoute(
+                      builder: (context) => UserCard(
+                            userId: commenterId,
+                            userName: commenterName,
+                          )));
             },
           ),
         ],
@@ -90,12 +89,11 @@ class Comment extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                       context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: UserCard(
-                            userId: commenterId,
-                            userName: commenterName,
-                          )));
+                      CupertinoPageRoute(
+                          builder: (context) => UserCard(
+                                userId: commenterId,
+                                userName: commenterName,
+                              )));
                 },
               ),
               Spacer(),
@@ -209,11 +207,10 @@ class Comment extends StatelessWidget {
                             }
                             Navigator.push(
                                 context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: SocialComments(
-                                      postId: postId,
-                                    )));
+                                CupertinoPageRoute(
+                                    builder: (context) => SocialComments(
+                                          postId: postId,
+                                        )));
                           } else if (type == 'prof') {
                             DocumentSnapshot snap = await Firestore.instance
                                 .collection('profPosts')
@@ -263,11 +260,10 @@ class Comment extends StatelessWidget {
 
                             Navigator.push(
                                 context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: ProfComments(
-                                      postId: postId,
-                                    )));
+                                CupertinoPageRoute(
+                                    builder: (context) => ProfComments(
+                                          postId: postId,
+                                        )));
                           }
                         },
                       ))

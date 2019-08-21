@@ -348,9 +348,8 @@ class _LoginState extends State<Login> {
                     }
                     Navigator.push(
                         context,
-                        PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: SplashScreen()));
+                        CupertinoPageRoute(
+                            builder: (context) => SplashScreen()));
                   });
                 } on PlatformException catch (e) {
                   _showCupertinoDialog(e.code);
@@ -415,11 +414,8 @@ class _LoginState extends State<Login> {
             SizedBox(width: 5.0),
             InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: SignupPage()));
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => SignupPage()));
               },
               child: Text('Sign up',
                   style: TextStyle(

@@ -203,23 +203,14 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  GestureDetector(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          screenW(20), screenH(50), screenW(0), screenH(0)),
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                            color: Color(0xFF8803fc), fontSize: screenF(18)),
-                      ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        screenW(20), screenH(50), screenW(0), screenH(0)),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                          color: Color(0xFF8803fc), fontSize: screenF(18)),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: SocialPage()));
-                    },
                   ),
                   Spacer(),
                   Padding(
@@ -527,10 +518,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         }).then((_) {
           setState(() {
             file = null;
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: SocialPage()));
+            Navigator.pop(context);
           });
         });
       } else {
@@ -543,10 +531,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         caption = descriptionController.text;
 
         uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: SocialPage()));
+        Navigator.pop(context);
       }
     }
   }

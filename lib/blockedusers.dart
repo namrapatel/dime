@@ -5,10 +5,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flushbar/flushbar.dart';
-
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -34,7 +34,7 @@ class _BlockedUsersState extends State<BlockedUsers> {
 
   @override
   Widget build(BuildContext context) {
-       double defaultScreenWidth = 414.0;
+    double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
       width: defaultScreenWidth,
@@ -52,11 +52,7 @@ class _BlockedUsersState extends State<BlockedUsers> {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: ProfilePage()));
+              Navigator.pop(context);
             },
           ),
           title: Row(children: <Widget>[
@@ -64,9 +60,9 @@ class _BlockedUsersState extends State<BlockedUsers> {
               child: AutoSizeText(
                 "Blocked Users",
                 style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+                  fontSize: 25,
+                  color: Colors.white,
+                ),
                 minFontSize: 12,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -92,9 +88,10 @@ class _BlockedUsersState extends State<BlockedUsers> {
                             SizedBox(
                               height: screenH(150),
                             ),
-                            Image.asset('assets/img/login_logo.png',
-                            height: screenH(350),
-                            width: screenW(350),
+                            Image.asset(
+                              'assets/img/login_logo.png',
+                              height: screenH(350),
+                              width: screenW(350),
                             ),
                             SizedBox(
                               height: screenH(5),
@@ -112,19 +109,20 @@ class _BlockedUsersState extends State<BlockedUsers> {
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (_, index) {
                             return Padding(
-                              padding: EdgeInsets.symmetric(vertical: screenH(8.0)),
+                              padding:
+                                  EdgeInsets.symmetric(vertical: screenH(8.0)),
                               child: ListTile(
                                 title: Container(
-                                child: AutoSizeText(
-                                  snapshot.data[index]['displayName'],
-                                  style: TextStyle(
+                                  child: AutoSizeText(
+                                    snapshot.data[index]['displayName'],
+                                    style: TextStyle(
                                       fontSize: 18,
-                                      ),
-                                  minFontSize: 12,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                    ),
+                                    minFontSize: 12,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                              ),
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(
                                       snapshot.data[index]['photoUrl']),
@@ -135,21 +133,23 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                   children: <Widget>[
                                     Container(
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.all(Radius.circular(20.0)),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0)),
                                         color: Colors.grey[100],
                                       ),
                                       child: RaisedButton(
                                         shape: new RoundedRectangleBorder(
                                             borderRadius:
-                                                new BorderRadius.circular(20.0)),
+                                                new BorderRadius.circular(
+                                                    20.0)),
                                         child: Text(
                                           "Unblock",
                                           style: TextStyle(color: Colors.white),
                                         ),
                                         color: Colors.black,
                                         onPressed: () {
-                                          print(snapshot.data[index].documentID);
+                                          print(
+                                              snapshot.data[index].documentID);
                                           String userID =
                                               snapshot.data[index].documentID;
                                           List<dynamic> ids = [];
@@ -159,7 +159,8 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                               .document(currentUserModel.uid)
                                               .updateData({
                                             'blocked$userID': false,
-                                            'blocked': FieldValue.arrayRemove(ids),
+                                            'blocked':
+                                                FieldValue.arrayRemove(ids),
                                           });
                                           ids.remove(userID);
                                           ids.add(currentUserModel.uid);
@@ -167,7 +168,8 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                               .collection('users')
                                               .document(userID)
                                               .updateData({
-                                            'blocked${currentUserModel.uid}': false,
+                                            'blocked${currentUserModel.uid}':
+                                                false,
                                             'blockedby':
                                                 FieldValue.arrayRemove(ids),
                                           });
@@ -190,48 +192,55 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                           setState(() {
                                             getBlockedUsers();
                                           });
-                              Flushbar(
-                                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                                borderRadius: 15,
-                                messageText: Padding(
-                                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(
-                                        'Unblocked!',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      Text(
-                                        'This user has been unblocked.',
-                                        style: TextStyle(color: Colors.grey),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                backgroundColor: Colors.white,
-                                boxShadows: [
-                                  BoxShadow(
-                                      color: Colors.black12.withOpacity(0.1),
-                                      blurRadius: (15),
-                                      spreadRadius: (5),
-                                      offset: Offset(0, 3)),
-                                ],
-                                flushbarPosition: FlushbarPosition.TOP,
-                                icon: Padding(
-                                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                                  child: Icon(
-                                    Icons.save_alt,
-                                    size: 28.0,
-                                    color: Color(0xFF1458EA),
-                                  ),
-                                ),
-                                duration: Duration(seconds: 3),
-                              )..show(context);
+                                          Flushbar(
+                                             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                            borderRadius: 15,
+                                            messageText: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  15, 0, 0, 0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Unblocked!',
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    'This user has been unblocked.',
+                                                    style: TextStyle(
+                                                        color: Colors.grey),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            backgroundColor: Colors.white,
+                                            boxShadows: [
+                                              BoxShadow(
+                                                  color: Colors.black12
+                                                      .withOpacity(0.1),
+                                                  blurRadius: (15),
+                                                  spreadRadius: (5),
+                                                  offset: Offset(0, 3)),
+                                            ],
+                                            flushbarPosition:
+                                                FlushbarPosition.TOP,
+                                            icon: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  15, 8, 8, 8),
+                                              child: Icon(
+                                                Icons.save_alt,
+                                                size: 28.0,
+                                                color: Color(0xFF1458EA),
+                                              ),
+                                            ),
+                                            duration: Duration(seconds: 3),
+                                          )..show(context);
                                         },
                                       ),
                                     )

@@ -233,7 +233,7 @@ class _SocialPostState extends State<SocialPost> {
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
                                 width: screenW(200),
-                               // height: screenH(375),
+                                // height: screenH(375),
                               )
                             : SizedBox(
                                 width: screenH(1.2),
@@ -404,12 +404,11 @@ class _SocialPostState extends State<SocialPost> {
                                     onPressed: () {
                                       Navigator.push(
                                           context,
-                                          PageTransition(
-                                              type: PageTransitionType
-                                                  .leftToRight,
-                                              child: SocialComments(
-                                                postId: widget.postId,
-                                              )));
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  SocialComments(
+                                                    postId: widget.postId,
+                                                  )));
                                     },
                                   ),
                                   comments != null
@@ -422,12 +421,11 @@ class _SocialPostState extends State<SocialPost> {
                                           onTap: () {
                                             Navigator.push(
                                                 context,
-                                                PageTransition(
-                                                    type: PageTransitionType
-                                                        .leftToRight,
-                                                    child: SocialComments(
-                                                      postId: widget.postId,
-                                                    )));
+                                                CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        SocialComments(
+                                                          postId: widget.postId,
+                                                        )));
                                           },
                                         )
                                       : SizedBox(
@@ -585,7 +583,9 @@ class _SocialPostState extends State<SocialPost> {
                           ),
                           Column(
                             children: <Widget>[
-                              SizedBox(height: 3.0,),
+                              SizedBox(
+                                height: 3.0,
+                              ),
                               timeStamp != null
                                   ? Text(
                                       timeStamp,

@@ -156,9 +156,10 @@ class _ChatState extends State<Chat> {
                   : SizedBox(
                       height: 0.0,
                     ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 33,
-              ),
+              Spacer(),
+              // SizedBox(
+              //   width: MediaQuery.of(context).size.width / 33,
+              // ),
               toUserName != null
                   ? Container(
                       width: MediaQuery.of(context).size.width / 1.9,

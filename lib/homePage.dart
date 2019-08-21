@@ -31,6 +31,8 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'profComments.dart';
 import 'socialComments.dart';
 
+String currentToken = "";
+
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
   @override
@@ -166,6 +168,7 @@ class _ScrollPageState extends State<ScrollPage>
     String fcmToken = await _fcm.getToken();
     print(fcmToken);
     if (fcmToken != null) {
+      currentToken = fcmToken;
       await _db.collection('users').document(uid).get().then((document) {
         if (document['tokens'] == null) {
           List<String> newTokenList = [fcmToken];

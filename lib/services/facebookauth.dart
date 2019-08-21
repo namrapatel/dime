@@ -9,27 +9,23 @@ import '../homePage.dart';
 import '../login.dart';
 import 'package:Dime/services/usermanagement.dart';
 
-
-
-
 class FacebookAuth {
-  final _auth =FirebaseAuth.instance;
+  final _auth = FirebaseAuth.instance;
   Map userProfile;
   FacebookLogin fbLogin = new FacebookLogin();
 
-  logIn(context,MaterialPageRoute route) async {
-    FacebookLoginResult result = await fbLogin
-        .logInWithReadPermissions(
-        ['email', 'public_profile', 'user_friends']);
+  logIn(context, MaterialPageRoute route) async {
+    FacebookLoginResult result = await fbLogin.logInWithReadPermissions([
+      'email',
+      'public_profile',
+    ]);
 
     final FacebookAccessToken accessToken = result.accessToken;
 
     AuthCredential credential =
-    FacebookAuthProvider.getCredential(
-        accessToken: accessToken.token);
+        FacebookAuthProvider.getCredential(accessToken: accessToken.token);
 
-    FirebaseUser user =
-    await _auth.signInWithCredential(credential);
+    FirebaseUser user = await _auth.signInWithCredential(credential);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
@@ -52,10 +48,8 @@ class FacebookAuth {
         break;
     }
 
-    DocumentSnapshot userRecord = await Firestore.instance
-        .collection('users')
-        .document(user.uid)
-        .get();
+    DocumentSnapshot userRecord =
+        await Firestore.instance.collection('users').document(user.uid).get();
     if (userRecord.data == null) {
       print('doesnt exist');
       String facebookUid;
@@ -64,37 +58,23 @@ class FacebookAuth {
           facebookUid = data.uid;
         }
       }
-      String fbPhoto=userProfile["picture"]["data"]["url"];
-      Firestore.instance
-          .collection('users')
-          .document(user.uid)
-          .setData({
-        'photoUrl':fbPhoto ,
+      String fbPhoto = userProfile["picture"]["data"]["url"];
+      Firestore.instance.collection('users').document(user.uid).setData({
+        'photoUrl': fbPhoto,
         'email': user.email,
-
         'displayName': user.displayName,
         'phoneNumber': user.phoneNumber,
         'facebookUid': facebookUid,
-
       });
-      userRecord = await Firestore.instance
-          .collection('users')
-          .document(user.uid)
-          .get();
+      userRecord =
+          await Firestore.instance.collection('users').document(user.uid).get();
 
       UserManagement().createCards(user.uid, fbPhoto, user.displayName);
-
     }
-
 
     currentUserModel = User.fromDocument(userRecord);
 
     print('signed in with facebook successful: user -> $user');
-    Navigator.push(
-        context,
-        route);
-
-
-
+    Navigator.push(context, route);
   }
 }

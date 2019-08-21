@@ -80,7 +80,8 @@ class _ChatState extends State<Chat> {
         'timestamp': Timestamp.now(),
         'unread': true,
         'lastMessage': messageController.text,
-        'fromMe': false
+        'fromMe': false,
+        'blocked': false
       }, merge: true);
       if (widget.toUserId != widget.fromUserId) {
         _firestore

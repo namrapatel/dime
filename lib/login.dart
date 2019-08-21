@@ -488,7 +488,7 @@ class _LoginState extends State<Login> {
                     FacebookAuth().logIn(
                         context,
                         new MaterialPageRoute(
-                            builder: (context) => ScrollPage()));
+                            builder: (context) => SplashScreen()));
                   },
                   color: Color(0xFF3C5A99),
                   child: Center(

@@ -1,3 +1,5 @@
+import 'package:Dime/homePage.dart';
+import 'package:Dime/main.dart';
 import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
@@ -19,13 +21,10 @@ class onBoarding extends StatelessWidget {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'IntroViews Flutter', //title of app
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ), //ThemeData
-      home: Builder(
+    return Scaffold(
+      //title of app
+
+      body: Builder(
         builder: (context) => IntroViewsFlutter(
           [
             PageViewModel(

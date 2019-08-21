@@ -143,7 +143,11 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
   }
 
   Future<Null> _pickImage() async {
-    file = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 100, maxHeight: 1920, maxWidth: 1350);
+    file = await ImagePicker.pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 100,
+        maxHeight: 1920,
+        maxWidth: 1350);
     if (file != null) {
       setState(() {
         state = AppState.picked;
@@ -153,10 +157,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
 
   Future<Null> _cropImage() async {
     File croppedFile = await ImageCropper.cropImage(
-      
-      ratioX: 1.5,
-      ratioY: 1,
-
+      // ratioX: 316,
+      // ratioY: 394,
       sourcePath: file.path,
       toolbarTitle: 'Crop your Image',
       toolbarColor: Color(0xFF8803fc),
@@ -333,11 +335,9 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                         child: file != null
                             ? Image.file(
                                 file,
-
-//                                width: screenW(170),
-                                height: screenH(375),
-
-                                fit: BoxFit.fitHeight,
+                                width: screenW(200),
+                                // height: screenH(375),
+                                fit: BoxFit.fitWidth,
                               )
                             : Container(),
                       ),
@@ -410,7 +410,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                 onPressed: () async {
                   Navigator.pop(context);
                   File imageFile = await ImagePicker.pickImage(
-                    imageQuality: 100,
+                      imageQuality: 100,
                       source: ImageSource.camera,
                       maxWidth: 1920,
                       maxHeight: 1350);

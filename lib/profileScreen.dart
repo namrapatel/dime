@@ -138,10 +138,10 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: <Widget>[
                   IconButton(
-                      onPressed: () async {
+                      onPressed: () {
                         print("HERE");
                         print(currentUserModel.uid);
-                        await _removeDeviceToken();
+                        _removeDeviceToken();
                         FirebaseAuth.instance.signOut().then((value) {
                           Navigator.push(
                               context,

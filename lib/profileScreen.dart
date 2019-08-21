@@ -292,8 +292,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             "Blocked Users",
                           ),
                           leading: Icon(
-                            SimpleLineIcons.globe,
-                            color: Colors.grey[700],
+                            Entypo.block,
+                            color: Colors.grey[700], size: 23.0,
                           ),
                           trailing: Icon(
                             Icons.arrow_forward_ios,

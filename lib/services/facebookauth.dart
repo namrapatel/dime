@@ -20,7 +20,7 @@ class FacebookAuth {
   logIn(context,MaterialPageRoute route) async {
     FacebookLoginResult result = await fbLogin
         .logInWithReadPermissions(
-        ['email', 'public_profile', 'user_friends']);
+        ['email', 'public_profile']);
 
     final FacebookAccessToken accessToken = result.accessToken;
 

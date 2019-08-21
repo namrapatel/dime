@@ -12,6 +12,7 @@ import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -139,6 +140,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: <Widget>[
                   IconButton(
                       onPressed: () async {
+                        print("HERE");
+                        print(currentUserModel.uid);
+                        await _removeDeviceToken();
                         FirebaseAuth.instance.signOut().then((value) {
                           Navigator.push(
                               context,
@@ -328,6 +332,23 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  _removeDeviceToken() async {
+    print("HERE");
+    final Firestore _db = Firestore.instance;
+    await _db.collection('users').document(currentUserModel.uid).get().then((document) {
+      var initTokens = document.data['tokens'];
+      var tokenList = new List<String>.from(initTokens);
+      print("oldTokenList -> $tokenList");
+      tokenList.remove(currentToken);
+      print("newTokenList -> $tokenList");
+      currentToken = "";
+      _db
+          .collection('users')
+          .document(currentUserModel.uid)
+          .setData({'tokens': tokenList}, merge: true);
+    });
   }
 }
 

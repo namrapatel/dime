@@ -11,8 +11,10 @@ import 'chat.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() => runApp(Dime());
+
 
 class Dime extends StatelessWidget {
   @override
@@ -20,7 +22,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: SplashScreen(),
+      home: onBoarding(),
       theme: appTheme,
     );
   }
@@ -116,7 +118,7 @@ class _SplashScreenState extends State<SplashScreen> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            color: Color(0xFF1458EA),
+            color: Colors.white,
             // decoration: BoxDecoration(
             //     gradient: LinearGradient(
             //         begin: Alignment.topRight,
@@ -133,7 +135,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 200,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[Image.asset('assets/DimeLogoBlue.png')],
+                    children: <Widget>[Image.asset('assets/Dime3Colors.png')],
                   ),
                 ),
               ),
@@ -146,7 +148,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       height: 90,
                     ),
                     SpinKitRipple(
-                      color: Colors.white,
+                      color: Color(0xFF1458EA),
                       duration: Duration(milliseconds: 1000),
                     ),
                     // CircularProgressIndicator(),

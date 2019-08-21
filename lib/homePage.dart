@@ -967,7 +967,7 @@ class UserTile extends StatelessWidget {
   final bool blocked;
   final String contactName, personImage, major, uid, university, gradYear;
   final List<dynamic> profInterests, socialInterests;
-  Widget buildProfInterests() {
+  Widget buildProfInterests(BuildContext context) {
     String interests = "";
     if (profInterests != null) {
       for (int i = 0; i < profInterests.length; i++) {
@@ -982,10 +982,10 @@ class UserTile extends StatelessWidget {
           // Text(interests,
           //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
           Container(
-            width: 170,
+            width: MediaQuery.of(context).size.width / 1.8,
             child: AutoSizeText(
               interests,
-              style: TextStyle(color: Color(0xFF1976d2), fontSize: 13),
+              style: TextStyle(color: Color(0xFF096664), fontSize: 13),
               minFontSize: 13,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -1000,7 +1000,7 @@ class UserTile extends StatelessWidget {
     }
   }
 
-  Widget buildSocialInterests() {
+  Widget buildSocialInterests(BuildContext context) {
     String interests = "";
     if (socialInterests != null) {
       for (int i = 0; i < socialInterests.length; i++) {
@@ -1017,7 +1017,7 @@ class UserTile extends StatelessWidget {
           //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
           // )
           Container(
-            width: 170,
+            width: MediaQuery.of(context).size.width / 1.8,
             child: AutoSizeText(
               interests,
               style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
@@ -1134,7 +1134,7 @@ class UserTile extends StatelessWidget {
                 ),
                 Column(
                   children: <Widget>[
-                    buildSocialInterests(),
+                    buildSocialInterests(context),
                     socialInterests != null
                         ? SizedBox(
                             height: MediaQuery.of(context).size.height / 300,
@@ -1142,7 +1142,7 @@ class UserTile extends StatelessWidget {
                         : SizedBox(
                             height: (0.0),
                           ),
-                    buildProfInterests()
+                    buildProfInterests(context)
                   ],
                 ),
                 Padding(

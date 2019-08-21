@@ -226,7 +226,7 @@ class _ProfPostState extends State<ProfPost> {
                         child: postPic != null
                             ? CachedNetworkImage(
                                 imageUrl: postPic,
-                                fit: BoxFit.fitHeight,
+                                fit: BoxFit.fitWidth,
                                 placeholder: (context, url) =>
                                     loadingPlaceHolder,
                                 errorWidget: (context, url, error) =>

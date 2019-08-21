@@ -35,6 +35,7 @@ final List<String> filterWords = [
   "black cock",
   "bloody hell",
   "boong",
+  "bomb",
   "cock",
   "cockfucker",
   "cocksuck",

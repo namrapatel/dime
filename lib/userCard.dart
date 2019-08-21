@@ -117,6 +117,7 @@ class _UserCardState extends State<UserCard> {
                               toUserId: userId)));
                 },
               ),
+              currentUserModel.uid!=userId?
               IconButton(
                   icon: Icon(Feather.more_vertical),
                   color: Colors.white,
@@ -275,7 +276,7 @@ class _UserCardState extends State<UserCard> {
                                 Navigator.pop(context, 'Cancel');
                               },
                             )));
-                  }),
+                  }):Container()
             ],
           ),
         ),

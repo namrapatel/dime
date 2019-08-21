@@ -104,26 +104,6 @@ class _SocialPageState extends State<SocialPage> {
               automaticallyImplyLeading: false,
               title: Row(
                 children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 110,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => ScrollPage()));
-                        },
-                      ),
-                    ],
-                  ),
                   // Text(
                   //  university!=null?university:"Whoops!",
                   //   style: TextStyle(
@@ -146,6 +126,27 @@ class _SocialPageState extends State<SocialPage> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
+                  ),
+                  Spacer(),
+                  Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 110,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => ScrollPage()));
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

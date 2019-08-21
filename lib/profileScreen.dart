@@ -11,6 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -33,6 +34,11 @@ class _ProfilePageState extends State<ProfilePage> {
   String major;
   String gradYear;
   String photoUrl;
+
+  _launchPrivacy() async {
+  const url = 'https://www.getdime.ca/privacy.html';
+  launch(url);
+}
 
   //Initializes the state when the page first loads and retrieves the users data from firestore
   @override
@@ -256,28 +262,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     //         color: Colors.grey[700],
                     //       ),
                     //     )),
-                    Container(
-                        width: screenW(378),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: TabsApp()));
-                          },
-                          title: Text(
-                            "Privacy and Security",
-                          ),
-                          leading: Icon(
-                            SimpleLineIcons.shield,
-                            color: Colors.grey[700],
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey[700],
-                          ),
-                        )),
+
                     Container(
                         width: screenW(378),
                         child: ListTile(
@@ -315,6 +300,24 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           leading: Icon(
                             SimpleLineIcons.star,
+                            color: Colors.grey[700],
+                          ),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey[700],
+                          ),
+                        )),
+                    Container(
+                        width: screenW(378),
+                        child: ListTile(
+                          onTap: () {
+                            _launchPrivacy();
+                          },
+                          title: Text(
+                            "Privacy and Security",
+                          ),
+                          leading: Icon(
+                            SimpleLineIcons.shield,
                             color: Colors.grey[700],
                           ),
                           trailing: Icon(

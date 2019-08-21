@@ -2027,6 +2027,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                             onPressed: () {
                               updateProfCard();
                               Flushbar(
+                                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                                 // message: "hello",
                                 borderRadius: 15,
                                 messageText: Padding(

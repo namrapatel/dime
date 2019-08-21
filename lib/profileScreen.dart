@@ -36,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String photoUrl;
 
   _launchPrivacy() async {
-    const url = 'https://www.getdime.ca/privacy.html';
+    const url = 'https://www.getdime.ca/privacy';
     launch(url);
   }
 

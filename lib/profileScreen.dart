@@ -12,7 +12,6 @@ import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -297,7 +296,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           leading: Icon(
                             Entypo.block,
-                            color: Colors.grey[700], size: 23.0,
+                            color: Colors.grey[700],
+                            size: 23.0,
                           ),
                           trailing: Icon(
                             Icons.arrow_forward_ios,
@@ -334,10 +334,14 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  _removeDeviceToken() async {
+  _removeDeviceToken() {
     print("HERE");
     final Firestore _db = Firestore.instance;
-    await _db.collection('users').document(currentUserModel.uid).get().then((document) {
+    _db
+        .collection('users')
+        .document(currentUserModel.uid)
+        .get()
+        .then((document) {
       var initTokens = document.data['tokens'];
       var tokenList = new List<String>.from(initTokens);
       print("oldTokenList -> $tokenList");

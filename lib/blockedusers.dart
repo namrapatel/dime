@@ -7,6 +7,7 @@ import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:flushbar/flushbar.dart';
 
 
 final screenH = ScreenUtil.instance.setHeight;
@@ -86,9 +87,23 @@ class _BlockedUsersState extends State<BlockedUsers> {
                     if (snapshot.data.length == 0) {
                       return Container(
                           child: Center(
-                        child: Text(
-                          "You have no blocked users",
-                          style: TextStyle(fontSize: 20),
+                        child: Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: screenH(150),
+                            ),
+                            Image.asset('assets/img/login_logo.png',
+                            height: screenH(350),
+                            width: screenW(350),
+                            ),
+                            SizedBox(
+                              height: screenH(5),
+                            ),
+                            Text(
+                              "You have no blocked users",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
                         ),
                       ));
                     } else {
@@ -99,10 +114,17 @@ class _BlockedUsersState extends State<BlockedUsers> {
                             return Padding(
                               padding: EdgeInsets.symmetric(vertical: screenH(8.0)),
                               child: ListTile(
-                                title: Text(
+                                title: Container(
+                                child: AutoSizeText(
                                   snapshot.data[index]['displayName'],
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      ),
+                                  minFontSize: 12,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
+                              ),
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(
                                       snapshot.data[index]['photoUrl']),
@@ -168,6 +190,48 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                           setState(() {
                                             getBlockedUsers();
                                           });
+                              Flushbar(
+                                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                borderRadius: 15,
+                                messageText: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        'Unblocked!',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'This user has been unblocked.',
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                                boxShadows: [
+                                  BoxShadow(
+                                      color: Colors.black12.withOpacity(0.1),
+                                      blurRadius: (15),
+                                      spreadRadius: (5),
+                                      offset: Offset(0, 3)),
+                                ],
+                                flushbarPosition: FlushbarPosition.TOP,
+                                icon: Padding(
+                                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                  child: Icon(
+                                    Icons.save_alt,
+                                    size: 28.0,
+                                    color: Color(0xFF1458EA),
+                                  ),
+                                ),
+                                duration: Duration(seconds: 3),
+                              )..show(context);
                                         },
                                       ),
                                     )

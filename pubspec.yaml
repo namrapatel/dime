@@ -114,6 +114,9 @@ flutter:
     - assets/DimeLogoBlue.png
     - assets/Dime3Colors.png
     - assets/GroupDimeTransparent.png
+    - assets/darkpeoplearoundyou.png
+    - assets/clickablecards.png
+    - assets/darkdirectory.png
 
 
   fonts:

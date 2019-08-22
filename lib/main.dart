@@ -74,10 +74,10 @@ class _SplashScreenState extends State<SplashScreen> {
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
           if (widget.route == 'onBoarding') {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 CupertinoPageRoute(builder: (context) => onBoarding()));
           } else {
-            Navigator.push(context,
+            Navigator.pushReplacement(context,
                 CupertinoPageRoute(builder: (context) => ScrollPage()));
           }
         }

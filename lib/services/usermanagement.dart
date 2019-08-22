@@ -57,6 +57,7 @@ class UserManagement {
       'upVotes': upVotes,
       "likes": likes,
       "university": currentUserModel.university,
+      'status': 'pending'
     });
   }
 
@@ -73,7 +74,8 @@ class UserManagement {
       "postID": postId,
       'upVotes': upVotes,
       "likes": likes,
-      "university": currentUserModel.university
+      "university": currentUserModel.university,
+      'status': 'pending'
     });
   }
 }

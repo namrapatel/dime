@@ -111,13 +111,13 @@ class _UserCardState extends State<UserCard> {
                 onPressed: () {
                   Navigator.push(
                       context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: Chat(
+                      CupertinoPageRoute(
+                          builder: (context) => Chat(
                               fromUserId: currentUserModel.uid,
                               toUserId: userId)));
                 },
               ),
+              currentUserModel.uid!=userId?
               IconButton(
                   icon: Icon(Feather.more_vertical),
                   color: Colors.white,
@@ -169,10 +169,9 @@ class _UserCardState extends State<UserCard> {
                                             merge: true);
                                     Navigator.push(
                                         context,
-                                        PageTransition(
-                                            type:
-                                                PageTransitionType.rightToLeft,
-                                            child: ScrollPage()));
+                                        CupertinoPageRoute(
+                                            builder: (context) =>
+                                                ScrollPage()));
                                     Flushbar(
                                       margin: EdgeInsets.symmetric(
                                           horizontal: 15, vertical: 5),
@@ -277,7 +276,7 @@ class _UserCardState extends State<UserCard> {
                                 Navigator.pop(context, 'Cancel');
                               },
                             )));
-                  }),
+                  }):Container()
             ],
           ),
         ),

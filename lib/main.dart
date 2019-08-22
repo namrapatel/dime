@@ -15,7 +15,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() => runApp(Dime());
 
-
 class Dime extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -75,22 +74,16 @@ class _SplashScreenState extends State<SplashScreen> {
         if (userRecord.data != null) {
           currentUserModel = User.fromDocument(userRecord);
           if (widget.route == 'onBoarding') {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: onBoarding()));
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => onBoarding()));
           } else {
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: ScrollPage()));
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => ScrollPage()));
           }
         }
       } else {
         Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: Login()));
+            context, CupertinoPageRoute(builder: (context) => Login()));
         print("floppps");
       }
     });

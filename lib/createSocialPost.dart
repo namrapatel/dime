@@ -37,6 +37,7 @@ final List<String> filterWords = [
   "black cock",
   "bloody hell",
   "boong",
+  "bomb",
   "cock",
   "cockfucker",
   "cocksuck",
@@ -204,6 +205,13 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
               Row(
                 children: <Widget>[
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: SocialPage()));
+                    },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
                           screenW(20), screenH(50), screenW(0), screenH(0)),
@@ -213,13 +221,6 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                             color: Color(0xFF8803fc), fontSize: screenF(18)),
                       ),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: SocialPage()));
-                    },
                   ),
                   Spacer(),
                   Padding(
@@ -402,11 +403,12 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
       barrierDismissible: false, // user must tap button!
 
       builder: (BuildContext context) {
-        return SimpleDialog(
-          title: const Text('Create a Post'),
-          children: <Widget>[
-            SimpleDialogOption(
-                child: const Text('Take a photo'),
+        return CupertinoAlertDialog(
+          title: new Text("Add an Image"),
+          content: new Text("Be sure to crop the image approperiately!"),
+          actions: <Widget>[
+            CupertinoDialogAction(
+                child: Text("Take a Photo"),
                 onPressed: () async {
                   Navigator.pop(context);
                   File imageFile = await ImagePicker.pickImage(
@@ -420,11 +422,10 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     _cropImage();
                   });
                 }),
-            SimpleDialogOption(
-                child: const Text('Choose from Gallery'),
+            CupertinoDialogAction(
+                child: Text("Choose from Gallery"),
                 onPressed: () async {
                   Navigator.of(context).pop();
-
                   File imageFile = await ImagePicker.pickImage(
                       imageQuality: 100,
                       source: ImageSource.gallery,
@@ -436,8 +437,8 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     _cropImage();
                   });
                 }),
-            SimpleDialogOption(
-              child: const Text("Cancel"),
+            CupertinoDialogAction(
+              child: Text("Cancel"),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -527,10 +528,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         }).then((_) {
           setState(() {
             file = null;
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: SocialPage()));
+            Navigator.pop(context);
           });
         });
       } else {
@@ -543,10 +541,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         caption = descriptionController.text;
 
         uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: SocialPage()));
+        Navigator.pop(context);
       }
     }
   }

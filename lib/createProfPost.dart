@@ -35,6 +35,7 @@ final List<String> filterWords = [
   "black cock",
   "bloody hell",
   "boong",
+  "bomb",
   "cock",
   "cockfucker",
   "cocksuck",
@@ -202,22 +203,22 @@ class _CreateProfPostState extends State<CreateProfPost> {
               Row(
                 children: <Widget>[
                   GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.leftToRight,
+                              child: ProfPage()));
+                    },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
                           screenW(20), screenH(50), screenW(0), screenH(0)),
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                            color: Color(0xFF063F3E), fontSize: screenF(18)),
+                            color: Color(0xFF8803fc), fontSize: screenF(18)),
                       ),
                     ),
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: ProfPage()));
-                    },
                   ),
                   Spacer(),
                   Padding(
@@ -400,11 +401,12 @@ class _CreateProfPostState extends State<CreateProfPost> {
       barrierDismissible: false, // user must tap button!
 
       builder: (BuildContext context) {
-        return SimpleDialog(
-          title: const Text('Create a Post'),
-          children: <Widget>[
-            SimpleDialogOption(
-                child: const Text('Take a photo'),
+        return CupertinoAlertDialog(
+          title: new Text("Add an Image"),
+          content: new Text("Be sure to crop the image approperiately!"),
+          actions: <Widget>[
+            CupertinoDialogAction(
+                child: Text("Take a Photo"),
                 onPressed: () async {
                   Navigator.pop(context);
                   File imageFile = await ImagePicker.pickImage(
@@ -414,12 +416,12 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       maxHeight: 1350);
                   setState(() {
                     state = AppState.picked;
-                    _cropImage();
                     file = imageFile;
+                    _cropImage();
                   });
                 }),
-            SimpleDialogOption(
-                child: const Text('Choose from Gallery'),
+            CupertinoDialogAction(
+                child: Text("Choose from Gallery"),
                 onPressed: () async {
                   Navigator.of(context).pop();
                   File imageFile = await ImagePicker.pickImage(
@@ -433,8 +435,8 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     _cropImage();
                   });
                 }),
-            SimpleDialogOption(
-              child: const Text("Cancel"),
+            CupertinoDialogAction(
+              child: Text("Cancel"),
               onPressed: () {
                 Navigator.pop(context);
               },
@@ -524,10 +526,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         }).then((_) {
           setState(() {
             file = null;
-            Navigator.push(
-                context,
-                PageTransition(
-                    type: PageTransitionType.rightToLeft, child: ProfPage()));
+            Navigator.pop(context);
           });
         });
       } else {
@@ -540,10 +539,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         caption = descriptionController.text;
 
         uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: ProfPage()));
+        Navigator.pop(context);
       }
     }
   }

@@ -107,123 +107,110 @@ class _ExploreState extends State<Explore> {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
-    return GestureDetector(
-      onHorizontalDragEnd: (DragEndDetails details) {
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.upToDown, child: ScrollPage()));
-      },
-      child: Scaffold(
-          //backgroundColor: Color(0xFFECE9E4),
-          body: ListView(
-        padding: EdgeInsets.all(0.0),
-        physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 28,
-              ),
-              Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width / 50,
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageTransition(
-                              type: PageTransitionType.upToDown,
-                              child: ScrollPage()));
-                    },
-                    icon: Icon(
-                      Icons.cancel,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(
-                        MediaQuery.of(context).size.width / 17, 0, 0, 100),
-                  ),
-                  Text(
-                    "Explore",
-                    style: TextStyle(
-                      fontSize: screenF(48),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    //color: Colors.white,
-                    width: MediaQuery.of(context).size.width / 1.1,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 22,
-                          vertical: MediaQuery.of(context).size.height / 72),
-                      child: TextField(
-                        textCapitalization: TextCapitalization.sentences,
-                        onChanged: (val) {
-                          initiateSearch(val);
-                        },
-                        decoration: new InputDecoration(
-                            icon: Icon(Icons.search),
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width / 30,
-                                bottom: MediaQuery.of(context).size.height / 75,
-                                top: MediaQuery.of(context).size.height / 75,
-                                right: MediaQuery.of(context).size.width / 30),
-                            hintText:
-                                'Search for people, interests, school ...'),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 20,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height / 1.48,
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                  children: tempSearchStore.map((element) {
-                    return _buildTile(element);
-                  }).toList(),
+    return Scaffold(
+        //backgroundColor: Color(0xFFECE9E4),
+        body: ListView(
+      padding: EdgeInsets.all(0.0),
+      physics: const NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 28,
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 50,
                 ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width / 17, 0, 0, 100),
+                ),
+                Text(
+                  "Explore",
+                  style: TextStyle(
+                    fontSize: screenF(48),
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  //color: Colors.white,
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 22,
+                        vertical: MediaQuery.of(context).size.height / 72),
+                    child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      onChanged: (val) {
+                        initiateSearch(val);
+                      },
+                      decoration: new InputDecoration(
+                          icon: Icon(Icons.search),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width / 30,
+                              bottom: MediaQuery.of(context).size.height / 75,
+                              top: MediaQuery.of(context).size.height / 75,
+                              right: MediaQuery.of(context).size.width / 30),
+                          hintText:
+                              'Search for people, interests, school ...'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height / 1.48,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                children: tempSearchStore.map((element) {
+                  return _buildTile(element);
+                }).toList(),
               ),
-            ],
-          )
-        ],
-      )),
-    );
+            ),
+          ],
+        )
+      ],
+    ));
   }
 
   Widget _buildTile(data) {
     return ListTile(
-      onTap: (){
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: UserCard(
-                        userId: data['userId'],
-                        userName: data['userData']['displayName'],
-                      )));
+      onTap: () {
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (context) => UserCard(
+                      userId: data['userId'],
+                      userName: data['userData']['displayName'],
+                    )));
       },
       leading: CircleAvatar(
         backgroundImage: NetworkImage(data['userData']['photoUrl']),
@@ -240,12 +227,11 @@ class _ExploreState extends State<Explore> {
             onPressed: () {
               Navigator.push(
                   context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: Chat(
-                        fromUserId: currentUserModel.uid,
-                        toUserId: data['userId'],
-                      )));
+                  CupertinoPageRoute(
+                      builder: (context) => Chat(
+                            fromUserId: currentUserModel.uid,
+                            toUserId: data['userId'],
+                          )));
             },
           ),
           IconButton(
@@ -254,12 +240,11 @@ class _ExploreState extends State<Explore> {
             onPressed: () {
               Navigator.push(
                   context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: UserCard(
-                        userId: data['userId'],
-                        userName: data['userData']['displayName'],
-                      )));
+                  CupertinoPageRoute(
+                      builder: (context) => UserCard(
+                            userId: data['userId'],
+                            userName: data['userData']['displayName'],
+                          )));
             },
           ),
         ],

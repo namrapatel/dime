@@ -82,167 +82,156 @@ class _SocialPageState extends State<SocialPage> {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
-    return GestureDetector(
-      onHorizontalDragEnd: (DragEndDetails details) {
-        Navigator.push(
-            context,
-            PageTransition(
-                type: PageTransitionType.rightToLeft, child: ScrollPage()));
-      },
-      child: Scaffold(
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(70.0), // here the desired height
-              child: AppBar(
-                backgroundColor: Color(0xFF8803fc),
-                elevation: 0,
-                // actions: <Widget>[
-                //   IconButton(
-                //     icon: Icon(Icons.arrow_forward_ios),
-                //     color: Colors.white,
-                //     onPressed: () {
-                //       Navigator.push(
-                //           context,
-                //           PageTransition(
-                //               type: PageTransitionType.rightToLeft,
-                //               child: ScrollPage()));
-                //     },
-                //   ),
-                // ],
-                automaticallyImplyLeading: false,
-                title: Row(
-                  children: <Widget>[
-                    // Text(
-                    //  university!=null?university:"Whoops!",
-                    //   style: TextStyle(
-                    //       color: Colors.white,
-                    //       fontSize: 25,
-                    //       fontWeight: FontWeight.bold),
-                    // ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 1.55,
-                      child: AutoSizeText(
-                        university != null ? university : "Whoops!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Spacer(),
-                    Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height/110,
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: ScrollPage()));
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              )),
-          backgroundColor: Color(0xFF8803fc),
-          floatingActionButton: currentUserModel.university != null
-              ? FloatingActionButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            type: PageTransitionType.leftToRight,
-                            child: CreateSocialPost()));
-                  },
-                  elevation: 50,
-                  heroTag: 'btn1',
-                  backgroundColor: Color(0xFF3c3744),
-                  child: Icon(
-                    Icons.add,
-                    // color: Color(0xFF8803fc),
-                    color: Colors.white,
+    return Scaffold(
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(70.0), // here the desired height
+            child: AppBar(
+              backgroundColor: Color(0xFF8803fc),
+              elevation: 0,
+              // actions: <Widget>[
+              //   IconButton(
+              //     icon: Icon(Icons.arrow_forward_ios),
+              //     color: Colors.white,
+              //     onPressed: () {
+              //       Navigator.push(
+              //           context,
+              //           PageTransition(
+              //               type: PageTransitionType.rightToLeft,
+              //               child: ScrollPage()));
+              //     },
+              //   ),
+              // ],
+              automaticallyImplyLeading: false,
+              title: Row(
+                children: <Widget>[
+                  // Text(
+                  //  university!=null?university:"Whoops!",
+                  //   style: TextStyle(
+                  //       color: Colors.white,
+                  //       fontSize: 25,
+                  //       fontWeight: FontWeight.bold),
+                  // ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 30,
                   ),
-                )
-              : SizedBox(
-                  height: 1,
-                ),
-          body: university != null
-              ? FutureBuilder(
-                  future: getPosts(),
-                  builder: (_, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: SizedBox(
-                          height: 0.0,
+                  Container(
+                    width: MediaQuery.of(context).size.width / 1.55,
+                    child: AutoSizeText(
+                      university != null ? university : "Whoops!",
+                      style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      minFontSize: 12,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Spacer(),
+                  Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 110,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
+                          size: 20,
                         ),
-                      );
-                    } else {
-                      return ListView.builder(
-                          itemCount: snapshot?.data?.length,
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (_, index) {
-                            return SocialPost.fromDocument(
-                                snapshot.data[index]);
-                          });
-                    }
-                  })
-              : Column(
-                  children: <Widget>[
-                    SizedBox(height: MediaQuery.of(context).size.height / 18),
-                    Image.asset('assets/img/login_logo.png'),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 88,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Please go to settings and add a university to see your feed!",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => ScrollPage()));
+                        },
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 88,
-                    ),
-                    FlatButton(
-                      padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      color: Colors.white,
-                      child: Text(
-                        "Add University",
-                        style: TextStyle(
-                            color: Color(0xFF8803fc),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                    ],
+                  ),
+                ],
+              ),
+            )),
+        backgroundColor: Color(0xFF8803fc),
+        floatingActionButton: currentUserModel.university != null
+            ? FloatingActionButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => CreateSocialPost()));
+                },
+                elevation: 50,
+                heroTag: 'btn1',
+                backgroundColor: Color(0xFF3c3744),
+                child: Icon(
+                  Icons.add,
+                  // color: Color(0xFF8803fc),
+                  color: Colors.white,
+                ),
+              )
+            : SizedBox(
+                height: 1,
+              ),
+        body: university != null
+            ? FutureBuilder(
+                future: getPosts(),
+                builder: (_, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: SizedBox(
+                        height: 0.0,
                       ),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(10.0)),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.leftToRight,
-                                child: Profile()));
-                      },
+                    );
+                  } else {
+                    return ListView.builder(
+                        itemCount: snapshot?.data?.length,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          return SocialPost.fromDocument(snapshot.data[index]);
+                        });
+                  }
+                })
+            : Column(
+                children: <Widget>[
+                  SizedBox(height: MediaQuery.of(context).size.height / 18),
+                  Image.asset('assets/img/login_logo.png'),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 88,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "Please go to settings and add a university to see your feed!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
                     ),
-                  ],
-                )),
-    );
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 88,
+                  ),
+                  FlatButton(
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    color: Colors.white,
+                    child: Text(
+                      "Add University",
+                      style: TextStyle(
+                          color: Color(0xFF8803fc),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    onPressed: () {
+                      Navigator.push(context,
+                          CupertinoPageRoute(builder: (context) => Profile()));
+                    },
+                  ),
+                ],
+              ));
   }
 }

@@ -231,8 +231,8 @@ class _ProfPostState extends State<ProfPost> {
                                     loadingPlaceHolder,
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
-//                                width: screenW(200),
-                                height: screenH(375),
+                               width: screenW(200),
+                                // height: screenH(375),
                               )
                             : SizedBox(
                                 width: screenH(1.2),
@@ -403,12 +403,11 @@ class _ProfPostState extends State<ProfPost> {
                                     onPressed: () {
                                       Navigator.push(
                                           context,
-                                          PageTransition(
-                                              type: PageTransitionType
-                                                  .leftToRight,
-                                              child: ProfComments(
-                                                postId: widget.postId,
-                                              )));
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  ProfComments(
+                                                    postId: widget.postId,
+                                                  )));
                                     },
                                   ),
                                   comments != null
@@ -421,12 +420,11 @@ class _ProfPostState extends State<ProfPost> {
                                           onTap: () {
                                             Navigator.push(
                                                 context,
-                                                PageTransition(
-                                                    type: PageTransitionType
-                                                        .leftToRight,
-                                                    child: ProfComments(
-                                                      postId: widget.postId,
-                                                    )));
+                                                CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        ProfComments(
+                                                          postId: widget.postId,
+                                                        )));
                                           },
                                         )
                                       : SizedBox(

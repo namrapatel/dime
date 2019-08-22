@@ -150,7 +150,8 @@ class _ChatListState extends State<ChatList> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => ScrollPage()));
           },
         ),
         title: Text(

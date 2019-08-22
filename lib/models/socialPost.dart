@@ -159,7 +159,7 @@ class _SocialPostState extends State<SocialPost> {
             },
             '*/*',
             text:
-                "Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
+                "Download Dime today to stay up to date on the latest updates at your university! https://getdime.ca/");
       } catch (e) {
         print('error: $e');
       }
@@ -168,7 +168,7 @@ class _SocialPostState extends State<SocialPost> {
         Share.text(
             'Message from Dime',
             caption +
-                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/",
+                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://getdime.ca/",
             'text/plain');
       } catch (e) {
         print('error: $e');
@@ -185,7 +185,7 @@ class _SocialPostState extends State<SocialPost> {
             },
             '*/*',
             text: caption +
-                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
+                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://getdime.ca/");
       } catch (e) {
         print('error: $e');
       }

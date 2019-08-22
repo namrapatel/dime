@@ -158,7 +158,7 @@ class _ProfPostState extends State<ProfPost> {
             },
             '*/*',
             text:
-                "Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
+                "Download Dime today to stay up to date on the latest updates at your university! https://getdime.ca/");
       } catch (e) {
         print('error: $e');
       }
@@ -167,7 +167,7 @@ class _ProfPostState extends State<ProfPost> {
         Share.text(
             'Message from Dime',
             caption +
-                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/",
+                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://getdime.ca/",
             'text/plain');
       } catch (e) {
         print('error: $e');
@@ -184,7 +184,7 @@ class _ProfPostState extends State<ProfPost> {
             },
             '*/*',
             text: caption +
-                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://storyofdhruv.com/");
+                "\n \n \n \n Download Dime today to stay up to date on the latest updates at your university! https://getdime.ca/");
       } catch (e) {
         print('error: $e');
       }
@@ -231,7 +231,7 @@ class _ProfPostState extends State<ProfPost> {
                                     loadingPlaceHolder,
                                 errorWidget: (context, url, error) =>
                                     Icon(Icons.error),
-                               width: screenW(200),
+                                width: screenW(200),
                                 // height: screenH(375),
                               )
                             : SizedBox(

@@ -149,6 +149,10 @@ class Comment extends StatelessWidget {
                                 .document(postId)
                                 .delete();
                           } else {
+                            bool commented = documentSnap['commented'];
+                            if (documentSnap['numberOfComments'] == 1) {
+                              commented = false;
+                            }
                             Firestore.instance
                                 .collection('users')
                                 .document(currentUserModel.uid)
@@ -156,6 +160,7 @@ class Comment extends StatelessWidget {
                                 .document(postId)
                                 .setData({
                               'numberOfComments': FieldValue.increment(-1),
+                              'commented': commented
                             }, merge: true);
                           }
 

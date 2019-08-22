@@ -72,8 +72,14 @@ dev_dependencies:
   #geolocation:
     #git:
       #url: https://github.com/shehabic/geolocation
-  
-  
+  flutter_launcher_icons: "^0.7.2"
+
+flutter_icons:
+  image_path: "assets/img/GroupDimeTransparent.png"
+  android: true
+  ios: false
+
+
 
 
 

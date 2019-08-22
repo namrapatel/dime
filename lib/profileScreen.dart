@@ -141,7 +141,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => Profile()));
+                                builder: (context) => Login()));
                       });
                     },
                     icon: Icon(AntDesign.logout)),

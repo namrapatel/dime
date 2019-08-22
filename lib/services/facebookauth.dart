@@ -14,11 +14,12 @@ class FacebookAuth {
   Map userProfile;
   FacebookLogin fbLogin = new FacebookLogin();
 
-  logIn(context, MaterialPageRoute route) async {
-    FacebookLoginResult result = await fbLogin.logInWithReadPermissions([
-      'email',
-      'public_profile',
-    ]);
+
+  logIn(context,MaterialPageRoute route) async {
+    FacebookLoginResult result = await fbLogin
+        .logInWithReadPermissions(
+        ['email', 'public_profile']);
+
 
     final FacebookAccessToken accessToken = result.accessToken;
 

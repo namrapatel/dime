@@ -123,7 +123,10 @@ class _ProfPageState extends State<ProfPage> {
                           size: 20,
                         ),
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => ScrollPage()));
                         },
                       ),
                     ],

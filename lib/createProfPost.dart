@@ -175,7 +175,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       child: Text(
                         "Cancel",
                         style: TextStyle(
-                            color: Color(0xFF8803fc), fontSize: screenF(18)),
+                            color: Color(0xFF096664), fontSize: screenF(18)),
                       ),
                     ),
                   ),

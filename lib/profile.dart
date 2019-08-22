@@ -151,7 +151,7 @@ class _HomePageOneState extends State<HomePageOne> {
             IconButton(
               onPressed: () {
                 Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => ScrollPage()));
+                    CupertinoPageRoute(builder: (context) => ProfilePage()));
               },
               color: Colors.black,
               icon: Icon(Icons.arrow_back_ios),

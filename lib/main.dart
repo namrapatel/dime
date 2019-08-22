@@ -124,11 +124,11 @@ class _SplashScreenState extends State<SplashScreen> {
               Expanded(
                 flex: 2,
                 child: Container(
-                  width: 200,
-                  height: 200,
+                  width: 100,
+                  height: 100,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[Image.asset('assets/Dime3Colors.png')],
+                    children: <Widget>[Image.asset('assets/GroupDimeTransparent.png')],
                   ),
                 ),
               ),

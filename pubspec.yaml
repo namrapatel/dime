@@ -113,6 +113,7 @@ flutter:
     - assets/feeds.png
     - assets/DimeLogoBlue.png
     - assets/Dime3Colors.png
+    - assets/GroupDimeTransparent.png
 
 
   fonts:

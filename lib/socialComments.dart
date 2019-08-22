@@ -27,12 +27,12 @@ class _SocialCommentsState extends State<SocialComments> {
   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
   List<UserTag> suggestions = [
-    UserTag(
-      id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',
-      photo:
-          "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",
-      name: "Shehab Salem",
-    )
+    // UserTag(
+    //   id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',
+    //   photo:
+    //       "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",
+    //   name: "Shehab Salem",
+    // )
 //    "Apple",
 //    "Armidillo",
 //    "Actual",

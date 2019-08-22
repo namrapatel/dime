@@ -90,7 +90,8 @@ class _ProfilePageState extends State<ProfilePage> {
               left: (MediaQuery.of(context).size.width / 30),
               child: IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                   Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => ScrollPage()));
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,

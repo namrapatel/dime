@@ -133,12 +133,15 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               children: <Widget>[
                 IconButton(
-                    onPressed: () async {
+                    onPressed: () {
+                      print("HERE");
+                      print(currentUserModel.uid);
+                      _removeDeviceToken();
                       FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.push(context,
-                            CupertinoPageRoute(builder: (context) => Login()));
-                      }).catchError((e) {
-                        print(e);
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => Profile()));
                       });
                     },
                     icon: Icon(AntDesign.logout)),
@@ -182,14 +185,10 @@ class _ProfilePageState extends State<ProfilePage> {
               left: (MediaQuery.of(context).size.width / 22),
               child: Column(
                 children: <Widget>[
-
-                  IconButton(
-                      onPressed: () {
-                        print("HERE");
-                        print(currentUserModel.uid);
-                        _removeDeviceToken();
-                        FirebaseAuth.instance.signOut().then((value) {
-
+                  Container(
+                      width: screenW(378),
+                      child: ListTile(
+                        onTap: () {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
@@ -313,178 +312,28 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       )),
                 ],
-
-              ),
-            ),
-            Positioned(
-                top: (MediaQuery.of(context).size.height / 2.35),
-                //top: 300,
-                //left: 20,
-                left: (MediaQuery.of(context).size.width / 22),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                        width: screenW(378),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: Profile()));
-                          },
-                          title: Text(
-                            "Basic Info",
-                          ),
-                          leading: Icon(
-                            SimpleLineIcons.user,
-                            color: Colors.grey[700],
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey[700],
-                          ),
-                        )),
-                    Container(
-                        width: screenW(378),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: TabsApp()));
-                          },
-                          title: Text(
-                            "Edit Cards",
-                          ),
-                          leading: Icon(
-                            AntDesign.idcard,
-                            color: Colors.grey[700],
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey[700],
-                          ),
-                        )),
-                    // Container(
-                    //     width: screenW(378),
-                    //     child: ListTile(
-                    //       onTap: () {
-                    //         Navigator.push(
-                    //             context,
-                    //             PageTransition(
-                    //                 type: PageTransitionType.rightToLeft,
-                    //                 child: TabsApp()));
-                    //       },
-                    //       title: Text(
-                    //         "Terms and Conditions",
-                    //       ),
-                    //       leading: Icon(
-                    //         SimpleLineIcons.doc,
-                    //         color: Colors.grey[700],
-                    //       ),
-                    //       trailing: Icon(
-                    //         Icons.arrow_forward_ios,
-                    //         color: Colors.grey[700],
-                    //       ),
-                    //     )),
-                    Container(
-                        width: screenW(378),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: TabsApp()));
-                          },
-                          title: Text(
-                            "Privacy and Security",
-                          ),
-                          leading: Icon(
-                            SimpleLineIcons.shield,
-                            color: Colors.grey[700],
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey[700],
-                          ),
-                        )),
-                    Container(
-                        width: screenW(378),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: BlockedUsers()));
-                          },
-                          title: Text(
-                            "Blocked Users",
-                          ),
-                          leading: Icon(
-                            Entypo.block,
-                            color: Colors.grey[700],
-                            size: 23.0,
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey[700],
-                          ),
-                        )),
-                    Container(
-                        width: screenW(378),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: Profile()));
-                          },
-                          title: Text(
-                            "Rating",
-                          ),
-                          leading: Icon(
-                            SimpleLineIcons.star,
-                            color: Colors.grey[700],
-                          ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Colors.grey[700],
-                          ),
-                        )),
-                  ],
-                )),
-          ],
-        ),
-
+              )),
+        ],
       ),
     );
   }
+}
 
-  _removeDeviceToken() {
-    print("HERE");
-    final Firestore _db = Firestore.instance;
+_removeDeviceToken() {
+  print("HERE");
+  final Firestore _db = Firestore.instance;
+  _db.collection('users').document(currentUserModel.uid).get().then((document) {
+    var initTokens = document.data['tokens'];
+    var tokenList = new List<String>.from(initTokens);
+    print("oldTokenList -> $tokenList");
+    tokenList.remove(currentToken);
+    print("newTokenList -> $tokenList");
+    currentToken = "";
     _db
         .collection('users')
         .document(currentUserModel.uid)
-        .get()
-        .then((document) {
-      var initTokens = document.data['tokens'];
-      var tokenList = new List<String>.from(initTokens);
-      print("oldTokenList -> $tokenList");
-      tokenList.remove(currentToken);
-      print("newTokenList -> $tokenList");
-      currentToken = "";
-      _db
-          .collection('users')
-          .document(currentUserModel.uid)
-          .setData({'tokens': tokenList}, merge: true);
-    });
-  }
+        .setData({'tokens': tokenList}, merge: true);
+  });
 }
 
 //       Container(

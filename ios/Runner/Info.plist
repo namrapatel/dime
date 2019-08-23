@@ -38,7 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0.1</string>
+	<string>1.0.0</string>
 	<key>FacebookAppID</key>
 	<string>1150757578459762</string>
 	<key>FacebookDisplayName</key>
@@ -59,21 +59,21 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>Dime uses the calendar to set date and time of posts, comments, and messages made by the user.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>To allow the user to take an image using the camera for their profile picture and/or for a post on Dime&apos;s feeds.</string>
+	<string>To allow the user to take an image using the camera for their profile picture and/or for a post on Dime's feeds.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Dime does not use users contacts for any purposes.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Dime needs your location in order to determine which users are around you for the &quot;People around you&quot; drawer.</string>
+	<string>Dime needs your location in order to determine which users are around you for the "People around you" drawer.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Dime needs your location in order to determine which users are around you for the &quot;People around you&quot; drawer.</string>
+	<string>Dime needs your location in order to determine which users are around you for the "People around you" drawer.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Dime needs your location in order to determine which users are around you for the &quot;People around you&quot; drawer.</string>
+	<string>Dime needs your location in order to determine which users are around you for the "People around you" drawer.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>To allow the user to take a video for a post on Dime&apos;s feeds.</string>
+	<string>To allow the user to take a video for a post on Dime's feeds.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Dime uses motion to assist with location services taht are used to show users nearby and posts near you according to university.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To allow the user to select an image from their camera roll for the profile picture and/or for a post on Dime&apos;s feeds.</string>
+	<string>To allow the user to select an image from their camera roll for the profile picture and/or for a post on Dime's feeds.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Dime does not use speech recognition.</string>
 	<key>UIBackgroundModes</key>

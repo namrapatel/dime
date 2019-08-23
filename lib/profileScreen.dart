@@ -40,6 +40,11 @@ class _ProfilePageState extends State<ProfilePage> {
     launch(url);
   }
 
+  _launchChangelog() async {
+    const url1 = 'https://headwayapp.co/dime-changelog';
+    launch(url1);
+  }
+
   //Initializes the state when the page first loads and retrieves the users data from firestore
   @override
   void initState() {
@@ -90,8 +95,8 @@ class _ProfilePageState extends State<ProfilePage> {
               left: (MediaQuery.of(context).size.width / 30),
               child: IconButton(
                 onPressed: () {
-                   Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => ScrollPage()));
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => ScrollPage()));
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
@@ -139,10 +144,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       print(currentUserModel.uid);
                       _removeDeviceToken();
                       FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                                builder: (context) => Login()));
+                        Navigator.push(context,
+                            CupertinoPageRoute(builder: (context) => Login()));
                       });
                     },
                     icon: Icon(AntDesign.logout)),
@@ -277,13 +280,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: screenW(378),
                       child: ListTile(
                         onTap: () {
-                          Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => Profile()));
+                          _launchChangelog();
                         },
                         title: Text(
-                          "Rating",
+                          "Changelog",
                         ),
                         leading: Icon(
                           SimpleLineIcons.star,

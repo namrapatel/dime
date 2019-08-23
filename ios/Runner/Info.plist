@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.0.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -38,7 +38,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>0.1</string>
+	<string>1.0.1</string>
 	<key>FacebookAppID</key>
 	<string>1150757578459762</string>
 	<key>FacebookDisplayName</key>
@@ -55,27 +55,27 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
-	<string>This app does not use Apple Music or any other music or sound services on your device.</string>
+	<string>Dime does not use Apple Music or any other music or sound services on your device.</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>This app uses the calendar to set date and time of posts and comments made by the user.</string>
+	<string>Dime uses the calendar to set date and time of posts, comments, and messages made by the user.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>To allow the user to take an image using the camera for their profile picture and other picture locations alike.</string>
+	<string>To allow the user to take an image using the camera for their profile picture and/or for a post on Dime&apos;s feeds.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>This app requires contacts access to function properly.</string>
+	<string>Dime does not use users contacts for any purposes.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>The app needs your location in order to determine which events and users are around you.</string>
+	<string>Dime needs your location in order to determine which users are around you for the &quot;People around you&quot; drawer.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>The app needs your location in order to determine which events and users are around you.</string>
+	<string>Dime needs your location in order to determine which users are around you for the &quot;People around you&quot; drawer.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The app needs your location in order to determine which events and users are around you.</string>
+	<string>Dime needs your location in order to determine which users are around you for the &quot;People around you&quot; drawer.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>To allow the user to take a video for the profile picture.</string>
+	<string>To allow the user to take a video for a post on Dime&apos;s feeds.</string>
 	<key>NSMotionUsageDescription</key>
-	<string>This app uses motion to assist with location services taht are used to show users nearby and posts near you according to university.</string>
+	<string>Dime uses motion to assist with location services taht are used to show users nearby and posts near you according to university.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>To allow the user to select an image from their camera roll for the profile picture and other picture locations.</string>
+	<string>To allow the user to select an image from their camera roll for the profile picture and/or for a post on Dime&apos;s feeds.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>This app does not use speech recognition.</string>
+	<string>Dime does not use speech recognition.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -100,6 +100,6 @@
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
 	<key>kTCCServiceMediaLibrary</key>
-	<string>This app does not use Apple Music or any other music or sound services on your device.</string>
+	<string>Dime does not use Apple Music or any other music or sound services on your device.</string>
 </dict>
 </plist>

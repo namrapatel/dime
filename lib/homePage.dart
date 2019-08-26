@@ -386,6 +386,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   Widget build(BuildContext context) {
+
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
     if (firstName == null) {

@@ -32,10 +32,82 @@
               "client_type": 3
             },
             {
-              "client_id": "464417786059-gfi1pgagmpkvsvi9cgsmd6vqqagp4b9j.apps.googleusercontent.com",
+              "client_id": "464417786059-cson7e55hfd0th9cakt4plocg81g9g27.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.dime.inc"
+                "bundle_id": "com.dime.filter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464417786059:android:028ce085f5862bd9",
+        "android_client_info": {
+          "package_name": "com.dime.postfilter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbKyJhj89yJLSuxg_bJI-qZaD5NzlEVXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464417786059-cson7e55hfd0th9cakt4plocg81g9g27.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dime.filter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464417786059:android:979b07c2214b1961",
+        "android_client_info": {
+          "package_name": "com.dime2.inc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbKyJhj89yJLSuxg_bJI-qZaD5NzlEVXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464417786059-crojl42v2394hc1muka57rloskndfq8q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "464417786059-cson7e55hfd0th9cakt4plocg81g9g27.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dime.filter"
               }
             }
           ]
@@ -76,10 +148,10 @@
               "client_type": 3
             },
             {
-              "client_id": "464417786059-gfi1pgagmpkvsvi9cgsmd6vqqagp4b9j.apps.googleusercontent.com",
+              "client_id": "464417786059-cson7e55hfd0th9cakt4plocg81g9g27.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.dime.inc"
+                "bundle_id": "com.dime.filter"
               }
             }
           ]

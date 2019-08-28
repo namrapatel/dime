@@ -79,15 +79,15 @@ class SocialCard extends StatelessWidget {
   }
 
   Future<void> _launchSnap(String url) async {
-    if (await canLaunch('https://www.snapchat.com/add/' + snapchat)) {
+    if (await canLaunch('https://www.snapchat.com/add/$snapchat')) {
       final bool nativeAppLaunchSucceeded = await launch(
-        'https://www.snapchat.com/add/' + snapchat,
+        'https://www.snapchat.com/add/$snapchat',
         forceSafariVC: false,
         universalLinksOnly: true,
       );
       if (!nativeAppLaunchSucceeded) {
         await launch(
-          'https://www.snapchat.com/add/' + snapchat,
+          'https://www.snapchat.com/add/$snapchat',
           forceSafariVC: true,
         );
       }
@@ -95,15 +95,15 @@ class SocialCard extends StatelessWidget {
   }
 
   Future<void> _launchInsta(String url) async {
-    if (await canLaunch('https://www.instagram.com/' + instagram)) {
+    if (await canLaunch('https://www.instagram.com/$instagram')) {
       final bool nativeAppLaunchSucceeded = await launch(
-        'https://www.instagram.com/' + instagram,
+        'https://www.instagram.com/$instagram',
         forceSafariVC: false,
         universalLinksOnly: true,
       );
       if (!nativeAppLaunchSucceeded) {
         await launch(
-          'https://www.instagram.com/' + instagram,
+          'https://www.instagram.com/$instagram',
           forceSafariVC: true,
         );
       }
@@ -111,15 +111,15 @@ class SocialCard extends StatelessWidget {
   }
 
   Future<void> _launchTwitter(String url) async {
-    if (await canLaunch('https://twitter.com/' + twitter)) {
+    if (await canLaunch('https://twitter.com/$twitter')) {
       final bool nativeAppLaunchSucceeded = await launch(
-        'https://twitter.com/' + twitter,
+        'https://twitter.com/$twitter',
         forceSafariVC: false,
         universalLinksOnly: true,
       );
       if (!nativeAppLaunchSucceeded) {
         await launch(
-          'https://twitter.com/' + twitter,
+          'https://twitter.com/$twitter',
           forceSafariVC: true,
         );
       }
@@ -130,12 +130,11 @@ class SocialCard extends StatelessWidget {
     try {
       Share.text(
           'My Social Media:',
-          "'https://www.snapchat.com/add/'" +
-              snapchat +
-              " 'https://www.instagram.com/'" +
-              instagram +
-              " 'https://twitter.com/'" +
-              twitter,
+          'https://www.snapchat.com/add/$snapchat' +
+               'https://www.instagram.com/$instagram' +
+               
+               'https://twitter.com/$twitter', 
+              
           'text/plain');
     } catch (e) {
       print('error: $e');
@@ -277,8 +276,8 @@ class SocialCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchSnap(
-                                                'https://www.snapchat.com/add/' +
-                                                    snapchat);
+                                                'https://www.snapchat.com/add/$snapchat' 
+                                                    );
                                           },
                                         ),
                                         Text(snapchat,
@@ -328,8 +327,8 @@ class SocialCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchInsta(
-                                                'https://www.instagram.com/' +
-                                                    instagram);
+                                                'https://www.instagram.com/$instagram' 
+                                                    );
                                           },
                                         ),
                                         Text(instagram,
@@ -379,8 +378,8 @@ class SocialCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchTwitter(
-                                                'https://twitter.com/' +
-                                                    twitter);
+                                                'https://twitter.com/$twitter' 
+                                                    );
                                           },
                                         ),
                                         Text(twitter,

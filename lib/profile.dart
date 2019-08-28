@@ -21,7 +21,9 @@ class Profile extends StatelessWidget {
       new GlobalKey<NavigatorState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: HomePageOne());
+    return Scaffold(
+    body: HomePageOne()
+    );
   }
 }
 
@@ -139,7 +141,10 @@ class _HomePageOneState extends State<HomePageOne> {
     )..init(context);
 
     return Scaffold(
-      body: Column(children: <Widget>[
+      body: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+Column(children: <Widget>[
         SizedBox(
           height: MediaQuery.of(context).size.height / 20,
         ),
@@ -412,6 +417,8 @@ class _HomePageOneState extends State<HomePageOne> {
           ),
         ),
       ]),
+        ],
+      )
     );
   }
 }

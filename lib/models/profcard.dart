@@ -77,15 +77,15 @@ class ProfCard extends StatelessWidget {
   }
 
   Future<void> _launchLinkedin(String url) async {
-    if (await canLaunch('https://www.linkedin.com/in/' + linkedIn)) {
+    if (await canLaunch('https://www.linkedin.com/in/$linkedIn')) {
       final bool nativeAppLaunchSucceeded = await launch(
-        'https://www.linkedin.com/in/' + linkedIn,
+        'https://www.linkedin.com/in/$linkedIn',
         forceSafariVC: false,
         universalLinksOnly: true,
       );
       if (!nativeAppLaunchSucceeded) {
         await launch(
-          'https://www.linkedin.com/in/' + linkedIn,
+          'https://www.linkedin.com/in/$linkedIn',
           forceSafariVC: true,
         );
       }
@@ -93,15 +93,15 @@ class ProfCard extends StatelessWidget {
   }
 
   Future<void> _launchGit(String url) async {
-    if (await canLaunch('https://github.com/' + github)) {
+    if (await canLaunch('https://github.com/$github')) {
       final bool nativeAppLaunchSucceeded = await launch(
-        'https://github.com/' + github,
+        'https://github.com/$github',
         forceSafariVC: false,
         universalLinksOnly: true,
       );
       if (!nativeAppLaunchSucceeded) {
         await launch(
-          'https://github.com/' + github,
+          'https://github.com/$github',
           forceSafariVC: true,
         );
       }
@@ -109,15 +109,15 @@ class ProfCard extends StatelessWidget {
   }
 
   Future<void> _launchTwitter(String url) async {
-    if (await canLaunch('https://twitter.com/' + twitter)) {
+    if (await canLaunch('https://twitter.com/$twitter')) {
       final bool nativeAppLaunchSucceeded = await launch(
-        'https://twitter.com/' + twitter,
+        'https://twitter.com/$twitter',
         forceSafariVC: false,
         universalLinksOnly: true,
       );
       if (!nativeAppLaunchSucceeded) {
         await launch(
-          'https://twitter.com/' + twitter,
+          'https://twitter.com/$twitter',
           forceSafariVC: true,
         );
       }
@@ -128,12 +128,12 @@ class ProfCard extends StatelessWidget {
     try {
       Share.text(
           'Handles:',
-          "'https://www.linkedin.com/in/' " +
-              linkedIn +
-              " 'https://github.com/'" +
-              github +
-              " 'https://twitter.com/'" +
-              twitter,
+        'https://www.linkedin.com/in/$linkedIn'  +
+               
+              'https://github.com/$github' +
+              
+              'https://twitter.com/$twitter', 
+              
           'text/plain');
     } catch (e) {
       print('error: $e');
@@ -271,8 +271,8 @@ class ProfCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchLinkedin(
-                                                'https://www.linkedin.com/in/' +
-                                                    linkedIn);
+                                                'https://www.linkedin.com/in/$linkedIn' 
+                                                    );
                                           },
                                         ),
                                         Text(linkedIn,
@@ -322,7 +322,7 @@ class ProfCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchGit(
-                                                'https://github.com/' + github);
+                                                'https://github.com/$github' );
                                           },
                                         ),
                                         Text(github,
@@ -372,8 +372,8 @@ class ProfCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchTwitter(
-                                                'https://twitter.com/' +
-                                                    twitter);
+                                                'https://twitter.com/$twitter' 
+                                                    );
                                           },
                                         ),
                                         Text(twitter,

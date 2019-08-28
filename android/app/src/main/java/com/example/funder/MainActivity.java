@@ -1,4 +1,4 @@
-package com.dime.inc;
+package com.dime2.inc;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

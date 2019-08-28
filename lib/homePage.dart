@@ -386,6 +386,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   Widget build(BuildContext context) {
+
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
     if (firstName == null) {
@@ -442,7 +443,16 @@ class _ScrollPageState extends State<ScrollPage>
               firstName != "No"
                   ? Container(
                       width: MediaQuery.of(context).size.width / 1.6,
-                      child: AutoSizeText(
+                      child: currentUserModel.displayName == null? AutoSizeText(
+                        "Hey!",
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
+                        minFontSize: 12,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ): AutoSizeText(
                         "Hey " + firstName + "!",
                         style: TextStyle(
                             fontSize: 25,

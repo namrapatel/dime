@@ -11,6 +11,9 @@ import 'models/profPost.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'streams.dart';
+
+
 
 class ProfPage extends StatefulWidget {
   @override
@@ -135,18 +138,32 @@ class _ProfPageState extends State<ProfPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 30,
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.55,
-                    child: AutoSizeText(
-                      university != null ? university : "Whoops!",
-                      style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                      minFontSize: 12,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: AutoSizeText(
+                          "@general",
+                          //university != null ? university : "Whoops!",
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                          minFontSize: 12,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
+                        onPressed: (){
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => ProfStreams()));
+                        },
+                      )
+                    ],
                   ),
                 ],
               ),

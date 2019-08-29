@@ -6,6 +6,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'viewCards.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'EditCardsScreen.dart';
 
 List<String> socialInterests = [];
 
@@ -201,100 +202,6 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
 class SocialDataSearch extends SearchDelegate<String> {
   Iterable<SocialInterestTile> suggestions = [];
   dynamic suggestionList = [];
-  List<SocialInterestTile> interestList = [
-    new SocialInterestTile("Music"),
-    new SocialInterestTile("Sports"),
-    new SocialInterestTile("Food"),
-    new SocialInterestTile("Travel"),
-    new SocialInterestTile("Athletics"),
-    new SocialInterestTile("Gaming"),
-    new SocialInterestTile("Winter Sports"),
-    new SocialInterestTile("Hiking"),
-    new SocialInterestTile("Movies"),
-    new SocialInterestTile("Art"),
-    new SocialInterestTile("Fasion"),
-    new SocialInterestTile("Adventure"),
-    new SocialInterestTile("Books"),
-    new SocialInterestTile("Anime"),
-    new SocialInterestTile("Theatre"),
-    new SocialInterestTile("Photography"),
-    new SocialInterestTile("Pets"),
-    new SocialInterestTile("Outdoors"),
-    new SocialInterestTile("Volunteering"),
-    new SocialInterestTile("Automotives"),
-    new SocialInterestTile("Cooking"),
-    new SocialInterestTile("Drama"),
-    new SocialInterestTile("E-Sports"),
-    new SocialInterestTile("Writing"),
-    new SocialInterestTile("Working Out"),
-    new SocialInterestTile("Partying"),
-    new SocialInterestTile("Band"),
-    new SocialInterestTile("Dance"),
-    new SocialInterestTile("TV Shows"),
-    new SocialInterestTile("Technology"),
-    new SocialInterestTile("Water Sports"),
-    new SocialInterestTile("Hip Hop"),
-    new SocialInterestTile("Pop"),
-    new SocialInterestTile("R&B"),
-    new SocialInterestTile("Guitar"),
-    new SocialInterestTile("Piano"),
-    new SocialInterestTile("Band"),
-    new SocialInterestTile("Camping"),
-    new SocialInterestTile("Classical"),
-    new SocialInterestTile("Jazz"),
-    new SocialInterestTile("K-Pop"),
-    new SocialInterestTile("Blues"),
-    new SocialInterestTile("Rock Music"),
-    new SocialInterestTile("Metal Music"),
-    new SocialInterestTile("Techno"),
-    new SocialInterestTile("Concerts"),
-    new SocialInterestTile("Music Festivals"),
-    new SocialInterestTile("Technology"),
-    new SocialInterestTile("Fiction Books"),
-    new SocialInterestTile("Swimming"),
-    new SocialInterestTile("Rowing"),
-    new SocialInterestTile("Mountain Climbing"),
-    new SocialInterestTile("Basketball"),
-    new SocialInterestTile("Baseball"),
-    new SocialInterestTile("Track and Field"),
-    new SocialInterestTile("Hockey"),
-    new SocialInterestTile("Golf"),
-    new SocialInterestTile("Lacrosse"),
-    new SocialInterestTile("Comics"),
-    new SocialInterestTile("Fishing"),
-    new SocialInterestTile("Horseback Riding"),
-    new SocialInterestTile("Badminton"),
-    new SocialInterestTile("Tennis"),
-    new SocialInterestTile("Volleyball"),
-    new SocialInterestTile("Biking"),
-    new SocialInterestTile("Soccer"),
-    new SocialInterestTile("ATV"),
-    new SocialInterestTile("Gymnastics"),
-    new SocialInterestTile("Cricket"),
-    new SocialInterestTile("Football"),
-    new SocialInterestTile("Rugby"),
-    new SocialInterestTile("NBA"),
-    new SocialInterestTile("NHL"),
-    new SocialInterestTile("MLB"),
-    new SocialInterestTile("NFL"),
-    new SocialInterestTile("Snowboarding"),
-    new SocialInterestTile("Skiing"),
-    new SocialInterestTile("Skating"),
-    new SocialInterestTile("Technology"),
-    new SocialInterestTile("Wine"),
-    new SocialInterestTile("Fine Dining"),
-    new SocialInterestTile("Backpacking"),
-    new SocialInterestTile("Classic Movies"),
-    new SocialInterestTile("Horror Films"),
-    new SocialInterestTile("Indie Films"),
-    new SocialInterestTile("Painting"),
-    new SocialInterestTile("Sneakerheads"),
-    new SocialInterestTile("Sculpting"),
-    new SocialInterestTile("Poetry"),
-    new SocialInterestTile("Cars"),
-    new SocialInterestTile("Baking"),
-    new SocialInterestTile("Cosmetics"),
-  ];
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -317,7 +224,9 @@ class SocialDataSearch extends SearchDelegate<String> {
         icon: AnimatedIcon(
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
+          interestList.clear();
           socialInterests.clear();
+
           close(context, null);
         });
   }

@@ -12,6 +12,7 @@ import 'package:Dime/chat.dart' as chat;
 import 'package:page_transition/page_transition.dart';
 import 'package:Dime/userCard.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:Dime/viewCards.dart';
 
 class Comment extends StatelessWidget {
   final String commentId,

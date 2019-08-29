@@ -12,6 +12,7 @@ import 'socialPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'socialPage.dart' as socialPage;
+import 'viewCards.dart';
 
 class SocialComments extends StatefulWidget {
   final String postId;
@@ -214,8 +215,7 @@ class _SocialCommentsState extends State<SocialComments> {
                                 bottom:
                                     MediaQuery.of(context).size.height / 155,
                                 top: MediaQuery.of(context).size.height / 155,
-                                right:
-                                    MediaQuery.of(context).size.width / 30),
+                                right: MediaQuery.of(context).size.width / 30),
                             hintText: 'Enter Comment',
                             hintStyle: TextStyle(color: Colors.grey)),
                         controller: controller,
@@ -265,9 +265,7 @@ class _SocialCommentsState extends State<SocialComments> {
                                 'text': controller.text,
                                 'timestamp': Timestamp.now()
                               });
-                              Firestore.instance
-                                  .collection('postNotifs')
-                                  .add({
+                              Firestore.instance.collection('postNotifs').add({
                                 'commenterId': currentUserModel.uid,
                                 'commenterName': currentUserModel.displayName,
                                 'commenterPhoto': currentUserModel.photoUrl,

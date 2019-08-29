@@ -31,7 +31,6 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'profComments.dart';
 import 'socialComments.dart';
 
-
 String currentToken = "";
 
 class ScrollPage extends StatefulWidget {
@@ -387,7 +386,6 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   Widget build(BuildContext context) {
-
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
     if (firstName == null) {
@@ -444,25 +442,27 @@ class _ScrollPageState extends State<ScrollPage>
               firstName != "No"
                   ? Container(
                       width: MediaQuery.of(context).size.width / 1.6,
-                      child: currentUserModel.displayName == null? AutoSizeText(
-                        "Hey!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ): AutoSizeText(
-                        "Hey " + firstName + "!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: currentUserModel.displayName == null
+                          ? AutoSizeText(
+                              "Hey!",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              minFontSize: 12,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          : AutoSizeText(
+                              "Hey " + firstName + "!",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              minFontSize: 12,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                     )
                   : Row(
                       children: <Widget>[
@@ -727,8 +727,12 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ProfPage()));
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => ProfPage(
+                                stream: '@general',
+                              )));
                 },
                 elevation: 3,
                 heroTag: 'btn4',

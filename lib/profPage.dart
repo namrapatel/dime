@@ -13,15 +13,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'streams.dart';
 
-
-
 class ProfPage extends StatefulWidget {
+  final String stream;
+  const ProfPage({this.stream});
   @override
-  _ProfPageState createState() => _ProfPageState();
+  _ProfPageState createState() => _ProfPageState(stream: stream);
 }
 
 class _ProfPageState extends State<ProfPage> {
   var university = currentUserModel.university;
+  String stream;
+  _ProfPageState({this.stream});
   @override
   void initState() {
     super.initState();
@@ -29,7 +31,9 @@ class _ProfPageState extends State<ProfPage> {
 
   Future getPosts() async {
     QuerySnapshot qn = await Firestore.instance
-        .collection('profPosts')
+        .collection('streams')
+        .document(stream)
+        .collection('posts')
         .where('university', isEqualTo: currentUserModel.university)
         .getDocuments();
     List<dynamic> docs = qn.documents;
@@ -143,7 +147,7 @@ class _ProfPageState extends State<ProfPage> {
                       Container(
                         width: MediaQuery.of(context).size.width / 3,
                         child: AutoSizeText(
-                          "@general",
+                          stream,
                           //university != null ? university : "Whoops!",
                           style: TextStyle(
                               fontSize: 25,
@@ -155,8 +159,11 @@ class _ProfPageState extends State<ProfPage> {
                         ),
                       ),
                       IconButton(
-                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
-                        onPressed: (){
+                        icon: Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
@@ -177,7 +184,9 @@ class _ProfPageState extends State<ProfPage> {
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) => CreateProfPost()));
+                          builder: (context) => CreateProfPost(
+                                stream: stream,
+                              )));
                 },
                 elevation: 50,
                 heroTag: 'btn1',

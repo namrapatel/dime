@@ -59,8 +59,10 @@ final List<String> filterWords = [
 UserManagement uploader = new UserManagement();
 
 class CreateProfPost extends StatefulWidget {
+  final String stream;
+  const CreateProfPost({this.stream});
   @override
-  _CreateProfPostState createState() => _CreateProfPostState();
+  _CreateProfPostState createState() => _CreateProfPostState(stream: stream);
 }
 
 enum AppState {
@@ -70,6 +72,9 @@ enum AppState {
 }
 
 class _CreateProfPostState extends State<CreateProfPost> {
+  String stream;
+  _CreateProfPostState({this.stream});
+
   @override
   void initState() {
     super.initState();
@@ -481,7 +486,8 @@ class _CreateProfPostState extends State<CreateProfPost> {
           caption = descriptionController.text;
           postId = currentUserModel.uid + Timestamp.now().toString();
 
-          uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
+          uploader.addProfPost(
+              caption, timeStamp, postPic, postId, upVotes, stream);
         }).then((_) {
           setState(() {
             file = null;
@@ -497,7 +503,8 @@ class _CreateProfPostState extends State<CreateProfPost> {
         postId = currentUserModel.uid + Timestamp.now().toString();
         caption = descriptionController.text;
 
-        uploader.addProfPost(caption, timeStamp, postPic, postId, upVotes);
+        uploader.addProfPost(
+            caption, timeStamp, postPic, postId, upVotes, stream);
         Navigator.pop(context);
       }
     }

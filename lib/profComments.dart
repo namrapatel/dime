@@ -22,7 +22,7 @@ class ProfComments extends StatefulWidget {
 class _ProfCommentsState extends State<ProfComments> {
   final String postId;
   final String stream;
-  String university;
+//  String university;
   _ProfCommentsState(this.postId, this.stream);
   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
@@ -70,20 +70,20 @@ class _ProfCommentsState extends State<ProfComments> {
   @override
   void initState() {
     super.initState();
-    getPostUni();
+//    getPostUni();
   }
 
-  getPostUni() async {
-    DocumentSnapshot query = await Firestore.instance
-        .collection('streams')
-        .document(stream)
-        .collection('posts')
-        .document(postId)
-        .get();
-    setState(() {
-      university = query['university'];
-    });
-  }
+//  getPostUni() async {
+//    DocumentSnapshot query = await Firestore.instance
+//        .collection('streams')
+//        .document(stream)
+//        .collection('posts')
+//        .document(postId)
+//        .get();
+//    setState(() {
+//      university = query['university'];
+//    });
+//  }
 
   getAllUsers() async {
     QuerySnapshot users =
@@ -167,9 +167,9 @@ class _ProfCommentsState extends State<ProfComments> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                university != null
+                stream != null
                     ? Text(
-                        university,
+                        "@" + stream,
                         style: TextStyle(color: Colors.black),
                       )
                     : SizedBox(

@@ -17,9 +17,6 @@ import 'package:image/image.dart' as Im;
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:math' as Math;
 
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
 final List<String> filterWords = [
   "ass fuck",
   "assfucker",
@@ -72,6 +69,10 @@ enum AppState {
 }
 
 class _CreateProfPostState extends State<CreateProfPost> {
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
+
   String stream;
   _CreateProfPostState({this.stream});
 
@@ -172,7 +173,9 @@ class _CreateProfPostState extends State<CreateProfPost> {
                           context,
                           PageTransition(
                               type: PageTransitionType.leftToRight,
-                              child: ProfPage()));
+                              child: ProfPage(
+                                // stream: '@general'
+                              )));
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(

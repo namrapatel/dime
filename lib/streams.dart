@@ -8,9 +8,9 @@ import 'homePage.dart';
 import 'profPage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
+  final screenH = ScreenUtil.instance.setHeight;
+  final screenW = ScreenUtil.instance.setWidth;
+  final screenF = ScreenUtil.instance.setSp;
 
 class ProfStreams extends StatefulWidget {
   @override
@@ -66,7 +66,7 @@ class _ProfStreamsState extends State<ProfStreams> {
           leading: IconButton(
             icon: Icon(
               Icons.close,
-              color: Colors.black,
+              color: Color(0xFF096664),
             ),
             onPressed: () {
               Navigator.push(
@@ -79,7 +79,7 @@ class _ProfStreamsState extends State<ProfStreams> {
           ),
           title: Text(
             "Streams",
-            style: TextStyle(color: Colors.black, fontSize: 25),
+            style: TextStyle(color: Color(0xFF096664), fontSize: screenF(28)),
           ),
         ),
         body: ListView(
@@ -95,61 +95,110 @@ class _ProfStreamsState extends State<ProfStreams> {
 }
 
 Widget _myListView(BuildContext context) {
-  final titles = [
-    'tech_community',
-    'business',
-  ];
+  final titles = ['tech_community', 'business', 'hackathons'];
 
   final icons = [
     MaterialCommunityIcons.brain,
     MaterialCommunityIcons.account_tie,
+    MaterialCommunityIcons.gamepad
   ];
 
   return ListView.builder(
     physics: BouncingScrollPhysics(),
     itemCount: titles.length,
     itemBuilder: (context, index) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Card(
-          child: ListTile(
-              onTap: () {
-                Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => ProfPage()));
-              },
-              contentPadding: EdgeInsets.all(10),
-              leading: Icon(
-                icons[index],
-                color: Colors.black,
+      return Column(
+        children: <Widget>[
+          SizedBox(
+            height: screenH(6.0),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                color: Colors.white,
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: Colors.grey.withOpacity(0.35),
+                //       blurRadius: (15),
+                //       spreadRadius: (5),
+                //       offset: Offset(0, 3)),
+                // ],
               ),
-              subtitle: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+              child: ListTile(
+                onTap: () {
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => ProfPage()));
+                },
+                leading: Column(
                   children: <Widget>[
-                    Icon(Icons.people),
                     SizedBox(
-                      width: 5,
+                      height: 15,
                     ),
-                    Text(
-                      "203",
-                      style: TextStyle(color: Colors.black),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                      child: Icon(
+                        icons[index],
+                        color: Color(0xFF096664),
+                        size: 30.0,
+                      ),
                     ),
-                    FlatButton(
-                      child: Text("Join Stream"),
-                      onPressed: () {
-                        //increase the counter lol
-                        //just dont show the button if they are joined
-                        //evenually this will be notifs lol
-                      },
-                    )
                   ],
                 ),
+                subtitle: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 14.0, 8.0, 8.0),
+                            child: Text(
+                              '@' + titles[index],
+                              style: TextStyle(
+                                  color: Colors.black, fontSize: screenF(16.5)),
+                            ),
+                          ),
+                          // Padding(
+                          //   padding:
+                          //       const EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 14.0),
+                          //   child: Row(
+                          //     children: <Widget>[
+                          //       SizedBox(
+                          //         width: 2.0,
+                          //       ),
+                          //       Text(
+                          //         "203 members",
+                          //         style: TextStyle(
+                          //             color: Colors.grey[600], fontSize: 15.0),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8.0, 8.0, 4.0, 8.0),
+                        child: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Color(0xFF096664),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              title: Text(
-                '@' + titles[index],
-                style: TextStyle(),
-              )),
-        ),
+            ),
+          ),
+          Divider(
+            color: Colors.grey,
+            height: screenH(11.0),
+          ),
+        ],
       );
     },
   );

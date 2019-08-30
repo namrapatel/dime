@@ -162,9 +162,6 @@ class _HomePageOneState extends State<HomePageOne> {
       physics: BouncingScrollPhysics(),
       children: <Widget>[
         Column(children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
-          ),
           Row(
             children: <Widget>[
               SizedBox(
@@ -229,7 +226,7 @@ class _HomePageOneState extends State<HomePageOne> {
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Container(
               margin: EdgeInsets.symmetric(
@@ -263,7 +260,7 @@ class _HomePageOneState extends State<HomePageOne> {
                 ),
               )),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -272,7 +269,7 @@ class _HomePageOneState extends State<HomePageOne> {
               alignment: Alignment.topLeft,
               child: Container(
                   width: MediaQuery.of(context).size.width / 1.1,
-                  height: MediaQuery.of(context).size.height / 9,
+                  height: MediaQuery.of(context).size.height / 10,
                   child: data2.length != 0
                       ? FlutterSearchPanel<int>(
                           padding: EdgeInsets.all(10.0),
@@ -303,7 +300,7 @@ class _HomePageOneState extends State<HomePageOne> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Container(
               margin: EdgeInsets.symmetric(
@@ -337,7 +334,7 @@ class _HomePageOneState extends State<HomePageOne> {
                 ),
               )),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Container(
               margin: EdgeInsets.symmetric(
@@ -367,6 +364,59 @@ class _HomePageOneState extends State<HomePageOne> {
                   ),
                 ),
               )),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 25,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 15),
+            child: TextField(
+              textCapitalization: TextCapitalization.sentences,
+              // controller: descriptionController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 2,
+              maxLength: 50,
+              maxLengthEnforced: true,
+              decoration: InputDecoration(
+                hintText: " Your Bio",
+                hintStyle: TextStyle(color: Colors.grey),
+                labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenH(10.0),
+          ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: screenW(17.5),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Tell people around you who you are with a quote, joke,",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Text(
+                    "your job title, hobbies, or whatever you can think of!",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ],
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 20,
           ),

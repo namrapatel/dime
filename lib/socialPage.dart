@@ -173,9 +173,7 @@ class _SocialPageState extends State<SocialPage> {
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: SizedBox(
-                        height: 0.0,
-                      ),
+                      child: CircularProgressIndicator(),
                     );
                   } else {
                     return ListView.builder(

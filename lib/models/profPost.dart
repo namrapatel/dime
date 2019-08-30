@@ -29,6 +29,7 @@ class ProfPost extends StatefulWidget {
   final int upVotes;
   final List<dynamic> likes;
   final int points;
+  final String stream;
 //  final bool liked;
   final String ownerId;
   factory ProfPost.fromDocument(DocumentSnapshot document) {
@@ -36,17 +37,17 @@ class ProfPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return ProfPost(
-      ownerId: document['ownerId'],
-      points: document['points'],
-      university: document['university'],
-      postPic: document['postPic'],
-      comments: document['comments'],
-      likes: document['likes'],
-      caption: document['caption'],
-      postId: document.documentID,
-      timeStamp: times,
-      upVotes: document['upVotes'],
-    );
+        ownerId: document['ownerId'],
+        points: document['points'],
+        university: document['university'],
+        postPic: document['postPic'],
+        comments: document['comments'],
+        likes: document['likes'],
+        caption: document['caption'],
+        postId: document.documentID,
+        timeStamp: times,
+        upVotes: document['upVotes'],
+        stream: document['stream']);
   }
 
   const ProfPost(
@@ -59,7 +60,8 @@ class ProfPost extends StatefulWidget {
       this.timeStamp,
       this.upVotes,
       this.likes,
-      this.points});
+      this.points,
+      this.stream});
   @override
   _ProfPostState createState() => _ProfPostState(
       university: university,
@@ -71,7 +73,8 @@ class ProfPost extends StatefulWidget {
       upVotes: upVotes,
       likes: likes,
       points: points,
-      ownerId: ownerId);
+      ownerId: ownerId,
+      stream: stream);
 }
 
 class _ProfPostState extends State<ProfPost> {
@@ -86,6 +89,7 @@ class _ProfPostState extends State<ProfPost> {
   String university;
   bool liked;
   int points;
+  String stream;
   _ProfPostState(
       {this.ownerId,
       this.university,
@@ -96,7 +100,8 @@ class _ProfPostState extends State<ProfPost> {
       this.timeStamp,
       this.upVotes,
       this.likes,
-      this.points});
+      this.points,
+      this.stream});
   String name = currentUserModel.displayName;
 //bool editLike=liked;
   @override
@@ -407,6 +412,7 @@ class _ProfPostState extends State<ProfPost> {
                                               builder: (context) =>
                                                   ProfComments(
                                                     postId: widget.postId,
+                                                    stream: stream,
                                                   )));
                                     },
                                   ),

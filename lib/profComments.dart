@@ -12,16 +12,18 @@ import 'package:page_transition/page_transition.dart';
 import 'package:Dime/profPage.dart';
 
 class ProfComments extends StatefulWidget {
-  final String postId;
-  const ProfComments({this.postId});
+  final String postId, stream;
+  const ProfComments({this.postId, this.stream});
   @override
-  _ProfCommentsState createState() => _ProfCommentsState(this.postId);
+  _ProfCommentsState createState() =>
+      _ProfCommentsState(this.postId, this.stream);
 }
 
 class _ProfCommentsState extends State<ProfComments> {
   final String postId;
+  final String stream;
   String university;
-  _ProfCommentsState(this.postId);
+  _ProfCommentsState(this.postId, this.stream);
   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
   List<UserTag> suggestions = [
@@ -208,8 +210,7 @@ class _ProfCommentsState extends State<ProfComments> {
                                 bottom:
                                     MediaQuery.of(context).size.height / 155,
                                 top: MediaQuery.of(context).size.height / 155,
-                                right:
-                                    MediaQuery.of(context).size.width / 30),
+                                right: MediaQuery.of(context).size.width / 30),
                             hintText: 'Enter Comment',
                             hintStyle: TextStyle(color: Colors.grey)),
                         controller: controller,
@@ -259,9 +260,7 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'text': controller.text,
                                 'timestamp': Timestamp.now()
                               });
-                              Firestore.instance
-                                  .collection('postNotifs')
-                                  .add({
+                              Firestore.instance.collection('postNotifs').add({
                                 'commenterId': currentUserModel.uid,
                                 'commenterName': currentUserModel.displayName,
                                 'commenterPhoto': currentUserModel.photoUrl,

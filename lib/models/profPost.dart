@@ -306,7 +306,8 @@ class _ProfPostState extends State<ProfPost> {
                                   'type': 'prof',
                                   'upvoted': true,
                                   'postId': widget.postId,
-                                  'timeStamp': Timestamp.now()
+                                  'timeStamp': Timestamp.now(),
+                                  'stream': stream
                                 }, merge: true);
                               } else {
                                 setState(() {
@@ -357,29 +358,19 @@ class _ProfPostState extends State<ProfPost> {
                                   .updateData(
                                       {'upVotes': upVotes, 'points': points});
 
-                              QuerySnapshot query = await Firestore.instance
-                                  .collection('users')
-                                  .document(ownerId)
-                                  .collection('profcard')
-                                  .getDocuments();
-                              String profID;
-                              for (var doc in query.documents) {
-                                profID = doc.documentID;
-                              }
-
                               if (points >= 100) {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerId)
                                     .collection('profcard')
-                                    .document(profID)
+                                    .document('prof')
                                     .updateData({'isFire': true});
                               } else {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerId)
                                     .collection('profcard')
-                                    .document(profID)
+                                    .document('prof')
                                     .updateData({'isFire': false});
                               }
                             },

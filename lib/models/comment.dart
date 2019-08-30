@@ -189,28 +189,20 @@ class Comment extends StatelessWidget {
                               'points': FieldValue.increment(-2)
                             });
                             points = points - 2;
-                            QuerySnapshot query = await Firestore.instance
-                                .collection('users')
-                                .document(ownerID)
-                                .collection('socialcard')
-                                .getDocuments();
-                            String socialID;
-                            for (var doc in query.documents) {
-                              socialID = doc.documentID;
-                            }
+
                             if (points >= 100) {
                               Firestore.instance
                                   .collection('users')
                                   .document(ownerID)
                                   .collection('socialcard')
-                                  .document(socialID)
+                                  .document("social")
                                   .updateData({'isFire': true});
                             } else {
                               Firestore.instance
                                   .collection('users')
                                   .document(ownerID)
                                   .collection('socialcard')
-                                  .document(socialID)
+                                  .document("social")
                                   .updateData({'isFire': false});
                             }
                             Navigator.push(
@@ -230,41 +222,37 @@ class Comment extends StatelessWidget {
                             String ownerID = snap['ownerId'];
                             int points = snap['points'];
                             Firestore.instance
-                                .collection('profPosts')
+                                .collection('streams')
+                                .document(stream)
+                                .collection('posts')
                                 .document(postId)
                                 .collection('comments')
                                 .document(commentId)
                                 .delete();
                             Firestore.instance
-                                .collection('profPosts')
+                                .collection('streams')
+                                .document(stream)
+                                .collection('posts')
                                 .document(postId)
                                 .updateData({
                               'comments': commentsNumber - 1,
                               'points': FieldValue.increment(-2)
                             });
                             points = points - 2;
-                            QuerySnapshot query = await Firestore.instance
-                                .collection('users')
-                                .document(ownerID)
-                                .collection('profcard')
-                                .getDocuments();
-                            String profID;
-                            for (var doc in query.documents) {
-                              profID = doc.documentID;
-                            }
+
                             if (points >= 100) {
                               Firestore.instance
                                   .collection('users')
                                   .document(ownerID)
                                   .collection('profcard')
-                                  .document(profID)
+                                  .document('prof')
                                   .updateData({'isFire': true});
                             } else {
                               Firestore.instance
                                   .collection('users')
                                   .document(ownerID)
                                   .collection('profcard')
-                                  .document(profID)
+                                  .document('prof')
                                   .updateData({'isFire': false});
                             }
 
@@ -273,6 +261,7 @@ class Comment extends StatelessWidget {
                                 CupertinoPageRoute(
                                     builder: (context) => ProfComments(
                                           postId: postId,
+                                          stream: stream,
                                         )));
                           }
                         },
@@ -297,7 +286,8 @@ class Comment extends StatelessWidget {
                             'commentID': commentId,
                             'commenterId': commenterId,
                             'reporterIDs': FieldValue.arrayUnion(id),
-                            'text': text
+                            'text': text,
+                            'stream': stream
                           }, merge: true);
 
                           Flushbar(

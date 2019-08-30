@@ -307,28 +307,19 @@ class _SocialCommentsState extends State<SocialComments> {
                                 controller.clear();
                               });
 
-                              QuerySnapshot query = await Firestore.instance
-                                  .collection('users')
-                                  .document(ownerID)
-                                  .collection('socialcard')
-                                  .getDocuments();
-                              String socialID;
-                              for (var doc in query.documents) {
-                                socialID = doc.documentID;
-                              }
                               if (points >= 100) {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerID)
                                     .collection('socialcard')
-                                    .document(socialID)
+                                    .document("social")
                                     .updateData({'isFire': true});
                               } else {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerID)
                                     .collection('socialcard')
-                                    .document(socialID)
+                                    .document("social")
                                     .updateData({'isFire': false});
                               }
                             }

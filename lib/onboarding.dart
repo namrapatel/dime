@@ -39,162 +39,162 @@ class onBoarding extends StatelessWidget {
 
         body: Builder(
           builder: (context) => IntroViewsFlutter(
-            [
-              PageViewModel(
-                pageColor: const Color(0xFF1458EA),
-                body: Padding(
-                  padding: EdgeInsets.all(screenH(8.0)),
-                  child: Text(
-                    'Find people around your location, read their interests, and chat or connect with their medias!',
-                    style: TextStyle(
-                        fontFamily: 'futura',
-                        color: Colors.white,
-                        fontSize: screenF(18.0)),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Text('People around you',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: screenF(36.0),
-                          // fontWeight: FontWeight.bold,
-                          fontFamily: 'futura')),
-                ),
-                mainImage: Image.asset(
-                  'assets/darkpeoplearoundyou.png',
-                  height: screenH(600.0),
-                  width: screenW(600.0),
-                  alignment: Alignment.center,
-                ),
-              ),
-              PageViewModel(
-                pageColor: const Color(0xFF1458EA),
-                body: Padding(
-                  padding: EdgeInsets.all(screenH(8.0)),
-                  child: Text(
-                    'All your online media handles and a small glimpse into who you are are easily accessible through your personal cards.',
-                    style: TextStyle(
-                        fontFamily: 'futura',
-                        color: Colors.white,
-                        fontSize: screenF(18.0)),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Text('Clickable Cards',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: screenF(36.0),
-                          // fontWeight: FontWeight.bold,
-                          fontFamily: 'futura')),
-                ),
-                mainImage: Image.asset(
-                  'assets/clickablecards.png',
-                  height: screenH(600.0),
-                  width: screenW(600.0),
-                  alignment: Alignment.center,
-                ),
-              ),
-              PageViewModel(
-                  pageColor: Colors.white,
-                  body: OnboardingSave(),
-                  title: Padding(
-                    padding: EdgeInsets.only(top: 20.0),
-                    child: Column(
-                      children: <Widget>[
-                        Text('Enter your handles!',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: screenF(36.0),
-                                // fontWeight: FontWeight.bold,
-                                fontFamily: 'futura')),
-                        SizedBox(
-                          height: screenH(2.5),
-                        ),
-                        Text(
-                          'Handles are clickable on cards',
+                [
+                  PageViewModel(
+                    pageColor: const Color(0xFF1458EA),
+                    body: Padding(
+                      padding: EdgeInsets.all(screenH(8.0)),
+                      child: Text(
+                        'Find people around your location, read their interests, and chat or connect with their medias!',
+                        style: TextStyle(
+                            fontFamily: 'futura',
+                            color: Colors.white,
+                            fontSize: screenF(18.0)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    title: Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Text('People around you',
                           style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: screenF(16.0),
+                              color: Colors.white,
+                              fontSize: screenF(36.0),
                               // fontWeight: FontWeight.bold,
-                              fontFamily: 'futura'),
-                        )
-                      ],
+                              fontFamily: 'futura')),
+                    ),
+                    mainImage: Image.asset(
+                      'assets/darkpeoplearoundyou.png',
+                      height: screenH(600.0),
+                      width: screenW(600.0),
+                      alignment: Alignment.center,
                     ),
                   ),
-                  mainImage: MediaForm()),
-              PageViewModel(
-                pageColor: const Color(0xFF1458EA),
-                body: Padding(
-                  padding: EdgeInsets.all(screenH(8.0)),
-                  child: Text(
-                    'A full list of the people who go to your university, put faces to names.',
-                    style: TextStyle(
-                        fontFamily: 'futura',
-                        color: Colors.white,
-                        fontSize: screenF(18.0)),
-                    textAlign: TextAlign.center,
+                  PageViewModel(
+                    pageColor: const Color(0xFF1458EA),
+                    body: Padding(
+                      padding: EdgeInsets.all(screenH(8.0)),
+                      child: Text(
+                        'All your online media handles and a small glimpse into who you are are easily accessible through your personal cards.',
+                        style: TextStyle(
+                            fontFamily: 'futura',
+                            color: Colors.white,
+                            fontSize: screenF(18.0)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    title: Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Text('Clickable Cards',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenF(36.0),
+                              // fontWeight: FontWeight.bold,
+                              fontFamily: 'futura')),
+                    ),
+                    mainImage: Image.asset(
+                      'assets/clickablecards.png',
+                      height: screenH(600.0),
+                      width: screenW(600.0),
+                      alignment: Alignment.center,
+                    ),
                   ),
-                ),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Text('University Directory',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: screenF(36.0),
-                          // fontWeight: FontWeight.bold,
-                          fontFamily: 'futura')),
-                ),
-                mainImage: Image.asset(
-                  'assets/darkdirectory.png',
-                  height: screenH(600.0),
-                  width: screenW(600.0),
-                  alignment: Alignment.center,
-                ),
-              ),
-              PageViewModel(
-                pageColor: const Color(0xFF1458EA),
-                body: Padding(
-                  padding: EdgeInsets.all(screenH(8.0)),
-                  child: Text(
-                    "We're constantly working to make your experience on our platform as seamless as possible. Stay tuned for new features!",
-                    style: TextStyle(
-                        fontFamily: 'futura',
-                        color: Colors.white,
-                        fontSize: screenF(18.0)),
-                    textAlign: TextAlign.center,
+                  PageViewModel(
+                      pageColor: Colors.white,
+                      body: OnboardingSave(),
+                      title: Padding(
+                        padding: EdgeInsets.only(top: screenH(20.0)),
+                        child: Column(
+                          children: <Widget>[
+                            Text('Enter your handles!',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: screenF(36.0),
+                                    // fontWeight: FontWeight.bold,
+                                    fontFamily: 'futura')),
+                            SizedBox(
+                              height: screenH(2.5),
+                            ),
+                            Text(
+                              'Handles are clickable on cards',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: screenF(16.0),
+                                  // fontWeight: FontWeight.bold,
+                                  fontFamily: 'futura'),
+                            )
+                          ],
+                        ),
+                      ),
+                      mainImage: MediaForm()),
+                  PageViewModel(
+                    pageColor: const Color(0xFF1458EA),
+                    body: Padding(
+                      padding: EdgeInsets.all(screenH(8.0)),
+                      child: Text(
+                        'A full list of the people who go to your university, put faces to names.',
+                        style: TextStyle(
+                            fontFamily: 'futura',
+                            color: Colors.white,
+                            fontSize: screenF(18.0)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    title: Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Text('University Directory',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenF(36.0),
+                              // fontWeight: FontWeight.bold,
+                              fontFamily: 'futura')),
+                    ),
+                    mainImage: Image.asset(
+                      'assets/darkdirectory.png',
+                      height: screenH(600.0),
+                      width: screenW(600.0),
+                      alignment: Alignment.center,
+                    ),
                   ),
+                  PageViewModel(
+                    pageColor: const Color(0xFF1458EA),
+                    body: Padding(
+                      padding: EdgeInsets.all(screenH(8.0)),
+                      child: Text(
+                        "We're constantly working to make your experience on our platform as seamless as possible. Stay tuned for new features!",
+                        style: TextStyle(
+                            fontFamily: 'futura',
+                            color: Colors.white,
+                            fontSize: screenF(18.0)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    title: Padding(
+                      padding: EdgeInsets.only(top: 20.0),
+                      child: Text('More to come',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenF(36.0),
+                              // fontWeight: FontWeight.bold,
+                              fontFamily: 'futura')),
+                    ),
+                    mainImage: Image.asset(
+                      'assets/improvingDrawing.png',
+                      height: screenH(600.0),
+                      width: screenW(600.0),
+                      alignment: Alignment.center,
+                    ),
+                  ),
+                ],
+                showSkipButton: false,
+                onTapDoneButton: () {
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => Profile()));
+                },
+                pageButtonTextStyles: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
                 ),
-                title: Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                  child: Text('More to come',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: screenF(36.0),
-                          // fontWeight: FontWeight.bold,
-                          fontFamily: 'futura')),
-                ),
-                mainImage: Image.asset(
-                  'assets/improvingDrawing.png',
-                  height: screenH(600.0),
-                  width: screenW(600.0),
-                  alignment: Alignment.center,
-                ),
-              ),
-            ],
-            showSkipButton: false,
-            onTapDoneButton: () {
-              Navigator.push(
-                  context, CupertinoPageRoute(builder: (context) => Profile()));
-            },
-            pageButtonTextStyles: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-            ),
-          ), //IntroViewsFlutter
+              ), //IntroViewsFlutter
         ), //Builder
       ),
     ); //Material App
@@ -226,13 +226,13 @@ class _MediaFormState extends State<MediaForm> {
                   hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(
                     FontAwesome.snapchat_square,
-                    size: 30,
+                    size: screenH(33),
                     color: Color(0xFFfffc00),
                   ),
                   prefixText: '@',
                   prefixStyle: TextStyle(color: Colors.grey),
-                  labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-                  contentPadding: EdgeInsets.all(20),
+                  labelStyle: TextStyle(fontSize: screenF(15), color: Colors.blueGrey),
+                  contentPadding: EdgeInsets.all(screenH(22)),
                   border: new OutlineInputBorder(
                     borderRadius: new BorderRadius.circular(25.0),
                     borderSide: new BorderSide(
@@ -247,7 +247,7 @@ class _MediaFormState extends State<MediaForm> {
                   ))),
         ),
         SizedBox(
-          height: screenH(25.0),
+          height: screenH(10.0),
         ),
         Container(
           width: screenW(370),
@@ -263,14 +263,14 @@ class _MediaFormState extends State<MediaForm> {
               prefixIcon: Icon(
                 MaterialCommunityIcons.instagram,
                 color: Color(0xFF8803fc),
-                size: 30,
+                size: screenH(33),
               ),
               hintText: instagram == null ? "Instagram" : instagram,
               hintStyle: TextStyle(color: Colors.grey),
               prefixText: '@',
               prefixStyle: TextStyle(color: Colors.grey),
-              labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(20),
+              labelStyle: TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(22)),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -287,7 +287,7 @@ class _MediaFormState extends State<MediaForm> {
           ),
         ),
         SizedBox(
-          height: screenH(25.0),
+          height: screenH(10.0),
         ),
         Container(
           width: screenW(370),
@@ -303,14 +303,14 @@ class _MediaFormState extends State<MediaForm> {
               prefixIcon: Icon(
                 MaterialCommunityIcons.twitter_box,
                 color: Colors.blue,
-                size: 30,
+                size: screenH(33),
               ),
               hintText: twitter == null ? "Twitter" : twitter,
               hintStyle: TextStyle(color: Colors.grey),
               prefixText: '@',
               prefixStyle: TextStyle(color: Colors.grey),
-              labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(20),
+              labelStyle: TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(22)),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -327,7 +327,7 @@ class _MediaFormState extends State<MediaForm> {
           ),
         ),
         SizedBox(
-          height: screenH(25.0),
+          height: screenH(10.0),
         ),
         Container(
           width: screenW(370),
@@ -342,15 +342,15 @@ class _MediaFormState extends State<MediaForm> {
             decoration: InputDecoration(
               prefixIcon: Icon(
                 FontAwesome.linkedin_square,
-                size: 30,
+                size: screenH(33),
                 color: Color(0xFF0077b5),
               ),
               hintText: linkedIn == null ? "LinkedIn" : linkedIn,
               hintStyle: TextStyle(color: Colors.grey),
               prefixText: '@',
               prefixStyle: TextStyle(color: Colors.grey),
-              labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(20),
+              labelStyle: TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(22)),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -367,7 +367,7 @@ class _MediaFormState extends State<MediaForm> {
           ),
         ),
         SizedBox(
-          height: screenH(25.0),
+          height: screenH(10.0),
         ),
         Container(
           width: screenW(370),
@@ -383,14 +383,14 @@ class _MediaFormState extends State<MediaForm> {
               prefixIcon: Icon(
                 MaterialCommunityIcons.github_box,
                 color: Color(0xFF3c3744),
-                size: 30,
+                size: screenH(33),
               ),
               hintText: github == null ? "GitHub" : github,
               hintStyle: TextStyle(color: Colors.grey),
               prefixText: '@',
               prefixStyle: TextStyle(color: Colors.grey),
-              labelStyle: TextStyle(fontSize: 15, color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(20),
+              labelStyle: TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(22)),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -516,10 +516,10 @@ class _OnboardingSaveState extends State<OnboardingSave> {
           updateSocialCard();
           updateProfCard();
           Flushbar(
-            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            // margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             borderRadius: 15,
             messageText: Padding(
-              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+              padding: EdgeInsets.fromLTRB(screenH(16), 0, 0, 0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -546,10 +546,10 @@ class _OnboardingSaveState extends State<OnboardingSave> {
             ],
             flushbarPosition: FlushbarPosition.TOP,
             icon: Padding(
-              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+              padding: EdgeInsets.fromLTRB(screenH(16), screenH(8), screenH(8), screenH(8)),
               child: Icon(
                 Icons.save_alt,
-                size: 28.0,
+                size: screenH(30.0),
                 color: Color(0xFF1458EA),
               ),
             ),

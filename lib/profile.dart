@@ -113,7 +113,7 @@ class _HomePageOneState extends State<HomePageOne> {
         .document(currentUserModel.uid)
         .collection('profcard')
         .document('prof')
-        .setData({
+        .updateData({
       'displayName': name,
       'major': major,
       'university': university,

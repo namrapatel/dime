@@ -163,7 +163,7 @@ class _SocialInterestPageState extends State<SocialInterestPage> {
                       .collection('users')
                       .document(currentUserModel.uid)
                       .collection('socialcard')
-                      .document(socialCardId)
+                      .document('social')
                       .updateData({'interests': interests});
                   Firestore.instance
                       .collection('users')

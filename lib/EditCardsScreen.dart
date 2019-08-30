@@ -89,33 +89,34 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 
   getSocialInfo() async {
     List<dynamic> interests = [];
-    QuerySnapshot query = await Firestore.instance
+    DocumentSnapshot document = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .collection('socialcard')
-        .getDocuments();
+        .document('social')
+        .get();
 
-    for (var document in query.documents) {
-      setState(() {
-        socialCardId = document.documentID;
+//    for (var document in query.documents) {
+    setState(() {
+//        socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
-        gradYear = document['gradYear'];
-        major = document['major'];
-        name = document['displayName'];
-        university = document['university'];
-        snapchat = document['snapchat'];
-        instagram = document['instagram'];
-        twitter = document['twitter'];
-        photoUrl = document['photoUrl'];
-        interests = document['interests'];
-        isSwitched = document['socialToggled'];
-        email = document['email'];
-      });
+      gradYear = document['gradYear'];
+      major = document['major'];
+      name = document['displayName'];
+      university = document['university'];
+      snapchat = document['snapchat'];
+      instagram = document['instagram'];
+      twitter = document['twitter'];
+      photoUrl = document['photoUrl'];
+      interests = document['interests'];
+      isSwitched = document['socialToggled'];
+      email = document['email'];
+    });
 
 //      bio=document['bio'];
 
-    }
+//    }
     if (interests != null) {
       for (int i = 0; i < interests.length; i++) {
         if (i == interests.length - 1) {
@@ -133,7 +134,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         .collection('users')
         .document(currentUserModel.uid)
         .collection('socialcard')
-        .document(socialCardId)
+        .document('social')
         .updateData({
       'displayName': name,
       'major': major,
@@ -990,7 +991,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                             onPressed: () {
                               updateSocialCard();
                               Flushbar(
-                                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
                                 borderRadius: 15,
                                 messageText: Padding(
                                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -1087,31 +1089,32 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   File _image;
   getProfInfo() async {
     List<dynamic> interests = [];
-    QuerySnapshot query = await Firestore.instance
+    DocumentSnapshot document = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .collection('profcard')
-        .getDocuments();
+        .document('prof')
+        .get();
 
-    for (var document in query.documents) {
-      setState(() {
-        profCardId = document.documentID;
-        gradYear = document['gradYear'];
-        major = document['major'];
-        name = document['displayName'];
-        university = document['university'];
-        github = document['github'];
-        linkedIn = document['linkedIn'];
-        twitter = document['twitter'];
-        photoUrl = document['photoUrl'];
-        isSwitched2 = document['socialToggled'];
-        email = document['email'];
-        interests = document['interests'];
-      });
+//    for (var document in query.documents) {
+    setState(() {
+//        profCardId = document.documentID;
+      gradYear = document['gradYear'];
+      major = document['major'];
+      name = document['displayName'];
+      university = document['university'];
+      github = document['github'];
+      linkedIn = document['linkedIn'];
+      twitter = document['twitter'];
+      photoUrl = document['photoUrl'];
+      isSwitched2 = document['socialToggled'];
+      email = document['email'];
+      interests = document['interests'];
+    });
 
 //      bio=document['bio'];
 
-    }
+//    }
     if (interests != null) {
       for (int i = 0; i < interests.length; i++) {
         if (i == interests.length - 1) {
@@ -1129,7 +1132,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
         .collection('users')
         .document(currentUserModel.uid)
         .collection('profcard')
-        .document(profCardId)
+        .document('prof')
         .updateData({
       'displayName': name,
       'major': major,
@@ -2027,7 +2030,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                             onPressed: () {
                               updateProfCard();
                               Flushbar(
-                                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
                                 // message: "hello",
                                 borderRadius: 15,
                                 messageText: Padding(

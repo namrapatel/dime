@@ -164,7 +164,7 @@ class _ProfInterestPageState extends State<ProfInterestPage> {
                       .collection('users')
                       .document(currentUserModel.uid)
                       .collection('profcard')
-                      .document(profCardId)
+                      .document('prof')
                       .updateData({'interests': interests});
                   Firestore.instance
                       .collection('users')

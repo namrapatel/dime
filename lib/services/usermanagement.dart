@@ -25,7 +25,8 @@ class UserManagement {
         .collection('users')
         .document(id)
         .collection('profcard')
-        .add({
+        .document('prof')
+        .setData({
       'photoUrl': url,
       'displayName': name,
       'socialToggled': true,
@@ -35,7 +36,8 @@ class UserManagement {
         .collection('users')
         .document(id)
         .collection('socialcard')
-        .add({
+        .document('social')
+        .setData({
       'photoUrl': url,
       'displayName': name,
       'socialToggled': true,

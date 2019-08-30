@@ -39,162 +39,162 @@ class onBoarding extends StatelessWidget {
 
         body: Builder(
           builder: (context) => IntroViewsFlutter(
-                [
-                  PageViewModel(
-                    pageColor: const Color(0xFF1458EA),
-                    body: Padding(
-                      padding: EdgeInsets.all(screenH(8.0)),
-                      child: Text(
-                        'Find people around your location, read their interests, and chat or connect with their medias!',
-                        style: TextStyle(
-                            fontFamily: 'futura',
-                            color: Colors.white,
-                            fontSize: screenF(18.0)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    title: Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Text('People around you',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenF(36.0),
-                              // fontWeight: FontWeight.bold,
-                              fontFamily: 'futura')),
-                    ),
-                    mainImage: Image.asset(
-                      'assets/darkpeoplearoundyou.png',
-                      height: screenH(600.0),
-                      width: screenW(600.0),
-                      alignment: Alignment.center,
-                    ),
+            [
+              PageViewModel(
+                pageColor: const Color(0xFF1458EA),
+                body: Padding(
+                  padding: EdgeInsets.all(screenH(8.0)),
+                  child: Text(
+                    'Find people around your location, read their interests, and chat or connect with their medias!',
+                    style: TextStyle(
+                        fontFamily: 'futura',
+                        color: Colors.white,
+                        fontSize: screenF(18.0)),
+                    textAlign: TextAlign.center,
                   ),
-                  PageViewModel(
-                    pageColor: const Color(0xFF1458EA),
-                    body: Padding(
-                      padding: EdgeInsets.all(screenH(8.0)),
-                      child: Text(
-                        'All your online media handles and a small glimpse into who you are are easily accessible through your personal cards.',
-                        style: TextStyle(
-                            fontFamily: 'futura',
-                            color: Colors.white,
-                            fontSize: screenF(18.0)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    title: Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Text('Clickable Cards',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenF(36.0),
-                              // fontWeight: FontWeight.bold,
-                              fontFamily: 'futura')),
-                    ),
-                    mainImage: Image.asset(
-                      'assets/clickablecards.png',
-                      height: screenH(600.0),
-                      width: screenW(600.0),
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                  PageViewModel(
-                      pageColor: Colors.white,
-                      body: OnboardingSave(),
-                      title: Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: Column(
-                          children: <Widget>[
-                            Text('Enter your handles!',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: screenF(36.0),
-                                    // fontWeight: FontWeight.bold,
-                                    fontFamily: 'futura')),
-                            SizedBox(
-                              height: screenH(2.5),
-                            ),
-                            Text(
-                              'Handles are clickable on cards',
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: screenF(16.0),
-                                  // fontWeight: FontWeight.bold,
-                                  fontFamily: 'futura'),
-                            )
-                          ],
-                        ),
-                      ),
-                      mainImage: MediaForm()),
-                  PageViewModel(
-                    pageColor: const Color(0xFF1458EA),
-                    body: Padding(
-                      padding: EdgeInsets.all(screenH(8.0)),
-                      child: Text(
-                        'A full list of the people who go to your university, put faces to names.',
-                        style: TextStyle(
-                            fontFamily: 'futura',
-                            color: Colors.white,
-                            fontSize: screenF(18.0)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    title: Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Text('University Directory',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenF(36.0),
-                              // fontWeight: FontWeight.bold,
-                              fontFamily: 'futura')),
-                    ),
-                    mainImage: Image.asset(
-                      'assets/darkdirectory.png',
-                      height: screenH(600.0),
-                      width: screenW(600.0),
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                  PageViewModel(
-                    pageColor: const Color(0xFF1458EA),
-                    body: Padding(
-                      padding: EdgeInsets.all(screenH(8.0)),
-                      child: Text(
-                        "We're constantly working to make your experience on our platform as seamless as possible. Stay tuned for new features!",
-                        style: TextStyle(
-                            fontFamily: 'futura',
-                            color: Colors.white,
-                            fontSize: screenF(18.0)),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    title: Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Text('More to come',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: screenF(36.0),
-                              // fontWeight: FontWeight.bold,
-                              fontFamily: 'futura')),
-                    ),
-                    mainImage: Image.asset(
-                      'assets/improvingDrawing.png',
-                      height: screenH(600.0),
-                      width: screenW(600.0),
-                      alignment: Alignment.center,
-                    ),
-                  ),
-                ],
-                showSkipButton: false,
-                onTapDoneButton: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => Profile()));
-                },
-                pageButtonTextStyles: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
                 ),
-              ), //IntroViewsFlutter
+                title: Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text('People around you',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenF(36.0),
+                          // fontWeight: FontWeight.bold,
+                          fontFamily: 'futura')),
+                ),
+                mainImage: Image.asset(
+                  'assets/darkpeoplearoundyou.png',
+                  height: screenH(600.0),
+                  width: screenW(600.0),
+                  alignment: Alignment.center,
+                ),
+              ),
+              PageViewModel(
+                pageColor: const Color(0xFF1458EA),
+                body: Padding(
+                  padding: EdgeInsets.all(screenH(8.0)),
+                  child: Text(
+                    'All your online media handles and a small glimpse into who you are are easily accessible through your personal cards.',
+                    style: TextStyle(
+                        fontFamily: 'futura',
+                        color: Colors.white,
+                        fontSize: screenF(18.0)),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                title: Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text('Clickable Cards',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenF(36.0),
+                          // fontWeight: FontWeight.bold,
+                          fontFamily: 'futura')),
+                ),
+                mainImage: Image.asset(
+                  'assets/clickablecards.png',
+                  height: screenH(600.0),
+                  width: screenW(600.0),
+                  alignment: Alignment.center,
+                ),
+              ),
+              PageViewModel(
+                  pageColor: Colors.white,
+                  body: OnboardingSave(),
+                  title: Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                    child: Column(
+                      children: <Widget>[
+                        Text('Enter your handles!',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: screenF(36.0),
+                                // fontWeight: FontWeight.bold,
+                                fontFamily: 'futura')),
+                        SizedBox(
+                          height: screenH(2.5),
+                        ),
+                        Text(
+                          'Handles are clickable on cards',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: screenF(16.0),
+                              // fontWeight: FontWeight.bold,
+                              fontFamily: 'futura'),
+                        )
+                      ],
+                    ),
+                  ),
+                  mainImage: MediaForm()),
+              PageViewModel(
+                pageColor: const Color(0xFF1458EA),
+                body: Padding(
+                  padding: EdgeInsets.all(screenH(8.0)),
+                  child: Text(
+                    'A full list of the people who go to your university, put faces to names.',
+                    style: TextStyle(
+                        fontFamily: 'futura',
+                        color: Colors.white,
+                        fontSize: screenF(18.0)),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                title: Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text('University Directory',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenF(36.0),
+                          // fontWeight: FontWeight.bold,
+                          fontFamily: 'futura')),
+                ),
+                mainImage: Image.asset(
+                  'assets/darkdirectory.png',
+                  height: screenH(600.0),
+                  width: screenW(600.0),
+                  alignment: Alignment.center,
+                ),
+              ),
+              PageViewModel(
+                pageColor: const Color(0xFF1458EA),
+                body: Padding(
+                  padding: EdgeInsets.all(screenH(8.0)),
+                  child: Text(
+                    "We're constantly working to make your experience on our platform as seamless as possible. Stay tuned for new features!",
+                    style: TextStyle(
+                        fontFamily: 'futura',
+                        color: Colors.white,
+                        fontSize: screenF(18.0)),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                title: Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Text('More to come',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenF(36.0),
+                          // fontWeight: FontWeight.bold,
+                          fontFamily: 'futura')),
+                ),
+                mainImage: Image.asset(
+                  'assets/improvingDrawing.png',
+                  height: screenH(600.0),
+                  width: screenW(600.0),
+                  alignment: Alignment.center,
+                ),
+              ),
+            ],
+            showSkipButton: false,
+            onTapDoneButton: () {
+              Navigator.push(
+                  context, CupertinoPageRoute(builder: (context) => Profile()));
+            },
+            pageButtonTextStyles: TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            ),
+          ), //IntroViewsFlutter
         ), //Builder
       ),
     ); //Material App
@@ -207,79 +207,6 @@ class MediaForm extends StatefulWidget {
 }
 
 class _MediaFormState extends State<MediaForm> {
-//   getSocialInfo() async {
-//     List<dynamic> interests = [];
-//     QuerySnapshot query = await Firestore.instance
-//         .collection('users')
-//         .document(currentUserModel.uid)
-//         .collection('socialcard')
-//         .getDocuments();
-
-//     for (var document in query.documents) {
-//       setState(() {
-//         socialCardId = document.documentID;
-
-// //      String photoUrl=document['photoUrl'];
-//         snapchat = document['snapchat'];
-//         instagram = document['instagram'];
-//         twitter = document['twitter'];
-//         interests = document['interests'];
-//       });
-
-// //      bio=document['bio'];
-
-//     }
-//   }
-
-//   updateSocialCard() {
-//     Firestore.instance
-//         .collection('users')
-//         .document(currentUserModel.uid)
-//         .collection('socialcard')
-//         .document(socialCardId)
-//         .updateData({
-//       'snapchat': snapchat,
-//       'instagram': instagram,
-//       'twitter': twitter,
-//     });
-//   }
-
-  getProfInfo() async {
-    List<dynamic> interests = [];
-    QuerySnapshot query = await Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('profcard')
-        .getDocuments();
-
-    for (var document in query.documents) {
-      setState(() {
-        profCardId = document.documentID;
-        github = document['github'];
-        linkedIn = document['linkedIn'];
-        twitter = document['twitter'];
-      });
-
-//      bio=document['bio'];
-
-    }
-  }
-
-  updateProfCard() {
-    Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('profcard')
-        .document(profCardId)
-        .updateData({
-      'github': github,
-      'linkedIn': linkedIn,
-      'twitter': twitter,
-    });
-
-    Firestore.instance.collection('users').document(currentUserModel.uid);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -550,39 +477,28 @@ class OnboardingSave extends StatefulWidget {
 }
 
 class _OnboardingSaveState extends State<OnboardingSave> {
-  getSocialInfo() async {
-    List<dynamic> interests = [];
-    QuerySnapshot query = await Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('socialcard')
-        .getDocuments();
-
-    for (var document in query.documents) {
-      setState(() {
-        socialCardId = document.documentID;
-
-//      String photoUrl=document['photoUrl'];
-        snapchat = document['snapchat'];
-        instagram = document['instagram'];
-        twitter = document['twitter'];
-        interests = document['interests'];
-      });
-
-//      bio=document['bio'];
-
-    }
-  }
-
   updateSocialCard() {
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .collection('socialcard')
-        .document(socialCardId)
+        .document('social')
         .setData({
       'snapchat': snapchat,
       'instagram': instagram,
+      'twitter': twitter,
+    });
+  }
+
+  updateProfCard() {
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .document('prof')
+        .setData({
+      'github': github,
+      'linkedIn': linkedIn,
       'twitter': twitter,
     });
   }
@@ -598,8 +514,9 @@ class _OnboardingSaveState extends State<OnboardingSave> {
         elevation: screenH(5),
         onPressed: () {
           updateSocialCard();
+          updateProfCard();
           Flushbar(
-             margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
             borderRadius: 15,
             messageText: Padding(
               padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

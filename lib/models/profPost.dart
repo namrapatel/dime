@@ -117,8 +117,10 @@ class _ProfPostState extends State<ProfPost> {
 
   getPostInfo() async {
     DocumentSnapshot doc = await Firestore.instance
-        .collection('profPosts')
-        .document(widget.postId)
+        .collection('streams')
+        .document(stream)
+        .collection('posts')
+        .document(postId)
         .get();
     Timestamp storedDate = doc["timeStamp"];
     String elapsedTime = timeago.format(storedDate.toDate());
@@ -287,8 +289,10 @@ class _ProfPostState extends State<ProfPost> {
                                 });
 
                                 Firestore.instance
-                                    .collection('profPosts')
-                                    .document(widget.postId)
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
                                     .updateData({
                                   'likes': FieldValue.arrayUnion(
                                       [currentUserModel.uid])
@@ -311,8 +315,10 @@ class _ProfPostState extends State<ProfPost> {
                                   points--;
                                 });
                                 Firestore.instance
-                                    .collection('profPosts')
-                                    .document(widget.postId)
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
                                     .updateData({
                                   'likes': FieldValue.arrayRemove(
                                       [currentUserModel.uid])
@@ -344,8 +350,10 @@ class _ProfPostState extends State<ProfPost> {
                                 }
                               }
                               Firestore.instance
-                                  .collection('profPosts')
-                                  .document(widget.postId)
+                                  .collection('streams')
+                                  .document(stream)
+                                  .collection('posts')
+                                  .document(postId)
                                   .updateData(
                                       {'upVotes': upVotes, 'points': points});
 

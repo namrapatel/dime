@@ -22,7 +22,8 @@ class Comment extends StatelessWidget {
       text,
       timestamp,
       type,
-      postId;
+      postId,
+      stream;
   final List tags;
   const Comment(
       {this.commenterId,
@@ -33,23 +34,24 @@ class Comment extends StatelessWidget {
       this.tags,
       this.type,
       this.postId,
-      this.commentId});
+      this.commentId,
+      this.stream});
 
   factory Comment.fromDocument(DocumentSnapshot document) {
     Timestamp storedDate = document['timestamp'];
     String elapsedTime = timeago.format(storedDate.toDate());
     String timestamp = '$elapsedTime';
     return Comment(
-      commenterId: document['commenterId'],
-      commenterName: document['commenterName'],
-      commentId: document.documentID,
-      postId: document['postId'],
-      type: document['type'],
-      commenterPhoto: document['commenterPhoto'],
-      tags: document['tags'],
-      text: document['text'],
-      timestamp: timestamp,
-    );
+        commenterId: document['commenterId'],
+        commenterName: document['commenterName'],
+        commentId: document.documentID,
+        postId: document['postId'],
+        type: document['type'],
+        commenterPhoto: document['commenterPhoto'],
+        tags: document['tags'],
+        text: document['text'],
+        timestamp: timestamp,
+        stream: document['stream']);
   }
 
   @override
@@ -219,7 +221,9 @@ class Comment extends StatelessWidget {
                                         )));
                           } else if (type == 'prof') {
                             DocumentSnapshot snap = await Firestore.instance
-                                .collection('profPosts')
+                                .collection('streams')
+                                .document(stream)
+                                .collection('posts')
                                 .document(postId)
                                 .get();
                             int commentsNumber = snap['comments'];

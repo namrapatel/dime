@@ -10,7 +10,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Dime/models/user.dart';
-import 'package:Dime/services/googleauth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'homePage.dart';
 import 'onboarding.dart';
@@ -34,28 +33,6 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-//    FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
-//      if (firebaseUser != null) {
-//        print('in login');
-//        print(firebaseUser);
-//        print(firebaseUser.displayName);
-//        print("you're in");
-////check for exception, may only be if emulator not wiped
-//        DocumentSnapshot userRecord = await Firestore.instance
-//            .collection('users')
-//            .document(firebaseUser.uid)
-//            .get();
-//        if (userRecord.data != null) {
-//          currentUserModel = User.fromDocument(userRecord);
-//          Navigator.push(
-//              context,
-//              PageTransition(
-//                  type: PageTransitionType.rightToLeft, child: SplashScreen()));
-//        }
-//      } else {
-//        print("floppps");
-//      }
-//    });
   }
 
   final Firestore _db = Firestore.instance;

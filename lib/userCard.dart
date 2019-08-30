@@ -69,7 +69,9 @@ class _UserCardState extends State<UserCard> {
         return SocialPost.fromDocument(doc);
       } else {
         DocumentSnapshot doc = await Firestore.instance
-            .collection('profPosts')
+            .collection('streams')
+            .document(snap.data[index].data['stream'])
+            .collection('posts')
             .document(snap.data[index].data['postId'])
             .get();
         return ProfPost.fromDocument(doc);
@@ -117,166 +119,177 @@ class _UserCardState extends State<UserCard> {
                               toUserId: userId)));
                 },
               ),
-              currentUserModel.uid!=userId?
-              IconButton(
-                  icon: Icon(Feather.more_vertical),
-                  color: Colors.white,
-                  onPressed: () {
-                    showCupertinoModalPopup(
-                        context: context,
-                        builder: (BuildContext context) => CupertinoActionSheet(
-                            title: const Text('What would you like to do?'),
-                            actions: <Widget>[
-                              CupertinoActionSheetAction(
-                                  child: const Text('Block'),
-                                  onPressed: () {
-                                    List<String> blockedId = [];
-                                    blockedId.add(userId);
-                                    Firestore.instance
-                                        .collection('users')
-                                        .document(currentUserModel.uid)
-                                        .setData({
-                                      'blocked$userId': true,
-                                      'blocked':
-                                          FieldValue.arrayUnion(blockedId)
-                                    }, merge: true);
+              currentUserModel.uid != userId
+                  ? IconButton(
+                      icon: Icon(Feather.more_vertical),
+                      color: Colors.white,
+                      onPressed: () {
+                        showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CupertinoActionSheet(
+                                    title: const Text(
+                                        'What would you like to do?'),
+                                    actions: <Widget>[
+                                      CupertinoActionSheetAction(
+                                          child: const Text('Block'),
+                                          onPressed: () {
+                                            List<String> blockedId = [];
+                                            blockedId.add(userId);
+                                            Firestore.instance
+                                                .collection('users')
+                                                .document(currentUserModel.uid)
+                                                .setData({
+                                              'blocked$userId': true,
+                                              'blocked': FieldValue.arrayUnion(
+                                                  blockedId)
+                                            }, merge: true);
 
-                                    List<String> blocked = [];
-                                    blocked.add(currentUserModel.uid);
-                                    Firestore.instance
-                                        .collection('users')
-                                        .document(userId)
-                                        .setData({
-                                      'blocked${currentUserModel.uid}': true,
-                                      'blockedby':
-                                          FieldValue.arrayUnion(blocked)
-                                    }, merge: true);
+                                            List<String> blocked = [];
+                                            blocked.add(currentUserModel.uid);
+                                            Firestore.instance
+                                                .collection('users')
+                                                .document(userId)
+                                                .setData({
+                                              'blocked${currentUserModel.uid}':
+                                                  true,
+                                              'blockedby':
+                                                  FieldValue.arrayUnion(blocked)
+                                            }, merge: true);
 
-                                    Firestore.instance
-                                        .collection('users')
-                                        .document(currentUserModel.uid)
-                                        .collection('messages')
-                                        .document(userId)
-                                        .setData({'blocked': true},
-                                            merge: true);
+                                            Firestore.instance
+                                                .collection('users')
+                                                .document(currentUserModel.uid)
+                                                .collection('messages')
+                                                .document(userId)
+                                                .setData({'blocked': true},
+                                                    merge: true);
 
-                                    Firestore.instance
-                                        .collection('users')
-                                        .document(userId)
-                                        .collection('messages')
-                                        .document(currentUserModel.uid)
-                                        .setData({'blocked': true},
-                                            merge: true);
-                                    Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                            builder: (context) =>
-                                                ScrollPage()));
-                                    Flushbar(
-                                      margin: EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 5),
-                                      borderRadius: 15,
-                                      messageText: Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Text(
-                                              "Done",
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold),
+                                            Firestore.instance
+                                                .collection('users')
+                                                .document(userId)
+                                                .collection('messages')
+                                                .document(currentUserModel.uid)
+                                                .setData({'blocked': true},
+                                                    merge: true);
+                                            Navigator.push(
+                                                context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        ScrollPage()));
+                                            Flushbar(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 15, vertical: 5),
+                                              borderRadius: 15,
+                                              messageText: Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15, 0, 0, 0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "Done",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ),
+                                                    Text(
+                                                      "This user has been blocked.",
+                                                      style: TextStyle(
+                                                          color: Colors.grey),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              backgroundColor: Colors.white,
+                                              flushbarPosition:
+                                                  FlushbarPosition.TOP,
+                                              icon: Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15, 8, 8, 8),
+                                                child: Icon(
+                                                  Icons.info_outline,
+                                                  size: 28.0,
+                                                  color: Color(0xFF1458EA),
+                                                ),
+                                              ),
+                                              duration: Duration(seconds: 3),
+                                            )..show(context);
+                                          }),
+                                      CupertinoActionSheetAction(
+                                        child: const Text('Report'),
+                                        onPressed: () {
+                                          // ADD REPORT FUNCTIONALITY HERE
+                                          List<String> id = [];
+                                          id.add(currentUserModel.uid);
+                                          Firestore.instance
+                                              .collection('reportedUsers')
+                                              .document(userId)
+                                              .setData({
+                                            'userID': userId,
+                                            'userName': userName,
+                                            'reporterIDs':
+                                                FieldValue.arrayUnion(id),
+                                          }, merge: true);
+
+                                          Flushbar(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 5),
+                                            borderRadius: 15,
+                                            messageText: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  15, 0, 0, 0),
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: <Widget>[
+                                                  Text(
+                                                    "Done",
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                  Text(
+                                                    "Our team will review this user's recent activity as per your report.",
+                                                    style: TextStyle(
+                                                        color: Colors.grey),
+                                                  )
+                                                ],
+                                              ),
                                             ),
-                                            Text(
-                                              "This user has been blocked.",
-                                              style:
-                                                  TextStyle(color: Colors.grey),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      backgroundColor: Colors.white,
-                                      flushbarPosition: FlushbarPosition.TOP,
-                                      icon: Padding(
-                                        padding:
-                                            EdgeInsets.fromLTRB(15, 8, 8, 8),
-                                        child: Icon(
-                                          Icons.info_outline,
-                                          size: 28.0,
-                                          color: Color(0xFF1458EA),
-                                        ),
-                                      ),
-                                      duration: Duration(seconds: 3),
-                                    )..show(context);
-                                  }),
-                              CupertinoActionSheetAction(
-                                child: const Text('Report'),
-                                onPressed: () {
-                                  // ADD REPORT FUNCTIONALITY HERE
-                                  List<String> id = [];
-                                  id.add(currentUserModel.uid);
-                                  Firestore.instance
-                                      .collection('reportedUsers')
-                                      .document(userId)
-                                      .setData({
-                                    'userID': userId,
-                                    'userName': userName,
-                                    'reporterIDs': FieldValue.arrayUnion(id),
-                                  }, merge: true);
-
-                                  Flushbar(
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 5),
-                                    borderRadius: 15,
-                                    messageText: Padding(
-                                      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(
-                                            "Done",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          Text(
-                                            "Our team will review this user's recent activity as per your report.",
-                                            style:
-                                                TextStyle(color: Colors.grey),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    backgroundColor: Colors.white,
-                                    flushbarPosition: FlushbarPosition.TOP,
-                                    icon: Padding(
-                                      padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                                      child: Icon(
-                                        Icons.info_outline,
-                                        size: 28.0,
-                                        color: Color(0xFF1458EA),
-                                      ),
-                                    ),
-                                    duration: Duration(seconds: 3),
-                                  )..show(context);
-                                },
-                              )
-                            ],
-                            cancelButton: CupertinoActionSheetAction(
-                              child: const Text('Cancel'),
-                              isDefaultAction: true,
-                              onPressed: () {
-                                Navigator.pop(context, 'Cancel');
-                              },
-                            )));
-                  }):Container()
+                                            backgroundColor: Colors.white,
+                                            flushbarPosition:
+                                                FlushbarPosition.TOP,
+                                            icon: Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  15, 8, 8, 8),
+                                              child: Icon(
+                                                Icons.info_outline,
+                                                size: 28.0,
+                                                color: Color(0xFF1458EA),
+                                              ),
+                                            ),
+                                            duration: Duration(seconds: 3),
+                                          )..show(context);
+                                        },
+                                      )
+                                    ],
+                                    cancelButton: CupertinoActionSheetAction(
+                                      child: const Text('Cancel'),
+                                      isDefaultAction: true,
+                                      onPressed: () {
+                                        Navigator.pop(context, 'Cancel');
+                                      },
+                                    )));
+                      })
+                  : Container()
             ],
           ),
         ),

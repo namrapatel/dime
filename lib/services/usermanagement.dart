@@ -62,9 +62,9 @@ class UserManagement {
   }
 
   addProfPost(String caption, Timestamp timeStamp, String postPic,
-      String postId, int upVotes) {
+      String postId, int upVotes, String stream) {
     List<dynamic> likes = [];
-    Firestore.instance.collection('profPosts').add({
+    Firestore.instance.collection('profPosts').document(postId).setData({
       'points': 0,
       'comments': 0,
       'caption': caption,
@@ -75,7 +75,28 @@ class UserManagement {
       'upVotes': upVotes,
       "likes": likes,
       "university": currentUserModel.university,
-      'status': 'pending'
+      'status': 'pending',
+      'stream': stream
+    });
+
+    Firestore.instance
+        .collection('streams')
+        .document(stream)
+        .collection('posts')
+        .document(postId)
+        .setData({
+      'points': 0,
+      'comments': 0,
+      'caption': caption,
+      'timeStamp': timeStamp,
+      'postPic': postPic,
+      "ownerId": currentUserModel.uid,
+      "postID": postId,
+      'upVotes': upVotes,
+      "likes": likes,
+      "university": currentUserModel.university,
+      'status': 'pending',
+      'stream': stream
     });
   }
 }

@@ -408,15 +408,15 @@ class ProfCard extends StatelessWidget {
                                           color: Colors.black,
                                           fontSize: screenF(12))),
                                 ])),
-                      Positioned(
-                        top: screenH(210),
-                        left: screenW(20),
-                        child: Text(
-                            interestString != null ? interestString : "",
-                            style: TextStyle(
-                                color: Color(0xFF096664),
-                                fontSize: screenF(13))),
-                      ),
+                      // Positioned(
+                      //   top: screenH(210),
+                      //   left: screenW(20),
+                      //   child: Text(
+                      //       interestString != null ? interestString : "",
+                      //       style: TextStyle(
+                      //           color: Color(0xFF096664),
+                      //           fontSize: screenF(13))),
+                      // ),
                       Positioned(
                         left: screenW(265),
                         top: screenH(20),

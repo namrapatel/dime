@@ -13,15 +13,17 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'streams.dart';
 
-
-
 class ProfPage extends StatefulWidget {
+  final String stream;
+  const ProfPage({this.stream});
   @override
-  _ProfPageState createState() => _ProfPageState();
+  _ProfPageState createState() => _ProfPageState(stream: stream);
 }
 
 class _ProfPageState extends State<ProfPage> {
   var university = currentUserModel.university;
+  String stream;
+  _ProfPageState({this.stream});
   @override
   void initState() {
     super.initState();
@@ -29,7 +31,9 @@ class _ProfPageState extends State<ProfPage> {
 
   Future getPosts() async {
     QuerySnapshot qn = await Firestore.instance
-        .collection('profPosts')
+        .collection('streams')
+        .document(stream)
+        .collection('posts')
         .where('university', isEqualTo: currentUserModel.university)
         .getDocuments();
     List<dynamic> docs = qn.documents;
@@ -117,7 +121,7 @@ class _ProfPageState extends State<ProfPage> {
                   Column(
                     children: <Widget>[
                       SizedBox(
-                        height: 4,
+                        height: screenH(8.5),
                       ),
                       IconButton(
                         icon: Icon(
@@ -126,10 +130,17 @@ class _ProfPageState extends State<ProfPage> {
                           size: 20,
                         ),
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => ScrollPage()));
+                          if (stream == 'general') {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => ScrollPage()));
+                          } else {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => ProfStreams()));
+                          }
                         },
                       ),
                     ],
@@ -138,56 +149,135 @@ class _ProfPageState extends State<ProfPage> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 30,
                   ),
-                  Row(
+                  Column(
                     children: <Widget>[
-                      Container(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: AutoSizeText(
-                          "@general",
-                          //university != null ? university : "Whoops!",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                          minFontSize: 12,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                      SizedBox(
+                        height: screenH(3.0),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.keyboard_arrow_down, color: Colors.white,),
-                        onPressed: (){
-                          Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => ProfStreams()));
-                        },
-                      )
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            child: AutoSizeText(
+                              '@' + stream,
+                              //university != null ? university : "Whoops!",
+                              style: TextStyle(
+                                  fontSize: screenF(27.5),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              minFontSize: 12,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: screenH(5.8),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => ProfStreams()));
+                                },
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ],
                   ),
+                  // Container(
+                  //   child: RaisedButton(
+                  //       shape: new RoundedRectangleBorder(
+                  //           borderRadius: new BorderRadius.circular(20.0)),
+                  //       child: Text(
+                  //         "Subscribe",
+                  //         style: TextStyle(color: Colors.white),
+                  //       ),
+                  //       color: Colors.black,
+                  //       onPressed: () {}),
+                  // ),
+                  Spacer(),
+                  currentUserModel.university != null
+                      ? InkWell(
+                          child: Icon(
+                            Ionicons.ios_create,
+                            size: screenH(36.0),
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => CreateProfPost(
+                                          stream: stream,
+                                        )));
+                          },
+                        )
+                      : SizedBox(),
+                  // FloatingActionButton(
+                  //   shape: RoundedRectangleBorder(
+                  //       borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         CupertinoPageRoute(
+                  //             builder: (context) => CreateProfPost(
+                  //                   stream: stream,
+                  //                 )));
+                  //   },
+                  //   elevation: 50,
+                  //   heroTag: 'btn1',
+                  //   backgroundColor: Color(0xFF3c3744),
+                  //   child: Icon(
+                  //     Icons.add,
+                  //     // color: Color(0xFF8803fc),
+                  //     color: Colors.white,
+                  //   ),
+                  // )
                 ],
               ),
             )),
         backgroundColor: Color(0xFF096664),
         floatingActionButton: currentUserModel.university != null
-            ? FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => CreateProfPost()));
-                },
-                elevation: 50,
-                heroTag: 'btn1',
-                backgroundColor: Color(0xFF3c3744),
-                child: Icon(
-                  Icons.add,
-                  // color: Color(0xFF8803fc),
-                  color: Colors.white,
-                ),
-              )
+            // ? FloatingActionButton(
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.all(Radius.circular(16.0))),
+            //     onPressed: () {
+            //       Navigator.push(
+            //           context,
+            //           CupertinoPageRoute(
+            //               builder: (context) => CreateProfPost(
+            //                     stream: stream,
+            //                   )));
+            //     },
+            //     elevation: 50,
+            //     heroTag: 'btn1',
+            //     backgroundColor: Color(0xFF3c3744),
+            //     child: Icon(
+            //       Icons.add,
+            //       // color: Color(0xFF8803fc),
+            //       color: Colors.white,
+            //     ),
+            //   )
+            ? SizedBox()
+            // Container(
+            //     child: RaisedButton(
+            //         shape: new RoundedRectangleBorder(
+            //             borderRadius: new BorderRadius.circular(20.0)),
+            //         child: Text(
+            //           "Subscribe",
+            //           style: TextStyle(color: Color(0xFF096664)),
+            //         ),
+            //         color: Colors.white,
+            //         onPressed: () {}),
+            //   )
             : SizedBox(
                 height: 1,
               ),

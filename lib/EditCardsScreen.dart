@@ -303,6 +303,11 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       'socialToggled': isSwitched,
       'email': email
     });
+
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .updateData({'photoUrl': photoUrl});
   }
 
   Future<void> uploadImage() async {
@@ -1113,36 +1118,36 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       SizedBox(
                         height: screenH(20.0),
                       ),
-                      new OutlineButton(
-                          padding: EdgeInsets.all(screenH(16)),
-                          color: Color(0xFF8803fc),
-                          child: new Text(
-                            "Choose 3 social interest tags",
-                            style: TextStyle(
-                                color: Color(0xFF8803fc),
-                                fontSize: screenF(16)),
-                          ),
-                          onPressed: () async {
-                            DocumentSnapshot doc = await Firestore.instance
-                                .collection('variableData')
-                                .document('interests')
-                                .get();
-                            List<dynamic> socialInterests =
-                                doc['socialInterests'];
-                            setState(() {
-                              for (int i = 0; i < socialInterests.length; i++) {
-                                interestList.add(
-                                    new SocialInterestTile(socialInterests[i]));
-                              }
-                            });
-                            showSearch(
-                                context: context, delegate: SocialDataSearch());
-                          },
-                          shape: new RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Color(0xFF1458EA),
-                              ),
-                              borderRadius: new BorderRadius.circular(30.0))),
+//                      new OutlineButton(
+//                          padding: EdgeInsets.all(screenH(16)),
+//                          color: Color(0xFF8803fc),
+//                          child: new Text(
+//                            "Choose 3 social interest tags",
+//                            style: TextStyle(
+//                                color: Color(0xFF8803fc),
+//                                fontSize: screenF(16)),
+//                          ),
+//                          onPressed: () async {
+//                            DocumentSnapshot doc = await Firestore.instance
+//                                .collection('variableData')
+//                                .document('interests')
+//                                .get();
+//                            List<dynamic> socialInterests =
+//                                doc['socialInterests'];
+//                            setState(() {
+//                              for (int i = 0; i < socialInterests.length; i++) {
+//                                interestList.add(
+//                                    new SocialInterestTile(socialInterests[i]));
+//                              }
+//                            });
+//                            showSearch(
+//                                context: context, delegate: SocialDataSearch());
+//                          },
+//                          shape: new RoundedRectangleBorder(
+//                              side: BorderSide(
+//                                color: Color(0xFF1458EA),
+//                              ),
+//                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),
@@ -1295,7 +1300,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     print(interestString);
   }
 
-  updateProfCard() {
+  updateProfCard() async {
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -1313,10 +1318,19 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'email': email
     });
 
-    Firestore.instance
+    DocumentSnapshot social = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .updateData({'photoUrl': photoUrl});
+        .collection('socialcard')
+        .document('social')
+        .get();
+    if (social['photoUrl'] ==
+        "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef") {
+      Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .updateData({'photoUrl': photoUrl});
+    }
   }
 
   Future<void> uploadImage() async {
@@ -2167,32 +2181,32 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                       SizedBox(
                         height: screenH(20.0),
                       ),
-                      new OutlineButton(
-                          padding: EdgeInsets.all(screenH(16)),
-                          color: Color(0xFF1458EA),
-                          child: new Text(
-                            "Choose 3 professional interest tags",
-                            style: TextStyle(
-                                color: Color(0xFF1458EA), fontSize: 15),
-                          ),
-                          onPressed: () async {
-                            DocumentSnapshot doc = await Firestore.instance
-                                .collection('variableData')
-                                .document('interests')
-                                .get();
-                            List<dynamic> profInterests = doc['profInterests'];
-                            setState(() {
-                              for (int i = 0; i < profInterests.length; i++) {
-                                profInterestList.add(
-                                    new ProfInterestTile(profInterests[i]));
-                              }
-                            });
-
-                            showSearch(
-                                context: context, delegate: ProfDataSearch());
-                          },
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0))),
+//                      new OutlineButton(
+//                          padding: EdgeInsets.all(screenH(16)),
+//                          color: Color(0xFF1458EA),
+//                          child: new Text(
+//                            "Choose 3 professional interest tags",
+//                            style: TextStyle(
+//                                color: Color(0xFF1458EA), fontSize: 15),
+//                          ),
+//                          onPressed: () async {
+//                            DocumentSnapshot doc = await Firestore.instance
+//                                .collection('variableData')
+//                                .document('interests')
+//                                .get();
+//                            List<dynamic> profInterests = doc['profInterests'];
+//                            setState(() {
+//                              for (int i = 0; i < profInterests.length; i++) {
+//                                profInterestList.add(
+//                                    new ProfInterestTile(profInterests[i]));
+//                              }
+//                            });
+//
+//                            showSearch(
+//                                context: context, delegate: ProfDataSearch());
+//                          },
+//                          shape: new RoundedRectangleBorder(
+//                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),

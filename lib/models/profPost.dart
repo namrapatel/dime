@@ -29,6 +29,7 @@ class ProfPost extends StatefulWidget {
   final int upVotes;
   final List<dynamic> likes;
   final int points;
+  final String stream;
 //  final bool liked;
   final String ownerId;
   factory ProfPost.fromDocument(DocumentSnapshot document) {
@@ -36,17 +37,17 @@ class ProfPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return ProfPost(
-      ownerId: document['ownerId'],
-      points: document['points'],
-      university: document['university'],
-      postPic: document['postPic'],
-      comments: document['comments'],
-      likes: document['likes'],
-      caption: document['caption'],
-      postId: document.documentID,
-      timeStamp: times,
-      upVotes: document['upVotes'],
-    );
+        ownerId: document['ownerId'],
+        points: document['points'],
+        university: document['university'],
+        postPic: document['postPic'],
+        comments: document['comments'],
+        likes: document['likes'],
+        caption: document['caption'],
+        postId: document.documentID,
+        timeStamp: times,
+        upVotes: document['upVotes'],
+        stream: document['stream']);
   }
 
   const ProfPost(
@@ -59,7 +60,8 @@ class ProfPost extends StatefulWidget {
       this.timeStamp,
       this.upVotes,
       this.likes,
-      this.points});
+      this.points,
+      this.stream});
   @override
   _ProfPostState createState() => _ProfPostState(
       university: university,
@@ -71,7 +73,8 @@ class ProfPost extends StatefulWidget {
       upVotes: upVotes,
       likes: likes,
       points: points,
-      ownerId: ownerId);
+      ownerId: ownerId,
+      stream: stream);
 }
 
 class _ProfPostState extends State<ProfPost> {
@@ -86,6 +89,7 @@ class _ProfPostState extends State<ProfPost> {
   String university;
   bool liked;
   int points;
+  String stream;
   _ProfPostState(
       {this.ownerId,
       this.university,
@@ -96,7 +100,8 @@ class _ProfPostState extends State<ProfPost> {
       this.timeStamp,
       this.upVotes,
       this.likes,
-      this.points});
+      this.points,
+      this.stream});
   String name = currentUserModel.displayName;
 //bool editLike=liked;
   @override
@@ -112,8 +117,10 @@ class _ProfPostState extends State<ProfPost> {
 
   getPostInfo() async {
     DocumentSnapshot doc = await Firestore.instance
-        .collection('profPosts')
-        .document(widget.postId)
+        .collection('streams')
+        .document(stream)
+        .collection('posts')
+        .document(postId)
         .get();
     Timestamp storedDate = doc["timeStamp"];
     String elapsedTime = timeago.format(storedDate.toDate());
@@ -282,8 +289,10 @@ class _ProfPostState extends State<ProfPost> {
                                 });
 
                                 Firestore.instance
-                                    .collection('profPosts')
-                                    .document(widget.postId)
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
                                     .updateData({
                                   'likes': FieldValue.arrayUnion(
                                       [currentUserModel.uid])
@@ -297,7 +306,8 @@ class _ProfPostState extends State<ProfPost> {
                                   'type': 'prof',
                                   'upvoted': true,
                                   'postId': widget.postId,
-                                  'timeStamp': Timestamp.now()
+                                  'timeStamp': Timestamp.now(),
+                                  'stream': stream
                                 }, merge: true);
                               } else {
                                 setState(() {
@@ -306,8 +316,10 @@ class _ProfPostState extends State<ProfPost> {
                                   points--;
                                 });
                                 Firestore.instance
-                                    .collection('profPosts')
-                                    .document(widget.postId)
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
                                     .updateData({
                                   'likes': FieldValue.arrayRemove(
                                       [currentUserModel.uid])
@@ -339,34 +351,26 @@ class _ProfPostState extends State<ProfPost> {
                                 }
                               }
                               Firestore.instance
-                                  .collection('profPosts')
-                                  .document(widget.postId)
+                                  .collection('streams')
+                                  .document(stream)
+                                  .collection('posts')
+                                  .document(postId)
                                   .updateData(
                                       {'upVotes': upVotes, 'points': points});
-
-                              QuerySnapshot query = await Firestore.instance
-                                  .collection('users')
-                                  .document(ownerId)
-                                  .collection('profcard')
-                                  .getDocuments();
-                              String profID;
-                              for (var doc in query.documents) {
-                                profID = doc.documentID;
-                              }
 
                               if (points >= 100) {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerId)
                                     .collection('profcard')
-                                    .document(profID)
+                                    .document('prof')
                                     .updateData({'isFire': true});
                               } else {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerId)
                                     .collection('profcard')
-                                    .document(profID)
+                                    .document('prof')
                                     .updateData({'isFire': false});
                               }
                             },
@@ -407,6 +411,7 @@ class _ProfPostState extends State<ProfPost> {
                                               builder: (context) =>
                                                   ProfComments(
                                                     postId: widget.postId,
+                                                    stream: stream,
                                                   )));
                                     },
                                   ),

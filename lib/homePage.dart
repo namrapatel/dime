@@ -731,7 +731,7 @@ class _ScrollPageState extends State<ScrollPage>
                       context,
                       CupertinoPageRoute(
                           builder: (context) => ProfPage(
-                                stream: '@general',
+                                stream: 'general',
                               )));
                 },
                 elevation: 3,

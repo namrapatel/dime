@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
 import 'profPage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
@@ -49,6 +50,16 @@ class _ProfStreamsState extends State<ProfStreams> {
     }
   }
 
+  Future getStreams() async {
+    QuerySnapshot query =
+        await Firestore.instance.collection('streams').getDocuments();
+    List<String> streams = [];
+    for (var doc in query.documents) {
+      streams.add(doc.documentID);
+    }
+    return streams;
+  }
+
   @override
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;
@@ -73,7 +84,7 @@ class _ProfStreamsState extends State<ProfStreams> {
                   context,
                   CupertinoPageRoute(
                       builder: (context) => ProfPage(
-                            stream: '@general',
+                            stream: 'general',
                           )));
             },
           ),

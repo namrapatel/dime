@@ -35,6 +35,7 @@ class _HomePageOneState extends State<HomePageOne> {
   String major;
   String gradYear;
   String university;
+  String bio;
 
   List<SearchItem<int>> data2 = [
 //    SearchItem(0, 'University of Waterloo'),
@@ -106,7 +107,8 @@ class _HomePageOneState extends State<HomePageOne> {
       'displayName': name,
       'major': major,
       'university': university,
-      'gradYear': gradYear
+      'gradYear': gradYear,
+      'bio': bio
     });
 
     DocumentSnapshot user = await Firestore.instance
@@ -124,7 +126,7 @@ class _HomePageOneState extends State<HomePageOne> {
       'displayName': name,
       'major': major,
       'university': university,
-      'gradYear': gradYear
+      'gradYear': gradYear,
     });
 
     Firestore.instance
@@ -371,6 +373,13 @@ class _HomePageOneState extends State<HomePageOne> {
             margin: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 15),
             child: TextField(
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    bio = value;
+                  });
+                }
+              },
               textCapitalization: TextCapitalization.sentences,
               // controller: descriptionController,
               keyboardType: TextInputType.multiline,
@@ -378,7 +387,7 @@ class _HomePageOneState extends State<HomePageOne> {
               maxLength: 50,
               maxLengthEnforced: true,
               decoration: InputDecoration(
-                hintText: " Your Bio",
+                hintText: bio == null ? " Your Bio" : bio,
                 hintStyle: TextStyle(color: Colors.grey),
                 labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
                 border: new OutlineInputBorder(

@@ -151,7 +151,7 @@ class _ProfPageState extends State<ProfPage> {
                         children: <Widget>[
                           Container(
                             child: AutoSizeText(
-                              stream,
+                              '@' + stream,
                               //university != null ? university : "Whoops!",
                               style: TextStyle(
                                   fontSize: screenF(27.5),

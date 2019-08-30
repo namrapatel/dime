@@ -173,9 +173,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                           context,
                           PageTransition(
                               type: PageTransitionType.leftToRight,
-                              child: ProfPage(
-                                // stream: '@general'
-                              )));
+                              child: ProfPage(stream: 'general')));
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(

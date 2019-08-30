@@ -731,7 +731,7 @@ class _ScrollPageState extends State<ScrollPage>
                       context,
                       CupertinoPageRoute(
                           builder: (context) => ProfPage(
-                                stream: '@general',
+                                stream: 'general',
                               )));
                 },
                 elevation: 3,
@@ -851,7 +851,8 @@ class _ScrollPageState extends State<ScrollPage>
                                     socialInterests:
                                         doc.data['socialInterests'],
                                     university: doc.data['university'],
-                                    gradYear: doc.data['gradYear']);
+                                    gradYear: doc.data['gradYear'],
+                                    bio: doc.data['bio']);
                               }
                             },
                             itemCount: snapshots.data.length,
@@ -958,9 +959,10 @@ class UserTile extends StatelessWidget {
       this.gradYear,
       this.profInterests,
       this.socialInterests,
-      this.blocked});
+      this.blocked,
+      this.bio});
   final bool blocked;
-  final String contactName, personImage, major, uid, university, gradYear;
+  final String contactName, personImage, major, uid, university, gradYear, bio;
   final List<dynamic> profInterests, socialInterests;
   Widget buildProfInterests(BuildContext context) {
     String interests = "";
@@ -1131,7 +1133,7 @@ class UserTile extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        "User's bio.",
+                        bio != null ? bio : "",
                         style: TextStyle(),
                         textAlign: TextAlign.start,
                       )

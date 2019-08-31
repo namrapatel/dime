@@ -12,16 +12,18 @@ import 'package:page_transition/page_transition.dart';
 import 'package:Dime/profPage.dart';
 
 class ProfComments extends StatefulWidget {
-  final String postId;
-  const ProfComments({this.postId});
+  final String postId, stream;
+  const ProfComments({this.postId, this.stream});
   @override
-  _ProfCommentsState createState() => _ProfCommentsState(this.postId);
+  _ProfCommentsState createState() =>
+      _ProfCommentsState(this.postId, this.stream);
 }
 
 class _ProfCommentsState extends State<ProfComments> {
   final String postId;
-  String university;
-  _ProfCommentsState(this.postId);
+  final String stream;
+//  String university;
+  _ProfCommentsState(this.postId, this.stream);
   GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
   List<UserTag> suggestions = [
@@ -68,16 +70,20 @@ class _ProfCommentsState extends State<ProfComments> {
   @override
   void initState() {
     super.initState();
-    getPostUni();
+//    getPostUni();
   }
 
-  getPostUni() async {
-    DocumentSnapshot query =
-        await Firestore.instance.collection('profPosts').document(postId).get();
-    setState(() {
-      university = query.data['university'];
-    });
-  }
+//  getPostUni() async {
+//    DocumentSnapshot query = await Firestore.instance
+//        .collection('streams')
+//        .document(stream)
+//        .collection('posts')
+//        .document(postId)
+//        .get();
+//    setState(() {
+//      university = query['university'];
+//    });
+//  }
 
   getAllUsers() async {
     QuerySnapshot users =
@@ -88,7 +94,9 @@ class _ProfCommentsState extends State<ProfComments> {
     List<Comment> postComments = [];
     print(postId);
     QuerySnapshot query = await Firestore.instance
-        .collection('profPosts')
+        .collection('streams')
+        .document(stream)
+        .collection('posts')
         .document(postId)
         .collection('comments')
         .orderBy('timestamp', descending: false)
@@ -103,6 +111,7 @@ class _ProfCommentsState extends State<ProfComments> {
       String times = '$elapsedTime';
 
       postComments.add(Comment(
+          stream: stream,
           commenterId: id,
           commenterName: document['displayName'],
           commenterPhoto: document['photoUrl'],
@@ -158,9 +167,9 @@ class _ProfCommentsState extends State<ProfComments> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                university != null
+                stream != null
                     ? Text(
-                        university,
+                        "@" + stream,
                         style: TextStyle(color: Colors.black),
                       )
                     : SizedBox(
@@ -208,8 +217,7 @@ class _ProfCommentsState extends State<ProfComments> {
                                 bottom:
                                     MediaQuery.of(context).size.height / 155,
                                 top: MediaQuery.of(context).size.height / 155,
-                                right:
-                                    MediaQuery.of(context).size.width / 30),
+                                right: MediaQuery.of(context).size.width / 30),
                             hintText: 'Enter Comment',
                             hintStyle: TextStyle(color: Colors.grey)),
                         controller: controller,
@@ -238,20 +246,28 @@ class _ProfCommentsState extends State<ProfComments> {
                               String docName =
                                   postId + Timestamp.now().toString();
                               DocumentSnapshot info = await Firestore.instance
-                                  .collection('profPosts')
+                                  .collection('streams')
+                                  .document(stream)
+                                  .collection('posts')
                                   .document(postId)
                                   .get();
                               String ownerID = info.data['ownerId'];
                               int points = info.data['points'];
+                              print('prof comments checkpoint update');
+                              print(postId);
+                              print(stream);
+                              print(docName);
                               Firestore.instance
-                                  .collection('profPosts')
+                                  .collection('streams')
+                                  .document(stream)
+                                  .collection('posts')
                                   .document(postId)
                                   .collection('comments')
                                   .document(docName)
                                   .setData({
                                 'type': 'prof',
                                 'postId': postId,
-
+                                'stream': stream,
 //                              'commentId':docName,
                                 'commenterId': currentUserModel.uid,
                                 'commenterName': currentUserModel.displayName,
@@ -259,9 +275,8 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'text': controller.text,
                                 'timestamp': Timestamp.now()
                               });
-                              Firestore.instance
-                                  .collection('postNotifs')
-                                  .add({
+                              Firestore.instance.collection('postNotifs').add({
+                                'stream': stream,
                                 'commenterId': currentUserModel.uid,
                                 'commenterName': currentUserModel.displayName,
                                 'commenterPhoto': currentUserModel.photoUrl,
@@ -281,17 +296,22 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'commented': true,
                                 'postId': widget.postId,
                                 'numberOfComments': FieldValue.increment(1),
-                                'timeStamp': Timestamp.now()
+                                'timeStamp': Timestamp.now(),
+                                'stream': stream
                               }, merge: true);
 
                               QuerySnapshot snap = await Firestore.instance
-                                  .collection('profPosts')
+                                  .collection('streams')
+                                  .document(stream)
+                                  .collection('posts')
                                   .document(postId)
                                   .collection('comments')
                                   .getDocuments();
                               int numberOfComments = snap.documents.length;
                               Firestore.instance
-                                  .collection('profPosts')
+                                  .collection('streams')
+                                  .document(stream)
+                                  .collection('posts')
                                   .document(postId)
                                   .updateData({
                                 'comments': numberOfComments,
@@ -303,28 +323,19 @@ class _ProfCommentsState extends State<ProfComments> {
                                 controller.clear();
                               });
 
-                              QuerySnapshot query = await Firestore.instance
-                                  .collection('users')
-                                  .document(ownerID)
-                                  .collection('profcard')
-                                  .getDocuments();
-                              String profID;
-                              for (var doc in query.documents) {
-                                profID = doc.documentID;
-                              }
                               if (points >= 100) {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerID)
                                     .collection('profcard')
-                                    .document(profID)
+                                    .document('prof')
                                     .updateData({'isFire': true});
                               } else {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerID)
                                     .collection('profcard')
-                                    .document(profID)
+                                    .document('prof')
                                     .updateData({'isFire': false});
                               }
                             }

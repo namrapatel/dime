@@ -6,6 +6,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'viewCards.dart';
+import 'EditCardsScreen.dart';
 
 List<String> profInterests = [];
 
@@ -203,69 +204,69 @@ class _ProfInterestPageState extends State<ProfInterestPage> {
 class ProfDataSearch extends SearchDelegate<String> {
   Iterable<ProfInterestTile> suggestions = [];
   dynamic suggestionList = [];
-  List<ProfInterestTile> interestList = [
-    new ProfInterestTile("Philosophy"),
-    new ProfInterestTile("Business"),
-    new ProfInterestTile("Finance"),
-    new ProfInterestTile("Social Work"),
-    new ProfInterestTile("Software"),
-    new ProfInterestTile("Chemistry"),
-    new ProfInterestTile("Health Care"),
-    new ProfInterestTile("Product Management"),
-    new ProfInterestTile("Law"),
-    new ProfInterestTile("Art"),
-    new ProfInterestTile("Technology"),
-    new ProfInterestTile("History"),
-    new ProfInterestTile("Management"),
-    new ProfInterestTile("Aviation"),
-    new ProfInterestTile("Data"),
-    new ProfInterestTile("Economics"),
-    new ProfInterestTile("Fitness"),
-    new ProfInterestTile("Math"),
-    new ProfInterestTile("Biology"),
-    new ProfInterestTile("Banking"),
-    new ProfInterestTile("Literature"),
-    new ProfInterestTile("Marketing"),
-    new ProfInterestTile("Computer Science"),
-    new ProfInterestTile("Research"),
-    new ProfInterestTile("Physics"),
-    new ProfInterestTile("Startups"),
-    new ProfInterestTile("Design"),
-    new ProfInterestTile("Trading"),
-    new ProfInterestTile("Commerce"),
-    new ProfInterestTile("Linguistics"),
-    new ProfInterestTile("Politics"),
-    new ProfInterestTile("Supply Chain"),
-    new ProfInterestTile("Software"),
-    new ProfInterestTile("Neuroscience"),
-    new ProfInterestTile("Engineering"),
-    new ProfInterestTile("Film"),
-    new ProfInterestTile("Accounting"),
-    new ProfInterestTile("Agriculture"),
-    new ProfInterestTile("Anthropology"),
-    new ProfInterestTile("Architecture"),
-    new ProfInterestTile("Archaeology"),
-    new ProfInterestTile("Bioengineering"),
-    new ProfInterestTile("Geosciences"),
-    new ProfInterestTile("Statistics"),
-    new ProfInterestTile("Kinesiology"),
-    new ProfInterestTile("Microbiology"),
-    new ProfInterestTile("E-Commerce"),
-    new ProfInterestTile("Political Science"),
-    new ProfInterestTile("Pre-medicine"),
-    new ProfInterestTile("Sociology"),
-    new ProfInterestTile("Machine Learning"),
-    new ProfInterestTile("Artificial Intelligence"),
-    new ProfInterestTile("Design"),
-    new ProfInterestTile("Construction"),
-    new ProfInterestTile("Higher Education"),
-    new ProfInterestTile("Economics"),
-    new ProfInterestTile("Entrepreneurship"),
-    new ProfInterestTile("Economics"),
-    new ProfInterestTile("Investmenting"),
-    new ProfInterestTile("Trading"),
-    new ProfInterestTile("Cosmetics"),
-  ];
+//  List<ProfInterestTile> interestList = [
+//    new ProfInterestTile("Philosophy"),
+//    new ProfInterestTile("Business"),
+//    new ProfInterestTile("Finance"),
+//    new ProfInterestTile("Social Work"),
+//    new ProfInterestTile("Software"),
+//    new ProfInterestTile("Chemistry"),
+//    new ProfInterestTile("Health Care"),
+//    new ProfInterestTile("Product Management"),
+//    new ProfInterestTile("Law"),
+//    new ProfInterestTile("Art"),
+//    new ProfInterestTile("Technology"),
+//    new ProfInterestTile("History"),
+//    new ProfInterestTile("Management"),
+//    new ProfInterestTile("Aviation"),
+//    new ProfInterestTile("Data"),
+//    new ProfInterestTile("Economics"),
+//    new ProfInterestTile("Fitness"),
+//    new ProfInterestTile("Math"),
+//    new ProfInterestTile("Biology"),
+//    new ProfInterestTile("Banking"),
+//    new ProfInterestTile("Literature"),
+//    new ProfInterestTile("Marketing"),
+//    new ProfInterestTile("Computer Science"),
+//    new ProfInterestTile("Research"),
+//    new ProfInterestTile("Physics"),
+//    new ProfInterestTile("Startups"),
+//    new ProfInterestTile("Design"),
+//    new ProfInterestTile("Trading"),
+//    new ProfInterestTile("Commerce"),
+//    new ProfInterestTile("Linguistics"),
+//    new ProfInterestTile("Politics"),
+//    new ProfInterestTile("Supply Chain"),
+//    new ProfInterestTile("Software"),
+//    new ProfInterestTile("Neuroscience"),
+//    new ProfInterestTile("Engineering"),
+//    new ProfInterestTile("Film"),
+//    new ProfInterestTile("Accounting"),
+//    new ProfInterestTile("Agriculture"),
+//    new ProfInterestTile("Anthropology"),
+//    new ProfInterestTile("Architecture"),
+//    new ProfInterestTile("Archaeology"),
+//    new ProfInterestTile("Bioengineering"),
+//    new ProfInterestTile("Geosciences"),
+//    new ProfInterestTile("Statistics"),
+//    new ProfInterestTile("Kinesiology"),
+//    new ProfInterestTile("Microbiology"),
+//    new ProfInterestTile("E-Commerce"),
+//    new ProfInterestTile("Political Science"),
+//    new ProfInterestTile("Pre-medicine"),
+//    new ProfInterestTile("Sociology"),
+//    new ProfInterestTile("Machine Learning"),
+//    new ProfInterestTile("Artificial Intelligence"),
+//    new ProfInterestTile("Design"),
+//    new ProfInterestTile("Construction"),
+//    new ProfInterestTile("Higher Education"),
+//    new ProfInterestTile("Economics"),
+//    new ProfInterestTile("Entrepreneurship"),
+//    new ProfInterestTile("Economics"),
+//    new ProfInterestTile("Investmenting"),
+//    new ProfInterestTile("Trading"),
+//    new ProfInterestTile("Cosmetics"),
+//  ];
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -288,6 +289,7 @@ class ProfDataSearch extends SearchDelegate<String> {
         icon: AnimatedIcon(
             icon: AnimatedIcons.menu_arrow, progress: transitionAnimation),
         onPressed: () {
+          profInterestList.clear();
           profInterests.clear();
           close(context, null);
         });
@@ -306,8 +308,8 @@ class ProfDataSearch extends SearchDelegate<String> {
 
     print('less than 3 interests');
     suggestions = query.isEmpty
-        ? interestList
-        : interestList.where(
+        ? profInterestList
+        : profInterestList.where(
             (interest) => (interest.interest.toLowerCase().contains(query)));
     suggestions.toList();
     return ListView.builder(

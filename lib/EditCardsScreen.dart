@@ -22,9 +22,167 @@ String selectedWItemString;
 String selectedItemString2;
 String selectedWItemString2;
 
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
+//final screenH = ScreenUtil.instance.setHeight;
+//final screenW = ScreenUtil.instance.setWidth;
+//final screenF = ScreenUtil.instance.setSp;
+List<SocialInterestTile> interestList = [
+//  new SocialInterestTile("Music"),
+//  new SocialInterestTile("Sports"),
+//  new SocialInterestTile("Food"),
+//  new SocialInterestTile("Travel"),
+//  new SocialInterestTile("Athletics"),
+//  new SocialInterestTile("Gaming"),
+//  new SocialInterestTile("Winter Sports"),
+//  new SocialInterestTile("Hiking"),
+//  new SocialInterestTile("Movies"),
+//  new SocialInterestTile("Art"),
+//  new SocialInterestTile("Fasion"),
+//  new SocialInterestTile("Adventure"),
+//  new SocialInterestTile("Books"),
+//  new SocialInterestTile("Anime"),
+//  new SocialInterestTile("Theatre"),
+//  new SocialInterestTile("Photography"),
+//  new SocialInterestTile("Pets"),
+//  new SocialInterestTile("Outdoors"),
+//  new SocialInterestTile("Volunteering"),
+//  new SocialInterestTile("Automotives"),
+//  new SocialInterestTile("Cooking"),
+//  new SocialInterestTile("Drama"),
+//  new SocialInterestTile("E-Sports"),
+//  new SocialInterestTile("Writing"),
+//  new SocialInterestTile("Working Out"),
+//  new SocialInterestTile("Partying"),
+//  new SocialInterestTile("Band"),
+//  new SocialInterestTile("Dance"),
+//  new SocialInterestTile("TV Shows"),
+//  new SocialInterestTile("Technology"),
+//  new SocialInterestTile("Water Sports"),
+//  new SocialInterestTile("Hip Hop"),
+//  new SocialInterestTile("Pop"),
+//  new SocialInterestTile("R&B"),
+//  new SocialInterestTile("Guitar"),
+//  new SocialInterestTile("Piano"),
+//  new SocialInterestTile("Band"),
+//  new SocialInterestTile("Camping"),
+//  new SocialInterestTile("Classical"),
+//  new SocialInterestTile("Jazz"),
+//  new SocialInterestTile("K-Pop"),
+//  new SocialInterestTile("Blues"),
+//  new SocialInterestTile("Rock Music"),
+//  new SocialInterestTile("Metal Music"),
+//  new SocialInterestTile("Techno"),
+//  new SocialInterestTile("Concerts"),
+//  new SocialInterestTile("Music Festivals"),
+//  new SocialInterestTile("Technology"),
+//  new SocialInterestTile("Fiction Books"),
+//  new SocialInterestTile("Swimming"),
+//  new SocialInterestTile("Rowing"),
+//  new SocialInterestTile("Mountain Climbing"),
+//  new SocialInterestTile("Basketball"),
+//  new SocialInterestTile("Baseball"),
+//  new SocialInterestTile("Track and Field"),
+//  new SocialInterestTile("Hockey"),
+//  new SocialInterestTile("Golf"),
+//  new SocialInterestTile("Lacrosse"),
+//  new SocialInterestTile("Comics"),
+//  new SocialInterestTile("Fishing"),
+//  new SocialInterestTile("Horseback Riding"),
+//  new SocialInterestTile("Badminton"),
+//  new SocialInterestTile("Tennis"),
+//  new SocialInterestTile("Volleyball"),
+//  new SocialInterestTile("Biking"),
+//  new SocialInterestTile("Soccer"),
+//  new SocialInterestTile("ATV"),
+//  new SocialInterestTile("Gymnastics"),
+//  new SocialInterestTile("Cricket"),
+//  new SocialInterestTile("Football"),
+//  new SocialInterestTile("Rugby"),
+//  new SocialInterestTile("NBA"),
+//  new SocialInterestTile("NHL"),
+//  new SocialInterestTile("MLB"),
+//  new SocialInterestTile("NFL"),
+//  new SocialInterestTile("Snowboarding"),
+//  new SocialInterestTile("Skiing"),
+//  new SocialInterestTile("Skating"),
+//  new SocialInterestTile("Technology"),
+//  new SocialInterestTile("Wine"),
+//  new SocialInterestTile("Fine Dining"),
+//  new SocialInterestTile("Backpacking"),
+//  new SocialInterestTile("Classic Movies"),
+//  new SocialInterestTile("Horror Films"),
+//  new SocialInterestTile("Indie Films"),
+//  new SocialInterestTile("Painting"),
+//  new SocialInterestTile("Sneakerheads"),
+//  new SocialInterestTile("Sculpting"),
+//  new SocialInterestTile("Poetry"),
+//  new SocialInterestTile("Cars"),
+//  new SocialInterestTile("Baking"),
+//  new SocialInterestTile("Cosmetics"),
+];
+
+List<ProfInterestTile> profInterestList = [
+//  new ProfInterestTile("Philosophy"),
+//  new ProfInterestTile("Business"),
+//  new ProfInterestTile("Finance"),
+//  new ProfInterestTile("Social Work"),
+//  new ProfInterestTile("Software"),
+//  new ProfInterestTile("Chemistry"),
+//  new ProfInterestTile("Health Care"),
+//  new ProfInterestTile("Product Management"),
+//  new ProfInterestTile("Law"),
+//  new ProfInterestTile("Art"),
+//  new ProfInterestTile("Technology"),
+//  new ProfInterestTile("History"),
+//  new ProfInterestTile("Management"),
+//  new ProfInterestTile("Aviation"),
+//  new ProfInterestTile("Data"),
+//  new ProfInterestTile("Economics"),
+//  new ProfInterestTile("Fitness"),
+//  new ProfInterestTile("Math"),
+//  new ProfInterestTile("Biology"),
+//  new ProfInterestTile("Banking"),
+//  new ProfInterestTile("Literature"),
+//  new ProfInterestTile("Marketing"),
+//  new ProfInterestTile("Computer Science"),
+//  new ProfInterestTile("Research"),
+//  new ProfInterestTile("Physics"),
+//  new ProfInterestTile("Startups"),
+//  new ProfInterestTile("Design"),
+//  new ProfInterestTile("Trading"),
+//  new ProfInterestTile("Commerce"),
+//  new ProfInterestTile("Linguistics"),
+//  new ProfInterestTile("Politics"),
+//  new ProfInterestTile("Supply Chain"),
+//  new ProfInterestTile("Software"),
+//  new ProfInterestTile("Neuroscience"),
+//  new ProfInterestTile("Engineering"),
+//  new ProfInterestTile("Film"),
+//  new ProfInterestTile("Accounting"),
+//  new ProfInterestTile("Agriculture"),
+//  new ProfInterestTile("Anthropology"),
+//  new ProfInterestTile("Architecture"),
+//  new ProfInterestTile("Archaeology"),
+//  new ProfInterestTile("Bioengineering"),
+//  new ProfInterestTile("Geosciences"),
+//  new ProfInterestTile("Statistics"),
+//  new ProfInterestTile("Kinesiology"),
+//  new ProfInterestTile("Microbiology"),
+//  new ProfInterestTile("E-Commerce"),
+//  new ProfInterestTile("Political Science"),
+//  new ProfInterestTile("Pre-medicine"),
+//  new ProfInterestTile("Sociology"),
+//  new ProfInterestTile("Machine Learning"),
+//  new ProfInterestTile("Artificial Intelligence"),
+//  new ProfInterestTile("Design"),
+//  new ProfInterestTile("Construction"),
+//  new ProfInterestTile("Higher Education"),
+//  new ProfInterestTile("Economics"),
+//  new ProfInterestTile("Entrepreneurship"),
+//  new ProfInterestTile("Economics"),
+//  new ProfInterestTile("Investmenting"),
+//  new ProfInterestTile("Trading"),
+//  new ProfInterestTile("Cosmetics"),
+];
 
 class TabsApp extends StatelessWidget {
   @override
@@ -146,6 +304,11 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       'socialToggled': isSwitched,
       'email': email
     });
+
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .updateData({'photoUrl': photoUrl});
   }
 
   Future<void> uploadImage() async {
@@ -996,24 +1159,36 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       SizedBox(
                         height: screenH(20.0),
                       ),
-                      new OutlineButton(
-                          padding: EdgeInsets.all(screenH(16)),
-                          color: Color(0xFF8803fc),
-                          child: new Text(
-                            "Choose 3 social interest tags",
-                            style: TextStyle(
-                                color: Color(0xFF8803fc),
-                                fontSize: screenF(16)),
-                          ),
-                          onPressed: () {
-                            showSearch(
-                                context: context, delegate: SocialDataSearch());
-                          },
-                          shape: new RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Color(0xFF1458EA),
-                              ),
-                              borderRadius: new BorderRadius.circular(30.0))),
+//                      new OutlineButton(
+//                          padding: EdgeInsets.all(screenH(16)),
+//                          color: Color(0xFF8803fc),
+//                          child: new Text(
+//                            "Choose 3 social interest tags",
+//                            style: TextStyle(
+//                                color: Color(0xFF8803fc),
+//                                fontSize: screenF(16)),
+//                          ),
+//                          onPressed: () async {
+//                            DocumentSnapshot doc = await Firestore.instance
+//                                .collection('variableData')
+//                                .document('interests')
+//                                .get();
+//                            List<dynamic> socialInterests =
+//                                doc['socialInterests'];
+//                            setState(() {
+//                              for (int i = 0; i < socialInterests.length; i++) {
+//                                interestList.add(
+//                                    new SocialInterestTile(socialInterests[i]));
+//                              }
+//                            });
+//                            showSearch(
+//                                context: context, delegate: SocialDataSearch());
+//                          },
+//                          shape: new RoundedRectangleBorder(
+//                              side: BorderSide(
+//                                color: Color(0xFF1458EA),
+//                              ),
+//                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),
@@ -1031,8 +1206,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                             onPressed: () {
                               updateSocialCard();
                               Flushbar(
-                                // margin: EdgeInsets.symmetric(
-                                //     horizontal: 15, vertical: 5),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
                                 borderRadius: 15,
                                 messageText: Padding(
                                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -1167,7 +1342,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     print(interestString);
   }
 
-  updateProfCard() {
+  updateProfCard() async {
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -1185,10 +1360,19 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'email': email
     });
 
-    Firestore.instance
+    DocumentSnapshot social = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .updateData({'photoUrl': photoUrl});
+        .collection('socialcard')
+        .document('social')
+        .get();
+    if (social['photoUrl'] ==
+        "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef") {
+      Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .updateData({'photoUrl': photoUrl});
+    }
   }
 
   Future<void> uploadImage() async {
@@ -2079,20 +2263,32 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                       SizedBox(
                         height: screenH(20.0),
                       ),
-                      new OutlineButton(
-                          padding: EdgeInsets.all(screenH(16)),
-                          color: Color(0xFF1458EA),
-                          child: new Text(
-                            "Choose 3 professional interest tags",
-                            style: TextStyle(
-                                color: Color(0xFF1458EA), fontSize: 15),
-                          ),
-                          onPressed: () {
-                            showSearch(
-                                context: context, delegate: ProfDataSearch());
-                          },
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0))),
+//                      new OutlineButton(
+//                          padding: EdgeInsets.all(screenH(16)),
+//                          color: Color(0xFF1458EA),
+//                          child: new Text(
+//                            "Choose 3 professional interest tags",
+//                            style: TextStyle(
+//                                color: Color(0xFF1458EA), fontSize: 15),
+//                          ),
+//                          onPressed: () async {
+//                            DocumentSnapshot doc = await Firestore.instance
+//                                .collection('variableData')
+//                                .document('interests')
+//                                .get();
+//                            List<dynamic> profInterests = doc['profInterests'];
+//                            setState(() {
+//                              for (int i = 0; i < profInterests.length; i++) {
+//                                profInterestList.add(
+//                                    new ProfInterestTile(profInterests[i]));
+//                              }
+//                            });
+//
+//                            showSearch(
+//                                context: context, delegate: ProfDataSearch());
+//                          },
+//                          shape: new RoundedRectangleBorder(
+//                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),
@@ -2110,8 +2306,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                             onPressed: () {
                               updateProfCard();
                               Flushbar(
-                                // margin: EdgeInsets.symmetric(
-                                //     horizontal: 15, vertical: 5),
+                                margin: EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 5),
                                 // message: "hello",
                                 borderRadius: 15,
                                 messageText: Padding(

@@ -12,6 +12,7 @@ import 'socialPage.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'socialPage.dart' as socialPage;
+import 'viewCards.dart';
 
 class SocialComments extends StatefulWidget {
   final String postId;
@@ -214,8 +215,7 @@ class _SocialCommentsState extends State<SocialComments> {
                                 bottom:
                                     MediaQuery.of(context).size.height / 155,
                                 top: MediaQuery.of(context).size.height / 155,
-                                right:
-                                    MediaQuery.of(context).size.width / 30),
+                                right: MediaQuery.of(context).size.width / 30),
                             hintText: 'Enter Comment',
                             hintStyle: TextStyle(color: Colors.grey)),
                         controller: controller,
@@ -265,9 +265,7 @@ class _SocialCommentsState extends State<SocialComments> {
                                 'text': controller.text,
                                 'timestamp': Timestamp.now()
                               });
-                              Firestore.instance
-                                  .collection('postNotifs')
-                                  .add({
+                              Firestore.instance.collection('postNotifs').add({
                                 'commenterId': currentUserModel.uid,
                                 'commenterName': currentUserModel.displayName,
                                 'commenterPhoto': currentUserModel.photoUrl,
@@ -309,28 +307,19 @@ class _SocialCommentsState extends State<SocialComments> {
                                 controller.clear();
                               });
 
-                              QuerySnapshot query = await Firestore.instance
-                                  .collection('users')
-                                  .document(ownerID)
-                                  .collection('socialcard')
-                                  .getDocuments();
-                              String socialID;
-                              for (var doc in query.documents) {
-                                socialID = doc.documentID;
-                              }
                               if (points >= 100) {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerID)
                                     .collection('socialcard')
-                                    .document(socialID)
+                                    .document("social")
                                     .updateData({'isFire': true});
                               } else {
                                 Firestore.instance
                                     .collection('users')
                                     .document(ownerID)
                                     .collection('socialcard')
-                                    .document(socialID)
+                                    .document("social")
                                     .updateData({'isFire': false});
                               }
                             }

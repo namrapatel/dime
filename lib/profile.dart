@@ -35,6 +35,14 @@ class _HomePageOneState extends State<HomePageOne> {
   String major;
   String gradYear;
   String university;
+  String bio;
+
+  List<SearchItem<int>> data2 = [
+//    SearchItem(0, 'University of Waterloo'),
+//    SearchItem(1, 'Western University'),
+//    SearchItem(2, "University of Alberta"),
+//    SearchItem(3, "University of Calgary"),
+  ];
 
   @override
   void initState() {
@@ -44,6 +52,18 @@ class _HomePageOneState extends State<HomePageOne> {
   }
 
   getProfileInfo() async {
+    DocumentSnapshot document = await Firestore.instance
+        .collection('variableData')
+        .document('universities')
+        .get();
+    List<dynamic> unis = document['universities'];
+
+    for (var i = 0; i < unis.length; i++) {
+      setState(() {
+        data2.add(SearchItem(i, unis[i]));
+      });
+    }
+
     DocumentSnapshot doc = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -87,7 +107,8 @@ class _HomePageOneState extends State<HomePageOne> {
       'displayName': name,
       'major': major,
       'university': university,
-      'gradYear': gradYear
+      'gradYear': gradYear,
+      'bio': bio
     });
 
     DocumentSnapshot user = await Firestore.instance
@@ -105,7 +126,7 @@ class _HomePageOneState extends State<HomePageOne> {
       'displayName': name,
       'major': major,
       'university': university,
-      'gradYear': gradYear
+      'gradYear': gradYear,
     });
 
     Firestore.instance
@@ -122,12 +143,12 @@ class _HomePageOneState extends State<HomePageOne> {
   }
 
   @override
-  List<SearchItem<int>> data2 = [
-    SearchItem(0, 'University of Waterloo'),
-    SearchItem(1, 'Western University'),
-    SearchItem(2, "University of Alberta"),
-    SearchItem(3, "University of Calgary"),
-  ];
+//  List<SearchItem<int>> data2 = [
+////    SearchItem(0, 'University of Waterloo'),
+////    SearchItem(1, 'Western University'),
+////    SearchItem(2, "University of Alberta"),
+////    SearchItem(3, "University of Calgary"),
+//  ];
 
   Widget build(BuildContext context) {
     double defaultScreenWidth = 414.0;

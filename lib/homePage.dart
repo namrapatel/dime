@@ -386,7 +386,6 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   Widget build(BuildContext context) {
-
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
     if (firstName == null) {
@@ -443,25 +442,27 @@ class _ScrollPageState extends State<ScrollPage>
               firstName != "No"
                   ? Container(
                       width: MediaQuery.of(context).size.width / 1.6,
-                      child: currentUserModel.displayName == null? AutoSizeText(
-                        "Hey!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ): AutoSizeText(
-                        "Hey " + firstName + "!",
-                        style: TextStyle(
-                            fontSize: 25,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                        minFontSize: 12,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                      child: currentUserModel.displayName == null
+                          ? AutoSizeText(
+                              "Hey!",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              minFontSize: 12,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            )
+                          : AutoSizeText(
+                              "Hey " + firstName + "!",
+                              style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              minFontSize: 12,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                     )
                   : Row(
                       children: <Widget>[
@@ -726,8 +727,12 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ProfPage()));
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => ProfPage(
+                                stream: 'general',
+                              )));
                 },
                 elevation: 3,
                 heroTag: 'btn4',
@@ -846,7 +851,8 @@ class _ScrollPageState extends State<ScrollPage>
                                     socialInterests:
                                         doc.data['socialInterests'],
                                     university: doc.data['university'],
-                                    gradYear: doc.data['gradYear']);
+                                    gradYear: doc.data['gradYear'],
+                                    bio: doc.data['bio']);
                               }
                             },
                             itemCount: snapshots.data.length,
@@ -953,9 +959,10 @@ class UserTile extends StatelessWidget {
       this.gradYear,
       this.profInterests,
       this.socialInterests,
-      this.blocked});
+      this.blocked,
+      this.bio});
   final bool blocked;
-  final String contactName, personImage, major, uid, university, gradYear;
+  final String contactName, personImage, major, uid, university, gradYear, bio;
   final List<dynamic> profInterests, socialInterests;
   Widget buildProfInterests(BuildContext context) {
     String interests = "";
@@ -1121,18 +1128,26 @@ class UserTile extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.height / 70, 0, 0),
                 ),
-                Column(
-                  children: <Widget>[
-                    buildSocialInterests(context),
-                    socialInterests != null
-                        ? SizedBox(
-                            height: MediaQuery.of(context).size.height / 300,
-                          )
-                        : SizedBox(
-                            height: (0.0),
-                          ),
-                    buildProfInterests(context)
-                  ],
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        bio != null ? bio : "",
+                        style: TextStyle(),
+                        textAlign: TextAlign.start,
+                      )
+                      // buildSocialInterests(context),
+                      // socialInterests != null
+                      //     ? SizedBox(
+                      //         height: MediaQuery.of(context).size.height / 300,
+                      //       )
+                      //     : SizedBox(
+                      //         height: (0.0),
+                      //       ),
+                      // buildProfInterests(context)
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(

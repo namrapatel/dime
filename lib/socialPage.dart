@@ -111,6 +111,21 @@ class _SocialPageState extends State<SocialPage> {
                   //       fontSize: 25,
                   //       fontWeight: FontWeight.bold),
                   // ),
+                  currentUserModel.university != null
+                      ? InkWell(
+                          child: Icon(
+                            Ionicons.ios_create,
+                            size: screenH(36.0),
+                            color: Colors.white,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (context) => CreateSocialPost()));
+                          },
+                        )
+                      : SizedBox(),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 30,
                   ),
@@ -152,37 +167,13 @@ class _SocialPageState extends State<SocialPage> {
               ),
             )),
         backgroundColor: Color(0xFF8803fc),
-        floatingActionButton: currentUserModel.university != null
-            ? FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => CreateSocialPost()));
-                },
-                elevation: 50,
-                heroTag: 'btn1',
-                backgroundColor: Color(0xFF3c3744),
-                child: Icon(
-                  Icons.add,
-                  // color: Color(0xFF8803fc),
-                  color: Colors.white,
-                ),
-              )
-            : SizedBox(
-                height: 1,
-              ),
         body: university != null
             ? FutureBuilder(
                 future: getPosts(),
                 builder: (_, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: SizedBox(
-                        height: 0.0,
-                      ),
+                      child: CircularProgressIndicator(),
                     );
                   } else {
                     return ListView.builder(

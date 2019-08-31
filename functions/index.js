@@ -86,11 +86,11 @@ exports.postNotifTrigger = functions.firestore.document('postNotifs/{notifId}').
     }
 });
 
-exports.streamNotifTrigger = functions.firestore.document('test').onCreate((snapshot, context) => {
-    var notifData = snapshot.data();
-    var channelName = notifData.channelName;
-    var caption = notifData.caption;
-    var ownerId = notifData.ownerId;
+exports.streamNotifTrigger = functions.firestore.document('streamNotifs/{notifId}').onCreate((snapshot, context) => {
+    notifData = snapshot.data();
+    channelName = notifData.stream;
+    caption = notifData.caption;
+    ownerId = notifData.ownerId;
 
     payLoad = {
         "notification": {
@@ -105,11 +105,11 @@ exports.streamNotifTrigger = functions.firestore.document('test').onCreate((snap
             "notifType": "streamNotif",
             "ownerId": ownerId
         }
-    }
+    };
 
-    return admin.messaging().sendToTopic(channelName).then((response) => {
-        console.log('Pushed them all').catch((err) => {
+    return admin.messaging().sendToTopic(channelName, payLoad).then((response) => {
+        console.log('Pushed them all');
+        }).catch((err) => {
             console.log(err);
-        });
     });
 });

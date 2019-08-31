@@ -8,8 +8,9 @@ import 'login.dart';
 final screenH = ScreenUtil.instance.setHeight;
 final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
-String socialCardId;
-String profCardId;
+//String socialCardId;
+//String profCardId;
+
 class ViewCards extends StatefulWidget {
   const ViewCards({this.userId, this.type});
   final String userId, type;
@@ -24,76 +25,66 @@ class _ViewCardsState extends State<ViewCards> {
   _ViewCardsState(this.userId, this.type);
 
   Widget buildSocialCard() {
-    return FutureBuilder<List<SocialCard>>(
+    return FutureBuilder<SocialCard>(
         future: getSocialCard(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Container(
-                alignment: FractionalOffset.center,
-                // child: CircularProgressIndicator()
-                );
+              alignment: FractionalOffset.center,
+              // child: CircularProgressIndicator()
+            );
 
-          return Row(children: snapshot.data);
+          return Container(child: snapshot.data);
         });
   }
 
-  Future<List<SocialCard>> getSocialCard() async {
-    List<SocialCard> cardTiles = [];
-
-    QuerySnapshot query = await Firestore.instance
+  Future<SocialCard> getSocialCard() async {
+    DocumentSnapshot doc = await Firestore.instance
         .collection('users')
         .document(userId)
         .collection('socialcard')
-        .getDocuments();
+        .document('social')
+        .get();
 
-    for (var document in query.documents) {
-socialCardId= document.documentID;
-
-      cardTiles.add(SocialCard.fromDocument(document)
-        );
-    }
-    return cardTiles;
+    return SocialCard.fromDocument(doc);
   }
 
   Widget buildProfCard() {
-    return FutureBuilder<List<ProfCard>>(
+    return FutureBuilder<ProfCard>(
         future: getProfCard(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Container(
-                alignment: FractionalOffset.center,
-                // child: CircularProgressIndicator()
-                );
+              alignment: FractionalOffset.center,
+              // child: CircularProgressIndicator()
+            );
 
-          return Row(children: snapshot.data);
+          return Container(child: snapshot.data);
         });
   }
 
-  Future<List<ProfCard>> getProfCard() async {
-    List<ProfCard> cardTiles = [];
-
-    QuerySnapshot query = await Firestore.instance
+  Future<ProfCard> getProfCard() async {
+    DocumentSnapshot doc = await Firestore.instance
         .collection('users')
         .document(userId)
         .collection('profcard')
-        .getDocuments();
-    if (query.documents.isEmpty) {
-      Firestore.instance
-          .collection('users')
-          .document(userId)
-          .collection('profcard')
-          .add({
-        'photoUrl': currentUserModel.photoUrl,
-        'displayName': currentUserModel.displayName
-      });
-    }
-    for (var document in query.documents) {
-profCardId=document.documentID;
-      cardTiles.add(ProfCard.fromDocument(document)
-
-      );
-    }
-    return cardTiles;
+        .document('prof')
+        .get();
+//    if (query.documents.isEmpty) {
+//      Firestore.instance
+//          .collection('users')
+//          .document(userId)
+//          .collection('profcard')
+//          .add({
+//        'photoUrl': currentUserModel.photoUrl,
+//        'displayName': currentUserModel.displayName
+//      });
+//    }
+//    for (var document in query.documents) {
+//      profCardId = document.documentID;
+//      cardTiles.add(ProfCard.fromDocument(document));
+//    }
+    return ProfCard.fromDocument(doc);
   }
 
   Widget buildCards() {

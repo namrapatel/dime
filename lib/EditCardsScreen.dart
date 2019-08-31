@@ -247,33 +247,34 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 
   getSocialInfo() async {
     List<dynamic> interests = [];
-    QuerySnapshot query = await Firestore.instance
+    DocumentSnapshot document = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .collection('socialcard')
-        .getDocuments();
+        .document('social')
+        .get();
 
-    for (var document in query.documents) {
-      setState(() {
-        socialCardId = document.documentID;
+//    for (var document in query.documents) {
+    setState(() {
+//        socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
-        gradYear = document['gradYear'];
-        major = document['major'];
-        name = document['displayName'];
-        university = document['university'];
-        snapchat = document['snapchat'];
-        instagram = document['instagram'];
-        twitter = document['twitter'];
-        photoUrl = document['photoUrl'];
-        interests = document['interests'];
-        isSwitched = document['socialToggled'];
-        email = document['email'];
-      });
+      gradYear = document['gradYear'];
+      major = document['major'];
+      name = document['displayName'];
+      university = document['university'];
+      snapchat = document['snapchat'];
+      instagram = document['instagram'];
+      twitter = document['twitter'];
+      photoUrl = document['photoUrl'];
+      interests = document['interests'];
+      isSwitched = document['socialToggled'];
+      email = document['email'];
+    });
 
 //      bio=document['bio'];
 
-    }
+//    }
     if (interests != null) {
       for (int i = 0; i < interests.length; i++) {
         if (i == interests.length - 1) {
@@ -291,7 +292,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
         .collection('users')
         .document(currentUserModel.uid)
         .collection('socialcard')
-        .document(socialCardId)
+        .document('social')
         .updateData({
       'displayName': name,
       'major': major,
@@ -329,6 +330,46 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       _image = sampleImage;
     });
     uploadImage();
+    Flushbar(
+      //  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      borderRadius: 15,
+      messageText: Padding(
+        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Uploaded!',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "Click 'Save' to confirm changes.",
+              style: TextStyle(color: Colors.grey),
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      boxShadows: [
+        BoxShadow(
+            color: Colors.black12.withOpacity(0.1),
+            blurRadius: (15),
+            spreadRadius: (5),
+            offset: Offset(0, 3)),
+      ],
+      flushbarPosition: FlushbarPosition.TOP,
+      icon: Padding(
+        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+        child: Icon(
+          Icons.save_alt,
+          size: 28.0,
+          color: Color(0xFF1458EA),
+        ),
+      ),
+      duration: Duration(seconds: 3),
+    )..show(context);
   }
 
   String text = "Nothing to show";
@@ -1263,31 +1304,32 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
   File _image;
   getProfInfo() async {
     List<dynamic> interests = [];
-    QuerySnapshot query = await Firestore.instance
+    DocumentSnapshot document = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
         .collection('profcard')
-        .getDocuments();
+        .document('prof')
+        .get();
 
-    for (var document in query.documents) {
-      setState(() {
-        profCardId = document.documentID;
-        gradYear = document['gradYear'];
-        major = document['major'];
-        name = document['displayName'];
-        university = document['university'];
-        github = document['github'];
-        linkedIn = document['linkedIn'];
-        twitter = document['twitter'];
-        photoUrl = document['photoUrl'];
-        isSwitched2 = document['socialToggled'];
-        email = document['email'];
-        interests = document['interests'];
-      });
+//    for (var document in query.documents) {
+    setState(() {
+//        profCardId = document.documentID;
+      gradYear = document['gradYear'];
+      major = document['major'];
+      name = document['displayName'];
+      university = document['university'];
+      github = document['github'];
+      linkedIn = document['linkedIn'];
+      twitter = document['twitter'];
+      photoUrl = document['photoUrl'];
+      isSwitched2 = document['socialToggled'];
+      email = document['email'];
+      interests = document['interests'];
+    });
 
 //      bio=document['bio'];
 
-    }
+//    }
     if (interests != null) {
       for (int i = 0; i < interests.length; i++) {
         if (i == interests.length - 1) {
@@ -1305,7 +1347,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
         .collection('users')
         .document(currentUserModel.uid)
         .collection('profcard')
-        .document(profCardId)
+        .document('prof')
         .updateData({
       'displayName': name,
       'major': major,
@@ -1352,6 +1394,46 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       _image = sampleImage;
     });
     uploadImage();
+    Flushbar(
+      //  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      borderRadius: 15,
+      messageText: Padding(
+        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Uploaded!',
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "Click 'Save' to confirm changes.",
+              style: TextStyle(color: Colors.grey),
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      boxShadows: [
+        BoxShadow(
+            color: Colors.black12.withOpacity(0.1),
+            blurRadius: (15),
+            spreadRadius: (5),
+            offset: Offset(0, 3)),
+      ],
+      flushbarPosition: FlushbarPosition.TOP,
+      icon: Padding(
+        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+        child: Icon(
+          Icons.save_alt,
+          size: 28.0,
+          color: Color(0xFF1458EA),
+        ),
+      ),
+      duration: Duration(seconds: 3),
+    )..show(context);
   }
 
   Widget _buildAddButton() {

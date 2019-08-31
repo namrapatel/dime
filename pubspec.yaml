@@ -29,7 +29,7 @@ dev_dependencies:
   page_transition:
   flutter_test:
     sdk: flutter
-  firebase_auth:
+  firebase_auth: ^0.11.1+12
   cloud_firestore:
   firebase_storage:
   shared_preferences: ^0.5.1+2

@@ -79,6 +79,10 @@ class _ScrollPageState extends State<ScrollPage>
     });
   }
 
+  void fcmSubscribe() {
+    _fcm.subscribeToTopic('hackathons');
+  }
+
   final screenH = ScreenUtil.instance.setHeight;
   final screenW = ScreenUtil.instance.setWidth;
   final screenF = ScreenUtil.instance.setSp;
@@ -161,7 +165,7 @@ class _ScrollPageState extends State<ScrollPage>
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   _saveDeviceToken() async {
     String uid = currentUserModel.uid;
 
@@ -217,6 +221,7 @@ class _ScrollPageState extends State<ScrollPage>
 
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
+          print("MESSAGE $message");
       if (Theme.of(context).platform == TargetPlatform.iOS) {
         if (message['notifType'] == "chat") {
           LocalNotifcation(context, message['aps']['alert']['title'],
@@ -394,6 +399,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   Widget build(BuildContext context) {
+    fcmSubscribe();
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
     if (firstName == null) {

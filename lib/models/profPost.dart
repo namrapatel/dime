@@ -18,6 +18,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ProfPost extends StatefulWidget {
   final String university;

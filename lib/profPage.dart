@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'streams.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ProfPage extends StatefulWidget {
   final String stream;
@@ -21,6 +22,7 @@ class ProfPage extends StatefulWidget {
 }
 
 class _ProfPageState extends State<ProfPage> {
+  FirebaseMessaging _fcm = FirebaseMessaging();
   int subCounter = 0;
   var university = currentUserModel.university;
   String stream;
@@ -30,6 +32,13 @@ class _ProfPageState extends State<ProfPage> {
     super.initState();
   }
 
+  void fcmSubscribe(String topic) {
+    _fcm.subscribeToTopic(topic);
+  }
+
+  void fcmUnsubscribe(String topic) {
+    _fcm.unsubscribeFromTopic(topic);
+  }
   Future getPosts() async {
     QuerySnapshot qn = await Firestore.instance
         .collection('streams')
@@ -274,11 +283,16 @@ class _ProfPageState extends State<ProfPage> {
                     borderRadius: new BorderRadius.circular(20.0)),
                 onPressed: () {
                   setState(() {
+                    if (subCounter % 2 == 0) {
+                      fcmSubscribe(stream);
+                    } else {
+                      fcmUnsubscribe(stream);
+                    }
                     subCounter++;
                   });
                 },
                 child: Text(
-                  subCounter % 2 == 1 ? "Subscribe" : "Subscribed ",
+                  subCounter % 2 == 1 ? "Subscribed" : "Subscribe ",
                   style: TextStyle(color: Color(0xFF096664)),
                 ),
                 color: Colors.white,

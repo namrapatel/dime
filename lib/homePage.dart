@@ -229,7 +229,7 @@ class _ScrollPageState extends State<ScrollPage>
             LocalNotifcation(context, message['aps']['alert']['title'],
                 message['aps']['alert']['body'], "postNotifSocial");
           }
-        } else if (message['notifType'] == "streamNotif") {
+        } else if (message['notifType'] == "streamNotif" && message['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['notification']['title'],
               message['notification']['body'], "streamNotif");
         }
@@ -245,7 +245,7 @@ class _ScrollPageState extends State<ScrollPage>
             LocalNotifcation(context, message['notification']['title'],
                 message['notification']['body'], "postNotifSocial");
           }
-        } else if (message['data']['notifType'] == 'streamNotif') {
+        } else if (message['data']['notifType'] == 'streamNotif' && message['data']['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['notification']['title'],
               message['notification']['body'], "streamNotif");
         }

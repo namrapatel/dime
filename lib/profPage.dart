@@ -21,6 +21,7 @@ class ProfPage extends StatefulWidget {
 }
 
 class _ProfPageState extends State<ProfPage> {
+  int subCounter = 0;
   var university = currentUserModel.university;
   String stream;
   _ProfPageState({this.stream});
@@ -266,17 +267,22 @@ class _ProfPageState extends State<ProfPage> {
             //       color: Colors.white,
             //     ),
             //   )
-            ? SizedBox()
-            // Container(
-            //     child: RaisedButton(
-            //         shape: new RoundedRectangleBorder(
-            //             borderRadius: new BorderRadius.circular(20.0)),
-            //         child: Text(
-            //           "Subscribe",
-            //           style: TextStyle(color: Color(0xFF096664)),
-            //         ),
-            //         color: Colors.white,
-            //         onPressed: () {}),
+            // ? SizedBox()
+            ? Container(
+                child: RaisedButton(
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(20.0)),
+                onPressed: () {
+                  setState(() {
+                    subCounter++;
+                  });
+                },
+                child: Text(
+                  subCounter % 2 == 1 ? "Subscribe" : "Subscribed ",
+                  style: TextStyle(color: Color(0xFF096664)),
+                ),
+                color: Colors.white,
+              ))
             //   )
             : SizedBox(
                 height: 1,

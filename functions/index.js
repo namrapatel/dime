@@ -85,3 +85,31 @@ exports.postNotifTrigger = functions.firestore.document('postNotifs/{notifId}').
         });
     }
 });
+
+exports.streamNotifTrigger = functions.firestore.document('streamNotifs/{notifId}').onCreate((snapshot, context) => {
+    notifData = snapshot.data();
+    channelName = notifData.stream;
+    caption = notifData.caption;
+    ownerId = notifData.ownerId;
+
+    payLoad = {
+        "notification": {
+            "title": channelName,
+            "body": caption,
+            "sound": "default"
+        },
+        "data": {
+            "click_action": "FLUTTER_NOTIFICATION_CLICK",
+            "title": channelName,
+            "body": caption,
+            "notifType": "streamNotif",
+            "ownerId": ownerId
+        }
+    };
+
+    return admin.messaging().sendToTopic(channelName, payLoad).then((response) => {
+        console.log('Pushed them all');
+        }).catch((err) => {
+            console.log(err);
+    });
+});

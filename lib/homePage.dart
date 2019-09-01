@@ -161,7 +161,7 @@ class _ScrollPageState extends State<ScrollPage>
   final Firestore _db = Firestore.instance;
   final FirebaseMessaging _fcm = FirebaseMessaging();
   StreamSubscription iosSubscription;
-  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   _saveDeviceToken() async {
     String uid = currentUserModel.uid;
 
@@ -217,51 +217,40 @@ class _ScrollPageState extends State<ScrollPage>
 
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
+      print("ON MESSAGE: $message");
       if (Theme.of(context).platform == TargetPlatform.iOS) {
         if (message['notifType'] == "chat") {
           LocalNotifcation(context, message['aps']['alert']['title'],
-              message['aps']['alert']['body'], message['senderId'], "chat");
+              message['aps']['alert']['body'], "chat", message);
         } else if (message['notifType'] == "postNotif") {
           if (message['type'] == "prof") {
-            LocalNotifcation(
-                context,
-                message['aps']['alert']['title'],
-                message['aps']['alert']['body'],
-                message['postId'],
-                "postNotifProf");
+            LocalNotifcation(context, message['aps']['alert']['title'],
+                message['aps']['alert']['body'], "postNotifProf", message);
           } else {
-            LocalNotifcation(
-                context,
-                message['aps']['alert']['title'],
-                message['aps']['alert']['body'],
-                message['postId'],
-                "postNotifSocial");
+            LocalNotifcation(context, message['aps']['alert']['title'],
+                message['aps']['alert']['body'], "postNotifSocial", message);
           }
+        } else if (message['notifType'] == "streamNotif" &&
+            message['ownerId'] != currentUserModel.uid) {
+          LocalNotifcation(context, message['notification']['title'],
+              message['notification']['body'], "streamNotif", message);
         }
       } else {
         if (message['data']['notifType'] == "chat") {
-          LocalNotifcation(
-              context,
-              message['notification']['title'],
-              message['notification']['body'],
-              message['data']['senderId'],
-              "chat");
+          LocalNotifcation(context, message['notification']['title'],
+              message['notification']['body'], "chat", message);
         } else if (message['data']['notifType'] == "postNotif") {
           if (message['data']['type'] == "prof") {
-            LocalNotifcation(
-                context,
-                message['notification']['title'],
-                message['notification']['body'],
-                message['data']['postId'],
-                "postNotifProf");
+            LocalNotifcation(context, message['notification']['title'],
+                message['notification']['body'], "postNotifProf", message);
           } else {
-            LocalNotifcation(
-                context,
-                message['notification']['title'],
-                message['notification']['body'],
-                message['data']['postId'],
-                "postNotifSocial");
+            LocalNotifcation(context, message['notification']['title'],
+                message['notification']['body'], "postNotifSocial", message);
           }
+        } else if (message['data']['notifType'] == 'streamNotif' &&
+            message['data']['ownerId'] != currentUserModel.uid) {
+          LocalNotifcation(context, message['notification']['title'],
+              message['notification']['body'], "streamNotif", message);
         }
       }
     }, onResume: (Map<String, dynamic> message) async {
@@ -290,6 +279,11 @@ class _ScrollPageState extends State<ScrollPage>
                           postId: message['postId'],
                         )));
           }
+        } else if (message['notifType'] == "streamNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => ProfPage(stream: message['title'])));
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -316,6 +310,12 @@ class _ScrollPageState extends State<ScrollPage>
                           postId: message['data']['postId'],
                         )));
           }
+        } else if (message['data']['notifType'] == "streamNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) =>
+                      ProfPage(stream: message['data']['title'])));
         }
       }
     }, onLaunch: (Map<String, dynamic> message) async {
@@ -344,6 +344,11 @@ class _ScrollPageState extends State<ScrollPage>
                           postId: message['postId'],
                         )));
           }
+        } else if (message['notifType'] == "streamNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => ProfPage(stream: message['title'])));
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -370,6 +375,12 @@ class _ScrollPageState extends State<ScrollPage>
                           postId: message['data']['postId'],
                         )));
           }
+        } else if (message['data']['notifType'] == "streamNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) =>
+                      ProfPage(stream: message['data']['title'])));
         }
       }
     });
@@ -1198,10 +1209,76 @@ class UserTile extends StatelessWidget {
 }
 
 Widget LocalNotifcation(BuildContext context, String titleMessage,
-    String bodyMessage, String key, String notifType) {
+    String bodyMessage, String notifType, Map<String, dynamic> message) {
   return Flushbar(
     // margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
     borderRadius: 15,
+    onTap: (Flushbar) {
+      if (Theme.of(context).platform == TargetPlatform.iOS) {
+        if (message['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => Chat(
+                        fromUserId: currentUserModel.uid,
+                        toUserId: message['senderId'],
+                      )));
+        } else if (message['notifType'] == "postNotif") {
+          if (message['type'] == "prof") {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => ProfComments(
+                          postId: message['postId'],
+                        )));
+          } else {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => SocialComments(
+                          postId: message['postId'],
+                        )));
+          }
+        } else if (message['notifType'] == "streamNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => ProfPage(stream: message['title'])));
+        }
+      } else {
+        if (message['data']['notifType'] == "chat") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => Chat(
+                        fromUserId: currentUserModel.uid,
+                        toUserId: message['data']['senderId'],
+                      )));
+        } else if (message['data']['notifType'] == "postNotif") {
+          if (message['data']['type'] == "prof") {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => ProfComments(
+                          postId: message['data']['postId'],
+                        )));
+          } else {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => SocialComments(
+                          postId: message['data']['postId'],
+                        )));
+          }
+        } else if (message['data']['notifType'] == "streamNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) =>
+                      ProfPage(stream: message['data']['title'])));
+        }
+      }
+    },
     messageText: Padding(
       padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
       child: Column(

@@ -100,5 +100,22 @@ class UserManagement {
       'status': 'pending',
       'stream': stream
     });
+
+    Firestore.instance
+        .collection('streamNotifs')
+        .add({
+      'points': 0,
+      'comments': 0,
+      'caption': caption,
+      'timeStamp': timeStamp,
+      'postPic': postPic,
+      "ownerId": currentUserModel.uid,
+      "postID": postId,
+      'upVotes': upVotes,
+      "likes": likes,
+      "university": currentUserModel.university,
+      'status': 'pending',
+      'stream': stream
+    });
   }
 }

@@ -26,10 +26,24 @@ class _ProfPageState extends State<ProfPage> {
   int subCounter = 0;
   var university = currentUserModel.university;
   String stream;
+  bool subscribed;
   _ProfPageState({this.stream});
   @override
   void initState() {
     super.initState();
+    checkSubscription();
+  }
+
+  checkSubscription() async {
+    DocumentSnapshot userDoc = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .get();
+    if (userDoc['subscriptions'].contains(stream)) {
+      setState(() {
+        subscribed = true;
+      });
+    }
   }
 
   void fcmSubscribe(String topic) {
@@ -39,6 +53,7 @@ class _ProfPageState extends State<ProfPage> {
   void fcmUnsubscribe(String topic) {
     _fcm.unsubscribeFromTopic(topic);
   }
+
   Future getPosts() async {
     QuerySnapshot qn = await Firestore.instance
         .collection('streams')
@@ -282,17 +297,33 @@ class _ProfPageState extends State<ProfPage> {
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0)),
                 onPressed: () {
-                  setState(() {
-                    if (subCounter % 2 == 0) {
-                      fcmSubscribe(stream);
-                    } else {
-                      fcmUnsubscribe(stream);
-                    }
-                    subCounter++;
-                  });
+                  List<String> streamName = [stream];
+                  if (subscribed == true) {
+                    setState(() {
+                      subscribed = false;
+                    });
+                    Firestore.instance
+                        .collection('users')
+                        .document(currentUserModel.uid)
+                        .setData({
+                      'subscriptions': FieldValue.arrayRemove(streamName)
+                    }, merge: true);
+                    fcmUnsubscribe(stream);
+                  } else {
+                    setState(() {
+                      subscribed = true;
+                    });
+                    Firestore.instance
+                        .collection('users')
+                        .document(currentUserModel.uid)
+                        .setData({
+                      'subscriptions': FieldValue.arrayUnion(streamName)
+                    }, merge: true);
+                    fcmSubscribe(stream);
+                  }
                 },
                 child: Text(
-                  subCounter % 2 == 1 ? "Subscribed" : "Subscribe ",
+                  subscribed == true ? "Unsubscribe" : "Subscribe ",
                   style: TextStyle(color: Color(0xFF096664)),
                 ),
                 color: Colors.white,

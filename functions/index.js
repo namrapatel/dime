@@ -91,6 +91,11 @@ exports.streamNotifTrigger = functions.firestore.document('streamNotifs/{notifId
     channelName = notifData.stream;
     caption = notifData.caption;
     ownerId = notifData.ownerId;
+    university = notifData.university;
+    uniqueStream = university + channelName;
+    uniqueStream = uniqueStream.replace(/\s/g, '');
+    
+    console.log(uniqueStream);
 
     payLoad = {
         "notification": {
@@ -107,7 +112,7 @@ exports.streamNotifTrigger = functions.firestore.document('streamNotifs/{notifId
         }
     };
 
-    return admin.messaging().sendToTopic(channelName, payLoad).then((response) => {
+    return admin.messaging().sendToTopic(uniqueStream, payLoad).then((response) => {
         console.log('Pushed them all');
         }).catch((err) => {
             console.log(err);

@@ -217,7 +217,6 @@ class _ScrollPageState extends State<ScrollPage>
 
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-      print("ON MESSAGE: $message");
       if (Theme.of(context).platform == TargetPlatform.iOS) {
         if (message['notifType'] == "chat") {
           LocalNotifcation(context, message['aps']['alert']['title'],
@@ -232,8 +231,8 @@ class _ScrollPageState extends State<ScrollPage>
           }
         } else if (message['notifType'] == "streamNotif" &&
             message['ownerId'] != currentUserModel.uid) {
-          LocalNotifcation(context, message['notification']['title'],
-              message['notification']['body'], "streamNotif", message);
+          LocalNotifcation(context, message['aps']['alert']['title'],
+                message['aps']['alert']['body'], "streamNotif", message);
         }
       } else {
         if (message['data']['notifType'] == "chat") {

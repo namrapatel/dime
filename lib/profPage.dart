@@ -39,10 +39,12 @@ class _ProfPageState extends State<ProfPage> {
         .collection('users')
         .document(currentUserModel.uid)
         .get();
-    if (userDoc['subscriptions'].contains(stream)) {
-      setState(() {
-        subscribed = true;
-      });
+    if (userDoc['subscriptions'] != null) {
+      if (userDoc['subscriptions'].contains(stream)) {
+        setState(() {
+          subscribed = true;
+        });
+      }
     }
   }
 
@@ -297,6 +299,8 @@ class _ProfPageState extends State<ProfPage> {
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0)),
                 onPressed: () {
+                  String uniqueStream = currentUserModel.university + stream;
+                  uniqueStream = uniqueStream.split(' ').join("");
                   List<String> streamName = [stream];
                   if (subscribed == true) {
                     setState(() {
@@ -308,7 +312,7 @@ class _ProfPageState extends State<ProfPage> {
                         .setData({
                       'subscriptions': FieldValue.arrayRemove(streamName)
                     }, merge: true);
-                    fcmUnsubscribe(stream);
+                    fcmUnsubscribe(uniqueStream);
                   } else {
                     setState(() {
                       subscribed = true;
@@ -319,7 +323,7 @@ class _ProfPageState extends State<ProfPage> {
                         .setData({
                       'subscriptions': FieldValue.arrayUnion(streamName)
                     }, merge: true);
-                    fcmSubscribe(stream);
+                    fcmSubscribe(uniqueStream);
                   }
                 },
                 child: Text(

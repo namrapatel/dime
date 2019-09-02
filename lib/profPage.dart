@@ -39,10 +39,12 @@ class _ProfPageState extends State<ProfPage> {
         .collection('users')
         .document(currentUserModel.uid)
         .get();
-    if (userDoc['subscriptions'].contains(stream)) {
-      setState(() {
-        subscribed = true;
-      });
+    if (userDoc['subscriptions'] != null) {
+      if (userDoc['subscriptions'].contains(stream)) {
+        setState(() {
+          subscribed = true;
+        });
+      }
     }
   }
 

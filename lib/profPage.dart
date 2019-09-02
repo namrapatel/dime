@@ -298,6 +298,7 @@ class _ProfPageState extends State<ProfPage> {
                     borderRadius: new BorderRadius.circular(20.0)),
                 onPressed: () {
                   String uniqueStream = currentUserModel.university + stream;
+                  uniqueStream = uniqueStream.split(' ').join("");
                   List<String> streamName = [stream];
                   if (subscribed == true) {
                     setState(() {

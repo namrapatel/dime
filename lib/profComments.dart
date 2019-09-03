@@ -284,6 +284,7 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'timestamp': Timestamp.now(),
                                 'ownerId': ownerID,
                                 "postID": widget.postId,
+                                'stream': stream,
                                 "type": "prof",
                               });
                               Firestore.instance

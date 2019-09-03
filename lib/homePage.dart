@@ -269,6 +269,7 @@ class _ScrollPageState extends State<ScrollPage>
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
                           postId: message['postId'],
+                        stream: message['stream']
                         )));
           } else {
             Navigator.push(
@@ -300,6 +301,7 @@ class _ScrollPageState extends State<ScrollPage>
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
                           postId: message['data']['postId'],
+                        stream: message['stream']
                         )));
           } else {
             Navigator.push(
@@ -365,6 +367,7 @@ class _ScrollPageState extends State<ScrollPage>
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
                           postId: message['data']['postId'],
+                        stream: message['data']['stream']
                         )));
           } else {
             Navigator.push(
@@ -1229,6 +1232,7 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
                           postId: message['postId'],
+                      stream: message['stream'],
                         )));
           } else {
             Navigator.push(
@@ -1260,6 +1264,7 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
                           postId: message['data']['postId'],
+                        stream: message['data']['stream']
                         )));
           } else {
             Navigator.push(

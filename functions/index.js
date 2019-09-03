@@ -54,6 +54,7 @@ exports.postNotifTrigger = functions.firestore.document('postNotifs/{notifId}').
     commenterId = notifData.commenterId;
     ownerId = notifData.ownerId;
     commenterName = notifData.commenterName;
+    payLoad = {};
 
     if (commenterId !== ownerId) {
         admin.firestore().collection('users').doc(ownerId).get().then(function(doc) {
@@ -72,8 +73,12 @@ exports.postNotifTrigger = functions.firestore.document('postNotifs/{notifId}').
                         "body": notifData.text,
                         "notifType": "postNotif",
                         "postId": notifData.postID,
-                        "type": notifData.type
+                        "type": notifData.type, 
                     }
+                }
+                if (notifData.type !== "social") {
+                    payLoad.data.stream = notifData.stream;
+
                 }
                 console.log(payLoad)
                 return admin.messaging().sendToDevice(sendTokens, payLoad).then((response) => {

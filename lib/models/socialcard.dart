@@ -51,16 +51,16 @@ class SocialCard extends StatelessWidget {
 
   factory SocialCard.fromDocument(DocumentSnapshot document) {
     String interest = "";
-    List<dynamic> interests = document['interests'];
-    if (interests != null) {
-      for (int i = 0; i < interests.length; i++) {
-        if (i == interests.length - 1) {
-          interest = interest + interests[i];
-        } else {
-          interest = interest + interests[i] + ", ";
-        }
-      }
-    }
+    // List<dynamic> interests = document['interests'];
+    // if (interests != null) {
+    //   for (int i = 0; i < interests.length; i++) {
+    //     if (i == interests.length - 1) {
+    //       interest = interest + interests[i];
+    //     } else {
+    //       interest = interest + interests[i] + ", ";
+    //     }
+    //   }
+    // }
     return SocialCard(
       isFire: document['isFire'],
       type: document['type'],
@@ -131,10 +131,8 @@ class SocialCard extends StatelessWidget {
       Share.text(
           'My Social Media:',
           'https://www.snapchat.com/add/$snapchat' +
-               'https://www.instagram.com/$instagram' +
-               
-               'https://twitter.com/$twitter', 
-              
+              'https://www.instagram.com/$instagram' +
+              'https://twitter.com/$twitter',
           'text/plain');
     } catch (e) {
       print('error: $e');
@@ -154,10 +152,13 @@ class SocialCard extends StatelessWidget {
       print(pngBytes);
       print(bs64);
 
-            await Share.file(
+      await Share.file(
           'Share card', displayName + '.png', pngBytes, 'image/png',
-         text:  'Snapchat: https://www.snapchat.com/add/$snapchat' '\n \n' 'Instagram: https://www.instagram.com/$instagram' '\n \n' 'Twitter: https://twitter.com/$twitter'
-              );
+          text: 'Snapchat: https://www.snapchat.com/add/$snapchat'
+              '\n \n'
+              'Instagram: https://www.instagram.com/$instagram'
+              '\n \n'
+              'Twitter: https://twitter.com/$twitter');
 
       return pngBytes;
     } catch (e) {
@@ -194,7 +195,6 @@ class SocialCard extends StatelessWidget {
                           left: screenW(20),
                           child: Container(
                             width: 230,
-
                             child: Row(
                               children: <Widget>[
                                 AutoSizeText(
@@ -210,10 +210,13 @@ class SocialCard extends StatelessWidget {
                                   width: screenW(5),
                                 ),
                                 isFire == true
-                                    ? Icon(Octicons.flame, color: Color(0xFF8803fc), size: screenF(17),)
+                                    ? Icon(
+                                        Octicons.flame,
+                                        color: Color(0xFF8803fc),
+                                        size: screenF(17),
+                                      )
                                     : Container()
                               ],
-
                             ),
                           )),
                       Positioned(
@@ -229,7 +232,6 @@ class SocialCard extends StatelessWidget {
                                     color: Color(0xFF8803fc))),
                       ),
                       Positioned(
-
                         top: screenH(190),
                         left: screenW(295),
                         child: IconButton(
@@ -276,8 +278,7 @@ class SocialCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchSnap(
-                                                'https://www.snapchat.com/add/$snapchat' 
-                                                    );
+                                                'https://www.snapchat.com/add/$snapchat');
                                           },
                                         ),
                                         Text(snapchat,
@@ -327,8 +328,7 @@ class SocialCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchInsta(
-                                                'https://www.instagram.com/$instagram' 
-                                                    );
+                                                'https://www.instagram.com/$instagram');
                                           },
                                         ),
                                         Text(instagram,
@@ -378,8 +378,7 @@ class SocialCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchTwitter(
-                                                'https://twitter.com/$twitter' 
-                                                    );
+                                                'https://twitter.com/$twitter');
                                           },
                                         ),
                                         Text(twitter,

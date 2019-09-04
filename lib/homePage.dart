@@ -1136,7 +1136,7 @@ class UserTile extends StatelessWidget {
                       ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                      0, MediaQuery.of(context).size.height / 70, 0, 0),
+                      0, MediaQuery.of(context).size.height / 600, 0, 0),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -1144,7 +1144,7 @@ class UserTile extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         bio != null ? bio : "",
-                        style: TextStyle(),
+                        style: TextStyle(color:Color(0xFF1458EA),),
                         textAlign: TextAlign.start,
                       )
                       // buildSocialInterests(context),

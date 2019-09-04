@@ -180,11 +180,22 @@ class _ProfStreamsState extends State<ProfStreams> {
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(
                                           0.0, 14.0, 8.0, 8.0),
-                                      child: Text(
-                                        '@' + snapshot.data[index].documentID,
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: screenF(16.5)),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Text(
+                                            '@' + snapshot.data[index].documentID,
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: screenF(16.5)),
+                                          ),
+                                          SizedBox(width: screenW(10),),
+                                           snapshot.data[index]['isVerified'] == true ?
+                                        Icon(
+                                          Feather.check_circle,
+                                          color: Color(0xFF096664),
+                                          size: screenF(17),
+                                        ) : Container()
+                                        ],
                                       ),
                                     ),
                                     // Padding(

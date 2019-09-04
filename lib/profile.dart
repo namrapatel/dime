@@ -289,7 +289,7 @@ class _HomePageOneState extends State<HomePageOne> {
                           onChanged: (int value) {
                             if (value != null) {
                               if (data2[value].text.isNotEmpty &&
-                                  data2[value].text != null) {
+                                  data2[value].text != null&&data2[value].text!="Select Your University") {
                                 setState(() {
                                   university = data2[value].text;
                                 });

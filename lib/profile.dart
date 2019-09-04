@@ -17,6 +17,7 @@ import 'package:flushbar/flushbar.dart';
 import 'homePage.dart';
 
 class Profile extends StatelessWidget {
+
   final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();
   @override
@@ -26,6 +27,7 @@ class Profile extends StatelessWidget {
 }
 
 class HomePageOne extends StatefulWidget {
+
   @override
   _HomePageOneState createState() => _HomePageOneState();
 }
@@ -272,13 +274,14 @@ class _HomePageOneState extends State<HomePageOne> {
                 horizontal: MediaQuery.of(context).size.width / 15),
             child: Align(
               alignment: Alignment.topLeft,
-              child: Container(
+              child: data2.length==0? Center(child:CircularProgressIndicator()):Container(
+
                 width: MediaQuery.of(context).size.width / 1.1,
                 height: MediaQuery.of(context).size.height / 9,
                 child: FlutterSearchPanel<int>(
                   padding: EdgeInsets.all(10.0),
-                  selected: data2.indexWhere((SearchItem element) =>
-                      element.text == currentUserModel.university),
+                  selected: university==null?0:data2.indexWhere((SearchItem element) =>
+                      element.text == university),
                   title: "Select your university",
                   data: data2,
                   color: Colors.white,
@@ -298,9 +301,9 @@ class _HomePageOneState extends State<HomePageOne> {
                     }
                   },
                 ),
-              ),
+              )),
             ),
-          ),
+
           SizedBox(
             height: MediaQuery.of(context).size.height / 20,
           ),

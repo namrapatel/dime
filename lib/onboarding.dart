@@ -579,7 +579,7 @@ class _onBoardingState extends State<onBoarding> {
 //       'snapchat': snapchat,
 //       'instagram': instagram,
 //       'twitter': twitter,
-//     });
+//     },merge:true);
 //   }
 
 //   updateProfCard() {
@@ -592,7 +592,7 @@ class _onBoardingState extends State<onBoarding> {
 //       'github': github,
 //       'linkedIn': linkedIn,
 //       'twitter': twitter,
-//     });
+//     },merge:true);
 //   }
 
 //   @override

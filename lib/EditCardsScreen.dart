@@ -702,9 +702,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SizedBox(
-                                  height: 0.0,
-                                ),
+                              : CircularProgressIndicator(),
                           SizedBox(
                             width: screenW(20),
                           ),
@@ -1786,9 +1784,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   backgroundImage: NetworkImage(photoUrl),
                                   radius: 45,
                                 )
-                              : SizedBox(
-                                  height: 0.0,
-                                ),
+                              : CircularProgressIndicator(),
                           SizedBox(
                             width: screenW(20),
                           ),

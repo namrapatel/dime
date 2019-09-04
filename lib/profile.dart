@@ -276,7 +276,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   child: data2.length != 0
                       ? FlutterSearchPanel<int>(
                           padding: EdgeInsets.all(10.0),
-                          selected: data2.indexWhere((SearchItem element) =>
+                          selected: university==null?0:data2.indexWhere((SearchItem element) =>
                               element.text == currentUserModel.university),
                           title: "Select your university",
                           data: data2,

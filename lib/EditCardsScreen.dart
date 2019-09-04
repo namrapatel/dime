@@ -331,7 +331,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     });
     uploadImage();
     Flushbar(
-      //  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       borderRadius: 15,
       messageText: Padding(
         padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -1393,7 +1393,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     });
     uploadImage();
     Flushbar(
-      //  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       borderRadius: 15,
       messageText: Padding(
         padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

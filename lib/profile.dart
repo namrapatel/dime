@@ -17,7 +17,6 @@ import 'package:flushbar/flushbar.dart';
 import 'homePage.dart';
 
 class Profile extends StatelessWidget {
-
   final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();
   @override
@@ -27,7 +26,6 @@ class Profile extends StatelessWidget {
 }
 
 class HomePageOne extends StatefulWidget {
-
   @override
   _HomePageOneState createState() => _HomePageOneState();
 }
@@ -75,6 +73,7 @@ class _HomePageOneState extends State<HomePageOne> {
       major = doc.data['major'];
       gradYear = doc.data['gradYear'];
       university = doc.data['university'];
+      bio = doc.data['bio'];
     });
   }
 
@@ -166,9 +165,6 @@ class _HomePageOneState extends State<HomePageOne> {
       physics: BouncingScrollPhysics(),
       children: <Widget>[
         Column(children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
-          ),
           Row(
             children: <Widget>[
               SizedBox(
@@ -233,7 +229,7 @@ class _HomePageOneState extends State<HomePageOne> {
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Container(
               margin: EdgeInsets.symmetric(
@@ -267,45 +263,47 @@ class _HomePageOneState extends State<HomePageOne> {
                 ),
               )),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 15),
             child: Align(
               alignment: Alignment.topLeft,
-              child: data2.length==0? Center(child:CircularProgressIndicator()):Container(
-
-                width: MediaQuery.of(context).size.width / 1.1,
-                height: MediaQuery.of(context).size.height / 9,
-                child: FlutterSearchPanel<int>(
-                  padding: EdgeInsets.all(10.0),
-                  selected: university==null?0:data2.indexWhere((SearchItem element) =>
-                      element.text == university),
-                  title: "Select your university",
-                  data: data2,
-                  color: Colors.white,
-                  icon: new Icon(Icons.school, color: Colors.black),
-                  textStyle: new TextStyle(
-                    color: Color(0xFF1458EA),
-                    fontSize: 15.0,
-                  ),
-                  onChanged: (int value) {
-                    if (value != null) {
-                      if (data2[value].text.isNotEmpty &&
-                          data2[value].text != null) {
-                        setState(() {
-                          university = data2[value].text;
-                        });
-                      }
-                    }
-                  },
-                ),
-              )),
+              child: Container(
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  height: MediaQuery.of(context).size.height / 10,
+                  child: data2.length != 0
+                      ? FlutterSearchPanel<int>(
+                          padding: EdgeInsets.all(10.0),
+                          selected: data2.indexWhere((SearchItem element) =>
+                              element.text == currentUserModel.university),
+                          title: "Select your university",
+                          data: data2,
+                          color: Colors.white,
+                          icon: new Icon(Icons.school, color: Colors.black),
+                          textStyle: new TextStyle(
+                            color: Color(0xFF1458EA),
+                            fontSize: 15.0,
+                          ),
+                          onChanged: (int value) {
+                            if (value != null) {
+                              if (data2[value].text.isNotEmpty &&
+                                  data2[value].text != null) {
+                                setState(() {
+                                  university = data2[value].text;
+                                });
+                              }
+                            }
+                          },
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(),
+                        )),
             ),
-
+          ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Container(
               margin: EdgeInsets.symmetric(
@@ -339,7 +337,7 @@ class _HomePageOneState extends State<HomePageOne> {
                 ),
               )),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           Container(
               margin: EdgeInsets.symmetric(
@@ -369,6 +367,67 @@ class _HomePageOneState extends State<HomePageOne> {
                   ),
                 ),
               )),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 25,
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width / 15),
+            child: TextField(
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    bio = value;
+                  });
+                }
+              },
+              textCapitalization: TextCapitalization.sentences,
+              // controller: descriptionController,
+              keyboardType: TextInputType.multiline,
+              maxLines: 2,
+              maxLength: 50,
+              maxLengthEnforced: true,
+              decoration: InputDecoration(
+                hintText: bio == null ? " Your Bio" : bio,
+                hintStyle: TextStyle(color: Colors.grey),
+                labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                contentPadding: EdgeInsets.all(20),
+                border: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(color: Colors.grey),
+                ),
+                focusedBorder: new OutlineInputBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                  borderSide: new BorderSide(
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: screenH(10.0),
+          ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: screenW(17.5),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    "Tell people around you who you are with a quote, joke,",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Text(
+                    "your job title, hobbies, or whatever you can think of!",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ],
+          ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 20,
           ),

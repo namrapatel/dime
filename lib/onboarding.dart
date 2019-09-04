@@ -97,31 +97,31 @@ class _onBoardingState extends State<onBoarding> {
                     alignment: Alignment.center,
                   ),
                 ),
-                // PageViewModel(
-                //     pageColor: Color(0xFFf5f4f2),
-                //     body: OnboardingSave(),
-                //     title: Column(
-                //       children: <Widget>[
-                //         Text('Enter your handles!',
-                //             style: TextStyle(
-                //                 color: Colors.black,
-                //                 fontSize: screenF(30.0),
-                //                 // fontWeight: FontWeight.bold,
-                //                 fontFamily: 'futura')),
-                //         // SizedBox(
-                //         //   height: screenH(1.5),
-                //         // ),
-                //         Text(
-                //           'Handles are clickable on cards',
-                //           style: TextStyle(
-                //               color: Colors.grey,
-                //               fontSize: screenF(16.0),
-                //               // fontWeight: FontWeight.bold,
-                //               fontFamily: 'futura'),
-                //         )
-                //       ],
-                //     ),
-                //     mainImage: MediaForm()),
+                PageViewModel(
+                    pageColor: Color(0xFFf5f4f2),
+                    body: OnboardingSave(),
+                    title: Column(
+                      children: <Widget>[
+                        Text('Enter your handles!',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: screenF(30.0),
+                                // fontWeight: FontWeight.bold,
+                                fontFamily: 'futura')),
+                        // SizedBox(
+                        //   height: screenH(1.5),
+                        // ),
+                        Text(
+                          'Handles are clickable on cards',
+                          style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: screenF(16.0),
+                              // fontWeight: FontWeight.bold,
+                              fontFamily: 'futura'),
+                        )
+                      ],
+                    ),
+                    mainImage: MediaForm()),
                 PageViewModel(
                   pageColor: const Color(0xFF1458EA),
                   body: Padding(
@@ -225,437 +225,437 @@ class _onBoardingState extends State<onBoarding> {
   }
 }
 
-// class MediaForm extends StatefulWidget {
-//   @override
-//   _MediaFormState createState() => _MediaFormState();
-// }
-
-// class _MediaFormState extends State<MediaForm> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: <Widget>[
-//         Container(
-//           width: screenW(370),
-//           child: TextField(
-//               onChanged: (value) {
-//                 if (value != null) {
-//                   setState(() {
-//                     snapchat = value;
-//                   });
-//                 }
-//               },
-//               decoration: InputDecoration(
-//                   hintText: snapchat == null ? "Snapchat" : snapchat,
-//                   hintStyle: TextStyle(color: Colors.grey),
-//                   prefixIcon: Icon(
-//                     FontAwesome.snapchat_square,
-//                     size: screenH(33),
-//                     color: Color(0xFFfffc00),
-//                   ),
-//                   prefixText: '@',
-//                   prefixStyle: TextStyle(color: Colors.grey),
-//                   labelStyle:
-//                       TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-//                   contentPadding: EdgeInsets.all(screenH(22)),
-//                   border: new OutlineInputBorder(
-//                     borderRadius: new BorderRadius.circular(25.0),
-//                     borderSide: new BorderSide(
-//                       color: Color(0xFF1458EA),
-//                     ),
-//                   ),
-//                   focusedBorder: new OutlineInputBorder(
-//                     borderRadius: new BorderRadius.circular(25.0),
-//                     borderSide: new BorderSide(
-//                       color: Color(0xFF1458EA),
-//                     ),
-//                   ))),
-//         ),
-
-//         SizedBox(
-//           height: screenH(10.0),
-//         ),
-
-//         Container(
-//           width: screenW(370),
-//           child: TextField(
-//             onChanged: (value) {
-//               if (value != null) {
-//                 setState(() {
-//                   instagram = value;
-//                 });
-//               }
-//             },
-//             decoration: InputDecoration(
-//               prefixIcon: Icon(
-//                 MaterialCommunityIcons.instagram,
-//                 color: Color(0xFF8803fc),
-//                 size: screenH(33),
-//               ),
-//               hintText: instagram == null ? "Instagram" : instagram,
-//               hintStyle: TextStyle(color: Colors.grey),
-//               prefixText: '@',
-//               prefixStyle: TextStyle(color: Colors.grey),
-//               labelStyle:
-//                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-//               contentPadding: EdgeInsets.all(screenH(22)),
-//               border: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//               focusedBorder: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-
-//         SizedBox(
-//           height: screenH(10.0),
-//         ),
-
-//         Container(
-//           width: screenW(370),
-//           child: TextField(
-//             onChanged: (value) {
-//               if (value != null) {
-//                 setState(() {
-//                   twitter = value;
-//                 });
-//               }
-//             },
-//             decoration: InputDecoration(
-//               prefixIcon: Icon(
-//                 MaterialCommunityIcons.twitter_box,
-//                 color: Colors.blue,
-//                 size: screenH(33),
-//               ),
-//               hintText: twitter == null ? "Twitter" : twitter,
-//               hintStyle: TextStyle(color: Colors.grey),
-//               prefixText: '@',
-//               prefixStyle: TextStyle(color: Colors.grey),
-//               labelStyle:
-//                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-//               contentPadding: EdgeInsets.all(screenH(22)),
-//               border: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//               focusedBorder: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-
-//         SizedBox(
-//           height: screenH(10.0),
-//         ),
-
-//         Container(
-//           width: screenW(370),
-//           child: TextField(
-//             onChanged: (value) {
-//               if (value != null) {
-//                 setState(() {
-//                   linkedIn = value;
-//                 });
-//               }
-//             },
-//             decoration: InputDecoration(
-//               prefixIcon: Icon(
-//                 FontAwesome.linkedin_square,
-//                 size: screenH(33),
-//                 color: Color(0xFF0077b5),
-//               ),
-//               hintText: linkedIn == null ? "LinkedIn" : linkedIn,
-//               hintStyle: TextStyle(color: Colors.grey),
-//               prefixText: '@',
-//               prefixStyle: TextStyle(color: Colors.grey),
-//               labelStyle:
-//                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-//               contentPadding: EdgeInsets.all(20),
-//               border: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//               focusedBorder: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-
-//         SizedBox(
-//           height: screenH(10.0),
-//         ),
-
-//         Container(
-//           width: screenW(370),
-//           child: TextField(
-//             onChanged: (value) {
-//               if (value != null) {
-//                 setState(() {
-//                   github = value;
-//                 });
-//               }
-//             },
-//             decoration: InputDecoration(
-//               prefixIcon: Icon(
-//                 MaterialCommunityIcons.github_box,
-//                 color: Color(0xFF3c3744),
-//                 size: screenH(33),
-//               ),
-//               hintText: github == null ? "GitHub" : github,
-//               hintStyle: TextStyle(color: Colors.grey),
-//               prefixText: '@',
-//               prefixStyle: TextStyle(color: Colors.grey),
-//               labelStyle:
-//                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-//               contentPadding: EdgeInsets.all(screenH(22)),
-//               border: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//               focusedBorder: new OutlineInputBorder(
-//                 borderRadius: new BorderRadius.circular(25.0),
-//                 borderSide: new BorderSide(
-//                   color: Color(0xFF1458EA),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-
-//         // Container(
+class MediaForm extends StatefulWidget {
+  @override
+  _MediaFormState createState() => _MediaFormState();
+}
+
+class _MediaFormState extends State<MediaForm> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Container(
+          width: screenW(370),
+          child: TextField(
+              onChanged: (value) {
+                if (value != null) {
+                  setState(() {
+                    snapchat = value;
+                  });
+                }
+              },
+              decoration: InputDecoration(
+                  hintText: snapchat == null ? "Snapchat" : snapchat,
+                  hintStyle: TextStyle(color: Colors.grey),
+                  prefixIcon: Icon(
+                    FontAwesome.snapchat_square,
+                    size: screenH(33),
+                    color: Color(0xFFfffc00),
+                  ),
+                  prefixText: '@',
+                  prefixStyle: TextStyle(color: Colors.grey),
+                  labelStyle:
+                      TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+                  contentPadding: EdgeInsets.all(screenH(22)),
+                  border: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: new BorderSide(
+                      color: Color(0xFF1458EA),
+                    ),
+                  ),
+                  focusedBorder: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: new BorderSide(
+                      color: Color(0xFF1458EA),
+                    ),
+                  ))),
+        ),
+
+        SizedBox(
+          height: screenH(10.0),
+        ),
+
+        Container(
+          width: screenW(370),
+          child: TextField(
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  instagram = value;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                MaterialCommunityIcons.instagram,
+                color: Color(0xFF8803fc),
+                size: screenH(33),
+              ),
+              hintText: instagram == null ? "Instagram" : instagram,
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixText: '@',
+              prefixStyle: TextStyle(color: Colors.grey),
+              labelStyle:
+                  TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(22)),
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+              focusedBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        SizedBox(
+          height: screenH(10.0),
+        ),
+
+        Container(
+          width: screenW(370),
+          child: TextField(
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  twitter = value;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                MaterialCommunityIcons.twitter_box,
+                color: Colors.blue,
+                size: screenH(33),
+              ),
+              hintText: twitter == null ? "Twitter" : twitter,
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixText: '@',
+              prefixStyle: TextStyle(color: Colors.grey),
+              labelStyle:
+                  TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(22)),
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+              focusedBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        SizedBox(
+          height: screenH(10.0),
+        ),
+
+        Container(
+          width: screenW(370),
+          child: TextField(
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  linkedIn = value;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                FontAwesome.linkedin_square,
+                size: screenH(33),
+                color: Color(0xFF0077b5),
+              ),
+              hintText: linkedIn == null ? "LinkedIn" : linkedIn,
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixText: '@',
+              prefixStyle: TextStyle(color: Colors.grey),
+              labelStyle:
+                  TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(20),
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+              focusedBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        SizedBox(
+          height: screenH(10.0),
+        ),
+
+        Container(
+          width: screenW(370),
+          child: TextField(
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  github = value;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                MaterialCommunityIcons.github_box,
+                color: Color(0xFF3c3744),
+                size: screenH(33),
+              ),
+              hintText: github == null ? "GitHub" : github,
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixText: '@',
+              prefixStyle: TextStyle(color: Colors.grey),
+              labelStyle:
+                  TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(22)),
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+              focusedBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+            ),
+          ),
+        ),
+
+        // Container(
 
-//         //   width: screenW(250),
+        //   width: screenW(250),
 
-//         //   height: screenH(60),
+        //   height: screenH(60),
 
-//         //   child: FloatingActionButton(
+        //   child: FloatingActionButton(
 
-//         //     shape: RoundedRectangleBorder(
+        //     shape: RoundedRectangleBorder(
 
-//         //         borderRadius: BorderRadius.all(Radius.circular(16.0))),
+        //         borderRadius: BorderRadius.all(Radius.circular(16.0))),
 
-//         //     elevation: screenH(5),
+        //     elevation: screenH(5),
 
-//         //     onPressed: () {
+        //     onPressed: () {
 
-//         //       updateSocialCard();
+        //       updateSocialCard();
 
-//         //       Flushbar(
+        //       Flushbar(
 
-//         //         //  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+        //         //  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
 
-//         //         borderRadius: 15,
+        //         borderRadius: 15,
 
-//         //         messageText: Padding(
+        //         messageText: Padding(
 
-//         //           padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+        //           padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
 
-//         //           child: Column(
+        //           child: Column(
 
-//         //             mainAxisAlignment: MainAxisAlignment.start,
+        //             mainAxisAlignment: MainAxisAlignment.start,
 
-//         //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             crossAxisAlignment: CrossAxisAlignment.start,
 
-//         //             children: <Widget>[
+        //             children: <Widget>[
 
-//         //               Text(
+        //               Text(
 
-//         //                 'Saved!',
+        //                 'Saved!',
 
-//         //                 style: TextStyle(
+        //                 style: TextStyle(
 
-//         //                     color: Colors.black, fontWeight: FontWeight.bold),
-
-//         //               ),
-
-//         //               Text(
-
-//         //                 'Swipe right! Your cards have now been updated.',
-
-//         //                 style: TextStyle(color: Colors.grey),
-
-//         //               )
-
-//         //             ],
-
-//         //           ),
-
-//         //         ),
-
-//         //         backgroundColor: Colors.white,
-
-//         //         boxShadows: [
-
-//         //           BoxShadow(
-
-//         //               color: Colors.black12.withOpacity(0.1),
-
-//         //               blurRadius: (15),
-
-//         //               spreadRadius: (5),
-
-//         //               offset: Offset(0, 3)),
-
-//         //         ],
-
-//         //         flushbarPosition: FlushbarPosition.TOP,
-
-//         //         icon: Padding(
-
-//         //           padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-
-//         //           child: Icon(
-
-//         //             Icons.save_alt,
-
-//         //             size: 28.0,
-
-//         //             color: Color(0xFF1458EA),
-
-//         //           ),
-
-//         //         ),
-
-//         //         duration: Duration(seconds: 3),
-
-//         //       )..show(context);
-
-//         //     },
-
-//         //     backgroundColor: Color(0xFF1458EA),
-
-//         //     child: Text(
-
-//         //       "Save",
-
-//         //       style: TextStyle(fontSize: screenF(20), color: Colors.white),
-
-//         //     ),
-
-//         //   ),
-
-//         // )
-
-//       ],
-//     );
-//   }
-// }
-
-// class OnboardingSave extends StatefulWidget {
-//   @override
-//   _OnboardingSaveState createState() => _OnboardingSaveState();
-// }
-
-// class _OnboardingSaveState extends State<OnboardingSave> {
-//   updateSocialCard() {
-//     Firestore.instance
-//         .collection('users')
-//         .document(currentUserModel.uid)
-//         .collection('socialcard')
-//         .document('social')
-//         .setData({
-//       'snapchat': snapchat,
-//       'instagram': instagram,
-//       'twitter': twitter,
-//     },merge:true);
-//   }
-
-//   updateProfCard() {
-//     Firestore.instance
-//         .collection('users')
-//         .document(currentUserModel.uid)
-//         .collection('profcard')
-//         .document('prof')
-//         .setData({
-//       'github': github,
-//       'linkedIn': linkedIn,
-//       'twitter': twitter,
-//     },merge:true);
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: screenW(250),
-//       height: screenH(60),
-//       child: FloatingActionButton(
-//         shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.all(Radius.circular(16.0))),
-//         elevation: screenH(5),
-//         onPressed: () {
-//           updateSocialCard();
-//           updateProfCard();
-//           Flushbar(
-//             // margin: EdgeInsets.symmetric(
-//             //     horizontal: screenH(15), vertical: screenH(5)),
-//             borderRadius: 15,
-//             messageText: Padding(
-//               padding: EdgeInsets.fromLTRB(screenH(15), 0, 0, 0),
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: <Widget>[
-//                   Text(
-//                     'Saved!',
-//                     style: TextStyle(
-//                         color: Colors.black, fontWeight: FontWeight.bold),
-//                   ),
-//                   Text(
-//                     'Swipe right! Your cards have now been updated.',
-//                     style: TextStyle(color: Colors.grey),
-//                   )
-//                 ],
-//               ),
-//             ),
-//             backgroundColor: Colors.white,
-//             boxShadows: [
-//               BoxShadow(
-//                   color: Colors.black12.withOpacity(0.1),
-//                   blurRadius: (15),
-//                   spreadRadius: (5),
-//                   offset: Offset(0, 3)),
-//             ],
-//             flushbarPosition: FlushbarPosition.TOP,
-//             icon: Padding(
-//               padding: EdgeInsets.fromLTRB(
-//                   screenH(15), screenH(8), screenH(8), screenH(8)),
-//               child: Icon(
-//                 Icons.save_alt,
-//                 size: screenH(30.0),
-//                 color: Color(0xFF1458EA),
-//               ),
-//             ),
-//             duration: Duration(seconds: 3),
-//           )..show(context);
-//         },
-//         backgroundColor: Color(0xFF1458EA),
-//         child: Text(
-//           "Save",
-//           style: TextStyle(fontSize: screenF(20), color: Colors.white),
-//         ),
-//       ),
-//     );
-//   }
-// }
+        //                     color: Colors.black, fontWeight: FontWeight.bold),
+
+        //               ),
+
+        //               Text(
+
+        //                 'Swipe right! Your cards have now been updated.',
+
+        //                 style: TextStyle(color: Colors.grey),
+
+        //               )
+
+        //             ],
+
+        //           ),
+
+        //         ),
+
+        //         backgroundColor: Colors.white,
+
+        //         boxShadows: [
+
+        //           BoxShadow(
+
+        //               color: Colors.black12.withOpacity(0.1),
+
+        //               blurRadius: (15),
+
+        //               spreadRadius: (5),
+
+        //               offset: Offset(0, 3)),
+
+        //         ],
+
+        //         flushbarPosition: FlushbarPosition.TOP,
+
+        //         icon: Padding(
+
+        //           padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+
+        //           child: Icon(
+
+        //             Icons.save_alt,
+
+        //             size: 28.0,
+
+        //             color: Color(0xFF1458EA),
+
+        //           ),
+
+        //         ),
+
+        //         duration: Duration(seconds: 3),
+
+        //       )..show(context);
+
+        //     },
+
+        //     backgroundColor: Color(0xFF1458EA),
+
+        //     child: Text(
+
+        //       "Save",
+
+        //       style: TextStyle(fontSize: screenF(20), color: Colors.white),
+
+        //     ),
+
+        //   ),
+
+        // )
+
+      ],
+    );
+  }
+}
+
+class OnboardingSave extends StatefulWidget {
+  @override
+  _OnboardingSaveState createState() => _OnboardingSaveState();
+}
+
+class _OnboardingSaveState extends State<OnboardingSave> {
+  updateSocialCard() {
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('socialcard')
+        .document('social')
+        .setData({
+      'snapchat': snapchat,
+      'instagram': instagram,
+      'twitter': twitter,
+    },merge:true);
+  }
+
+  updateProfCard() {
+    Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .document('prof')
+        .setData({
+      'github': github,
+      'linkedIn': linkedIn,
+      'twitter': twitter,
+    },merge:true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: screenW(250),
+      height: screenH(60),
+      child: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(16.0))),
+        elevation: screenH(5),
+        onPressed: () {
+          updateSocialCard();
+          updateProfCard();
+          Flushbar(
+            margin: EdgeInsets.symmetric(
+                horizontal: screenH(15), vertical: screenH(5)),
+            borderRadius: 15,
+            messageText: Padding(
+              padding: EdgeInsets.fromLTRB(screenH(15), 0, 0, 0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Saved!',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'Swipe right! Your cards have now been updated.',
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
+              ),
+            ),
+            backgroundColor: Colors.white,
+            boxShadows: [
+              BoxShadow(
+                  color: Colors.black12.withOpacity(0.1),
+                  blurRadius: (15),
+                  spreadRadius: (5),
+                  offset: Offset(0, 3)),
+            ],
+            flushbarPosition: FlushbarPosition.TOP,
+            icon: Padding(
+              padding: EdgeInsets.fromLTRB(
+                  screenH(15), screenH(8), screenH(8), screenH(8)),
+              child: Icon(
+                Icons.save_alt,
+                size: screenH(30.0),
+                color: Color(0xFF1458EA),
+              ),
+            ),
+            duration: Duration(seconds: 3),
+          )..show(context);
+        },
+        backgroundColor: Color(0xFF1458EA),
+        child: Text(
+          "Save",
+          style: TextStyle(fontSize: screenF(20), color: Colors.white),
+        ),
+      ),
+    );
+  }
+}

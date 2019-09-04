@@ -157,17 +157,10 @@ class _ProfPageState extends State<ProfPage> {
                           size: 20,
                         ),
                         onPressed: () {
-                          if (stream == 'general') {
                             Navigator.push(
                                 context,
                                 CupertinoPageRoute(
                                     builder: (context) => ScrollPage()));
-                          } else {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => ProfStreams()));
-                          }
                         },
                       ),
                     ],

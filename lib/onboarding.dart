@@ -103,7 +103,7 @@ class _onBoardingState extends State<onBoarding> {
                 title: Column(
                   children: <Widget>[
                     SizedBox(
-                      height: screenH(30),
+                      height: screenH(5),
                     ),
                     Text('Enter your handles!',
                         style: TextStyle(

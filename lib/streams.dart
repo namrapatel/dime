@@ -110,7 +110,7 @@ class _ProfStreamsState extends State<ProfStreams> {
     final icons = [
       MaterialCommunityIcons.brain,
       MaterialCommunityIcons.account_tie,
-      MaterialCommunityIcons.gamepad
+        FontAwesome.graduation_cap,
     ];
 
     return FutureBuilder(
@@ -163,7 +163,7 @@ class _ProfStreamsState extends State<ProfStreams> {
                                 padding: const EdgeInsets.fromLTRB(
                                     8.0, 0.0, 8.0, 8.0),
                                 child: Icon(
-                                  icons[0],
+                                  icons[2],
                                   color: Color(0xFF096664),
                                   size: 30.0,
                                 ),

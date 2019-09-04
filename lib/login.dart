@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
       child: Text(
         'Welcome Back.',
         style: TextStyle(
-          fontSize: 48.0,
+          fontSize: MediaQuery.of(context).size.height / 19.0,
           fontWeight: FontWeight.bold,
           color: Color(0xFF1458EA),
         ),

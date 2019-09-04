@@ -41,15 +41,14 @@ class _ChatListState extends State<ChatList> {
       String photoUrl;
       String senderId = document.documentID;
       bool unread = document['unread'];
-      QuerySnapshot cardQuery = await Firestore.instance
+      DocumentSnapshot cardQuery = await Firestore.instance
           .collection('users')
           .document(senderId)
-          .collection('profcard')
-          .getDocuments();
-      for (var card in cardQuery.documents) {
-        displayName = card.data['displayName'];
-        photoUrl = card.data['photoUrl'];
-      }
+          .get();
+
+        displayName = cardQuery['displayName'];
+        photoUrl = cardQuery['photoUrl'];
+
       DocumentSnapshot secondQuery = await Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
@@ -58,7 +57,6 @@ class _ChatListState extends State<ChatList> {
           .get();
 
       String message = secondQuery['lastMessage'];
-      print(message);
       if (message.length >= 40) {
         message = message.substring(0, 39);
       }
@@ -69,12 +67,7 @@ class _ChatListState extends State<ChatList> {
 
       String elapsedTime = timeago.format(storedDate.toDate());
       String timestamp = '$elapsedTime';
-      print(message);
-      print(timestamp);
-      print(photoUrl);
-      print(displayName);
-      print(currentUserModel.uid);
-      print(senderId);
+
       messageTiles.add(MessageTile(
         text: message,
         timestamp: timestamp,

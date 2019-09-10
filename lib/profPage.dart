@@ -57,50 +57,76 @@ class _ProfPageState extends State<ProfPage> {
   }
 
   Future getPosts() async {
-    QuerySnapshot qn = await Firestore.instance
-        .collection('streams')
-        .document(stream)
-        .collection('posts')
-        .where('university', isEqualTo: currentUserModel.university)
-        .getDocuments();
-    List<dynamic> docs = qn.documents;
-    List<List<dynamic>> twoD = [];
     List<DocumentSnapshot> finalSorted = [];
+    List<dynamic> docs =[];
+    List<List<dynamic>> twoD = [];
+    if(stream=="general"){
+      QuerySnapshot postNames= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('feed').getDocuments();
+      List<dynamic> addressesDocs=postNames.documents;
+//      List<DocumentSnapshot> subscribedPosts=[];
+      for(var a=0;a<addressesDocs.length;a++){
+        String address= addressesDocs[a].documentID;
+        String stream= addressesDocs[a]['stream'];
+       DocumentSnapshot post= await Firestore.instance.collection("streams").document(stream).collection('posts').document(address).get();
+      docs.add(post);
 
-    print('length');
-    print(docs.length);
-    for (var doc in docs) {
-      double counter = 0;
-      List<dynamic> toAdd = [];
-      Timestamp time = doc.data['timeStamp'];
-
-      print(doc.data['caption']);
-
-      print(DateTime.now().difference(time.toDate()));
-      if (DateTime.now().difference(time.toDate()).inMinutes <= 60) {
-        print('difference between posted and time from an hour ago is');
-        print(DateTime.now().difference(time.toDate()).inMinutes);
-        counter = counter + 5;
+       print(post.documentID);
       }
-      int upvotes = doc.data['upVotes'];
-      counter = counter + (0.1 * upvotes);
-      int comments = doc.data['comments'];
-      counter = counter + (0.2 * comments);
-      toAdd.add(doc);
-      toAdd.add(counter);
-      twoD.add(toAdd);
+
+
+
+
+    }else {
+      QuerySnapshot qn = await Firestore.instance
+          .collection('streams')
+          .document(stream)
+          .collection('posts')
+          .where('university', isEqualTo: currentUserModel.university)
+          .getDocuments();
+      docs = qn.documents;
     }
-    for (var list in twoD) {
-      print(list[0].data['caption']);
-      print(list[1]);
-    }
-    twoD.sort((b, a) => a[1].compareTo(b[1]));
-    print('after sort');
-    for (var list in twoD) {
-      print(list[0].data['caption']);
-      print(list[1]);
-      finalSorted.add(list[0]);
-    }
+
+
+      print('length');
+      print(docs.length);
+      for (var doc in docs) {
+        double counter = 0;
+        List<dynamic> toAdd = [];
+        Timestamp time = doc.data['timeStamp'];
+
+        print(doc.data['caption']);
+
+        print(DateTime.now().difference(time.toDate()));
+        if (DateTime
+            .now()
+            .difference(time.toDate())
+            .inMinutes <= 60) {
+          print('difference between posted and time from an hour ago is');
+          print(DateTime
+              .now()
+              .difference(time.toDate())
+              .inMinutes);
+          counter = counter + 5;
+        }
+        int upvotes = doc.data['upVotes'];
+        counter = counter + (0.1 * upvotes);
+        int comments = doc.data['comments'];
+        counter = counter + (0.2 * comments);
+        toAdd.add(doc);
+        toAdd.add(counter);
+        twoD.add(toAdd);
+      }
+      for (var list in twoD) {
+        print(list[0].data['caption']);
+        print(list[1]);
+      }
+      twoD.sort((b, a) => a[1].compareTo(b[1]));
+      print('after sort');
+      for (var list in twoD) {
+        print(list[0].data['caption']);
+        print(list[1]);
+        finalSorted.add(list[0]);
+      }
 
     return finalSorted;
   }
@@ -292,15 +318,27 @@ class _ProfPageState extends State<ProfPage> {
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0)),
                 onPressed: () {
+                  String uni;
+                  if(currentUserModel.university=="Western University"){
+                    uni="western";
+                  }else if(currentUserModel.university=="University of Waterloo"){
+                    uni="waterloo";
+                  }
+
                   String uniqueStream = currentUserModel.university + stream;
                   uniqueStream = uniqueStream.split(' ').join("");
                   List<String> streamName = [stream];
+                  List<String> currentId=[];
+                  currentId.add(currentUserModel.uid);
+
                   if (subscribed == true) {
                     Firestore.instance
                         .collection('streams')
                         .document(stream)
                         .setData({
-                      'numberOfMembers': FieldValue.increment(-1)
+                      'numberOfMembers': FieldValue.increment(-1),
+                      currentUserModel.university+' Members': FieldValue.arrayRemove(currentId),
+
                     }, merge: true);
                     setState(() {
                       subscribed = false;
@@ -317,7 +355,8 @@ class _ProfPageState extends State<ProfPage> {
                         .collection('streams')
                         .document(stream)
                         .setData({
-                      'numberOfMembers': FieldValue.increment(1)
+                      'numberOfMembers': FieldValue.increment(1),
+                      currentUserModel.university+' Members': FieldValue.arrayUnion(currentId),
                     }, merge: true);
                     setState(() {
                       subscribed = true;

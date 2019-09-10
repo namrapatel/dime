@@ -80,12 +80,8 @@ class _ProfStreamsState extends State<ProfStreams> {
               color: Color(0xFF096664),
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => ProfPage(
-                            stream: 'general',
-                          )));
+              Navigator.pop(
+                  context);
             },
           ),
           title: Text(

@@ -64,8 +64,15 @@ class UserManagement {
   }
 
   addProfPost(String caption, Timestamp timeStamp, String postPic,
-      String postId, int upVotes, String stream) {
+      String postId, int upVotes, String stream, List<dynamic> userIds) {
     List<dynamic> likes = [];
+    for(var i=0;i<userIds.length;i++){
+      Firestore.instance.collection('users').document(userIds[i]).collection('feed').document(postId).setData({
+        'stream': stream
+      });
+    }
+
+
     Firestore.instance.collection('profPosts').document(postId).setData({
       'points': 0,
       'comments': 0,

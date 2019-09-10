@@ -60,14 +60,15 @@ class _ProfPageState extends State<ProfPage> {
     List<DocumentSnapshot> finalSorted = [];
     List<dynamic> docs =[];
     List<List<dynamic>> twoD = [];
-    if(stream=="general"){
+
+    if(stream=="Subscriptions"){
       QuerySnapshot postNames= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('feed').getDocuments();
       List<dynamic> addressesDocs=postNames.documents;
 //      List<DocumentSnapshot> subscribedPosts=[];
       for(var a=0;a<addressesDocs.length;a++){
         String address= addressesDocs[a].documentID;
-        String stream= addressesDocs[a]['stream'];
-       DocumentSnapshot post= await Firestore.instance.collection("streams").document(stream).collection('posts').document(address).get();
+        String streamPost= addressesDocs[a]['stream'];
+       DocumentSnapshot post= await Firestore.instance.collection("streams").document(streamPost).collection('posts').document(address).get();
       docs.add(post);
 
        print(post.documentID);
@@ -250,7 +251,7 @@ class _ProfPageState extends State<ProfPage> {
                   //       onPressed: () {}),
                   // ),
                   Spacer(),
-                  currentUserModel.university != null
+                  currentUserModel.university != null &&stream!="Subscriptions"
                       ? InkWell(
                           child: Icon(
                             Ionicons.ios_create,
@@ -291,7 +292,7 @@ class _ProfPageState extends State<ProfPage> {
               ),
             )),
         backgroundColor: Color(0xFF096664),
-        floatingActionButton: currentUserModel.university != null
+        floatingActionButton: currentUserModel.university != null &&stream!="Subscriptions"
             // ? FloatingActionButton(
             //     shape: RoundedRectangleBorder(
             //         borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -318,12 +319,7 @@ class _ProfPageState extends State<ProfPage> {
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0)),
                 onPressed: () {
-                  String uni;
-                  if(currentUserModel.university=="Western University"){
-                    uni="western";
-                  }else if(currentUserModel.university=="University of Waterloo"){
-                    uni="waterloo";
-                  }
+
 
                   String uniqueStream = currentUserModel.university + stream;
                   uniqueStream = uniqueStream.split(' ').join("");

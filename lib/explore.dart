@@ -176,7 +176,7 @@ class _ExploreState extends State<Explore> {
                               top: MediaQuery.of(context).size.height / 75,
                               right: MediaQuery.of(context).size.width / 30),
                           hintText:
-                              'Search for people, interests, school ...'),
+                              'Search for anyone...'),
                     ),
                   ),
                 ),

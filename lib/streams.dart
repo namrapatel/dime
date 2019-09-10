@@ -80,12 +80,8 @@ class _ProfStreamsState extends State<ProfStreams> {
               color: Color(0xFF096664),
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => ProfPage(
-                            stream: 'general',
-                          )));
+              Navigator.pop(
+                  context);
             },
           ),
           title: Text(
@@ -206,10 +202,13 @@ class _ProfStreamsState extends State<ProfStreams> {
                                            SizedBox(
                                              width: 2.0,
                                            ),
+                                           snapshot.data[index].documentID!="Subscriptions"?
                                            Text(
                                              snapshot.data[index]['numberOfMembers']!=null &&snapshot.data[index]['numberOfMembers']>1?"${snapshot.data[index]['numberOfMembers']} members":snapshot.data[index]['numberOfMembers']!=null &&snapshot.data[index]['numberOfMembers']==1?"${snapshot.data[index]['numberOfMembers']} member":"",
                                              style: TextStyle(
                                                  color: Colors.grey[600], fontSize: 15.0),
+                                           ):SizedBox(
+                                             width: 0.0,
                                            ),
                                          ],
                                        ),

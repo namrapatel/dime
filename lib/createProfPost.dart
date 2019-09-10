@@ -439,7 +439,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
 //    });
 //  }
 
-  void post() {
+  void post() async {
     List<String> captionWords = descriptionController.text.split(" ");
     bool filterWordFound = false;
     for (String word in captionWords) {
@@ -476,11 +476,16 @@ class _CreateProfPostState extends State<CreateProfPost> {
     } else {
       timeStamp = Timestamp.now();
       upVotes = 0;
+      DocumentSnapshot streamDoc= await Firestore.instance.collection('streams').document(stream).get();
+      List<dynamic> members= streamDoc[currentUserModel.university+' Members'];
       if (file != null) {
         setState(() {
           loading = true;
         });
+
         compressImage();
+
+
         uploadImage(file).then((String data) {
           elapsedTime = timeago.format(DateTime.now());
           postPic = data;
@@ -488,7 +493,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
           postId = currentUserModel.uid + Timestamp.now().toString();
 
           uploader.addProfPost(
-              caption, timeStamp, postPic, postId, upVotes, stream);
+              caption, timeStamp, postPic, postId, upVotes, stream, members);
         }).then((_) {
           setState(() {
             file = null;
@@ -505,7 +510,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
         caption = descriptionController.text;
 
         uploader.addProfPost(
-            caption, timeStamp, postPic, postId, upVotes, stream);
+            caption, timeStamp, postPic, postId, upVotes, stream,members);
         Navigator.pop(context);
       }
     }

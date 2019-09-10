@@ -296,6 +296,12 @@ class _ProfPageState extends State<ProfPage> {
                   uniqueStream = uniqueStream.split(' ').join("");
                   List<String> streamName = [stream];
                   if (subscribed == true) {
+                    Firestore.instance
+                        .collection('streams')
+                        .document(stream)
+                        .setData({
+                      'numberOfMembers': FieldValue.increment(-1)
+                    }, merge: true);
                     setState(() {
                       subscribed = false;
                     });
@@ -307,6 +313,12 @@ class _ProfPageState extends State<ProfPage> {
                     }, merge: true);
                     fcmUnsubscribe(uniqueStream);
                   } else {
+                    Firestore.instance
+                        .collection('streams')
+                        .document(stream)
+                        .setData({
+                      'numberOfMembers': FieldValue.increment(1)
+                    }, merge: true);
                     setState(() {
                       subscribed = true;
                     });

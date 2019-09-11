@@ -101,31 +101,16 @@ class _onBoardingState extends State<onBoarding> {
             PageViewModel(
                 pageColor: Colors.white,
                 body: OnboardingSave(),
-                title: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: screenH(5),
-                    ),
-                    Text('Enter your handles!',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: screenF(30.0),
-                            // fontWeight: FontWeight.bold,
-                            fontFamily: 'futura')),
-                    // SizedBox(
-                    //   height: screenH(1.5),
-                    // ),
-                    Text(
-                      'Handles are clickable on cards',
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: screenF(16.0),
-                          // fontWeight: FontWeight.bold,
-                          fontFamily: 'futura'),
-                    )
-                  ],
+                title: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    "Enter your Handles!",
+                    style: TextStyle(fontSize: screenF(30), color: Colors.black),
+                  ),
                 ),
-                mainImage: MediaForm()),
+                mainImage: ListView(
+                  children: <Widget>[MediaForm()],
+                )),
             PageViewModel(
               pageColor: const Color(0xFF1458EA),
               body: Padding(
@@ -619,12 +604,8 @@ class _OnboardingSaveState extends State<OnboardingSave> {
         .document(currentUserModel.uid)
         .collection('socialcard')
         .document('social')
-        .setData({
-      'snapchat': snapchat,
-      'instagram': instagram,
-
-      'vsco':vsco
-    }, merge: true);
+        .setData({'snapchat': snapchat, 'instagram': instagram, 'vsco': vsco},
+            merge: true);
   }
 
   updateProfCard() {

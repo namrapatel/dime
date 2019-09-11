@@ -21,7 +21,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: SplashScreen(),
+      home: onBoarding(),
       theme: appTheme,
     );
   }
@@ -128,7 +128,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   height: 100,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[Image.asset('assets/GroupDimeTransparent.png')],
+                    children: <Widget>[
+                      Image.asset('assets/GroupDimeTransparent.png')
+                    ],
                   ),
                 ),
               ),

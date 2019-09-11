@@ -37,6 +37,36 @@ class _HomePageOneState extends State<HomePageOne> {
   String university;
   String bio;
 
+void _settingModalBottomSheet(context){
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc){
+          return Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+            child: new Wrap(
+            children: <Widget>[
+          new ListTile(
+            //leading: new Icon(AntDesign.heart),
+            title: new Text('In a relationship'),
+            onTap: () => {}          
+          ),
+          new ListTile(
+            //leading: new Icon(FontAwesome5Brands),
+            title: new Text('Seeking'),
+            onTap: () => {},          
+          ),
+          new ListTile(
+            //leading: new Icon(Icons.videocam),
+            title: new Text('Not interested'),
+            onTap: () => {},          
+          ),
+            ],
+          ),
+          );
+      }
+    );
+}
+
   List<SearchItem<int>> data2 = [
 //    SearchItem(0, 'University of Waterloo'),
 //    SearchItem(1, 'Western University'),
@@ -305,6 +335,23 @@ class _HomePageOneState extends State<HomePageOne> {
           SizedBox(
             height: MediaQuery.of(context).size.height / 25,
           ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.5,0,0,0),
+            child: Row(
+              children: <Widget>[
+                Text("Relationship Status", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                IconButton(
+                  icon: Icon(Icons.keyboard_arrow_down),
+                  onPressed: (){
+                    _settingModalBottomSheet(context);
+                  },
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 25,
+          ),
           Container(
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 15),
@@ -501,4 +548,6 @@ class _HomePageOneState extends State<HomePageOne> {
       ],
     ));
   }
+
+  
 }

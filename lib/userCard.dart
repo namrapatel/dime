@@ -395,6 +395,7 @@ class _UserCardState extends State<UserCard> {
                             String action;
 
                             return ListView.builder(
+                                cacheExtent: 5000.0,
                                 physics: BouncingScrollPhysics(),
                                 itemCount: snapshot?.data?.length,
                                 itemBuilder: (_, index) {

@@ -405,6 +405,7 @@ class _ProfPageState extends State<ProfPage> {
                     );
                   } else {
                     return ListView.builder(
+                        cacheExtent: 5000.0,
                         itemCount: snapshot?.data?.length,
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (_, index) {

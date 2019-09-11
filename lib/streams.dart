@@ -114,6 +114,7 @@ class _ProfStreamsState extends State<ProfStreams> {
             );
           } else {
             return ListView.builder(
+                cacheExtent: 5000.0,
               physics: BouncingScrollPhysics(),
               itemCount: snapshot?.data?.length,
               itemBuilder: (context, index) {

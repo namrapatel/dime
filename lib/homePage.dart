@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'models/user.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:Dime/profPage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
@@ -842,6 +843,7 @@ class _ScrollPageState extends State<ScrollPage>
                       : Container(
                           height: MediaQuery.of(context).size.height * 2 / 3,
                           child: ListView.builder(
+                              cacheExtent: 5000.0,
                             itemBuilder: (context, index) {
                               DocumentSnapshot doc = snapshots.data[index];
                               print(
@@ -1179,10 +1181,16 @@ class UserTile extends StatelessWidget {
             leading: Stack(
               children: <Widget>[
                 CircleAvatar(
-                  backgroundImage: NetworkImage(blocked == true
-                      ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
-                      : personImage),
                   radius: screenH(30),
+                  backgroundImage: CachedNetworkImageProvider(
+                      blocked == true
+              ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                  : personImage,
+                  ),
+
+
+
+
                 ),
                 relationshipStatus != null
                     ? Positioned(

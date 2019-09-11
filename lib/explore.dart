@@ -10,6 +10,8 @@ import 'chat.dart';
 import 'userCard.dart';
 import 'homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 var allUsers = [];
 
@@ -185,12 +187,42 @@ class _ExploreState extends State<Explore> {
             ),
             Container(
               height: MediaQuery.of(context).size.height / 1.48,
-              child: ListView(
+              child: ListView.builder(
+                cacheExtent: 5000.0,
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                children: tempSearchStore.map((element) {
-                  return _buildTile(element);
-                }).toList(),
+                itemBuilder: (context, index) {
+
+//                  tempSearchStore.map((element) {
+                    return _buildTile(tempSearchStore[index]);
+//                  });
+//                  DocumentSnapshot doc = snapshots.data[index];
+//                  print(
+//                      'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+//                  GeoPoint point = doc.data['position']['geopoint'];
+//                  if (doc.data['blocked${currentUserModel.uid}'] ==
+//                      true) {
+//                    return UserTile(blocked: true);
+//                  } else {
+//                    return UserTile(
+//                        relationshipStatus:
+//                        doc.data['relationshipStatus'],
+//                        contactName: doc.data['displayName'],
+//                        personImage: doc.data['photoUrl'],
+//                        uid: doc.documentID,
+//                        major: doc.data['major'],
+//                        profInterests: doc.data['profInterests'],
+//                        socialInterests:
+//                        doc.data['socialInterests'],
+//                        university: doc.data['university'],
+//                        gradYear: doc.data['gradYear'],
+//                        bio: doc.data['bio']);
+//                  }
+                },
+                itemCount: tempSearchStore.length,
+//                children: tempSearchStore.map((element) {
+//                  return _buildTile(element);
+//                }).toList(),
               ),
             ),
           ],
@@ -212,10 +244,14 @@ class _ExploreState extends State<Explore> {
       },
       leading: Stack(
         children: <Widget>[
-          CircleAvatar(
-            radius: screenH(30),
-            backgroundImage: NetworkImage(data['userData']['photoUrl']),
-          ),
+//          CircleAvatar(
+//            radius: screenH(30),
+//            backgroundImage: NetworkImage(data['userData']['photoUrl']),
+//          ),
+      CircleAvatar(
+      backgroundImage: CachedNetworkImageProvider(
+          data['userData']['photoUrl']
+      )),
           data['userData']['relationshipStatus']!=null?
           Positioned(
             left: MediaQuery.of(context).size.width / 10000000,

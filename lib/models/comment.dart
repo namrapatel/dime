@@ -13,7 +13,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:Dime/userCard.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:Dime/viewCards.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 class Comment extends StatelessWidget {
   final String commentId,
       commenterId,
@@ -64,11 +64,13 @@ class Comment extends StatelessWidget {
             height: 8.0,
           ),
           InkWell(
-            child: CircleAvatar(
-              backgroundImage: NetworkImage(commenterPhoto),
-              radius: screenH(22.0),
-            ),
-            onTap: () {
+            child:  CircleAvatar(
+                radius: screenH(22.0),
+              backgroundImage: CachedNetworkImageProvider(
+              commenterPhoto
+          )),
+
+    onTap: () {
               Navigator.push(
                   context,
                   CupertinoPageRoute(

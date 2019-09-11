@@ -11,7 +11,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:auto_size_text/auto_size_text.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 class Chat extends StatefulWidget {
   static const String id = "CHAT";
 //  final FirebaseUser fromUser;
@@ -139,9 +139,10 @@ class _ChatState extends State<Chat> {
           children: <Widget>[
             toUserPhoto != null
                 ? CircleAvatar(
-                    radius: screenH(20),
-                    backgroundImage: NetworkImage(toUserPhoto),
-                  )
+              radius: screenH(20),
+              backgroundImage: CachedNetworkImageProvider(
+                  toUserPhoto
+              ))
                 : SizedBox(
                     height: 0.0,
                   ),

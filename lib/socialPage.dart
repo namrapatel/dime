@@ -178,6 +178,7 @@ class _SocialPageState extends State<SocialPage> {
                     );
                   } else {
                     return ListView.builder(
+                      cacheExtent: 5000.0,
                         itemCount: snapshot?.data?.length,
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (_, index) {

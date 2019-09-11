@@ -378,7 +378,8 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       imageQuality: 100,
                       source: ImageSource.camera,
                       maxWidth: 1920,
-                      maxHeight: 1350);
+                      maxHeight: 1350,
+                  );
                   setState(() {
                     state = AppState.picked;
                     file = imageFile;

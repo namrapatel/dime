@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'homePage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ChatList extends StatefulWidget {
   final String title = '';
@@ -207,8 +208,10 @@ class MessageTile extends StatelessWidget {
                     )));
       },
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(senderPhoto),
-      ),
+
+          backgroundImage: CachedNetworkImageProvider(
+              senderPhoto
+          )),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

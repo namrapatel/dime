@@ -17,22 +17,14 @@ import 'package:flushbar/flushbar.dart';
 import 'homePage.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:Dime/profileScreen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_search_panel/search_item.dart';
-import 'login.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:image_picker/image_picker.dart';
-import 'package:flushbar/flushbar.dart';
-import 'socialTags.dart';
-import 'professionalTags.dart';
-import 'viewCards.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'homePage.dart';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:image/image.dart' as Im;
+
+import 'package:cached_network_image/cached_network_image.dart';
 
 class Profile extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey =
@@ -283,6 +275,26 @@ class _HomePageOneState extends State<HomePageOne> {
     setState(() {
       _image = sampleImage;
     });
+
+      print('starting compression');
+      final tempDir = await getTemporaryDirectory();
+      final path = tempDir.path;
+      String rand = Timestamp.now().toString();
+
+      Im.Image image = Im.decodeImage(_image.readAsBytesSync());
+//     Im.copyResize(image,width: 500,height: 500);
+
+      //    image.format = Im.Image.RGBA;
+      //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+
+      var newim2 = File('$path/img_$rand.jpg')
+        ..writeAsBytesSync(Im.encodeJpg(image));
+
+      setState(() {
+        _image = newim2;
+      });
+      print('done');
+
     uploadImage();
     Flushbar(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -503,10 +515,11 @@ class _HomePageOneState extends State<HomePageOne> {
                 ),
                 profilePic != null
                     ? CircleAvatar(
-                        backgroundImage: NetworkImage(profilePic),
-                        radius: screenH(45),
-                      )
-                    : CircularProgressIndicator(),
+    radius: screenH(45),
+    backgroundImage: CachedNetworkImageProvider(
+    profilePic
+    )):
+                     CircularProgressIndicator(),
                 SizedBox(
                   width: screenW(20),
                 ),

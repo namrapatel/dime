@@ -9,7 +9,7 @@ import 'package:Dime/homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
@@ -429,10 +429,13 @@ class ProfCard extends StatelessWidget {
                       Positioned(
                         left: screenW(265),
                         top: screenH(20),
+
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(photoUrl),
-                          radius: screenH(35),
-                        ),
+                            radius: screenH(35),
+                            backgroundImage: CachedNetworkImageProvider(
+                                photoUrl
+                            )),
+
                       ),
                     ],
                   ),

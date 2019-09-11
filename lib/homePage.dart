@@ -852,7 +852,8 @@ class _ScrollPageState extends State<ScrollPage>
                                 return UserTile(blocked: true);
                               } else {
                                 return UserTile(
-                                  relationshipStatus: doc.data['relationshipStatus'],
+                                    relationshipStatus:
+                                        doc.data['relationshipStatus'],
                                     contactName: doc.data['displayName'],
                                     personImage: doc.data['photoUrl'],
                                     uid: doc.documentID,
@@ -961,7 +962,8 @@ class _ScrollPageState extends State<ScrollPage>
 
 class UserTile extends StatelessWidget {
   UserTile(
-      {this.relationshipStatus,this.contactName,
+      {this.relationshipStatus,
+      this.contactName,
       this.personImage,
       this.uid,
       this.major,
@@ -972,7 +974,14 @@ class UserTile extends StatelessWidget {
       this.blocked,
       this.bio});
   final bool blocked;
-  final String relationshipStatus,contactName, personImage, major, uid, university, gradYear, bio;
+  final String relationshipStatus,
+      contactName,
+      personImage,
+      major,
+      uid,
+      university,
+      gradYear,
+      bio;
   final List<dynamic> profInterests, socialInterests;
   Widget buildProfInterests(BuildContext context) {
     String interests = "";
@@ -1175,26 +1184,30 @@ class UserTile extends StatelessWidget {
                       : personImage),
                   radius: screenH(30),
                 ),
-                  relationshipStatus!=null?
-                Positioned(
-                  left: MediaQuery.of(context).size.width / 10000000,
-                  top: MediaQuery.of(context).size.height / 23.5,
-                  child: CircleAvatar(
-                    radius: MediaQuery.of(context).size.height / 80,
-                    backgroundColor: Colors.white,
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 600,
+                relationshipStatus != null
+                    ? Positioned(
+                        left: MediaQuery.of(context).size.width / 10000000,
+                        top: MediaQuery.of(context).size.height / 23.5,
+                        child: CircleAvatar(
+                          radius: MediaQuery.of(context).size.height / 80,
+                          backgroundColor: Colors.white,
+                          child: Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height / 600,
+                              ),
+                              Text(
+                                relationshipStatus,
+                                style: TextStyle(fontSize: screenH(11.5)),
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          relationshipStatus,
-                          style: TextStyle(fontSize: screenH(11.5)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ):SizedBox(width: 0.0,)
+                      )
+                    : SizedBox(
+                        width: 0.0,
+                      )
               ],
             ),
             trailing: Row(

@@ -37,7 +37,9 @@ class SocialCard extends StatelessWidget {
   GlobalKey globalKey = new GlobalKey();
 
   SocialCard(
-      {this.vsco,this.bio,this.type,
+      {this.vsco,
+      this.bio,
+      this.type,
       this.major,
       this.university,
       this.snapchat,
@@ -64,8 +66,8 @@ class SocialCard extends StatelessWidget {
     //   }
     // }
     return SocialCard(
-      vsco:document['vsco'],
-      bio:document['bio'],
+      vsco: document['vsco'],
+      bio: document['bio'],
       isFire: document['isFire'],
       type: document['type'],
       photoUrl: document['photoUrl'],
@@ -255,13 +257,15 @@ class SocialCard extends StatelessWidget {
                                   minFontSize: 11,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: screenF(15), color: Colors.grey))
+                                      fontSize: screenF(15),
+                                      color: Colors.grey))
                               : AutoSizeText(major != null ? major : "",
                                   maxLines: 1,
                                   minFontSize: 11,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      fontSize: screenF(15), color: Colors.grey)),
+                                      fontSize: screenF(15),
+                                      color: Colors.grey)),
                         ),
                       ),
                       Positioned(
@@ -383,18 +387,22 @@ class SocialCard extends StatelessWidget {
                                   ? Column(
                                       children: <Widget>[
                                         GestureDetector(
-                                          onTap:(){ _launchVsco('https://vsco.co/$vsco');},
+                                            onTap: () {
+                                              _launchVsco(
+                                                  'https://vsco.co/$vsco');
+                                            },
                                             child: Image(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              10,
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              15.8,
-                                          image: AssetImage('assets/vsco.png'),
-                                        )),
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  10,
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  15.8,
+                                              image:
+                                                  AssetImage('assets/vsco.png'),
+                                            )),
                                         // IconButton(
                                         //   icon: Icon(
                                         //     MaterialCommunityIcons.twitter_box,
@@ -414,7 +422,6 @@ class SocialCard extends StatelessWidget {
                                     )
                                   : Column(children: <Widget>[
                                       GestureDetector(
-
                                           child: Image(
                                         width:
                                             MediaQuery.of(context).size.width /
@@ -452,10 +459,10 @@ class SocialCard extends StatelessWidget {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 1.5,
                             child: AutoSizeText(
-                              bio!=null?bio:"",
+                              bio != null ? bio : "",
                               style: TextStyle(
                                   color: Color(0xFF1458EA), fontSize: 13),
-                              minFontSize: 10,
+                              minFontSize: 13,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),

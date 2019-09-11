@@ -98,34 +98,34 @@ class _onBoardingState extends State<onBoarding> {
                 alignment: Alignment.center,
               ),
             ),
-            // PageViewModel(
-            //     pageColor: Colors.white,
-            //     body: OnboardingSave(),
-            //     title: Column(
-            //       children: <Widget>[
-            //         SizedBox(
-            //           height: screenH(5),
-            //         ),
-            //         Text('Enter your handles!',
-            //             style: TextStyle(
-            //                 color: Colors.black,
-            //                 fontSize: screenF(30.0),
-            //                 // fontWeight: FontWeight.bold,
-            //                 fontFamily: 'futura')),
-            //         // SizedBox(
-            //         //   height: screenH(1.5),
-            //         // ),
-            //         Text(
-            //           'Handles are clickable on cards',
-            //           style: TextStyle(
-            //               color: Colors.grey,
-            //               fontSize: screenF(16.0),
-            //               // fontWeight: FontWeight.bold,
-            //               fontFamily: 'futura'),
-            //         )
-            //       ],
-            //     ),
-            //     mainImage: MediaForm()),
+            PageViewModel(
+                pageColor: Colors.white,
+                body: OnboardingSave(),
+                title: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: screenH(5),
+                    ),
+                    Text('Enter your handles!',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: screenF(30.0),
+                            // fontWeight: FontWeight.bold,
+                            fontFamily: 'futura')),
+                    // SizedBox(
+                    //   height: screenH(1.5),
+                    // ),
+                    Text(
+                      'Handles are clickable on cards',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: screenF(16.0),
+                          // fontWeight: FontWeight.bold,
+                          fontFamily: 'futura'),
+                    )
+                  ],
+                ),
+                mainImage: MediaForm()),
             PageViewModel(
               pageColor: const Color(0xFF1458EA),
               body: Padding(

@@ -24,7 +24,7 @@ class _ExploreState extends State<Explore> {
   bool alreadyBuilt = false;
 
   getAllUsers() {
-    return Firestore.instance.collection('users').orderBy('university').getDocuments();
+    return Firestore.instance.collection('users').getDocuments();
   }
 
   initiateSearch(String value) {

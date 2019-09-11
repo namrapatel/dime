@@ -33,7 +33,8 @@ class ProfCard extends StatelessWidget {
   GlobalKey globalKey2 = new GlobalKey();
 
   ProfCard(
-      {this.bio,this.isFire,
+      {this.bio,
+      this.isFire,
       this.type,
       this.major,
       this.university,
@@ -61,7 +62,7 @@ class ProfCard extends StatelessWidget {
     //   }
     // }
     return ProfCard(
-      bio:document['bio'],
+      bio: document['bio'],
       isFire: document['isFire'],
       type: document['type'],
       photoUrl: document['photoUrl'],
@@ -130,12 +131,9 @@ class ProfCard extends StatelessWidget {
     try {
       Share.text(
           'Handles:',
-        'https://www.linkedin.com/in/$linkedIn'  +
-               
+          'https://www.linkedin.com/in/$linkedIn' +
               'https://github.com/$github' +
-              
-              'https://twitter.com/$twitter', 
-              
+              'https://twitter.com/$twitter',
           'text/plain');
     } catch (e) {
       print('error: $e');
@@ -156,9 +154,11 @@ class ProfCard extends StatelessWidget {
       print(bs64);
       await Share.file(
           'Share card', displayName + '.png', pngBytes, 'image/png',
-
-         text:  'Linkedin: https://www.linkedin.com/in/$linkedIn' '\n \n' 'GitHub: https://github.com/$github' '\n \n' 'Twitter: https://twitter.com/$twitter'
-              );
+          text: 'Linkedin: https://www.linkedin.com/in/$linkedIn'
+              '\n \n'
+              'GitHub: https://github.com/$github'
+              '\n \n'
+              'Twitter: https://twitter.com/$twitter');
 
       return pngBytes;
     } catch (e) {
@@ -210,7 +210,11 @@ class ProfCard extends StatelessWidget {
                                   width: screenW(5),
                                 ),
                                 isFire == true
-                                    ? Icon(Feather.check_circle, color: Color(0xFF096664), size: screenF(17),)
+                                    ? Icon(
+                                        Feather.check_circle,
+                                        color: Color(0xFF096664),
+                                        size: screenF(17),
+                                      )
                                     : Container()
                               ],
                             ),
@@ -273,8 +277,7 @@ class ProfCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchLinkedin(
-                                                'https://www.linkedin.com/in/$linkedIn' 
-                                                    );
+                                                'https://www.linkedin.com/in/$linkedIn');
                                           },
                                         ),
                                         Text(linkedIn,
@@ -324,7 +327,7 @@ class ProfCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchGit(
-                                                'https://github.com/$github' );
+                                                'https://github.com/$github');
                                           },
                                         ),
                                         Text(github,
@@ -374,8 +377,7 @@ class ProfCard extends StatelessWidget {
                                           ),
                                           onPressed: () {
                                             _launchTwitter(
-                                                'https://twitter.com/$twitter' 
-                                                    );
+                                                'https://twitter.com/$twitter');
                                           },
                                         ),
                                         Text(twitter,
@@ -411,20 +413,19 @@ class ProfCard extends StatelessWidget {
                                           fontSize: screenF(12))),
                                 ])),
                       Positioned(
-                        top: screenH(210),
-                        left: screenW(20),
-                        child: 
-                        Container(
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        child: AutoSizeText(
-                          bio!=null?bio:"",
-                          style: TextStyle(color: Color(0xFF1458EA), fontSize: 13),
-                          minFontSize: 10,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                      ),
+                          top: screenH(210),
+                          left: screenW(20),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            child: AutoSizeText(
+                              bio != null ? bio : "",
+                              style: TextStyle(
+                                  color: Color(0xFF1458EA), fontSize: 13),
+                              minFontSize: 13,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )),
                       Positioned(
                         left: screenW(265),
                         top: screenH(20),

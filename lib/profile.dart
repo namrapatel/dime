@@ -34,7 +34,6 @@ import 'viewCards.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'homePage.dart';
 
-
 class Profile extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey =
       new GlobalKey<NavigatorState>();
@@ -50,7 +49,7 @@ class HomePageOne extends StatefulWidget {
 }
 
 class _HomePageOneState extends State<HomePageOne> {
-  String relationship="Relationship Status";
+  String relationship;
   File _image;
   String name;
   String major;
@@ -74,24 +73,20 @@ class _HomePageOneState extends State<HomePageOne> {
                 new ListTile(
                     //leading: new Icon(AntDesign.heart),
                     title: new Text('🔒   In a relationship'),
-                    onTap: ()  {
-
-                    setState(() {
-                      relationship='🔒   In a relationship';
-                   relationshipStatus='🔒';
-
-
-                    });
-
-                  Navigator.pop(context);
+                    onTap: () {
+                      setState(() {
+                        relationship = '🔒   In a relationship';
+                        relationshipStatus = '🔒';
+                      });
+                      Navigator.pop(context);
                     }),
                 new ListTile(
                   //leading: new Icon(FontAwesome5Brands),
-                  title: new Text('👀   Seeking'),
-                  onTap: ()  {
+                  title: new Text('👀   Interested'),
+                  onTap: () {
                     setState(() {
-                      relationship='👀   Seeking';
-                      relationshipStatus='👀';
+                      relationship = '👀   Interested';
+                      relationshipStatus = '👀';
                     });
                     Navigator.pop(context);
                   },
@@ -99,10 +94,21 @@ class _HomePageOneState extends State<HomePageOne> {
                 new ListTile(
                   //leading: new Icon(Icons.videocam),
                   title: new Text('🤙   Not interested'),
-                  onTap: ()  {
+                  onTap: () {
                     setState(() {
-                      relationship="🤙   Not interested";
-                      relationshipStatus='🤙';
+                      relationship = "🤙   Not interested";
+                      relationshipStatus = '🤙';
+                    });
+                    Navigator.pop(context);
+                  },
+                ),
+                new ListTile(
+                  //leading: new Icon(Icons.videocam),
+                  title: new Text('Empty Status'),
+                  onTap: () {
+                    setState(() {
+                      relationship = null;
+                      relationshipStatus = null;
                     });
                     Navigator.pop(context);
                   },
@@ -150,7 +156,8 @@ class _HomePageOneState extends State<HomePageOne> {
       gradYear = doc.data['gradYear'];
       university = doc.data['university'];
       bio = doc.data['bio'];
-      profilePic=doc.data['photoUrl'];
+      profilePic = doc.data['photoUrl'];
+      relationshipStatus = doc.data['relationshipStatus'];
     });
   }
 
@@ -187,8 +194,8 @@ class _HomePageOneState extends State<HomePageOne> {
       'university': university,
       'gradYear': gradYear,
       'bio': bio,
-      'relationshipStatus':relationshipStatus,
-      'photoUrl':profilePic,
+      'relationshipStatus': relationshipStatus,
+      'photoUrl': profilePic,
     });
 
     DocumentSnapshot user = await Firestore.instance
@@ -197,6 +204,40 @@ class _HomePageOneState extends State<HomePageOne> {
         .get();
     currentUserModel = User.fromDocument(user);
 
+    DocumentSnapshot social = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('socialcard')
+        .document('social')
+        .get();
+
+    DocumentSnapshot prof = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('profcard')
+        .document('prof')
+        .get();
+    if (prof['photoUrl'] ==
+            "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef" &&
+        social['photoUrl'] ==
+            'https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef') {
+      Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .collection('socialcard')
+          .document('social')
+          .setData({
+        'photoUrl': profilePic,
+      }, merge: true);
+      Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .collection('profcard')
+          .document('prof')
+          .setData({
+        'photoUrl': profilePic,
+      }, merge: true);
+    }
     Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
@@ -207,7 +248,7 @@ class _HomePageOneState extends State<HomePageOne> {
       'major': major,
       'university': university,
       'gradYear': gradYear,
-      'bio':bio
+      'bio': bio
     });
 
     Firestore.instance
@@ -220,14 +261,14 @@ class _HomePageOneState extends State<HomePageOne> {
       'major': major,
       'university': university,
       'gradYear': gradYear,
-      'bio':bio
+      'bio': bio
     });
   }
 
   Future<void> uploadImage() async {
     String user = currentUserModel.uid + Timestamp.now().toString();
     StorageReference firebaseStorageRef =
-    FirebaseStorage.instance.ref().child('$user.jpg');
+        FirebaseStorage.instance.ref().child('$user.jpg');
     StorageUploadTask task = firebaseStorageRef.putFile(_image);
 
     var downloadUrl = await (await task.onComplete).ref.getDownloadURL();
@@ -255,7 +296,7 @@ class _HomePageOneState extends State<HomePageOne> {
             Text(
               'Uploaded!',
               style:
-              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
             Text(
               "Click 'Save' to confirm changes.",
@@ -284,6 +325,7 @@ class _HomePageOneState extends State<HomePageOne> {
       duration: Duration(seconds: 3),
     )..show(context);
   }
+
   @override
 //  List<SearchItem<int>> data2 = [
 ////    SearchItem(0, 'University of Waterloo'),
@@ -319,6 +361,103 @@ class _HomePageOneState extends State<HomePageOne> {
                 color: Colors.black,
                 icon: Icon(Icons.arrow_back_ios),
                 iconSize: 25.0,
+              ),
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    SizedBox(
+                      width: screenH(85),
+                    ),
+                    OutlineButton(
+                      color: Color(0xFF1458EA),
+                      child: Text(
+                        "Edit Cards",
+                        style: TextStyle(
+                            color: Color(0xFF1458EA), fontSize: screenF(15)),
+                      ),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(10.0)),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => TabsApp()));
+                      },
+                    ),
+                    SizedBox(
+                      width: screenW(20),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.8,
+                      height: MediaQuery.of(context).size.height / 22,
+                      // decoration: BoxDecoration(
+                      //   boxShadow: [
+                      //     BoxShadow(
+                      //         color: Color(0xFF1458EA).withOpacity(0.35),
+                      //         blurRadius: (15),
+                      //         spreadRadius: (5),
+                      //         offset: Offset(0, 3)),
+                      //   ],
+                      // ),
+                      child: FlatButton(
+                        color: Color(0xFF1458EA),
+                        shape: RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10.0))),
+                        onPressed: () {
+                          updateProfile();
+                          Flushbar(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            borderRadius: 15,
+                            messageText: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    'Saved!',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    'Your basic information has been updated.',
+                                    style: TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Colors.white,
+                            boxShadows: [
+                              BoxShadow(
+                                  color: Colors.black12.withOpacity(0.1),
+                                  blurRadius: (15),
+                                  spreadRadius: (5),
+                                  offset: Offset(0, 3)),
+                            ],
+                            flushbarPosition: FlushbarPosition.TOP,
+                            icon: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                              child: Icon(
+                                Icons.save_alt,
+                                size: 28.0,
+                                color: Color(0xFF1458EA),
+                              ),
+                            ),
+                            duration: Duration(seconds: 3),
+                          )..show(context);
+                        },
+                        child: Text(
+                          "Save",
+                          style: TextStyle(
+                              fontSize: screenF(15), color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -364,11 +503,10 @@ class _HomePageOneState extends State<HomePageOne> {
                 ),
                 profilePic != null
                     ? CircleAvatar(
-                  backgroundImage: NetworkImage(profilePic
-
-                ),radius: screenH(45),)
+                        backgroundImage: NetworkImage(profilePic),
+                        radius: screenH(45),
+                      )
                     : CircularProgressIndicator(),
-
                 SizedBox(
                   width: screenW(20),
                 ),
@@ -381,7 +519,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
-                     setImage();
+                    setImage();
                   },
                 ),
               ],
@@ -474,7 +612,16 @@ class _HomePageOneState extends State<HomePageOne> {
                   onTap: () {
                     _settingModalBottomSheet(context);
                   },
-                  child: Text(relationship,
+                  child: Text(
+                      relationshipStatus == null
+                          ? "Relationship Status"
+                          : relationshipStatus == "🔒"
+                              ? "🔒 In a Relationship"
+                              : relationshipStatus == "👀"
+                                  ? "👀  Interested"
+                                  : relationshipStatus == "🤙"
+                                      ? "🤙  Not interested"
+                                      : relationship,
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                 ),
@@ -615,100 +762,6 @@ class _HomePageOneState extends State<HomePageOne> {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height / 60,
-          ),
-          Container(
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: screenH(85),
-                ),
-                OutlineButton(
-                  color: Color(0xFF1458EA),
-                  child: Text(
-                    "Edit Cards",
-                    style: TextStyle(
-                        color: Color(0xFF1458EA), fontSize: screenF(15)),
-                  ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    Navigator.push(context,
-                        CupertinoPageRoute(builder: (context) => TabsApp()));
-                  },
-                ),
-                SizedBox(
-                  width: screenW(20),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.8,
-                  height: MediaQuery.of(context).size.height / 22,
-                  // decoration: BoxDecoration(
-                  //   boxShadow: [
-                  //     BoxShadow(
-                  //         color: Color(0xFF1458EA).withOpacity(0.35),
-                  //         blurRadius: (15),
-                  //         spreadRadius: (5),
-                  //         offset: Offset(0, 3)),
-                  //   ],
-                  // ),
-                  child: FlatButton(
-                    color: Color(0xFF1458EA),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                    onPressed: () {
-                      updateProfile();
-                      Flushbar(
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                        borderRadius: 15,
-                        messageText: Padding(
-                          padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                'Saved!',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Your basic information has been updated.',
-                                style: TextStyle(color: Colors.grey),
-                              )
-                            ],
-                          ),
-                        ),
-                        backgroundColor: Colors.white,
-                        boxShadows: [
-                          BoxShadow(
-                              color: Colors.black12.withOpacity(0.1),
-                              blurRadius: (15),
-                              spreadRadius: (5),
-                              offset: Offset(0, 3)),
-                        ],
-                        flushbarPosition: FlushbarPosition.TOP,
-                        icon: Padding(
-                          padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                          child: Icon(
-                            Icons.save_alt,
-                            size: 28.0,
-                            color: Color(0xFF1458EA),
-                          ),
-                        ),
-                        duration: Duration(seconds: 3),
-                      )..show(context);
-                    },
-                    child: Text(
-                      "Save",
-                      style:
-                          TextStyle(fontSize: screenF(15), color: Colors.white),
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         ]),
       ],

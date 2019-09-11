@@ -126,7 +126,7 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(
                                       snapshot.data[index]['photoUrl']),
-                                  radius: 25,
+                                  radius: screenH(30),
                                 ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,

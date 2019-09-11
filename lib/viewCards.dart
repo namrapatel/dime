@@ -4,10 +4,7 @@ import 'models/socialcard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
-
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
+import 'homePage.dart';
 //String socialCardId;
 //String profCardId;
 

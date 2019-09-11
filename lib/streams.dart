@@ -9,10 +9,6 @@ import 'profPage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
-
 class ProfStreams extends StatefulWidget {
   @override
   _ProfStreamsState createState() => _ProfStreamsState();

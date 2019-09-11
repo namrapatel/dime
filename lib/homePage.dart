@@ -32,6 +32,9 @@ import 'profComments.dart';
 import 'socialComments.dart';
 
 String currentToken = "";
+final screenH = ScreenUtil.instance.setHeight;
+final screenW = ScreenUtil.instance.setWidth;
+final screenF = ScreenUtil.instance.setSp;
 
 class ScrollPage extends StatefulWidget {
   ScrollPage({Key key}) : super(key: key);
@@ -78,10 +81,6 @@ class _ScrollPageState extends State<ScrollPage>
       unread = query.documents.length;
     });
   }
-
-  final screenH = ScreenUtil.instance.setHeight;
-  final screenW = ScreenUtil.instance.setWidth;
-  final screenF = ScreenUtil.instance.setSp;
 
   // getPermission() async {
   //   final GeolocationResult result =
@@ -232,7 +231,7 @@ class _ScrollPageState extends State<ScrollPage>
         } else if (message['notifType'] == "streamNotif" &&
             message['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['aps']['alert']['title'],
-                message['aps']['alert']['body'], "streamNotif", message);
+              message['aps']['alert']['body'], "streamNotif", message);
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -1144,7 +1143,9 @@ class UserTile extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         bio != null ? bio : "",
-                        style: TextStyle(color:Color(0xFF1458EA),),
+                        style: TextStyle(
+                          color: Color(0xFF1458EA),
+                        ),
                         textAlign: TextAlign.start,
                       )
                       // buildSocialInterests(context),
@@ -1172,7 +1173,7 @@ class UserTile extends StatelessWidget {
               backgroundImage: NetworkImage(blocked == true
                   ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
                   : personImage),
-              radius: 25,
+              radius: screenH(30),
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,

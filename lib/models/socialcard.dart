@@ -369,13 +369,16 @@ class SocialCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        SizedBox(
-                                          height: screenH(5),
-                                        ),
                                         GestureDetector(
                                             child: Image(
-                                          width: screenW(40),
-                                          height: screenH(40),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              10,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              15.8,
                                           image: AssetImage('assets/vsco.png'),
                                         )),
                                         // IconButton(
@@ -396,13 +399,14 @@ class SocialCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      SizedBox(
-                                        height: screenH(5),
-                                      ),
                                       GestureDetector(
                                           child: Image(
-                                        width: screenW(40),
-                                        height: screenH(40),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                10,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                15.8,
                                         image: AssetImage('assets/vsco.png'),
                                       )),
                                       Text("           ",
@@ -411,13 +415,15 @@ class SocialCard extends StatelessWidget {
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  SizedBox(
-                                    height: screenH(5),
-                                  ),
+                                  // SizedBox(
+                                  //   height: screenH(5),
+                                  // ),
                                   GestureDetector(
                                       child: Image(
-                                    width: screenW(40),
-                                    height: screenH(40),
+                                    width:
+                                        MediaQuery.of(context).size.width / 10,
+                                    height: MediaQuery.of(context).size.height /
+                                        15.8,
                                     image: AssetImage('assets/vsco.png'),
                                   )),
                                   Text("           ",

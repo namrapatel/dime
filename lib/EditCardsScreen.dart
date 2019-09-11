@@ -208,7 +208,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     super.initState();
     getSocialInfo();
   }
-
+  String vsco;
   String email;
   String gradYear;
   String interestString = "";
@@ -260,6 +260,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 //        socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
+    vsco=document['vsco'];
       gradYear = document['gradYear'];
       major = document['major'];
       name = document['displayName'];
@@ -303,7 +304,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       'twitter': twitter,
       'photoUrl': photoUrl,
       'socialToggled': isSwitched,
-      'email': email
+      'email': email,
+      'vsco':vsco
     });
 
     Firestore.instance
@@ -1117,7 +1119,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
-                                      twitter = value;
+                                      vsco = value;
                                     });
                                   }
                                 },
@@ -1127,7 +1129,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                     height: screenH(40),
                                     image: AssetImage('assets/vsco.png'),
                                   ),
-                                  hintText: twitter == null ? "VSCO" : twitter,
+                                  hintText: vsco == null ? "VSCO" : vsco,
                                   hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),

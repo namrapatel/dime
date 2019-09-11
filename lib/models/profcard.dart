@@ -16,6 +16,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 class ProfCard extends StatelessWidget {
+  final String bio;
   final String type;
   final String major;
   final String photoUrl;
@@ -32,7 +33,7 @@ class ProfCard extends StatelessWidget {
   GlobalKey globalKey2 = new GlobalKey();
 
   ProfCard(
-      {this.isFire,
+      {this.bio,this.isFire,
       this.type,
       this.major,
       this.university,
@@ -60,6 +61,7 @@ class ProfCard extends StatelessWidget {
     //   }
     // }
     return ProfCard(
+      bio:document['bio'],
       isFire: document['isFire'],
       type: document['type'],
       photoUrl: document['photoUrl'],
@@ -415,7 +417,7 @@ class ProfCard extends StatelessWidget {
                         Container(
                         width: MediaQuery.of(context).size.width / 1.5,
                         child: AutoSizeText(
-                          "Brain of an engineer. Heart of a designer.", 
+                          bio!=null?bio:"",
                           style: TextStyle(color: Color(0xFF1458EA), fontSize: 13),
                           minFontSize: 10,
                           maxLines: 1,

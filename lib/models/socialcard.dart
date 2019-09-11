@@ -19,6 +19,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 class SocialCard extends StatelessWidget {
+  final String vsco;
+  final String bio;
   final String type;
   final String major;
   final String photoUrl;
@@ -27,7 +29,7 @@ class SocialCard extends StatelessWidget {
   final String university;
   final String snapchat;
   final String instagram;
-  final String twitter;
+//  final String twitter;
   final String interestString;
   final String email;
   final bool isSwitched;
@@ -35,12 +37,12 @@ class SocialCard extends StatelessWidget {
   GlobalKey globalKey = new GlobalKey();
 
   SocialCard(
-      {this.type,
+      {this.vsco,this.bio,this.type,
       this.major,
       this.university,
       this.snapchat,
       this.instagram,
-      this.twitter,
+//      this.twitter,
       this.photoUrl,
       this.displayName,
       this.gradYear,
@@ -62,6 +64,8 @@ class SocialCard extends StatelessWidget {
     //   }
     // }
     return SocialCard(
+      vsco:document['vsco'],
+      bio:document['bio'],
       isFire: document['isFire'],
       type: document['type'],
       photoUrl: document['photoUrl'],
@@ -70,7 +74,7 @@ class SocialCard extends StatelessWidget {
       university: document['university'],
       snapchat: document['snapchat'],
       instagram: document['instagram'],
-      twitter: document['twitter'],
+//      twitter: document['twitter'],
       gradYear: document['gradYear'],
       interestString: interest,
       email: document['email'],
@@ -110,34 +114,34 @@ class SocialCard extends StatelessWidget {
     }
   }
 
-  Future<void> _launchTwitter(String url) async {
-    if (await canLaunch('https://twitter.com/$twitter')) {
+  Future<void> _launchVsco(String url) async {
+    if (await canLaunch('https://vsco.co/$vsco')) {
       final bool nativeAppLaunchSucceeded = await launch(
-        'https://twitter.com/$twitter',
+        'https://vsco.co/$vsco',
         forceSafariVC: false,
         universalLinksOnly: true,
       );
       if (!nativeAppLaunchSucceeded) {
         await launch(
-          'https://twitter.com/$twitter',
+          'https://vsco.co/$vsco',
           forceSafariVC: true,
         );
       }
     }
   }
 
-  Future<void> _shareText() async {
-    try {
-      Share.text(
-          'My Social Media:',
-          'https://www.snapchat.com/add/$snapchat' +
-              'https://www.instagram.com/$instagram' +
-              'https://twitter.com/$twitter',
-          'text/plain');
-    } catch (e) {
-      print('error: $e');
-    }
-  }
+//  Future<void> _shareText() async {
+//    try {
+//      Share.text(
+//          'My Social Media:',
+//          'https://www.snapchat.com/add/$snapchat' +
+//              'https://www.instagram.com/$instagram' +
+//              'https://twitter.com/$twitter',
+//          'text/plain');
+//    } catch (e) {
+//      print('error: $e');
+//    }
+//  }
 
   Future<Uint8List> _capturePng() async {
     try {
@@ -158,7 +162,7 @@ class SocialCard extends StatelessWidget {
               '\n \n'
               'Instagram: https://www.instagram.com/$instagram'
               '\n \n'
-              'Twitter: https://twitter.com/$twitter');
+              'VSCO: https://vsco.co/$vsco');
 
       return pngBytes;
     } catch (e) {
@@ -365,7 +369,7 @@ class SocialCard extends StatelessWidget {
                       Positioned(
                           top: screenH(105),
                           left: screenW(260),
-                          child: twitter != null
+                          child: vsco != null
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
@@ -373,6 +377,7 @@ class SocialCard extends StatelessWidget {
                                           height: screenH(5),
                                         ),
                                         GestureDetector(
+                                          onTap:(){ _launchVsco('https://vsco.co/$vsco');},
                                             child: Image(
                                           width: screenW(40),
                                           height: screenH(40),
@@ -389,7 +394,7 @@ class SocialCard extends StatelessWidget {
                                         //         'https://twitter.com/$twitter');
                                         //   },
                                         // ),
-                                        Text(twitter,
+                                        Text(vsco,
                                             style: TextStyle(
                                                 color: Colors.black,
                                                 fontSize: screenF(12))),
@@ -400,6 +405,7 @@ class SocialCard extends StatelessWidget {
                                         height: screenH(5),
                                       ),
                                       GestureDetector(
+
                                           child: Image(
                                         width: screenW(40),
                                         height: screenH(40),
@@ -431,7 +437,7 @@ class SocialCard extends StatelessWidget {
                           child: Container(
                             width: MediaQuery.of(context).size.width / 1.5,
                             child: AutoSizeText(
-                              "Brain of an engineer. Heart of a designer.",
+                              bio!=null?bio:"",
                               style: TextStyle(
                                   color: Color(0xFF1458EA), fontSize: 13),
                               minFontSize: 10,

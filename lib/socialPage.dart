@@ -44,7 +44,7 @@ class _SocialPageState extends State<SocialPage> {
       print(doc.data['caption']);
 
       print(DateTime.now().difference(time.toDate()));
-      if (DateTime.now().difference(time.toDate()).inMinutes <= 60) {
+      if (DateTime.now().difference(time.toDate()).inMinutes <= 180) {
         print('difference between posted and time from an hour ago is');
         print(DateTime.now().difference(time.toDate()).inMinutes);
         counter = counter + 5;

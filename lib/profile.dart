@@ -15,6 +15,25 @@ import 'package:flutter_search_panel/search_item.dart';
 import 'viewCards.dart';
 import 'package:flushbar/flushbar.dart';
 import 'homePage.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:Dime/profileScreen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_search_panel/search_item.dart';
+import 'login.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flushbar/flushbar.dart';
+import 'socialTags.dart';
+import 'professionalTags.dart';
+import 'viewCards.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'homePage.dart';
+
 
 class Profile extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey =
@@ -31,12 +50,15 @@ class HomePageOne extends StatefulWidget {
 }
 
 class _HomePageOneState extends State<HomePageOne> {
+  String relationship="Relationship Status";
+  File _image;
   String name;
   String major;
   String gradYear;
   String university;
   String bio;
-  String kobe;
+  String profilePic;
+  String relationshipStatus;
 
   void _settingModalBottomSheet(context) {
     showModalBottomSheet(
@@ -52,16 +74,38 @@ class _HomePageOneState extends State<HomePageOne> {
                 new ListTile(
                     //leading: new Icon(AntDesign.heart),
                     title: new Text('🔒   In a relationship'),
-                    onTap: () => {}),
+                    onTap: ()  {
+
+                    setState(() {
+                      relationship='🔒   In a relationship';
+                   relationshipStatus='🔒';
+
+
+                    });
+
+                  Navigator.pop(context);
+                    }),
                 new ListTile(
                   //leading: new Icon(FontAwesome5Brands),
                   title: new Text('👀   Seeking'),
-                  onTap: () => {},
+                  onTap: ()  {
+                    setState(() {
+                      relationship='👀   Seeking';
+                      relationshipStatus='👀';
+                    });
+                    Navigator.pop(context);
+                  },
                 ),
                 new ListTile(
                   //leading: new Icon(Icons.videocam),
                   title: new Text('🤙   Not interested'),
-                  onTap: () => {},
+                  onTap: ()  {
+                    setState(() {
+                      relationship="🤙   Not interested";
+                      relationshipStatus='🤙';
+                    });
+                    Navigator.pop(context);
+                  },
                 ),
               ],
             ),
@@ -106,6 +150,7 @@ class _HomePageOneState extends State<HomePageOne> {
       gradYear = doc.data['gradYear'];
       university = doc.data['university'];
       bio = doc.data['bio'];
+      profilePic=doc.data['photoUrl'];
     });
   }
 
@@ -141,7 +186,9 @@ class _HomePageOneState extends State<HomePageOne> {
       'major': major,
       'university': university,
       'gradYear': gradYear,
-      'bio': bio
+      'bio': bio,
+      'relationshipStatus':relationshipStatus,
+      'photoUrl':profilePic,
     });
 
     DocumentSnapshot user = await Firestore.instance
@@ -160,6 +207,7 @@ class _HomePageOneState extends State<HomePageOne> {
       'major': major,
       'university': university,
       'gradYear': gradYear,
+      'bio':bio
     });
 
     Firestore.instance
@@ -171,10 +219,71 @@ class _HomePageOneState extends State<HomePageOne> {
       'displayName': name,
       'major': major,
       'university': university,
-      'gradYear': gradYear
+      'gradYear': gradYear,
+      'bio':bio
     });
   }
 
+  Future<void> uploadImage() async {
+    String user = currentUserModel.uid + Timestamp.now().toString();
+    StorageReference firebaseStorageRef =
+    FirebaseStorage.instance.ref().child('$user.jpg');
+    StorageUploadTask task = firebaseStorageRef.putFile(_image);
+
+    var downloadUrl = await (await task.onComplete).ref.getDownloadURL();
+    setState(() {
+      profilePic = downloadUrl.toString();
+    });
+  }
+
+  Future<void> setImage() async {
+    var sampleImage = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = sampleImage;
+    });
+    uploadImage();
+    Flushbar(
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      borderRadius: 15,
+      messageText: Padding(
+        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Uploaded!',
+              style:
+              TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "Click 'Save' to confirm changes.",
+              style: TextStyle(color: Colors.grey),
+            )
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
+      boxShadows: [
+        BoxShadow(
+            color: Colors.black12.withOpacity(0.1),
+            blurRadius: (15),
+            spreadRadius: (5),
+            offset: Offset(0, 3)),
+      ],
+      flushbarPosition: FlushbarPosition.TOP,
+      icon: Padding(
+        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+        child: Icon(
+          Icons.save_alt,
+          size: 28.0,
+          color: Color(0xFF1458EA),
+        ),
+      ),
+      duration: Duration(seconds: 3),
+    )..show(context);
+  }
   @override
 //  List<SearchItem<int>> data2 = [
 ////    SearchItem(0, 'University of Waterloo'),
@@ -253,17 +362,13 @@ class _HomePageOneState extends State<HomePageOne> {
                 SizedBox(
                   width: screenW(20),
                 ),
-                kobe != null
+                profilePic != null
                     ? CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/defaultprofile.png'),
-                        radius: screenH(45),
-                      )
-                    : CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/defaultprofile.png'),
-                        radius: screenH(45),
-                      ),
+                  backgroundImage: NetworkImage(profilePic
+
+                ),radius: screenH(45),)
+                    : CircularProgressIndicator(),
+
                 SizedBox(
                   width: screenW(20),
                 ),
@@ -276,7 +381,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   shape: new RoundedRectangleBorder(
                       borderRadius: new BorderRadius.circular(10.0)),
                   onPressed: () {
-                    // setImage();
+                     setImage();
                   },
                 ),
               ],
@@ -369,7 +474,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   onTap: () {
                     _settingModalBottomSheet(context);
                   },
-                  child: Text("Relationship Status",
+                  child: Text(relationship,
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                 ),

@@ -17,6 +17,7 @@ final screenF = ScreenUtil.instance.setSp;
 String snapchat;
 String instagram;
 String twitter;
+String vsco;
 String linkedIn;
 String github;
 
@@ -328,7 +329,7 @@ class _MediaFormState extends State<MediaForm> {
             onChanged: (value) {
               if (value != null) {
                 setState(() {
-                  twitter = value;
+                  vsco = value;
                 });
               }
             },
@@ -338,7 +339,7 @@ class _MediaFormState extends State<MediaForm> {
                 height: screenH(40),
                 image: AssetImage('assets/vsco.png'),
               ),
-              hintText: twitter == null ? "VSCO" : twitter,
+              hintText: vsco == null ? "VSCO" : vsco,
               hintStyle: TextStyle(color: Colors.grey),
               prefixText: '@',
               prefixStyle: TextStyle(color: Colors.grey),
@@ -621,7 +622,8 @@ class _OnboardingSaveState extends State<OnboardingSave> {
         .setData({
       'snapchat': snapchat,
       'instagram': instagram,
-      'twitter': twitter,
+
+      'vsco':vsco
     }, merge: true);
   }
 

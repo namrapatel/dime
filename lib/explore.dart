@@ -24,7 +24,7 @@ class _ExploreState extends State<Explore> {
   bool alreadyBuilt = false;
 
   getAllUsers() {
-    return Firestore.instance.collection('users').getDocuments();
+    return Firestore.instance.collection('users').orderBy('university').getDocuments();
   }
 
   initiateSearch(String value) {
@@ -216,6 +216,7 @@ class _ExploreState extends State<Explore> {
             radius: screenH(30),
             backgroundImage: NetworkImage(data['userData']['photoUrl']),
           ),
+          data['userData']['relationshipStatus']!=null?
           Positioned(
             left: MediaQuery.of(context).size.width / 10000000,
             top: MediaQuery.of(context).size.height / 23.5,
@@ -225,13 +226,13 @@ class _ExploreState extends State<Explore> {
               child: Column(
                 children: <Widget>[
                   Text(
-                    "🔒",
+                    data['userData']['relationshipStatus'],
                     style: TextStyle(fontSize: screenH(11.5)),
                   ),
                 ],
               ),
             ),
-          ),
+          ):SizedBox(width: 0.0,)
         ],
       ),
       title: Row(

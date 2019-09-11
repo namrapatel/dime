@@ -49,7 +49,7 @@ class HomePageOne extends StatefulWidget {
 }
 
 class _HomePageOneState extends State<HomePageOne> {
-  String relationship;
+
   File _image;
   String name;
   String major;
@@ -75,7 +75,7 @@ class _HomePageOneState extends State<HomePageOne> {
                     title: new Text('🔒   In a relationship'),
                     onTap: () {
                       setState(() {
-                        relationship = '🔒   In a relationship';
+
                         relationshipStatus = '🔒';
                       });
                       Navigator.pop(context);
@@ -85,7 +85,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   title: new Text('💎    Single'),
                   onTap: () {
                     setState(() {
-                      relationship = '💎    Single';
+
                       relationshipStatus = '💎 ';
                     });
                     Navigator.pop(context);
@@ -96,7 +96,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   title: new Text('✌️   Not interested'),
                   onTap: () {
                     setState(() {
-                      relationship = "✌️   Not interested";
+
                       relationshipStatus = '✌️';
                     });
                     Navigator.pop(context);
@@ -107,7 +107,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   title: new Text('Empty Status'),
                   onTap: () {
                     setState(() {
-                      relationship = null;
+
                       relationshipStatus = null;
                     });
                     Navigator.pop(context);
@@ -612,18 +612,18 @@ class _HomePageOneState extends State<HomePageOne> {
                   onTap: () {
                     _settingModalBottomSheet(context);
                   },
-                  child: Text(
-                      relationshipStatus == null
-                          ? "Relationship Status"
-                          : relationshipStatus == "🔒"
+                  child: relationshipStatus == null?Text(
+
+
+                          relationshipStatus == "🔒"
                               ? "🔒 In a Relationship"
                               : relationshipStatus == "💎 "
                                   ? "💎   Single"
                                   : relationshipStatus == "✌️"
                                       ? "✌️  Not interested"
-                                      : relationship,
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                                      :"Relationship Status"
+                      ,style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)):CircularProgressIndicator(),
                 ),
                 IconButton(
                   icon: Icon(Icons.keyboard_arrow_down),

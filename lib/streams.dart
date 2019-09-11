@@ -200,7 +200,7 @@ class _ProfStreamsState extends State<ProfStreams> {
                                            ),
                                            snapshot.data[index].documentID!="Subscriptions"?
                                            Text(
-                                             snapshot.data[index]['numberOfMembers']!=null &&snapshot.data[index]['numberOfMembers']>1?"${snapshot.data[index]['numberOfMembers']} members":snapshot.data[index]['numberOfMembers']!=null &&snapshot.data[index]['numberOfMembers']==1?"${snapshot.data[index]['numberOfMembers']} member":"",
+                                             snapshot.data[index]['numberOfMembers']!=null &&snapshot.data[index]['numberOfMembers']>1?"${snapshot.data[index]['numberOfMembers']} subscribers":snapshot.data[index]['numberOfMembers']!=null &&snapshot.data[index]['numberOfMembers']==1?"${snapshot.data[index]['numberOfMembers']} subscriber":"",
                                              style: TextStyle(
                                                  color: Colors.grey[600], fontSize: 15.0),
                                            ):SizedBox(

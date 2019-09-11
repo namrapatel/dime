@@ -612,8 +612,9 @@ class _HomePageOneState extends State<HomePageOne> {
                   onTap: () {
                     _settingModalBottomSheet(context);
                   },
-                  child: relationshipStatus == null?Text(
-
+                  child: Text(
+                          relationshipStatus==null?
+    "Relationship Status":
 
                           relationshipStatus == "🔒"
                               ? "🔒 In a Relationship"
@@ -621,9 +622,10 @@ class _HomePageOneState extends State<HomePageOne> {
                                   ? "💎   Single"
                                   : relationshipStatus == "✌️"
                                       ? "✌️  Not interested"
-                                      :"Relationship Status"
+                              :""
+
                       ,style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)):CircularProgressIndicator(),
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                 ),
                 IconButton(
                   icon: Icon(Icons.keyboard_arrow_down),

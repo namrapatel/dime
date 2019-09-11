@@ -66,7 +66,7 @@ class _HomePageOneState extends State<HomePageOne> {
         builder: (BuildContext bc) {
           return Container(
             padding: EdgeInsets.symmetric(
-                vertical: screenH(20), horizontal: screenW(10)),
+                vertical: screenH(30), horizontal: screenW(10)),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
             child: new Wrap(
               children: <Widget>[
@@ -82,22 +82,22 @@ class _HomePageOneState extends State<HomePageOne> {
                     }),
                 new ListTile(
                   //leading: new Icon(FontAwesome5Brands),
-                  title: new Text('👀   Interested'),
+                  title: new Text('💎    Single'),
                   onTap: () {
                     setState(() {
-                      relationship = '👀   Interested';
-                      relationshipStatus = '👀';
+                      relationship = '💎    Single';
+                      relationshipStatus = '💎 ';
                     });
                     Navigator.pop(context);
                   },
                 ),
                 new ListTile(
                   //leading: new Icon(Icons.videocam),
-                  title: new Text('🤙   Not interested'),
+                  title: new Text('✌️   Not interested'),
                   onTap: () {
                     setState(() {
-                      relationship = "🤙   Not interested";
-                      relationshipStatus = '🤙';
+                      relationship = "✌️   Not interested";
+                      relationshipStatus = '✌️';
                     });
                     Navigator.pop(context);
                   },
@@ -617,10 +617,10 @@ class _HomePageOneState extends State<HomePageOne> {
                           ? "Relationship Status"
                           : relationshipStatus == "🔒"
                               ? "🔒 In a Relationship"
-                              : relationshipStatus == "👀"
-                                  ? "👀  Interested"
-                                  : relationshipStatus == "🤙"
-                                      ? "🤙  Not interested"
+                              : relationshipStatus == "💎 "
+                                  ? "💎   Single"
+                                  : relationshipStatus == "✌️"
+                                      ? "✌️  Not interested"
                                       : relationship,
                       style:
                           TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),

@@ -79,7 +79,7 @@ class _ProfPageState extends State<ProfPage> {
     List<List<dynamic>> twoD = [];
 
     if(stream=="Subscriptions"){
-      QuerySnapshot postNames= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('feed').orderBy('timeStamp',descending: true).getDocuments();
+      QuerySnapshot postNames= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('feed').getDocuments();
       List<dynamic> addressesDocs=postNames.documents;
 //      List<DocumentSnapshot> subscribedPosts=[];
       for(var a=0;a<addressesDocs.length;a++){

@@ -240,7 +240,6 @@ class SocialCard extends StatelessWidget {
                             iconSize: screenF(25),
                             onPressed: () async => await _capturePng()),
                       ),
-
                       Positioned(
                         top: screenH(65),
                         left: screenW(20),
@@ -370,17 +369,26 @@ class SocialCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        IconButton(
-                                          icon: Icon(
-                                            MaterialCommunityIcons.twitter_box,
-                                            color: Colors.blue,
-                                            size: 30,
-                                          ),
-                                          onPressed: () {
-                                            _launchTwitter(
-                                                'https://twitter.com/$twitter');
-                                          },
+                                        SizedBox(
+                                          height: screenH(5),
                                         ),
+                                        GestureDetector(
+                                            child: Image(
+                                          width: screenW(40),
+                                          height: screenH(40),
+                                          image: AssetImage('assets/vsco.png'),
+                                        )),
+                                        // IconButton(
+                                        //   icon: Icon(
+                                        //     MaterialCommunityIcons.twitter_box,
+                                        //     color: Colors.blue,
+                                        //     size: 30,
+                                        //   ),
+                                        //   onPressed: () {
+                                        //     _launchTwitter(
+                                        //         'https://twitter.com/$twitter');
+                                        //   },
+                                        // ),
                                         Text(twitter,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -388,50 +396,55 @@ class SocialCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                            MaterialCommunityIcons.twitter_box,
-                                            size: 30,
-                                            color: Colors.blue),
+                                      SizedBox(
+                                        height: screenH(5),
                                       ),
+                                      GestureDetector(
+                                          child: Image(
+                                        width: screenW(40),
+                                        height: screenH(40),
+                                        image: AssetImage('assets/vsco.png'),
+                                      )),
                                       Text("           ",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      MaterialCommunityIcons.twitter_box,
-                                      size: 30,
-                                      color: Colors.blue,
-                                    ),
+                                  SizedBox(
+                                    height: screenH(5),
                                   ),
+                                  GestureDetector(
+                                      child: Image(
+                                    width: screenW(40),
+                                    height: screenH(40),
+                                    image: AssetImage('assets/vsco.png'),
+                                  )),
                                   Text("           ",
                                       style: TextStyle(
                                           color: Colors.black,
                                           fontSize: screenF(12))),
                                 ])),
                       Positioned(
-                        top: screenH(210),
-                        left: screenW(20),
-                        child: 
-                        Container(
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        child: AutoSizeText(
-                          "Brain of an engineer. Heart of a designer.", 
-                          style: TextStyle(color: Color(0xFF1458EA), fontSize: 13),
-                          minFontSize: 10,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      )
-                        // Text(
-                        //     "Brain of an engineer. Heart of a designer.",
-                        //     style: TextStyle(
-                        //         color: Color(0xFF1458EA),
-                        //         fontSize: screenF(13))),
-                      ),
+                          top: screenH(210),
+                          left: screenW(20),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 1.5,
+                            child: AutoSizeText(
+                              "Brain of an engineer. Heart of a designer.",
+                              style: TextStyle(
+                                  color: Color(0xFF1458EA), fontSize: 13),
+                              minFontSize: 10,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          )
+                          // Text(
+                          //     "Brain of an engineer. Heart of a designer.",
+                          //     style: TextStyle(
+                          //         color: Color(0xFF1458EA),
+                          //         fontSize: screenF(13))),
+                          ),
                       Positioned(
                         left: screenW(265),
                         top: screenH(20),

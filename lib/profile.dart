@@ -38,35 +38,36 @@ class _HomePageOneState extends State<HomePageOne> {
   String bio;
   String kobe;
 
-void _settingModalBottomSheet(context){
+  void _settingModalBottomSheet(context) {
     showModalBottomSheet(
-      context: context,
-      builder: (BuildContext bc){
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (BuildContext bc) {
           return Container(
+            padding: EdgeInsets.symmetric(
+                vertical: screenH(20), horizontal: screenW(10)),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
             child: new Wrap(
-            children: <Widget>[
-          new ListTile(
-            //leading: new Icon(AntDesign.heart),
-            title: new Text('In a relationship'),
-            onTap: () => {}          
-          ),
-          new ListTile(
-            //leading: new Icon(FontAwesome5Brands),
-            title: new Text('Seeking'),
-            onTap: () => {},          
-          ),
-          new ListTile(
-            //leading: new Icon(Icons.videocam),
-            title: new Text('Not interested'),
-            onTap: () => {},          
-          ),
-            ],
-          ),
+              children: <Widget>[
+                new ListTile(
+                    //leading: new Icon(AntDesign.heart),
+                    title: new Text('🔒   In a relationship'),
+                    onTap: () => {}),
+                new ListTile(
+                  //leading: new Icon(FontAwesome5Brands),
+                  title: new Text('👀   Seeking'),
+                  onTap: () => {},
+                ),
+                new ListTile(
+                  //leading: new Icon(Icons.videocam),
+                  title: new Text('🤙   Not interested'),
+                  onTap: () => {},
+                ),
+              ],
+            ),
           );
-      }
-    );
-}
+        });
+  }
 
   List<SearchItem<int>> data2 = [
 //    SearchItem(0, 'University of Waterloo'),
@@ -221,25 +222,11 @@ void _settingModalBottomSheet(context){
                 'Edit profile',
                 style: TextStyle(
                     color: Colors.black,
-                    fontSize: 22,
+                    fontSize: screenF(22),
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 3,
-              ),
-
-              FlatButton(
-                color: Color(0xFF1458EA),
-                child: Text(
-                  "Edit Cards",
-                  style: TextStyle(color: Colors.white),
-                ),
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0)),
-                onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => TabsApp()));
-                },
               ),
               // InkWell(
               //     onTap: updateProfile,
@@ -258,36 +245,42 @@ void _settingModalBottomSheet(context){
               //         )))
             ],
           ),
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: screenW(20),
-              ),
-              kobe != null
-                  ? CircleAvatar(
-                      backgroundImage: NetworkImage(kobe),
-                      radius: screenH(45),
-                    )
-                  : CircularProgressIndicator(),
-              SizedBox(
-                width: screenW(20),
-              ),
-              FlatButton(
-                color: Color(0xFF1458EA),
-                child: Text(
-                  "Edit Image",
-                  style: TextStyle(color: Colors.white),
+          Padding(
+            padding: EdgeInsets.symmetric(
+                vertical: screenH(25.0), horizontal: screenW(10)),
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: screenW(20),
                 ),
-                shape: new RoundedRectangleBorder(
-                    borderRadius: new BorderRadius.circular(10.0)),
-                onPressed: () {
-                  // setImage();
-                },
-              ),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 25,
+                kobe != null
+                    ? CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/defaultprofile.png'),
+                        radius: screenH(45),
+                      )
+                    : CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/defaultprofile.png'),
+                        radius: screenH(45),
+                      ),
+                SizedBox(
+                  width: screenW(20),
+                ),
+                FlatButton(
+                  color: Color(0xFF1458EA),
+                  child: Text(
+                    "Edit Image",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  onPressed: () {
+                    // setImage();
+                  },
+                ),
+              ],
+            ),
           ),
           Container(
               margin: EdgeInsets.symmetric(
@@ -368,13 +361,16 @@ void _settingModalBottomSheet(context){
             height: MediaQuery.of(context).size.height / 25,
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.5,0,0,0),
+            padding: EdgeInsets.fromLTRB(
+                MediaQuery.of(context).size.width / 3.5, 0, 0, 0),
             child: Row(
               children: <Widget>[
-                Text("Relationship Status", style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                Text("Relationship Status",
+                    style:
+                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
                 IconButton(
                   icon: Icon(Icons.keyboard_arrow_down),
-                  onPressed: (){
+                  onPressed: () {
                     _settingModalBottomSheet(context);
                   },
                 )
@@ -508,78 +504,104 @@ void _settingModalBottomSheet(context){
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 20,
+            height: MediaQuery.of(context).size.height / 60,
           ),
           Container(
-            width: MediaQuery.of(context).size.width / 1.5,
-            height: MediaQuery.of(context).size.height / 13,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: Color(0xFF1458EA).withOpacity(0.35),
-                    blurRadius: (15),
-                    spreadRadius: (5),
-                    offset: Offset(0, 3)),
-              ],
-            ),
-            child: FloatingActionButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(16.0))),
-              elevation: (5),
-              onPressed: () {
-                updateProfile();
-                Flushbar(
-                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  borderRadius: 15,
-                  messageText: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Saved!',
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.bold),
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: screenH(85),
+                ),
+                OutlineButton(
+                  color: Color(0xFF1458EA),
+                  child: Text(
+                    "Edit Cards",
+                    style: TextStyle(
+                        color: Color(0xFF1458EA), fontSize: screenF(15)),
+                  ),
+                  shape: new RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(10.0)),
+                  onPressed: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => TabsApp()));
+                  },
+                ),
+                SizedBox(
+                  width: screenW(20),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3.8,
+                  height: MediaQuery.of(context).size.height / 22,
+                  // decoration: BoxDecoration(
+                  //   boxShadow: [
+                  //     BoxShadow(
+                  //         color: Color(0xFF1458EA).withOpacity(0.35),
+                  //         blurRadius: (15),
+                  //         spreadRadius: (5),
+                  //         offset: Offset(0, 3)),
+                  //   ],
+                  // ),
+                  child: FlatButton(
+                    color: Color(0xFF1458EA),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    onPressed: () {
+                      updateProfile();
+                      Flushbar(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                        borderRadius: 15,
+                        messageText: Padding(
+                          padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                'Saved!',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Your basic information has been updated.',
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            ],
+                          ),
                         ),
-                        Text(
-                          'Your basic information has been updated.',
-                          style: TextStyle(color: Colors.grey),
-                        )
-                      ],
+                        backgroundColor: Colors.white,
+                        boxShadows: [
+                          BoxShadow(
+                              color: Colors.black12.withOpacity(0.1),
+                              blurRadius: (15),
+                              spreadRadius: (5),
+                              offset: Offset(0, 3)),
+                        ],
+                        flushbarPosition: FlushbarPosition.TOP,
+                        icon: Padding(
+                          padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                          child: Icon(
+                            Icons.save_alt,
+                            size: 28.0,
+                            color: Color(0xFF1458EA),
+                          ),
+                        ),
+                        duration: Duration(seconds: 3),
+                      )..show(context);
+                    },
+                    child: Text(
+                      "Save",
+                      style:
+                          TextStyle(fontSize: screenF(15), color: Colors.white),
                     ),
                   ),
-                  backgroundColor: Colors.white,
-                  boxShadows: [
-                    BoxShadow(
-                        color: Colors.black12.withOpacity(0.1),
-                        blurRadius: (15),
-                        spreadRadius: (5),
-                        offset: Offset(0, 3)),
-                  ],
-                  flushbarPosition: FlushbarPosition.TOP,
-                  icon: Padding(
-                    padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                    child: Icon(
-                      Icons.save_alt,
-                      size: 28.0,
-                      color: Color(0xFF1458EA),
-                    ),
-                  ),
-                  duration: Duration(seconds: 3),
-                )..show(context);
-              },
-              backgroundColor: Color(0xFF1458EA),
-              child: Text(
-                "Save",
-                style: TextStyle(fontSize: (20), color: Colors.white),
-              ),
+                ),
+              ],
             ),
           ),
         ]),
       ],
     ));
   }
-
-  
 }

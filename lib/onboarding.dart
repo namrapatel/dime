@@ -44,7 +44,7 @@ class _onBoardingState extends State<onBoarding> {
               body: Padding(
                 padding: EdgeInsets.all(screenH(8.0)),
                 child: Text(
-                  'Find people around your location, read their interests, and chat or connect with their medias!',
+                  'Find people around your location, read their bios, and chat or connect with their medias!',
                   style: TextStyle(
                       fontFamily: 'futura',
                       color: Colors.white,
@@ -260,7 +260,7 @@ class _MediaFormState extends State<MediaForm> {
                   prefixStyle: TextStyle(color: Colors.grey),
                   labelStyle:
                       TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-                  contentPadding: EdgeInsets.all(screenH(22)),
+                  contentPadding: EdgeInsets.all(screenH(16)),
                   border: new OutlineInputBorder(
                     borderRadius: new BorderRadius.circular(25.0),
                     borderSide: new BorderSide(
@@ -301,7 +301,7 @@ class _MediaFormState extends State<MediaForm> {
               prefixStyle: TextStyle(color: Colors.grey),
               labelStyle:
                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(screenH(22)),
+              contentPadding: EdgeInsets.all(screenH(16)),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -333,18 +333,18 @@ class _MediaFormState extends State<MediaForm> {
               }
             },
             decoration: InputDecoration(
-              prefixIcon: Icon(
-                MaterialCommunityIcons.twitter_box,
-                color: Colors.blue,
-                size: screenH(33),
+              prefixIcon: Image(
+                width: screenW(40),
+                height: screenH(40),
+                image: AssetImage('assets/vsco.png'),
               ),
-              hintText: twitter == null ? "Twitter" : twitter,
+              hintText: twitter == null ? "VSCO" : twitter,
               hintStyle: TextStyle(color: Colors.grey),
               prefixText: '@',
               prefixStyle: TextStyle(color: Colors.grey),
               labelStyle:
                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(screenH(22)),
+              contentPadding: EdgeInsets.all(screenH(16)),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -387,7 +387,7 @@ class _MediaFormState extends State<MediaForm> {
               prefixStyle: TextStyle(color: Colors.grey),
               labelStyle:
                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(20),
+              contentPadding: EdgeInsets.all(16),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(
@@ -430,7 +430,48 @@ class _MediaFormState extends State<MediaForm> {
               prefixStyle: TextStyle(color: Colors.grey),
               labelStyle:
                   TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
-              contentPadding: EdgeInsets.all(screenH(22)),
+              contentPadding: EdgeInsets.all(screenH(16)),
+              border: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+              focusedBorder: new OutlineInputBorder(
+                borderRadius: new BorderRadius.circular(25.0),
+                borderSide: new BorderSide(
+                  color: Color(0xFF1458EA),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: screenH(10),
+        ),
+        Container(
+          width: screenW(370),
+          child: TextField(
+            onChanged: (value) {
+              if (value != null) {
+                setState(() {
+                  twitter = value;
+                });
+              }
+            },
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                MaterialCommunityIcons.twitter_box,
+                color: Colors.blue,
+                size: screenH(33),
+              ),
+              hintText: twitter == null ? "Twitter" : twitter,
+              hintStyle: TextStyle(color: Colors.grey),
+              prefixText: '@',
+              prefixStyle: TextStyle(color: Colors.grey),
+              labelStyle:
+                  TextStyle(fontSize: screenF(16), color: Colors.blueGrey),
+              contentPadding: EdgeInsets.all(screenH(16)),
               border: new OutlineInputBorder(
                 borderRadius: new BorderRadius.circular(25.0),
                 borderSide: new BorderSide(

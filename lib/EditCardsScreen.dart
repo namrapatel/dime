@@ -332,7 +332,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     });
     uploadImage();
     Flushbar(
-       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       borderRadius: 15,
       messageText: Padding(
         padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -1122,13 +1122,12 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   }
                                 },
                                 decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    MaterialCommunityIcons.twitter_box,
-                                    color: Colors.blue,
-                                    size: 30,
+                                  prefixIcon: Image(
+                                    width: screenW(40),
+                                    height: screenH(40),
+                                    image: AssetImage('assets/vsco.png'),
                                   ),
-                                  hintText:
-                                      twitter == null ? "Twitter" : twitter,
+                                  hintText: twitter == null ? "VSCO" : twitter,
                                   hintStyle: TextStyle(color: Colors.grey),
                                   prefixText: '@',
                                   prefixStyle: TextStyle(color: Colors.grey),
@@ -1394,7 +1393,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     });
     uploadImage();
     Flushbar(
-       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       borderRadius: 15,
       messageText: Padding(
         padding: EdgeInsets.fromLTRB(15, 0, 0, 0),

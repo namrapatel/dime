@@ -1162,18 +1162,35 @@ class UserTile extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                      0,
-                      MediaQuery.of(context).size.height / 50,
-                      MediaQuery.of(context).size.height / 50,
-                      0),
+                      0, 0, MediaQuery.of(context).size.height / 50, 0),
                 )
               ],
             ),
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(blocked == true
-                  ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
-                  : personImage),
-              radius: screenH(30),
+            leading: Stack(
+              children: <Widget>[
+                CircleAvatar(
+                  backgroundImage: NetworkImage(blocked == true
+                      ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                      : personImage),
+                  radius: screenH(30),
+                ),
+                Positioned(
+                  left: MediaQuery.of(context).size.width / 10000000,
+                  top: MediaQuery.of(context).size.height / 23.5,
+                  child: CircleAvatar(
+                    radius: screenH(11),
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          "🔒",
+                          style: TextStyle(fontSize: screenH(11.5)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'chat.dart';
 import 'userCard.dart';
 import 'homePage.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 var allUsers = [];
 
@@ -173,8 +174,7 @@ class _ExploreState extends State<Explore> {
                               bottom: MediaQuery.of(context).size.height / 75,
                               top: MediaQuery.of(context).size.height / 75,
                               right: MediaQuery.of(context).size.width / 30),
-                          hintText:
-                              'Search for anyone...'),
+                          hintText: 'Search for anyone...'),
                     ),
                   ),
                 ),
@@ -210,10 +210,46 @@ class _ExploreState extends State<Explore> {
                       userName: data['userData']['displayName'],
                     )));
       },
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(data['userData']['photoUrl']),
+      leading: Stack(
+        children: <Widget>[
+          CircleAvatar(
+            radius: screenH(30),
+            backgroundImage: NetworkImage(data['userData']['photoUrl']),
+          ),
+          Positioned(
+            left: MediaQuery.of(context).size.width / 10000000,
+            top: MediaQuery.of(context).size.height / 23.5,
+            child: CircleAvatar(
+              radius: screenH(11),
+              backgroundColor: Colors.white,
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "🔒",
+                    style: TextStyle(fontSize: screenH(11.5)),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
-      title: Text(data['userData']['displayName']),
+      title: Row(
+        children: <Widget>[
+          Container(
+            width: MediaQuery.of(context).size.width / 3.3,
+            child: AutoSizeText(
+              data['userData']['displayName'],
+              // style: TextStyle(color: Color(0xFF1458EA), fontSize: 13),
+              minFontSize: 15,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+
+      // Text(data['userData']['displayName']),
       subtitle: Text(
           data['userData']['major'] != null ? data['userData']['major'] : ""),
       trailing: Row(

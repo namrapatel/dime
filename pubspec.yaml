@@ -123,6 +123,7 @@ flutter:
     - assets/darkpeoplearoundyou.png
     - assets/clickablecards.png
     - assets/darkdirectory.png
+    - assets/vsco.png
 
 
   fonts:

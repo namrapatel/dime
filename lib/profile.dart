@@ -365,9 +365,14 @@ class _HomePageOneState extends State<HomePageOne> {
                 MediaQuery.of(context).size.width / 3.5, 0, 0, 0),
             child: Row(
               children: <Widget>[
-                Text("Relationship Status",
-                    style:
-                        TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                GestureDetector(
+                  onTap: () {
+                    _settingModalBottomSheet(context);
+                  },
+                  child: Text("Relationship Status",
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                ),
                 IconButton(
                   icon: Icon(Icons.keyboard_arrow_down),
                   onPressed: () {

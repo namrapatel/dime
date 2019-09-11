@@ -34,17 +34,16 @@ class _ChatState extends State<Chat> {
   FocusNode _focus = new FocusNode();
 
   getUserProfile() async {
-    QuerySnapshot query = await Firestore.instance
+    DocumentSnapshot doc = await Firestore.instance
         .collection('users')
         .document(widget.toUserId)
-        .collection('profcard')
-        .getDocuments();
-    for (var doc in query.documents) {
+        .get();
+
       setState(() {
         toUserName = doc['displayName'];
         toUserPhoto = doc['photoUrl'];
       });
-    }
+
   }
 
   callback() {

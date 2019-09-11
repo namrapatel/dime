@@ -308,10 +308,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       'vsco':vsco
     });
 
-    Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .updateData({'photoUrl': photoUrl});
+
   }
 
   Future<void> uploadImage() async {
@@ -1360,19 +1357,8 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'email': email
     });
 
-    DocumentSnapshot social = await Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('socialcard')
-        .document('social')
-        .get();
-    if (social['photoUrl'] ==
-        "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef") {
-      Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .updateData({'photoUrl': photoUrl});
-    }
+
+
   }
 
   Future<void> uploadImage() async {

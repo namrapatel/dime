@@ -36,6 +36,7 @@ class _HomePageOneState extends State<HomePageOne> {
   String gradYear;
   String university;
   String bio;
+  String kobe;
 
 void _settingModalBottomSheet(context){
     showModalBottomSheet(
@@ -240,7 +241,6 @@ void _settingModalBottomSheet(context){
                       CupertinoPageRoute(builder: (context) => TabsApp()));
                 },
               ),
-
               // InkWell(
               //     onTap: updateProfile,
               //     child: Container(
@@ -256,6 +256,34 @@ void _settingModalBottomSheet(context){
               //           borderRadius: BorderRadius.circular(40),
               //           color: Color(0xFF1458EA),
               //         )))
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: screenW(20),
+              ),
+              kobe != null
+                  ? CircleAvatar(
+                      backgroundImage: NetworkImage(kobe),
+                      radius: screenH(45),
+                    )
+                  : CircularProgressIndicator(),
+              SizedBox(
+                width: screenW(20),
+              ),
+              FlatButton(
+                color: Color(0xFF1458EA),
+                child: Text(
+                  "Edit Image",
+                  style: TextStyle(color: Colors.white),
+                ),
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0)),
+                onPressed: () {
+                  // setImage();
+                },
+              ),
             ],
           ),
           SizedBox(
@@ -306,8 +334,10 @@ void _settingModalBottomSheet(context){
                   child: data2.length != 0
                       ? FlutterSearchPanel<int>(
                           padding: EdgeInsets.all(10.0),
-                          selected: university==null?0:data2.indexWhere((SearchItem element) =>
-                              element.text == currentUserModel.university),
+                          selected: university == null
+                              ? 0
+                              : data2.indexWhere((SearchItem element) =>
+                                  element.text == currentUserModel.university),
                           title: "Select your university",
                           data: data2,
                           color: Colors.white,
@@ -319,7 +349,9 @@ void _settingModalBottomSheet(context){
                           onChanged: (int value) {
                             if (value != null) {
                               if (data2[value].text.isNotEmpty &&
-                                  data2[value].text != null&&data2[value].text!="Select Your University") {
+                                  data2[value].text != null &&
+                                  data2[value].text !=
+                                      "Select Your University") {
                                 setState(() {
                                   university = data2[value].text;
                                 });

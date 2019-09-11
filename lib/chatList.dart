@@ -8,10 +8,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
+import 'homePage.dart';
 
 class ChatList extends StatefulWidget {
   final String title = '';

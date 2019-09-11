@@ -68,7 +68,8 @@ class UserManagement {
     List<dynamic> likes = [];
     for(var i=0;i<userIds.length;i++){
       Firestore.instance.collection('users').document(userIds[i]).collection('feed').document(postId).setData({
-        'stream': stream
+        'stream': stream,
+        'timeStamp':timeStamp
       });
     }
 

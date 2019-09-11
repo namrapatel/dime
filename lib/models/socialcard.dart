@@ -243,13 +243,22 @@ class SocialCard extends StatelessWidget {
                       Positioned(
                         top: screenH(65),
                         left: screenW(20),
-                        child: major != null && gradYear != null
-                            ? Text(major + ", " + gradYear,
-                                style: TextStyle(
-                                    fontSize: screenF(15), color: Colors.grey))
-                            : Text(major != null ? major : "",
-                                style: TextStyle(
-                                    fontSize: screenF(15), color: Colors.grey)),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 1.7,
+                          child: major != null && gradYear != null
+                              ? AutoSizeText(major + ", " + gradYear,
+                                  maxLines: 1,
+                                  minFontSize: 11,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: screenF(15), color: Colors.grey))
+                              : AutoSizeText(major != null ? major : "",
+                                  maxLines: 1,
+                                  minFontSize: 11,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: screenF(15), color: Colors.grey)),
+                        ),
                       ),
                       Positioned(
                         top: screenH(115),

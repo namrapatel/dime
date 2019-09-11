@@ -24,8 +24,8 @@ class _ExploreState extends State<Explore> {
   var tempSearchStore = [];
   bool alreadyBuilt = false;
 
-  getAllUsers() {
-    return Firestore.instance.collection('users').getDocuments();
+  getAllUsers() async {
+    return Firestore.instance.collection('users').orderBy('university').getDocuments();
   }
 
   initiateSearch(String value) {

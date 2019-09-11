@@ -169,11 +169,11 @@ class _CreateProfPostState extends State<CreateProfPost> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pop(
                           context,
                           PageTransition(
                               type: PageTransitionType.leftToRight,
-                              child: ProfPage(stream: 'general')));
+                          ));
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(

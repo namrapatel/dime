@@ -27,11 +27,14 @@ class _ProfPageState extends State<ProfPage> {
   var university = currentUserModel.university;
   String stream;
   bool subscribed;
+  bool streamVerified=false;
+  List<dynamic> verifiedUsers=[];
   _ProfPageState({this.stream});
   @override
   void initState() {
     super.initState();
     checkSubscription();
+    checkVerification();
   }
 
   checkSubscription() async {
@@ -46,6 +49,17 @@ class _ProfPageState extends State<ProfPage> {
         });
       }
     }
+  }
+  checkVerification() async{
+    DocumentSnapshot doc = await Firestore.instance.collection('streams').document(stream).get();
+    setState(() {
+      streamVerified=doc['isVerified'];
+      verifiedUsers=doc['verifiedUsers'];
+    });
+
+
+
+
   }
 
   void fcmSubscribe(String topic) {
@@ -101,7 +115,7 @@ class _ProfPageState extends State<ProfPage> {
         if (DateTime
             .now()
             .difference(time.toDate())
-            .inMinutes <= 60) {
+            .inMinutes <= 180) {
           print('difference between posted and time from an hour ago is');
           print(DateTime
               .now()
@@ -251,7 +265,7 @@ class _ProfPageState extends State<ProfPage> {
                   //       onPressed: () {}),
                   // ),
                   Spacer(),
-                  currentUserModel.university != null &&stream!="Subscriptions"
+        (((streamVerified==true && (verifiedUsers.contains(currentUserModel.uid)))||(streamVerified==null||streamVerified==false)) &&(currentUserModel.university != null &&stream!="Subscriptions"))
                       ? InkWell(
                           child: Icon(
                             Ionicons.ios_create,
@@ -259,12 +273,15 @@ class _ProfPageState extends State<ProfPage> {
                             color: Colors.white,
                           ),
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => CreateProfPost(
-                                          stream: stream,
-                                        )));
+
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) =>
+                                          CreateProfPost(
+                                            stream: stream,
+                                          )));
+
                           },
                         )
                       : SizedBox(),

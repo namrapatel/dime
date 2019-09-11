@@ -247,13 +247,22 @@ class SocialCard extends StatelessWidget {
                       Positioned(
                         top: screenH(65),
                         left: screenW(20),
-                        child: major != null && gradYear != null
-                            ? Text(major + ", " + gradYear,
-                                style: TextStyle(
-                                    fontSize: screenF(15), color: Colors.grey))
-                            : Text(major != null ? major : "",
-                                style: TextStyle(
-                                    fontSize: screenF(15), color: Colors.grey)),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 1.7,
+                          child: major != null && gradYear != null
+                              ? AutoSizeText(major + ", " + gradYear,
+                                  maxLines: 1,
+                                  minFontSize: 11,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: screenF(15), color: Colors.grey))
+                              : AutoSizeText(major != null ? major : "",
+                                  maxLines: 1,
+                                  minFontSize: 11,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: screenF(15), color: Colors.grey)),
+                        ),
                       ),
                       Positioned(
                         top: screenH(115),
@@ -373,14 +382,17 @@ class SocialCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        SizedBox(
-                                          height: screenH(5),
-                                        ),
                                         GestureDetector(
                                           onTap:(){ _launchVsco('https://vsco.co/$vsco');},
                                             child: Image(
-                                          width: screenW(40),
-                                          height: screenH(40),
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              10,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              15.8,
                                           image: AssetImage('assets/vsco.png'),
                                         )),
                                         // IconButton(
@@ -401,14 +413,15 @@ class SocialCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      SizedBox(
-                                        height: screenH(5),
-                                      ),
                                       GestureDetector(
 
                                           child: Image(
-                                        width: screenW(40),
-                                        height: screenH(40),
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                10,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                15.8,
                                         image: AssetImage('assets/vsco.png'),
                                       )),
                                       Text("           ",
@@ -417,13 +430,15 @@ class SocialCard extends StatelessWidget {
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  SizedBox(
-                                    height: screenH(5),
-                                  ),
+                                  // SizedBox(
+                                  //   height: screenH(5),
+                                  // ),
                                   GestureDetector(
                                       child: Image(
-                                    width: screenW(40),
-                                    height: screenH(40),
+                                    width:
+                                        MediaQuery.of(context).size.width / 10,
+                                    height: MediaQuery.of(context).size.height /
+                                        15.8,
                                     image: AssetImage('assets/vsco.png'),
                                   )),
                                   Text("           ",

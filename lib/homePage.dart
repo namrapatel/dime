@@ -1180,10 +1180,13 @@ class UserTile extends StatelessWidget {
                   left: MediaQuery.of(context).size.width / 10000000,
                   top: MediaQuery.of(context).size.height / 23.5,
                   child: CircleAvatar(
-                    radius: screenH(11),
+                    radius: MediaQuery.of(context).size.height / 80,
                     backgroundColor: Colors.white,
                     child: Column(
                       children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 600,
+                        ),
                         Text(
                           relationshipStatus,
                           style: TextStyle(fontSize: screenH(11.5)),

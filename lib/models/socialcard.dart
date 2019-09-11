@@ -426,7 +426,7 @@ class SocialCard extends StatelessWidget {
                         top: screenH(20),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage(photoUrl),
-                          radius: 30,
+                          radius: screenH(30),
                         ),
                       ),
                     ],

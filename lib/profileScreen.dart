@@ -122,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 6.5),
-            left: (MediaQuery.of(context).size.width / 2 - 60.0),
+            left: (MediaQuery.of(context).size.width / 2 - 55.0),
             child: photoUrl == null
                 ? SizedBox(
                     height: 0.0,

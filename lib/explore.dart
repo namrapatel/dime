@@ -8,10 +8,8 @@ import 'login.dart';
 import 'package:flutter/cupertino.dart';
 import 'chat.dart';
 import 'userCard.dart';
+import 'homePage.dart';
 
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
 var allUsers = [];
 
 class Explore extends StatefulWidget {

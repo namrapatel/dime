@@ -15,6 +15,7 @@ import 'socialTags.dart';
 import 'professionalTags.dart';
 import 'viewCards.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'homePage.dart';
 
 String selectedItemString;
 String selectedWItemString;
@@ -700,7 +701,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           photoUrl != null
                               ? CircleAvatar(
                                   backgroundImage: NetworkImage(photoUrl),
-                                  radius: 45,
+                                  radius: screenH(45),
                                 )
                               : CircularProgressIndicator(),
                           SizedBox(
@@ -1782,7 +1783,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           photoUrl != null
                               ? CircleAvatar(
                                   backgroundImage: NetworkImage(photoUrl),
-                                  radius: 45,
+                                  radius: screenH(45),
                                 )
                               : CircularProgressIndicator(),
                           SizedBox(

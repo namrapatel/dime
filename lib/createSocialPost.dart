@@ -17,10 +17,8 @@ import 'package:uuid/uuid.dart';
 import 'package:image/image.dart' as Im;
 import 'package:image_cropper/image_cropper.dart';
 import 'dart:math' as Math;
+import 'homePage.dart';
 
-final screenH = ScreenUtil.instance.setHeight;
-final screenW = ScreenUtil.instance.setWidth;
-final screenF = ScreenUtil.instance.setSp;
 
 final List<String> filterWords = [
  "ass fuck",

@@ -360,7 +360,7 @@ class UserTag extends StatelessWidget {
       contentPadding: EdgeInsets.all(15),
       leading: CircleAvatar(
         backgroundImage: NetworkImage(photo),
-        radius: 25,
+        radius: screenH(25),
       ),
       title: Row(
         children: <Widget>[

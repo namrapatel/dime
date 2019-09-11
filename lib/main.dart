@@ -1,6 +1,7 @@
 import 'package:Dime/homePage.dart';
 import 'package:Dime/login.dart';
 import 'package:Dime/models/user.dart';
+import 'package:Dime/newOnboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:async';
@@ -21,7 +22,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: SplashScreen(),
+      home: Onboarding1(),
       theme: appTheme,
     );
   }

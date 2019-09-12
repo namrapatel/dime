@@ -269,16 +269,23 @@ class ProfCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        IconButton(
-                                          icon: Icon(
-                                            FontAwesome.linkedin_square,
-                                            size: 30,
-                                            color: Color(0xFF0077b5),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xFF0077b5)
+                                                  .withOpacity(0.05),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(50))),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              FontAwesome.linkedin_square,
+                                              size: 30,
+                                              color: Color(0xFF0077b5),
+                                            ),
+                                            onPressed: () {
+                                              _launchLinkedin(
+                                                  'https://www.linkedin.com/in/$linkedIn');
+                                            },
                                           ),
-                                          onPressed: () {
-                                            _launchLinkedin(
-                                                'https://www.linkedin.com/in/$linkedIn');
-                                          },
                                         ),
                                         Text(linkedIn,
                                             style: TextStyle(
@@ -287,11 +294,18 @@ class ProfCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          FontAwesome.linkedin_square,
-                                          size: 30,
-                                          color: Color(0xFF0077b5),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF0077b5)
+                                                .withOpacity(0.05),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(50))),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            FontAwesome.linkedin_square,
+                                            size: 30,
+                                            color: Color(0xFF0077b5),
+                                          ),
                                         ),
                                       ),
                                       Text("           ",
@@ -300,11 +314,18 @@ class ProfCard extends StatelessWidget {
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      FontAwesome.linkedin_square,
-                                      size: 30,
-                                      color: Color(0xFF0077b5),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Color(0xFF0077b5).withOpacity(0.05),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        FontAwesome.linkedin_square,
+                                        size: 30,
+                                        color: Color(0xFF0077b5),
+                                      ),
                                     ),
                                   ),
                                   Text("           ",
@@ -319,16 +340,23 @@ class ProfCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        IconButton(
-                                          icon: Icon(
-                                            MaterialCommunityIcons.github_box,
-                                            color: Color(0xFF3c3744),
-                                            size: 30,
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xFF3c3744)
+                                                  .withOpacity(0.05),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(50))),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              MaterialCommunityIcons.github_box,
+                                              color: Color(0xFF3c3744),
+                                              size: 30,
+                                            ),
+                                            onPressed: () {
+                                              _launchGit(
+                                                  'https://github.com/$github');
+                                            },
                                           ),
-                                          onPressed: () {
-                                            _launchGit(
-                                                'https://github.com/$github');
-                                          },
                                         ),
                                         Text(github,
                                             style: TextStyle(
@@ -337,11 +365,18 @@ class ProfCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          MaterialCommunityIcons.github_box,
-                                          size: 30,
-                                          color: Color(0xFF3c3744),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFF3c3744)
+                                                .withOpacity(0.05),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(50))),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            MaterialCommunityIcons.github_box,
+                                            size: 30,
+                                            color: Color(0xFF3c3744),
+                                          ),
                                         ),
                                       ),
                                       Text("           ",
@@ -350,11 +385,18 @@ class ProfCard extends StatelessWidget {
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      MaterialCommunityIcons.github_box,
-                                      size: 30,
-                                      color: Color(0xFF3c3744),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Color(0xFF3c3744).withOpacity(0.05),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        MaterialCommunityIcons.github_box,
+                                        size: 30,
+                                        color: Color(0xFF3c3744),
+                                      ),
                                     ),
                                   ),
                                   Text("           ",
@@ -369,16 +411,24 @@ class ProfCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        IconButton(
-                                          icon: Icon(
-                                            MaterialCommunityIcons.twitter_box,
-                                            color: Colors.blue,
-                                            size: 30,
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color:
+                                                  Colors.blue.withOpacity(0.05),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(50))),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              MaterialCommunityIcons
+                                                  .twitter_box,
+                                              color: Colors.blue,
+                                              size: 30,
+                                            ),
+                                            onPressed: () {
+                                              _launchTwitter(
+                                                  'https://twitter.com/$twitter');
+                                            },
                                           ),
-                                          onPressed: () {
-                                            _launchTwitter(
-                                                'https://twitter.com/$twitter');
-                                          },
                                         ),
                                         Text(twitter,
                                             style: TextStyle(
@@ -387,11 +437,18 @@ class ProfCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          MaterialCommunityIcons.twitter_box,
-                                          size: 30,
-                                          color: Colors.blue,
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Colors.blue.withOpacity(0.05),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(50))),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            MaterialCommunityIcons.twitter_box,
+                                            size: 30,
+                                            color: Colors.blue,
+                                          ),
                                         ),
                                       ),
                                       Text("           ",
@@ -400,11 +457,17 @@ class ProfCard extends StatelessWidget {
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      MaterialCommunityIcons.twitter_box,
-                                      size: 30,
-                                      color: Colors.blue,
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.blue.withOpacity(0.05),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        MaterialCommunityIcons.twitter_box,
+                                        size: 30,
+                                        color: Colors.blue,
+                                      ),
                                     ),
                                   ),
                                   Text("           ",
@@ -429,13 +492,10 @@ class ProfCard extends StatelessWidget {
                       Positioned(
                         left: screenW(265),
                         top: screenH(20),
-
                         child: CircleAvatar(
                             radius: screenH(35),
-                            backgroundImage: CachedNetworkImageProvider(
-                                photoUrl
-                            )),
-
+                            backgroundImage:
+                                CachedNetworkImageProvider(photoUrl)),
                       ),
                     ],
                   ),

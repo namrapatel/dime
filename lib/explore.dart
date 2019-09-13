@@ -12,7 +12,6 @@ import 'homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-
 var allUsers = [];
 
 class Explore extends StatefulWidget {
@@ -26,7 +25,10 @@ class _ExploreState extends State<Explore> {
   bool alreadyBuilt = false;
 
   getAllUsers() {
-    return Firestore.instance.collection('users').orderBy('university',descending: true).getDocuments();
+    return Firestore.instance
+        .collection('users')
+        .orderBy('university', descending: true)
+        .getDocuments();
   }
 
   initiateSearch(String value) {
@@ -192,9 +194,8 @@ class _ExploreState extends State<Explore> {
                 physics: BouncingScrollPhysics(),
                 padding: EdgeInsets.only(left: 10.0, right: 10.0),
                 itemBuilder: (context, index) {
-
 //                  tempSearchStore.map((element) {
-                    return _buildTile(tempSearchStore[index]);
+                  return _buildTile(tempSearchStore[index]);
 //                  });
 //                  DocumentSnapshot doc = snapshots.data[index];
 //                  print(
@@ -248,30 +249,33 @@ class _ExploreState extends State<Explore> {
 //            radius: screenH(30),
 //            backgroundImage: NetworkImage(data['userData']['photoUrl']),
 //          ),
-      CircleAvatar(
-      backgroundImage: CachedNetworkImageProvider(
-          data['userData']['photoUrl']
-      )),
-          data['userData']['relationshipStatus']!=null?
-          Positioned(
-            left: MediaQuery.of(context).size.width / 10000000,
-            top: MediaQuery.of(context).size.height / 23.5,
-            child: CircleAvatar(
-              radius: MediaQuery.of(context).size.height / 80,
-              backgroundColor: Colors.white,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 600,
+          CircleAvatar(
+              radius: screenH(30),
+              backgroundImage:
+                  CachedNetworkImageProvider(data['userData']['photoUrl'])),
+          data['userData']['relationshipStatus'] != null
+              ? Positioned(
+                  left: MediaQuery.of(context).size.width / 10000000,
+                  top: MediaQuery.of(context).size.height / 23.5,
+                  child: CircleAvatar(
+                    radius: MediaQuery.of(context).size.height / 80,
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 600,
+                        ),
+                        Text(
+                          data['userData']['relationshipStatus'],
+                          style: TextStyle(fontSize: screenH(12.1)),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    data['userData']['relationshipStatus'],
-                    style: TextStyle(fontSize: screenH(11.5)),
-                  ),
-                ],
-              ),
-            ),
-          ):SizedBox(width: 0.0,)
+                )
+              : SizedBox(
+                  width: 0.0,
+                )
         ],
       ),
       title: Row(

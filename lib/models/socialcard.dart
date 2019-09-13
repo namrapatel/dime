@@ -286,16 +286,23 @@ class SocialCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        IconButton(
-                                          icon: Icon(
-                                            FontAwesome.snapchat_square,
-                                            size: 30,
-                                            color: Color(0xFFfffc00),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: Color(0xFFfffc00)
+                                                  .withOpacity(0.15),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(50))),
+                                          child: IconButton(
+                                            icon: Icon(
+                                              FontAwesome.snapchat_square,
+                                              size: 30,
+                                              color: Color(0xFFfffc00),
+                                            ),
+                                            onPressed: () {
+                                              _launchSnap(
+                                                  'https://www.snapchat.com/add/$snapchat');
+                                            },
                                           ),
-                                          onPressed: () {
-                                            _launchSnap(
-                                                'https://www.snapchat.com/add/$snapchat');
-                                          },
                                         ),
                                         Text(snapchat,
                                             style: TextStyle(
@@ -304,11 +311,18 @@ class SocialCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(
-                                          FontAwesome.snapchat_square,
-                                          size: 30,
-                                          color: Color(0xFFfffc00),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xFFfffc00)
+                                                .withOpacity(0.15),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(50))),
+                                        child: IconButton(
+                                          icon: Icon(
+                                            FontAwesome.snapchat_square,
+                                            size: 30,
+                                            color: Color(0xFFfffc00),
+                                          ),
                                         ),
                                       ),
                                       Text("           ",
@@ -317,11 +331,18 @@ class SocialCard extends StatelessWidget {
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      FontAwesome.snapchat_square,
-                                      size: 30,
-                                      color: Color(0xFFfffc00),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Color(0xFFfffc00).withOpacity(0.15),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        FontAwesome.snapchat_square,
+                                        size: 30,
+                                        color: Color(0xFFfffc00),
+                                      ),
                                     ),
                                   ),
                                   Text("           ",
@@ -367,11 +388,18 @@ class SocialCard extends StatelessWidget {
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      MaterialCommunityIcons.instagram,
-                                      size: 30,
-                                      color: Color(0xFF8803fc),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Color(0xFF8803fc).withOpacity(0.05),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        MaterialCommunityIcons.instagram,
+                                        size: 30,
+                                        color: Color(0xFF8803fc),
+                                      ),
                                     ),
                                   ),
                                   Text("           ",
@@ -386,34 +414,30 @@ class SocialCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        GestureDetector(
-                                            onTap: () {
-                                              _launchVsco(
-                                                  'https://vsco.co/$vsco');
-                                            },
-                                            child: Image(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  10,
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  15.8,
-                                              image:
-                                                  AssetImage('assets/vsco.png'),
-                                            )),
-                                        // IconButton(
-                                        //   icon: Icon(
-                                        //     MaterialCommunityIcons.twitter_box,
-                                        //     color: Colors.blue,
-                                        //     size: 30,
-                                        //   ),
-                                        //   onPressed: () {
-                                        //     _launchTwitter(
-                                        //         'https://twitter.com/$twitter');
-                                        //   },
-                                        // ),
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.black
+                                                  .withOpacity(0.05),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(50))),
+                                          child: IconButton(
+                                              onPressed: () {
+                                                _launchVsco(
+                                                    'https://vsco.co/$vsco');
+                                              },
+                                              icon: Image(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    10,
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    15.8,
+                                                image: AssetImage(
+                                                    'assets/vsco.png'),
+                                              )),
+                                        ),
                                         Text(vsco,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -421,33 +445,46 @@ class SocialCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      GestureDetector(
-                                          child: Image(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                10,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                15.8,
-                                        image: AssetImage('assets/vsco.png'),
-                                      )),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Colors.black.withOpacity(0.05),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(50))),
+                                        child: IconButton(
+                                            icon: Image(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              10,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              15.8,
+                                          image: AssetImage('assets/vsco.png'),
+                                        )),
+                                      ),
                                       Text("           ",
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: screenF(12))),
                                     ])
                               : Column(children: <Widget>[
-                                  // SizedBox(
-                                  //   height: screenH(5),
-                                  // ),
-                                  GestureDetector(
-                                      child: Image(
-                                    width:
-                                        MediaQuery.of(context).size.width / 10,
-                                    height: MediaQuery.of(context).size.height /
-                                        15.8,
-                                    image: AssetImage('assets/vsco.png'),
-                                  )),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.05),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: IconButton(
+                                        icon: Image(
+                                      width: MediaQuery.of(context).size.width /
+                                          10,
+                                      height:
+                                          MediaQuery.of(context).size.height /
+                                              15.8,
+                                      image: AssetImage('assets/vsco.png'),
+                                    )),
+                                  ),
                                   Text("           ",
                                       style: TextStyle(
                                           color: Colors.black,
@@ -478,10 +515,8 @@ class SocialCard extends StatelessWidget {
                         top: screenH(20),
                         child: CircleAvatar(
                             radius: screenH(35),
-                            backgroundImage: CachedNetworkImageProvider(
-                                photoUrl
-                            )),
-
+                            backgroundImage:
+                                CachedNetworkImageProvider(photoUrl)),
                       ),
                     ],
                   ),

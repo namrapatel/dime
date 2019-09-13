@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:Dime/notifcations.dart';
+
 import 'models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:Dime/profPage.dart';
@@ -687,16 +689,18 @@ class _ScrollPageState extends State<ScrollPage>
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
                     onPressed: () {
-                      Navigator.push(context,
-                          CupertinoPageRoute(builder: (context) => ChatList()));
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => NotifcationsScreen()));
                     },
                     elevation: 3,
                     heroTag: 'btn2',
                     backgroundColor: Colors.white,
                     child: Icon(
-                      Feather.message_circle,
+                      Ionicons.md_notifications_outline,
                       color: Colors.black,
-                      size: 25.0,
+                      size: 30.0,
                     ),
                   ),
                   unread > 0
@@ -843,7 +847,7 @@ class _ScrollPageState extends State<ScrollPage>
                       : Container(
                           height: MediaQuery.of(context).size.height * 2 / 3,
                           child: ListView.builder(
-                              cacheExtent: 5000.0,
+                            cacheExtent: 5000.0,
                             itemBuilder: (context, index) {
                               DocumentSnapshot doc = snapshots.data[index];
                               print(
@@ -1183,14 +1187,10 @@ class UserTile extends StatelessWidget {
                 CircleAvatar(
                   radius: screenH(30),
                   backgroundImage: CachedNetworkImageProvider(
-                      blocked == true
-              ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
-                  : personImage,
+                    blocked == true
+                        ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                        : personImage,
                   ),
-
-
-
-
                 ),
                 relationshipStatus != null
                     ? Positioned(
@@ -1228,17 +1228,13 @@ class UserTile extends StatelessWidget {
                           color: Colors.grey[100],
                         ),
                         child: IconButton(
-                          icon: Icon(Feather.message_circle),
+                          icon: Icon(
+                            EvilIcons.like,
+                            size: screenH(35),
+                            color: Color(0xFF1458EA),
+                          ),
                           color: Colors.black,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => Chat(
-                                          fromUserId: currentUserModel.uid,
-                                          toUserId: uid,
-                                        )));
-                          },
+                          onPressed: () {},
                         ),
                       )
                     : Container()

@@ -105,20 +105,20 @@ class _UserCardState extends State<UserCard> {
                 ),
               ),
               Spacer(),
-              IconButton(
-                icon: Icon(
-                  Feather.message_circle,
-                ),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => Chat(
-                              fromUserId: currentUserModel.uid,
-                              toUserId: userId)));
-                },
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     Feather.message_circle,
+              //   ),
+              //   color: Colors.white,
+              //   onPressed: () {
+              //     Navigator.push(
+              //         context,
+              //         CupertinoPageRoute(
+              //             builder: (context) => Chat(
+              //                 fromUserId: currentUserModel.uid,
+              //                 toUserId: userId)));
+              //   },
+              // ),
               currentUserModel.uid != userId
                   ? IconButton(
                       icon: Icon(Feather.more_vertical),

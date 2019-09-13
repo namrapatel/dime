@@ -98,19 +98,19 @@ class _onBoardingState extends State<onBoarding> {
                 alignment: Alignment.center,
               ),
             ),
-            PageViewModel(
-                pageColor: Colors.white,
-                body: OnboardingSave(),
-                title: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    "Enter your Handles!",
-                    style: TextStyle(fontSize: screenF(30), color: Colors.black),
-                  ),
-                ),
-                mainImage: ListView(
-                  children: <Widget>[MediaForm()],
-                )),
+            // PageViewModel(
+            //     pageColor: Colors.white,
+            //     body: OnboardingSave(),
+            //     title: Padding(
+            //       padding: const EdgeInsets.only(top: 8.0),
+            //       child: Text(
+            //         "Enter your Handles!",
+            //         style: TextStyle(fontSize: screenF(30), color: Colors.black),
+            //       ),
+            //     ),
+            //     mainImage: ListView(
+            //       children: <Widget>[MediaForm()],
+            //     )),
             PageViewModel(
               pageColor: const Color(0xFF1458EA),
               body: Padding(

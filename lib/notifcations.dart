@@ -165,7 +165,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
               ),
             ),
           ],
-        )
+        ),
       ],
     ));
   }

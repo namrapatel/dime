@@ -15,18 +15,50 @@ class _LikeNotifState extends State<LikeNotif> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: screenH(8.0)),
       child: ListTile(
-        leading: Container(
-            width: MediaQuery.of(context).size.width / 12,
-            height: MediaQuery.of(context).size.height / 25,
-            decoration: BoxDecoration(
-              //Depending on if its social or professional like - it should be a different color, I've put the professional color for now
-                color: Color(0xFF096664),
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-            child: Icon(
+        // leading: Container(
+        //     width: MediaQuery.of(context).size.width / 12,
+        //     height: MediaQuery.of(context).size.height / 25,
+        //     decoration: BoxDecoration(
+        //       //Depending on if its social or professional like - it should be a different color, I've put the professional color for now
+        //         color: Color(0xFF096664),
+        //         borderRadius: BorderRadius.all(Radius.circular(30))),
+        //     child: Icon(
+        //       AntDesign.bulb1,
+        //       color: Colors.white,
+        //       size: screenH(20),
+        //     )),
+        leading: Stack(
+          children: <Widget>[
+            CircleAvatar(
+          backgroundColor: Color(0xFF8803fc),
+          radius: screenH(30),
+          child: Icon(
               AntDesign.bulb1,
               color: Colors.white,
-              size: screenH(20),
-            )),
+              size: screenH(25),
+            ),
+        ),
+        Positioned(
+                  left: MediaQuery.of(context).size.width / 10000000,
+                  top: MediaQuery.of(context).size.height / 23.5,
+                  child: CircleAvatar(
+                    radius: MediaQuery.of(context).size.height / 80,
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 600,
+                        ),
+                        Text(
+                          '🔒',
+                          style: TextStyle(fontSize: screenH(12.1)),
+                        ),
+                      ],
+                    ),
+                  ),
+        )
+          ],
+        ),
         title: Row(
           children: <Widget>[
             Container(

@@ -326,7 +326,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
-                      maxLength: 140,
+                      maxLength: 300,
                       maxLengthEnforced: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -343,7 +343,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      "Max. 140 characters",
+                      "Max. 300 characters",
                       style: TextStyle(color: Colors.black),
                     ),
                   ],

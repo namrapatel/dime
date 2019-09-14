@@ -19,7 +19,8 @@ class _LikeNotifState extends State<LikeNotif> {
             width: MediaQuery.of(context).size.width / 12,
             height: MediaQuery.of(context).size.height / 25,
             decoration: BoxDecoration(
-                color: Color(0xFF1458EA),
+              //Depending on if its social or professional like - it should be a different color, I've put the professional color for now
+                color: Color(0xFF096664),
                 borderRadius: BorderRadius.all(Radius.circular(30))),
             child: Icon(
               AntDesign.bulb1,
@@ -44,12 +45,13 @@ class _LikeNotifState extends State<LikeNotif> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Western University",
+              "Brain of an engineer. Heart of a designer.",
               style: TextStyle(
                 color: Color(0xFF1458EA),
               ),
             ),
-            Text("Computer Science, 2022"),
+            Text("University of Waterloo", ),
+            Text("Computer Science, 2022",),
             Text("6m ago", style: TextStyle(fontSize: 11)),
           ],
         ),

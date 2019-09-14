@@ -332,7 +332,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
-                      maxLength: 140,
+                      maxLength: 300,
                       maxLengthEnforced: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -349,7 +349,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      "Max. 140 characters",
+                      "Max. 300 characters",
                       style: TextStyle(color: Colors.black),
                     ),
                   ],

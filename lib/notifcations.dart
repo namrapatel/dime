@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:flushbar/flushbar.dart';
 
 class NotifcationsScreen extends StatefulWidget {
   @override
@@ -66,7 +67,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width / 17, 0, 0, 100),
+                      MediaQuery.of(context).size.width / 17, 0, 0, MediaQuery.of(context).size.height/7),
                 ),
                 Text(
                   "Notifications",
@@ -76,6 +77,53 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                 ),
               ],
             ),
+            Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width / 17, 0, 0, 0),
+              child: Row(
+                children: <Widget>[
+                  Text("329 Likes", style: TextStyle(fontSize: 18),),
+                  SizedBox(width: MediaQuery.of(context).size.width/50,),
+                  Text("•"),
+                  SizedBox(width: MediaQuery.of(context).size.width/50,),
+                  Text("12 Chats", style: TextStyle(fontSize: 18),),
+                      IconButton(
+                        icon: Icon(Icons.info_outline, color: Color(0xFF1458EA),),
+                        onPressed: (){
+              Flushbar(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                borderRadius: 15,
+                messageText: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "You have recieved 329 anonymous likes, and chosen to chat with 12 people!",
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                flushbarPosition: FlushbarPosition.TOP,
+                icon: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 28.0,
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+                duration: Duration(seconds: 5),
+              )..show(context);
+                        },
+                      ),
+                ],
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height/50,),
             Container(
               height: MediaQuery.of(context).size.height / 1.3,
               child: ListView.builder(

@@ -50,6 +50,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  bubble_tab_indicator:
+    dependency: "direct dev"
+    description:
+      name: bubble_tab_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   cached_network_image:
     dependency: "direct dev"
     description:
@@ -482,13 +489,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
-  rating_bar:
-    dependency: "direct dev"
-    description:
-      name: rating_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.2.0"
   rubber:
     dependency: "direct dev"
     description:
@@ -634,13 +634,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.1"
-  xlive_switch:
-    dependency: "direct dev"
-    description:
-      name: xlive_switch
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.5"
   xml:
     dependency: transitive
     description:

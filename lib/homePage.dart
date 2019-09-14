@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:Dime/notifcations.dart';
-
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:Dime/profPage.dart';
@@ -586,6 +586,42 @@ class _ScrollPageState extends State<ScrollPage>
                         "People around you",
                         style: TextStyle(color: Colors.black, fontSize: 20),
                       ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 72,
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.info_outline, color: Color(0xFF1458EA),),
+                        onPressed: (){
+              Flushbar(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                borderRadius: 15,
+                messageText: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "When you like someone, it sends them an anonymous notification with your university, program, grad year, and bio. If they like you back, have fun!",
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                flushbarPosition: FlushbarPosition.TOP,
+                icon: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 28.0,
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+                duration: Duration(seconds: 8),
+              )..show(context);
+                        },
+                      ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 52, 0, 0, 0),
@@ -601,27 +637,27 @@ class _ScrollPageState extends State<ScrollPage>
                   ),
                           //Should disable the people around you feature if the rating is not 100%
                           //Don't show if the profile rating is 100%
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.3, 0, 0, 0),
-                    child: Tooltip(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      height: 50,
-                      waitDuration: Duration(seconds: 0),
-                      message: "Fill out name, program, grad year, and bio on your profile to view and be visible on the people around you",
-                      child: Row(
-                        children: <Widget>[
-                          Icon(Icons.info_outline, color: Colors.blue),
-                          SizedBox(width: MediaQuery.of(context).size.width/50),
-                          Text("Profile Rating: " + "75%", textAlign: TextAlign.center),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.3, 0, 0, 0),
+                  //   child: Tooltip(
+                  //     padding: EdgeInsets.symmetric(horizontal: 20),
+                  //     height: 50,
+                  //     waitDuration: Duration(seconds: 0),
+                  //     message: "Fill out name, program, grad year, and bio on your profile to view and be visible on the people around you",
+                  //     child: Row(
+                  //       children: <Widget>[
+                  //         Icon(Icons.info_outline, color: Colors.blue),
+                  //         SizedBox(width: MediaQuery.of(context).size.width/50),
+                  //         Text("Profile Rating: " + "75%", textAlign: TextAlign.center),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                   
                 ],
               ),
             ),
-            headerHeight: MediaQuery.of(context).size.height / 5.5,
+            headerHeight: MediaQuery.of(context).size.height / 6,
             upperLayer: _getUpperLayer(),
             animationController: _controller,
           ),
@@ -840,29 +876,30 @@ bool profSwitched = true;
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         bottom: TabBar(
+          indicatorSize: TabBarIndicatorSize.label,
+            indicator: new BubbleTabIndicator(
+            indicatorHeight: MediaQuery.of(context).size.height/14,
+            indicatorRadius: 100,
+            indicatorColor: Colors.grey[100],
+            tabBarIndicatorSize: TabBarIndicatorSize.label,
+          ),
           indicatorColor: Color(0xFF1458EA),
           tabs: [
-            Tab(icon: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Icon(
-                      Entypo.drink,
-                      color: Color(0xFF8803fc),
-                    ),
-                  Text("Social", style: TextStyle(color: Colors.black,))
-              ],
+            Tab(icon:  Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Icon(
+                        Entypo.drink,
+                        color: Color(0xFF8803fc),
+                      ),
             ),
             ),
-              Tab(icon: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                    Icon(
-                      FontAwesome.graduation_cap,
-                      color: Color(0xFF096664),
-                    ),
-                  Text("Professional", style: TextStyle(color: Colors.black,))
-              ],
-            ),
+              Tab(icon: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child:  Icon(
+                        FontAwesome.graduation_cap,
+                        color: Color(0xFF096664),
+                      ),
+              ),
             ),
             
           ],
@@ -883,6 +920,9 @@ ListView(children: <Widget>[
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width/5.7,
                           ),
                           Switch(
                               value: socialSwitched,
@@ -1012,6 +1052,9 @@ ListView(children: <Widget>[
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width/17,
                           ),
                           Switch(
                               value: profSwitched,

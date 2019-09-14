@@ -590,36 +590,40 @@ class _ScrollPageState extends State<ScrollPage>
                         width: MediaQuery.of(context).size.width / 72,
                       ),
                       IconButton(
-                        icon: Icon(Icons.info_outline, color: Color(0xFF1458EA),),
-                        onPressed: (){
-              Flushbar(
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                borderRadius: 15,
-                messageText: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "When you like someone, it sends them an anonymous notification with your university, program, grad year, and bio. If they like you back, have fun!",
-                        style: TextStyle(color: Colors.black),
-                      )
-                    ],
-                  ),
-                ),
-                backgroundColor: Colors.white,
-                flushbarPosition: FlushbarPosition.TOP,
-                icon: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                  child: Icon(
-                    Icons.info_outline,
-                    size: 28.0,
-                    color: Color(0xFF1458EA),
-                  ),
-                ),
-                duration: Duration(seconds: 8),
-              )..show(context);
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: Color(0xFF1458EA),
+                        ),
+                        onPressed: () {
+                          Flushbar(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            borderRadius: 15,
+                            messageText: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "When you like someone, it sends them an anonymous notification with your university, program, grad year, and bio. If they like you back, have fun!",
+                                    style: TextStyle(color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Colors.white,
+                            flushbarPosition: FlushbarPosition.TOP,
+                            icon: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                              child: Icon(
+                                Icons.info_outline,
+                                size: 28.0,
+                                color: Color(0xFF1458EA),
+                              ),
+                            ),
+                            duration: Duration(seconds: 8),
+                          )..show(context);
                         },
                       ),
                       Padding(
@@ -635,8 +639,8 @@ class _ScrollPageState extends State<ScrollPage>
                   Padding(
                     padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
                   ),
-                          //Should disable the people around you feature if the rating is not 100%
-                          //Don't show if the profile rating is 100%
+                  //Should disable the people around you feature if the rating is not 100%
+                  //Don't show if the profile rating is 100%
                   // Padding(
                   //   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.3, 0, 0, 0),
                   //   child: Tooltip(
@@ -653,7 +657,6 @@ class _ScrollPageState extends State<ScrollPage>
                   //     ),
                   //   ),
                   // ),
-                  
                 ],
               ),
             ),
@@ -865,54 +868,53 @@ class _ScrollPageState extends State<ScrollPage>
         color: Colors.white,
         child: ListView(children: <Widget>[
           SizedBox(
-            height: MediaQuery.of(context).size.height/85,
+            height: MediaQuery.of(context).size.height / 85,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  setState(() {
-                   //0xFFe0bdff 
-                  });
-                },
-                elevation: 0,
-                heroTag: 'socialButton',
-                backgroundColor: Colors.grey[100],
-                child: Icon(
-                  Entypo.drink,
-                  color: Color(0xFF8803fc),
+              Container(
+                width: (150),
+                child: FloatingActionButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  onPressed: () {
+                    setState(() {
+                      //0xFFe0bdff
+                    });
+                  },
+                  elevation: 0,
+                  heroTag: 'socialButton',
+                  backgroundColor: Colors.grey[100],
+                  child: Icon(
+                    Entypo.drink,
+                    color: Color(0xFF8803fc),
+                  ),
                 ),
               ),
-              FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  setState(() {
-                   //0xFFb9ebe9 
-                  });
-                },
-                elevation: 0,
-                heroTag: 'profButton',
-                backgroundColor: Colors.grey[100],
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 30,
-                    ),
-                    Icon(
-                      FontAwesome.graduation_cap,
-                      color: Color(0xFF096664),
-                    ),
-                  ],
+              Container(
+                width: (150),
+                child: FloatingActionButton(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  onPressed: () {
+                    setState(() {
+                      //0xFFb9ebe9
+                    });
+                  },
+                  elevation: 0,
+                  heroTag: 'profButton',
+                  backgroundColor: Colors.grey[100],
+                  child: Icon(
+                    FontAwesome.graduation_cap,
+                    color: Color(0xFF096664),
+                  ),
                 ),
               ),
             ],
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height/25,
+            height: MediaQuery.of(context).size.height / 25,
           ),
           StreamBuilder(
             stream: stream,
@@ -952,7 +954,7 @@ class _ScrollPageState extends State<ScrollPage>
                       : Container(
                           height: MediaQuery.of(context).size.height * 2 / 3,
                           child: ListView.builder(
-                              cacheExtent: 5000.0,
+                            cacheExtent: 5000.0,
                             itemBuilder: (context, index) {
                               DocumentSnapshot doc = snapshots.data[index];
                               print(

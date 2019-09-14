@@ -1,3 +1,4 @@
+import 'package:Dime/chatList.dart';
 import 'package:Dime/homePage.dart';
 import 'package:Dime/models/notifModel.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,10 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                     color: Colors.grey[100],
                   ),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => ChatList()));
+                    },
                     icon: Icon(
                       Feather.message_circle,
                       color: Colors.black,

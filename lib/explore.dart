@@ -299,32 +299,21 @@ class _ExploreState extends State<Explore> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          IconButton(
-            icon: Icon(Feather.message_circle),
-            color: Colors.black,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => Chat(
-                            fromUserId: currentUserModel.uid,
-                            toUserId: data['userId'],
-                          )));
-            },
-          ),
-          IconButton(
-            icon: Icon(Feather.user),
-            color: Colors.black,
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => UserCard(
-                            userId: data['userId'],
-                            userName: data['userData']['displayName'],
-                          )));
-            },
-          ),
+                    Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                          color: Colors.grey[100],
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            EvilIcons.like,
+                            size: screenH(35),
+                            color: Color(0xFF1458EA),
+                          ),
+                          color: Colors.black,
+                          onPressed: () {},
+                        ),
+                      )
         ],
       ),
     );

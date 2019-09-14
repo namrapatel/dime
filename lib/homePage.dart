@@ -599,10 +599,29 @@ class _ScrollPageState extends State<ScrollPage>
                   Padding(
                     padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
                   ),
+                          //Should disable the people around you feature if the rating is not 100%
+                          //Don't show if the profile rating is 100%
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.3, 0, 0, 0),
+                    child: Tooltip(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 50,
+                      waitDuration: Duration(seconds: 0),
+                      message: "Fill out name, program, grad year, and bio on your profile to view and be visible on the people around you",
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.info_outline, color: Colors.blue),
+                          SizedBox(width: MediaQuery.of(context).size.width/50),
+                          Text("Profile Rating: " + "75%", textAlign: TextAlign.center),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
                 ],
               ),
             ),
-            headerHeight: MediaQuery.of(context).size.height / 6.5,
+            headerHeight: MediaQuery.of(context).size.height / 5.5,
             upperLayer: _getUpperLayer(),
             animationController: _controller,
           ),
@@ -805,10 +824,78 @@ class _ScrollPageState extends State<ScrollPage>
 //    return userList;
 //  }
 
+bool socialSwitched = true;
+bool profSwitched = true;
+
   Widget _getUpperLayer() {
     return Container(
-        color: Colors.white,
-        child: ListView(children: <Widget>[
+      child: DefaultTabController(
+  length: 2,
+  child: Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBar(
+          
+          elevation: 0,
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        bottom: TabBar(
+          indicatorColor: Color(0xFF1458EA),
+          tabs: [
+            Tab(icon: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Icon(
+                      Entypo.drink,
+                      color: Color(0xFF8803fc),
+                    ),
+                  Text("Social", style: TextStyle(color: Colors.black,))
+              ],
+            ),
+            ),
+              Tab(icon: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                    Icon(
+                      FontAwesome.graduation_cap,
+                      color: Color(0xFF096664),
+                    ),
+                  Text("Professional", style: TextStyle(color: Colors.black,))
+              ],
+            ),
+            ),
+            
+          ],
+        ),
+      ),),
+      body: TabBarView(
+  children: [
+ListView(children: <Widget>[
+  SizedBox(height: MediaQuery.of(context).size.height/30,),
+                        Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width/30,
+                          ),
+                          Text(
+                            'Visible on Social Location Feed?',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Switch(
+                              value: socialSwitched,
+                              onChanged: (value) {
+                                setState(() {
+                                  socialSwitched = value;
+                                });
+                              },
+                              activeTrackColor: Colors.blue[200],
+                              activeColor: Color(0xff1976d2)),
+                          
+                        ],
+                      ),
           StreamBuilder(
             stream: stream,
             builder:
@@ -911,7 +998,248 @@ class _ScrollPageState extends State<ScrollPage>
               }
             },
           ),
-        ]));
+        ]),
+ListView(children: <Widget>[
+  SizedBox(height: MediaQuery.of(context).size.height/30,),
+                        Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width/30,
+                          ),
+                          Text(
+                            'Visible on Professional Location Feed?',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Switch(
+                              value: profSwitched,
+                              onChanged: (value) {
+                                setState(() {
+                                  profSwitched = value;
+                                });
+                              },
+                              activeTrackColor: Colors.blue[200],
+                              activeColor: Color(0xff1976d2)),
+                          
+                        ],
+                      ),
+          StreamBuilder(
+            stream: stream,
+            builder:
+                (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+              if (!snapshots.hasData) {
+                return Container(
+                    alignment: FractionalOffset.center,
+                    child: CircularProgressIndicator());
+              } else {
+                if (snapshots.data.length != 0) {
+                  snapshots.data.removeWhere((DocumentSnapshot doc) =>
+                      doc.documentID == currentUserModel.uid);
+                }
+
+                return Container(
+                    child: Container(
+                  child: (snapshots.data.length == 0)
+                      ? Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Image.asset(
+                                'assets/img/undraw_peoplearoundyou.png'),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 20),
+                              child: Text(
+                                "There's nobody around. \n Go get a walk in and find some new people!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Container(
+                          height: MediaQuery.of(context).size.height * 2 / 3,
+                          child: ListView.builder(
+                            cacheExtent: 5000.0,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot doc = snapshots.data[index];
+                              print(
+                                  'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                              GeoPoint point = doc.data['position']['geopoint'];
+                              if (doc.data['blocked${currentUserModel.uid}'] ==
+                                  true) {
+                                return UserTile(blocked: true);
+                              } else {
+                                return UserTile(
+                                    relationshipStatus:
+                                        doc.data['relationshipStatus'],
+                                    contactName: doc.data['displayName'],
+                                    personImage: doc.data['photoUrl'],
+                                    uid: doc.documentID,
+                                    major: doc.data['major'],
+                                    profInterests: doc.data['profInterests'],
+                                    socialInterests:
+                                        doc.data['socialInterests'],
+                                    university: doc.data['university'],
+                                    gradYear: doc.data['gradYear'],
+                                    bio: doc.data['bio']);
+                              }
+                            },
+                            itemCount: snapshots.data.length,
+                          ),
+                        ),
+                ));
+//              else {
+//                snapshots.data.removeWhere((DocumentSnapshot doc) =>
+//                doc.documentID == currentUserModel.uid);
+//                print('data ${snapshots.data}');
+//                return Container(
+//                  height: MediaQuery
+//                      .of(context)
+//                      .size
+//                      .height * 2 / 3,
+//                  child: ListView.builder(
+//                    itemBuilder: (context, index) {
+//                      DocumentSnapshot doc = snapshots.data[index];
+//                      print(
+//                          'doc with id ${doc.documentID} distance ${doc
+//                              .data['distance']}');
+//                      GeoPoint point = doc.data['position']['geopoint'];
+//
+//                      return UserTile(
+//                          doc.data['displayName'], doc.data['photoUrl'],
+//                          doc.documentID,
+//                          major: doc.data['major'],
+//                          profInterests: doc.data['profInterests'],
+//                          socialInterests: doc.data['socialInterests'],
+//                          university: doc.data['university'],
+//                          gradYear: doc.data['gradYear']);
+//                    },
+//                    itemCount: snapshots.data.length,
+//                  ),
+//                );
+//              }
+////            else {
+////              return Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ]),
+  ],
+),
+  ),
+),
+    );
+//     return Container(
+//         color: Colors.white,
+//         child: ListView(children: <Widget>[
+//           StreamBuilder(
+//             stream: stream,
+//             builder:
+//                 (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+//               if (!snapshots.hasData) {
+//                 return Container(
+//                     alignment: FractionalOffset.center,
+//                     child: CircularProgressIndicator());
+//               } else {
+//                 if (snapshots.data.length != 0) {
+//                   snapshots.data.removeWhere((DocumentSnapshot doc) =>
+//                       doc.documentID == currentUserModel.uid);
+//                 }
+
+//                 return Container(
+//                     child: Container(
+//                   child: (snapshots.data.length == 0)
+//                       ? Column(
+//                           children: <Widget>[
+//                             SizedBox(
+//                               height: 20.0,
+//                             ),
+//                             Image.asset(
+//                                 'assets/img/undraw_peoplearoundyou.png'),
+//                             Padding(
+//                               padding: EdgeInsets.all(
+//                                   MediaQuery.of(context).size.height / 20),
+//                               child: Text(
+//                                 "There's nobody around. \n Go get a walk in and find some new people!",
+//                                 textAlign: TextAlign.center,
+//                                 style: TextStyle(fontSize: 20),
+//                               ),
+//                             ),
+//                           ],
+//                         )
+//                       : Container(
+//                           height: MediaQuery.of(context).size.height * 2 / 3,
+//                           child: ListView.builder(
+//                             cacheExtent: 5000.0,
+//                             itemBuilder: (context, index) {
+//                               DocumentSnapshot doc = snapshots.data[index];
+//                               print(
+//                                   'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+//                               GeoPoint point = doc.data['position']['geopoint'];
+//                               if (doc.data['blocked${currentUserModel.uid}'] ==
+//                                   true) {
+//                                 return UserTile(blocked: true);
+//                               } else {
+//                                 return UserTile(
+//                                     relationshipStatus:
+//                                         doc.data['relationshipStatus'],
+//                                     contactName: doc.data['displayName'],
+//                                     personImage: doc.data['photoUrl'],
+//                                     uid: doc.documentID,
+//                                     major: doc.data['major'],
+//                                     profInterests: doc.data['profInterests'],
+//                                     socialInterests:
+//                                         doc.data['socialInterests'],
+//                                     university: doc.data['university'],
+//                                     gradYear: doc.data['gradYear'],
+//                                     bio: doc.data['bio']);
+//                               }
+//                             },
+//                             itemCount: snapshots.data.length,
+//                           ),
+//                         ),
+//                 ));
+// //              else {
+// //                snapshots.data.removeWhere((DocumentSnapshot doc) =>
+// //                doc.documentID == currentUserModel.uid);
+// //                print('data ${snapshots.data}');
+// //                return Container(
+// //                  height: MediaQuery
+// //                      .of(context)
+// //                      .size
+// //                      .height * 2 / 3,
+// //                  child: ListView.builder(
+// //                    itemBuilder: (context, index) {
+// //                      DocumentSnapshot doc = snapshots.data[index];
+// //                      print(
+// //                          'doc with id ${doc.documentID} distance ${doc
+// //                              .data['distance']}');
+// //                      GeoPoint point = doc.data['position']['geopoint'];
+// //
+// //                      return UserTile(
+// //                          doc.data['displayName'], doc.data['photoUrl'],
+// //                          doc.documentID,
+// //                          major: doc.data['major'],
+// //                          profInterests: doc.data['profInterests'],
+// //                          socialInterests: doc.data['socialInterests'],
+// //                          university: doc.data['university'],
+// //                          gradYear: doc.data['gradYear']);
+// //                    },
+// //                    itemCount: snapshots.data.length,
+// //                  ),
+// //                );
+// //              }
+// ////            else {
+// ////              return Center(child: CircularProgressIndicator());
+//               }
+//             },
+//           ),
+//         ])
+//         );
   }
 
 //  Widget _getUpperLayer() {

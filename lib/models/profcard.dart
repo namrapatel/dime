@@ -14,6 +14,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:Dime/models/largerPic.dart';
 
 class ProfCard extends StatelessWidget {
   final String bio;
@@ -492,10 +493,23 @@ class ProfCard extends StatelessWidget {
                       Positioned(
                         left: screenW(265),
                         top: screenH(20),
-                        child: CircleAvatar(
+                        child: GestureDetector(
+                          onTap: (){
+                                      Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                              LargePic(
+                                                largePic: photoUrl,
+                                              )
+                                                  ));
+                          },
+                          child: CircleAvatar(
                             radius: screenH(35),
                             backgroundImage:
-                                CachedNetworkImageProvider(photoUrl)),
+                                CachedNetworkImageProvider(photoUrl),
+                        )
+                      ),
                       ),
                     ],
                   ),

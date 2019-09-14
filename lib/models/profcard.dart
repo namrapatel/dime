@@ -476,20 +476,20 @@ class ProfCard extends StatelessWidget {
                                           color: Colors.black,
                                           fontSize: screenF(12))),
                                 ])),
-                      Positioned(
-                          top: screenH(210),
-                          left: screenW(20),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 1.5,
-                            child: AutoSizeText(
-                              bio != null ? bio : "",
-                              style: TextStyle(
-                                  color: Color(0xFF1458EA), fontSize: 13),
-                              minFontSize: 13,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )),
+                      // Positioned(
+                      //     top: screenH(210),
+                      //     left: screenW(20),
+                      //     child: Container(
+                      //       width: MediaQuery.of(context).size.width / 1.5,
+                      //       child: AutoSizeText(
+                      //         bio != null ? bio : "",
+                      //         style: TextStyle(
+                      //             color: Color(0xFF1458EA), fontSize: 13),
+                      //         minFontSize: 13,
+                      //         maxLines: 1,
+                      //         overflow: TextOverflow.ellipsis,
+                      //       ),
+                      //     )),
                       Positioned(
                         left: screenW(265),
                         top: screenH(20),

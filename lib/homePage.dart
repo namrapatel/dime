@@ -50,6 +50,7 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+//  bool liked=false;
   String likeType='social';
   _ScrollPageState({this.socialPressed});
   bool socialPressed;
@@ -65,8 +66,8 @@ class _ScrollPageState extends State<ScrollPage>
   Stream<List<DocumentSnapshot>> socStream;
   Stream<List<DocumentSnapshot>> proStream;
 
-  // Stream<List<DocumentSnapshot>> stream;
-  var radius = BehaviorSubject<double>.seeded(6.0);
+   Stream<List<DocumentSnapshot>> stream;
+  var typeStream = BehaviorSubject<String>.seeded("socialVisible");
 
   List<DocumentSnapshot> list = [];
   // getPermission() async {
@@ -184,30 +185,34 @@ class _ScrollPageState extends State<ScrollPage>
 //    currentUserModel = User.fromDocument(userRecord);
 //    });
 //
-    setState(() {
-      socStream = geo
-          .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
-          .within(
-          center: userLoc,
-          radius: radius,
-          field: 'position',
-          strictMode: strictmode);
+//    setState(() {
+//      socStream = geo
+//          .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
+//          .within(
+//          center: userLoc,
+//          radius: radius,
+//          field: 'position',
+//          strictMode: strictmode);
+//
+//      proStream = geo
+//          .collection(collectionRef: Firestore.instance.collection('users').where('profVisible',isEqualTo: true))
+//          .within(
+//          center: userLoc,
+//          radius: radius,
+//          field: 'position',
+//          strictMode: strictmode);
+//    });
 
-      proStream = geo
-          .collection(collectionRef: Firestore.instance.collection('users').where('profVisible',isEqualTo: true))
+
+    stream = typeStream.switchMap((String streamType) {
+     return geo
+          .collection(collectionRef: Firestore.instance.collection('users').where(streamType,isEqualTo: true))
           .within(
           center: userLoc,
           radius: radius,
           field: 'position',
           strictMode: strictmode);
     });
-
-
-//    stream = radius.switchMap((rad) {
-//      var collectionReference = Firestore.instance.collection('users');
-//      return geo.collection(collectionRef: collectionReference).within(
-//          center: userLoc, radius: rad, field: 'position', strictMode: true);
-//    });
 
 //    changed(_value);
 //    print(distanceInMeters);
@@ -934,11 +939,12 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => ScrollPage(social: true,)));
+//                  Navigator.push(
+//                      context,
+//                      CupertinoPageRoute(
+//                          builder: (context) => ScrollPage(social: true,)));
                   setState(() {
+                    changed("socialVisible");
 
                     likeType='social';
                     socialPressed=!socialPressed;
@@ -956,11 +962,12 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => ScrollPage(social: false,)));
+//                  Navigator.push(
+//                      context,
+//                      CupertinoPageRoute(
+//                          builder: (context) => ScrollPage(social: false,)));
                   setState(() {
+                    changed("profVisible");
                     likeType='prof';
                     socialPressed=!socialPressed;
                   });
@@ -1126,7 +1133,7 @@ class _ScrollPageState extends State<ScrollPage>
 //            },
 //          ):
           StreamBuilder(
-            stream: socialPressed==true?socStream:proStream,
+            stream: stream,
             builder:
                 (context,  snapshots) {
               if (!snapshots.hasData) {
@@ -1175,16 +1182,22 @@ class _ScrollPageState extends State<ScrollPage>
                                 true) {
                               return UserTile(blocked: true);
                             } else {
-                              bool liked=false;
+                            bool liked;
 
                               List<dynamic> likedBy=doc.data['likedBy'];
 
 
                               if(likedBy!=null && likedBy.contains(currentUserModel.uid)) {
-                                liked = true;
+
+                                  liked=true;
+
+//                                liked = true;
                                 print('in here for somer eason');
                               }else{
-                                liked=false;
+
+                                  liked=false;
+
+
                               }
                               String type="social";
                               print('guys name is'+doc.data['displayName']);
@@ -1195,8 +1208,9 @@ class _ScrollPageState extends State<ScrollPage>
                               }
 
                               return UserTile(
-                                  likeType:type,
+
                                   liked:liked,
+                                  likeType:type,
                                   relationshipStatus:
                                   doc.data['relationshipStatus'],
                                   contactName: doc.data['displayName'],
@@ -1262,16 +1276,16 @@ class _ScrollPageState extends State<ScrollPage>
 //            );
 //  }
 
-  double _value = 6.0;
+  String _value = "social";
   String _label = '';
 
   changed(value) {
     setState(() {
       _value = value;
       print(_value);
-      _label = '${_value.toInt().toString()} kms';
+
     });
-    radius.add(value);
+   typeStream.add(value);
   }
 }
 class UserTile extends StatefulWidget {
@@ -1284,7 +1298,7 @@ class UserTile extends StatefulWidget {
       university,
       gradYear,
       bio;
-  const UserTile( {this.likeType,this.liked,this.relationshipStatus,
+  const UserTile( {this.liked,this.likeType,this.relationshipStatus,
     this.contactName,
     this.personImage,
     this.uid,
@@ -1295,17 +1309,18 @@ class UserTile extends StatefulWidget {
     this.blocked,
     this.bio});
   @override
-  _UserTileState createState() => _UserTileState();
+  _UserTileState createState() => _UserTileState(liked:liked);
 }
 
 class _UserTileState extends State<UserTile> {
-  bool liked=false;
+  bool liked;
+  _UserTileState({this.liked});
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 //    setState(() {
-    liked=widget.liked;
+//    liked=widget.liked;
 //    });
   }
   @override

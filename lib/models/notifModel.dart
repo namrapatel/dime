@@ -1,3 +1,4 @@
+import 'package:Dime/chat.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
@@ -5,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:Dime/homePage.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:Dime/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 class LikeNotif extends StatefulWidget {
   final String id,name,photo,major,university,gradYear,bio,relationshipStatus,type,timestamp;
   final bool liked;
@@ -12,10 +15,14 @@ class LikeNotif extends StatefulWidget {
     this.type,this.timestamp,this.liked});
 
   @override
-  _LikeNotifState createState() => _LikeNotifState();
+  _LikeNotifState createState() => _LikeNotifState(id: id,name: name,photo: photo,major: major,university: university,gradYear: gradYear,bio: bio,relationshipStatus: relationshipStatus,type: type,timestamp: timestamp,liked: liked);
 }
 
 class _LikeNotifState extends State<LikeNotif> {
+  String id,name,photo,major,university,gradYear,bio,relationshipStatus,type,timestamp;
+  bool liked;
+  _LikeNotifState({this.id,this.name,this.photo,this.major,this.university,this.gradYear,this.bio,this.relationshipStatus,
+  this.type,this.timestamp,this.liked});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -35,9 +42,9 @@ class _LikeNotifState extends State<LikeNotif> {
         //     )),
         leading: Stack(
           children: <Widget>[
-            widget.liked==false?
+            liked==false?
             CircleAvatar(
-          backgroundColor: Color(0xFF8803fc),
+          backgroundColor: type=="social"?Color(0xFF8803fc):Color(0xFF096664),
           radius: screenH(30),
           child: Icon(
               AntDesign.bulb1,
@@ -48,9 +55,9 @@ class _LikeNotifState extends State<LikeNotif> {
         CircleAvatar(
 
     radius: screenH(30),
-    child: CachedNetworkImage(imageUrl: widget.photo)
+   backgroundImage: CachedNetworkImageProvider(photo)
     ),
-            widget.relationshipStatus!=null?
+            relationshipStatus!=null?
         Positioned(
                   left: MediaQuery.of(context).size.width / 10000000,
                   top: MediaQuery.of(context).size.height / 23.5,
@@ -63,7 +70,7 @@ class _LikeNotifState extends State<LikeNotif> {
                           height: MediaQuery.of(context).size.height / 600,
                         ),
                         Text(
-                          widget.relationshipStatus,
+                         relationshipStatus,
                           style: TextStyle(fontSize: screenH(12.1)),
                         ),
                       ],
@@ -77,8 +84,8 @@ class _LikeNotifState extends State<LikeNotif> {
             Container(
               width: MediaQuery.of(context).size.width / 1.95,
               child: AutoSizeText(
-                widget.liked==false?
-                "Someone just liked you!":widget.name+ " just liked you!",
+                liked==false?
+                "Someone just liked you!":name+ " just liked you!",
                 style: TextStyle(fontWeight: FontWeight.bold),
                 minFontSize: 15,
                 maxLines: 1,
@@ -91,19 +98,19 @@ class _LikeNotifState extends State<LikeNotif> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              widget.bio!=null?widget.bio:""
+              bio!=null?bio:""
               ,
               style: TextStyle(
                 color: Color(0xFF1458EA),
               ),
             ),
-            Text(widget.university!=null?widget.university:"" ),
-            widget.major != null && widget.gradYear != null
-                ?  Text(widget.major + ", " + widget.gradYear)
+            Text(university!=null?university:"" ),
+            major != null && gradYear != null
+                ?  Text(major + ", " + gradYear)
 
-                : Text(widget.major != null ? widget.major : ""),
+                : Text(major != null ? major : ""),
 
-            Text(widget.timestamp!=null?widget.timestamp:"", style: TextStyle(fontSize: 11)),
+            Text(timestamp!=null?timestamp:"", style: TextStyle(fontSize: 11)),
           ],
         ),
         trailing: Row(
@@ -114,20 +121,43 @@ class _LikeNotifState extends State<LikeNotif> {
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 color: Colors.grey[100],
               ),
-              child: widget.liked==false?IconButton(
+              child: liked==false?IconButton(
                 icon: Icon(
                   EvilIcons.like,
                   size: screenH(35),
                 ),
                 color: Color(0xFF1458EA),
-                onPressed: () {},
+                onPressed: () {
+                  setState(() {
+                    liked=true;
+                    List<String> myId=[];
+                    myId.add(currentUserModel.uid);
+                    Firestore.instance.collection('users').document(id).updateData({
+                      'likedBy':FieldValue.arrayUnion(myId)
+                    });
+                    Firestore.instance.collection('users').document(id).collection('likes').document(currentUserModel.uid).setData({
+
+                      'timestamp': Timestamp.now(),
+                      'liked':true,
+                      'likeType':type
+                    });
+                  });
+                },
               ):IconButton(
                 icon: Icon(
                   Feather.message_circle,
                   size: screenH(35),
                 ),
                 color: Color(0xFF1458EA),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => Chat(
+                            fromUserId: currentUserModel.uid,
+                            toUserId: id,
+                          )));
+                },
               )
             )
           ],

@@ -16,6 +16,29 @@ class NotifcationsScreen extends StatefulWidget {
 }
 
 class _NotifcationsScreenState extends State<NotifcationsScreen> {
+
+//  @override
+//  void initState() {
+//
+//    super.initState();
+//  }
+
+  getNotifs() async{
+    List<LikeNotif> userDocuments=[];
+   QuerySnapshot querySnapshot= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('likes').orderBy('timestamp',descending: true).getDocuments();
+    for(var document in querySnapshot.documents){
+      DocumentSnapshot doc= await Firestore.instance.collection('users').document(document.documentID).get();
+      var storedDate = document.data['timestamp'];
+      String elapsedTime = timeago.format(storedDate.toDate());
+      String timestamp = '$elapsedTime';
+      userDocuments.add(new LikeNotif(timestamp: timestamp,id: doc.documentID,name: doc['displayName'],
+        major: doc['major'],university: doc['university'],bio: doc['bio'],gradYear: doc['gradYear'],liked: document['liked'],type: document['likeType'],relationshipStatus: doc['relationshipStatus'],photo: doc['photoUrl'],));
+//      userDocuments.add(userDoc);
+
+    }
+    return userDocuments;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,10 +150,10 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height/50,),
-          StreamBuilder(
-          stream: Firestore.instance.collection('users').document(currentUserModel.uid).collection('likes').snapshots(),
+          FutureBuilder(
+          future: getNotifs(),
           builder:
-          (context, AsyncSnapshot<QuerySnapshot> snapshots) {
+          (context,  snapshots) {
           if (!snapshots.hasData) {
           return Container(
           alignment: FractionalOffset.center,
@@ -140,7 +163,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
           return
           Container(
               height: MediaQuery.of(context).size.height / 1.3,
-              child: (snapshots.data.documents.length == 0)
+              child: (snapshots.data.length == 0)
                   ? Column(
                 children: <Widget>[
                   SizedBox(
@@ -163,16 +186,20 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                 physics: BouncingScrollPhysics(),
                 padding:
                     EdgeInsets.only(left: screenW(5.0), right: screenW(5.0)),
+
                 itemBuilder: (context, index) {
-                  DocumentSnapshot document= snapshots.data.documents[index];
-//                  tempSearchStore.map((element) {
-                  String docId=document.documentID;
-                  DocumentSnapshot doc= await Firestore.instance.collection('users').document(docId).get();
-                  var storedDate = document.data['timestamp'];
-                  String elapsedTime = timeago.format(storedDate.toDate());
-                  String timestamp = '$elapsedTime';
-                  return LikeNotif(timestamp: timestamp,id: docId,name: doc['name'],
-                  major: doc['major'],university: doc['university'],bio: doc['bio'],);
+                  return Container(
+                    child: Column(children: snapshots.data),
+                  );
+//                  DocumentSnapshot doc= snapshots.data[index];
+////                  tempSearchStore.map((element) {
+//
+//
+//                  var storedDate = doc.data['timestamp'];
+//                  String elapsedTime = timeago.format(storedDate.toDate());
+//                  String timestamp = '$elapsedTime';
+//                  return LikeNotif(timestamp: timestamp,id: doc.documentID,name: doc['name'],
+//                  major: doc['major'],university: doc['university'],bio: doc['bio'],gradYear: doc['gradYear'],liked: doc['liked'],type: doc['type'],relationshipStatus: doc['relationshipStatus'],);
 //                  });
 //                  DocumentSnapshot doc = snapshots.data[index];
 //                  print(
@@ -197,7 +224,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
 //                        bio: doc.data['bio']);
 //                  }
                 },
-                itemCount: 10,
+                itemCount: snapshots.data.length,
 //                children: tempSearchStore.map((element) {
 //                  return _buildTile(element);
 //                }).toList(),

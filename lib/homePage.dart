@@ -77,6 +77,8 @@ class _ScrollPageState extends State<ScrollPage>
     Map<PermissionGroup, PermissionStatus> permissions =
         await PermissionHandler()
             .requestPermissions([PermissionGroup.locationAlways]);
+
+
   }
 
   getUnreadMessages() async {
@@ -1017,18 +1019,30 @@ class _ScrollPageState extends State<ScrollPage>
             builder:
                 (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
               if (!snapshots.hasData) {
+
                 return Container(
                     alignment: FractionalOffset.center,
                     child: CircularProgressIndicator());
               } else {
+
+
+
                 if (snapshots.data.length != 0) {
                   snapshots.data.removeWhere((DocumentSnapshot doc) =>
                       doc.documentID == currentUserModel.uid);
-                  socialStream=[];
-                  profStream=[];
+                  for(var d in socialStream){
+                    print(d['displayName']);
+                  }
+                  for(var d in profStream){
+                    print(d['displayName']);
+                  }
+
                   if(socialPressed==true){
+
+                    socialStream=[];
                     for(var doc in snapshots.data){
                       if(doc['socialVisible']==true){
+
                         socialStream.add(doc);
                       }
                     }
@@ -1041,6 +1055,7 @@ class _ScrollPageState extends State<ScrollPage>
                   }
 
                   else if(profPressed==true){
+                    profStream=[];
                     for(var doc in snapshots.data){
                       if(doc['profVisible']==true){
                         profStream.add(doc);
@@ -1421,13 +1436,13 @@ class _UserTileState extends State<UserTile> {
                               'likedBy':FieldValue.arrayUnion(myId)
                             });
                             Firestore.instance.collection('users').document(uid).collection('likes').document(currentUserModel.uid).setData({
-                              'likerName':currentUserModel.displayName,
-                              'likerPhoto':currentUserModel.photoUrl,
-                              'likerBio':currentUserModel.bio,
-                              'likerUni':currentUserModel.university,
-                              'likerMajor':currentUserModel.major,
-                              'likerGradYear':currentUserModel.gradYear,
-                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
+//                              'likerName':currentUserModel.displayName,
+//                              'likerPhoto':currentUserModel.photoUrl,
+//                              'likerBio':currentUserModel.bio,
+//                              'likerUni':currentUserModel.university,
+//                              'likerMajor':currentUserModel.major,
+//                              'likerGradYear':currentUserModel.gradYear,
+//                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
                               'timestamp': Timestamp.now(),
                               'liked':false,
                               'likeType':likeType

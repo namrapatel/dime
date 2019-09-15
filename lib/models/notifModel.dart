@@ -53,11 +53,10 @@ class _LikeNotifState extends State<LikeNotif> {
             ),
         ):
         CircleAvatar(
-
     radius: screenH(30),
    backgroundImage: CachedNetworkImageProvider(photo)
     ),
-            relationshipStatus!=null?
+            type == "social"? relationshipStatus!=null?
         Positioned(
                   left: MediaQuery.of(context).size.width / 10000000,
                   top: MediaQuery.of(context).size.height / 23.5,
@@ -77,6 +76,7 @@ class _LikeNotifState extends State<LikeNotif> {
                     ),
                   ),
         ):SizedBox(width: 0.0,)
+        :SizedBox(width: 0.0,)
           ],
         ),
         title: Row(

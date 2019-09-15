@@ -3,8 +3,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Dime/homePage.dart';
-
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:cached_network_image/cached_network_image.dart';
 class LikeNotif extends StatefulWidget {
+  final String id,name,photo,major,university,gradYear,bio,relationshipStatus,type,timestamp;
+  final bool liked;
+  const LikeNotif({this.id,this.name,this.photo,this.major,this.university,this.gradYear,this.bio,this.relationshipStatus,
+    this.type,this.timestamp,this.liked});
+
   @override
   _LikeNotifState createState() => _LikeNotifState();
 }
@@ -29,6 +35,7 @@ class _LikeNotifState extends State<LikeNotif> {
         //     )),
         leading: Stack(
           children: <Widget>[
+            widget.liked==false?
             CircleAvatar(
           backgroundColor: Color(0xFF8803fc),
           radius: screenH(30),
@@ -37,7 +44,13 @@ class _LikeNotifState extends State<LikeNotif> {
               color: Colors.white,
               size: screenH(25),
             ),
-        ),
+        ):
+        CircleAvatar(
+
+    radius: screenH(30),
+    child: CachedNetworkImage(imageUrl: widget.photo)
+    ),
+            widget.relationshipStatus!=null?
         Positioned(
                   left: MediaQuery.of(context).size.width / 10000000,
                   top: MediaQuery.of(context).size.height / 23.5,
@@ -50,13 +63,13 @@ class _LikeNotifState extends State<LikeNotif> {
                           height: MediaQuery.of(context).size.height / 600,
                         ),
                         Text(
-                          '🔒',
+                          widget.relationshipStatus,
                           style: TextStyle(fontSize: screenH(12.1)),
                         ),
                       ],
                     ),
                   ),
-        )
+        ):SizedBox(width: 0.0,)
           ],
         ),
         title: Row(
@@ -64,7 +77,8 @@ class _LikeNotifState extends State<LikeNotif> {
             Container(
               width: MediaQuery.of(context).size.width / 1.95,
               child: AutoSizeText(
-                "Someone just liked you!",
+                widget.liked==false?
+                "Someone just liked you!":widget.name+ " just liked you!",
                 style: TextStyle(fontWeight: FontWeight.bold),
                 minFontSize: 15,
                 maxLines: 1,
@@ -77,14 +91,19 @@ class _LikeNotifState extends State<LikeNotif> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Brain of an engineer. Heart of a designer.",
+              widget.bio!=null?widget.bio:""
+              ,
               style: TextStyle(
                 color: Color(0xFF1458EA),
               ),
             ),
-            Text("University of Waterloo", ),
-            Text("Computer Science, 2022",),
-            Text("6m ago", style: TextStyle(fontSize: 11)),
+            Text(widget.university!=null?widget.university:"" ),
+            widget.major != null && widget.gradYear != null
+                ?  Text(widget.major + ", " + widget.gradYear)
+
+                : Text(widget.major != null ? widget.major : ""),
+
+            Text(widget.timestamp!=null?widget.timestamp:"", style: TextStyle(fontSize: 11)),
           ],
         ),
         trailing: Row(
@@ -95,14 +114,21 @@ class _LikeNotifState extends State<LikeNotif> {
                 borderRadius: BorderRadius.all(Radius.circular(20.0)),
                 color: Colors.grey[100],
               ),
-              child: IconButton(
+              child: widget.liked==false?IconButton(
                 icon: Icon(
                   EvilIcons.like,
                   size: screenH(35),
                 ),
                 color: Color(0xFF1458EA),
                 onPressed: () {},
-              ),
+              ):IconButton(
+                icon: Icon(
+                  Feather.message_circle,
+                  size: screenH(35),
+                ),
+                color: Color(0xFF1458EA),
+                onPressed: () {},
+              )
             )
           ],
         ),

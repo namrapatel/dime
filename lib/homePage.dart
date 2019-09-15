@@ -33,6 +33,7 @@ import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'profComments.dart';
 import 'socialComments.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 String currentToken = "";
 final screenH = ScreenUtil.instance.setHeight;
@@ -47,6 +48,11 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+  String likeType='social';
+
+  bool socialPressed=true;
+  bool profPressed=false;
+  bool goodProfileStandard=false;
   RubberAnimationController _controller;
   int unread = 0;
   FocusNode _focus = new FocusNode();
@@ -96,9 +102,38 @@ class _ScrollPageState extends State<ScrollPage>
   ScrollController _scrollController = ScrollController();
 
   GeoPoint userLoc;
-
+  bool appearOnSocial=false;
+  bool appearOnProf=false;
   LocationData position;
   GeoPoint current;
+  getVisibilityPrefs() async{
+    DocumentSnapshot userDoc= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+
+    setState(() {
+
+      if((userDoc['displayName']!='New User'||userDoc['displayName']!='No Display Name')&&userDoc['university']!=null&&userDoc['gradYear']!=null
+      &&userDoc['major']!=null&&userDoc['bio']!=null){
+        goodProfileStandard=true;
+      }
+
+      if(userDoc['profVisible']!=null&&goodProfileStandard==true) {
+        appearOnProf = userDoc['profVisible'];
+      }
+      if(userDoc['socialVisible']!=null&&goodProfileStandard==true) {
+        appearOnSocial = userDoc['socialVisible'];
+      }
+      if(userDoc['profVisible']==null&&goodProfileStandard==true){
+        Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
+          'profVisible':true
+        });
+      }
+      if(userDoc['socialVisible']==null&&goodProfileStandard==true){
+        Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
+          'socialVisible':true
+        });
+      }
+    });
+  }
   getLocation() async {
     var location = new Location();
     LocationData currentLocation = await location.getLocation();
@@ -195,6 +230,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
+    getVisibilityPrefs();
     getUnreadMessages();
     getLocation();
     firebaseCloudMessaging_Listeners();
@@ -861,6 +897,8 @@ class _ScrollPageState extends State<ScrollPage>
 //  }
 
   Widget _getUpperLayer() {
+    List<DocumentSnapshot> socialStream=[];
+    List<DocumentSnapshot> profStream=[];
     return Container(
         color: Colors.white,
         child: ListView(children: <Widget>[
@@ -873,14 +911,18 @@ class _ScrollPageState extends State<ScrollPage>
               FloatingActionButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  setState(() {
-                   //0xFFe0bdff 
-                  });
-                },
+
                 elevation: 0,
                 heroTag: 'socialButton',
-                backgroundColor: Colors.grey[100],
+                backgroundColor: socialPressed==false?Colors.grey[100]:Color(0xFFe0bdff),
+                onPressed: () {
+                  setState(() {
+                    likeType='social';
+                    socialPressed=true;
+                    profPressed=false;
+                    //0xFFe0bdff
+                  });
+                },
                 child: Icon(
                   Entypo.drink,
                   color: Color(0xFF8803fc),
@@ -891,12 +933,15 @@ class _ScrollPageState extends State<ScrollPage>
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
                   setState(() {
+                    likeType='prof';
+                    profPressed=true;
+                    socialPressed=false;
                    //0xFFb9ebe9 
                   });
                 },
                 elevation: 0,
                 heroTag: 'profButton',
-                backgroundColor: Colors.grey[100],
+                backgroundColor: profPressed==false?Colors.grey[100]:Color(0xFFb9ebe9),
                 child: Row(
                   children: <Widget>[
                     SizedBox(
@@ -914,6 +959,59 @@ class _ScrollPageState extends State<ScrollPage>
           SizedBox(
             height: MediaQuery.of(context).size.height/25,
           ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width/30,
+              ),
+              Text(
+                socialPressed==true?
+                'Visible on Social Location Feed?':'Visible on Professional Location Feed?',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width/10.7,
+              ),
+              socialPressed==true?
+              Switch(
+                  value: appearOnSocial,
+                  onChanged: (value) {
+                    if(goodProfileStandard==true) {
+                      setState(() {
+                        appearOnSocial = value;
+                      });
+                      Firestore.instance.collection('users').document(
+                          currentUserModel.uid).updateData({
+                        'socialVisible': appearOnSocial
+                      });
+                    }
+                  },
+                  activeTrackColor: Colors.blue[200],
+                  activeColor: Color(0xff1976d2)):
+              Switch(
+                  value: appearOnProf,
+                  onChanged: (value) {
+    if(goodProfileStandard==true) {
+      setState(() {
+        appearOnProf = value;
+      });
+      Firestore.instance.collection('users')
+          .document(currentUserModel.uid)
+          .updateData({
+        'profVisible': appearOnProf
+      });
+    }
+                  },
+                  activeTrackColor: Colors.blue[200],
+                  activeColor: Color(0xff1976d2)),
+
+            ],
+          ),
+          goodProfileStandard==false?
+              Container(child: Text("add picture here saying you cant access feed or be visible until profile shit is added"),):
           StreamBuilder(
             stream: stream,
             builder:
@@ -926,6 +1024,32 @@ class _ScrollPageState extends State<ScrollPage>
                 if (snapshots.data.length != 0) {
                   snapshots.data.removeWhere((DocumentSnapshot doc) =>
                       doc.documentID == currentUserModel.uid);
+                  socialStream=[];
+                  profStream=[];
+                  if(socialPressed==true){
+                    for(var doc in snapshots.data){
+                      if(doc['socialVisible']==true){
+                        socialStream.add(doc);
+                      }
+                    }
+//                    socialStream.(snapshots.data.where((DocumentSnapshot doc) =>
+//                    (doc['socialVisible']==null||doc['socialVisible']==false)));
+
+//                    snapshots.data.removeWhere((DocumentSnapshot doc) =>
+//                    doc['socialVisible']==null||doc['socialVisible']==false);
+//                    _getUpperLayer();
+                  }
+
+                  else if(profPressed==true){
+                    for(var doc in snapshots.data){
+                      if(doc['profVisible']==true){
+                        profStream.add(doc);
+                      }
+                    }
+//                    snapshots.data.removeWhere((DocumentSnapshot doc) =>
+//                    doc['profVisible']==null||doc['profVisible']==false);
+//                    _getUpperLayer();
+                  }
                 }
 
                 return Container(
@@ -954,7 +1078,15 @@ class _ScrollPageState extends State<ScrollPage>
                           child: ListView.builder(
                               cacheExtent: 5000.0,
                             itemBuilder: (context, index) {
-                              DocumentSnapshot doc = snapshots.data[index];
+    DocumentSnapshot doc;
+
+                                if(socialPressed==true) {
+                                  doc = socialStream[index];
+
+                                }else if(profPressed==true){
+                                  doc = profStream[index];
+
+                                }
                               print(
                                   'doc with id ${doc.documentID} distance ${doc.data['distance']}');
                               GeoPoint point = doc.data['position']['geopoint'];
@@ -962,22 +1094,33 @@ class _ScrollPageState extends State<ScrollPage>
                                   true) {
                                 return UserTile(blocked: true);
                               } else {
+                                bool liked=false;
+
+                                List<dynamic> likedBy=doc.data['likedBy'];
+
+
+                                if(likedBy!=null && likedBy.contains(currentUserModel.uid)){
+                                  liked=true;
+                                }
                                 return UserTile(
+                                  likeType:likeType,
+                                  liked:liked,
                                     relationshipStatus:
                                         doc.data['relationshipStatus'],
                                     contactName: doc.data['displayName'],
                                     personImage: doc.data['photoUrl'],
                                     uid: doc.documentID,
                                     major: doc.data['major'],
-                                    profInterests: doc.data['profInterests'],
-                                    socialInterests:
-                                        doc.data['socialInterests'],
+
+//                                    profInterests: doc.data['profInterests'],
+//                                    socialInterests:
+//                                        doc.data['socialInterests'],
                                     university: doc.data['university'],
                                     gradYear: doc.data['gradYear'],
                                     bio: doc.data['bio']);
                               }
                             },
-                            itemCount: snapshots.data.length,
+                            itemCount:  socialPressed==true?socialStream.length:profStream.length,
                           ),
                         ),
                 ));
@@ -1070,22 +1213,9 @@ class _ScrollPageState extends State<ScrollPage>
     radius.add(value);
   }
 }
-
-class UserTile extends StatelessWidget {
-  UserTile(
-      {this.relationshipStatus,
-      this.contactName,
-      this.personImage,
-      this.uid,
-      this.major,
-      this.university,
-      this.gradYear,
-      this.profInterests,
-      this.socialInterests,
-      this.blocked,
-      this.bio});
-  final bool blocked;
-  final String relationshipStatus,
+class UserTile extends StatefulWidget {
+  final bool blocked,liked;
+  final String likeType,relationshipStatus,
       contactName,
       personImage,
       major,
@@ -1093,264 +1223,347 @@ class UserTile extends StatelessWidget {
       university,
       gradYear,
       bio;
-  final List<dynamic> profInterests, socialInterests;
-  Widget buildProfInterests(BuildContext context) {
-    String interests = "";
-    if (profInterests != null) {
-      for (int i = 0; i < profInterests.length; i++) {
-        if (i == profInterests.length - 1) {
-          interests = interests + profInterests[i];
-        } else {
-          interests = interests + profInterests[i] + ", ";
-        }
-      }
-      return Row(
-        children: <Widget>[
-          // Text(interests,
-          //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
-          Container(
-            width: MediaQuery.of(context).size.width / 1.8,
-            child: AutoSizeText(
-              interests,
-              style: TextStyle(color: Color(0xFF096664), fontSize: 13),
-              minFontSize: 13,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          )
-        ],
-      );
-    } else {
-      return SizedBox(
-        height: (1.0),
-      );
-    }
-  }
+  const UserTile( {this.likeType,this.liked,this.relationshipStatus,
+    this.contactName,
+    this.personImage,
+    this.uid,
+    this.major,
+    this.university,
+    this.gradYear,
 
-  Widget buildSocialInterests(BuildContext context) {
-    String interests = "";
-    if (socialInterests != null) {
-      for (int i = 0; i < socialInterests.length; i++) {
-        if (i == socialInterests.length - 1) {
-          interests = interests + socialInterests[i];
-        } else {
-          interests = interests + socialInterests[i] + ", ";
-        }
-      }
-      return Row(
-        children: <Widget>[
-          // Text(
-          //   interests,
-          //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-          // )
-          Container(
-            width: MediaQuery.of(context).size.width / 1.8,
-            child: AutoSizeText(
-              interests,
-              style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-              minFontSize: 13,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          )
-        ],
-      );
-    } else {
-      return SizedBox(
-        height: (0.0),
-      );
-    }
-  }
-
-  List<Widget> buildInterests(List interestsList, context) {
-    List<Widget> interestWidgets = [];
-
-    for (var interest in interestsList) {
-      interestWidgets.add(Column(children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height / 30,
-          width: MediaQuery.of(context).size.width / 6,
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 150, 0, 0),
-          child: Text(interest,
-              style: TextStyle(color: Colors.white, fontSize: 10)),
-          decoration: BoxDecoration(
-              color: Color(0xFF8803fc),
-              borderRadius: BorderRadius.circular(20)),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-        ),
-      ]));
-    }
-    return interestWidgets;
-  }
-
+    this.blocked,
+    this.bio});
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        SizedBox(
-          height: 5.0,
-        ),
-        InkWell(
-          onTap: () {
-            if (blocked != true) {
-              Navigator.push(
-                  context,
-                  CupertinoPageRoute(
-                      builder: (context) => UserCard(
-                            userId: uid,
-                            userName: contactName,
-                          )));
-            } else {
-              Flushbar(
-                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                borderRadius: 15,
-                messageText: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "You can't interact with a blocked user",
-                        style: TextStyle(color: Colors.grey),
-                      )
-                    ],
-                  ),
-                ),
-                backgroundColor: Colors.white,
-                flushbarPosition: FlushbarPosition.TOP,
-                icon: Padding(
-                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                  child: Icon(
-                    Icons.info_outline,
-                    size: 28.0,
-                    color: Color(0xFF1458EA),
-                  ),
-                ),
-                duration: Duration(seconds: 3),
-              )..show(context);
-            }
-          },
-          child: ListTile(
-            title: Text(
-              blocked == true ? "Blocked User" : contactName,
-              style: TextStyle(fontSize: 18),
-            ),
-            subtitle: Column(
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, MediaQuery.of(context).size.height / 1000, 0, 0),
-                ),
-                major != null && gradYear != null
-                    ? Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(major + ", " + gradYear),
-                      )
-                    : Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(major != null ? major : ""),
-                      ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, MediaQuery.of(context).size.height / 600, 0, 0),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        bio != null ? bio : "",
-                        style: TextStyle(
-                          color: Color(0xFF1458EA),
-                        ),
-                        textAlign: TextAlign.start,
-                      )
-                      // buildSocialInterests(context),
-                      // socialInterests != null
-                      //     ? SizedBox(
-                      //         height: MediaQuery.of(context).size.height / 300,
-                      //       )
-                      //     : SizedBox(
-                      //         height: (0.0),
-                      //       ),
-                      // buildProfInterests(context)
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      0, 0, MediaQuery.of(context).size.height / 50, 0),
-                )
-              ],
-            ),
-            leading: Stack(
-              children: <Widget>[
-                CircleAvatar(
-                  radius: screenH(30),
-                  backgroundImage: CachedNetworkImageProvider(
-                    blocked == true
-                        ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
-                        : personImage,
-                  ),
-                ),
-                relationshipStatus != null
-                    ? Positioned(
-                        left: MediaQuery.of(context).size.width / 10000000,
-                        top: MediaQuery.of(context).size.height / 23.5,
-                        child: CircleAvatar(
-                          radius: MediaQuery.of(context).size.height / 80,
-                          backgroundColor: Colors.white,
-                          child: Column(
-                            children: <Widget>[
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height / 600,
-                              ),
-                              Text(
-                                relationshipStatus,
-                                style: TextStyle(fontSize: screenH(11.5)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
-                    : SizedBox(
-                        width: 0.0,
-                      )
-              ],
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                blocked != true
-                    ? Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          color: Colors.grey[100],
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            EvilIcons.like,
-                            size: screenH(35),
-                            color: Color(0xFF1458EA),
-                          ),
-                          color: Colors.black,
-                          onPressed: () {},
-                        ),
-                      )
-                    : Container()
-              ],
-            ),
-          ),
-        )
-      ],
-    );
-  }
+  _UserTileState createState() => _UserTileState(likeType:likeType,liked:liked,relationshipStatus:relationshipStatus,contactName:contactName,personImage:personImage,
+  uid:uid,major:major,university:university,gradYear:gradYear, blocked:blocked,bio:bio);
 }
+
+class _UserTileState extends State<UserTile> {
+   bool blocked,liked;
+  String likeType,relationshipStatus,
+      contactName,
+      personImage,
+      major,
+      uid,
+      university,
+      gradYear,
+      bio;
+  _UserTileState({this.likeType,this.liked,this.relationshipStatus,
+    this.contactName,
+    this.personImage,
+    this.uid,
+    this.major,
+    this.university,
+    this.gradYear,
+
+    this.blocked,
+    this.bio});
+   @override
+   Widget build(BuildContext context) {
+     return Column(
+       children: <Widget>[
+         SizedBox(
+           height: 5.0,
+         ),
+         InkWell(
+           onTap: () {
+             if (blocked != true) {
+               Navigator.push(
+                   context,
+                   CupertinoPageRoute(
+                       builder: (context) => UserCard(
+                         userId: uid,
+                         userName: contactName,
+                       )));
+             } else {
+               Flushbar(
+                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                 borderRadius: 15,
+                 messageText: Padding(
+                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                   child: Column(
+                     mainAxisAlignment: MainAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: <Widget>[
+                       Text(
+                         "You can't interact with a blocked user",
+                         style: TextStyle(color: Colors.grey),
+                       )
+                     ],
+                   ),
+                 ),
+                 backgroundColor: Colors.white,
+                 flushbarPosition: FlushbarPosition.TOP,
+                 icon: Padding(
+                   padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                   child: Icon(
+                     Icons.info_outline,
+                     size: 28.0,
+                     color: Color(0xFF1458EA),
+                   ),
+                 ),
+                 duration: Duration(seconds: 3),
+               )..show(context);
+             }
+           },
+           child: ListTile(
+             title: Text(
+               blocked == true ? "Blocked User" : contactName,
+               style: TextStyle(fontSize: 18),
+             ),
+             subtitle: Column(
+               children: <Widget>[
+                 Padding(
+                   padding: EdgeInsets.fromLTRB(
+                       0, MediaQuery.of(context).size.height / 1000, 0, 0),
+                 ),
+                 major != null && gradYear != null
+                     ? Align(
+                   alignment: Alignment.bottomLeft,
+                   child: Text(major + ", " + gradYear),
+                 )
+                     : Align(
+                   alignment: Alignment.bottomLeft,
+                   child: Text(major != null ? major : ""),
+                 ),
+                 Padding(
+                   padding: EdgeInsets.fromLTRB(
+                       0, MediaQuery.of(context).size.height / 600, 0, 0),
+                 ),
+                 Align(
+                   alignment: Alignment.centerLeft,
+                   child: Column(
+                     children: <Widget>[
+                       Text(
+                         bio != null ? bio : "",
+                         style: TextStyle(
+                           color: Color(0xFF1458EA),
+                         ),
+                         textAlign: TextAlign.start,
+                       )
+                       // buildSocialInterests(context),
+                       // socialInterests != null
+                       //     ? SizedBox(
+                       //         height: MediaQuery.of(context).size.height / 300,
+                       //       )
+                       //     : SizedBox(
+                       //         height: (0.0),
+                       //       ),
+                       // buildProfInterests(context)
+                     ],
+                   ),
+                 ),
+                 Padding(
+                   padding: EdgeInsets.fromLTRB(
+                       0, 0, MediaQuery.of(context).size.height / 50, 0),
+                 )
+               ],
+             ),
+             leading: Stack(
+               children: <Widget>[
+                 CircleAvatar(
+                   radius: screenH(30),
+                   backgroundImage: CachedNetworkImageProvider(
+                     blocked == true
+                         ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                         : personImage,
+                   ),
+                 ),
+                 relationshipStatus != null
+                     ? Positioned(
+                   left: MediaQuery.of(context).size.width / 10000000,
+                   top: MediaQuery.of(context).size.height / 23.5,
+                   child: CircleAvatar(
+                     radius: MediaQuery.of(context).size.height / 80,
+                     backgroundColor: Colors.white,
+                     child: Column(
+                       children: <Widget>[
+                         SizedBox(
+                           height:
+                           MediaQuery.of(context).size.height / 600,
+                         ),
+                         Text(
+                           relationshipStatus,
+                           style: TextStyle(fontSize: screenH(11.5)),
+                         ),
+                       ],
+                     ),
+                   ),
+                 )
+                     : SizedBox(
+                   width: 0.0,
+                 )
+               ],
+             ),
+             trailing: Row(
+               mainAxisSize: MainAxisSize.min,
+               children: <Widget>[
+                 blocked != true
+                     ? Container(
+                   decoration: BoxDecoration(
+                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                     color: liked==false?Colors.grey[100]:Colors.lightBlueAccent,
+                   ),
+                   child: IconButton(
+                     icon: Icon(
+                       EvilIcons.like,
+                       size: screenH(35),
+                       color: Color(0xFF1458EA),
+                     ),
+                     color: Colors.black,
+                     onPressed: () {
+                       if(liked==false) {
+                         setState(() {
+                            liked=true;
+                            List<String> myId=[];
+                            myId.add(currentUserModel.uid);
+                            Firestore.instance.collection('users').document(uid).updateData({
+                              'likedBy':FieldValue.arrayUnion(myId)
+                            });
+                            Firestore.instance.collection('users').document(uid).collection('likes').document(currentUserModel.uid).setData({
+                              'likerName':currentUserModel.displayName,
+                              'likerPhoto':currentUserModel.photoUrl,
+                              'likerBio':currentUserModel.bio,
+                              'likerUni':currentUserModel.university,
+                              'likerMajor':currentUserModel.major,
+                              'likerGradYear':currentUserModel.gradYear,
+                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
+                              'timestamp': Timestamp.now(),
+                              'liked':false,
+                              'likeType':likeType
+                            });
+                         });
+                       }
+                     },
+                   ),
+                 )
+                     : Container()
+               ],
+             ),
+           ),
+         )
+       ],
+     );
+   }
+}
+
+//class UserTile extends StatelessWidget {
+//  UserTile(
+//      {this.liked,this.relationshipStatus,
+//      this.contactName,
+//      this.personImage,
+//      this.uid,
+//      this.major,
+//      this.university,
+//      this.gradYear,
+//      this.profInterests,
+//      this.socialInterests,
+//      this.blocked,
+//      this.bio});
+//  final bool blocked,liked;
+//  final String relationshipStatus,
+//      contactName,
+//      personImage,
+//      major,
+//      uid,
+//      university,
+//      gradYear,
+//      bio;
+//  final List<dynamic> profInterests, socialInterests;
+//  Widget buildProfInterests(BuildContext context) {
+//    String interests = "";
+//    if (profInterests != null) {
+//      for (int i = 0; i < profInterests.length; i++) {
+//        if (i == profInterests.length - 1) {
+//          interests = interests + profInterests[i];
+//        } else {
+//          interests = interests + profInterests[i] + ", ";
+//        }
+//      }
+//      return Row(
+//        children: <Widget>[
+//          // Text(interests,
+//          //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
+//          Container(
+//            width: MediaQuery.of(context).size.width / 1.8,
+//            child: AutoSizeText(
+//              interests,
+//              style: TextStyle(color: Color(0xFF096664), fontSize: 13),
+//              minFontSize: 13,
+//              maxLines: 1,
+//              overflow: TextOverflow.ellipsis,
+//            ),
+//          )
+//        ],
+//      );
+//    } else {
+//      return SizedBox(
+//        height: (1.0),
+//      );
+//    }
+//  }
+//
+//  Widget buildSocialInterests(BuildContext context) {
+//    String interests = "";
+//    if (socialInterests != null) {
+//      for (int i = 0; i < socialInterests.length; i++) {
+//        if (i == socialInterests.length - 1) {
+//          interests = interests + socialInterests[i];
+//        } else {
+//          interests = interests + socialInterests[i] + ", ";
+//        }
+//      }
+//      return Row(
+//        children: <Widget>[
+//          // Text(
+//          //   interests,
+//          //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
+//          // )
+//          Container(
+//            width: MediaQuery.of(context).size.width / 1.8,
+//            child: AutoSizeText(
+//              interests,
+//              style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
+//              minFontSize: 13,
+//              maxLines: 1,
+//              overflow: TextOverflow.ellipsis,
+//            ),
+//          )
+//        ],
+//      );
+//    } else {
+//      return SizedBox(
+//        height: (0.0),
+//      );
+//    }
+//  }
+//
+//  List<Widget> buildInterests(List interestsList, context) {
+//    List<Widget> interestWidgets = [];
+//
+//    for (var interest in interestsList) {
+//      interestWidgets.add(Column(children: <Widget>[
+//        Container(
+//          height: MediaQuery.of(context).size.height / 30,
+//          width: MediaQuery.of(context).size.width / 6,
+//          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
+//              MediaQuery.of(context).size.height / 150, 0, 0),
+//          child: Text(interest,
+//              style: TextStyle(color: Colors.white, fontSize: 10)),
+//          decoration: BoxDecoration(
+//              color: Color(0xFF8803fc),
+//              borderRadius: BorderRadius.circular(20)),
+//        ),
+//        Padding(
+//          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+//        ),
+//      ]));
+//    }
+//    return interestWidgets;
+//  }
+
+
+//}
 
 Widget LocalNotifcation(BuildContext context, String titleMessage,
     String bodyMessage, String notifType, Map<String, dynamic> message) {

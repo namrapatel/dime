@@ -6,7 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'homePage.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flushbar/flushbar.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'login.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:cached_network_image/cached_network_image.dart';
 class NotifcationsScreen extends StatefulWidget {
   @override
   _NotifcationsScreenState createState() => _NotifcationsScreenState();
@@ -124,16 +127,52 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height/50,),
-            Container(
+          StreamBuilder(
+          stream: Firestore.instance.collection('users').document(currentUserModel.uid).collection('likes').snapshots(),
+          builder:
+          (context, AsyncSnapshot<QuerySnapshot> snapshots) {
+          if (!snapshots.hasData) {
+          return Container(
+          alignment: FractionalOffset.center,
+          child: CircularProgressIndicator());
+          }else{
+
+          return
+          Container(
               height: MediaQuery.of(context).size.height / 1.3,
-              child: ListView.builder(
+              child: (snapshots.data.documents.length == 0)
+                  ? Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 20.0,
+                  ),
+                  Image.asset(
+                      'assets/img/undraw_peoplearoundyou.png'),
+                  Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.height / 20),
+                    child: Text(
+                      "There's nobody around. \n Go get a walk in and find some new people!",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ):ListView.builder(
                 cacheExtent: 5000.0,
                 physics: BouncingScrollPhysics(),
                 padding:
                     EdgeInsets.only(left: screenW(5.0), right: screenW(5.0)),
                 itemBuilder: (context, index) {
+                  DocumentSnapshot document= snapshots.data.documents[index];
 //                  tempSearchStore.map((element) {
-                  return LikeNotif();
+                  String docId=document.documentID;
+                  DocumentSnapshot doc= await Firestore.instance.collection('users').document(docId).get();
+                  var storedDate = document.data['timestamp'];
+                  String elapsedTime = timeago.format(storedDate.toDate());
+                  String timestamp = '$elapsedTime';
+                  return LikeNotif(timestamp: timestamp,id: docId,name: doc['name'],
+                  major: doc['major'],university: doc['university'],bio: doc['bio'],);
 //                  });
 //                  DocumentSnapshot doc = snapshots.data[index];
 //                  print(
@@ -163,7 +202,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
 //                  return _buildTile(element);
 //                }).toList(),
               ),
-            ),
+            );}})
           ],
         ),
       ],

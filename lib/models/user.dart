@@ -15,6 +15,7 @@ class User {
   final List<dynamic> socialInterests;
   final GeoPoint currentLocation;
   final String bio;
+  final String relationshipStatus;
 
   const User({
     this.university,
@@ -28,6 +29,7 @@ class User {
     this.email,
     this.displayName,
     this.bio,
+    this.relationshipStatus
   });
 
   factory User.fromDocument(DocumentSnapshot document) {
@@ -42,6 +44,8 @@ class User {
         profInterests: document['profInterests'],
         socialInterests: document['socialInterests'],
         currentLocation: document['currentLocation'],
-        bio: document['bio']);
+        bio: document['bio'],
+        relationshipStatus: document['relationshipStatus']);
+
   }
 }

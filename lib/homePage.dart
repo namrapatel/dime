@@ -51,7 +51,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
   String likeType='social';
-_ScrollPageState({this.socialPressed});
+  _ScrollPageState({this.socialPressed});
   bool socialPressed;
 //  bool profPressed=false;
   bool goodProfileStandard=false;
@@ -184,23 +184,23 @@ _ScrollPageState({this.socialPressed});
 //    currentUserModel = User.fromDocument(userRecord);
 //    });
 //
-  setState(() {
-    socStream = geo
-        .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
-        .within(
-        center: userLoc,
-        radius: radius,
-        field: 'position',
-        strictMode: strictmode);
+    setState(() {
+      socStream = geo
+          .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
+          .within(
+          center: userLoc,
+          radius: radius,
+          field: 'position',
+          strictMode: strictmode);
 
-  proStream = geo
-      .collection(collectionRef: Firestore.instance.collection('users').where('profVisible',isEqualTo: true))
-      .within(
-      center: userLoc,
-      radius: radius,
-      field: 'position',
-      strictMode: strictmode);
-});
+      proStream = geo
+          .collection(collectionRef: Firestore.instance.collection('users').where('profVisible',isEqualTo: true))
+          .within(
+          center: userLoc,
+          radius: radius,
+          field: 'position',
+          strictMode: strictmode);
+    });
 
 
 //    stream = radius.switchMap((rad) {
@@ -1189,9 +1189,9 @@ _ScrollPageState({this.socialPressed});
                               String type="social";
                               print('guys name is'+doc.data['displayName']);
                               if(socialPressed){
-                               type="social";
+                                type="social";
                               }else{
-                               type="prof";
+                                type="prof";
                               }
 
                               return UserTile(
@@ -1305,7 +1305,7 @@ class _UserTileState extends State<UserTile> {
     // TODO: implement initState
     super.initState();
 //    setState(() {
-      liked=widget.liked;
+    liked=widget.liked;
 //    });
   }
   @override

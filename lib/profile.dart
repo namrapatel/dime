@@ -16,6 +16,7 @@ import 'viewCards.dart';
 import 'package:flushbar/flushbar.dart';
 import 'homePage.dart';
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 import 'package:image_picker/image_picker.dart';
@@ -542,6 +543,7 @@ class _HomePageOneState extends State<HomePageOne> {
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 15),
               child: TextField(
+                inputFormatters: [WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]"))],
                 textCapitalization: TextCapitalization.sentences,
                 onChanged: (value) {
                   if (value != null) {
@@ -627,8 +629,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   },
                   child: Text(
                           relationshipStatus==null?
-    "Relationship Status":
-
+                          "Relationship Status":
                           relationshipStatus == "🔒"
                               ? "🔒 In a Relationship"
                               : relationshipStatus == "💎 "
@@ -656,6 +657,7 @@ class _HomePageOneState extends State<HomePageOne> {
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 15),
               child: TextField(
+                inputFormatters: [WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]"))],
                 textCapitalization: TextCapitalization.words,
                 onChanged: (value) {
                   if (value != null) {
@@ -690,6 +692,7 @@ class _HomePageOneState extends State<HomePageOne> {
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 15),
               child: TextField(
+                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {

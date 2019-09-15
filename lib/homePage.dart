@@ -915,9 +915,9 @@ class _ScrollPageState extends State<ScrollPage>
             children: <Widget>[
 
               FloatingActionButton(
+                
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
-
                 elevation: 0,
                 heroTag: 'socialButton',
                 backgroundColor: socialPressed==false?Colors.grey[100]:Color(0xFFe0bdff),
@@ -1422,12 +1422,16 @@ class _UserTileState extends State<UserTile> {
                      ? Container(
                    decoration: BoxDecoration(
                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                     color: liked==false?Colors.grey[100]:Colors.lightBlueAccent,
+                     color: liked==false?Colors.grey[100]:Color(0xFFcfdeff),
                    ),
                    child: IconButton(
-                     icon: Icon(
+                     icon: liked == false? Icon(
                        EvilIcons.like,
                        size: screenH(35),
+                       color: Color(0xFF1458EA),
+                     ): Icon(
+                       AntDesign.like1,
+                       size: screenH(28),
                        color: Color(0xFF1458EA),
                      ),
                      color: Colors.black,

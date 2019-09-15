@@ -11,6 +11,7 @@ import 'userCard.dart';
 import 'homePage.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flushbar/flushbar.dart';
 
 var allUsers = [];
 
@@ -149,6 +150,43 @@ class _ExploreState extends State<Explore> {
                     fontSize: screenF(48),
                   ),
                 ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: Color(0xFF1458EA),
+                        ),
+                        onPressed: () {
+                          Flushbar(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            borderRadius: 15,
+                            messageText: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Use the explore feed to find people you're interested in. You can still send an anonymous like, but they won't know if it's for social or professional reasons.",
+                                    style: TextStyle(color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Colors.white,
+                            flushbarPosition: FlushbarPosition.TOP,
+                            icon: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                              child: Icon(
+                                Icons.info_outline,
+                                size: 28.0,
+                                color: Color(0xFF1458EA),
+                              ),
+                            ),
+                            duration: Duration(seconds: 7),
+                          )..show(context);
+                        },
+                      ),
               ],
             ),
             Row(
@@ -178,7 +216,7 @@ class _ExploreState extends State<Explore> {
                               bottom: MediaQuery.of(context).size.height / 75,
                               top: MediaQuery.of(context).size.height / 75,
                               right: MediaQuery.of(context).size.width / 30),
-                          hintText: 'Search for anyone...'),
+                          hintText: 'Search for people...'),
                     ),
                   ),
                 ),

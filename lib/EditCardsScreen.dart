@@ -19,8 +19,9 @@ import 'homePage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image/image.dart' as Im;
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
+
 String selectedItemString;
 String selectedWItemString;
 
@@ -1024,6 +1025,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                   onChanged: (value) {
                                     if (value != null) {
                                       setState(() {
@@ -1080,6 +1082,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -1137,6 +1140,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2137,6 +2141,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2193,6 +2198,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2247,6 +2253,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {

@@ -91,8 +91,8 @@ setState(() {
                 ),
                 IconButton(
                   onPressed: () {
-    Navigator.push(context,
-    CupertinoPageRoute(builder: (context) => ScrollPage(social: true,)));
+                Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => ScrollPage(social: true,)));
 
                   },
                   icon: Icon(

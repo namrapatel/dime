@@ -660,7 +660,7 @@ class _ScrollPageState extends State<ScrollPage>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "When you like someone, it sends them an anonymous notification with your university, program, grad year, and bio. If they like you back, have fun!",
+                                    "You can like someone socially or professionally which will send them an anonymous notification with your bio, and the type of like you are sending. If they like you back, have fun chatting!",
                                     style: TextStyle(color: Colors.black),
                                   )
                                 ],
@@ -676,7 +676,7 @@ class _ScrollPageState extends State<ScrollPage>
                                 color: Color(0xFF1458EA),
                               ),
                             ),
-                            duration: Duration(seconds: 8),
+                            duration: Duration(seconds: 10),
                           )..show(context);
                         },
                       ),
@@ -1452,12 +1452,16 @@ class _UserTileState extends State<UserTile> {
                     ? Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: liked==false?Colors.grey[100]:Colors.lightBlueAccent,
+                    color: liked==false?Colors.grey[100]:Color(0xFFa1baf0),
                   ),
                   child: IconButton(
-                    icon: Icon(
-                      EvilIcons.like,
-                      size: screenH(35),
+                    icon: liked == false?Icon(
+                      AntDesign.like2,
+                      size: screenH(25),
+                      color: Color(0xFF1458EA),
+                    ): Icon(
+                      AntDesign.like1,
+                      size: screenH(25),
                       color: Color(0xFF1458EA),
                     ),
                     color: Colors.black,

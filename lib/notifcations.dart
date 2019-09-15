@@ -91,8 +91,8 @@ setState(() {
                 ),
                 IconButton(
                   onPressed: () {
-    Navigator.push(context,
-    CupertinoPageRoute(builder: (context) => ScrollPage(social: true,)));
+                Navigator.push(context,
+                CupertinoPageRoute(builder: (context) => ScrollPage(social: true,)));
 
                   },
                   icon: Icon(
@@ -205,6 +205,11 @@ setState(() {
               ),
             ),
             SizedBox(height: MediaQuery.of(context).size.height/50,),
+            Container(
+              height: MediaQuery.of(context).size.height/1.3,
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: <Widget>[
           FutureBuilder(
           future: getNotifs(),
           builder:
@@ -218,7 +223,7 @@ setState(() {
           print('ength is above');
           return
           Container(
-              height: MediaQuery.of(context).size.height / 1.3,
+              height: MediaQuery.of(context).size.height / 1,
               child: (snapshots.data.length == 0)
                   ? Column(
                 children: <Widget>[
@@ -280,9 +285,13 @@ setState(() {
 //                }).toList(),
 
             );}})
+                ],
+              ),
+            )
           ],
         ),
       ],
-    ));
+    )
+    );
   }
 }

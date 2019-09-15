@@ -358,7 +358,13 @@ class SocialCard extends StatelessWidget {
                               ? isSwitched == true
                                   ? Column(
                                       children: <Widget>[
-                                        IconButton(
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Color(0xFF8803fc).withOpacity(0.05),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                            child: IconButton(
                                           icon: Icon(
                                             MaterialCommunityIcons.instagram,
                                             color: Color(0xFF8803fc),
@@ -369,6 +375,7 @@ class SocialCard extends StatelessWidget {
                                                 'https://www.instagram.com/$instagram');
                                           },
                                         ),
+                                    ),
                                         Text(instagram,
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -376,13 +383,20 @@ class SocialCard extends StatelessWidget {
                                       ],
                                     )
                                   : Column(children: <Widget>[
-                                      IconButton(
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Color(0xFF8803fc).withOpacity(0.05),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                            child: IconButton(
                                         icon: Icon(
                                           MaterialCommunityIcons.instagram,
                                           size: 30,
                                           color: Color(0xFF8803fc),
                                         ),
                                       ),
+                                    ),
                                       Text("           ",
                                           style: TextStyle(
                                               color: Colors.black,

@@ -601,7 +601,8 @@ class _ScrollPageState extends State<ScrollPage>
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(35),
                     topRight: Radius.circular(35),
-                  )),
+                  )
+                  ),
               child: Column(
                 children: <Widget>[
                   Padding(
@@ -1452,7 +1453,7 @@ class _UserTileState extends State<UserTile> {
                     ? Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: liked==false?Colors.grey[100]:Color(0xFFa1baf0),
+                    color: Colors.grey[100],
                   ),
                   child: IconButton(
                     icon: liked == false?Icon(
@@ -1466,6 +1467,37 @@ class _UserTileState extends State<UserTile> {
                     ),
                     color: Colors.black,
                     onPressed: () {
+                          Flushbar(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            borderRadius: 15,
+                            messageText: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    widget.likeType == "social"?
+                                    "A casual" + " like has been sent to " + widget.contactName:
+                                    "A network" + " like has been sent to " + widget.contactName,
+                                    style: TextStyle(color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Colors.white,
+                            flushbarPosition: FlushbarPosition.TOP,
+                            icon: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                              child: Icon(
+                                Icons.info_outline,
+                                size: 28.0,
+                                color: Color(0xFF1458EA),
+                              ),
+                            ),
+                            duration: Duration(seconds: 10),
+                          )..show(context);
                       if(liked==false) {
                         setState(() {
                           liked=true;

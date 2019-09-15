@@ -17,13 +17,39 @@ class NotifcationsScreen extends StatefulWidget {
 
 class _NotifcationsScreenState extends State<NotifcationsScreen> {
 
-//  @override
-//  void initState() {
-//
-//    super.initState();
-//  }
+  @override
+  void initState() {
+getUnreadMessages();
+getNumberOfChatsLikes();
+    super.initState();
+  }
+int unread=0;
+  int numberOfChats=0;
+  int numberOfLikes=0;
 
-  getNotifs() async{
+  getNumberOfChatsLikes() async{
+  DocumentSnapshot doc= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+  setState(() {
+    numberOfLikes=doc['likedBy'].length;
+  });
+  QuerySnapshot query= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('messages').getDocuments();
+setState(() {
+  numberOfChats=query.documents.length;
+});
+  }
+  getUnreadMessages() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('messages')
+        .where('unread', isEqualTo: true)
+        .getDocuments();
+    setState(() {
+      unread = query.documents.length;
+    });
+  }
+
+  Future<List<LikeNotif>> getNotifs() async{
     List<LikeNotif> userDocuments=[];
    QuerySnapshot querySnapshot= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('likes').orderBy('timestamp',descending: true).getDocuments();
     for(var document in querySnapshot.documents){
@@ -31,11 +57,15 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
       var storedDate = document.data['timestamp'];
       String elapsedTime = timeago.format(storedDate.toDate());
       String timestamp = '$elapsedTime';
+      Firestore.instance.collection('users').document(currentUserModel.uid).collection('likes').document(document.documentID).updateData({
+        'unread':false
+      });
       userDocuments.add(new LikeNotif(timestamp: timestamp,id: doc.documentID,name: doc['displayName'],
         major: doc['major'],university: doc['university'],bio: doc['bio'],gradYear: doc['gradYear'],liked: document['liked'],type: document['likeType'],relationshipStatus: doc['relationshipStatus'],photo: doc['photoUrl'],));
 //      userDocuments.add(userDoc);
 
     }
+    print('length of docs'+userDocuments.length.toString());
     return userDocuments;
   }
 
@@ -61,7 +91,9 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                 ),
                 IconButton(
                   onPressed: () {
-                    Navigator.pop(context);
+    Navigator.push(context,
+    CupertinoPageRoute(builder: (context) => ScrollPage(social: true,)));
+
                   },
                   icon: Icon(
                     Icons.arrow_back_ios,
@@ -71,23 +103,45 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 1.5,
                 ),
+
                 Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
                     color: Colors.grey[100],
                   ),
-                  child: IconButton(
-                    onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ChatList()));
-                    },
-                    icon: Icon(
-                      Feather.message_circle,
-                      color: Colors.black,
+
+                  child: Stack(
+                    children:<Widget>[
+              IconButton(
+                      onPressed: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => ChatList()));
+                      },
+                      icon: Icon(
+                        Feather.message_circle,
+                        color: Colors.black,
+                      ),
+
                     ),
-                  ),
+
+
+                unread > 0
+                    ? Positioned(
+                    top: MediaQuery.of(context).size.height / 70,
+                    left: MediaQuery.of(context).size.width / 13,
+                    child: CircleAvatar(
+                      child: Text(
+                        unread.toString(),
+                        style: TextStyle(
+                            color: Colors.white, fontSize: 14.0),
+                      ),
+                      backgroundColor: Colors.red,
+                      radius: 8.2,
+                    ))
+                    : SizedBox(
+                  height: 0.0,
                 )
-              ],
+              ]))],
             ),
             Row(
               children: <Widget>[
@@ -108,12 +162,13 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                       MediaQuery.of(context).size.width / 17, 0, 0, 0),
               child: Row(
                 children: <Widget>[
-                  Text("329 Likes", style: TextStyle(fontSize: 18),),
+                  Text(numberOfLikes!=null?numberOfLikes.toString()+" Likes":"", style: TextStyle(fontSize: 18),),
                   SizedBox(width: MediaQuery.of(context).size.width/50,),
                   Text("•"),
                   SizedBox(width: MediaQuery.of(context).size.width/50,),
-                  Text("12 Chats", style: TextStyle(fontSize: 18),),
-                      IconButton(
+                  Text(numberOfChats!=null?numberOfChats.toString()+" Chats":"", style: TextStyle(fontSize: 18),),
+                  numberOfLikes!=null&&numberOfChats!=null?
+                  IconButton(
                         icon: Icon(Icons.info_outline, color: Color(0xFF1458EA),),
                         onPressed: (){
               Flushbar(
@@ -126,7 +181,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "You have recieved 329 anonymous likes, and chosen to chat with 12 people!",
+                        "You have recieved "+numberOfLikes.toString()+" anonymous likes, and chosen to chat with "+numberOfChats.toString()+" people!",
                         style: TextStyle(color: Colors.black),
                       )
                     ],
@@ -145,7 +200,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                 duration: Duration(seconds: 5),
               )..show(context);
                         },
-                      ),
+                      ):SizedBox(width: 0.0,)
                 ],
               ),
             ),
@@ -159,7 +214,8 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
           alignment: FractionalOffset.center,
           child: CircularProgressIndicator());
           }else{
-
+          print(snapshots.data.length);
+          print('ength is above');
           return
           Container(
               height: MediaQuery.of(context).size.height / 1.3,
@@ -181,16 +237,10 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                     ),
                   ),
                 ],
-              ):ListView.builder(
-                cacheExtent: 5000.0,
-                physics: BouncingScrollPhysics(),
-                padding:
-                    EdgeInsets.only(left: screenW(5.0), right: screenW(5.0)),
-
-                itemBuilder: (context, index) {
-                  return Container(
+              ):
+                 Container(
                     child: Column(children: snapshots.data),
-                  );
+                  )
 //                  DocumentSnapshot doc= snapshots.data[index];
 ////                  tempSearchStore.map((element) {
 //
@@ -223,12 +273,12 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
 //                        gradYear: doc.data['gradYear'],
 //                        bio: doc.data['bio']);
 //                  }
-                },
-                itemCount: snapshots.data.length,
+                ,
+
 //                children: tempSearchStore.map((element) {
 //                  return _buildTile(element);
 //                }).toList(),
-              ),
+
             );}})
           ],
         ),

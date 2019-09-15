@@ -176,7 +176,7 @@ class _UserCardState extends State<UserCard> {
                                                 context,
                                                 CupertinoPageRoute(
                                                     builder: (context) =>
-                                                        ScrollPage()));
+                                                        ScrollPage(social: true)));
                                             Flushbar(
                                               margin: EdgeInsets.symmetric(
                                                   horizontal: 15, vertical: 5),

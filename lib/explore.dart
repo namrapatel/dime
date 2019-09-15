@@ -296,26 +296,56 @@ class _ExploreState extends State<Explore> {
       // Text(data['userData']['displayName']),
       subtitle: Text(
           data['userData']['major'] != null ? data['userData']['major'] : ""),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-                    Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          color: Colors.grey[100],
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            EvilIcons.like,
-                            size: screenH(35),
-                            color: Color(0xFF1458EA),
-                          ),
-                          color: Colors.black,
-                          onPressed: () {},
-                        ),
-                      )
-        ],
-      ),
+//      trailing: (currentUserModel.bio!=null&&currentUserModel.university!=null&&currentUserModel.major!=null&&currentUserModel.gradYear!=null&&(currentUserModel.displayName!="New User"&&currentUserModel.displayName!="No Display Name"))?Row(
+//        mainAxisSize: MainAxisSize.min,
+//        children: <Widget>[
+//          ((data['userData']['major'] != null&&data['userData']['gradYear'] != null&&data['userData']['university'] != null&&
+//      data['userData']['bio'] != null&&(data['userData']['displayName'] != "New User"&&data['userData']['displayName'] != "No Display Name")))?
+//                    Container(
+//                        decoration: BoxDecoration(
+//                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+//                          color: Colors.grey[100],
+//                        ),
+////                      (data['userData']['likedBy']!=null&&!data['userData']['likedBy'].contains(currentUserModel.uid))?Colors.lightBlueAccent:Colors.grey[100],
+//                        child: IconButton(
+//                          icon: Icon(
+//                            EvilIcons.like,
+//                            size: screenH(35),
+//                            color: Color(0xFF1458EA),
+//                          ),
+//
+//                          color: Colors.black,
+//                          onPressed: () {
+//                            if((data['userData']['likedBy']!=null&&!data['userData']['likedBy'].contains(currentUserModel.uid))||data['userData']['likedBy']==null) {
+//                              setState(() {
+//
+//                                List<String> myId=[];
+//                                myId.add(currentUserModel.uid);
+//                                Firestore.instance.collection('users').document(data['userId']).updateData({
+//                                  'likedBy':FieldValue.arrayUnion(myId),
+//
+//                                });
+//
+//                                Firestore.instance.collection('users').document(data['userId']).collection('likes').document(currentUserModel.uid).setData({
+////                              'likerName':currentUserModel.displayName,
+////                              'likerPhoto':currentUserModel.photoUrl,
+////                              'likerBio':currentUserModel.bio,
+////                              'likerUni':currentUserModel.university,
+////                              'likerMajor':currentUserModel.major,
+////                              'likerGradYear':currentUserModel.gradYear,
+////                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
+//                                  'unread':true,
+//                                  'timestamp': Timestamp.now(),
+//                                  'liked':false,
+//                                  'likeType':'social'
+//                                });
+//                              });
+//                            }
+//                          },
+//                        ),
+//                      ):SizedBox(width: 0.0,)
+//        ],
+//      ):SizedBox(width: 0.0)
     );
   }
 }

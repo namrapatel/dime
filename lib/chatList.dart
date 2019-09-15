@@ -142,7 +142,7 @@ class _ChatListState extends State<ChatList> {
           ),
           onPressed: () {
             Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => ScrollPage()));
+                CupertinoPageRoute(builder: (context) => ScrollPage(social: true)));
           },
         ),
         title: Text(

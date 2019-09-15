@@ -41,25 +41,29 @@ final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 
 class ScrollPage extends StatefulWidget {
-  ScrollPage({Key key}) : super(key: key);
+  final bool social;
+//  const ScrollPage({this.social});
+  ScrollPage({Key key,this.social}) : super(key: key);
   @override
-  _ScrollPageState createState() => _ScrollPageState();
+  _ScrollPageState createState() => _ScrollPageState(socialPressed:social);
 }
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
   String likeType='social';
-
-  bool socialPressed=true;
-  bool profPressed=false;
+_ScrollPageState({this.socialPressed});
+  bool socialPressed;
+//  bool profPressed=false;
   bool goodProfileStandard=false;
   RubberAnimationController _controller;
   int unread = 0;
   FocusNode _focus = new FocusNode();
-  StreamController<List<DocumentSnapshot>> streamController =
-      new StreamController();
+  StreamController<List<DocumentSnapshot>> streamController;
+  StreamSubscription subscription;
   Geoflutterfire geo = Geoflutterfire();
-  Stream<List<DocumentSnapshot>> stream;
+//  Stream<List<DocumentSnapshot>> stream;
+  Stream<List<DocumentSnapshot>> socStream;
+  Stream<List<DocumentSnapshot>> proStream;
 
   // Stream<List<DocumentSnapshot>> stream;
   var radius = BehaviorSubject<double>.seeded(6.0);
@@ -75,17 +79,17 @@ class _ScrollPageState extends State<ScrollPage>
 
   getPermission() async {
     Map<PermissionGroup, PermissionStatus> permissions =
-        await PermissionHandler()
-            .requestPermissions([PermissionGroup.locationAlways]);
+    await PermissionHandler()
+        .requestPermissions([PermissionGroup.locationAlways]);
 
 
   }
 
-  getUnreadMessages() async {
+  getUnreadNotifs() async {
     QuerySnapshot query = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .collection('messages')
+        .collection('likes')
         .where('unread', isEqualTo: true)
         .getDocuments();
     setState(() {
@@ -113,8 +117,8 @@ class _ScrollPageState extends State<ScrollPage>
 
     setState(() {
 
-      if((userDoc['displayName']!='New User'||userDoc['displayName']!='No Display Name')&&userDoc['university']!=null&&userDoc['gradYear']!=null
-      &&userDoc['major']!=null&&userDoc['bio']!=null){
+      if((userDoc['displayName']!='New User'&&userDoc['displayName']!='No Display Name')&&userDoc['university']!=null&&userDoc['gradYear']!=null
+          &&userDoc['major']!=null&&userDoc['bio']!=null){
         goodProfileStandard=true;
       }
 
@@ -158,7 +162,7 @@ class _ScrollPageState extends State<ScrollPage>
       position = currentLocation;
     });
     GeoFirePoint userLoc =
-        geo.point(latitude: position.latitude, longitude: position.longitude);
+    geo.point(latitude: position.latitude, longitude: position.longitude);
     print(position.latitude);
     print(position.longitude);
 //    double distanceInMeters = await geoLoc.Geolocator().distanceBetween(52.2165157, 6.9437819, 52.3546274, 4.8285838);
@@ -180,13 +184,25 @@ class _ScrollPageState extends State<ScrollPage>
 //    currentUserModel = User.fromDocument(userRecord);
 //    });
 //
-    stream = geo
-        .collection(collectionRef: Firestore.instance.collection('users'))
+  setState(() {
+    socStream = geo
+        .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
         .within(
-            center: userLoc,
-            radius: radius,
-            field: 'position',
-            strictMode: strictmode);
+        center: userLoc,
+        radius: radius,
+        field: 'position',
+        strictMode: strictmode);
+
+  proStream = geo
+      .collection(collectionRef: Firestore.instance.collection('users').where('profVisible',isEqualTo: true))
+      .within(
+      center: userLoc,
+      radius: radius,
+      field: 'position',
+      strictMode: strictmode);
+});
+
+
 //    stream = radius.switchMap((rad) {
 //      var collectionReference = Firestore.instance.collection('users');
 //      return geo.collection(collectionRef: collectionReference).within(
@@ -233,7 +249,7 @@ class _ScrollPageState extends State<ScrollPage>
   @override
   void initState() {
     getVisibilityPrefs();
-    getUnreadMessages();
+    getUnreadNotifs();
     getLocation();
     firebaseCloudMessaging_Listeners();
     _controller = RubberAnimationController(
@@ -257,66 +273,66 @@ class _ScrollPageState extends State<ScrollPage>
 
     _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
-      if (Theme.of(context).platform == TargetPlatform.iOS) {
-        if (message['notifType'] == "chat") {
-          LocalNotifcation(context, message['aps']['alert']['title'],
-              message['aps']['alert']['body'], "chat", message);
-        } else if (message['notifType'] == "postNotif") {
-          if (message['type'] == "prof") {
-            LocalNotifcation(context, message['aps']['alert']['title'],
-                message['aps']['alert']['body'], "postNotifProf", message);
+          if (Theme.of(context).platform == TargetPlatform.iOS) {
+            if (message['notifType'] == "chat") {
+              LocalNotifcation(context, message['aps']['alert']['title'],
+                  message['aps']['alert']['body'], "chat", message);
+            } else if (message['notifType'] == "postNotif") {
+              if (message['type'] == "prof") {
+                LocalNotifcation(context, message['aps']['alert']['title'],
+                    message['aps']['alert']['body'], "postNotifProf", message);
+              } else {
+                LocalNotifcation(context, message['aps']['alert']['title'],
+                    message['aps']['alert']['body'], "postNotifSocial", message);
+              }
+            } else if (message['notifType'] == "streamNotif" &&
+                message['ownerId'] != currentUserModel.uid) {
+              LocalNotifcation(context, message['aps']['alert']['title'],
+                  message['aps']['alert']['body'], "streamNotif", message);
+            }
           } else {
-            LocalNotifcation(context, message['aps']['alert']['title'],
-                message['aps']['alert']['body'], "postNotifSocial", message);
+            if (message['data']['notifType'] == "chat") {
+              LocalNotifcation(context, message['notification']['title'],
+                  message['notification']['body'], "chat", message);
+            } else if (message['data']['notifType'] == "postNotif") {
+              if (message['data']['type'] == "prof") {
+                LocalNotifcation(context, message['notification']['title'],
+                    message['notification']['body'], "postNotifProf", message);
+              } else {
+                LocalNotifcation(context, message['notification']['title'],
+                    message['notification']['body'], "postNotifSocial", message);
+              }
+            } else if (message['data']['notifType'] == 'streamNotif' &&
+                message['data']['ownerId'] != currentUserModel.uid) {
+              LocalNotifcation(context, message['notification']['title'],
+                  message['notification']['body'], "streamNotif", message);
+            }
           }
-        } else if (message['notifType'] == "streamNotif" &&
-            message['ownerId'] != currentUserModel.uid) {
-          LocalNotifcation(context, message['aps']['alert']['title'],
-              message['aps']['alert']['body'], "streamNotif", message);
-        }
-      } else {
-        if (message['data']['notifType'] == "chat") {
-          LocalNotifcation(context, message['notification']['title'],
-              message['notification']['body'], "chat", message);
-        } else if (message['data']['notifType'] == "postNotif") {
-          if (message['data']['type'] == "prof") {
-            LocalNotifcation(context, message['notification']['title'],
-                message['notification']['body'], "postNotifProf", message);
-          } else {
-            LocalNotifcation(context, message['notification']['title'],
-                message['notification']['body'], "postNotifSocial", message);
-          }
-        } else if (message['data']['notifType'] == 'streamNotif' &&
-            message['data']['ownerId'] != currentUserModel.uid) {
-          LocalNotifcation(context, message['notification']['title'],
-              message['notification']['body'], "streamNotif", message);
-        }
-      }
-    }, onResume: (Map<String, dynamic> message) async {
+        }, onResume: (Map<String, dynamic> message) async {
       if (Theme.of(context).platform == TargetPlatform.iOS) {
         if (message['notifType'] == "chat") {
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => Chat(
-                        fromUserId: currentUserModel.uid,
-                        toUserId: message['senderId'],
-                      )));
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['senderId'],
+                  )));
         } else if (message['notifType'] == "postNotif") {
           if (message['type'] == "prof") {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
-                          postId: message['postId'],
-                        )));
+                      postId: message['postId'],
+                    )));
           } else {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => SocialComments(
-                          postId: message['postId'],
-                        )));
+                      postId: message['postId'],
+                    )));
           }
         } else if (message['notifType'] == "streamNotif") {
           Navigator.push(
@@ -330,24 +346,24 @@ class _ScrollPageState extends State<ScrollPage>
               context,
               CupertinoPageRoute(
                   builder: (context) => Chat(
-                        fromUserId: currentUserModel.uid,
-                        toUserId: message['data']['senderId'],
-                      )));
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['data']['senderId'],
+                  )));
         } else if (message['data']['notifType'] == "postNotif") {
           if (message['data']['type'] == "prof") {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
-                          postId: message['data']['postId'],
-                        )));
+                      postId: message['data']['postId'],
+                    )));
           } else {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => SocialComments(
-                          postId: message['data']['postId'],
-                        )));
+                      postId: message['data']['postId'],
+                    )));
           }
         } else if (message['data']['notifType'] == "streamNotif") {
           Navigator.push(
@@ -364,24 +380,24 @@ class _ScrollPageState extends State<ScrollPage>
               context,
               CupertinoPageRoute(
                   builder: (context) => Chat(
-                        fromUserId: currentUserModel.uid,
-                        toUserId: message['senderId'],
-                      )));
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['senderId'],
+                  )));
         } else if (message['notifType'] == "postNotif") {
           if (message['type'] == "prof") {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
-                          postId: message['postId'],
-                        )));
+                      postId: message['postId'],
+                    )));
           } else {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => SocialComments(
-                          postId: message['postId'],
-                        )));
+                      postId: message['postId'],
+                    )));
           }
         } else if (message['notifType'] == "streamNotif") {
           Navigator.push(
@@ -395,24 +411,24 @@ class _ScrollPageState extends State<ScrollPage>
               context,
               CupertinoPageRoute(
                   builder: (context) => Chat(
-                        fromUserId: currentUserModel.uid,
-                        toUserId: message['data']['senderId'],
-                      )));
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['data']['senderId'],
+                  )));
         } else if (message['data']['notifType'] == "postNotif") {
           if (message['data']['type'] == "prof") {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
-                          postId: message['data']['postId'],
-                        )));
+                      postId: message['data']['postId'],
+                    )));
           } else {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => SocialComments(
-                          postId: message['data']['postId'],
-                        )));
+                      postId: message['data']['postId'],
+                    )));
           }
         } else if (message['data']['notifType'] == "streamNotif") {
           Navigator.push(
@@ -491,61 +507,61 @@ class _ScrollPageState extends State<ScrollPage>
               // ),
               firstName != "No"
                   ? Container(
-                      width: MediaQuery.of(context).size.width / 1.6,
-                      child: currentUserModel.displayName == null
-                          ? AutoSizeText(
-                              "Hey!",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              minFontSize: 12,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          : AutoSizeText(
-                              "Hey " + firstName + "!",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              minFontSize: 12,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                    )
+                width: MediaQuery.of(context).size.width / 1.6,
+                child: currentUserModel.displayName == null
+                    ? AutoSizeText(
+                  "Hey!",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  minFontSize: 12,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                )
+                    : AutoSizeText(
+                  "Hey " + firstName + "!",
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold),
+                  minFontSize: 12,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
                   : Row(
-                      children: <Widget>[
-                        AutoSizeText(
-                          "Hey!",
-                          style: TextStyle(
-                              fontSize: 25,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                          minFontSize: 12,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 20,
-                        ),
-                        FlatButton(
-                          color: Colors.white,
-                          child: Text(
-                            "Set up Profile",
-                            style: TextStyle(color: Color(0xFF1458EA)),
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10.0)),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => ProfilePage()));
-                          },
-                        ),
-                      ],
+                children: <Widget>[
+                  AutoSizeText(
+                    "Hey!",
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                    minFontSize: 12,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 20,
+                  ),
+                  FlatButton(
+                    color: Colors.white,
+                    child: Text(
+                      "Set up Profile",
+                      style: TextStyle(color: Color(0xFF1458EA)),
                     ),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => ProfilePage()));
+                    },
+                  ),
+                ],
+              ),
               Spacer(),
               IconButton(
                 icon: Icon(
@@ -566,9 +582,9 @@ class _ScrollPageState extends State<ScrollPage>
                       context,
                       CupertinoPageRoute(
                           builder: (context) => UserCard(
-                                userId: currentUserModel.uid,
-                                userName: currentUserModel.displayName,
-                              )));
+                            userId: currentUserModel.uid,
+                            userName: currentUserModel.displayName,
+                          )));
                 },
               ),
             ],
@@ -728,9 +744,9 @@ class _ScrollPageState extends State<ScrollPage>
                   children: <Widget>[
                     Center(
                         child: ViewCards(
-                      userId: currentUserModel.uid,
-                      type: 'social',
-                    )),
+                          userId: currentUserModel.uid,
+                          type: 'social',
+                        )),
                   ],
                 ),
                 alignment: Alignment.topCenter,
@@ -748,9 +764,9 @@ class _ScrollPageState extends State<ScrollPage>
                   children: <Widget>[
                     Center(
                         child: ViewCards(
-                      userId: currentUserModel.uid,
-                      type: 'prof',
-                    )),
+                          userId: currentUserModel.uid,
+                          type: 'prof',
+                        )),
                   ],
                 ),
                 alignment: Alignment.topCenter,
@@ -801,20 +817,20 @@ class _ScrollPageState extends State<ScrollPage>
                   ),
                   unread > 0
                       ? Positioned(
-                          top: MediaQuery.of(context).size.height / 70,
-                          left: MediaQuery.of(context).size.width / 13,
-                          child: CircleAvatar(
-                            child: Text(
-                              unread.toString(),
-                              style: TextStyle(
-                                  color: Colors.white, fontSize: 14.0),
-                            ),
-                            backgroundColor: Colors.red,
-                            radius: 8.2,
-                          ))
+                      top: MediaQuery.of(context).size.height / 70,
+                      left: MediaQuery.of(context).size.width / 13,
+                      child: CircleAvatar(
+                        child: Text(
+                          unread.toString(),
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 14.0),
+                        ),
+                        backgroundColor: Colors.red,
+                        radius: 8.2,
+                      ))
                       : SizedBox(
-                          height: 0.0,
-                        )
+                    height: 0.0,
+                  )
                 ],
               ),
               FloatingActionButton(
@@ -841,8 +857,8 @@ class _ScrollPageState extends State<ScrollPage>
                       context,
                       CupertinoPageRoute(
                           builder: (context) => ProfPage(
-                                stream: 'Subscriptions',
-                              )));
+                            stream: 'Subscriptions',
+                          )));
                 },
                 elevation: 3,
                 heroTag: 'btn4',
@@ -917,18 +933,20 @@ class _ScrollPageState extends State<ScrollPage>
               FloatingActionButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => ScrollPage(social: true,)));
+                  setState(() {
 
+                    likeType='social';
+                    socialPressed=!socialPressed;
+                  });
+                },
                 elevation: 0,
                 heroTag: 'socialButton',
                 backgroundColor: socialPressed==false?Colors.grey[100]:Color(0xFFe0bdff),
-                onPressed: () {
-                  setState(() {
-                    likeType='social';
-                    socialPressed=true;
-                    profPressed=false;
-                    //0xFFe0bdff
-                  });
-                },
                 child: Icon(
                   Entypo.drink,
                   color: Color(0xFF8803fc),
@@ -938,16 +956,18 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => ScrollPage(social: false,)));
                   setState(() {
                     likeType='prof';
-                    profPressed=true;
-                    socialPressed=false;
-                   //0xFFb9ebe9 
+                    socialPressed=!socialPressed;
                   });
                 },
                 elevation: 0,
                 heroTag: 'profButton',
-                backgroundColor: profPressed==false?Colors.grey[100]:Color(0xFFb9ebe9),
+                backgroundColor: socialPressed==true?Colors.grey[100]:Color(0xFFb9ebe9),
                 child: Row(
                   children: <Widget>[
                     SizedBox(
@@ -1001,181 +1021,202 @@ class _ScrollPageState extends State<ScrollPage>
               Switch(
                   value: appearOnProf,
                   onChanged: (value) {
-    if(goodProfileStandard==true) {
-      setState(() {
-        appearOnProf = value;
-      });
-      Firestore.instance.collection('users')
-          .document(currentUserModel.uid)
-          .updateData({
-        'profVisible': appearOnProf
-      });
-    }
+                    if(goodProfileStandard==true) {
+                      setState(() {
+                        appearOnProf = value;
+                      });
+                      Firestore.instance.collection('users')
+                          .document(currentUserModel.uid)
+                          .updateData({
+                        'profVisible': appearOnProf
+                      });
+                    }
                   },
                   activeTrackColor: Colors.blue[200],
                   activeColor: Color(0xff1976d2)),
 
             ],
           ),
-          goodProfileStandard==false?
-              Container(child: Text("add picture here saying you cant access feed or be visible until profile shit is added"),):
+//          goodProfileStandard==false?
+//          Container(child: Text("add picture here saying you cant access feed or be visible until profile shit is added"),):
+//          profPressed==true?
+//          StreamBuilder(
+//            stream: proStream,
+//            builder:
+//                (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+//              if (!snapshots.hasData) {
+//                return Container(
+//                    alignment: FractionalOffset.center,
+//                    child: CircularProgressIndicator());
+//              } else {
+//                print('im IN THE prof stream');
+//                if (snapshots.data.length != 0) {
+//                  snapshots.data.removeWhere((DocumentSnapshot doc) =>
+//                  doc.documentID == currentUserModel.uid);
+//                }
+//
+//                return Container(
+//                    child: Container(
+//                      child: (snapshots.data.length == 0)
+//                          ? Column(
+//                        children: <Widget>[
+//                          SizedBox(
+//                            height: 20.0,
+//                          ),
+//                          Image.asset(
+//                              'assets/img/undraw_peoplearoundyou.png'),
+//                          Padding(
+//                            padding: EdgeInsets.all(
+//                                MediaQuery.of(context).size.height / 20),
+//                            child: Text(
+//                              "There's nobody around. \n Go get a walk in and find some new people!",
+//                              textAlign: TextAlign.center,
+//                              style: TextStyle(fontSize: 20),
+//                            ),
+//                          ),
+//                        ],
+//                      )
+//                          : Container(
+//                        height: MediaQuery.of(context).size.height * 2 / 3,
+//                        child: ListView.builder(
+//                          cacheExtent: 5000.0,
+//                          itemBuilder: (context, index) {
+//                            DocumentSnapshot doc = snapshots.data[index];
+//                            print(
+//                                'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+//                            GeoPoint point = doc.data['position']['geopoint'];
+//                            if (doc.data['blocked${currentUserModel.uid}'] ==
+//                                true) {
+//                              return UserTile(blocked: true);
+//                            } else {
+//                              bool liked=false;
+//
+//                              List<dynamic> likedBy=doc.data['likedBy'];
+//
+//
+//                              if(likedBy!=null && likedBy.contains(currentUserModel.uid)) {
+//                                liked = true;
+//                              }
+//                              print('liked below is');
+//                              print(liked);
+//                              return UserTile(
+//                                  likeType:likeType,
+//                                  liked:liked,
+//                                  relationshipStatus:
+//                                  doc.data['relationshipStatus'],
+//                                  contactName: doc.data['displayName'],
+//                                  personImage: doc.data['photoUrl'],
+//                                  uid: doc.documentID,
+//                                  major: doc.data['major'],
+//
+////                                    profInterests: doc.data['profInterests'],
+////                                    socialInterests:
+////                                        doc.data['socialInterests'],
+//                                  university: doc.data['university'],
+//                                  gradYear: doc.data['gradYear'],
+//                                  bio: doc.data['bio']);
+//                            }
+//                          },
+//                          itemCount: snapshots.data.length,
+//                        ),
+//                      ),
+//                    ));
+//
+//              }
+//            },
+//          ):
           StreamBuilder(
-            stream: stream,
+            stream: socialPressed==true?socStream:proStream,
             builder:
-                (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+                (context,  snapshots) {
               if (!snapshots.hasData) {
-
                 return Container(
                     alignment: FractionalOffset.center,
                     child: CircularProgressIndicator());
               } else {
-
-
-
+                print('im IN THE soc stream');
                 if (snapshots.data.length != 0) {
                   snapshots.data.removeWhere((DocumentSnapshot doc) =>
-                      doc.documentID == currentUserModel.uid);
-                  for(var d in socialStream){
-                    print(d['displayName']);
-                  }
-                  for(var d in profStream){
-                    print(d['displayName']);
-                  }
-
-                  if(socialPressed==true){
-
-                    socialStream=[];
-                    for(var doc in snapshots.data){
-                      if(doc['socialVisible']==true){
-
-                        socialStream.add(doc);
-                      }
-                    }
-//                    socialStream.(snapshots.data.where((DocumentSnapshot doc) =>
-//                    (doc['socialVisible']==null||doc['socialVisible']==false)));
-
-//                    snapshots.data.removeWhere((DocumentSnapshot doc) =>
-//                    doc['socialVisible']==null||doc['socialVisible']==false);
-//                    _getUpperLayer();
-                  }
-
-                  else if(profPressed==true){
-                    profStream=[];
-                    for(var doc in snapshots.data){
-                      if(doc['profVisible']==true){
-                        profStream.add(doc);
-                      }
-                    }
-//                    snapshots.data.removeWhere((DocumentSnapshot doc) =>
-//                    doc['profVisible']==null||doc['profVisible']==false);
-//                    _getUpperLayer();
-                  }
+                  doc.documentID == currentUserModel.uid);
                 }
 
                 return Container(
                     child: Container(
-                  child: (snapshots.data.length == 0)
-                      ? Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 20.0,
+                      child: (snapshots.data.length == 0)
+                          ? Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 20.0,
+                          ),
+                          Image.asset(
+                              'assets/img/undraw_peoplearoundyou.png'),
+                          Padding(
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.height / 20),
+                            child: Text(
+                              "There's nobody around. \n Go get a walk in and find some new people!",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20),
                             ),
-                            Image.asset(
-                                'assets/img/undraw_peoplearoundyou.png'),
-                            Padding(
-                              padding: EdgeInsets.all(
-                                  MediaQuery.of(context).size.height / 20),
-                              child: Text(
-                                "There's nobody around. \n Go get a walk in and find some new people!",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ],
-                        )
-                      : Container(
-                          height: MediaQuery.of(context).size.height * 2 / 3,
-                          child: ListView.builder(
-                            cacheExtent: 5000.0,
-                            itemBuilder: (context, index) {
-    DocumentSnapshot doc;
+                          ),
+                        ],
+                      )
+                          : Container(
+                        height: MediaQuery.of(context).size.height * 2 / 3,
+                        child: ListView.builder(
+                          cacheExtent: 5000.0,
+                          itemBuilder: (context, index) {
+                            print('still in social ');
+                            DocumentSnapshot doc = snapshots.data[index];
+                            print(
+                                'doc with id ${doc.documentID} distance ${doc.data['distance']}');
+                            GeoPoint point = doc.data['position']['geopoint'];
+                            if (doc.data['blocked${currentUserModel.uid}'] ==
+                                true) {
+                              return UserTile(blocked: true);
+                            } else {
+                              bool liked=false;
 
-                                if(socialPressed==true) {
-                                  doc = socialStream[index];
-
-                                }else if(profPressed==true){
-                                  doc = profStream[index];
-
-                                }
-                              print(
-                                  'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-                              GeoPoint point = doc.data['position']['geopoint'];
-                              if (doc.data['blocked${currentUserModel.uid}'] ==
-                                  true) {
-                                return UserTile(blocked: true);
-                              } else {
-                                bool liked=false;
-
-                                List<dynamic> likedBy=doc.data['likedBy'];
+                              List<dynamic> likedBy=doc.data['likedBy'];
 
 
-                                if(likedBy!=null && likedBy.contains(currentUserModel.uid)){
-                                  liked=true;
-                                }
-                                return UserTile(
-                                  likeType:likeType,
+                              if(likedBy!=null && likedBy.contains(currentUserModel.uid)) {
+                                liked = true;
+                                print('in here for somer eason');
+                              }else{
+                                liked=false;
+                              }
+                              String type="social";
+                              print('guys name is'+doc.data['displayName']);
+                              if(socialPressed){
+                               type="social";
+                              }else{
+                               type="prof";
+                              }
+
+                              return UserTile(
+                                  likeType:type,
                                   liked:liked,
-                                    relationshipStatus:
-                                        doc.data['relationshipStatus'],
-                                    contactName: doc.data['displayName'],
-                                    personImage: doc.data['photoUrl'],
-                                    uid: doc.documentID,
-                                    major: doc.data['major'],
+                                  relationshipStatus:
+                                  doc.data['relationshipStatus'],
+                                  contactName: doc.data['displayName'],
+                                  personImage: doc.data['photoUrl'],
+                                  uid: doc.documentID,
+                                  major: doc.data['major'],
 
 //                                    profInterests: doc.data['profInterests'],
 //                                    socialInterests:
 //                                        doc.data['socialInterests'],
-                                    university: doc.data['university'],
-                                    gradYear: doc.data['gradYear'],
-                                    bio: doc.data['bio']);
-                              }
-                            },
-                            itemCount:  socialPressed==true?socialStream.length:profStream.length,
-                          ),
+                                  university: doc.data['university'],
+                                  gradYear: doc.data['gradYear'],
+                                  bio: doc.data['bio']);
+                            }
+                          },
+                          itemCount: snapshots.data.length,
                         ),
-                ));
-//              else {
-//                snapshots.data.removeWhere((DocumentSnapshot doc) =>
-//                doc.documentID == currentUserModel.uid);
-//                print('data ${snapshots.data}');
-//                return Container(
-//                  height: MediaQuery
-//                      .of(context)
-//                      .size
-//                      .height * 2 / 3,
-//                  child: ListView.builder(
-//                    itemBuilder: (context, index) {
-//                      DocumentSnapshot doc = snapshots.data[index];
-//                      print(
-//                          'doc with id ${doc.documentID} distance ${doc
-//                              .data['distance']}');
-//                      GeoPoint point = doc.data['position']['geopoint'];
-//
-//                      return UserTile(
-//                          doc.data['displayName'], doc.data['photoUrl'],
-//                          doc.documentID,
-//                          major: doc.data['major'],
-//                          profInterests: doc.data['profInterests'],
-//                          socialInterests: doc.data['socialInterests'],
-//                          university: doc.data['university'],
-//                          gradYear: doc.data['gradYear']);
-//                    },
-//                    itemCount: snapshots.data.length,
-//                  ),
-//                );
-//              }
-////            else {
-////              return Center(child: CircularProgressIndicator());
+                      ),
+                    ));
+
               }
             },
           ),
@@ -1254,193 +1295,184 @@ class UserTile extends StatefulWidget {
     this.blocked,
     this.bio});
   @override
-  _UserTileState createState() => _UserTileState(likeType:likeType,liked:liked,relationshipStatus:relationshipStatus,contactName:contactName,personImage:personImage,
-  uid:uid,major:major,university:university,gradYear:gradYear, blocked:blocked,bio:bio);
+  _UserTileState createState() => _UserTileState();
 }
 
 class _UserTileState extends State<UserTile> {
-   bool blocked,liked;
-  String likeType,relationshipStatus,
-      contactName,
-      personImage,
-      major,
-      uid,
-      university,
-      gradYear,
-      bio;
-  _UserTileState({this.likeType,this.liked,this.relationshipStatus,
-    this.contactName,
-    this.personImage,
-    this.uid,
-    this.major,
-    this.university,
-    this.gradYear,
+  bool liked=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+//    setState(() {
+      liked=widget.liked;
+//    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 5.0,
+        ),
+        InkWell(
+          onTap: () {
+            if (widget.blocked != true) {
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => UserCard(
+                        userId: widget.uid,
+                        userName: widget.contactName,
+                      )));
+            } else {
+              Flushbar(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                borderRadius: 15,
+                messageText: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "You can't interact with a blocked user",
+                        style: TextStyle(color: Colors.grey),
+                      )
+                    ],
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                flushbarPosition: FlushbarPosition.TOP,
+                icon: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 28.0,
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+                duration: Duration(seconds: 3),
+              )..show(context);
+            }
+          },
+          child: ListTile(
+            title: Text(
+              widget.blocked == true ? "Blocked User" : widget.contactName,
+              style: TextStyle(fontSize: 18),
+            ),
+            subtitle: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, MediaQuery.of(context).size.height / 1000, 0, 0),
+                ),
+                widget.major != null && widget.gradYear != null
+                    ? Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(widget.major + ", " + widget.gradYear),
+                )
+                    : Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(widget.major != null ? widget.major : ""),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, MediaQuery.of(context).size.height / 600, 0, 0),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        widget.bio != null ? widget.bio : "",
+                        style: TextStyle(
+                          color: Color(0xFF1458EA),
+                        ),
+                        textAlign: TextAlign.start,
+                      )
+                      // buildSocialInterests(context),
+                      // socialInterests != null
+                      //     ? SizedBox(
+                      //         height: MediaQuery.of(context).size.height / 300,
+                      //       )
+                      //     : SizedBox(
+                      //         height: (0.0),
+                      //       ),
+                      // buildProfInterests(context)
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      0, 0, MediaQuery.of(context).size.height / 50, 0),
+                )
+              ],
+            ),
+            leading: Stack(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: screenH(30),
+                  backgroundImage: CachedNetworkImageProvider(
+                    widget.blocked == true
+                        ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                        : widget.personImage,
+                  ),
+                ),
+                widget.relationshipStatus != null
+                    ? Positioned(
+                  left: MediaQuery.of(context).size.width / 10000000,
+                  top: MediaQuery.of(context).size.height / 23.5,
+                  child: CircleAvatar(
+                    radius: MediaQuery.of(context).size.height / 80,
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height:
+                          MediaQuery.of(context).size.height / 600,
+                        ),
+                        Text(
+                          widget.relationshipStatus,
+                          style: TextStyle(fontSize: screenH(11.5)),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                    : SizedBox(
+                  width: 0.0,
+                )
+              ],
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                widget.blocked != true
+                    ? Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    color: liked==false?Colors.grey[100]:Colors.lightBlueAccent,
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      EvilIcons.like,
+                      size: screenH(35),
+                      color: Color(0xFF1458EA),
+                    ),
+                    color: Colors.black,
+                    onPressed: () {
+                      if(liked==false) {
+                        setState(() {
+                          liked=true;
+                          List<String> myId=[];
+                          myId.add(currentUserModel.uid);
+                          Firestore.instance.collection('users').document(widget.uid).updateData({
+                            'likedBy':FieldValue.arrayUnion(myId),
 
-    this.blocked,
-    this.bio});
-   @override
-   Widget build(BuildContext context) {
-     return Column(
-       children: <Widget>[
-         SizedBox(
-           height: 5.0,
-         ),
-         InkWell(
-           onTap: () {
-             if (blocked != true) {
-               Navigator.push(
-                   context,
-                   CupertinoPageRoute(
-                       builder: (context) => UserCard(
-                         userId: uid,
-                         userName: contactName,
-                       )));
-             } else {
-               Flushbar(
-                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                 borderRadius: 15,
-                 messageText: Padding(
-                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                   child: Column(
-                     mainAxisAlignment: MainAxisAlignment.start,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: <Widget>[
-                       Text(
-                         "You can't interact with a blocked user",
-                         style: TextStyle(color: Colors.grey),
-                       )
-                     ],
-                   ),
-                 ),
-                 backgroundColor: Colors.white,
-                 flushbarPosition: FlushbarPosition.TOP,
-                 icon: Padding(
-                   padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                   child: Icon(
-                     Icons.info_outline,
-                     size: 28.0,
-                     color: Color(0xFF1458EA),
-                   ),
-                 ),
-                 duration: Duration(seconds: 3),
-               )..show(context);
-             }
-           },
-           child: ListTile(
-             title: Text(
-               blocked == true ? "Blocked User" : contactName,
-               style: TextStyle(fontSize: 18),
-             ),
-             subtitle: Column(
-               children: <Widget>[
-                 Padding(
-                   padding: EdgeInsets.fromLTRB(
-                       0, MediaQuery.of(context).size.height / 1000, 0, 0),
-                 ),
-                 major != null && gradYear != null
-                     ? Align(
-                   alignment: Alignment.bottomLeft,
-                   child: Text(major + ", " + gradYear),
-                 )
-                     : Align(
-                   alignment: Alignment.bottomLeft,
-                   child: Text(major != null ? major : ""),
-                 ),
-                 Padding(
-                   padding: EdgeInsets.fromLTRB(
-                       0, MediaQuery.of(context).size.height / 600, 0, 0),
-                 ),
-                 Align(
-                   alignment: Alignment.centerLeft,
-                   child: Column(
-                     children: <Widget>[
-                       Text(
-                         bio != null ? bio : "",
-                         style: TextStyle(
-                           color: Color(0xFF1458EA),
-                         ),
-                         textAlign: TextAlign.start,
-                       )
-                       // buildSocialInterests(context),
-                       // socialInterests != null
-                       //     ? SizedBox(
-                       //         height: MediaQuery.of(context).size.height / 300,
-                       //       )
-                       //     : SizedBox(
-                       //         height: (0.0),
-                       //       ),
-                       // buildProfInterests(context)
-                     ],
-                   ),
-                 ),
-                 Padding(
-                   padding: EdgeInsets.fromLTRB(
-                       0, 0, MediaQuery.of(context).size.height / 50, 0),
-                 )
-               ],
-             ),
-             leading: Stack(
-               children: <Widget>[
-                 CircleAvatar(
-                   radius: screenH(30),
-                   backgroundImage: CachedNetworkImageProvider(
-                     blocked == true
-                         ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
-                         : personImage,
-                   ),
-                 ),
-                 relationshipStatus != null
-                     ? Positioned(
-                   left: MediaQuery.of(context).size.width / 10000000,
-                   top: MediaQuery.of(context).size.height / 23.5,
-                   child: CircleAvatar(
-                     radius: MediaQuery.of(context).size.height / 80,
-                     backgroundColor: Colors.white,
-                     child: Column(
-                       children: <Widget>[
-                         SizedBox(
-                           height:
-                           MediaQuery.of(context).size.height / 600,
-                         ),
-                         Text(
-                           relationshipStatus,
-                           style: TextStyle(fontSize: screenH(11.5)),
-                         ),
-                       ],
-                     ),
-                   ),
-                 )
-                     : SizedBox(
-                   width: 0.0,
-                 )
-               ],
-             ),
-             trailing: Row(
-               mainAxisSize: MainAxisSize.min,
-               children: <Widget>[
-                 blocked != true
-                     ? Container(
-                   decoration: BoxDecoration(
-                     borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                     color: liked==false?Colors.grey[100]:Colors.lightBlueAccent,
-                   ),
-                   child: IconButton(
-                     icon: Icon(
-                       EvilIcons.like,
-                       size: screenH(35),
-                       color: Color(0xFF1458EA),
-                     ),
-                     color: Colors.black,
-                     onPressed: () {
-                       if(liked==false) {
-                         setState(() {
-                            liked=true;
-                            List<String> myId=[];
-                            myId.add(currentUserModel.uid);
-                            Firestore.instance.collection('users').document(uid).updateData({
-                              'likedBy':FieldValue.arrayUnion(myId)
-                            });
-                            Firestore.instance.collection('users').document(uid).collection('likes').document(currentUserModel.uid).setData({
+                          });
+
+                          Firestore.instance.collection('users').document(widget.uid).collection('likes').document(currentUserModel.uid).setData({
 //                              'likerName':currentUserModel.displayName,
 //                              'likerPhoto':currentUserModel.photoUrl,
 //                              'likerBio':currentUserModel.bio,
@@ -1448,23 +1480,24 @@ class _UserTileState extends State<UserTile> {
 //                              'likerMajor':currentUserModel.major,
 //                              'likerGradYear':currentUserModel.gradYear,
 //                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
-                              'timestamp': Timestamp.now(),
-                              'liked':false,
-                              'likeType':likeType
-                            });
-                         });
-                       }
-                     },
-                   ),
-                 )
-                     : Container()
-               ],
-             ),
-           ),
-         )
-       ],
-     );
-   }
+                            'unread':true,
+                            'timestamp': Timestamp.now(),
+                            'liked':false,
+                            'likeType':widget.likeType
+                          });
+                        });
+                      }
+                    },
+                  ),
+                )
+                    : Container()
+              ],
+            ),
+          ),
+        )
+      ],
+    );
+  }
 }
 
 //class UserTile extends StatelessWidget {
@@ -1597,24 +1630,24 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
               context,
               CupertinoPageRoute(
                   builder: (context) => Chat(
-                        fromUserId: currentUserModel.uid,
-                        toUserId: message['senderId'],
-                      )));
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['senderId'],
+                  )));
         } else if (message['notifType'] == "postNotif") {
           if (message['type'] == "prof") {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
-                          postId: message['postId'],
-                        )));
+                      postId: message['postId'],
+                    )));
           } else {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => SocialComments(
-                          postId: message['postId'],
-                        )));
+                      postId: message['postId'],
+                    )));
           }
         } else if (message['notifType'] == "streamNotif") {
           Navigator.push(
@@ -1628,24 +1661,24 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
               context,
               CupertinoPageRoute(
                   builder: (context) => Chat(
-                        fromUserId: currentUserModel.uid,
-                        toUserId: message['data']['senderId'],
-                      )));
+                    fromUserId: currentUserModel.uid,
+                    toUserId: message['data']['senderId'],
+                  )));
         } else if (message['data']['notifType'] == "postNotif") {
           if (message['data']['type'] == "prof") {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => ProfComments(
-                          postId: message['data']['postId'],
-                        )));
+                      postId: message['data']['postId'],
+                    )));
           } else {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
                     builder: (context) => SocialComments(
-                          postId: message['data']['postId'],
-                        )));
+                      postId: message['data']['postId'],
+                    )));
           }
         } else if (message['data']['notifType'] == "streamNotif") {
           Navigator.push(

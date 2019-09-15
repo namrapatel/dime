@@ -96,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ScrollPage()));
+                      CupertinoPageRoute(builder: (context) => ScrollPage(social: true)));
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,

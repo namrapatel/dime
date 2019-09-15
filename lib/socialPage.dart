@@ -159,7 +159,7 @@ class _SocialPageState extends State<SocialPage> {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => ScrollPage()));
+                                  builder: (context) => ScrollPage(social: true)));
                         },
                       ),
                     ],

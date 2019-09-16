@@ -208,7 +208,7 @@ class _ExploreState extends State<Explore> {
                               'likedBy': FieldValue.arrayUnion(newId),
                             });
 
-                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId});
+                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'social'});
 
                           },
                           elevation: 0,
@@ -285,7 +285,7 @@ class _ExploreState extends State<Explore> {
                               'likedBy': FieldValue.arrayUnion(newId),
                             });
 
-                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId});
+                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'prof'});
 
                           },
                           elevation: 0,

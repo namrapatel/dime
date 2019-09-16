@@ -1487,9 +1487,7 @@ class _UserTileState extends State<UserTile> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
 
-                          color: widget.liked == false
-                              ? Colors.grey[100]
-                              : Color(0xFFa1baf0),
+                          color: Colors.grey[100]
 
                         ),
                         child: IconButton(

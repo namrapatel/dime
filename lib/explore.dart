@@ -140,9 +140,9 @@ class _ExploreState extends State<Explore> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 40,
-                ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height / 80,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -556,7 +556,7 @@ class _ExploreState extends State<Explore> {
       title: Row(
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width / 1.9,
+            width: MediaQuery.of(context).size.width / 2.4,
             child: AutoSizeText(
               data['userData']['displayName'],
               // style: TextStyle(color: Color(0xFF1458EA), fontSize: 13),

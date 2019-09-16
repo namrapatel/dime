@@ -118,3 +118,39 @@ exports.streamNotifTrigger = functions.firestore.document('streamNotifs/{notifId
             console.log(err);
     });
 });
+
+exports.likeNotifTrigger = functions.firestore.document('likeNotifs/{notifId}').onCreate((snapshot, context) => {
+    notifData = snapshot.data();
+    fromUserId = notifData.fromUser;
+    toUserId = notifData.toUser;
+    likeType = notifData.likeType;
+
+    admin.firestore().collection('users').doc(ownerId).get().then(function(doc) {
+        sendTokens = doc.data().tokens;
+
+        payLoad = {
+            "notification": {
+                "title": "Somebody just casual liked you!",
+                "body": "Click here for a hint",
+                "sound": "default"
+            },
+            "data": {
+                "click_action": "FLUTTER_NOTIFICATION_CLICK",
+                "title": "Somebody just casual liked you!",
+                "body": "Click here to find out more",
+                "notifType": "likeNotif",
+            }
+        };
+
+        if (likeType === 'prof') {
+            payLoad.notification.title = "Somebody just network liked you!";
+            payLoad.data.title = "Somebody just network liked you!";
+        }
+
+        return admin.messaging().sendToDevice(sendTokens, payLoad).then((response) => {
+            console.log('Pushed them all');
+        }).catch((err) => {
+            console.log(err);
+        });
+    });
+});

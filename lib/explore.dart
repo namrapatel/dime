@@ -88,7 +88,7 @@ class _ExploreState extends State<Explore> {
         )),
         builder: (builder) {
           return Container(
-            height: MediaQuery.of(context).size.height / 3,
+            height: MediaQuery.of(context).size.height / 2.7,
             child: Column(
               children: <Widget>[
                 Row(
@@ -219,7 +219,7 @@ class _ExploreState extends State<Explore> {
                             color: Color(0xFF8803fc),
                           ),
                         ),
-                        Text("Casual")
+                        Text("Casual",)
                       ],
                     ),
                     Column(

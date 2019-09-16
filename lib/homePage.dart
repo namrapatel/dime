@@ -1291,8 +1291,9 @@ class _ScrollPageState extends State<ScrollPage>
     setState(() {
       _value = value;
       print(_value);
+      typeStream.add(value);
     });
-    typeStream.add(value);
+
   }
 }
 
@@ -1320,12 +1321,10 @@ class UserTile extends StatefulWidget {
       this.blocked,
       this.bio});
   @override
-  _UserTileState createState() => _UserTileState(liked: liked);
+  _UserTileState createState() => _UserTileState();
 }
 
 class _UserTileState extends State<UserTile> {
-  bool liked;
-  _UserTileState({this.liked});
 
   @override
   void initState() {
@@ -1482,10 +1481,14 @@ class _UserTileState extends State<UserTile> {
                     ? Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          color: Colors.grey[100],
+
+                          color: widget.liked == false
+                              ? Colors.grey[100]
+                              : Color(0xFFa1baf0),
+
                         ),
                         child: IconButton(
-                          icon: liked == false
+                          icon: widget.liked == false
                               ? Icon(
                                   AntDesign.like2,
                                   size: screenH(25),
@@ -1498,6 +1501,49 @@ class _UserTileState extends State<UserTile> {
                                 ),
                           color: Colors.black,
                           onPressed: () {
+                           
+
+                            if (widget.liked == false) {
+                                setState(() {
+//                                likeCheck=true;
+//                                widget.liked = true;
+                                List<String> myId = [];
+                                myId.add(currentUserModel.uid);
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(widget.uid)
+                                    .updateData({
+                                  'likedBy': FieldValue.arrayUnion(myId),
+
+                                });
+
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(widget.uid)
+                                    .collection('likes')
+                                    .document(currentUserModel.uid)
+                                    .setData({
+//                              'likerName':currentUserModel.displayName,
+//                              'likerPhoto':currentUserModel.photoUrl,
+//                              'likerBio':currentUserModel.bio,
+//                              'likerUni':currentUserModel.university,
+//                              'likerMajor':currentUserModel.major,
+//                              'likerGradYear':currentUserModel.gradYear,
+//                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
+                                  'unread': true,
+                                  'timestamp': Timestamp.now(),
+                                  'liked': false,
+                                  'likeType': widget.likeType
+                                });
+
+                                Firestore.instance
+                                    .collection('likeNotifs')
+                                    .add({
+                                  'toUser': widget.uid,
+                                  'fromUser': currentUserModel.uid,
+                                  "likeType": widget.likeType
+                                });
+
                             Flushbar(
                               margin: EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 5),
@@ -1534,44 +1580,8 @@ class _UserTileState extends State<UserTile> {
                               duration: Duration(seconds: 10),
                             )..show(context);
 
-                            if (liked == false) {
-                              setState(() {
-                                liked = true;
-                                List<String> myId = [];
-                                myId.add(currentUserModel.uid);
-                                Firestore.instance
-                                    .collection('users')
-                                    .document(widget.uid)
-                                    .updateData({
-                                  'likedBy': FieldValue.arrayUnion(myId),
-                                });
 
-                                Firestore.instance
-                                    .collection('users')
-                                    .document(widget.uid)
-                                    .collection('likes')
-                                    .document(currentUserModel.uid)
-                                    .setData({
-//                              'likerName':currentUserModel.displayName,
-//                              'likerPhoto':currentUserModel.photoUrl,
-//                              'likerBio':currentUserModel.bio,
-//                              'likerUni':currentUserModel.university,
-//                              'likerMajor':currentUserModel.major,
-//                              'likerGradYear':currentUserModel.gradYear,
-//                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
-                                  'unread': true,
-                                  'timestamp': Timestamp.now(),
-                                  'liked': false,
-                                  'likeType': widget.likeType
-                                });
-
-                                Firestore.instance
-                                    .collection('likeNotifs')
-                                    .add({
-                                  'toUser': widget.uid,
-                                  'fromUser': currentUserModel.uid,
-                                  "likeType": widget.likeType
-                                });
+                             
                               });
                             }
                           },

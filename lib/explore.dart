@@ -24,12 +24,26 @@ class _ExploreState extends State<Explore> {
   var queryResultSet = [];
   var tempSearchStore = [];
   bool alreadyBuilt = false;
+  var likedUsers = [];
 
   getAllUsers() {
     return Firestore.instance
         .collection('users')
         .orderBy('university', descending: true)
         .getDocuments();
+  }
+
+  getLikedUsers() async {
+    DocumentSnapshot userDoc = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .get();
+
+    setState(() {
+      List<String> newList = [];
+      newList.addAll(userDoc['likedUsers']);
+      likedUsers = newList;
+    });
   }
 
   initiateSearch(String value) {
@@ -153,6 +167,9 @@ class _ExploreState extends State<Explore> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(16.0))),
                           onPressed: () {
+                            setState(() {
+                              likedUsers.add(likedUserId);
+                            });
                             Navigator.pop(context);
                             Flushbar(
                               margin: EdgeInsets.symmetric(
@@ -208,8 +225,20 @@ class _ExploreState extends State<Explore> {
                               'likedBy': FieldValue.arrayUnion(newId),
                             });
 
-                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'social'});
+                            List<String> newUserId = [];
+                            newUserId.add(likedUserId);
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .updateData({
+                              "likedUsers": FieldValue.arrayUnion(newUserId)
+                            });
 
+                            Firestore.instance.collection('likeNotifs').add({
+                              'toUser': likedUserId,
+                              'fromUser': currentUserModel.uid,
+                              "likeType": 'social'
+                            });
                           },
                           elevation: 0,
                           heroTag: 'socialButton2',
@@ -285,8 +314,20 @@ class _ExploreState extends State<Explore> {
                               'likedBy': FieldValue.arrayUnion(newId),
                             });
 
-                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'prof'});
+                            List<String> newUserId = [];
+                            newUserId.add(likedUserId);
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .updateData({
+                              "likedUsers": FieldValue.arrayUnion(newUserId)
+                            });
 
+                            Firestore.instance.collection('likeNotifs').add({
+                              'toUser': likedUserId,
+                              'fromUser': currentUserModel.uid,
+                              "likeType": 'prof'
+                            });
                           },
                           elevation: 0,
                           heroTag: 'profButton2',
@@ -337,9 +378,11 @@ class _ExploreState extends State<Explore> {
           });
         }
       });
-
       alreadyBuilt = true;
     }
+
+    getLikedUsers();
+
 
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
@@ -577,51 +620,55 @@ class _ExploreState extends State<Explore> {
           color: Colors.grey[100],
         ),
         child: IconButton(
-          icon: Icon(
+          icon: likedUsers.contains(data['userId']) ?
+          Icon(
+            AntDesign.like1,
+            size: screenH(25),
+            color: Color(0xFF1458EA),
+          ): Icon(
             AntDesign.like2,
             size: screenH(25),
             color: Color(0xFF1458EA),
-          ),
+          ) ,
           onPressed: () {
-            if (data['userData']['displayName'] == null
-                || data['userData']['bio'] == null
-                || data['userData']['university'] == null
-                || data['userData']['gradYear'] == null
-                || data['userData']['major'] == null) {
-                    Flushbar(
-                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                      borderRadius: 15,
-                      messageText: Padding(
-                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Text(
-                              "To like, please ensure your profile has a name, bio, university, grad year, and program!",
-                              style: TextStyle(color: Colors.black),
-                            )
-                          ],
-                        ),
-                      ),
-                      backgroundColor: Colors.white,
-                      flushbarPosition: FlushbarPosition.TOP,
-                      icon: Padding(
-                        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                        child: Icon(
-                          Icons.info_outline,
-                          size: 28.0,
-                          color: Color(0xFF1458EA),
-                        ),
-                      ),
-                      duration: Duration(seconds: 7),
-                    )..show(context);
-            }
-            else {
-              _showModalSheet(data['userId'], data['userData']['displayName']);
+            if (data['userData']['displayName'] == null ||
+                data['userData']['bio'] == null ||
+                data['userData']['university'] == null ||
+                data['userData']['gradYear'] == null ||
+                data['userData']['major'] == null) {
+              Flushbar(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                borderRadius: 15,
+                messageText: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "To like, please ensure your profile has a name, bio, university, grad year, and program!",
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                flushbarPosition: FlushbarPosition.TOP,
+                icon: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 28.0,
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+                duration: Duration(seconds: 7),
+              )..show(context);
+            } else {
               setState(() {
-                //MAHAD THE WIDGET IS INSIDE A CLASS THAT'S STATEFUL - DO IT IN HERE
+                likedUsers.add(data['userId']);
               });
+              _showModalSheet(data['userId'], data['userData']['displayName']);
             }
           },
         ),

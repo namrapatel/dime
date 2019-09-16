@@ -1149,9 +1149,9 @@ class _ScrollPageState extends State<ScrollPage>
                     ? 'Visible on Casual Location Feed?'
                     : 'Visible on Network Location Feed?',
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: screenF(18),
-                    ),
+                  color: Colors.black,
+                  fontSize: screenF(18),
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 15.7,
@@ -1189,94 +1189,6 @@ class _ScrollPageState extends State<ScrollPage>
                       activeColor: Color(0xff1976d2)),
             ],
           ),
-//          goodProfileStandard==false?
-//          Container(child: Text("add picture here saying you cant access feed or be visible until profile shit is added"),):
-//          profPressed==true?
-//          StreamBuilder(
-//            stream: proStream,
-//            builder:
-//                (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
-//              if (!snapshots.hasData) {
-//                return Container(
-//                    alignment: FractionalOffset.center,
-//                    child: CircularProgressIndicator());
-//              } else {
-//                print('im IN THE prof stream');
-//                if (snapshots.data.length != 0) {
-//                  snapshots.data.removeWhere((DocumentSnapshot doc) =>
-//                  doc.documentID == currentUserModel.uid);
-//                }
-//
-//                return Container(
-//                    child: Container(
-//                      child: (snapshots.data.length == 0)
-//                          ? Column(
-//                        children: <Widget>[
-//                          SizedBox(
-//                            height: 20.0,
-//                          ),
-//                          Image.asset(
-//                              'assets/img/undraw_peoplearoundyou.png'),
-//                          Padding(
-//                            padding: EdgeInsets.all(
-//                                MediaQuery.of(context).size.height / 20),
-//                            child: Text(
-//                              "There's nobody around. \n Go get a walk in and find some new people!",
-//                              textAlign: TextAlign.center,
-//                              style: TextStyle(fontSize: 20),
-//                            ),
-//                          ),
-//                        ],
-//                      )
-//                          : Container(
-//                        height: MediaQuery.of(context).size.height * 2 / 3,
-//                        child: ListView.builder(
-//                          cacheExtent: 5000.0,
-//                          itemBuilder: (context, index) {
-//                            DocumentSnapshot doc = snapshots.data[index];
-//                            print(
-//                                'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-//                            GeoPoint point = doc.data['position']['geopoint'];
-//                            if (doc.data['blocked${currentUserModel.uid}'] ==
-//                                true) {
-//                              return UserTile(blocked: true);
-//                            } else {
-//                              bool liked=false;
-//
-//                              List<dynamic> likedBy=doc.data['likedBy'];
-//
-//
-//                              if(likedBy!=null && likedBy.contains(currentUserModel.uid)) {
-//                                liked = true;
-//                              }
-//                              print('liked below is');
-//                              print(liked);
-//                              return UserTile(
-//                                  likeType:likeType,
-//                                  liked:liked,
-//                                  relationshipStatus:
-//                                  doc.data['relationshipStatus'],
-//                                  contactName: doc.data['displayName'],
-//                                  personImage: doc.data['photoUrl'],
-//                                  uid: doc.documentID,
-//                                  major: doc.data['major'],
-//
-////                                    profInterests: doc.data['profInterests'],
-////                                    socialInterests:
-////                                        doc.data['socialInterests'],
-//                                  university: doc.data['university'],
-//                                  gradYear: doc.data['gradYear'],
-//                                  bio: doc.data['bio']);
-//                            }
-//                          },
-//                          itemCount: snapshots.data.length,
-//                        ),
-//                      ),
-//                    ));
-//
-//              }
-//            },
-//          ):
           StreamBuilder(
             stream: stream,
             builder: (context, snapshots) {
@@ -1357,10 +1269,6 @@ class _ScrollPageState extends State<ScrollPage>
                                     personImage: doc.data['photoUrl'],
                                     uid: doc.documentID,
                                     major: doc.data['major'],
-
-//                                    profInterests: doc.data['profInterests'],
-//                                    socialInterests:
-//                                        doc.data['socialInterests'],
                                     university: doc.data['university'],
                                     gradYear: doc.data['gradYear'],
                                     bio: doc.data['bio']);
@@ -1375,45 +1283,6 @@ class _ScrollPageState extends State<ScrollPage>
           ),
         ]));
   }
-
-//  Widget _getUpperLayer() {
-//    return Container(
-//        color: Colors.white,
-//        child: ListView(
-//          children: <Widget>[
-//
-//            FutureBuilder<List<UserTile>>(
-//            future: getUsers(),
-//            builder: (context, snapshot) {
-//              if (!snapshot.hasData)
-//                return Container(
-//                    alignment: FractionalOffset.center,
-//                    child: CircularProgressIndicator());
-//
-//              return Container(
-//                child:
-//                snapshot.data.length == 0?
-//                Column(
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
-//                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
-//                      textAlign: TextAlign.center,
-//                      style: TextStyle(fontSize: 20),
-//                      ),
-//                    ),
-//                    Image.asset('assets/img/undraw_peoplearoundyou.png')
-//                  ],
-//                ):
-//                Column(children:
-//                snapshot.data),
-//              );
-//            })
-//          ],
-//        )
-//
-//            );
-//  }
 
   String _value = "social";
   String _label = '';

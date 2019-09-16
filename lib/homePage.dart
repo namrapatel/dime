@@ -54,7 +54,9 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+
 //  bool liked=false;
+
   String likeType = 'social';
   _ScrollPageState({this.socialPressed});
   bool socialPressed;
@@ -196,6 +198,7 @@ class _ScrollPageState extends State<ScrollPage>
 //    currentUserModel = User.fromDocument(userRecord);
 //    });
 //
+
 //    setState(() {
 //      socStream = geo
 //          .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
@@ -220,12 +223,21 @@ class _ScrollPageState extends State<ScrollPage>
               collectionRef: Firestore.instance
                   .collection('users')
                   .where(streamType, isEqualTo: true))
+
           .within(
               center: userLoc,
               radius: radius,
               field: 'position',
               strictMode: strictmode);
     });
+
+
+//    stream = radius.switchMap((rad) {
+//      var collectionReference = Firestore.instance.collection('users');
+//      return geo.collection(collectionRef: collectionReference).within(
+//          center: userLoc, radius: rad, field: 'position', strictMode: true);
+//    });
+
 
 //    changed(_value);
 //    print(distanceInMeters);
@@ -303,11 +315,17 @@ class _ScrollPageState extends State<ScrollPage>
           } else {
             LocalNotifcation(context, message['aps']['alert']['title'],
                 message['aps']['alert']['body'], "postNotifSocial", message);
+
           }
         } else if (message['notifType'] == "streamNotif" &&
             message['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['aps']['alert']['title'],
               message['aps']['alert']['body'], "streamNotif", message);
+        }
+        else if (message['notifType'] == "likeNotif")
+        {
+          LocalNotifcation(context, message['aps']['alert']['title'],
+              message['aps']['alert']['body'], "likeNotif", message);
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -321,11 +339,19 @@ class _ScrollPageState extends State<ScrollPage>
             LocalNotifcation(context, message['notification']['title'],
                 message['notification']['body'], "postNotifSocial", message);
           }
+
         } else if (message['data']['notifType'] == 'streamNotif' &&
             message['data']['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['notification']['title'],
               message['notification']['body'], "streamNotif", message);
         }
+
+        else if (message['data']['notifType'] == "likeNotif")
+        {
+          LocalNotifcation(context, message['aps']['alert']['title'],
+              message['aps']['alert']['body'], "likeNotif", message);
+        }
+
       }
     }, onResume: (Map<String, dynamic> message) async {
       if (Theme.of(context).platform == TargetPlatform.iOS) {
@@ -358,6 +384,12 @@ class _ScrollPageState extends State<ScrollPage>
               context,
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
+        } else if (message['notifType'] == "likeNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => NotifcationsScreen())
+          );
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -390,6 +422,13 @@ class _ScrollPageState extends State<ScrollPage>
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
+        }
+        else if (message['data']['notifType'] == "likeNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => NotifcationsScreen())
+          );
         }
       }
     }, onLaunch: (Map<String, dynamic> message) async {
@@ -424,6 +463,13 @@ class _ScrollPageState extends State<ScrollPage>
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
         }
+        else if (message['notifType'] == "likeNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => NotifcationsScreen())
+          );
+        }
       } else {
         if (message['data']['notifType'] == "chat") {
           Navigator.push(
@@ -455,6 +501,14 @@ class _ScrollPageState extends State<ScrollPage>
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
+        }
+        else if (message['data']['notifType'] == "likeNotif") {
+
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => NotifcationsScreen())
+          );
         }
       }
     });
@@ -725,8 +779,7 @@ class _ScrollPageState extends State<ScrollPage>
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(35),
                     topRight: Radius.circular(35),
-                  )
-                  ),
+                  )),
               child: Column(
                 children: <Widget>[
                   Padding(
@@ -1058,12 +1111,14 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
+
 //                  Navigator.push(
 //                      context,
 //                      CupertinoPageRoute(
 //                          builder: (context) => ScrollPage(social: true,)));
                   setState(() {
                     changed("socialVisible");
+
 
                     likeType = 'social';
                     socialPressed = !socialPressed;
@@ -1083,12 +1138,14 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
+
 //                  Navigator.push(
 //                      context,
 //                      CupertinoPageRoute(
 //                          builder: (context) => ScrollPage(social: false,)));
                   setState(() {
                     changed("profVisible");
+
                     likeType = 'prof';
                     socialPressed = !socialPressed;
                   });
@@ -1254,7 +1311,9 @@ class _ScrollPageState extends State<ScrollPage>
 //            },
 //          ):
           StreamBuilder(
+
             stream: stream,
+
             builder: (context, snapshots) {
               if (!snapshots.hasData) {
                 return Container(
@@ -1302,6 +1361,7 @@ class _ScrollPageState extends State<ScrollPage>
                                   true) {
                                 return UserTile(blocked: true);
                               } else {
+
                                 bool liked;
 
                                 List<dynamic> likedBy = doc.data['likedBy'];
@@ -1311,6 +1371,7 @@ class _ScrollPageState extends State<ScrollPage>
                                   liked = true;
 
 //                                liked = true;
+
                                   print('in here for somer eason');
                                 } else {
                                   liked = false;
@@ -1324,8 +1385,10 @@ class _ScrollPageState extends State<ScrollPage>
                                 }
 
                                 return UserTile(
+
                                     liked: liked,
                                     likeType: type,
+
                                     relationshipStatus:
                                         doc.data['relationshipStatus'],
                                     contactName: doc.data['displayName'],
@@ -1414,8 +1477,10 @@ class UserTile extends StatefulWidget {
       gradYear,
       bio;
   const UserTile(
+
       {this.liked,
       this.likeType,
+
       this.relationshipStatus,
       this.contactName,
       this.personImage,
@@ -1430,14 +1495,18 @@ class UserTile extends StatefulWidget {
 }
 
 class _UserTileState extends State<UserTile> {
+
   bool liked;
   _UserTileState({this.liked});
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 //    setState(() {
+
 //    liked=widget.liked;
+
 //    });
   }
 
@@ -1586,9 +1655,8 @@ class _UserTileState extends State<UserTile> {
 
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          color: liked == false
-                              ? Colors.grey[100]
-                              : Color(0xFFa1baf0),
+                          color: Colors.grey[100],
+
                         ),
                         child: IconButton(
                           icon: liked == false
@@ -1604,6 +1672,43 @@ class _UserTileState extends State<UserTile> {
                                 ),
                           color: Colors.black,
                           onPressed: () {
+
+                            Flushbar(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              borderRadius: 15,
+                              messageText: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      widget.likeType == "social"
+                                          ? "A casual" +
+                                              " like has been sent to " +
+                                              widget.contactName
+                                          : "A network" +
+                                              " like has been sent to " +
+                                              widget.contactName,
+                                      style: TextStyle(color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              backgroundColor: Colors.white,
+                              flushbarPosition: FlushbarPosition.TOP,
+                              icon: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 28.0,
+                                  color: Color(0xFF1458EA),
+                                ),
+                              ),
+                              duration: Duration(seconds: 10),
+                            )..show(context);
+
                             if (liked == false) {
                               setState(() {
                                 liked = true;
@@ -1635,6 +1740,11 @@ class _UserTileState extends State<UserTile> {
                                   'liked': false,
                                   'likeType': widget.likeType
                                 });
+
+
+                                Firestore.instance.collection('likeNotifs').add({'toUser': widget.uid, 'fromUser': currentUserModel.uid, "likeType": widget.likeType});
+
+
                               });
                             }
                           },
@@ -1804,6 +1914,13 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
         }
+        else if (message['notifType'] == "likeNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => NotifcationsScreen())
+          );
+        }
       } else {
         if (message['data']['notifType'] == "chat") {
           Navigator.push(
@@ -1835,6 +1952,13 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
+        }
+        else if (message['data']['notifType'] == "likeNotif") {
+          Navigator.push(
+              context,
+              CupertinoPageRoute(
+                  builder: (context) => NotifcationsScreen())
+          );
         }
       }
     },

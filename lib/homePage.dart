@@ -1150,7 +1150,7 @@ class _ScrollPageState extends State<ScrollPage>
                     : 'Visible on Network Location Feed?',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: screenF(18),
+                  fontSize: 18,
                 ),
               ),
               SizedBox(

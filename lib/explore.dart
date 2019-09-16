@@ -207,10 +207,7 @@ class _ExploreState extends State<Explore> {
                                 .updateData({
                               'likedBy': FieldValue.arrayUnion(newId),
                             });
-                            
-                            List<String> newUserId = [];
-                            newUserId.add(likedUserId);
-                            Firestore.instance.collection('users').document(currentUserModel.uid).updateData({"likedUsers": FieldValue.arrayUnion(newUserId)});
+
                             Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'social'});
 
                           },
@@ -287,10 +284,6 @@ class _ExploreState extends State<Explore> {
                                 .updateData({
                               'likedBy': FieldValue.arrayUnion(newId),
                             });
-
-                            List<String> newUserId = [];
-                            newUserId.add(likedUserId);
-                            Firestore.instance.collection('users').document(currentUserModel.uid).updateData({"likedUsers": FieldValue.arrayUnion(newUserId)});
 
                             Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'prof'});
 
@@ -584,12 +577,7 @@ class _ExploreState extends State<Explore> {
           color: Colors.grey[100],
         ),
         child: IconButton(
-          icon: currentUserModel.likedUsers.contains(data['userId']) ?
-          Icon(
-            AntDesign.like1,
-            size: screenH(25),
-            color: Color(0xFF1458EA),
-          ): Icon(
+          icon: Icon(
             AntDesign.like2,
             size: screenH(25),
             color: Color(0xFF1458EA),

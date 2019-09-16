@@ -16,7 +16,6 @@ class User {
   final GeoPoint currentLocation;
   final String bio;
   final String relationshipStatus;
-  final List<String> likedUsers;
 
   const User({
     this.university,
@@ -30,8 +29,7 @@ class User {
     this.email,
     this.displayName,
     this.bio,
-    this.relationshipStatus,
-    this.likedUsers,
+    this.relationshipStatus
   });
 
   factory User.fromDocument(DocumentSnapshot document) {
@@ -47,7 +45,7 @@ class User {
         socialInterests: document['socialInterests'],
         currentLocation: document['currentLocation'],
         bio: document['bio'],
-        relationshipStatus: document['relationshipStatus'],
-        likedUsers: document['likedUsers']);
+        relationshipStatus: document['relationshipStatus']);
+
   }
 }

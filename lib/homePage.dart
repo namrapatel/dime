@@ -864,8 +864,8 @@ class _ScrollPageState extends State<ScrollPage>
                           elevation: 0,
                           heroTag: 'socialButton',
                           backgroundColor: socialPressed == false
-                              ? Colors.grey[100]
-                              : Color(0xFFe0bdff),
+                              ? Colors.white
+                              : Colors.grey[100],
                           child: Icon(
                             Entypo.drink,
                             color: Color(0xFF8803fc),
@@ -893,8 +893,8 @@ class _ScrollPageState extends State<ScrollPage>
                           elevation: 0,
                           heroTag: 'profButton',
                           backgroundColor: socialPressed == true
-                              ? Colors.grey[100]
-                              : Color(0xFFb9ebe9),
+                              ? Colors.white
+                              : Colors.grey[100],
                           child: Icon(
                             FontAwesome.graduation_cap,
                             color: Color(0xFF096664),
@@ -927,7 +927,7 @@ class _ScrollPageState extends State<ScrollPage>
                 ],
               ),
             ),
-            headerHeight: MediaQuery.of(context).size.height / 5,
+            headerHeight: MediaQuery.of(context).size.height / 4,
             upperLayer: _getUpperLayer(),
             animationController: _controller,
           ),
@@ -1144,15 +1144,15 @@ class _ScrollPageState extends State<ScrollPage>
               SizedBox(
                 width: MediaQuery.of(context).size.width / 12.5,
               ),
-              Text(
-                socialPressed == true
-                    ? 'Visible on Casual Location Feed?'
-                    : 'Visible on Network Location Feed?',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                ),
-              ),
+              // Text(
+              //   socialPressed == true
+              //       ? 'Visible on Casual Location Feed?'
+              //       : 'Visible on Network Location Feed?',
+              //   style: TextStyle(
+              //     color: Colors.black,
+              //     fontSize: 18,
+              //   ),
+              // ),
               SizedBox(
                 width: MediaQuery.of(context).size.width / 15.7,
               ),

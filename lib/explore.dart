@@ -211,6 +211,7 @@ class _ExploreState extends State<Explore> {
                             List<String> newUserId = [];
                             newUserId.add(likedUserId);
                             Firestore.instance.collection('users').document(currentUserModel.uid).updateData({"likedUsers": FieldValue.arrayUnion(newUserId)});
+                            currentUserModel.likedUsers.add(likedUserId);
                             Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'social'});
 
                           },
@@ -291,7 +292,7 @@ class _ExploreState extends State<Explore> {
                             List<String> newUserId = [];
                             newUserId.add(likedUserId);
                             Firestore.instance.collection('users').document(currentUserModel.uid).updateData({"likedUsers": FieldValue.arrayUnion(newUserId)});
-
+                            currentUserModel.likedUsers.add(likedUserId);
                             Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId, 'fromUser': currentUserModel.uid, "likeType": 'prof'});
 
                           },
@@ -584,7 +585,7 @@ class _ExploreState extends State<Explore> {
           color: Colors.grey[100],
         ),
         child: IconButton(
-          icon: currentUserModel.likedUsers.contains(data['userId']) ?
+          icon: currentUserModel.likedUsers!=null && currentUserModel.likedUsers.contains(data['userId']) ?
           Icon(
             AntDesign.like1,
             size: screenH(25),

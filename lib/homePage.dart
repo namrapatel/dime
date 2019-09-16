@@ -1189,6 +1189,7 @@ class _ScrollPageState extends State<ScrollPage>
                       activeColor: Color(0xff1976d2)),
             ],
           ),
+          ((socialPressed==true&&appearOnSocial==true)||(socialPressed==false&&appearOnProf==true))?
           StreamBuilder(
             stream: stream,
             builder: (context, snapshots) {
@@ -1280,7 +1281,7 @@ class _ScrollPageState extends State<ScrollPage>
                 ));
               }
             },
-          ),
+          ):Container(),
         ]));
   }
 

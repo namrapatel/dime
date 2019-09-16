@@ -188,9 +188,9 @@ class _ExploreState extends State<Explore> {
                             )..show(context);
                             Firestore.instance
                                 .collection('users')
-                                .document(currentUserModel.uid)
-                                .collection('likes')
                                 .document(likedUserId)
+                                .collection('likes')
+                                .document(currentUserModel.uid)
                                 .setData({
                               'likeType': 'social',
                               'liked': 'true',
@@ -265,9 +265,9 @@ class _ExploreState extends State<Explore> {
 
                             Firestore.instance
                                 .collection('users')
-                                .document(currentUserModel.uid)
-                                .collection('likes')
                                 .document(likedUserId)
+                                .collection('likes')
+                                .document(currentUserModel.uid)
                                 .setData({
                               'likeType': 'prof',
                               'liked': 'true',
@@ -507,7 +507,7 @@ class _ExploreState extends State<Explore> {
   }
 
   Widget _buildTile(data) {
-    var liked = false;
+//    Firestore.instance.collection('users').document(data['userId']).get()
     return ListTile(
       onTap: () {
         Navigator.push(
@@ -583,12 +583,12 @@ class _ExploreState extends State<Explore> {
             color: Color(0xFF1458EA),
           ),
           onPressed: () {
-            if (data['userData']['name'] == null
+            if (data['userData']['displayName'] == null
                 || data['userData']['bio'] == null
                 || data['userData']['university'] == null
                 || data['userData']['gradYear'] == null
                 || data['userData']['major'] == null) {
-              // insert flushbar here
+//              // insert flushbar here
             }
             else {
               _showModalSheet(data['userId'], data['userData']['displayName']);

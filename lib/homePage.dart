@@ -324,6 +324,11 @@ class _ScrollPageState extends State<ScrollPage>
           LocalNotifcation(context, message['notification']['title'],
               message['notification']['body'], "streamNotif", message);
         }
+        else if (message['data']['notifType'] == "likeNotif")
+        {
+          LocalNotifcation(context, message['aps']['alert']['title'],
+              message['aps']['alert']['body'], "likeNotif", message);
+        }
       }
     }, onResume: (Map<String, dynamic> message) async {
       if (Theme.of(context).platform == TargetPlatform.iOS) {

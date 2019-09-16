@@ -193,7 +193,7 @@ class _ExploreState extends State<Explore> {
                                 .document(currentUserModel.uid)
                                 .setData({
                               'likeType': 'social',
-                              'liked': 'true',
+                              'liked': true,
                               'timestamp': Timestamp.now(),
                               'unread': false
                             });
@@ -270,7 +270,7 @@ class _ExploreState extends State<Explore> {
                                 .document(currentUserModel.uid)
                                 .setData({
                               'likeType': 'prof',
-                              'liked': 'true',
+                              'liked': true,
                               'timestamp': Timestamp.now(),
                               'unread': false
                             });

@@ -1397,8 +1397,9 @@ class _ScrollPageState extends State<ScrollPage>
     setState(() {
       _value = value;
       print(_value);
+      typeStream.add(value);
     });
-    typeStream.add(value);
+
   }
 }
 
@@ -1426,12 +1427,13 @@ class UserTile extends StatefulWidget {
       this.blocked,
       this.bio});
   @override
-  _UserTileState createState() => _UserTileState(liked: liked);
+  _UserTileState createState() => _UserTileState();
 }
 
 class _UserTileState extends State<UserTile> {
-  bool liked;
-  _UserTileState({this.liked});
+//  bool liked;
+//bool likeCheck=false;
+//  _UserTileState({this.liked});
   @override
   void initState() {
     // TODO: implement initState
@@ -1586,12 +1588,12 @@ class _UserTileState extends State<UserTile> {
 
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          color: liked == false
+                          color: widget.liked == false
                               ? Colors.grey[100]
                               : Color(0xFFa1baf0),
                         ),
                         child: IconButton(
-                          icon: liked == false
+                          icon: widget.liked == false
                               ? Icon(
                                   AntDesign.like2,
                                   size: screenH(25),
@@ -1604,9 +1606,10 @@ class _UserTileState extends State<UserTile> {
                                 ),
                           color: Colors.black,
                           onPressed: () {
-                            if (liked == false) {
+                            if (widget.liked == false) {
                               setState(() {
-                                liked = true;
+//                                likeCheck=true;
+//                                widget.liked = true;
                                 List<String> myId = [];
                                 myId.add(currentUserModel.uid);
                                 Firestore.instance
@@ -1614,6 +1617,7 @@ class _UserTileState extends State<UserTile> {
                                     .document(widget.uid)
                                     .updateData({
                                   'likedBy': FieldValue.arrayUnion(myId),
+
                                 });
 
 

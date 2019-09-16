@@ -78,184 +78,241 @@ class _ExploreState extends State<Explore> {
     }
   }
 
-    void _showModalSheet() {
-    showModalBottomSheet(context: context, shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(35),
-                    topRight: Radius.circular(35),
-                  )), builder: (builder) {
-      return Container(
-        height: MediaQuery.of(context).size.height/3,
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+  void _showModalSheet(String likedUserId, String likedName) {
+    showModalBottomSheet(
+        context: context,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(35),
+          topRight: Radius.circular(35),
+        )),
+        builder: (builder) {
+          return Container(
+            height: MediaQuery.of(context).size.height / 3,
+            child: Column(
               children: <Widget>[
-                Text('What kind of like?', style: TextStyle(fontSize: 20),),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 72,
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.info_outline,
-                          color: Color(0xFF1458EA),
-                        ),
-                        onPressed: () {
-                          Flushbar(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            borderRadius: 15,
-                            messageText: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "A casual like is the start to a friendship or relationship. A network like is a chance to connect with someone professionally.",
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                ],
-                              ),
-                            ),
-                            backgroundColor: Colors.white,
-                            flushbarPosition: FlushbarPosition.TOP,
-                            icon: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                              child: Icon(
-                                Icons.info_outline,
-                                size: 28.0,
-                                color: Color(0xFF1458EA),
-                              ),
-                            ),
-                            duration: Duration(seconds: 5),
-                          )..show(context);
-                        },
-                      ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height/40,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-              Column(
-                children: <Widget>[
-                  FloatingActionButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    onPressed: () {
-                      Navigator.pop(context);
-                          Flushbar(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            borderRadius: 15,
-                            messageText: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    // widget.likeType == "social"?
-                                    // "A casual" + " like has been sent to " + widget.contactName:
-                                    // "A network" + " like has been sent to " + widget.contactName,
-                                    "A casual like has been sent to Mahad Zaryab",
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                ],
-                              ),
-                            ),
-                            backgroundColor: Colors.white,
-                            flushbarPosition: FlushbarPosition.TOP,
-                            icon: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                              child: Icon(
-                                Icons.info_outline,
-                                size: 28.0,
-                                color: Color(0xFF1458EA),
-                              ),
-                            ),
-                            duration: Duration(seconds: 5),
-                          )..show(context);
-                    },
-                    elevation: 0,
-                    heroTag: 'socialButton2',
-                    backgroundColor: Colors.grey[100],
-                    child: Icon(
-                      Entypo.drink,
-                      color: Color(0xFF8803fc),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'What kind of like?',
+                      style: TextStyle(fontSize: 20),
                     ),
-                  ),
-                  Text("Casual")
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  FloatingActionButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                    onPressed: () {
-                      Navigator.pop(context);
-                          Flushbar(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            borderRadius: 15,
-                            messageText: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    // widget.likeType == "social"?
-                                    // "A casual" + " like has been sent to " + widget.contactName:
-                                    // "A network" + " like has been sent to " + widget.contactName,
-                                    "A network like has been sent to Mahad Zaryab",
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                ],
-                              ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 72,
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.info_outline,
+                        color: Color(0xFF1458EA),
+                      ),
+                      onPressed: () {
+                        Flushbar(
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                          borderRadius: 15,
+                          messageText: Padding(
+                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  "A casual like is the start to a friendship or relationship. A network like is a chance to connect with someone professionally.",
+                                  style: TextStyle(color: Colors.black),
+                                )
+                              ],
                             ),
-                            backgroundColor: Colors.white,
-                            flushbarPosition: FlushbarPosition.TOP,
-                            icon: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                              child: Icon(
-                                Icons.info_outline,
-                                size: 28.0,
-                                color: Color(0xFF1458EA),
-                              ),
+                          ),
+                          backgroundColor: Colors.white,
+                          flushbarPosition: FlushbarPosition.TOP,
+                          icon: Padding(
+                            padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                            child: Icon(
+                              Icons.info_outline,
+                              size: 28.0,
+                              color: Color(0xFF1458EA),
                             ),
-                            duration: Duration(seconds: 5),
-                          )..show(context);
-                    },
-                    elevation: 0,
-                    heroTag: 'profButton2',
-                    backgroundColor: Colors.grey[100],
-                    child: Row(
+                          ),
+                          duration: Duration(seconds: 5),
+                        )..show(context);
+                      },
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 40,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Column(
                       children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width / 30,
-                        ),
-                        Icon(
-                          FontAwesome.graduation_cap,
-                          color: Color(0xFF096664),
-                        ),
-                      ],
+                        FloatingActionButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0))),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Flushbar(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              borderRadius: 15,
+                              messageText: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      // widget.likeType == "social"?
+                                      // "A casual" + " like has been sent to " + widget.contactName:
+                                      // "A network" + " like has been sent to " + widget.contactName,
+                                      "A casual like has been sent to $likedName",
+                                      style: TextStyle(color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              backgroundColor: Colors.white,
+                              flushbarPosition: FlushbarPosition.TOP,
+                              icon: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 28.0,
+                                  color: Color(0xFF1458EA),
+                                ),
+                              ),
+                              duration: Duration(seconds: 5),
+                            )..show(context);
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .collection('likes')
+                                .document(likedUserId)
+                                .setData({
+                              'likeType': 'social',
+                              'liked': 'true',
+                              'timestamp': Timestamp.now(),
+                              'unread': false
+                            });
 
+                            List<String> newId = [];
+                            newId.add(currentUserModel.uid);
+
+                            Firestore.instance
+                                .collection('users')
+                                .document(likedUserId)
+                                .updateData({
+                              'likedBy': FieldValue.arrayUnion(newId),
+                            });
+
+                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId});
+
+                          },
+                          elevation: 0,
+                          heroTag: 'socialButton2',
+                          backgroundColor: Colors.grey[100],
+                          child: Icon(
+                            Entypo.drink,
+                            color: Color(0xFF8803fc),
+                          ),
+                        ),
+                        Text("Casual")
+                      ],
                     ),
-                  ),
-                  Text("Network")
-                ],
-              ),
+                    Column(
+                      children: <Widget>[
+                        FloatingActionButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0))),
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Flushbar(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              borderRadius: 15,
+                              messageText: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      // widget.likeType == "social"?
+                                      // "A casual" + " like has been sent to " + widget.contactName:
+                                      // "A network" + " like has been sent to " + widget.contactName,
+                                      "A network like has been sent to $likedName",
+                                      style: TextStyle(color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              backgroundColor: Colors.white,
+                              flushbarPosition: FlushbarPosition.TOP,
+                              icon: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 28.0,
+                                  color: Color(0xFF1458EA),
+                                ),
+                              ),
+                              duration: Duration(seconds: 5),
+                            )..show(context);
+
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .collection('likes')
+                                .document(likedUserId)
+                                .setData({
+                              'likeType': 'prof',
+                              'liked': 'true',
+                              'timestamp': Timestamp.now(),
+                              'unread': false
+                            });
+
+                            List<String> newId = [];
+                            newId.add(currentUserModel.uid);
+
+                            Firestore.instance
+                                .collection('users')
+                                .document(likedUserId)
+                                .updateData({
+                              'likedBy': FieldValue.arrayUnion(newId),
+                            });
+
+                            Firestore.instance.collection('likeNotifs').add({'toUser': likedUserId});
+
+                          },
+                          elevation: 0,
+                          heroTag: 'profButton2',
+                          backgroundColor: Colors.grey[100],
+                          child: Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 30,
+                              ),
+                              Icon(
+                                FontAwesome.graduation_cap,
+                                color: Color(0xFF096664),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text("Network")
+                      ],
+                    ),
+                  ],
+                )
               ],
-            )
-          ],
-        ),
-        padding: EdgeInsets.all(40.0),
-      );
-    });
+            ),
+            padding: EdgeInsets.all(40.0),
+          );
+        });
   }
 
   @override
@@ -330,43 +387,42 @@ class _ExploreState extends State<Explore> {
                     fontSize: screenF(48),
                   ),
                 ),
-                      IconButton(
-                        icon: Icon(
+                IconButton(
+                  icon: Icon(
+                    Icons.info_outline,
+                    color: Color(0xFF1458EA),
+                  ),
+                  onPressed: () {
+                    Flushbar(
+                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      borderRadius: 15,
+                      messageText: Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Use the explore feed to find people you're interested in. You can still send an anonymous like, but they won't know if it's for social or professional reasons.",
+                              style: TextStyle(color: Colors.black),
+                            )
+                          ],
+                        ),
+                      ),
+                      backgroundColor: Colors.white,
+                      flushbarPosition: FlushbarPosition.TOP,
+                      icon: Padding(
+                        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                        child: Icon(
                           Icons.info_outline,
+                          size: 28.0,
                           color: Color(0xFF1458EA),
                         ),
-                        onPressed: () {
-                          Flushbar(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            borderRadius: 15,
-                            messageText: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    "Use the explore feed to find people you're interested in. You can still send an anonymous like, but they won't know if it's for social or professional reasons.",
-                                    style: TextStyle(color: Colors.black),
-                                  )
-                                ],
-                              ),
-                            ),
-                            backgroundColor: Colors.white,
-                            flushbarPosition: FlushbarPosition.TOP,
-                            icon: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                              child: Icon(
-                                Icons.info_outline,
-                                size: 28.0,
-                                color: Color(0xFF1458EA),
-                              ),
-                            ),
-                            duration: Duration(seconds: 7),
-                          )..show(context);
-                        },
                       ),
+                      duration: Duration(seconds: 7),
+                    )..show(context);
+                  },
+                ),
               ],
             ),
             Row(
@@ -451,6 +507,7 @@ class _ExploreState extends State<Explore> {
   }
 
   Widget _buildTile(data) {
+    var liked = false;
     return ListTile(
       onTap: () {
         Navigator.push(
@@ -499,7 +556,6 @@ class _ExploreState extends State<Explore> {
       title: Row(
         children: <Widget>[
           Container(
-            
             width: MediaQuery.of(context).size.width / 1.9,
             child: AutoSizeText(
               data['userData']['displayName'],
@@ -515,26 +571,22 @@ class _ExploreState extends State<Explore> {
       // Text(data['userData']['displayName']),
       subtitle: Text(
           data['userData']['major'] != null ? data['userData']['major'] : ""),
-          trailing: Container(
-            decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                    color: Colors.grey[100],
-                  ),
-            child: IconButton(
-                    icon: Icon(
-                      AntDesign.like2,
-                      size: screenH(25),
-                      color: Color(0xFF1458EA),
-                    ),
-                    onPressed: (){
-                      _showModalSheet();
-                    },
-
-                    
-                    
-                    ),
-            
+      trailing: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+          color: Colors.grey[100],
+        ),
+        child: IconButton(
+          icon: Icon(
+            AntDesign.like2,
+            size: screenH(25),
+            color: Color(0xFF1458EA),
           ),
+          onPressed: () {
+            _showModalSheet(data['userId'], data['userData']['displayName']);
+          },
+        ),
+      ),
 //      trailing: (currentUserModel.bio!=null&&currentUserModel.university!=null&&currentUserModel.major!=null&&currentUserModel.gradYear!=null&&(currentUserModel.displayName!="New User"&&currentUserModel.displayName!="No Display Name"))?Row(
 //        mainAxisSize: MainAxisSize.min,
 //        children: <Widget>[

@@ -125,7 +125,7 @@ exports.likeNotifTrigger = functions.firestore.document('likeNotifs/{notifId}').
     toUserId = notifData.toUser;
     likeType = notifData.likeType;
 
-    admin.firestore().collection('users').doc(ownerId).get().then(function(doc) {
+    admin.firestore().collection('users').doc(toUserId).get().then(function(doc) {
         sendTokens = doc.data().tokens;
 
         payLoad = {

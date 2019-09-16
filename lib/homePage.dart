@@ -16,6 +16,9 @@ import 'package:page_transition/page_transition.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'login.dart';
 import 'chatList.dart';
+import 'dart:io';
+import 'package:package_info/package_info.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'chat.dart';
 import 'explore.dart';
 import 'userCard.dart';
@@ -34,6 +37,7 @@ import 'package:geoflutterfire/geoflutterfire.dart';
 import 'profComments.dart';
 import 'socialComments.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:url_launcher/url_launcher.dart';
 
 String currentToken = "";
 final screenH = ScreenUtil.instance.setHeight;
@@ -50,6 +54,9 @@ class ScrollPage extends StatefulWidget {
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+
+//  bool liked=false;
+
   String likeType = 'social';
   _ScrollPageState({this.socialPressed});
   bool socialPressed;
@@ -65,8 +72,8 @@ class _ScrollPageState extends State<ScrollPage>
   Stream<List<DocumentSnapshot>> socStream;
   Stream<List<DocumentSnapshot>> proStream;
 
-  // Stream<List<DocumentSnapshot>> stream;
-  var radius = BehaviorSubject<double>.seeded(6.0);
+  Stream<List<DocumentSnapshot>> stream;
+  var typeStream = BehaviorSubject<String>.seeded("socialVisible");
 
   List<DocumentSnapshot> list = [];
   // getPermission() async {
@@ -191,23 +198,32 @@ class _ScrollPageState extends State<ScrollPage>
 //    currentUserModel = User.fromDocument(userRecord);
 //    });
 //
-    setState(() {
-      socStream = geo
-          .collection(
-              collectionRef: Firestore.instance
-                  .collection('users')
-                  .where('socialVisible', isEqualTo: true))
-          .within(
-              center: userLoc,
-              radius: radius,
-              field: 'position',
-              strictMode: strictmode);
 
-      proStream = geo
+//    setState(() {
+//      socStream = geo
+//          .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
+//          .within(
+//          center: userLoc,
+//          radius: radius,
+//          field: 'position',
+//          strictMode: strictmode);
+//
+//      proStream = geo
+//          .collection(collectionRef: Firestore.instance.collection('users').where('profVisible',isEqualTo: true))
+//          .within(
+//          center: userLoc,
+//          radius: radius,
+//          field: 'position',
+//          strictMode: strictmode);
+//    });
+
+    stream = typeStream.switchMap((String streamType) {
+      return geo
           .collection(
               collectionRef: Firestore.instance
                   .collection('users')
-                  .where('profVisible', isEqualTo: true))
+                  .where(streamType, isEqualTo: true))
+
           .within(
               center: userLoc,
               radius: radius,
@@ -215,11 +231,13 @@ class _ScrollPageState extends State<ScrollPage>
               strictMode: strictmode);
     });
 
+
 //    stream = radius.switchMap((rad) {
 //      var collectionReference = Firestore.instance.collection('users');
 //      return geo.collection(collectionRef: collectionReference).within(
 //          center: userLoc, radius: rad, field: 'position', strictMode: true);
 //    });
+
 
 //    changed(_value);
 //    print(distanceInMeters);
@@ -260,6 +278,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
+    versionCheck(context);
     getVisibilityPrefs();
     getUnreadNotifs();
     getLocation();
@@ -296,6 +315,7 @@ class _ScrollPageState extends State<ScrollPage>
           } else {
             LocalNotifcation(context, message['aps']['alert']['title'],
                 message['aps']['alert']['body'], "postNotifSocial", message);
+
           }
         } else if (message['notifType'] == "streamNotif" &&
             message['ownerId'] != currentUserModel.uid) {
@@ -319,16 +339,19 @@ class _ScrollPageState extends State<ScrollPage>
             LocalNotifcation(context, message['notification']['title'],
                 message['notification']['body'], "postNotifSocial", message);
           }
+
         } else if (message['data']['notifType'] == 'streamNotif' &&
             message['data']['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['notification']['title'],
               message['notification']['body'], "streamNotif", message);
         }
+
         else if (message['data']['notifType'] == "likeNotif")
         {
           LocalNotifcation(context, message['aps']['alert']['title'],
               message['aps']['alert']['body'], "likeNotif", message);
         }
+
       }
     }, onResume: (Map<String, dynamic> message) async {
       if (Theme.of(context).platform == TargetPlatform.iOS) {
@@ -498,6 +521,111 @@ class _ScrollPageState extends State<ScrollPage>
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
+  }
+
+  String force;
+  final APP_STORE_URL = 'https://apps.apple.com/app/id1476202100';
+  final PLAY_STORE_URL =
+      'https://play.google.com/store/apps/details?id=com.dime2.inc';
+
+  versionCheck(context) async {
+    //Get Current installed version of app
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    double currentVersion =
+        double.parse(info.version.trim().replaceAll(".", ""));
+
+    //Get Latest version info from firebase config
+    final RemoteConfig remoteConfig = await RemoteConfig.instance;
+    setChecker() async {
+      DocumentSnapshot remote = await Firestore.instance
+          .collection('remoteConfig')
+          .document('checker')
+          .get();
+
+      setState(() {
+        force = remote['force'];
+      });
+    }
+
+    setChecker();
+    try {
+      // Using default duration to force fetching from remote server.
+      await remoteConfig.fetch(expiration: const Duration(seconds: 0));
+      await remoteConfig.activateFetched();
+      remoteConfig.getString('force_update_current_version');
+      double newVersion = double.parse(remoteConfig
+          .getString('force_update_current_version')
+          .trim()
+          .replaceAll(".", ""));
+      if (newVersion > currentVersion) {
+        _showVersionDialog(context);
+      }
+    } on FetchThrottledException catch (exception) {
+      // Fetch throttled.
+      print(exception);
+    } catch (exception) {
+      print('Unable to fetch remote config. Cached or default values will be '
+          'used');
+    }
+  }
+
+//Show Dialog to force user to update
+  _showVersionDialog(context) async {
+    await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        String title = "New Update Available";
+        String message =
+            "There is a newer version of app available please update it now.";
+        String btnLabel = "Update Now";
+        return Platform.isIOS
+            ? new CupertinoAlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(btnLabel),
+                    onPressed: () => _launchURL(APP_STORE_URL),
+                  ),
+                  force == "false"
+                      ? FlatButton(
+                          child: Text("Later"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      : Container()
+                ],
+              )
+            : new AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(btnLabel),
+                    onPressed: () => _launchURL(PLAY_STORE_URL),
+                  ),
+                  force == "false"
+                      ? FlatButton(
+                          child: Text("Later"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      : Container()
+                ],
+              );
+      },
+    );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -983,13 +1111,15 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => ScrollPage(
-                                social: true,
-                              )));
+
+//                  Navigator.push(
+//                      context,
+//                      CupertinoPageRoute(
+//                          builder: (context) => ScrollPage(social: true,)));
                   setState(() {
+                    changed("socialVisible");
+
+
                     likeType = 'social';
                     socialPressed = !socialPressed;
                   });
@@ -1008,13 +1138,14 @@ class _ScrollPageState extends State<ScrollPage>
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => ScrollPage(
-                                social: false,
-                              )));
+
+//                  Navigator.push(
+//                      context,
+//                      CupertinoPageRoute(
+//                          builder: (context) => ScrollPage(social: false,)));
                   setState(() {
+                    changed("profVisible");
+
                     likeType = 'prof';
                     socialPressed = !socialPressed;
                   });
@@ -1180,7 +1311,9 @@ class _ScrollPageState extends State<ScrollPage>
 //            },
 //          ):
           StreamBuilder(
-            stream: socialPressed == true ? socStream : proStream,
+
+            stream: stream,
+
             builder: (context, snapshots) {
               if (!snapshots.hasData) {
                 return Container(
@@ -1228,13 +1361,17 @@ class _ScrollPageState extends State<ScrollPage>
                                   true) {
                                 return UserTile(blocked: true);
                               } else {
-                                bool liked = false;
+
+                                bool liked;
 
                                 List<dynamic> likedBy = doc.data['likedBy'];
 
                                 if (likedBy != null &&
                                     likedBy.contains(currentUserModel.uid)) {
                                   liked = true;
+
+//                                liked = true;
+
                                   print('in here for somer eason');
                                 } else {
                                   liked = false;
@@ -1248,8 +1385,10 @@ class _ScrollPageState extends State<ScrollPage>
                                 }
 
                                 return UserTile(
-                                    likeType: type,
+
                                     liked: liked,
+                                    likeType: type,
+
                                     relationshipStatus:
                                         doc.data['relationshipStatus'],
                                     contactName: doc.data['displayName'],
@@ -1314,16 +1453,15 @@ class _ScrollPageState extends State<ScrollPage>
 //            );
 //  }
 
-  double _value = 6.0;
+  String _value = "social";
   String _label = '';
 
   changed(value) {
     setState(() {
       _value = value;
       print(_value);
-      _label = '${_value.toInt().toString()} kms';
     });
-    radius.add(value);
+    typeStream.add(value);
   }
 }
 
@@ -1339,8 +1477,10 @@ class UserTile extends StatefulWidget {
       gradYear,
       bio;
   const UserTile(
-      {this.likeType,
-      this.liked,
+
+      {this.liked,
+      this.likeType,
+
       this.relationshipStatus,
       this.contactName,
       this.personImage,
@@ -1351,17 +1491,22 @@ class UserTile extends StatefulWidget {
       this.blocked,
       this.bio});
   @override
-  _UserTileState createState() => _UserTileState();
+  _UserTileState createState() => _UserTileState(liked: liked);
 }
 
 class _UserTileState extends State<UserTile> {
-  bool liked = false;
+
+  bool liked;
+  _UserTileState({this.liked});
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 //    setState(() {
-    liked = widget.liked;
+
+//    liked=widget.liked;
+
 //    });
   }
 
@@ -1507,9 +1652,11 @@ class _UserTileState extends State<UserTile> {
               children: <Widget>[
                 widget.blocked != true
                     ? Container(
+
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                           color: Colors.grey[100],
+
                         ),
                         child: IconButton(
                           icon: liked == false
@@ -1525,6 +1672,7 @@ class _UserTileState extends State<UserTile> {
                                 ),
                           color: Colors.black,
                           onPressed: () {
+
                             Flushbar(
                               margin: EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 5),
@@ -1560,6 +1708,7 @@ class _UserTileState extends State<UserTile> {
                               ),
                               duration: Duration(seconds: 10),
                             )..show(context);
+
                             if (liked == false) {
                               setState(() {
                                 liked = true;
@@ -1571,6 +1720,7 @@ class _UserTileState extends State<UserTile> {
                                     .updateData({
                                   'likedBy': FieldValue.arrayUnion(myId),
                                 });
+
 
                                 Firestore.instance
                                     .collection('users')
@@ -1591,7 +1741,9 @@ class _UserTileState extends State<UserTile> {
                                   'likeType': widget.likeType
                                 });
 
+
                                 Firestore.instance.collection('likeNotifs').add({'toUser': widget.uid, 'fromUser': currentUserModel.uid, "likeType": widget.likeType});
+
 
                               });
                             }

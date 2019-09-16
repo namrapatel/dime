@@ -21,24 +21,19 @@ import 'package:flushbar/flushbar.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 class LargePic extends StatefulWidget {
-final String largePic;
+  final String largePic;
 
-
-  const LargePic(
-      {this.largePic,});
+  const LargePic({
+    this.largePic,
+  });
   @override
-  _LargePicState createState() => _LargePicState(
-    largePic: ''
-      );
+  _LargePicState createState() => _LargePicState(largePic: largePic);
 }
 
 class _LargePicState extends State<LargePic> {
   List<dynamic> likes;
-String largePic;
-  _LargePicState(
-      {
-        this.largePic
-      });
+  String largePic;
+  _LargePicState({this.largePic});
 
   @override
   Widget build(BuildContext context) {
@@ -70,13 +65,11 @@ String largePic;
             )),
             Center(
               child: CircleAvatar(
-                radius: screenH(200),
-                backgroundImage: NetworkImage(largePic),
+                radius: screenH(150),
+                backgroundImage: CachedNetworkImageProvider(largePic),
               ),
             ),
           ],
         ));
-
   }
-
 }

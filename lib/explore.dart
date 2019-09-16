@@ -588,10 +588,40 @@ class _ExploreState extends State<Explore> {
                 || data['userData']['university'] == null
                 || data['userData']['gradYear'] == null
                 || data['userData']['major'] == null) {
-//              // insert flushbar here
+                    Flushbar(
+                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      borderRadius: 15,
+                      messageText: Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "To like, please ensure your profile has a name, bio, university, grad year, and program!",
+                              style: TextStyle(color: Colors.black),
+                            )
+                          ],
+                        ),
+                      ),
+                      backgroundColor: Colors.white,
+                      flushbarPosition: FlushbarPosition.TOP,
+                      icon: Padding(
+                        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 28.0,
+                          color: Color(0xFF1458EA),
+                        ),
+                      ),
+                      duration: Duration(seconds: 7),
+                    )..show(context);
             }
             else {
               _showModalSheet(data['userId'], data['userData']['displayName']);
+              setState(() {
+                //MAHAD THE WIDGET IS INSIDE A CLASS THAT'S STATEFUL - DO IT IN HERE
+              });
             }
           },
         ),

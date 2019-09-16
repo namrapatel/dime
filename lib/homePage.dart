@@ -725,7 +725,8 @@ class _ScrollPageState extends State<ScrollPage>
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(35),
                     topRight: Radius.circular(35),
-                  )),
+                  )
+                  ),
               child: Column(
                 children: <Widget>[
                   Padding(
@@ -1582,6 +1583,7 @@ class _UserTileState extends State<UserTile> {
               children: <Widget>[
                 widget.blocked != true
                     ? Container(
+
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
                           color: liked == false
@@ -1613,6 +1615,7 @@ class _UserTileState extends State<UserTile> {
                                     .updateData({
                                   'likedBy': FieldValue.arrayUnion(myId),
                                 });
+
 
                                 Firestore.instance
                                     .collection('users')

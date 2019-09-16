@@ -927,7 +927,7 @@ class _ScrollPageState extends State<ScrollPage>
                 ],
               ),
             ),
-            headerHeight: MediaQuery.of(context).size.height / 4,
+            headerHeight: MediaQuery.of(context).size.height / 4.5,
             upperLayer: _getUpperLayer(),
             animationController: _controller,
           ),
@@ -1135,7 +1135,10 @@ class _ScrollPageState extends State<ScrollPage>
     List<DocumentSnapshot> profStream = [];
     return Container(
         color: Colors.white,
-        child: ListView(children: <Widget>[
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
           SizedBox(
             height: MediaQuery.of(context).size.height / 500,
           ),
@@ -1227,6 +1230,8 @@ class _ScrollPageState extends State<ScrollPage>
                       : Container(
                           height: MediaQuery.of(context).size.height * 2 / 3,
                           child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
                             cacheExtent: 5000.0,
                             itemBuilder: (context, index) {
                               print('still in social ');

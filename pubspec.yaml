@@ -73,6 +73,9 @@ dev_dependencies:
     #git:
       #url: https://github.com/shehabic/geolocation
   flutter_launcher_icons: "^0.7.2"
+  flutter_advanced_networkimage: any
+  package_info: ^0.4.0+6
+  firebase_remote_config: ^0.2.0+7
 
 flutter_icons:
   image_path: "assets/img/GroupDimeTransparent.png"

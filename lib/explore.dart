@@ -583,7 +583,16 @@ class _ExploreState extends State<Explore> {
             color: Color(0xFF1458EA),
           ),
           onPressed: () {
-            _showModalSheet(data['userId'], data['userData']['displayName']);
+            if (data['userData']['name'] == null
+                || data['userData']['bio'] == null
+                || data['userData']['university'] == null
+                || data['userData']['gradYear'] == null
+                || data['userData']['major'] == null) {
+              // insert flushbar here
+            }
+            else {
+              _showModalSheet(data['userId'], data['userData']['displayName']);
+            }
           },
         ),
       ),

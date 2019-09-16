@@ -1585,6 +1585,9 @@ class _UserTileState extends State<UserTile> {
                                   'liked': false,
                                   'likeType': widget.likeType
                                 });
+
+                                Firestore.instance.collection('likeNotifs').add({'toUser': widget.uid, 'fromUser': currentUserModel.uid, "likeType": widget.likeType});
+
                               });
                             }
                           },

@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 CupertinoPageRoute(builder: (context) => Onboarding1()));
           } else {
             Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => ScrollPage()));
+                CupertinoPageRoute(builder: (context) => ScrollPage(social: true)));
           }
         }
       } else {

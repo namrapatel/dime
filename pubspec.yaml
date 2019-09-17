@@ -1,5 +1,5 @@
 name: Dime
-description: A financial features application for younger people.
+description: Social media for university students.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -11,7 +11,7 @@ description: A financial features application for younger people.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+2
+version: 1.0.0+3
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -23,7 +23,6 @@ dependencies:
 dev_dependencies:
   geoflutterfire: ^2.0.3+5
   grouped_buttons:
-  xlive_switch:
   flutter_search_panel:
   fancy_on_boarding:
   page_transition:
@@ -55,6 +54,7 @@ dev_dependencies:
   url_launcher: ^5.1.2
   share:
   esys_flutter_share:
+  bubble_tab_indicator: ^0.1.4
   wc_flutter_share:
   flutter_fluid_slider:
   image: ^2.0.7
@@ -73,6 +73,9 @@ dev_dependencies:
     #git:
       #url: https://github.com/shehabic/geolocation
   flutter_launcher_icons: "^0.7.2"
+  flutter_advanced_networkimage: any
+  package_info: ^0.4.0+6
+  firebase_remote_config: ^0.2.0+7
 
 flutter_icons:
   image_path: "assets/img/GroupDimeTransparent.png"

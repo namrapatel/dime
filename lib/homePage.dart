@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'package:Dime/models/largerPic.dart';
+import 'package:Dime/notifcations.dart';
+import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'models/user.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:Dime/profPage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:Dime/socialPage.dart';
@@ -13,6 +17,9 @@ import 'package:page_transition/page_transition.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'login.dart';
 import 'chatList.dart';
+import 'dart:io';
+import 'package:package_info/package_info.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'chat.dart';
 import 'explore.dart';
 import 'userCard.dart';
@@ -30,6 +37,8 @@ import 'package:location/location.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'profComments.dart';
 import 'socialComments.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import 'package:url_launcher/url_launcher.dart';
 
 String currentToken = "";
 final screenH = ScreenUtil.instance.setHeight;
@@ -37,23 +46,34 @@ final screenW = ScreenUtil.instance.setWidth;
 final screenF = ScreenUtil.instance.setSp;
 
 class ScrollPage extends StatefulWidget {
-  ScrollPage({Key key}) : super(key: key);
+  final bool social;
+//  const ScrollPage({this.social});
+  ScrollPage({Key key, this.social}) : super(key: key);
   @override
-  _ScrollPageState createState() => _ScrollPageState();
+  _ScrollPageState createState() => _ScrollPageState(socialPressed: social);
 }
 
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
+//  bool liked=false;
+
+  String likeType = 'social';
+  _ScrollPageState({this.socialPressed});
+  bool socialPressed;
+//  bool profPressed=false;
+  bool goodProfileStandard = false;
   RubberAnimationController _controller;
   int unread = 0;
   FocusNode _focus = new FocusNode();
-  StreamController<List<DocumentSnapshot>> streamController =
-      new StreamController();
+  StreamController<List<DocumentSnapshot>> streamController;
+  StreamSubscription subscription;
   Geoflutterfire geo = Geoflutterfire();
-  Stream<List<DocumentSnapshot>> stream;
+//  Stream<List<DocumentSnapshot>> stream;
+  Stream<List<DocumentSnapshot>> socStream;
+  Stream<List<DocumentSnapshot>> proStream;
 
-  // Stream<List<DocumentSnapshot>> stream;
-  var radius = BehaviorSubject<double>.seeded(6.0);
+  Stream<List<DocumentSnapshot>> stream;
+  var typeStream = BehaviorSubject<String>.seeded("socialVisible");
 
   List<DocumentSnapshot> list = [];
   // getPermission() async {
@@ -70,11 +90,11 @@ class _ScrollPageState extends State<ScrollPage>
             .requestPermissions([PermissionGroup.locationAlways]);
   }
 
-  getUnreadMessages() async {
+  getUnreadNotifs() async {
     QuerySnapshot query = await Firestore.instance
         .collection('users')
         .document(currentUserModel.uid)
-        .collection('messages')
+        .collection('likes')
         .where('unread', isEqualTo: true)
         .getDocuments();
     setState(() {
@@ -93,9 +113,47 @@ class _ScrollPageState extends State<ScrollPage>
   ScrollController _scrollController = ScrollController();
 
   GeoPoint userLoc;
-
+  bool appearOnSocial = false;
+  bool appearOnProf = false;
   LocationData position;
   GeoPoint current;
+  getVisibilityPrefs() async {
+    DocumentSnapshot userDoc = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .get();
+
+    setState(() {
+      if ((userDoc['displayName'] != 'New User' &&
+              userDoc['displayName'] != 'No Display Name') &&
+          userDoc['university'] != null &&
+          userDoc['gradYear'] != null &&
+          userDoc['major'] != null &&
+          userDoc['bio'] != null) {
+        goodProfileStandard = true;
+      }
+
+      if (userDoc['profVisible'] != null && goodProfileStandard == true) {
+        appearOnProf = userDoc['profVisible'];
+      }
+      if (userDoc['socialVisible'] != null && goodProfileStandard == true) {
+        appearOnSocial = userDoc['socialVisible'];
+      }
+      if (userDoc['profVisible'] == null && goodProfileStandard == true) {
+        Firestore.instance
+            .collection('users')
+            .document(currentUserModel.uid)
+            .updateData({'profVisible': true});
+      }
+      if (userDoc['socialVisible'] == null && goodProfileStandard == true) {
+        Firestore.instance
+            .collection('users')
+            .document(currentUserModel.uid)
+            .updateData({'socialVisible': true});
+      }
+    });
+  }
+
   getLocation() async {
     var location = new Location();
     LocationData currentLocation = await location.getLocation();
@@ -140,13 +198,38 @@ class _ScrollPageState extends State<ScrollPage>
 //    currentUserModel = User.fromDocument(userRecord);
 //    });
 //
-    stream = geo
-        .collection(collectionRef: Firestore.instance.collection('users'))
-        .within(
-            center: userLoc,
-            radius: radius,
-            field: 'position',
-            strictMode: strictmode);
+
+//    setState(() {
+//      socStream = geo
+//          .collection(collectionRef: Firestore.instance.collection('users').where('socialVisible',isEqualTo: true))
+//          .within(
+//          center: userLoc,
+//          radius: radius,
+//          field: 'position',
+//          strictMode: strictmode);
+//
+//      proStream = geo
+//          .collection(collectionRef: Firestore.instance.collection('users').where('profVisible',isEqualTo: true))
+//          .within(
+//          center: userLoc,
+//          radius: radius,
+//          field: 'position',
+//          strictMode: strictmode);
+//    });
+
+    stream = typeStream.switchMap((String streamType) {
+      return geo
+          .collection(
+              collectionRef: Firestore.instance
+                  .collection('users')
+                  .where(streamType, isEqualTo: true))
+          .within(
+              center: userLoc,
+              radius: radius,
+              field: 'position',
+              strictMode: strictmode);
+    });
+
 //    stream = radius.switchMap((rad) {
 //      var collectionReference = Firestore.instance.collection('users');
 //      return geo.collection(collectionRef: collectionReference).within(
@@ -192,7 +275,9 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
-    getUnreadMessages();
+    versionCheck(context);
+    getVisibilityPrefs();
+    getUnreadNotifs();
     getLocation();
     firebaseCloudMessaging_Listeners();
     _controller = RubberAnimationController(
@@ -232,6 +317,9 @@ class _ScrollPageState extends State<ScrollPage>
             message['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['aps']['alert']['title'],
               message['aps']['alert']['body'], "streamNotif", message);
+        } else if (message['notifType'] == "likeNotif") {
+          LocalNotifcation(context, message['aps']['alert']['title'],
+              message['aps']['alert']['body'], "likeNotif", message);
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -249,6 +337,9 @@ class _ScrollPageState extends State<ScrollPage>
             message['data']['ownerId'] != currentUserModel.uid) {
           LocalNotifcation(context, message['notification']['title'],
               message['notification']['body'], "streamNotif", message);
+        } else if (message['data']['notifType'] == "likeNotif") {
+          LocalNotifcation(context, message['aps']['alert']['title'],
+              message['aps']['alert']['body'], "likeNotif", message);
         }
       }
     }, onResume: (Map<String, dynamic> message) async {
@@ -282,6 +373,9 @@ class _ScrollPageState extends State<ScrollPage>
               context,
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
+        } else if (message['notifType'] == "likeNotif") {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -314,6 +408,9 @@ class _ScrollPageState extends State<ScrollPage>
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
+        } else if (message['data']['notifType'] == "likeNotif") {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       }
     }, onLaunch: (Map<String, dynamic> message) async {
@@ -347,6 +444,9 @@ class _ScrollPageState extends State<ScrollPage>
               context,
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
+        } else if (message['notifType'] == "likeNotif") {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -379,6 +479,9 @@ class _ScrollPageState extends State<ScrollPage>
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
+        } else if (message['data']['notifType'] == "likeNotif") {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       }
     });
@@ -391,6 +494,111 @@ class _ScrollPageState extends State<ScrollPage>
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
+  }
+
+  String force;
+  final APP_STORE_URL = 'https://apps.apple.com/app/id1476202100';
+  final PLAY_STORE_URL =
+      'https://play.google.com/store/apps/details?id=com.dime2.inc';
+
+  versionCheck(context) async {
+    //Get Current installed version of app
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    double currentVersion =
+        double.parse(info.version.trim().replaceAll(".", ""));
+
+    //Get Latest version info from firebase config
+    final RemoteConfig remoteConfig = await RemoteConfig.instance;
+    setChecker() async {
+      DocumentSnapshot remote = await Firestore.instance
+          .collection('remoteConfig')
+          .document('checker')
+          .get();
+
+      setState(() {
+        force = remote['force'];
+      });
+    }
+
+    setChecker();
+    try {
+      // Using default duration to force fetching from remote server.
+      await remoteConfig.fetch(expiration: const Duration(seconds: 0));
+      await remoteConfig.activateFetched();
+      remoteConfig.getString('force_update_current_version');
+      double newVersion = double.parse(remoteConfig
+          .getString('force_update_current_version')
+          .trim()
+          .replaceAll(".", ""));
+      if (newVersion > currentVersion) {
+        _showVersionDialog(context);
+      }
+    } on FetchThrottledException catch (exception) {
+      // Fetch throttled.
+      print(exception);
+    } catch (exception) {
+      print('Unable to fetch remote config. Cached or default values will be '
+          'used');
+    }
+  }
+
+//Show Dialog to force user to update
+  _showVersionDialog(context) async {
+    await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        String title = "New Update Available";
+        String message =
+            "There is a newer version of app available please update it now.";
+        String btnLabel = "Update Now";
+        return Platform.isIOS
+            ? new CupertinoAlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(btnLabel),
+                    onPressed: () => _launchURL(APP_STORE_URL),
+                  ),
+                  force == "false"
+                      ? FlatButton(
+                          child: Text("Later"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      : Container()
+                ],
+              )
+            : new AlertDialog(
+                title: Text(title),
+                content: Text(message),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text(btnLabel),
+                    onPressed: () => _launchURL(PLAY_STORE_URL),
+                  ),
+                  force == "false"
+                      ? FlatButton(
+                          child: Text("Later"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      : Container()
+                ],
+              );
+      },
+    );
+  }
+
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -562,9 +770,9 @@ class _ScrollPageState extends State<ScrollPage>
                     padding: EdgeInsets.fromLTRB(
                         0, MediaQuery.of(context).size.width / 32.5, 0, 0),
                   ),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          0, MediaQuery.of(context).size.height / 52, 0, 0)),
+                  // Padding(
+                  //     padding: EdgeInsets.fromLTRB(
+                  //         0, MediaQuery.of(context).size.height / 1000000, 0, 0)),
                   Row(
                     children: <Widget>[
                       Padding(
@@ -583,6 +791,46 @@ class _ScrollPageState extends State<ScrollPage>
                         "People around you",
                         style: TextStyle(color: Colors.black, fontSize: 20),
                       ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 72,
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.info_outline,
+                          color: Color(0xFF1458EA),
+                        ),
+                        onPressed: () {
+                          Flushbar(
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            borderRadius: 15,
+                            messageText: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "You can like someone socially or professionally which will send them an anonymous notification with your bio, and the type of like you are sending. If they like you back, have fun chatting!",
+                                    style: TextStyle(color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            ),
+                            backgroundColor: Colors.white,
+                            flushbarPosition: FlushbarPosition.TOP,
+                            icon: Padding(
+                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                              child: Icon(
+                                Icons.info_outline,
+                                size: 28.0,
+                                color: Color(0xFF1458EA),
+                              ),
+                            ),
+                            duration: Duration(seconds: 10),
+                          )..show(context);
+                        },
+                      ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(
                             MediaQuery.of(context).size.width / 52, 0, 0, 0),
@@ -593,13 +841,94 @@ class _ScrollPageState extends State<ScrollPage>
                     padding: EdgeInsets.fromLTRB(
                         0, MediaQuery.of(context).size.height / 109, 0, 0),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: FloatingActionButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0))),
+                          onPressed: () {
+//                  Navigator.push(
+//                      context,
+//                      CupertinoPageRoute(
+//                          builder: (context) => ScrollPage(social: true,)));
+                            setState(() {
+                              changed("socialVisible");
+
+                              likeType = 'social';
+                              socialPressed = !socialPressed;
+                            });
+                          },
+                          elevation: 0,
+                          heroTag: 'socialButton',
+                          backgroundColor: socialPressed == false
+                              ? Colors.white
+                              : Colors.grey[100],
+                          child: Icon(
+                            Entypo.drink,
+                            color: Color(0xFF8803fc),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2.5,
+                        child: FloatingActionButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(16.0))),
+                          onPressed: () {
+//                  Navigator.push(
+//                      context,
+//                      CupertinoPageRoute(
+//                          builder: (context) => ScrollPage(social: false,)));
+                            setState(() {
+                              changed("profVisible");
+
+                              likeType = 'prof';
+                              socialPressed = !socialPressed;
+                            });
+                          },
+                          elevation: 0,
+                          heroTag: 'profButton',
+                          backgroundColor: socialPressed == true
+                              ? Colors.white
+                              : Colors.grey[100],
+                          child: Icon(
+                            FontAwesome.graduation_cap,
+                            color: Color(0xFF096664),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(75, 8, 75, 0),
                   ),
+                  //Should disable the people around you feature if the rating is not 100%
+                  //Don't show if the profile rating is 100%
+                  // Padding(
+                  //   padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width/3.3, 0, 0, 0),
+                  //   child: Tooltip(
+                  //     padding: EdgeInsets.symmetric(horizontal: 20),
+                  //     height: 50,
+                  //     waitDuration: Duration(seconds: 0),
+                  //     message: "Fill out name, program, grad year, and bio on your profile to view and be visible on the people around you",
+                  //     child: Row(
+                  //       children: <Widget>[
+                  //         Icon(Icons.info_outline, color: Colors.blue),
+                  //         SizedBox(width: MediaQuery.of(context).size.width/50),
+                  //         Text("Profile Rating: " + "75%", textAlign: TextAlign.center),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
-            headerHeight: MediaQuery.of(context).size.height / 6.5,
+            headerHeight: MediaQuery.of(context).size.height / 4.1,
             upperLayer: _getUpperLayer(),
             animationController: _controller,
           ),
@@ -686,16 +1015,18 @@ class _ScrollPageState extends State<ScrollPage>
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(16.0))),
                     onPressed: () {
-                      Navigator.push(context,
-                          CupertinoPageRoute(builder: (context) => ChatList()));
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => NotifcationsScreen()));
                     },
                     elevation: 3,
                     heroTag: 'btn2',
                     backgroundColor: Colors.white,
                     child: Icon(
-                      Feather.message_circle,
+                      Ionicons.md_notifications_outline,
                       color: Colors.black,
-                      size: 25.0,
+                      size: 30.0,
                     ),
                   ),
                   unread > 0
@@ -801,18 +1132,77 @@ class _ScrollPageState extends State<ScrollPage>
 //  }
 
   Widget _getUpperLayer() {
+    List<DocumentSnapshot> socialStream = [];
+    List<DocumentSnapshot> profStream = [];
     return Container(
         color: Colors.white,
-        child: ListView(children: <Widget>[
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 500,
+          ),
+          Row(
+            children: <Widget>[
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 22.5,
+              ),
+              Text(
+                socialPressed == true
+                    ? 'Appear on Casual Location Feed?'
+                    : 'Appear on Network Location Feed?',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 5.5,
+              ),
+              socialPressed == true
+                  ? Switch(
+                      value: appearOnSocial,
+                      onChanged: (value) {
+                        if (goodProfileStandard == true) {
+                          setState(() {
+                            appearOnSocial = value;
+                          });
+                          Firestore.instance
+                              .collection('users')
+                              .document(currentUserModel.uid)
+                              .updateData({'socialVisible': appearOnSocial});
+                        }
+                      },
+                      activeTrackColor: Colors.blue[200],
+                      activeColor: Color(0xff1976d2))
+                  : Switch(
+                      value: appearOnProf,
+                      onChanged: (value) {
+                        if (goodProfileStandard == true) {
+                          setState(() {
+                            appearOnProf = value;
+                          });
+                          Firestore.instance
+                              .collection('users')
+                              .document(currentUserModel.uid)
+                              .updateData({'profVisible': appearOnProf});
+                        }
+                      },
+                      activeTrackColor: Colors.blue[200],
+                      activeColor: Color(0xff1976d2)),
+            ],
+          ),
+          ((socialPressed==true&&appearOnSocial==true&&goodProfileStandard==true)||(socialPressed==false&&appearOnProf==true&&goodProfileStandard==true))?
           StreamBuilder(
             stream: stream,
-            builder:
-                (context, AsyncSnapshot<List<DocumentSnapshot>> snapshots) {
+            builder: (context, snapshots) {
               if (!snapshots.hasData) {
                 return Container(
                     alignment: FractionalOffset.center,
                     child: CircularProgressIndicator());
               } else {
+                print('im IN THE soc stream');
                 if (snapshots.data.length != 0) {
                   snapshots.data.removeWhere((DocumentSnapshot doc) =>
                       doc.documentID == currentUserModel.uid);
@@ -842,7 +1232,11 @@ class _ScrollPageState extends State<ScrollPage>
                       : Container(
                           height: MediaQuery.of(context).size.height * 2 / 3,
                           child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.vertical,
+                            cacheExtent: 5000.0,
                             itemBuilder: (context, index) {
+                              print('still in social ');
                               DocumentSnapshot doc = snapshots.data[index];
                               print(
                                   'doc with id ${doc.documentID} distance ${doc.data['distance']}');
@@ -851,16 +1245,41 @@ class _ScrollPageState extends State<ScrollPage>
                                   true) {
                                 return UserTile(blocked: true);
                               } else {
+                                bool liked;
+
+                                List<dynamic> likedBy = doc.data['likedBy'];
+
+                                if (likedBy != null &&
+                                    likedBy.contains(currentUserModel.uid)) {
+                                  liked = true;
+
+//                                liked = true;
+
+                                  print('in here for somer eason');
+                                } else {
+                                  liked = false;
+                                }
+                                String type = "social";
+                                print('guys name is' + doc.data['displayName']);
+                                if (socialPressed) {
+                                  type = "social";
+                                } else {
+                                  type = "prof";
+                                }
+                                var status;
+
+                                if(socialPressed==true){
+                                  status=   doc.data['relationshipStatus'];
+                                }
                                 return UserTile(
+                                    liked: liked,
+                                    likeType: type,
                                     relationshipStatus:
-                                        doc.data['relationshipStatus'],
+                                      status,
                                     contactName: doc.data['displayName'],
                                     personImage: doc.data['photoUrl'],
                                     uid: doc.documentID,
                                     major: doc.data['major'],
-                                    profInterests: doc.data['profInterests'],
-                                    socialInterests:
-                                        doc.data['socialInterests'],
                                     university: doc.data['university'],
                                     gradYear: doc.data['gradYear'],
                                     bio: doc.data['bio']);
@@ -870,111 +1289,43 @@ class _ScrollPageState extends State<ScrollPage>
                           ),
                         ),
                 ));
-//              else {
-//                snapshots.data.removeWhere((DocumentSnapshot doc) =>
-//                doc.documentID == currentUserModel.uid);
-//                print('data ${snapshots.data}');
-//                return Container(
-//                  height: MediaQuery
-//                      .of(context)
-//                      .size
-//                      .height * 2 / 3,
-//                  child: ListView.builder(
-//                    itemBuilder: (context, index) {
-//                      DocumentSnapshot doc = snapshots.data[index];
-//                      print(
-//                          'doc with id ${doc.documentID} distance ${doc
-//                              .data['distance']}');
-//                      GeoPoint point = doc.data['position']['geopoint'];
-//
-//                      return UserTile(
-//                          doc.data['displayName'], doc.data['photoUrl'],
-//                          doc.documentID,
-//                          major: doc.data['major'],
-//                          profInterests: doc.data['profInterests'],
-//                          socialInterests: doc.data['socialInterests'],
-//                          university: doc.data['university'],
-//                          gradYear: doc.data['gradYear']);
-//                    },
-//                    itemCount: snapshots.data.length,
-//                  ),
-//                );
-//              }
-////            else {
-////              return Center(child: CircularProgressIndicator());
               }
             },
+          ):Column(
+            children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height/3.5,
+            width: MediaQuery.of(context).size.width/1.5,
+            child: Image.asset(
+               'assets/img/undraw_peoplearoundyou.png',
+               ),
           ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text("Please turn the location toggle on or ensure your profile is set up with a name, university, program, grad year, and bio!", textAlign: TextAlign.center),
+            ),
+            ],
+          )
         ]));
   }
 
-//  Widget _getUpperLayer() {
-//    return Container(
-//        color: Colors.white,
-//        child: ListView(
-//          children: <Widget>[
-//
-//            FutureBuilder<List<UserTile>>(
-//            future: getUsers(),
-//            builder: (context, snapshot) {
-//              if (!snapshot.hasData)
-//                return Container(
-//                    alignment: FractionalOffset.center,
-//                    child: CircularProgressIndicator());
-//
-//              return Container(
-//                child:
-//                snapshot.data.length == 0?
-//                Column(
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: EdgeInsets.all(MediaQuery.of(context).size.height/20),
-//                      child: Text("There's nobody around. \n Go get a walk in and meet new people!",
-//                      textAlign: TextAlign.center,
-//                      style: TextStyle(fontSize: 20),
-//                      ),
-//                    ),
-//                    Image.asset('assets/img/undraw_peoplearoundyou.png')
-//                  ],
-//                ):
-//                Column(children:
-//                snapshot.data),
-//              );
-//            })
-//          ],
-//        )
-//
-//            );
-//  }
-
-  double _value = 6.0;
+  String _value = "social";
   String _label = '';
 
   changed(value) {
     setState(() {
       _value = value;
       print(_value);
-      _label = '${_value.toInt().toString()} kms';
+      typeStream.add(value);
     });
-    radius.add(value);
+
   }
 }
 
-class UserTile extends StatelessWidget {
-  UserTile(
-      {this.relationshipStatus,
-      this.contactName,
-      this.personImage,
-      this.uid,
-      this.major,
-      this.university,
-      this.gradYear,
-      this.profInterests,
-      this.socialInterests,
-      this.blocked,
-      this.bio});
-  final bool blocked;
-  final String relationshipStatus,
+class UserTile extends StatefulWidget {
+  final bool blocked, liked;
+  final String likeType,
+      relationshipStatus,
       contactName,
       personImage,
       major,
@@ -982,97 +1333,33 @@ class UserTile extends StatelessWidget {
       university,
       gradYear,
       bio;
-  final List<dynamic> profInterests, socialInterests;
-  Widget buildProfInterests(BuildContext context) {
-    String interests = "";
-    if (profInterests != null) {
-      for (int i = 0; i < profInterests.length; i++) {
-        if (i == profInterests.length - 1) {
-          interests = interests + profInterests[i];
-        } else {
-          interests = interests + profInterests[i] + ", ";
-        }
-      }
-      return Row(
-        children: <Widget>[
-          // Text(interests,
-          //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
-          Container(
-            width: MediaQuery.of(context).size.width / 1.8,
-            child: AutoSizeText(
-              interests,
-              style: TextStyle(color: Color(0xFF096664), fontSize: 13),
-              minFontSize: 13,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          )
-        ],
-      );
-    } else {
-      return SizedBox(
-        height: (1.0),
-      );
-    }
-  }
+  const UserTile(
+      {this.liked,
+      this.likeType,
+      this.relationshipStatus,
+      this.contactName,
+      this.personImage,
+      this.uid,
+      this.major,
+      this.university,
+      this.gradYear,
+      this.blocked,
+      this.bio});
+  @override
+  _UserTileState createState() => _UserTileState();
+}
 
-  Widget buildSocialInterests(BuildContext context) {
-    String interests = "";
-    if (socialInterests != null) {
-      for (int i = 0; i < socialInterests.length; i++) {
-        if (i == socialInterests.length - 1) {
-          interests = interests + socialInterests[i];
-        } else {
-          interests = interests + socialInterests[i] + ", ";
-        }
-      }
-      return Row(
-        children: <Widget>[
-          // Text(
-          //   interests,
-          //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-          // )
-          Container(
-            width: MediaQuery.of(context).size.width / 1.8,
-            child: AutoSizeText(
-              interests,
-              style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
-              minFontSize: 13,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          )
-        ],
-      );
-    } else {
-      return SizedBox(
-        height: (0.0),
-      );
-    }
-  }
+class _UserTileState extends State<UserTile> {
 
-  List<Widget> buildInterests(List interestsList, context) {
-    List<Widget> interestWidgets = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+//    setState(() {
 
-    for (var interest in interestsList) {
-      interestWidgets.add(Column(children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height / 30,
-          width: MediaQuery.of(context).size.width / 6,
-          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
-              MediaQuery.of(context).size.height / 150, 0, 0),
-          child: Text(interest,
-              style: TextStyle(color: Colors.white, fontSize: 10)),
-          decoration: BoxDecoration(
-              color: Color(0xFF8803fc),
-              borderRadius: BorderRadius.circular(20)),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
-        ),
-      ]));
-    }
-    return interestWidgets;
+//    liked=widget.liked;
+
+//    });
   }
 
   @override
@@ -1084,13 +1371,13 @@ class UserTile extends StatelessWidget {
         ),
         InkWell(
           onTap: () {
-            if (blocked != true) {
+            if (widget.blocked != true) {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
                       builder: (context) => UserCard(
-                            userId: uid,
-                            userName: contactName,
+                            userId: widget.uid,
+                            userName: widget.contactName,
                           )));
             } else {
               Flushbar(
@@ -1125,7 +1412,7 @@ class UserTile extends StatelessWidget {
           },
           child: ListTile(
             title: Text(
-              blocked == true ? "Blocked User" : contactName,
+              widget.blocked == true ? "Blocked User" : widget.contactName,
               style: TextStyle(fontSize: 18),
             ),
             subtitle: Column(
@@ -1134,14 +1421,14 @@ class UserTile extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(
                       0, MediaQuery.of(context).size.height / 1000, 0, 0),
                 ),
-                major != null && gradYear != null
+                widget.major != null && widget.gradYear != null
                     ? Align(
                         alignment: Alignment.bottomLeft,
-                        child: Text(major + ", " + gradYear),
+                        child: Text(widget.major + ", " + widget.gradYear),
                       )
                     : Align(
                         alignment: Alignment.bottomLeft,
-                        child: Text(major != null ? major : ""),
+                        child: Text(widget.major != null ? widget.major : ""),
                       ),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
@@ -1152,7 +1439,7 @@ class UserTile extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       Text(
-                        bio != null ? bio : "",
+                        widget.bio != null ? widget.bio : "",
                         style: TextStyle(
                           color: Color(0xFF1458EA),
                         ),
@@ -1178,13 +1465,29 @@ class UserTile extends StatelessWidget {
             ),
             leading: Stack(
               children: <Widget>[
-                CircleAvatar(
-                  backgroundImage: NetworkImage(blocked == true
-                      ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
-                      : personImage),
-                  radius: screenH(30),
+                GestureDetector(
+                  onTap:(
+    ){
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) =>
+                                LargePic(
+                                  largePic: widget.personImage,
+                                )
+                        ));
+
+    },
+                  child: CircleAvatar(
+                    radius: screenH(30),
+                    backgroundImage: CachedNetworkImageProvider(
+                      widget.blocked == true
+                          ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                          : widget.personImage,
+                    ),
+                  ),
                 ),
-                relationshipStatus != null
+                widget.relationshipStatus != null
                     ? Positioned(
                         left: MediaQuery.of(context).size.width / 10000000,
                         top: MediaQuery.of(context).size.height / 23.5,
@@ -1198,7 +1501,7 @@ class UserTile extends StatelessWidget {
                                     MediaQuery.of(context).size.height / 600,
                               ),
                               Text(
-                                relationshipStatus,
+                                widget.relationshipStatus,
                                 style: TextStyle(fontSize: screenH(11.5)),
                               ),
                             ],
@@ -1213,23 +1516,117 @@ class UserTile extends StatelessWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                blocked != true
+                widget.blocked != true
                     ? Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                          color: Colors.grey[100],
+
+                          color: Colors.grey[100]
+
                         ),
                         child: IconButton(
-                          icon: Icon(Feather.message_circle),
+                          icon: widget.liked == false
+                              ? Icon(
+                                  AntDesign.like2,
+                                  size: screenH(25),
+                                  color: Color(0xFF1458EA),
+                                )
+                              : Icon(
+                                  AntDesign.like1,
+                                  size: screenH(25),
+                                  color: Color(0xFF1458EA),
+                                ),
                           color: Colors.black,
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => Chat(
-                                          fromUserId: currentUserModel.uid,
-                                          toUserId: uid,
-                                        )));
+                           
+
+                            if (widget.liked == false) {
+                                setState(() {
+//                                likeCheck=true;
+//                                widget.liked = true;
+                                List<String> myId = [];
+                                myId.add(currentUserModel.uid);
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(widget.uid)
+                                    .updateData({
+                                  'likedBy': FieldValue.arrayUnion(myId),
+
+                                });
+
+                                List<String> userID=[];
+                                userID.add(widget.uid);
+                                Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
+                                  'likedUsers':FieldValue.arrayUnion(userID)
+                                });
+
+                                Firestore.instance
+                                    .collection('users')
+                                    .document(widget.uid)
+                                    .collection('likes')
+                                    .document(currentUserModel.uid)
+                                    .setData({
+//                              'likerName':currentUserModel.displayName,
+//                              'likerPhoto':currentUserModel.photoUrl,
+//                              'likerBio':currentUserModel.bio,
+//                              'likerUni':currentUserModel.university,
+//                              'likerMajor':currentUserModel.major,
+//                              'likerGradYear':currentUserModel.gradYear,
+//                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
+                                  'unread': true,
+                                  'timestamp': Timestamp.now(),
+                                  'liked': false,
+                                  'likeType': widget.likeType
+                                });
+
+                                Firestore.instance
+                                    .collection('likeNotifs')
+                                    .add({
+                                  'toUser': widget.uid,
+                                  'fromUser': currentUserModel.uid,
+                                  "likeType": widget.likeType
+                                });
+
+                            Flushbar(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              borderRadius: 15,
+                              messageText: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      widget.likeType == "social"
+                                          ? "A casual" +
+                                              " like has been sent to " +
+                                              widget.contactName
+                                          : "A network" +
+                                              " like has been sent to " +
+                                              widget.contactName,
+                                      style: TextStyle(color: Colors.black),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              backgroundColor: Colors.white,
+                              flushbarPosition: FlushbarPosition.TOP,
+                              icon: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 28.0,
+                                  color: Color(0xFF1458EA),
+                                ),
+                              ),
+                              duration: Duration(seconds: 10),
+                            )..show(context);
+
+
+                             
+                              });
+                            }
                           },
                         ),
                       )
@@ -1242,6 +1639,123 @@ class UserTile extends StatelessWidget {
     );
   }
 }
+
+//class UserTile extends StatelessWidget {
+//  UserTile(
+//      {this.liked,this.relationshipStatus,
+//      this.contactName,
+//      this.personImage,
+//      this.uid,
+//      this.major,
+//      this.university,
+//      this.gradYear,
+//      this.profInterests,
+//      this.socialInterests,
+//      this.blocked,
+//      this.bio});
+//  final bool blocked,liked;
+//  final String relationshipStatus,
+//      contactName,
+//      personImage,
+//      major,
+//      uid,
+//      university,
+//      gradYear,
+//      bio;
+//  final List<dynamic> profInterests, socialInterests;
+//  Widget buildProfInterests(BuildContext context) {
+//    String interests = "";
+//    if (profInterests != null) {
+//      for (int i = 0; i < profInterests.length; i++) {
+//        if (i == profInterests.length - 1) {
+//          interests = interests + profInterests[i];
+//        } else {
+//          interests = interests + profInterests[i] + ", ";
+//        }
+//      }
+//      return Row(
+//        children: <Widget>[
+//          // Text(interests,
+//          //     style: TextStyle(color: Color(0xFF1976d2), fontSize: 13))
+//          Container(
+//            width: MediaQuery.of(context).size.width / 1.8,
+//            child: AutoSizeText(
+//              interests,
+//              style: TextStyle(color: Color(0xFF096664), fontSize: 13),
+//              minFontSize: 13,
+//              maxLines: 1,
+//              overflow: TextOverflow.ellipsis,
+//            ),
+//          )
+//        ],
+//      );
+//    } else {
+//      return SizedBox(
+//        height: (1.0),
+//      );
+//    }
+//  }
+//
+//  Widget buildSocialInterests(BuildContext context) {
+//    String interests = "";
+//    if (socialInterests != null) {
+//      for (int i = 0; i < socialInterests.length; i++) {
+//        if (i == socialInterests.length - 1) {
+//          interests = interests + socialInterests[i];
+//        } else {
+//          interests = interests + socialInterests[i] + ", ";
+//        }
+//      }
+//      return Row(
+//        children: <Widget>[
+//          // Text(
+//          //   interests,
+//          //   style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
+//          // )
+//          Container(
+//            width: MediaQuery.of(context).size.width / 1.8,
+//            child: AutoSizeText(
+//              interests,
+//              style: TextStyle(color: Color(0xFF8803fc), fontSize: 13),
+//              minFontSize: 13,
+//              maxLines: 1,
+//              overflow: TextOverflow.ellipsis,
+//            ),
+//          )
+//        ],
+//      );
+//    } else {
+//      return SizedBox(
+//        height: (0.0),
+//      );
+//    }
+//  }
+//
+//  List<Widget> buildInterests(List interestsList, context) {
+//    List<Widget> interestWidgets = [];
+//
+//    for (var interest in interestsList) {
+//      interestWidgets.add(Column(children: <Widget>[
+//        Container(
+//          height: MediaQuery.of(context).size.height / 30,
+//          width: MediaQuery.of(context).size.width / 6,
+//          padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width / 40,
+//              MediaQuery.of(context).size.height / 150, 0, 0),
+//          child: Text(interest,
+//              style: TextStyle(color: Colors.white, fontSize: 10)),
+//          decoration: BoxDecoration(
+//              color: Color(0xFF8803fc),
+//              borderRadius: BorderRadius.circular(20)),
+//        ),
+//        Padding(
+//          padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
+//        ),
+//      ]));
+//    }
+//    return interestWidgets;
+//  }
+
+//}
 
 Widget LocalNotifcation(BuildContext context, String titleMessage,
     String bodyMessage, String notifType, Map<String, dynamic> message) {
@@ -1279,6 +1793,9 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
               context,
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
+        } else if (message['notifType'] == "likeNotif") {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       } else {
         if (message['data']['notifType'] == "chat") {
@@ -1311,6 +1828,9 @@ Widget LocalNotifcation(BuildContext context, String titleMessage,
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
+        } else if (message['data']['notifType'] == "likeNotif") {
+          Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       }
     },

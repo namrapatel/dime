@@ -397,7 +397,9 @@ class _SignupPageState extends State<SignupPage> {
                       FacebookAuth().logIn(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => ScrollPage()));
+                              builder: (context) => SplashScreen(
+                                route: 'onBoarding',
+                              )));
                     },
                     color: Color(0xFF3C5A99),
                     child: Center(

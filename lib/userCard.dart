@@ -105,20 +105,20 @@ class _UserCardState extends State<UserCard> {
                 ),
               ),
               Spacer(),
-              IconButton(
-                icon: Icon(
-                  Feather.message_circle,
-                ),
-                color: Colors.white,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => Chat(
-                              fromUserId: currentUserModel.uid,
-                              toUserId: userId)));
-                },
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     Feather.message_circle,
+              //   ),
+              //   color: Colors.white,
+              //   onPressed: () {
+              //     Navigator.push(
+              //         context,
+              //         CupertinoPageRoute(
+              //             builder: (context) => Chat(
+              //                 fromUserId: currentUserModel.uid,
+              //                 toUserId: userId)));
+              //   },
+              // ),
               currentUserModel.uid != userId
                   ? IconButton(
                       icon: Icon(Feather.more_vertical),
@@ -176,7 +176,7 @@ class _UserCardState extends State<UserCard> {
                                                 context,
                                                 CupertinoPageRoute(
                                                     builder: (context) =>
-                                                        ScrollPage()));
+                                                        ScrollPage(social: true)));
                                             Flushbar(
                                               margin: EdgeInsets.symmetric(
                                                   horizontal: 15, vertical: 5),
@@ -395,6 +395,7 @@ class _UserCardState extends State<UserCard> {
                             String action;
 
                             return ListView.builder(
+                                cacheExtent: 5000.0,
                                 physics: BouncingScrollPhysics(),
                                 itemCount: snapshot?.data?.length,
                                 itemBuilder: (_, index) {

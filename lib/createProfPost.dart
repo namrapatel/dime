@@ -192,7 +192,9 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     child: FloatingActionButton.extended(
                       backgroundColor: Color(0xFF096664),
                       onPressed: () {
-                        post();
+                        if(descriptionController.text!=null&&descriptionController.text!="") {
+                          post();
+                        }
                       },
                       icon: Icon(
                         Ionicons.ios_send,
@@ -332,7 +334,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       controller: descriptionController,
                       keyboardType: TextInputType.multiline,
                       maxLines: 4,
-                      maxLength: 140,
+                      maxLength: 300,
                       maxLengthEnforced: true,
                       decoration: InputDecoration(
                           border: InputBorder.none,
@@ -349,7 +351,7 @@ class _CreateProfPostState extends State<CreateProfPost> {
                 child: Row(
                   children: <Widget>[
                     Text(
-                      "Max. 140 characters",
+                      "Max. 300 characters",
                       style: TextStyle(color: Colors.black),
                     ),
                   ],
@@ -378,7 +380,8 @@ class _CreateProfPostState extends State<CreateProfPost> {
                       imageQuality: 100,
                       source: ImageSource.camera,
                       maxWidth: 1920,
-                      maxHeight: 1350);
+                      maxHeight: 1350,
+                  );
                   setState(() {
                     state = AppState.picked;
                     file = imageFile;

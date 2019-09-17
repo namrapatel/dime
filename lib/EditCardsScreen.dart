@@ -16,6 +16,11 @@ import 'professionalTags.dart';
 import 'viewCards.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'homePage.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:image/image.dart' as Im;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/services.dart';
 
 String selectedItemString;
 String selectedWItemString;
@@ -329,6 +334,25 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     setState(() {
       _image = sampleImage;
     });
+    print('starting compression');
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    String rand = Timestamp.now().toString();
+
+    Im.Image image = Im.decodeImage(_image.readAsBytesSync());
+//     Im.copyResize(image,width: 500,height: 500);
+
+    //    image.format = Im.Image.RGBA;
+    //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+
+    var newim2 = File('$path/img_$rand.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(image));
+
+    setState(() {
+      _image = newim2;
+    });
+    print('done');
+
     uploadImage();
     Flushbar(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -699,9 +723,10 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           ),
                           photoUrl != null
                               ? CircleAvatar(
-                                  backgroundImage: NetworkImage(photoUrl),
-                                  radius: screenH(45),
-                                )
+    radius: screenH(45),
+    backgroundImage: CachedNetworkImageProvider(
+    photoUrl
+    ))
                               : CircularProgressIndicator(),
                           SizedBox(
                             width: screenW(20),
@@ -1000,6 +1025,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                   onChanged: (value) {
                                     if (value != null) {
                                       setState(() {
@@ -1056,6 +1082,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -1113,6 +1140,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -1379,6 +1407,25 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     setState(() {
       _image = sampleImage;
     });
+    print('starting compression');
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    String rand = Timestamp.now().toString();
+
+    Im.Image image = Im.decodeImage(_image.readAsBytesSync());
+//     Im.copyResize(image,width: 500,height: 500);
+
+    //    image.format = Im.Image.RGBA;
+    //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+
+    var newim2 = File('$path/img_$rand.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(image));
+
+    setState(() {
+      _image = newim2;
+    });
+    print('done');
+
     uploadImage();
     Flushbar(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
@@ -1767,11 +1814,12 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           SizedBox(
                             width: screenW(20),
                           ),
-                          photoUrl != null
-                              ? CircleAvatar(
-                                  backgroundImage: NetworkImage(photoUrl),
-                                  radius: screenH(45),
-                                )
+                          photoUrl != null?
+                          CircleAvatar(
+                          radius: screenH(45),
+                          backgroundImage: CachedNetworkImageProvider(
+                          photoUrl
+                          ))
                               : CircularProgressIndicator(),
                           SizedBox(
                             width: screenW(20),
@@ -2093,6 +2141,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2149,6 +2198,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2203,6 +2253,7 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
+                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {

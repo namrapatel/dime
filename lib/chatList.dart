@@ -9,6 +9,8 @@ import 'package:page_transition/page_transition.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'homePage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'notifcations.dart';
 
 class ChatList extends StatefulWidget {
   final String title = '';
@@ -141,7 +143,7 @@ class _ChatListState extends State<ChatList> {
           ),
           onPressed: () {
             Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => ScrollPage()));
+                CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
           },
         ),
         title: Text(
@@ -149,28 +151,18 @@ class _ChatListState extends State<ChatList> {
           style: TextStyle(color: Colors.black, fontSize: 25),
         ),
       ),
-      body: ListView(
-        padding: EdgeInsets.all(0.0),
-        physics: BouncingScrollPhysics(),
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 35,
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[buildMessages()],
-                      )
-                    ],
-                  )),
-            ],
-          ),
-        ],
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
+          padding: EdgeInsets.all(0.0),
+          physics: BouncingScrollPhysics(),
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height/40,
+            ),
+            buildMessages()
+          ],
+        ),
       ),
     );
   }
@@ -207,8 +199,10 @@ class MessageTile extends StatelessWidget {
                     )));
       },
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(senderPhoto),
-      ),
+
+          backgroundImage: CachedNetworkImageProvider(
+              senderPhoto
+          )),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[

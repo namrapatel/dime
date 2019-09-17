@@ -12,7 +12,7 @@ import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -96,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ScrollPage()));
+                      CupertinoPageRoute(builder: (context) => ScrollPage(social: true)));
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
@@ -127,10 +127,12 @@ class _ProfilePageState extends State<ProfilePage> {
                 ? SizedBox(
                     height: 0.0,
                   )
-                : CircleAvatar(
-                    backgroundImage: NetworkImage(photoUrl),
-                    radius: screenW(60),
-                  ),
+                :CircleAvatar(
+                radius: screenW(60),
+    backgroundImage: CachedNetworkImageProvider(
+    photoUrl
+    )),
+
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.4),

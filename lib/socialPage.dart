@@ -28,48 +28,48 @@ class _SocialPageState extends State<SocialPage> {
   Future getPosts() async {
     QuerySnapshot qn = await Firestore.instance
         .collection('socialPosts')
-        .where('university', isEqualTo: currentUserModel.university)
+        .where('university', isEqualTo: currentUserModel.university).orderBy('timeStamp',descending: true)
         .getDocuments();
-    List<dynamic> docs = qn.documents;
-    List<List<dynamic>> twoD = [];
-    List<DocumentSnapshot> finalSorted = [];
+//    List<dynamic> docs = qn.documents;
+//    List<List<dynamic>> twoD = [];
+//    List<DocumentSnapshot> finalSorted = [];
+//
+//    print('length');
+//    print(docs.length);
+//    for (var doc in docs) {
+//      double counter = 0;
+//      List<dynamic> toAdd = [];
+//      Timestamp time = doc.data['timeStamp'];
+//
+//      print(doc.data['caption']);
+//
+//      print(DateTime.now().difference(time.toDate()));
+//      if (DateTime.now().difference(time.toDate()).inMinutes <= 180) {
+//        print('difference between posted and time from an hour ago is');
+//        print(DateTime.now().difference(time.toDate()).inMinutes);
+//        counter = counter + 5;
+//      }
+//      int upvotes = doc.data['upVotes'];
+//      counter = counter + (0.1 * upvotes);
+//      int comments = doc.data['comments'];
+//      counter = counter + (0.2 * comments);
+//      toAdd.add(doc);
+//      toAdd.add(counter);
+//      twoD.add(toAdd);
+//    }
+//    for (var list in twoD) {
+//      print(list[0].data['caption']);
+//      print(list[1]);
+//    }
+//    twoD.sort((b, a) => a[1].compareTo(b[1]));
+//    print('after sort');
+//    for (var list in twoD) {
+//      print(list[0].data['caption']);
+//      print(list[1]);
+//      finalSorted.add(list[0]);
+//    }
 
-    print('length');
-    print(docs.length);
-    for (var doc in docs) {
-      double counter = 0;
-      List<dynamic> toAdd = [];
-      Timestamp time = doc.data['timeStamp'];
-
-      print(doc.data['caption']);
-
-      print(DateTime.now().difference(time.toDate()));
-      if (DateTime.now().difference(time.toDate()).inMinutes <= 180) {
-        print('difference between posted and time from an hour ago is');
-        print(DateTime.now().difference(time.toDate()).inMinutes);
-        counter = counter + 5;
-      }
-      int upvotes = doc.data['upVotes'];
-      counter = counter + (0.1 * upvotes);
-      int comments = doc.data['comments'];
-      counter = counter + (0.2 * comments);
-      toAdd.add(doc);
-      toAdd.add(counter);
-      twoD.add(toAdd);
-    }
-    for (var list in twoD) {
-      print(list[0].data['caption']);
-      print(list[1]);
-    }
-    twoD.sort((b, a) => a[1].compareTo(b[1]));
-    print('after sort');
-    for (var list in twoD) {
-      print(list[0].data['caption']);
-      print(list[1]);
-      finalSorted.add(list[0]);
-    }
-
-    return finalSorted;
+    return qn.documents;
   }
 
   int commentLengths;
@@ -159,7 +159,7 @@ class _SocialPageState extends State<SocialPage> {
                           Navigator.push(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => ScrollPage()));
+                                  builder: (context) => ScrollPage(social: true)));
                         },
                       ),
                     ],
@@ -178,6 +178,7 @@ class _SocialPageState extends State<SocialPage> {
                     );
                   } else {
                     return ListView.builder(
+                      cacheExtent: 5000.0,
                         itemCount: snapshot?.data?.length,
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (_, index) {

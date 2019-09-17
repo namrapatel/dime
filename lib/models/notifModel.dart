@@ -149,7 +149,7 @@ class _LikeNotifState extends State<LikeNotif> {
               ):IconButton(
                 icon: Icon(
                   Feather.message_circle,
-                  size: screenH(35),
+                  size: screenH(27),
                 ),
                 color: Color(0xFF1458EA),
                 onPressed: () {

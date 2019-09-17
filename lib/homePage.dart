@@ -652,7 +652,7 @@ class _ScrollPageState extends State<ScrollPage>
                       userId: currentUserModel.uid,
                       type: 'prof',
                     )),
-                  ],
+                  ], 
                 ),
                 alignment: Alignment.topCenter,
               ),

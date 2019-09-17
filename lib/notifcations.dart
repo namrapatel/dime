@@ -148,6 +148,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                         },
                         icon: Icon(
                           Feather.message_circle,
+                          size: screenH(27),
                           color: Colors.black,
                         ),
                       ),
@@ -278,71 +279,31 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                         } else {
                           print(snapshots.data.length);
                           print('ength is above');
-                          return Container(
-                            height: MediaQuery.of(context).size.height / 0.75,
-                            child: (snapshots.data.length == 0)
-                                ? Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 20.0,
+                          return (snapshots.data.length == 0)
+                              ? Column(
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 20.0,
+                                    ),
+                                    Image.asset(
+                                        'assets/img/undraw_peoplearoundyou.png'),
+                                    Padding(
+                                      padding: EdgeInsets.all(
+                                          MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              20),
+                                      child: Text(
+                                        "There's nobody around. \n Go get a walk in and find some new people!",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 20),
                                       ),
-                                      Image.asset(
-                                          'assets/img/undraw_peoplearoundyou.png'),
-                                      Padding(
-                                        padding: EdgeInsets.all(
-                                            MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                20),
-                                        child: Text(
-                                          "There's nobody around. \n Go get a walk in and find some new people!",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : Container(
-                                    child: Column(children: snapshots.data),
-                                  )
-//                  DocumentSnapshot doc= snapshots.data[index];
-////                  tempSearchStore.map((element) {
-//
-//
-//                  var storedDate = doc.data['timestamp'];
-//                  String elapsedTime = timeago.format(storedDate.toDate());
-//                  String timestamp = '$elapsedTime';
-//                  return LikeNotif(timestamp: timestamp,id: doc.documentID,name: doc['name'],
-//                  major: doc['major'],university: doc['university'],bio: doc['bio'],gradYear: doc['gradYear'],liked: doc['liked'],type: doc['type'],relationshipStatus: doc['relationshipStatus'],);
-//                  });
-//                  DocumentSnapshot doc = snapshots.data[index];
-//                  print(
-//                      'doc with id ${doc.documentID} distance ${doc.data['distance']}');
-//                  GeoPoint point = doc.data['position']['geopoint'];
-//                  if (doc.data['blocked${currentUserModel.uid}'] ==
-//                      true) {
-//                    return UserTile(blocked: true);
-//                  } else {
-//                    return UserTile(
-//                        relationshipStatus:
-//                        doc.data['relationshipStatus'],
-//                        contactName: doc.data['displayName'],
-//                        personImage: doc.data['photoUrl'],
-//                        uid: doc.documentID,
-//                        major: doc.data['major'],
-//                        profInterests: doc.data['profInterests'],
-//                        socialInterests:
-//                        doc.data['socialInterests'],
-//                        university: doc.data['university'],
-//                        gradYear: doc.data['gradYear'],
-//                        bio: doc.data['bio']);
-//                  }
-                            ,
-
-//                children: tempSearchStore.map((element) {
-//                  return _buildTile(element);
-//                }).toList(),
-                          );
+                                    ),
+                                  ],
+                                )
+                              : Container(
+                                  child: Column(children: snapshots.data),
+                                );
                         }
                       })
                 ],

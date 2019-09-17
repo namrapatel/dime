@@ -102,7 +102,7 @@ class _ExploreState extends State<Explore> {
             )),
         builder: (builder) {
           return Container(
-            height: MediaQuery.of(context).size.height / 3,
+            height: MediaQuery.of(context).size.height / 2.7,
             child: Column(
               children: <Widget>[
                 Row(
@@ -154,9 +154,9 @@ class _ExploreState extends State<Explore> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 40,
-                ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height / 40,
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
@@ -446,7 +446,7 @@ class _ExploreState extends State<Explore> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  "Use the explore feed to find people you're interested in. You can still send an anonymous like, but they won't know if it's for social or professional reasons.",
+                                  "Use the explore feed to find people you're interested in. Send a casual or professional like notification, and if they like you back have fun chatting and connecting!",
                                   style: TextStyle(color: Colors.black),
                                 )
                               ],
@@ -599,7 +599,7 @@ class _ExploreState extends State<Explore> {
       title: Row(
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width / 1.9,
+            width: MediaQuery.of(context).size.width / 2.4,
             child: AutoSizeText(
               data['userData']['displayName'],
               // style: TextStyle(color: Color(0xFF1458EA), fontSize: 13),

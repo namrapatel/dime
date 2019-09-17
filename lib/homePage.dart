@@ -1149,8 +1149,8 @@ class _ScrollPageState extends State<ScrollPage>
               ),
               Text(
                 socialPressed == true
-                    ? 'Be visible on Casual Location Feed?'
-                    : 'Be visible on Network Location Feed?',
+                    ? 'Appear on Casual Location Feed?'
+                    : 'Appear on Network Location Feed?',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 13,

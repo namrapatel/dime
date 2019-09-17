@@ -1709,7 +1709,6 @@ class _UserTileState extends State<UserTile> {
                               duration: Duration(seconds: 10),
                             )..show(context);
 
-
                             if (liked == false) {
                               setState(() {
                                 liked = true;
@@ -1750,10 +1749,6 @@ class _UserTileState extends State<UserTile> {
 
                                 Firestore.instance.collection('likeNotifs').add({'toUser': widget.uid, 'fromUser': currentUserModel.uid, "likeType": widget.likeType});
 
-
-
-
-                             
 
                               });
                             }

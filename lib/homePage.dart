@@ -1599,48 +1599,7 @@ class _UserTileState extends State<UserTile> {
                             )..show(context);
 
 
-                            if (liked == false) {
-                              setState(() {
-                                liked = true;
-                                List<String> myId = [];
-                                myId.add(currentUserModel.uid);
-                                Firestore.instance
-                                    .collection('users')
-                                    .document(widget.uid)
-                                    .updateData({
-                                  'likedBy': FieldValue.arrayUnion(myId),
-
-                                });
-                                List<String> userID=[];
-                                userID.add(widget.uid);
-                                Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
-                                  'likedUsers':FieldValue.arrayUnion(userID)
-                                });
-
-                                Firestore.instance
-                                    .collection('users')
-                                    .document(widget.uid)
-                                    .collection('likes')
-                                    .document(currentUserModel.uid)
-                                    .setData({
-//                              'likerName':currentUserModel.displayName,
-//                              'likerPhoto':currentUserModel.photoUrl,
-//                              'likerBio':currentUserModel.bio,
-//                              'likerUni':currentUserModel.university,
-//                              'likerMajor':currentUserModel.major,
-//                              'likerGradYear':currentUserModel.gradYear,
-//                              'likerRelationshipStatus':currentUserModel.relationshipStatus,
-                                  'unread': true,
-                                  'timestamp': Timestamp.now(),
-                                  'liked': false,
-                                  'likeType': widget.likeType
-                                });
-
-
-                                Firestore.instance.collection('likeNotifs').add({'toUser': widget.uid, 'fromUser': currentUserModel.uid, "likeType": widget.likeType});
-
-
-
+                             
                               });
                             }
                           },

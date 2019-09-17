@@ -40,7 +40,7 @@ class _ExploreState extends State<Explore> {
         .get();
 
     setState(() {
-      List<String> newList = [];
+      List<dynamic> newList = [];
       newList.addAll(userDoc['likedUsers']);
       likedUsers = newList;
     });

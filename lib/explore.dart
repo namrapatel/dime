@@ -631,11 +631,11 @@ class _ExploreState extends State<Explore> {
             color: Color(0xFF1458EA),
           ) ,
           onPressed: () {
-            if (data['userData']['displayName'] == null ||
-                data['userData']['bio'] == null ||
-                data['userData']['university'] == null ||
-                data['userData']['gradYear'] == null ||
-                data['userData']['major'] == null) {
+            if (currentUserModel.displayName == null ||
+                currentUserModel.bio == null ||
+                currentUserModel.university == null ||
+                currentUserModel.gradYear == null ||
+                currentUserModel.major == null) {
               Flushbar(
                 margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 borderRadius: 15,

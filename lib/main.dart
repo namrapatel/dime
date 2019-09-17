@@ -23,7 +23,7 @@ class Dime extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Dime",
-      home: Onboarding1(),
+      home: SplashScreen(),
       theme: appTheme,
     );
   }

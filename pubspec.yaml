@@ -124,6 +124,9 @@ flutter:
     - assets/clickablecards.png
     - assets/darkdirectory.png
     - assets/vsco.png
+    - assets/campusfeeds.png
+    - assets/dark.png
+    - assets/Group.png
 
 
   fonts:

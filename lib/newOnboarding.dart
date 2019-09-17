@@ -40,10 +40,10 @@ class _Onboarding1State extends State<Onboarding1> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: screenH(65.0)),
-              child: Text('People around you',
+              child: Text('"Like" people around you',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenF(36.0),
+                      fontSize: screenF(32.0),
                       // fontWeight: FontWeight.bold,
                       fontFamily: 'futura')),
             ),
@@ -60,13 +60,80 @@ class _Onboarding1State extends State<Onboarding1> {
               padding: EdgeInsets.fromLTRB(
                   screenH(16.0), screenH(8.0), screenH(16.0), screenH(8.0)),
               child: Text(
-                "Discover people around you, if you find them or their professional self interesting, let them know and start a conversation!",
+                "Discover people around you, and send them a casual or network 'like' notification.",
                 style: TextStyle(
                     fontFamily: 'futura',
                     color: Colors.white,
                     fontSize: screenF(18.0)),
                 textAlign: TextAlign.center,
               ),
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: screenW(320),
+                ),
+                FloatingActionButton(
+                  backgroundColor: Colors.black,
+                  child: Icon(Icons.arrow_forward),
+                  onPressed: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => LikeBack()));
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LikeBack extends StatefulWidget {
+  @override
+  _LikeBackState createState() => _LikeBackState();
+}
+
+class _LikeBackState extends State<LikeBack> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xFF1458EA),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(top: screenH(65.0)),
+              child: Text('Return a like to chat',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenF(32.0),
+                      // fontWeight: FontWeight.bold,
+                      fontFamily: 'futura')),
+            ),
+            SizedBox(
+              height: screenH(25),
+            ),
+            Image.asset(
+              'assets/dark.png',
+              height: screenH(600.0),
+              width: screenW(600.0),
+              alignment: Alignment.center,
+            ),
+            Padding(
+              padding: EdgeInsets.all(screenH(8.0)),
+              child: Text(
+                'Reveal people who liked you, by returning their likes!',
+                style: TextStyle(
+                    fontFamily: 'futura',
+                    color: Colors.white,
+                    fontSize: screenF(18.0)),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(
+              height: screenH(20.0),
             ),
             Row(
               children: <Widget>[
@@ -118,7 +185,7 @@ class _Onboarding2State extends State<Onboarding2> {
               height: screenH(25),
             ),
             Image.asset(
-              'assets/darkpeoplearoundyou.png',
+              'assets/Group.png',
               height: screenH(600.0),
               width: screenW(600.0),
               alignment: Alignment.center,
@@ -423,7 +490,7 @@ class _HandlesState extends State<Handles> {
               ),
             ),
             SizedBox(
-              height: screenH(110),
+              height: screenH(70),
             ),
             NewOnboardingSave(),
             SizedBox(
@@ -480,7 +547,7 @@ class _Onboarding3State extends State<Onboarding3> {
               height: screenH(25),
             ),
             Image.asset(
-              'assets/darkpeoplearoundyou.png',
+              'assets/campusfeeds.png',
               height: screenH(600.0),
               width: screenW(600.0),
               alignment: Alignment.center,
@@ -499,7 +566,18 @@ class _Onboarding3State extends State<Onboarding3> {
             Row(
               children: <Widget>[
                 SizedBox(
-                  width: screenW(320),
+                  width: screenW(30),
+                ),
+                FlatButton(
+                  child: Text("SKIP"),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => Profile()));
+                  },
+                ),
+                SizedBox(
+                  width: screenW(200),
                 ),
                 FloatingActionButton(
                   backgroundColor: Colors.black,
@@ -554,7 +632,7 @@ class _Onboarding4State extends State<Onboarding4> {
             Padding(
               padding: EdgeInsets.all(screenH(8.0)),
               child: Text(
-                'A full list of the people who go to your university, put names to faces \n',
+                'A full list of the people who go to your university, put names to faces. \n',
                 style: TextStyle(
                     fontFamily: 'futura',
                     color: Colors.white,
@@ -564,8 +642,19 @@ class _Onboarding4State extends State<Onboarding4> {
             ),
             Row(
               children: <Widget>[
+                 SizedBox(
+                  width: screenW(30),
+                ),
+                FlatButton(
+                  child: Text("SKIP"),
+                  color: Colors.white,
+                  onPressed: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => Profile()));
+                  },
+                ),
                 SizedBox(
-                  width: screenW(320),
+                  width: screenW(200),
                 ),
                 FloatingActionButton(
                   backgroundColor: Colors.black,
@@ -574,7 +663,7 @@ class _Onboarding4State extends State<Onboarding4> {
                     Navigator.push(
                         context,
                         CupertinoPageRoute(
-                            builder: (context) => Onboarding5()));
+                            builder: (context) => Profile()));
                   },
                 ),
               ],
@@ -586,76 +675,7 @@ class _Onboarding4State extends State<Onboarding4> {
   }
 }
 
-class Onboarding5 extends StatefulWidget {
-  @override
-  _Onboarding5State createState() => _Onboarding5State();
-}
 
-class _Onboarding5State extends State<Onboarding5> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xFF1458EA),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(top: screenH(65.0)),
-              child: Text('More to come!',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenF(36.0),
-                      // fontWeight: FontWeight.bold,
-                      fontFamily: 'futura')),
-            ),
-            SizedBox(
-              height: screenH(25),
-            ),
-            Image.asset(
-              'assets/improvingDrawing.png',
-              height: screenH(600.0),
-              width: screenW(600.0),
-              alignment: Alignment.center,
-            ),
-            Padding(
-              padding: EdgeInsets.all(screenH(8.0)),
-              child: Text(
-                "We're constantly working to make your experience on our platform as seamless as possible. Stay tuned for new features!",
-                style: TextStyle(
-                    fontFamily: 'futura',
-                    color: Colors.white,
-                    fontSize: screenF(18.0)),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(
-                  width: screenW(320),
-                ),
-                FloatingActionButton(
-                  backgroundColor: Colors.black,
-                  child: Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => Onboarding1()));
-                    // Navigator.push(
-                    //   context,
-                    //     CupertinoPageRoute(
-                    //       builder: (context) => Profile()));
-                    // UNCOMMENT THE SECOND CODE OF THE NAVIGATOR>PUSH ONCE ONBOARDING IS 100% DONE
-                  },
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class NewOnboardingSave extends StatefulWidget {
   @override

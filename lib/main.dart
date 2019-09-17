@@ -1,8 +1,10 @@
 import 'package:Dime/homePage.dart';
 import 'package:Dime/login.dart';
 import 'package:Dime/models/user.dart';
+import 'package:Dime/newOnboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:Dime/newOnboarding.dart';
 import 'dart:async';
 import 'onboarding.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -75,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
           currentUserModel = User.fromDocument(userRecord);
           if (widget.route == 'onBoarding') {
             Navigator.push(context,
-                CupertinoPageRoute(builder: (context) => onBoarding()));
+                CupertinoPageRoute(builder: (context) => Onboarding1()));
           } else {
             Navigator.push(context,
                 CupertinoPageRoute(builder: (context) => ScrollPage(social: true)));

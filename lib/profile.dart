@@ -79,7 +79,7 @@ class _HomePageOneState extends State<HomePageOne> {
                   onTap: () {
                     setState(() {
 
-                      relationshipStatus = '💎 ';
+                      relationshipStatus = '💎';
                     });
                     Navigator.pop(context);
                   },
@@ -632,7 +632,7 @@ class _HomePageOneState extends State<HomePageOne> {
                           "Relationship Status":
                           relationshipStatus == "🔒"
                               ? "🔒 In a Relationship"
-                              : relationshipStatus == "💎 "
+                              : relationshipStatus == "💎"
                                   ? "💎   Single"
                                   : relationshipStatus == "✌️"
                                       ? "✌️  Not interested"

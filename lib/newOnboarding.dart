@@ -39,11 +39,11 @@ class _Onboarding1State extends State<Onboarding1> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: screenH(65.0)),
+              padding: EdgeInsets.only(top: screenH(55.0)),
               child: Text('"Like" people around you',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenF(32.0),
+                      fontSize: screenF(28.0),
                       // fontWeight: FontWeight.bold,
                       fontFamily: 'futura')),
             ),
@@ -104,11 +104,11 @@ class _LikeBackState extends State<LikeBack> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: screenH(65.0)),
+              padding: EdgeInsets.only(top: screenH(55.0)),
               child: Text('Return a like to chat',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenF(32.0),
+                      fontSize: screenF(28.0),
                       // fontWeight: FontWeight.bold,
                       fontFamily: 'futura')),
             ),
@@ -122,7 +122,7 @@ class _LikeBackState extends State<LikeBack> {
               alignment: Alignment.center,
             ),
             Padding(
-              padding: EdgeInsets.all(screenH(8.0)),
+              padding: EdgeInsets.all(screenH(1.0)),
               child: Text(
                 'Reveal people who liked you, by returning their likes!',
                 style: TextStyle(
@@ -173,16 +173,16 @@ class _Onboarding2State extends State<Onboarding2> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: screenH(65.0)),
+              padding: EdgeInsets.only(top: screenH(55.0)),
               child: Text('Clickable Cards',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenF(36.0),
+                      fontSize: screenF(28.0),
                       // fontWeight: FontWeight.bold,
                       fontFamily: 'futura')),
             ),
             SizedBox(
-              height: screenH(25),
+              height: screenH(5),
             ),
             Image.asset(
               'assets/Group.png',
@@ -191,14 +191,17 @@ class _Onboarding2State extends State<Onboarding2> {
               alignment: Alignment.center,
             ),
             Padding(
-              padding: EdgeInsets.all(screenH(8.0)),
-              child: Text(
-                'All your online media handles and a small glimpse into who you are are easily accessible through your personal cards.',
-                style: TextStyle(
-                    fontFamily: 'futura',
-                    color: Colors.white,
-                    fontSize: screenF(18.0)),
-                textAlign: TextAlign.center,
+              padding: EdgeInsets.all(screenH(1.0)),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenW(10)),
+                child: Text(
+                  'All your online media handles and a small glimpse into who you are are easily accessible through your personal cards.',
+                  style: TextStyle(
+                      fontFamily: 'futura',
+                      color: Colors.white,
+                      fontSize: screenF(18.0)),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             Row(
@@ -237,7 +240,7 @@ class _HandlesState extends State<Handles> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: screenH(85.0)),
+              padding: EdgeInsets.only(top: screenH(50.0)),
               child: Text('Enter your handles',
                   style: TextStyle(
                       color: Colors.black,
@@ -246,7 +249,7 @@ class _HandlesState extends State<Handles> {
                       fontFamily: 'futura')),
             ),
             SizedBox(
-              height: screenH(80),
+              height: screenH(30),
             ),
             Container(
               width: screenW(370),
@@ -490,7 +493,7 @@ class _HandlesState extends State<Handles> {
               ),
             ),
             SizedBox(
-              height: screenH(70),
+              height: screenH(20),
             ),
             NewOnboardingSave(),
             SizedBox(
@@ -535,11 +538,11 @@ class _Onboarding3State extends State<Onboarding3> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: screenH(65.0)),
+              padding: EdgeInsets.only(top: screenH(45.0)),
               child: Text('Campus Feeds',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenF(36.0),
+                      fontSize: screenF(28.0),
                       // fontWeight: FontWeight.bold,
                       fontFamily: 'futura')),
             ),
@@ -553,7 +556,7 @@ class _Onboarding3State extends State<Onboarding3> {
               alignment: Alignment.center,
             ),
             Padding(
-              padding: EdgeInsets.all(screenH(8.0)),
+              padding: EdgeInsets.all(screenH(1.0)),
               child: Text(
                 'A feed to mess around with your university, and a collection of streams for your more professional interests',
                 style: TextStyle(
@@ -612,11 +615,11 @@ class _Onboarding4State extends State<Onboarding4> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: screenH(65.0)),
+              padding: EdgeInsets.only(top: screenH(45.0)),
               child: Text('University Directory',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenF(36.0),
+                      fontSize: screenF(28.0),
                       // fontWeight: FontWeight.bold,
                       fontFamily: 'futura')),
             ),
@@ -624,7 +627,7 @@ class _Onboarding4State extends State<Onboarding4> {
               height: screenH(25),
             ),
             Image.asset(
-              'assets/darkpeoplearoundyou.png',
+              'assets/darkdirectory.png',
               height: screenH(600.0),
               width: screenW(600.0),
               alignment: Alignment.center,
@@ -632,7 +635,7 @@ class _Onboarding4State extends State<Onboarding4> {
             Padding(
               padding: EdgeInsets.all(screenH(8.0)),
               child: Text(
-                'A full list of the people who go to your university, put names to faces. \n',
+                'A full list of the people who go to your university, put names to faces.',
                 style: TextStyle(
                     fontFamily: 'futura',
                     color: Colors.white,

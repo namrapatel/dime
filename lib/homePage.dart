@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:Dime/models/largerPic.dart';
 import 'package:Dime/notifcations.dart';
 import 'package:bubble_tab_indicator/bubble_tab_indicator.dart';
 import 'models/user.dart';
@@ -1265,12 +1266,16 @@ class _ScrollPageState extends State<ScrollPage>
                                 } else {
                                   type = "prof";
                                 }
+                                var status;
 
+                                if(socialPressed==true){
+                                  status=   doc.data['relationshipStatus'];
+                                }
                                 return UserTile(
                                     liked: liked,
                                     likeType: type,
                                     relationshipStatus:
-                                        doc.data['relationshipStatus'],
+                                      status,
                                     contactName: doc.data['displayName'],
                                     personImage: doc.data['photoUrl'],
                                     uid: doc.documentID,
@@ -1460,12 +1465,26 @@ class _UserTileState extends State<UserTile> {
             ),
             leading: Stack(
               children: <Widget>[
-                CircleAvatar(
-                  radius: screenH(30),
-                  backgroundImage: CachedNetworkImageProvider(
-                    widget.blocked == true
-                        ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
-                        : widget.personImage,
+                GestureDetector(
+                  onTap:(
+    ){
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) =>
+                                LargePic(
+                                  largePic: widget.personImage,
+                                )
+                        ));
+
+    },
+                  child: CircleAvatar(
+                    radius: screenH(30),
+                    backgroundImage: CachedNetworkImageProvider(
+                      widget.blocked == true
+                          ? "https://firebasestorage.googleapis.com/v0/b/dime-87d60.appspot.com/o/defaultprofile.png?alt=media&token=8cd5318b-9593-4837-a9f9-2a22c87463ef"
+                          : widget.personImage,
+                    ),
                   ),
                 ),
                 widget.relationshipStatus != null

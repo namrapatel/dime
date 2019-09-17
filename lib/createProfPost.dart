@@ -192,7 +192,9 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     child: FloatingActionButton.extended(
                       backgroundColor: Color(0xFF096664),
                       onPressed: () {
-                        post();
+                        if(descriptionController.text!=null&&descriptionController.text!="") {
+                          post();
+                        }
                       },
                       icon: Icon(
                         Ionicons.ios_send,

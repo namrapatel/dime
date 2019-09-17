@@ -1719,8 +1719,13 @@ class _UserTileState extends State<UserTile> {
                                     .document(widget.uid)
                                     .updateData({
                                   'likedBy': FieldValue.arrayUnion(myId),
-                                });
 
+                                });
+                                List<String> userID=[];
+                                userID.add(widget.uid);
+                                Firestore.instance.collection('users').document(currentUserModel.uid).updateData({
+                                  'likedUsers':FieldValue.arrayUnion(userID)
+                                });
 
                                 Firestore.instance
                                     .collection('users')

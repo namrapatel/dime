@@ -403,7 +403,7 @@ class _ExploreState extends State<Explore> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "Use the explore feed to find people you're interested in. You can still send an anonymous like, but they won't know if it's for social or professional reasons.",
+                              "Use the explore feed to find people you're interested in. Send a casual or professional like notification, and if they like you back have fun chatting and connecting!",
                               style: TextStyle(color: Colors.black),
                             )
                           ],

@@ -1145,19 +1145,19 @@ class _ScrollPageState extends State<ScrollPage>
           Row(
             children: <Widget>[
               SizedBox(
-                width: MediaQuery.of(context).size.width / 12.5,
+                width: MediaQuery.of(context).size.width / 22.5,
               ),
-              // Text(
-              //   socialPressed == true
-              //       ? 'Visible on Casual Location Feed?'
-              //       : 'Visible on Network Location Feed?',
-              //   style: TextStyle(
-              //     color: Colors.black,
-              //     fontSize: 18,
-              //   ),
-              // ),
+              Text(
+                socialPressed == true
+                    ? 'Be visible on Casual Location Feed?'
+                    : 'Be visible on Network Location Feed?',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 13,
+                ),
+              ),
               SizedBox(
-                width: MediaQuery.of(context).size.width / 15.7,
+                width: MediaQuery.of(context).size.width / 5.5,
               ),
               socialPressed == true
                   ? Switch(
@@ -1286,7 +1286,21 @@ class _ScrollPageState extends State<ScrollPage>
                 ));
               }
             },
-          ):Container(),
+          ):Column(
+            children: <Widget>[
+          Container(
+            height: MediaQuery.of(context).size.height/3.5,
+            width: MediaQuery.of(context).size.width/1.5,
+            child: Image.asset(
+               'assets/img/undraw_peoplearoundyou.png',
+               ),
+          ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text("Please turn the location toggle on or ensure your profile is set up with a name, university, program, grad year, and bio!", textAlign: TextAlign.center),
+            ),
+            ],
+          )
         ]));
   }
 

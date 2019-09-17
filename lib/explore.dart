@@ -646,7 +646,7 @@ class _ExploreState extends State<Explore> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "To like, please ensure your profile has a name, bio, university, grad year, and program!",
+                        "Please ensure you have a complete profile with name, university, program, grad year, and bio to like people",
                         style: TextStyle(color: Colors.black),
                       )
                     ],
@@ -664,13 +664,48 @@ class _ExploreState extends State<Explore> {
                 ),
                 duration: Duration(seconds: 7),
               )..show(context);
-            } else {
+            } else if (data['userData']['displayName'] == null
+                || data['userData']['bio'] == null
+                || data['userData']['university'] == null
+                || data['userData']['gradYear'] == null
+                || data['userData']['major'] == null) {
+              Flushbar(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                borderRadius: 15,
+                messageText: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "You can't like a user that does not have a complete profile with a name, university, program, grad year, and bio",
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  ),
+                ),
+                backgroundColor: Colors.white,
+                flushbarPosition: FlushbarPosition.TOP,
+                icon: Padding(
+                  padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                  child: Icon(
+                    Icons.info_outline,
+                    size: 28.0,
+                    color: Color(0xFF1458EA),
+                  ),
+                ),
+                duration: Duration(seconds: 7),
+              )..show(context);
+            }
+            else {
               setState(() {
                 likedUsers.add(data['userId']);
               });
               _showModalSheet(data['userId'], data['userData']['displayName']);
             }
           },
+
         ),
       ),
 //      trailing: (currentUserModel.bio!=null&&currentUserModel.university!=null&&currentUserModel.major!=null&&currentUserModel.gradYear!=null&&(currentUserModel.displayName!="New User"&&currentUserModel.displayName!="No Display Name"))?Row(

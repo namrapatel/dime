@@ -1,4 +1,5 @@
 import 'package:Dime/homePage.dart';
+import 'package:Dime/models/largerPic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -567,10 +568,25 @@ class _ExploreState extends State<Explore> {
 //            radius: screenH(30),
 //            backgroundImage: NetworkImage(data['userData']['photoUrl']),
 //          ),
-          CircleAvatar(
-              radius: screenH(30),
-              backgroundImage:
-              CachedNetworkImageProvider(data['userData']['photoUrl'])),
+          GestureDetector(
+
+      onTap:(
+      ){
+    Navigator.push(
+    context,
+    CupertinoPageRoute(
+    builder: (context) =>
+    LargePic(
+    largePic: data['userData']['photoUrl'],
+    )
+    ));
+
+    },
+            child: CircleAvatar(
+                radius: screenH(30),
+                backgroundImage:
+                CachedNetworkImageProvider(data['userData']['photoUrl'])),
+          ),
           data['userData']['relationshipStatus'] != null
               ? Positioned(
             left: MediaQuery.of(context).size.width / 10000000,

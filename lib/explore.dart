@@ -64,6 +64,7 @@ class _ExploreState extends State<Explore> {
 
       for (var user in allUsers) {
         if (user['userData']['displayName']
+            .toString()
             .toLowerCase()
             .startsWith(standardValue)) {
           setState(() {
@@ -81,6 +82,7 @@ class _ExploreState extends State<Explore> {
 
       for (var user in allUsers) {
         if (user['userData']['displayName']
+            .toString()
             .toLowerCase()
             .startsWith(standardValue)) {
           print("IM HERE");

@@ -85,7 +85,6 @@ class _ExploreState extends State<Explore> {
             .toString()
             .toLowerCase()
             .startsWith(standardValue)) {
-          print("IM HERE");
           setState(() {
             tempSearchStore.add(user);
             queryResultSet.add(user);
@@ -373,7 +372,6 @@ class _ExploreState extends State<Explore> {
             userMap['userId'] = docs.documents[i].documentID;
 //          tempSet.add(docs.documents[i].data);
             tempSet.add(userMap);
-            print(docs.documents[i].documentID);
           }
           setState(() {
             tempSearchStore = tempSet;

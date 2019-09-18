@@ -279,7 +279,6 @@ class _ScrollPageState extends State<ScrollPage>
     getVisibilityPrefs();
     getUnreadNotifs();
     getLocation();
-    firebaseCloudMessaging_Listeners();
     _controller = RubberAnimationController(
         vsync: this,
         upperBoundValue: AnimationControllerValue(percentage: 0.95),
@@ -603,6 +602,7 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   Widget build(BuildContext context) {
+    firebaseCloudMessaging_Listeners();
     var string = currentUserModel.displayName.split(" ");
     String firstName = string[0];
     if (firstName == null) {

@@ -857,7 +857,7 @@ class _ScrollPageState extends State<ScrollPage>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Text(
-                                    "You can like someone socially or professionally which will send them an anonymous notification with your bio, and the type of like you are sending. If they like you back, have fun chatting!",
+                                    "You can like someone casually or to network, which will send them an anonymous notification with your bio, and the type of like you are sending. If they like you back, have fun chatting!",
                                     style: TextStyle(color: Colors.black),
                                   )
                                 ],

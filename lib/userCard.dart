@@ -57,11 +57,11 @@ class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) {
     String firstName;
-    if(userName.contains(" ")) {
+    if(userName!=null && userName.contains(" ")) {
        var string = userName.split(" ");
       firstName = string[0];
     }else{
-     firstName=userName;
+     firstName="User";
     }
 //    String firstName = string[0];
 

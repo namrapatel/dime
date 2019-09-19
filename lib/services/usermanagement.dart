@@ -46,7 +46,7 @@ class UserManagement {
   }
 
   addSocialPost(String caption, Timestamp timeStamp, String postPic,
-      String postId, int upVotes) {
+      String postId, int upVotes, bool verified) {
     List<dynamic> likes = [];
     Firestore.instance.collection('socialPosts').add({
       'points': 0,
@@ -59,12 +59,13 @@ class UserManagement {
       'upVotes': upVotes,
       "likes": likes,
       "university": currentUserModel.university,
-      'status': 'pending'
+      'status': 'pending',
+      'verified':verified
     });
   }
 
   addProfPost(String caption, Timestamp timeStamp, String postPic,
-      String postId, int upVotes, String stream, List<dynamic> userIds) {
+      String postId, int upVotes, String stream, List<dynamic> userIds,bool verified) {
     List<dynamic> likes = [];
     for(var i=0;i<userIds.length;i++){
       Firestore.instance.collection('users').document(userIds[i]).collection('feed').document(postId).setData({
@@ -86,7 +87,8 @@ class UserManagement {
       "likes": likes,
       "university": currentUserModel.university,
       'status': 'pending',
-      'stream': stream
+      'stream': stream,
+      'verified':verified
     });
 
     Firestore.instance
@@ -106,7 +108,8 @@ class UserManagement {
       "likes": likes,
       "university": currentUserModel.university,
       'status': 'pending',
-      'stream': stream
+      'stream': stream,
+      'verified':verified
     });
 
     Firestore.instance
@@ -123,7 +126,8 @@ class UserManagement {
       "likes": likes,
       "university": currentUserModel.university,
       'status': 'pending',
-      'stream': stream
+      'stream': stream,
+      'verified':verified
     });
   }
 }

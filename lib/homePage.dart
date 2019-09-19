@@ -63,6 +63,7 @@ class _ScrollPageState extends State<ScrollPage>
 //  bool profPressed=false;
   bool goodProfileStandard = false;
   RubberAnimationController _controller;
+  int unreadMessages=0;
   int unread = 0;
   FocusNode _focus = new FocusNode();
   StreamController<List<DocumentSnapshot>> streamController;
@@ -90,6 +91,17 @@ class _ScrollPageState extends State<ScrollPage>
             .requestPermissions([PermissionGroup.locationAlways]);
   }
 
+  getUnreadMessages() async {
+    QuerySnapshot query = await Firestore.instance
+        .collection('users')
+        .document(currentUserModel.uid)
+        .collection('messages')
+        .where('unread', isEqualTo: true)
+        .getDocuments();
+    setState(() {
+      unreadMessages = query.documents.length;
+    });
+  }
   getUnreadNotifs() async {
     QuerySnapshot query = await Firestore.instance
         .collection('users')
@@ -122,6 +134,8 @@ class _ScrollPageState extends State<ScrollPage>
         .collection('users')
         .document(currentUserModel.uid)
         .get();
+    print(currentUserModel.verified);
+    print('verified checkkk');
 
     setState(() {
       if ((userDoc['displayName'] != 'New User' &&
@@ -275,8 +289,10 @@ class _ScrollPageState extends State<ScrollPage>
 
   @override
   void initState() {
+
     versionCheck(context);
     getVisibilityPrefs();
+    getUnreadMessages();
     getUnreadNotifs();
     getLocation();
     firebaseCloudMessaging_Listeners();
@@ -714,6 +730,42 @@ class _ScrollPageState extends State<ScrollPage>
                       ],
                     ),
               Spacer(),
+              Container(
+              decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              color: Colors.grey[100],
+              ),
+              child: Stack(children: <Widget>[
+              IconButton(
+              onPressed: () {
+              Navigator.push(
+              context,
+              CupertinoPageRoute(
+              builder: (context) => ChatList()));
+              },
+              icon: Icon(
+              Feather.message_circle,
+                size: 20,
+              color: Colors.black,
+              ),
+              ),
+              unreadMessages > 0
+              ? Positioned(
+              top: MediaQuery.of(context).size.height / 70,
+              left: MediaQuery.of(context).size.width / 13,
+              child: CircleAvatar(
+              child: Text(
+              unreadMessages.toString(),
+              style: TextStyle(
+              color: Colors.white, fontSize: 14.0),
+              ),
+              backgroundColor: Colors.red,
+              radius: 8.2,
+              ))
+                  : SizedBox(
+              height: 0.0,
+              )
+              ])),
               IconButton(
                 icon: Icon(
                   Feather.settings,
@@ -1272,6 +1324,7 @@ class _ScrollPageState extends State<ScrollPage>
                                   status=   doc.data['relationshipStatus'];
                                 }
                                 return UserTile(
+                                    verified:doc.data['verified'],
                                     liked: liked,
                                     likeType: type,
                                     relationshipStatus:
@@ -1323,7 +1376,7 @@ class _ScrollPageState extends State<ScrollPage>
 }
 
 class UserTile extends StatefulWidget {
-  final bool blocked, liked;
+  final bool blocked, liked,verified;
   final String likeType,
       relationshipStatus,
       contactName,
@@ -1334,7 +1387,7 @@ class UserTile extends StatefulWidget {
       gradYear,
       bio;
   const UserTile(
-      {this.liked,
+      {this.verified,this.liked,
       this.likeType,
       this.relationshipStatus,
       this.contactName,
@@ -1411,9 +1464,22 @@ class _UserTileState extends State<UserTile> {
             }
           },
           child: ListTile(
-            title: Text(
-              widget.blocked == true ? "Blocked User" : widget.contactName,
-              style: TextStyle(fontSize: 18),
+
+            title: Row(
+              children: <Widget>[
+                Text(
+                  widget.blocked == true ? "Blocked User" : widget.contactName,
+                  style: TextStyle(fontSize: 18),
+                ),
+                widget.verified==true?
+                Icon(
+                  Feather.check_circle,
+                  color: Color(0xFF096664),
+                  size: screenF(17),
+                )
+                    : Container()
+
+              ],
             ),
             subtitle: Column(
               children: <Widget>[

@@ -20,6 +20,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flushbar/flushbar.dart';
 
 class SocialPost extends StatefulWidget {
+  final bool verified;
   final String university;
   final String postId;
   final String caption;
@@ -37,6 +38,7 @@ class SocialPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return SocialPost(
+      verified:document['verified'],
       ownerId: document['ownerId'],
       points: document['points'],
       university: document['university'],
@@ -51,7 +53,7 @@ class SocialPost extends StatefulWidget {
   }
 
   const SocialPost(
-      {this.university,
+      {this.verified,this.university,
       this.ownerId,
       this.points,
       this.postId,
@@ -62,7 +64,7 @@ class SocialPost extends StatefulWidget {
       this.upVotes,
       this.likes});
   @override
-  _SocialPostState createState() => _SocialPostState(
+  _SocialPostState createState() => _SocialPostState(verified:verified,
       points: points,
       university: university,
       postId: postId,
@@ -76,6 +78,7 @@ class SocialPost extends StatefulWidget {
 }
 
 class _SocialPostState extends State<SocialPost> {
+  bool verified;
   String ownerId;
   int points;
   List<dynamic> likes;
@@ -87,8 +90,11 @@ class _SocialPostState extends State<SocialPost> {
   int upVotes;
   String university;
   bool liked;
+  String ownerName;
+  String ownerPhoto;
+
   _SocialPostState(
-      {this.ownerId,
+      {this.verified,this.ownerId,
       this.university,
       this.postId,
       this.caption,
@@ -103,6 +109,8 @@ class _SocialPostState extends State<SocialPost> {
   @override
   void initState() {
     super.initState();
+
+getVerification();
     setState(() {
       liked = (likes.contains(currentUserModel.uid));
     });
@@ -111,6 +119,19 @@ class _SocialPostState extends State<SocialPost> {
     print(caption);
   }
 
+  getVerification() async {
+//
+    if (verified == true) {
+      DocumentSnapshot ownerDoc = await Firestore.instance
+          .collection('users')
+          .document(widget.ownerId)
+          .get();
+      setState(() {
+        ownerName = ownerDoc['displayName'];
+        ownerPhoto = ownerDoc['photoUrl'];
+      });
+    }
+  }
   getPostInfo() async {
     DocumentSnapshot doc = await Firestore.instance
         .collection('socialPosts')
@@ -119,6 +140,16 @@ class _SocialPostState extends State<SocialPost> {
     Timestamp storedDate = doc["timeStamp"];
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
+    if(verified==true){
+      DocumentSnapshot ownerDoc = await Firestore.instance
+          .collection('users')
+          .document(widget.ownerId)
+          .get();
+      setState(() {
+        ownerName=ownerDoc['displayName'];
+        ownerPhoto=ownerDoc['photoUrl'];
+      });
+    }
     setState(() {
       likes = doc['likes'];
       university = doc['university'];
@@ -224,20 +255,50 @@ class _SocialPostState extends State<SocialPost> {
                           bottomLeft: Radius.circular(screenH(15.0)),
                           bottomRight: Radius.circular(screenH(15.0)),
                         ),
-                        child: postPic != null
-                            ? CachedNetworkImage(
-                                imageUrl: postPic,
-                                fit: BoxFit.fitWidth,
-                                placeholder: (context, url) =>
-                                    loadingPlaceHolder,
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                width: screenW(200),
-                                // height: screenH(375),
-                              )
-                            : SizedBox(
-                                width: screenH(1.2),
-                              ),
+                        child: Column(
+                          children: <Widget>[
+                        verified==true?
+                            Container(
+                              child:
+                              (ownerPhoto!=null&&ownerName!=null)?
+                              Row(children: <Widget>[
+                               
+                                CircleAvatar(
+                                  radius: screenH(30),
+                                  backgroundImage: CachedNetworkImageProvider(
+                                  ownerPhoto
+                                  ),
+                                ),
+                                Text(
+                                  ownerName,
+                                  style: TextStyle(fontSize: 18),
+                                ),
+
+                                Icon(
+                                  Feather.check_circle,
+                                  color: Color(0xFF096664),
+                                  size: screenF(17),
+                                )
+
+
+                              ],):CircularProgressIndicator()
+                            ):Container(),
+                            postPic != null
+                                ? CachedNetworkImage(
+                                    imageUrl: postPic,
+                                    fit: BoxFit.fitWidth,
+                                    placeholder: (context, url) =>
+                                        loadingPlaceHolder,
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
+                                    width: screenW(200),
+                                    // height: screenH(375),
+                                  )
+                                : SizedBox(
+                                    width: screenH(1.2),
+                                  ),
+                          ],
+                        ),
                       ),
                     ),
                     Padding(

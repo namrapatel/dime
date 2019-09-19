@@ -35,10 +35,11 @@ class SocialCard extends StatelessWidget {
   final String email;
   final bool isSwitched;
   final bool isFire;
+  final bool verified;
   GlobalKey globalKey = new GlobalKey();
 
   SocialCard(
-      {this.vsco,
+      {this.verified,this.vsco,
       this.bio,
       this.type,
       this.major,
@@ -67,6 +68,7 @@ class SocialCard extends StatelessWidget {
     //   }
     // }
     return SocialCard(
+      verified:document['verified'],
       vsco: document['vsco'],
       bio: document['bio'],
       isFire: document['isFire'],
@@ -216,6 +218,12 @@ class SocialCard extends StatelessWidget {
                                 SizedBox(
                                   width: screenW(5),
                                 ),
+                              verified==true?Icon(
+                                Feather.check_circle,
+                                color: Color(0xFF096664),
+                                size: screenF(17),
+                              )
+                                  : Container(),
                                 isFire == true
                                     ? Icon(
                                         Octicons.flame,

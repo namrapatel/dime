@@ -186,7 +186,12 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                     child: FloatingActionButton.extended(
                       backgroundColor: Color(0xFF8803fc),
                       onPressed: () {
-                        if(descriptionController.text!=null&&descriptionController.text!="") {
+                        if(file==null) {
+                          if (descriptionController.text != null &&
+                              descriptionController.text != "") {
+                            post();
+                          }
+                        }else{
                           post();
                         }
                       },
@@ -482,8 +487,13 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
           postPic = data;
           caption = descriptionController.text;
           postId = currentUserModel.uid + Timestamp.now().toString();
-
-          uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
+          if(currentUserModel.verified==true) {
+            uploader.addSocialPost(
+                caption, timeStamp, postPic, postId, upVotes,true);
+          }else{
+            uploader.addSocialPost(
+                caption, timeStamp, postPic, postId, upVotes,false);
+          }
         }).then((_) {
           setState(() {
             file = null;
@@ -499,7 +509,13 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         postId = currentUserModel.uid + Timestamp.now().toString();
         caption = descriptionController.text;
 
-        uploader.addSocialPost(caption, timeStamp, postPic, postId, upVotes);
+        if(currentUserModel.verified==true) {
+          uploader.addSocialPost(
+              caption, timeStamp, postPic, postId, upVotes,true);
+        }else{
+          uploader.addSocialPost(
+              caption, timeStamp, postPic, postId, upVotes,false);
+        }
         Navigator.pop(context);
       }
     }

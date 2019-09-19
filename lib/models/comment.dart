@@ -25,9 +25,10 @@ class Comment extends StatelessWidget {
       type,
       postId,
       stream;
+  final bool verified;
   final List tags;
   const Comment(
-      {this.commenterId,
+      {this.verified,this.commenterId,
       this.commenterName,
       this.commenterPhoto,
       this.text,
@@ -43,6 +44,7 @@ class Comment extends StatelessWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String timestamp = '$elapsedTime';
     return Comment(
+      verified:document['verified'],
         commenterId: document['commenterId'],
         commenterName: document['commenterName'],
         commentId: document.documentID,
@@ -79,11 +81,15 @@ class Comment extends StatelessWidget {
                       ));
                 }
               },
-              child: CircleAvatar(
-                  radius: screenH(22.0),
-                backgroundImage: CachedNetworkImageProvider(
-                commenterPhoto
+              child:
+                  CircleAvatar(
+                      radius: screenH(22.0),
+                    backgroundImage: CachedNetworkImageProvider(
+                    commenterPhoto
           )),
+
+
+
             ),
 
     onTap: () {
@@ -98,15 +104,27 @@ class Comment extends StatelessWidget {
           ),
         ],
       ),
+
       title: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
               InkWell(
-                child: Text(
-                  commenterName,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      commenterName,
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+                    ),
+                    verified==true?Icon(
+                      Feather.check_circle,
+                      color: Color(0xFF096664),
+                      size: screenF(17),
+                    )
+                        : Container()
+                  ],
                 ),
+
                 onTap: () {
                   Navigator.push(
                       context,

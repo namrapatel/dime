@@ -107,6 +107,7 @@ class _SocialCommentsState extends State<SocialComments> {
       String times = '$elapsedTime';
 
       postComments.add(Comment(
+        verified:document['verified'],
           commenterId: id,
           commenterName: document['displayName'],
           commenterPhoto: document['photoUrl'],

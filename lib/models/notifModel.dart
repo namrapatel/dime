@@ -12,8 +12,8 @@ import 'package:Dime/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 class LikeNotif extends StatefulWidget {
   final String id,name,photo,major,university,gradYear,bio,relationshipStatus,type,timestamp;
-  final bool liked;
-  const LikeNotif({this.id,this.name,this.photo,this.major,this.university,this.gradYear,this.bio,this.relationshipStatus,
+  final bool liked,verified;
+  const LikeNotif({this.verified,this.id,this.name,this.photo,this.major,this.university,this.gradYear,this.bio,this.relationshipStatus,
     this.type,this.timestamp,this.liked});
 
   @override
@@ -22,8 +22,8 @@ class LikeNotif extends StatefulWidget {
 
 class _LikeNotifState extends State<LikeNotif> {
   String id,name,photo,major,university,gradYear,bio,relationshipStatus,type,timestamp;
-  bool liked;
-  _LikeNotifState({this.id,this.name,this.photo,this.major,this.university,this.gradYear,this.bio,this.relationshipStatus,
+  bool liked,verified;
+  _LikeNotifState({this.verified,this.id,this.name,this.photo,this.major,this.university,this.gradYear,this.bio,this.relationshipStatus,
   this.type,this.timestamp,this.liked});
   @override
   Widget build(BuildContext context) {
@@ -109,13 +109,23 @@ class _LikeNotifState extends State<LikeNotif> {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width / 1.95,
-                child: AutoSizeText(
-                  liked==false?
-                  "Someone just liked you!":name+ " just liked you!",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                  minFontSize: 15,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                child: Row(
+                  children: <Widget>[
+                    AutoSizeText(
+                      liked==false?
+                      "Someone just liked you!":name+ " just liked you!",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      minFontSize: 15,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    verified==true?Icon(
+                      Feather.check_circle,
+                      color: Color(0xFF096664),
+                      size: screenF(17),
+                    )
+                        : Container()
+                  ],
                 ),
               ),
             ],

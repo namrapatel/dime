@@ -111,6 +111,7 @@ class _ProfCommentsState extends State<ProfComments> {
       String times = '$elapsedTime';
 
       postComments.add(Comment(
+          verified:document['verified'],
           stream: stream,
           commenterId: id,
           commenterName: document['displayName'],

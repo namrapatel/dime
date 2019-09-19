@@ -81,6 +81,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
           .document(document.documentID)
           .updateData({'unread': false});
       userDocuments.add(new LikeNotif(
+        verified: doc['verified'],
         timestamp: timestamp,
         id: doc.documentID,
         name: doc['displayName'],

@@ -24,8 +24,8 @@ class ProfPage extends StatefulWidget {
 class _ProfPageState extends State<ProfPage> {
   FirebaseMessaging _fcm = FirebaseMessaging();
   int subCounter = 0;
-  bool streamVerified=false;
-  List<dynamic> verifiedUsers=[];
+  bool streamVerified = false;
+  List<dynamic> verifiedUsers = [];
 
   var university = currentUserModel.university;
   String stream;
@@ -38,17 +38,13 @@ class _ProfPageState extends State<ProfPage> {
     checkVerification();
   }
 
-
-  checkVerification() async{
-    DocumentSnapshot doc = await Firestore.instance.collection('streams').document(stream).get();
+  checkVerification() async {
+    DocumentSnapshot doc =
+        await Firestore.instance.collection('streams').document(stream).get();
     setState(() {
-      streamVerified=doc['isVerified'];
-      verifiedUsers=doc['verifiedUsers'];
+      streamVerified = doc['isVerified'];
+      verifiedUsers = doc['verifiedUsers'];
     });
-
-
-
-
   }
 
   checkSubscription() async {
@@ -75,31 +71,38 @@ class _ProfPageState extends State<ProfPage> {
 
   Future getPosts() async {
     List<DocumentSnapshot> finalSorted = [];
-    List<dynamic> docs =[];
+    List<dynamic> docs = [];
     List<List<dynamic>> twoD = [];
 
-    if(stream=="Subscriptions"){
-      QuerySnapshot postNames= await Firestore.instance.collection('users').document(currentUserModel.uid).collection('feed').orderBy('timeStamp',descending: true).getDocuments();
-      List<dynamic> addressesDocs=postNames.documents;
+    if (stream == "Subscriptions") {
+      QuerySnapshot postNames = await Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .collection('feed')
+          .orderBy('timeStamp', descending: true)
+          .getDocuments();
+      List<dynamic> addressesDocs = postNames.documents;
 //      List<DocumentSnapshot> subscribedPosts=[];
-      for(var a=0;a<addressesDocs.length;a++){
-        String address= addressesDocs[a].documentID;
-        String streamPost= addressesDocs[a]['stream'];
-       DocumentSnapshot post= await Firestore.instance.collection("streams").document(streamPost).collection('posts').document(address).get();
-      docs.add(post);
+      for (var a = 0; a < addressesDocs.length; a++) {
+        String address = addressesDocs[a].documentID;
+        String streamPost = addressesDocs[a]['stream'];
+        DocumentSnapshot post = await Firestore.instance
+            .collection("streams")
+            .document(streamPost)
+            .collection('posts')
+            .document(address)
+            .get();
+        docs.add(post);
 
-       print(post.documentID);
+        print(post.documentID);
       }
-
-
-
-
-    }else {
+    } else {
       QuerySnapshot qn = await Firestore.instance
           .collection('streams')
           .document(stream)
           .collection('posts')
-          .where('university', isEqualTo: currentUserModel.university).orderBy('timeStamp',descending: true)
+          .where('university', isEqualTo: currentUserModel.university)
+          .orderBy('timeStamp', descending: true)
           .getDocuments();
       docs = qn.documents;
     }
@@ -192,7 +195,7 @@ class _ProfPageState extends State<ProfPage> {
                   Column(
                     children: <Widget>[
                       SizedBox(
-                        height: screenH(8.5),
+                        height: screenH(7.5),
                       ),
                       IconButton(
                         icon: Icon(
@@ -201,10 +204,11 @@ class _ProfPageState extends State<ProfPage> {
                           size: 20,
                         ),
                         onPressed: () {
-                            Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (context) => ScrollPage(social: true)));
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) =>
+                                      ScrollPage(social: true)));
                         },
                       ),
                     ],
@@ -221,22 +225,30 @@ class _ProfPageState extends State<ProfPage> {
                       Row(
                         children: <Widget>[
                           Container(
-                            child: AutoSizeText(
-                              '@' + stream,
-                              //university != null ? university : "Whoops!",
-                              style: TextStyle(
-                                  fontSize: screenF(27.5),
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                              minFontSize: 12,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) => ProfStreams()));
+                              },
+                              child: AutoSizeText(
+                                '@' + stream,
+                                //university != null ? university : "Whoops!",
+                                style: TextStyle(
+                                    fontSize: screenF(27.5),
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                                minFontSize: 12,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                           ),
                           Column(
                             children: <Widget>[
                               SizedBox(
-                                height: screenH(5.8),
+                                height: screenH(4.8),
                               ),
                               IconButton(
                                 icon: Icon(
@@ -268,7 +280,13 @@ class _ProfPageState extends State<ProfPage> {
                   //       onPressed: () {}),
                   // ),
                   Spacer(),
-                  (((streamVerified==true && (verifiedUsers.contains(currentUserModel.uid)))||(streamVerified==null||streamVerified==false)) &&(currentUserModel.university != null &&stream!="Subscriptions"))
+                  (((streamVerified == true &&
+                                  (verifiedUsers
+                                      .contains(currentUserModel.uid))) ||
+                              (streamVerified == null ||
+                                  streamVerified == false)) &&
+                          (currentUserModel.university != null &&
+                              stream != "Subscriptions"))
                       ? InkWell(
                           child: Icon(
                             Ionicons.ios_create,
@@ -309,7 +327,8 @@ class _ProfPageState extends State<ProfPage> {
               ),
             )),
         backgroundColor: Color(0xFF096664),
-        floatingActionButton: currentUserModel.university != null &&stream!="Subscriptions"
+        floatingActionButton: currentUserModel.university != null &&
+                stream != "Subscriptions"
             // ? FloatingActionButton(
             //     shape: RoundedRectangleBorder(
             //         borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -336,12 +355,10 @@ class _ProfPageState extends State<ProfPage> {
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(20.0)),
                 onPressed: () {
-
-
                   String uniqueStream = currentUserModel.university + stream;
                   uniqueStream = uniqueStream.split(' ').join("");
                   List<String> streamName = [stream];
-                  List<String> currentId=[];
+                  List<String> currentId = [];
                   currentId.add(currentUserModel.uid);
 
                   if (subscribed == true) {
@@ -350,8 +367,8 @@ class _ProfPageState extends State<ProfPage> {
                         .document(stream)
                         .setData({
                       'numberOfMembers': FieldValue.increment(-1),
-                      currentUserModel.university+' Members': FieldValue.arrayRemove(currentId),
-
+                      currentUserModel.university + ' Members':
+                          FieldValue.arrayRemove(currentId),
                     }, merge: true);
                     setState(() {
                       subscribed = false;
@@ -369,7 +386,8 @@ class _ProfPageState extends State<ProfPage> {
                         .document(stream)
                         .setData({
                       'numberOfMembers': FieldValue.increment(1),
-                      currentUserModel.university+' Members': FieldValue.arrayUnion(currentId),
+                      currentUserModel.university + ' Members':
+                          FieldValue.arrayUnion(currentId),
                     }, merge: true);
                     setState(() {
                       subscribed = true;

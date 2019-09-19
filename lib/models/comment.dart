@@ -1,5 +1,6 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/login.dart';
+import 'package:Dime/models/largerPic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Dime/profComments.dart';
 import 'package:Dime/socialComments.dart';
@@ -64,11 +65,26 @@ class Comment extends StatelessWidget {
             height: 8.0,
           ),
           InkWell(
-            child:  CircleAvatar(
-                radius: screenH(22.0),
-              backgroundImage: CachedNetworkImageProvider(
-              commenterPhoto
+            child:  GestureDetector(
+              onTap:(
+                  ){
+                if(commenterPhoto!=null){
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) =>
+                              LargePic(
+                                largePic: commenterPhoto,
+                              )
+                      ));
+                }
+              },
+              child: CircleAvatar(
+                  radius: screenH(22.0),
+                backgroundImage: CachedNetworkImageProvider(
+                commenterPhoto
           )),
+            ),
 
     onTap: () {
               Navigator.push(

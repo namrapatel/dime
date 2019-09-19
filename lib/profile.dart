@@ -1,4 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/models/largerPic.dart';
 import 'package:Dime/models/user.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
@@ -514,13 +515,28 @@ class _HomePageOneState extends State<HomePageOne> {
                 SizedBox(
                   width: screenW(20),
                 ),
-                profilePic != null
-                    ? CircleAvatar(
+                GestureDetector(
+                  onTap:(
+                      ){
+                    if(profilePic!=null){
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) =>
+                                  LargePic(
+                                    largePic: profilePic,
+                                  )
+                          ));
+                    }
+                  },
+                  child: profilePic != null
+                      ? CircleAvatar(
     radius: screenH(45),
     backgroundImage: CachedNetworkImageProvider(
     profilePic
     )):
-                     CircularProgressIndicator(),
+                       CircularProgressIndicator(),
+                ),
                 SizedBox(
                   width: screenW(20),
                 ),

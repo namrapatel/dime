@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Dime/models/largerPic.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
@@ -1814,13 +1815,28 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           SizedBox(
                             width: screenW(20),
                           ),
-                          photoUrl != null?
-                          CircleAvatar(
-                          radius: screenH(45),
-                          backgroundImage: CachedNetworkImageProvider(
-                          photoUrl
-                          ))
-                              : CircularProgressIndicator(),
+                          GestureDetector(
+                            onTap:(
+                                ){
+                              if(photoUrl!=null){
+                                Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                        builder: (context) =>
+                                            LargePic(
+                                              largePic: photoUrl,
+                                            )
+                                    ));
+                              }
+                            },
+                            child: photoUrl != null?
+                            CircleAvatar(
+                            radius: screenH(45),
+                            backgroundImage: CachedNetworkImageProvider(
+                            photoUrl
+                            ))
+                                : CircularProgressIndicator(),
+                          ),
                           SizedBox(
                             width: screenW(20),
                           ),

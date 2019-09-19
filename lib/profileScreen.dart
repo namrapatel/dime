@@ -1,5 +1,6 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/blockedusers.dart';
+import 'package:Dime/models/largerPic.dart';
 import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -123,15 +124,30 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 6.5),
             left: (MediaQuery.of(context).size.width / 2 - 55.0),
-            child: photoUrl == null
-                ? SizedBox(
-                    height: 0.0,
-                  )
-                :CircleAvatar(
-                radius: screenW(60),
+            child: GestureDetector(
+              onTap:(
+                  ){
+                if(photoUrl!=null){
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) =>
+                              LargePic(
+                                largePic: photoUrl,
+                              )
+                      ));
+                }
+              },
+              child: photoUrl == null
+                  ? SizedBox(
+                      height: 0.0,
+                    )
+                  :CircleAvatar(
+                  radius: screenW(60),
     backgroundImage: CachedNetworkImageProvider(
     photoUrl
     )),
+            ),
 
           ),
           Positioned(

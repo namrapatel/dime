@@ -56,8 +56,14 @@ class _UserCardState extends State<UserCard> {
 
   @override
   Widget build(BuildContext context) {
-    var string = userName.split(" ");
-    String firstName = string[0];
+    String firstName;
+    if(userName.contains(" ")) {
+       var string = userName.split(" ");
+      firstName = string[0];
+    }else{
+     firstName=userName;
+    }
+//    String firstName = string[0];
 
     Future<Widget> createPost(
         AsyncSnapshot<dynamic> snap, int index, String postType) async {

@@ -1045,7 +1045,7 @@ class _ScrollPageState extends State<ScrollPage>
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 onPressed: () {
                   Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => SocialPage()));
+                      CupertinoPageRoute(builder: (context) => SocialTabs()));
                 },
                 elevation: 3,
                 heroTag: 'btn1',

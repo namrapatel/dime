@@ -11,7 +11,6 @@ import 'models/socialPost.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'homePage.dart';
 
 class SocialTabs extends StatefulWidget {
   @override

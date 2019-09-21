@@ -285,7 +285,7 @@ class _ProfPostState extends State<ProfPost> {
                               loadingPlaceHolder,
                               errorWidget: (context, url, error) =>
                                   Icon(Icons.error),
-                              width: screenW(400),
+                              width: screenW(200),
                               // height: screenH(375),
                             )
                                 : SizedBox(

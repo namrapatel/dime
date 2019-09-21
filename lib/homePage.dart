@@ -1100,7 +1100,7 @@ class _ScrollPageState extends State<ScrollPage>
               Row(
                 children: <Widget>[
                   SizedBox(
-                    width: MediaQuery.of(context).size.width / 22.5,
+                    width: MediaQuery.of(context).size.width / 10.5,
                   ),
                   Text(
                     socialPressed == true

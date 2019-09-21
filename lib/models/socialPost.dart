@@ -38,7 +38,7 @@ class SocialPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return SocialPost(
-      verified:document['verified'],
+      verified: document['verified'],
       ownerId: document['ownerId'],
       points: document['points'],
       university: document['university'],
@@ -53,7 +53,8 @@ class SocialPost extends StatefulWidget {
   }
 
   const SocialPost(
-      {this.verified,this.university,
+      {this.verified,
+      this.university,
       this.ownerId,
       this.points,
       this.postId,
@@ -64,7 +65,8 @@ class SocialPost extends StatefulWidget {
       this.upVotes,
       this.likes});
   @override
-  _SocialPostState createState() => _SocialPostState(verified:verified,
+  _SocialPostState createState() => _SocialPostState(
+      verified: verified,
       points: points,
       university: university,
       postId: postId,
@@ -94,7 +96,8 @@ class _SocialPostState extends State<SocialPost> {
   String ownerPhoto;
 
   _SocialPostState(
-      {this.verified,this.ownerId,
+      {this.verified,
+      this.ownerId,
       this.university,
       this.postId,
       this.caption,
@@ -110,7 +113,7 @@ class _SocialPostState extends State<SocialPost> {
   void initState() {
     super.initState();
 
-getVerification();
+    getVerification();
     setState(() {
       liked = (likes.contains(currentUserModel.uid));
     });
@@ -132,6 +135,7 @@ getVerification();
       });
     }
   }
+
   getPostInfo() async {
     DocumentSnapshot doc = await Firestore.instance
         .collection('socialPosts')
@@ -140,14 +144,14 @@ getVerification();
     Timestamp storedDate = doc["timeStamp"];
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
-    if(verified==true){
+    if (verified == true) {
       DocumentSnapshot ownerDoc = await Firestore.instance
           .collection('users')
           .document(widget.ownerId)
           .get();
       setState(() {
-        ownerName=ownerDoc['displayName'];
-        ownerPhoto=ownerDoc['photoUrl'];
+        ownerName = ownerDoc['displayName'];
+        ownerPhoto = ownerDoc['photoUrl'];
       });
     }
     setState(() {
@@ -257,32 +261,31 @@ getVerification();
                         ),
                         child: Column(
                           children: <Widget>[
-                        verified==true?
-                            Container(
-                              child:
-                              (ownerPhoto!=null&&ownerName!=null)?
-                              Row(children: <Widget>[
-                               
-                                CircleAvatar(
-                                  radius: screenH(30),
-                                  backgroundImage: CachedNetworkImageProvider(
-                                  ownerPhoto
-                                  ),
-                                ),
-                                Text(
-                                  ownerName,
-                                  style: TextStyle(fontSize: 18),
-                                ),
-
-                                Icon(
-                                  Feather.check_circle,
-                                  color: Color(0xFF096664),
-                                  size: screenF(17),
-                                )
-
-
-                              ],):CircularProgressIndicator()
-                            ):Container(),
+                            verified == true
+                                ? Container(
+                                    child: (ownerPhoto != null &&
+                                            ownerName != null)
+                                        ? Row(
+                                            children: <Widget>[
+                                              CircleAvatar(
+                                                radius: screenH(30),
+                                                backgroundImage:
+                                                    CachedNetworkImageProvider(
+                                                        ownerPhoto),
+                                              ),
+                                              Text(
+                                                ownerName,
+                                                style: TextStyle(fontSize: 18),
+                                              ),
+                                              Icon(
+                                                Feather.check_circle,
+                                                color: Color(0xFF096664),
+                                                size: screenF(17),
+                                              )
+                                            ],
+                                          )
+                                        : CircularProgressIndicator())
+                                : Container(),
                             postPic != null
                                 ? CachedNetworkImage(
                                     imageUrl: postPic,
@@ -291,7 +294,7 @@ getVerification();
                                         loadingPlaceHolder,
                                     errorWidget: (context, url, error) =>
                                         Icon(Icons.error),
-                                    width: screenW(200),
+                                    width: screenW(400),
                                     // height: screenH(375),
                                   )
                                 : SizedBox(

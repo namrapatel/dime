@@ -312,54 +312,38 @@ class _UserCardState extends State<UserCard> {
                                                     .document(userId)
                                                     .setData({'blocked': true},
                                                         merge: true);
-
-                                                Firestore.instance
-                                                    .collection('users')
-                                                    .document(userId)
-                                                    .collection('messages')
-                                                    .document(
-                                                        currentUserModel.uid)
-                                                    .setData({'blocked': true},
-                                                        merge: true);
-                                                Navigator.push(
-                                                    context,
-                                                    CupertinoPageRoute(
-                                                        builder: (context) =>
-                                                            ScrollPage(
-                                                                social: true)));
-                                                Flushbar(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 5),
-                                                  borderRadius: 15,
-                                                  messageText: Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            15, 0, 0, 0),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Done",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        Text(
-                                                          "This user has been blocked.",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey),
-                                                        )
-                                                      ],
+                                            Firestore.instance
+                                                .collection('users')
+                                                .document(userId)
+                                                .collection('messages')
+                                                .document(currentUserModel.uid)
+                                                .setData({'blocked': true},
+                                                    merge: true);
+                                            Navigator.push(
+                                                context,
+                                                CupertinoPageRoute(
+                                                    builder: (context) =>
+                                                        ScrollPage(
+                                                            social: true)));
+                                            Flushbar(
+                                              margin: EdgeInsets.symmetric(
+                                                  horizontal: 15, vertical: 5),
+                                              borderRadius: 15,
+                                              messageText: Padding(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    15, 0, 0, 0),
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Text(
+                                                      "Done",
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.bold),
                                                     ),
                                                   ),
                                                   backgroundColor: Colors.white,
@@ -615,140 +599,13 @@ class _UserCardState extends State<UserCard> {
                                                 child: snap.data,
                                               );
                                             }
-                                          }
-                                          //,
-
-                                          )
-
-//                                                                                ? SocialPost.fromDocument (await Firestore.instance.collection('socialPosts').
-//                                      document(snapshot.data[index].data['postId']).get()
-////                                             snapshot
-////                                                  .data[index],
-//                                            )
-//                                          : ProfPost.fromDocument(
-//                                               snapshot
-//                                                  .data[index],
-//                                            ),
-
-                                      ,
+                                          }),
                                       SizedBox(
                                         height: 10,
                                       ),
-//                          Padding(
-//                            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-//                            child: Row(
-//                              mainAxisAlignment: MainAxisAlignment.end,
-//                              children: <Widget>[
-//                                Text("Taher commented",
-//                                  style: TextStyle(
-//                                      color: Colors.white
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-//                          ProfPost(
-//                            caption: "Hello",
-//                          ),
-//                          SizedBox(
-//                            height: 10,
-//                          ),
-//                          Padding(
-//                            padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-//                            child: Row(
-//                              mainAxisAlignment: MainAxisAlignment.end,
-//                              children: <Widget>[
-//                                Text("Taher upvoted and commented",
-//                                  style: TextStyle(
-//                                      color: Colors.white
-//                                  ),
-//                                ),
-//                              ],
-//                            ),
-//                          ),
-//                          ProfPost(
-//                            caption: "Hello",
-//                          ),
                                     ],
                                   );
                                 });
-//                  children: <Widget>[
-//                    Padding(
-//                      padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-//                      child: Row(
-//                        mainAxisAlignment: MainAxisAlignment.end,
-//                        children: <Widget>[
-//                          Text(userName+snapshot.data[index].data['action'],
-//                            style: TextStyle(
-//                                color: Colors.white
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                    ProfPost(
-//                      caption: "Hello",
-//                    ),
-//                    SizedBox(
-//                      height: 10,
-//                    ),
-//                    Padding(
-//                      padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-//                      child: Row(
-//                        mainAxisAlignment: MainAxisAlignment.end,
-//                        children: <Widget>[
-//                          Text("Taher commented",
-//                            style: TextStyle(
-//                                color: Colors.white
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                    ProfPost(
-//                      caption: "Hello",
-//                    ),
-//                    SizedBox(
-//                      height: 10,
-//                    ),
-//                    Padding(
-//                      padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-//                      child: Row(
-//                        mainAxisAlignment: MainAxisAlignment.end,
-//                        children: <Widget>[
-//                          Text("Taher upvoted and commented",
-//                            style: TextStyle(
-//                                color: Colors.white
-//                            ),
-//                          ),
-//                        ],
-//                      ),
-//                    ),
-//                    ProfPost(
-//                      caption: "Hello",
-//                    ),
-//                  ],
-//                );
-
-//              return ListView.builder(
-//              itemCount: snapshot?.data?.length,
-//              physics: BouncingScrollPhysics(),
-//              itemBuilder: (_, index) {
-//              Timestamp storedDate=snapshot.data[index].data["timeStamp"];
-//              String elapsedTime = timeago.format(storedDate.toDate());
-//              String timestamp = '$elapsedTime';
-//
-//              return SocialPost(
-//
-//              postId: snapshot.data[index].documentID,
-//              caption: snapshot.data[index].data["caption"],
-//              comments: snapshot.data[index].data["comments"],
-//              timeStamp: timestamp,
-//              postPic: snapshot.data[index].data["postPic"],
-//              upVotes: snapshot.data[index].data["upVotes"],
-//              likes:snapshot.data[index].data['likes']
-//              );
-//              });
                           }
                         }))),
           ],

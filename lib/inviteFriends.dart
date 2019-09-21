@@ -14,20 +14,22 @@ class InviteFriends extends StatefulWidget {
 }
 
 class _InviteFriendsState extends State<InviteFriends> {
-
   _launchURLMessenger() async {
-  const url = 'https://www.messenger.com/new';
-  launch(url);
-}
+    const url = 'https://www.messenger.com/new';
+    launch(url);
+  }
+
   _launchURLTwitter() async {
-  const url = 'https://twitter.com/messages/compose';
-  launch(url);
-}
+    const url = 'https://twitter.com/messages/compose';
+    launch(url);
+  }
+
   _launchURLLinkedin() async {
-  const url = 'https://www.linkedin.com/messaging/compose';
-  launch(url);
-}
- _textMe() async {
+    const url = 'https://www.linkedin.com/messaging/compose';
+    launch(url);
+  }
+
+  _textMe() async {
     // Android
     const uri = 'sms: ';
     if (await canLaunch(uri)) {
@@ -42,9 +44,6 @@ class _InviteFriendsState extends State<InviteFriends> {
       }
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +83,10 @@ class _InviteFriendsState extends State<InviteFriends> {
           ),
           FlatButton(
             child: Text("Share Dime"),
-            onPressed: (){
-              Share.share('Check out Dime! Download at this link: https://baller.com',
-              subject: "Get Dime!",
-              
+            onPressed: () {
+              Share.share(
+                'Check out Dime! Download at this link: https://baller.com',
+                subject: "Get Dime!",
               );
             },
           ),

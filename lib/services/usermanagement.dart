@@ -45,6 +45,25 @@ class UserManagement {
     });
   }
 
+ addPartyPost(String caption, Timestamp timeStamp, String postPic,
+      String postId, int upVotes, bool verified) {
+    List<dynamic> likes = [];
+    Firestore.instance.collection('partyPosts').add({
+      'points': 0,
+      'comments': 0,
+      'caption': caption,
+      'timeStamp': timeStamp,
+      'postPic': postPic,
+      "ownerId": currentUserModel.uid,
+      "postID": postId,
+      'upVotes': upVotes,
+      "likes": likes,
+      "university": currentUserModel.university,
+      'status': 'pending',
+      'verified':verified
+    });
+  }
+
   addSocialPost(String caption, Timestamp timeStamp, String postPic,
       String postId, int upVotes, bool verified) {
     List<dynamic> likes = [];

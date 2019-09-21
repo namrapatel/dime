@@ -208,6 +208,7 @@ class _SocialCommentsState extends State<SocialComments> {
                       child: SimpleAutoCompleteTextField(
                         textCapitalization: TextCapitalization.sentences,
                         key: key,
+
                         decoration: new InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,

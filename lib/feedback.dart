@@ -14,6 +14,7 @@ class Feedback extends StatefulWidget {
 }
 
 class _FeedbackState extends State<Feedback> {
+  TextEditingController controller= new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,11 +99,8 @@ class _FeedbackState extends State<Feedback> {
             margin: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width / 30),
             child: TextField(
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {});
-                }
-              },
+              controller: controller,
+
               textCapitalization: TextCapitalization.sentences,
               // controller: descriptionController,
               keyboardType: TextInputType.multiline,
@@ -136,6 +134,8 @@ class _FeedbackState extends State<Feedback> {
                   borderRadius: BorderRadius.all(Radius.circular(16.0))),
               elevation: screenH(5),
               onPressed: () {
+
+
                 Flushbar(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   // message: "hello",
@@ -177,6 +177,12 @@ class _FeedbackState extends State<Feedback> {
                   ),
                   duration: Duration(seconds: 3),
                 )..show(context);
+                if(controller.text!=""){
+                  Firestore.instance.collection('feedback').add({
+                    'feedback':controller.text,
+                    'timestamp':Timestamp.now()
+                  });
+                }
               },
               backgroundColor: Color(0xFF1458EA),
               child: Text(

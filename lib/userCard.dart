@@ -138,215 +138,217 @@ class _UserCardState extends State<UserCard> {
                   ? Row(children: <Widget>[
                       IconButton(
                           onPressed: () {
-                            showCupertinoModalPopup(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    CupertinoActionSheet(
-                                        title: const Text(
-                                            'What type of like do you want to send?'),
-                                        actions: <Widget>[
-                                          CupertinoActionSheetAction(
-                                              child: const Text('Casual'),
-                                              onPressed: () {
-                                                setState(() {
-                                                  liked=true;
-                                                });
-                                                // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
-                                                Flushbar(
-                                                  margin: EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 5),
-                                                  borderRadius: 15,
-                                                  messageText: Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            15, 0, 0, 0),
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Text(
-                                                          "Done",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
-                                                        Text(
-                                                          "A casual" +
-                                                              " like has been sent to ",
-                                                          // widget.contactName,
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  backgroundColor: Colors.white,
-                                                  flushbarPosition:
-                                                      FlushbarPosition.TOP,
-                                                  icon: Padding(
-                                                    padding:
-                                                        EdgeInsets.fromLTRB(
-                                                            15, 8, 8, 8),
-                                                    child: Icon(
-                                                      Icons.info_outline,
-                                                      size: 28.0,
-                                                      color: Color(0xFF1458EA),
-                                                    ),
-                                                  ),
-                                                  duration:
-                                                      Duration(seconds: 3),
-                                                )..show(context);
-                                                Firestore.instance
-                                                    .collection('users')
-                                                    .document(userId)
-                                                    .collection('likes')
-                                                    .document(currentUserModel.uid)
-                                                    .setData({
-                                                'likeType': 'social',
-                                                'liked': false,
-                                                'timestamp': Timestamp.now(),
-                                                'unread': false
-                                                });
+        if(liked==false){
+    showCupertinoModalPopup(
+        context: context,
+        builder: (BuildContext context) =>
+            CupertinoActionSheet(
+                title: const Text(
+                    'What type of like do you want to send?'),
+                actions: <Widget>[
+                  CupertinoActionSheetAction(
+                      child: const Text('Casual'),
+                      onPressed: () {
+                        setState(() {
+                          liked = true;
+                        });
+                        // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
+                        Flushbar(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 5),
+                          borderRadius: 15,
+                          messageText: Padding(
+                            padding:
+                            EdgeInsets.fromLTRB(
+                                15, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment:
+                              MainAxisAlignment
+                                  .start,
+                              crossAxisAlignment:
+                              CrossAxisAlignment
+                                  .start,
+                              children: <Widget>[
+                                Text(
+                                  "Done",
+                                  style: TextStyle(
+                                      color:
+                                      Colors.black,
+                                      fontWeight:
+                                      FontWeight
+                                          .bold),
+                                ),
+                                Text(
+                                  "A casual" +
+                                      " like has been sent to ",
+                                  // widget.contactName,
+                                  style: TextStyle(
+                                      color:
+                                      Colors.grey),
+                                )
+                              ],
+                            ),
+                          ),
+                          backgroundColor: Colors.white,
+                          flushbarPosition:
+                          FlushbarPosition.TOP,
+                          icon: Padding(
+                            padding:
+                            EdgeInsets.fromLTRB(
+                                15, 8, 8, 8),
+                            child: Icon(
+                              Icons.info_outline,
+                              size: 28.0,
+                              color: Color(0xFF1458EA),
+                            ),
+                          ),
+                          duration:
+                          Duration(seconds: 3),
+                        )
+                          ..show(context);
+                        Firestore.instance
+                            .collection('users')
+                            .document(userId)
+                            .collection('likes')
+                            .document(currentUserModel.uid)
+                            .setData({
+                          'likeType': 'social',
+                          'liked': false,
+                          'timestamp': Timestamp.now(),
+                          'unread': false
+                        });
 
-                                                List<String> newId = [];
-                                                newId.add(currentUserModel.uid);
+                        List<String> newId = [];
+                        newId.add(currentUserModel.uid);
 
-                                                Firestore.instance
-                                                    .collection('users')
-                                                    .document(userId)
-                                                    .updateData({
-                                                'likedBy': FieldValue.arrayUnion(newId),
-                                                });
+                        Firestore.instance
+                            .collection('users')
+                            .document(userId)
+                            .updateData({
+                          'likedBy': FieldValue.arrayUnion(newId),
+                        });
 
-                            List<String> newUserId = [];
-                            newUserId.add(userId);
-                            Firestore.instance
-                                .collection('users')
-                                .document(currentUserModel.uid)
-                                .updateData({
-                            "likedUsers": FieldValue.arrayUnion(newUserId)
-                            });
+                        List<String> newUserId = [];
+                        newUserId.add(userId);
+                        Firestore.instance
+                            .collection('users')
+                            .document(currentUserModel.uid)
+                            .updateData({
+                          "likedUsers": FieldValue.arrayUnion(newUserId)
+                        });
 
-                            Firestore.instance.collection('likeNotifs').add({
-                            'toUser': userId,
-                            'fromUser': currentUserModel.uid,
-                            "likeType": 'social'
-                            });
+                        Firestore.instance.collection('likeNotifs').add({
+                          'toUser': userId,
+                          'fromUser': currentUserModel.uid,
+                          "likeType": 'social'
+                        });
+                      }),
 
-                                              }),
+                  CupertinoActionSheetAction(
+                    child: const Text('Network'),
+                    onPressed: () {
+                      setState(() {
+                        liked = true;
+                      });
+                      // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
+                      Flushbar(
+                        margin: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 5),
+                        borderRadius: 15,
+                        messageText: Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              15, 0, 0, 0),
+                          child: Column(
+                            mainAxisAlignment:
+                            MainAxisAlignment.start,
+                            crossAxisAlignment:
+                            CrossAxisAlignment
+                                .start,
+                            children: <Widget>[
+                              Text(
+                                "Done",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight:
+                                    FontWeight
+                                        .bold),
+                              ),
+                              Text(
+                                "A network" +
+                                    " like has been sent to ",
+                                // widget.contactName,
+                                style: TextStyle(
+                                    color: Colors.grey),
+                              )
+                            ],
+                          ),
+                        ),
+                        backgroundColor: Colors.white,
+                        flushbarPosition:
+                        FlushbarPosition.TOP,
+                        icon: Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              15, 8, 8, 8),
+                          child: Icon(
+                            Icons.info_outline,
+                            size: 28.0,
+                            color: Color(0xFF1458EA),
+                          ),
+                        ),
+                        duration: Duration(seconds: 3),
+                      )
+                        ..show(context);
 
-                                          CupertinoActionSheetAction(
-                                            child: const Text('Network'),
-                                            onPressed: () {
-                                              setState(() {
-                                                liked=true;
-                                              });
-                                              // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
-                                              Flushbar(
-                                                margin: EdgeInsets.symmetric(
-                                                    horizontal: 15,
-                                                    vertical: 5),
-                                                borderRadius: 15,
-                                                messageText: Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      15, 0, 0, 0),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        "Done",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                      Text(
-                                                        "A network" +
-                                                            " like has been sent to ",
-                                                        // widget.contactName,
-                                                        style: TextStyle(
-                                                            color: Colors.grey),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                                backgroundColor: Colors.white,
-                                                flushbarPosition:
-                                                    FlushbarPosition.TOP,
-                                                icon: Padding(
-                                                  padding: EdgeInsets.fromLTRB(
-                                                      15, 8, 8, 8),
-                                                  child: Icon(
-                                                    Icons.info_outline,
-                                                    size: 28.0,
-                                                    color: Color(0xFF1458EA),
-                                                  ),
-                                                ),
-                                                duration: Duration(seconds: 3),
-                                              )..show(context);
+                      Firestore.instance
+                          .collection('users')
+                          .document(userId)
+                          .collection('likes')
+                          .document(currentUserModel.uid)
+                          .setData({
+                        'likeType': 'prof',
+                        'liked': false,
+                        'timestamp': Timestamp.now(),
+                        'unread': false
+                      });
 
-                                              Firestore.instance
-                                                  .collection('users')
-                                                  .document(userId)
-                                                  .collection('likes')
-                                                  .document(currentUserModel.uid)
-                                                  .setData({
-                                                'likeType': 'prof',
-                                                'liked': false,
-                                                'timestamp': Timestamp.now(),
-                                                'unread': false
-                                              });
+                      List<String> newId = [];
+                      newId.add(currentUserModel.uid);
 
-                                              List<String> newId = [];
-                                              newId.add(currentUserModel.uid);
+                      Firestore.instance
+                          .collection('users')
+                          .document(userId)
+                          .updateData({
+                        'likedBy': FieldValue.arrayUnion(newId),
+                      });
 
-                                              Firestore.instance
-                                                  .collection('users')
-                                                  .document(userId)
-                                                  .updateData({
-                                                'likedBy': FieldValue.arrayUnion(newId),
-                                              });
+                      List<String> newUserId = [];
+                      newUserId.add(userId);
+                      Firestore.instance
+                          .collection('users')
+                          .document(currentUserModel.uid)
+                          .updateData({
+                        "likedUsers": FieldValue.arrayUnion(newUserId)
+                      });
 
-                                              List<String> newUserId = [];
-                                              newUserId.add(userId);
-                                              Firestore.instance
-                                                  .collection('users')
-                                                  .document(currentUserModel.uid)
-                                                  .updateData({
-                                                "likedUsers": FieldValue.arrayUnion(newUserId)
-                                              });
-
-                                              Firestore.instance.collection('likeNotifs').add({
-                                                'toUser': userId,
-                                                'fromUser': currentUserModel.uid,
-                                                "likeType": 'prof'
-                                              });
-
-                                            },
-                                          )
-                                        ],
-                                        cancelButton:
-                                            CupertinoActionSheetAction(
-                                          child: const Text('Cancel'),
-                                          isDefaultAction: true,
-                                          onPressed: () {
-                                            Navigator.pop(context, 'Cancel');
-                                          },
-                                        )));
+                      Firestore.instance.collection('likeNotifs').add({
+                        'toUser': userId,
+                        'fromUser': currentUserModel.uid,
+                        "likeType": 'prof'
+                      });
+                    },
+                  )
+                ],
+                cancelButton:
+                CupertinoActionSheetAction(
+                  child: const Text('Cancel'),
+                  isDefaultAction: true,
+                  onPressed: () {
+                    Navigator.pop(context, 'Cancel');
+                  },
+                )));
+  }
                           },
 
                           icon: liked==false?Icon(

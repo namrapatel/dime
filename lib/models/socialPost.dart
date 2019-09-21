@@ -291,7 +291,7 @@ getVerification();
                                         loadingPlaceHolder,
                                     errorWidget: (context, url, error) =>
                                         Icon(Icons.error),
-                                    width: screenW(200),
+                                    width: screenW(400),
                                     // height: screenH(375),
                                   )
                                 : SizedBox(

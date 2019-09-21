@@ -4,16 +4,11 @@ import 'package:Dime/models/user.dart';
 import 'package:Dime/newOnboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Dime/newOnboarding.dart';
-import 'dart:async';
-import 'onboarding.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'chat.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 void main() => runApp(Dime());
 
@@ -57,7 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
 ////                    type: PageTransitionType.rightToLeft,
 ////                    child: ScrollPage())));
 //  }
-
   @override
   void initState() {
     super.initState();
@@ -93,32 +87,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //   return Scaffold(
-    //       body: Container(
-    //     decoration: new BoxDecoration(
-    //       gradient: new LinearGradient(
-    //           colors: [Color(0xFF8803fc), Color(0xFF1976d2)],
-    //           begin: const FractionalOffset(0.0, 0.0),
-    //           end: const FractionalOffset(1.0, 1.0),
-    //           stops: [0.0, 1.0],
-    //           tileMode: TileMode.clamp),
-    //     ),
-    //     child: Center(
-    //       child: Image.asset('assets/img/friendsDrawing.png'),
-    //     ),
-    //   ));
-    // }
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: <Widget>[
           Container(
             color: Colors.white,
-            // decoration: BoxDecoration(
-            //     gradient: LinearGradient(
-            //         begin: Alignment.topRight,
-            //         end: Alignment.bottomLeft,
-            //         colors: [Color(0xFF1458EA), Color(0xFF003cbf)])),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -148,19 +122,9 @@ class _SplashScreenState extends State<SplashScreen> {
                       color: Color(0xFF1458EA),
                       duration: Duration(milliseconds: 1000),
                     ),
-                    // CircularProgressIndicator(),
                     Padding(
                       padding: EdgeInsets.only(top: 30.0),
                     ),
-                    // Text(
-                    //   'Dime',
-                    //   softWrap: true,
-                    //   textAlign: TextAlign.center,
-                    //   style: TextStyle(
-                    //       fontWeight: FontWeight.bold,
-                    //       fontSize: 46.0,
-                    //       color: Colors.grey[200]),
-                    // )
                   ],
                 ),
               )

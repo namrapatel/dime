@@ -25,7 +25,7 @@ class UserCard extends StatefulWidget {
 
 class _UserCardState extends State<UserCard> {
   final String userId, type, userName;
-
+  bool liked=false;
   _UserCardState(this.userId, this.type, this.userName);
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -34,12 +34,21 @@ class _UserCardState extends State<UserCard> {
 
   @override
   void initState() {
+    getLikeStatus();
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+  getLikeStatus() async{
+    DocumentSnapshot document= await Firestore.instance.collection('users').document(userId).get();
+    if(document['likedBy'].contains(currentUserModel.uid)) {
+      setState(() {
+        liked=true;
+      });
+    }
   }
 
   Future getRecentActivity() async {
@@ -139,6 +148,9 @@ class _UserCardState extends State<UserCard> {
                                           CupertinoActionSheetAction(
                                               child: const Text('Casual'),
                                               onPressed: () {
+                                                setState(() {
+                                                  liked=true;
+                                                });
                                                 // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
                                                 Flushbar(
                                                   margin: EdgeInsets.symmetric(
@@ -193,10 +205,51 @@ class _UserCardState extends State<UserCard> {
                                                   duration:
                                                       Duration(seconds: 3),
                                                 )..show(context);
+                                                Firestore.instance
+                                                    .collection('users')
+                                                    .document(userId)
+                                                    .collection('likes')
+                                                    .document(currentUserModel.uid)
+                                                    .setData({
+                                                'likeType': 'social',
+                                                'liked': false,
+                                                'timestamp': Timestamp.now(),
+                                                'unread': false
+                                                });
+
+                                                List<String> newId = [];
+                                                newId.add(currentUserModel.uid);
+
+                                                Firestore.instance
+                                                    .collection('users')
+                                                    .document(userId)
+                                                    .updateData({
+                                                'likedBy': FieldValue.arrayUnion(newId),
+                                                });
+
+                            List<String> newUserId = [];
+                            newUserId.add(userId);
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .updateData({
+                            "likedUsers": FieldValue.arrayUnion(newUserId)
+                            });
+
+                            Firestore.instance.collection('likeNotifs').add({
+                            'toUser': userId,
+                            'fromUser': currentUserModel.uid,
+                            "likeType": 'social'
+                            });
+
                                               }),
+
                                           CupertinoActionSheetAction(
                                             child: const Text('Network'),
                                             onPressed: () {
+                                              setState(() {
+                                                liked=true;
+                                              });
                                               // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
                                               Flushbar(
                                                 margin: EdgeInsets.symmetric(
@@ -245,6 +298,44 @@ class _UserCardState extends State<UserCard> {
                                                 ),
                                                 duration: Duration(seconds: 3),
                                               )..show(context);
+
+                                              Firestore.instance
+                                                  .collection('users')
+                                                  .document(userId)
+                                                  .collection('likes')
+                                                  .document(currentUserModel.uid)
+                                                  .setData({
+                                                'likeType': 'prof',
+                                                'liked': false,
+                                                'timestamp': Timestamp.now(),
+                                                'unread': false
+                                              });
+
+                                              List<String> newId = [];
+                                              newId.add(currentUserModel.uid);
+
+                                              Firestore.instance
+                                                  .collection('users')
+                                                  .document(userId)
+                                                  .updateData({
+                                                'likedBy': FieldValue.arrayUnion(newId),
+                                              });
+
+                                              List<String> newUserId = [];
+                                              newUserId.add(userId);
+                                              Firestore.instance
+                                                  .collection('users')
+                                                  .document(currentUserModel.uid)
+                                                  .updateData({
+                                                "likedUsers": FieldValue.arrayUnion(newUserId)
+                                              });
+
+                                              Firestore.instance.collection('likeNotifs').add({
+                                                'toUser': userId,
+                                                'fromUser': currentUserModel.uid,
+                                                "likeType": 'prof'
+                                              });
+
                                             },
                                           )
                                         ],
@@ -257,10 +348,15 @@ class _UserCardState extends State<UserCard> {
                                           },
                                         )));
                           },
-                          icon: Icon(
+
+                          icon: liked==false?Icon(
                             AntDesign.like2,
                             size: screenH(25),
                             color: Colors.white,
+                          ): Icon(
+                            AntDesign.like1,
+                            size: screenH(25),
+                            color: Color(0xFF1458EA),
                           )),
                       IconButton(
                           icon: Icon(Feather.more_vertical),

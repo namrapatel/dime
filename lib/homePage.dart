@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:Dime/models/largerPic.dart';
 import 'package:Dime/notifcations.dart';
+import 'package:Dime/paginate.dart';
 import 'models/user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:Dime/profPage.dart';

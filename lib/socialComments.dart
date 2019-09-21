@@ -1,7 +1,6 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/socialPage.dart' as prefix0;
 import 'package:flutter/material.dart';
-import 'models/commentTags.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'homePage.dart';
 import 'login.dart';
@@ -25,7 +24,7 @@ class _SocialCommentsState extends State<SocialComments> {
   final String postId;
   String university;
   _SocialCommentsState(this.postId);
-  GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
+//  GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
   List<UserTag> suggestions = [
     // UserTag(
@@ -205,10 +204,8 @@ class _SocialCommentsState extends State<SocialComments> {
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width / 22,
                           vertical: MediaQuery.of(context).size.height / 72),
-                      child: SimpleAutoCompleteTextField(
+                      child: TextField(
                         textCapitalization: TextCapitalization.sentences,
-                        key: key,
-
                         decoration: new InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,
@@ -221,8 +218,7 @@ class _SocialCommentsState extends State<SocialComments> {
                             hintText: 'Enter Comment',
                             hintStyle: TextStyle(color: Colors.grey)),
                         controller: controller,
-                        suggestions: suggestions,
-                        clearOnSubmit: false,
+
                       ),
                     ),
                   ),

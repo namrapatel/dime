@@ -125,52 +125,193 @@ class _UserCardState extends State<UserCard> {
               //                 toUserId: userId)));
               //   },
               // ),
+
               currentUserModel.uid != userId
-                  ? IconButton(
-                      icon: Icon(Feather.more_vertical),
-                      color: Colors.white,
-                      onPressed: () {
-                        showCupertinoModalPopup(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                CupertinoActionSheet(
-                                    title: const Text(
-                                        'What would you like to do?'),
-                                    actions: <Widget>[
-                                      CupertinoActionSheetAction(
-                                          child: const Text('Block'),
+                  ? Row(children: <Widget>[
+                      IconButton(
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    CupertinoActionSheet(
+                                        title: const Text(
+                                            'What type of like do you want to send?'),
+                                        actions: <Widget>[
+                                          CupertinoActionSheetAction(
+                                              child: const Text('Casual'),
+                                              onPressed: () {
+                                                // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
+                                                Flushbar(
+                                                  margin: EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 5),
+                                                  borderRadius: 15,
+                                                  messageText: Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            15, 0, 0, 0),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Text(
+                                                          "Done",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.black,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                        Text(
+                                                          "A casual" +
+                                                              " like has been sent to ",
+                                                          // widget.contactName,
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.grey),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  backgroundColor: Colors.white,
+                                                  flushbarPosition:
+                                                      FlushbarPosition.TOP,
+                                                  icon: Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            15, 8, 8, 8),
+                                                    child: Icon(
+                                                      Icons.info_outline,
+                                                      size: 28.0,
+                                                      color: Color(0xFF1458EA),
+                                                    ),
+                                                  ),
+                                                  duration:
+                                                      Duration(seconds: 3),
+                                                )..show(context);
+                                              }),
+                                          CupertinoActionSheetAction(
+                                            child: const Text('Network'),
+                                            onPressed: () {
+                                              // SHEHABBBB BACKEND CODE FOR CASUAL LIKE GOES HERE, FLUSHBAR IS ALREADY ADDED
+                                              Flushbar(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 15,
+                                                    vertical: 5),
+                                                borderRadius: 15,
+                                                messageText: Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      15, 0, 0, 0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        "Done",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        "A network" +
+                                                            " like has been sent to ",
+                                                        // widget.contactName,
+                                                        style: TextStyle(
+                                                            color: Colors.grey),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.white,
+                                                flushbarPosition:
+                                                    FlushbarPosition.TOP,
+                                                icon: Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      15, 8, 8, 8),
+                                                  child: Icon(
+                                                    Icons.info_outline,
+                                                    size: 28.0,
+                                                    color: Color(0xFF1458EA),
+                                                  ),
+                                                ),
+                                                duration: Duration(seconds: 3),
+                                              )..show(context);
+                                            },
+                                          )
+                                        ],
+                                        cancelButton:
+                                            CupertinoActionSheetAction(
+                                          child: const Text('Cancel'),
+                                          isDefaultAction: true,
                                           onPressed: () {
-                                            List<String> blockedId = [];
-                                            blockedId.add(userId);
-                                            Firestore.instance
-                                                .collection('users')
-                                                .document(currentUserModel.uid)
-                                                .setData({
-                                              'blocked$userId': true,
-                                              'blocked': FieldValue.arrayUnion(
-                                                  blockedId)
-                                            }, merge: true);
+                                            Navigator.pop(context, 'Cancel');
+                                          },
+                                        )));
+                          },
+                          icon: Icon(
+                            AntDesign.like2,
+                            size: screenH(25),
+                            color: Colors.white,
+                          )),
+                      IconButton(
+                          icon: Icon(Feather.more_vertical),
+                          color: Colors.white,
+                          onPressed: () {
+                            showCupertinoModalPopup(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    CupertinoActionSheet(
+                                        title: const Text(
+                                            'What would you like to do?'),
+                                        actions: <Widget>[
+                                          CupertinoActionSheetAction(
+                                              child: const Text('Block'),
+                                              onPressed: () {
+                                                List<String> blockedId = [];
+                                                blockedId.add(userId);
+                                                Firestore.instance
+                                                    .collection('users')
+                                                    .document(
+                                                        currentUserModel.uid)
+                                                    .setData({
+                                                  'blocked$userId': true,
+                                                  'blocked':
+                                                      FieldValue.arrayUnion(
+                                                          blockedId)
+                                                }, merge: true);
 
-                                            List<String> blocked = [];
-                                            blocked.add(currentUserModel.uid);
-                                            Firestore.instance
-                                                .collection('users')
-                                                .document(userId)
-                                                .setData({
-                                              'blocked${currentUserModel.uid}':
-                                                  true,
-                                              'blockedby':
-                                                  FieldValue.arrayUnion(blocked)
-                                            }, merge: true);
+                                                List<String> blocked = [];
+                                                blocked
+                                                    .add(currentUserModel.uid);
+                                                Firestore.instance
+                                                    .collection('users')
+                                                    .document(userId)
+                                                    .setData({
+                                                  'blocked${currentUserModel.uid}':
+                                                      true,
+                                                  'blockedby':
+                                                      FieldValue.arrayUnion(
+                                                          blocked)
+                                                }, merge: true);
 
-                                            Firestore.instance
-                                                .collection('users')
-                                                .document(currentUserModel.uid)
-                                                .collection('messages')
-                                                .document(userId)
-                                                .setData({'blocked': true},
-                                                    merge: true);
-
+                                                Firestore.instance
+                                                    .collection('users')
+                                                    .document(
+                                                        currentUserModel.uid)
+                                                    .collection('messages')
+                                                    .document(userId)
+                                                    .setData({'blocked': true},
+                                                        merge: true);
                                             Firestore.instance
                                                 .collection('users')
                                                 .document(userId)
@@ -204,99 +345,99 @@ class _UserCardState extends State<UserCard> {
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
-                                                    Text(
-                                                      "This user has been blocked.",
-                                                      style: TextStyle(
-                                                          color: Colors.grey),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              backgroundColor: Colors.white,
-                                              flushbarPosition:
-                                                  FlushbarPosition.TOP,
-                                              icon: Padding(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    15, 8, 8, 8),
-                                                child: Icon(
-                                                  Icons.info_outline,
-                                                  size: 28.0,
-                                                  color: Color(0xFF1458EA),
-                                                ),
-                                              ),
-                                              duration: Duration(seconds: 3),
-                                            )..show(context);
-                                          }),
-                                      CupertinoActionSheetAction(
-                                        child: const Text('Report'),
-                                        onPressed: () {
-                                          // ADD REPORT FUNCTIONALITY HERE
-                                          List<String> id = [];
-                                          id.add(currentUserModel.uid);
-                                          Firestore.instance
-                                              .collection('reportedUsers')
-                                              .document(userId)
-                                              .setData({
-                                            'userID': userId,
-                                            'userName': userName,
-                                            'reporterIDs':
-                                                FieldValue.arrayUnion(id),
-                                          }, merge: true);
-
-                                          Flushbar(
-                                            margin: EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 5),
-                                            borderRadius: 15,
-                                            messageText: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  15, 0, 0, 0),
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: <Widget>[
-                                                  Text(
-                                                    "Done",
-                                                    style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.bold),
                                                   ),
-                                                  Text(
-                                                    "Our team will review this user's recent activity as per your report.",
-                                                    style: TextStyle(
-                                                        color: Colors.grey),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                            backgroundColor: Colors.white,
-                                            flushbarPosition:
-                                                FlushbarPosition.TOP,
-                                            icon: Padding(
-                                              padding: EdgeInsets.fromLTRB(
-                                                  15, 8, 8, 8),
-                                              child: Icon(
-                                                Icons.info_outline,
-                                                size: 28.0,
-                                                color: Color(0xFF1458EA),
-                                              ),
-                                            ),
-                                            duration: Duration(seconds: 3),
-                                          )..show(context);
-                                        },
-                                      )
-                                    ],
-                                    cancelButton: CupertinoActionSheetAction(
-                                      child: const Text('Cancel'),
-                                      isDefaultAction: true,
-                                      onPressed: () {
-                                        Navigator.pop(context, 'Cancel');
-                                      },
-                                    )));
-                      })
-                  : Container()
+                                                  backgroundColor: Colors.white,
+                                                  flushbarPosition:
+                                                      FlushbarPosition.TOP,
+                                                  icon: Padding(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            15, 8, 8, 8),
+                                                    child: Icon(
+                                                      Icons.info_outline,
+                                                      size: 28.0,
+                                                      color: Color(0xFF1458EA),
+                                                    ),
+                                                  ),
+                                                  duration:
+                                                      Duration(seconds: 3),
+                                                )..show(context);
+                                              }),
+                                          CupertinoActionSheetAction(
+                                            child: const Text('Report'),
+                                            onPressed: () {
+                                              // ADD REPORT FUNCTIONALITY HERE
+                                              List<String> id = [];
+                                              id.add(currentUserModel.uid);
+                                              Firestore.instance
+                                                  .collection('reportedUsers')
+                                                  .document(userId)
+                                                  .setData({
+                                                'userID': userId,
+                                                'userName': userName,
+                                                'reporterIDs':
+                                                    FieldValue.arrayUnion(id),
+                                              }, merge: true);
+
+                                              Flushbar(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 15,
+                                                    vertical: 5),
+                                                borderRadius: 15,
+                                                messageText: Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      15, 0, 0, 0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        "Done",
+                                                        style: TextStyle(
+                                                            color: Colors.black,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(
+                                                        "Our team will review this user's recent activity as per your report.",
+                                                        style: TextStyle(
+                                                            color: Colors.grey),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                backgroundColor: Colors.white,
+                                                flushbarPosition:
+                                                    FlushbarPosition.TOP,
+                                                icon: Padding(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      15, 8, 8, 8),
+                                                  child: Icon(
+                                                    Icons.info_outline,
+                                                    size: 28.0,
+                                                    color: Color(0xFF1458EA),
+                                                  ),
+                                                ),
+                                                duration: Duration(seconds: 3),
+                                              )..show(context);
+                                            },
+                                          )
+                                        ],
+                                        cancelButton:
+                                            CupertinoActionSheetAction(
+                                          child: const Text('Cancel'),
+                                          isDefaultAction: true,
+                                          onPressed: () {
+                                            Navigator.pop(context, 'Cancel');
+                                          },
+                                        )));
+                          })
+                    ])
+                  : Container(),
             ],
           ),
         ),

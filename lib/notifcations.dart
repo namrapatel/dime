@@ -18,10 +18,27 @@ class NotifcationsScreen extends StatefulWidget {
 }
 
 class _NotifcationsScreenState extends State<NotifcationsScreen> {
+  Firestore firestore = Firestore.instance;
+  List<LikeNotif> notifs = [];
+  bool isLoading = false;
+  bool hasMore = true;
+  bool noLikes=false;
+  int documentLimit = 4;
+  DocumentSnapshot lastDocument;
+  ScrollController _scrollController = ScrollController();
   @override
   void initState() {
     getUnreadMessages();
     getNumberOfChatsLikes();
+    getNotifs();
+    _scrollController.addListener(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      double delta = MediaQuery.of(context).size.height * 0.20;
+      if (maxScroll - currentScroll <= delta) {
+        getNotifs();
+      }
+    });
     super.initState();
   }
 
@@ -59,14 +76,48 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
     });
   }
 
-  Future<List<LikeNotif>> getNotifs() async {
+  getNotifs() async {
+    if (!hasMore) {
+    print('done');
+
+      return;
+    }
+    if (isLoading) {
+      return;
+    }
+    if(notifs.length!=0) {
+      setState(() {
+        isLoading = true;
+      });
+    }
     List<LikeNotif> userDocuments = [];
-    QuerySnapshot querySnapshot = await Firestore.instance
-        .collection('users')
-        .document(currentUserModel.uid)
-        .collection('likes')
-        .orderBy('timestamp', descending: true)
-        .getDocuments();
+    QuerySnapshot querySnapshot;
+    if(lastDocument==null) {
+      querySnapshot = await Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .collection('likes')
+          .orderBy('timestamp', descending: true).limit(documentLimit)
+          .getDocuments();
+      if(querySnapshot.documents.length==0||querySnapshot==null){
+        setState(() {
+          noLikes=true;
+        });
+      }
+    }else{
+      querySnapshot = await Firestore.instance
+          .collection('users')
+          .document(currentUserModel.uid)
+          .collection('likes')
+          .orderBy('timestamp', descending: true).startAfterDocument(lastDocument).limit(documentLimit)
+          .getDocuments();
+      if(querySnapshot.documents.length==0||querySnapshot==null){
+        setState(() {
+          hasMore=false;
+          isLoading=false;
+        });
+      }
+    }
     for (var document in querySnapshot.documents) {
       DocumentSnapshot doc = await Firestore.instance
           .collection('users')
@@ -97,9 +148,18 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
       ));
 //      userDocuments.add(userDoc);
 
+
     }
-    print('length of docs' + userDocuments.length.toString());
-    return userDocuments;
+    notifs.addAll(userDocuments);
+    if (querySnapshot.documents.length <documentLimit) {
+      hasMore = false;
+    }
+    lastDocument = querySnapshot.documents[querySnapshot.documents.length - 1];
+    setState(() {
+      isLoading = false;
+    });
+//    print('length of docs' + userDocuments.length.toString());
+//    return userDocuments;
   }
 
   @override
@@ -275,21 +335,11 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
         ),
         Container(
           height: MediaQuery.of(context).size.height / 1.67,
-          child: ListView(
-            physics: BouncingScrollPhysics(),
-            children: <Widget>[
-              FutureBuilder(
-                  future: getNotifs(),
-                  builder: (context, snapshots) {
-                    if (!snapshots.hasData) {
-                      return Container(
-                          alignment: FractionalOffset.center,
-                          child: CircularProgressIndicator());
-                    } else {
-                      print(snapshots.data.length);
-                      print('ength is above');
-                      return (snapshots.data.length == 0)
-                          ? Column(
+  child: Column(
+    children: <Widget>[
+      Expanded(
+          child:  noLikes
+              ? Column(
                               children: <Widget>[
                                 SizedBox(
                                   height: 20.0,
@@ -300,20 +350,72 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                                   padding: EdgeInsets.all(
                                       MediaQuery.of(context).size.height / 20),
                                   child: Text(
-                                    "There's nobody around. \n Go get a walk in and find some new people!",
+                                    "You don't have any likes right now. \n Check out people around you or head to explore to like some people!",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
                               ],
                             )
-                          : Container(
-                              child: Column(children: snapshots.data),
-                            );
-                    }
-                  })
-            ],
-          ),
+              :notifs.length == 0?Center(child:CircularProgressIndicator()): ListView.builder(
+              controller: _scrollController,
+//              cacheExtent: 5000.0,
+              itemCount: notifs.length,
+//              physics: BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                return notifs[index];
+              })
+      ),
+
+
+      isLoading
+          ? Container(
+          child:CircularProgressIndicator()
+      )
+          : Container()
+
+    ],
+  ),
+
+//          child: ListView(
+//            physics: BouncingScrollPhysics(),
+//            children: <Widget>[
+//              FutureBuilder(
+//                  future: getNotifs(),
+//                  builder: (context, snapshots) {
+//                    if (!snapshots.hasData) {
+//                      return Container(
+//                          alignment: FractionalOffset.center,
+//                          child: CircularProgressIndicator());
+//                    } else {
+//                      print(snapshots.data.length);
+//                      print('ength is above');
+//                      return (snapshots.data.length == 0)
+//                          ? Column(
+//                              children: <Widget>[
+//                                SizedBox(
+//                                  height: 20.0,
+//                                ),
+//                                Image.asset(
+//                                    'assets/img/undraw_peoplearoundyou.png'),
+//                                Padding(
+//                                  padding: EdgeInsets.all(
+//                                      MediaQuery.of(context).size.height / 20),
+//                                  child: Text(
+//                                    "There's nobody around. \n Go get a walk in and find some new people!",
+//                                    textAlign: TextAlign.center,
+//                                    style: TextStyle(fontSize: 20),
+//                                  ),
+//                                ),
+//                              ],
+//                            )
+//                          : Container(
+//                              child: Column(children: snapshots.data),
+//                            );
+//                    }
+//                  })
+//            ],
+//          ),
         ),
       ],
     ));

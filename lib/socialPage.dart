@@ -89,7 +89,7 @@ class _SocialPageState extends State<SocialPage> {
   List<DocumentSnapshot> products = [];
   bool isLoading = false;
   bool hasMore = true;
-  int documentLimit = 5;
+  int documentLimit = 10;
   DocumentSnapshot lastDocument;
   ScrollController _scrollController = ScrollController();
   @override
@@ -120,9 +120,11 @@ class _SocialPageState extends State<SocialPage> {
     if (isLoading) {
       return;
     }
-    setState(() {
-      isLoading = true;
-    });
+    if(products.length!=0) {
+      setState(() {
+        isLoading = true;
+      });
+    }
     QuerySnapshot qn;
     if(lastDocument==null) {
       qn = await Firestore.instance
@@ -186,71 +188,65 @@ class _SocialPageState extends State<SocialPage> {
               : SizedBox(
                   height: 1,
                 ),
-        body: Column(
-          children: <Widget>[
-             university != null
-        ? Expanded(
-        child: products.length == 0
-        ? Center(
-//        child: Text('No Posts Right Now',style: TextStyle(color: Colors.white),),
-    )
-        : ListView.builder(
-            controller: _scrollController,
-            cacheExtent: 5000.0,
-            itemCount: products.length,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (_, index) {
-              return SocialPost.fromDocument(products[index]);
-            })
-    )
-                  : Column(
-                      children: <Widget>[
-                        SizedBox(height: MediaQuery.of(context).size.height / 18),
-                        Image.asset('assets/img/login_logo.png'),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 88,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            "Please go to settings and add a university to see your feed!",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 88,
-                        ),
-                        FlatButton(
-                          padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                          color: Colors.white,
-                          child: Text(
-                            "Add University",
-                            style: TextStyle(
-                                color: Color(0xFF8803fc),
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(10.0)),
-                          onPressed: () {
-                            Navigator.push(context,
-                                CupertinoPageRoute(builder: (context) => Profile()));
-                          },
-                        ),
-                      ],
-                    ),
+        body:Column(children: [
+          university!=null?
+          Expanded(
+            child: products.length == 0
+                ? Center(
 
-            isLoading
-                ? Container(
-                child:CircularProgressIndicator()
             )
-                : Container()
-
-          ],
-        ));
+                : ListView.builder(
+              controller: _scrollController,
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return SocialPost.fromDocument(products[index]);
+              },
+            ),
+          ): Column(
+            children: <Widget>[
+              SizedBox(height: MediaQuery.of(context).size.height / 18),
+              Image.asset('assets/img/login_logo.png'),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 88,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Please go to settings and add a university to see your feed!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 88,
+              ),
+              FlatButton(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                color: Colors.white,
+                child: Text(
+                  "Add University",
+                  style: TextStyle(
+                      color: Color(0xFF8803fc),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(10.0)),
+                onPressed: () {
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => Profile()));
+                },
+              ),
+            ],
+          ),
+          isLoading
+              ? Container(
+            child: CircularProgressIndicator(),
+          )
+              : Container()
+        ]),);
   }
 }

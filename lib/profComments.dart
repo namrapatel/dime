@@ -14,7 +14,7 @@ class ProfComments extends StatefulWidget {
       _ProfCommentsState(this.postId, this.stream);
 }
 
-class _ProfCommentsState extends State<ProfComments> {
+class _ProfCommentsState extends State<ProfComments> with AutomaticKeepAliveClientMixin<ProfComments> {
   final String postId;
   final String stream;
 
@@ -91,6 +91,7 @@ class _ProfCommentsState extends State<ProfComments> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -287,5 +288,7 @@ class _ProfCommentsState extends State<ProfComments> {
       ),
     );
   }
+  @override
+  bool get wantKeepAlive => true;
 }
 

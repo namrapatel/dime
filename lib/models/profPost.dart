@@ -39,7 +39,7 @@ class ProfPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return ProfPost(
-      verified:document['verified'],
+        verified: document['verified'],
         ownerId: document['ownerId'],
         points: document['points'],
         university: document['university'],
@@ -54,7 +54,8 @@ class ProfPost extends StatefulWidget {
   }
 
   const ProfPost(
-      {this.verified,this.university,
+      {this.verified,
+      this.university,
       this.ownerId,
       this.postId,
       this.caption,
@@ -66,7 +67,8 @@ class ProfPost extends StatefulWidget {
       this.points,
       this.stream});
   @override
-  _ProfPostState createState() => _ProfPostState(verified:verified,
+  _ProfPostState createState() => _ProfPostState(
+      verified: verified,
       university: university,
       postId: postId,
       caption: caption,
@@ -97,7 +99,8 @@ class _ProfPostState extends State<ProfPost> {
   int points;
   String stream;
   _ProfPostState(
-      {this.verified,this.ownerId,
+      {this.verified,
+      this.ownerId,
       this.university,
       this.postId,
       this.caption,
@@ -121,6 +124,7 @@ class _ProfPostState extends State<ProfPost> {
 //    getPostInfo();
     print(caption);
   }
+
   getVerification() async {
 //
     if (verified == true) {
@@ -134,6 +138,7 @@ class _ProfPostState extends State<ProfPost> {
       });
     }
   }
+
   getPostInfo() async {
     DocumentSnapshot doc = await Firestore.instance
         .collection('streams')
@@ -251,46 +256,62 @@ class _ProfPostState extends State<ProfPost> {
                         ),
                         child: Column(
                           children: <Widget>[
-                            verified==true?
-                            Container(
-                                child:
-                                (ownerPhoto!=null&&ownerName!=null)?
-                                Row(children: <Widget>[
-
-                                  CircleAvatar(
-                                    radius: screenH(30),
-                                    backgroundImage: CachedNetworkImageProvider(
-                                        ownerPhoto
-                                    ),
-                                  ),
-                                  Text(
-                                    ownerName,
-                                    style: TextStyle(fontSize: 18),
-                                  ),
-
-                                  Icon(
-                                    Feather.check_circle,
-                                    color: Color(0xFF096664),
-                                    size: screenF(17),
+                            verified == true
+                                ? Container(
+                                    child: (ownerPhoto != null &&
+                                            ownerName != null)
+                                        ? Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                screenW(8.0),
+                                                screenH(8.0),
+                                                0,
+                                                0),
+                                            child: Row(
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: screenH(20),
+                                                  backgroundImage:
+                                                      CachedNetworkImageProvider(
+                                                          ownerPhoto),
+                                                ),
+                                                SizedBox(
+                                                  width: screenW(10.0),
+                                                ),
+                                                Text(
+                                                  ownerName,
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  width: screenW(3.0),
+                                                ),
+                                                Icon(
+                                                  Feather.check_circle,
+                                                  color: Color(0xFF096664),
+                                                  size: screenF(17),
+                                                )
+                                              ],
+                                            ))
+                                        : CircularProgressIndicator(),
                                   )
-
-
-                                ],):CircularProgressIndicator()
-                            ):Container(),
+                                : Container(),
                             postPic != null
-                                ? CachedNetworkImage(
-                              imageUrl: postPic,
-                              fit: BoxFit.fitWidth,
-                              placeholder: (context, url) =>
-                              loadingPlaceHolder,
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                              width: screenW(200),
-                              // height: screenH(375),
-                            )
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8.0, 0, 0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: postPic,
+                                      fit: BoxFit.fitWidth,
+                                      placeholder: (context, url) =>
+                                          loadingPlaceHolder,
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                      width: screenW(200),
+                                      // height: screenH(375),
+                                    ))
                                 : SizedBox(
-                              width: screenH(1.2),
-                            ),
+                                    width: screenH(1.2),
+                                  ),
                           ],
                         ),
                       ),

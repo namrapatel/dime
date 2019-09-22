@@ -1173,19 +1173,24 @@ class _ScrollPageState extends State<ScrollPage>
                             child: (snapshots.data.length == 0)
                                 ? Column(
                                     children: <Widget>[
-                                      SizedBox(
-                                        height: 20.0,
-                                      ),
-                                      Image.asset(
-                                          'assets/img/undraw_peoplearoundyou.png'),
-                                      Padding(
-                                        padding: EdgeInsets.all(
+                                      Container(
+                                        height:
                                             MediaQuery.of(context).size.height /
-                                                20),
+                                                3.5,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1.5,
+                                        child: Image.asset(
+                                          'assets/img/takeawalk.png',
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(15.0),
                                         child: Text(
-                                          "There's nobody around. \n Go get a walk in and find some new people!",
+                                          "There's nobody around. Go get a walk in and find some new people!",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 20),
+                                          style: TextStyle(
+                                              fontSize: (14.0)),
                                         ),
                                       ),
                                     ],
@@ -1267,14 +1272,16 @@ class _ScrollPageState extends State<ScrollPage>
                           height: MediaQuery.of(context).size.height / 3.5,
                           width: MediaQuery.of(context).size.width / 1.5,
                           child: Image.asset(
-                            'assets/img/undraw_peoplearoundyou.png',
+                            'assets/img/getitdone.png',
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Text(
-                              "Please turn the location toggle on or ensure your profile is set up with a name, university, program, grad year, and bio!",
-                              textAlign: TextAlign.center),
+                            "Please turn the location toggle on or ensure your profile is set up with a name, university, program, grad year, and bio!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: (14.0)),
+                          ),
                         ),
                       ],
                     )

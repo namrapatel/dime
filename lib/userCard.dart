@@ -358,7 +358,7 @@ class _UserCardState extends State<UserCard> {
                           ): Icon(
                             AntDesign.like1,
                             size: screenH(25),
-                            color: Color(0xFF1458EA),
+                            color: Colors.white,
                           )),
                       IconButton(
                           icon: Icon(Feather.more_vertical),

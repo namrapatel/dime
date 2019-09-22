@@ -21,21 +21,38 @@ class ProfPage extends StatefulWidget {
   _ProfPageState createState() => _ProfPageState(stream: stream);
 }
 
-class _ProfPageState extends State<ProfPage> {
+class _ProfPageState extends State<ProfPage> with AutomaticKeepAliveClientMixin<ProfPage> {
   FirebaseMessaging _fcm = FirebaseMessaging();
   int subCounter = 0;
   bool streamVerified = false;
   List<dynamic> verifiedUsers = [];
-
+  Firestore firestore = Firestore.instance;
+  List<DocumentSnapshot> products = [];
+  bool isLoading = false;
+  bool hasMore = true;
+  int documentLimit = 7;
+  bool noPosts=false;
+  DocumentSnapshot lastDocument;
+  ScrollController _scrollController = ScrollController();
   var university = currentUserModel.university;
   String stream;
   bool subscribed;
   _ProfPageState({this.stream});
   @override
   void initState() {
-    super.initState();
     checkSubscription();
     checkVerification();
+    getPosts();
+    super.initState();
+    _scrollController.addListener(() {
+      double maxScroll = _scrollController.position.maxScrollExtent;
+      double currentScroll = _scrollController.position.pixels;
+      double delta = MediaQuery.of(context).size.height * 0.20;
+      if (maxScroll - currentScroll <= delta) {
+        getPosts();
+      }
+    });
+
   }
 
   checkVerification() async {
@@ -69,19 +86,55 @@ class _ProfPageState extends State<ProfPage> {
     _fcm.unsubscribeFromTopic(topic);
   }
 
-  Future getPosts() async {
+  getPosts() async {
     List<DocumentSnapshot> finalSorted = [];
-    List<dynamic> docs = [];
+    List<DocumentSnapshot> docs = [];
     List<List<dynamic>> twoD = [];
 
+    if (!hasMore) {
+//
+      return;
+    }
+    if (isLoading) {
+      return;
+    }
+    if(products.length!=0) {
+      setState(() {
+        isLoading = true;
+      });
+    }
+    QuerySnapshot qn;
+
+
     if (stream == "Subscriptions") {
-      QuerySnapshot postNames = await Firestore.instance
-          .collection('users')
-          .document(currentUserModel.uid)
-          .collection('feed')
-          .orderBy('timeStamp', descending: true)
-          .getDocuments();
-      List<dynamic> addressesDocs = postNames.documents;
+      if(lastDocument==null) {
+        qn = await Firestore.instance
+            .collection('users')
+            .document(currentUserModel.uid)
+            .collection('feed')
+            .orderBy('timeStamp', descending: true).limit(documentLimit)
+            .getDocuments();
+        if(qn.documents.length==0||qn==null) {
+          setState(() {
+            noPosts = true;
+          });
+        }
+      }else {
+          qn = await Firestore.instance
+              .collection('users')
+              .document(currentUserModel.uid)
+              .collection('feed')
+              .orderBy('timeStamp', descending: true).startAfterDocument(
+              lastDocument).limit(documentLimit)
+              .getDocuments();
+          if (qn.documents.length == 0 || qn == null) {
+            setState(() {
+              hasMore = false;
+              isLoading = false;
+            });
+          }
+        }
+      List<dynamic> addressesDocs = qn.documents;
 //      List<DocumentSnapshot> subscribedPosts=[];
       for (var a = 0; a < addressesDocs.length; a++) {
         String address = addressesDocs[a].documentID;
@@ -97,65 +150,54 @@ class _ProfPageState extends State<ProfPage> {
         print(post.documentID);
       }
     } else {
-      QuerySnapshot qn = await Firestore.instance
-          .collection('streams')
-          .document(stream)
-          .collection('posts')
-          .where('university', isEqualTo: currentUserModel.university)
-          .orderBy('timeStamp', descending: true)
-          .getDocuments();
+      if(lastDocument==null) {
+        qn = await Firestore.instance
+            .collection('streams')
+            .document(stream)
+            .collection('posts')
+            .where('university', isEqualTo: currentUserModel.university)
+            .orderBy('timeStamp', descending: true)
+            .getDocuments();
+        if(qn.documents.length==0||qn==null) {
+          setState(() {
+            noPosts = true;
+          });
+        }
+//        docs = qn.documents;
+      }else{
+        qn = await Firestore.instance
+            .collection('streams')
+            .document(stream)
+            .collection('posts')
+            .where('university', isEqualTo: currentUserModel.university)
+            .orderBy('timeStamp', descending: true).startAfterDocument(lastDocument).limit(documentLimit)
+            .getDocuments();
+        if(qn.documents.length==0||qn==null) {
+          setState(() {
+            hasMore = false;
+            isLoading = false;
+          });
+        }
+      }
       docs = qn.documents;
     }
 
-//
-//      print('length');
-//      print(docs.length);
-//      for (var doc in docs) {
-//        double counter = 0;
-//        List<dynamic> toAdd = [];
-//        Timestamp time = doc.data['timeStamp'];
-//
-//        print(doc.data['caption']);
-//
-//        print(DateTime.now().difference(time.toDate()));
-//        if (DateTime
-//            .now()
-//            .difference(time.toDate())
-//            .inMinutes <= 180) {
-//          print('difference between posted and time from an hour ago is');
-//          print(DateTime
-//              .now()
-//              .difference(time.toDate())
-//              .inMinutes);
-//          counter = counter + 5;
-//        }
-//        int upvotes = doc.data['upVotes'];
-//        counter = counter + (0.1 * upvotes);
-//        int comments = doc.data['comments'];
-//        counter = counter + (0.2 * comments);
-//        toAdd.add(doc);
-//        toAdd.add(counter);
-//        twoD.add(toAdd);
-//      }
-//      for (var list in twoD) {
-//        print(list[0].data['caption']);
-//        print(list[1]);
-//      }
-//      twoD.sort((b, a) => a[1].compareTo(b[1]));
-//      print('after sort');
-//      for (var list in twoD) {
-//        print(list[0].data['caption']);
-//        print(list[1]);
-//        finalSorted.add(list[0]);
-//      }
-
-    return docs;
+    if (qn.documents.length < documentLimit) {
+      hasMore = false;
+    }
+    lastDocument = qn.documents[qn.documents.length - 1];
+    products.addAll(docs);
+    setState(() {
+      isLoading = false;
+    });
+//    return docs;
   }
 
   int commentLengths;
 
   @override
   Widget build(BuildContext context) {
+
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -163,6 +205,7 @@ class _ProfPageState extends State<ProfPage> {
       height: defaultScreenHeight,
       allowFontScaling: true,
     )..init(context);
+    super.build(context);
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(70.0), // here the desired height
@@ -411,65 +454,126 @@ class _ProfPageState extends State<ProfPage> {
             : SizedBox(
                 height: 1,
               ),
-        body: university != null
-            ? FutureBuilder(
-                future: getPosts(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: SizedBox(
-                        height: 0.0,
-                      ),
-                    );
-                  } else {
-                    return ListView.builder(
-                        cacheExtent: 5000.0,
-                        itemCount: snapshot?.data?.length,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (_, index) {
-                          return ProfPost.fromDocument(snapshot.data[index]);
-                        });
-                  }
-                })
-            : Column(
-                children: <Widget>[
-                  SizedBox(height: MediaQuery.of(context).size.height / 18),
-                  Image.asset('assets/img/login_logo.png'),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 88,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "Please go to settings and add a university to see your feed!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 88,
-                  ),
-                  FlatButton(
-                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                    color: Colors.white,
-                    child: Text(
-                      "Add University",
-                      style: TextStyle(
-                          color: Color(0xFF063F3E),
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10.0)),
-                    onPressed: () {
-                      Navigator.push(context,
-                          CupertinoPageRoute(builder: (context) => Profile()));
-                    },
-                  ),
-                ],
-              ));
+body:Column(children: [
+  university!=null?
+  Expanded(
+    child:noPosts?Container(child:Text("There are currently no posts.")): products.length == 0
+        ?Center(child:CircularProgressIndicator())
+        : ListView.builder(
+      controller: _scrollController,
+      itemCount: products.length,
+      itemBuilder: (context, index) {
+        return ProfPost.fromDocument(products[index]);
+      },
+    ),
+  ): Column(
+  children: <Widget>[
+  SizedBox(height: MediaQuery.of(context).size.height / 18),
+  Image.asset('assets/img/login_logo.png'),
+  SizedBox(
+  height: MediaQuery.of(context).size.height / 88,
+  ),
+  Padding(
+  padding: const EdgeInsets.all(8.0),
+  child: Text(
+  "Please go to settings and add a university to see your feed!",
+  textAlign: TextAlign.center,
+  style: TextStyle(
+  color: Colors.white,
+  fontSize: 25,
+  fontWeight: FontWeight.bold),
+    ),
+    ),
+    SizedBox(
+    height: MediaQuery.of(context).size.height / 88,
+    ),
+    FlatButton(
+    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+    color: Colors.white,
+    child: Text(
+    "Add University",
+    style: TextStyle(
+    color: Color(0xFF063F3E),
+    fontSize: 20,
+    fontWeight: FontWeight.bold),
+    ),
+    shape: new RoundedRectangleBorder(
+    borderRadius: new BorderRadius.circular(10.0)),
+    onPressed: () {
+    Navigator.push(context,
+    CupertinoPageRoute(builder: (context) => Profile()));
+    },
+    ),
+    ],
+    ),
+  isLoading
+      ? Container(
+    child: CircularProgressIndicator(),
+  )
+      : Container()
+]),);
+//        body: university != null
+//            ? FutureBuilder(
+//                future: getPosts(),
+//                builder: (_, snapshot) {
+//                  if (snapshot.connectionState == ConnectionState.waiting) {
+//                    return Center(
+//                      child: SizedBox(
+//                        height: 0.0,
+//                      ),
+//                    );
+//                  } else {
+//                    return ListView.builder(
+//                        cacheExtent: 5000.0,
+//                        itemCount: snapshot?.data?.length,
+//                        physics: BouncingScrollPhysics(),
+//                        itemBuilder: (_, index) {
+//                          return ProfPost.fromDocument(snapshot.data[index]);
+//                        });
+//                  }
+//                })
+//            : Column(
+//                children: <Widget>[
+//                  SizedBox(height: MediaQuery.of(context).size.height / 18),
+//                  Image.asset('assets/img/login_logo.png'),
+//                  SizedBox(
+//                    height: MediaQuery.of(context).size.height / 88,
+//                  ),
+//                  Padding(
+//                    padding: const EdgeInsets.all(8.0),
+//                    child: Text(
+//                      "Please go to settings and add a university to see your feed!",
+//                      textAlign: TextAlign.center,
+//                      style: TextStyle(
+//                          color: Colors.white,
+//                          fontSize: 25,
+//                          fontWeight: FontWeight.bold),
+//                    ),
+//                  ),
+//                  SizedBox(
+//                    height: MediaQuery.of(context).size.height / 88,
+//                  ),
+//                  FlatButton(
+//                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+//                    color: Colors.white,
+//                    child: Text(
+//                      "Add University",
+//                      style: TextStyle(
+//                          color: Color(0xFF063F3E),
+//                          fontSize: 20,
+//                          fontWeight: FontWeight.bold),
+//                    ),
+//                    shape: new RoundedRectangleBorder(
+//                        borderRadius: new BorderRadius.circular(10.0)),
+//                    onPressed: () {
+//                      Navigator.push(context,
+//                          CupertinoPageRoute(builder: (context) => Profile()));
+//                    },
+//                  ),
+//                ],
+//              ));
+
   }
+  @override
+  bool get wantKeepAlive => true;
 }

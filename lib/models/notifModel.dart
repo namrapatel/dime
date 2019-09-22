@@ -222,6 +222,7 @@ class _LikeNotifState extends State<LikeNotif> {
                           onPressed: () {
                             setState(() {
                               liked = true;
+                            });
                               List<String> myId = [];
                               myId.add(currentUserModel.uid);
                               Firestore.instance
@@ -246,7 +247,13 @@ class _LikeNotifState extends State<LikeNotif> {
                                 'liked': true,
                                 'likeType': type
                               }, merge: true);
-                            });
+                            List<String> theirId=[];
+                            theirId.add(id);
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .updateData(
+                                {'likedUsers': FieldValue.arrayUnion(theirId)});
                           },
                         )
                       : IconButton(

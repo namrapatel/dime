@@ -1389,12 +1389,14 @@ class _UserTileState extends State<UserTile> {
                   style: TextStyle(fontSize: 18),
                 ),
                 widget.verified == true
-                    ? Icon(
-                        Feather.check_circle,
-                        color: Color(0xFF096664),
-                        size: screenF(17),
-                      )
-                    : Container()
+                    ? Padding(
+                        padding: EdgeInsets.fromLTRB(screenW(4.0), 0, 0, 0),
+                        child: Icon(
+                          Feather.check_circle,
+                          color: Color(0xFF096664),
+                          size: screenF(17),
+                        ))
+                    : Container(),
               ],
             ),
             subtitle: Column(

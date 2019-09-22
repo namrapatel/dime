@@ -161,7 +161,7 @@ class _CreatePartyPostState extends State<CreatePartyPost> {
                           context,
                           PageTransition(
                               type: PageTransitionType.rightToLeft,
-                              child: SocialPage()));
+                              child: SocialTabs()));
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
@@ -398,7 +398,8 @@ class _CreatePartyPostState extends State<CreatePartyPost> {
             CupertinoDialogAction(
               child: Text("Cancel"),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(
+                    context);
               },
             )
           ],
@@ -491,8 +492,13 @@ class _CreatePartyPostState extends State<CreatePartyPost> {
         }).then((_) {
           setState(() {
             file = null;
-            Navigator.pop(context);
+
           });
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.leftToRight,
+                  child: SocialTabs()));
         });
       } else {
         setState(() {
@@ -510,7 +516,11 @@ class _CreatePartyPostState extends State<CreatePartyPost> {
           uploader.addPartyPost(
               caption, timeStamp, postPic, postId, upVotes,false);
         }
-        Navigator.pop(context);
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.leftToRight,
+                child: SocialTabs()));
       }
     }
   }
@@ -624,7 +634,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
                           context,
                           PageTransition(
                               type: PageTransitionType.rightToLeft,
-                              child: SocialPage()));
+                              child: SocialTabs()));
                     },
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(
@@ -861,7 +871,7 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
             CupertinoDialogAction(
               child: Text("Cancel"),
               onPressed: () {
-                Navigator.pop(context);
+               Navigator.pop(context);
               },
             )
           ],
@@ -954,8 +964,12 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
         }).then((_) {
           setState(() {
             file = null;
-            Navigator.pop(context);
           });
+          Navigator.push(
+              context,
+              PageTransition(
+                  type: PageTransitionType.leftToRight,
+                  child: SocialTabs()));
         });
       } else {
         setState(() {
@@ -973,7 +987,11 @@ class _CreateSocialPostState extends State<CreateSocialPost> {
           uploader.addSocialPost(
               caption, timeStamp, postPic, postId, upVotes,false);
         }
-        Navigator.pop(context);
+        Navigator.push(
+            context,
+            PageTransition(
+                type: PageTransitionType.leftToRight,
+                child: SocialTabs()));
       }
     }
   }

@@ -13,6 +13,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SocialTabs extends StatefulWidget {
+
   @override
   _SocialTabsState createState() => _SocialTabsState();
 }
@@ -199,7 +200,7 @@ class _SocialPageState extends State<SocialPage> with AutomaticKeepAliveClientMi
                          : CreateSocialPost()));
            },
            elevation: 50,
-           heroTag: 'btn1',
+           heroTag: widget.party == true?"btn1":"btn2",
            backgroundColor: Color(0xFF3c3744),
            child: Icon(
              Icons.add,

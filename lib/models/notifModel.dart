@@ -163,33 +163,30 @@ class _LikeNotifState extends State<LikeNotif> {
                     )
             ],
           ),
-          title: Row(
-            children: <Widget>[
-              Container(
-                width: MediaQuery.of(context).size.width / 1.95,
-                child: Row(
-                  children: <Widget>[
-                    AutoSizeText(
-                      liked == false
-                          ? "Someone just liked you!"
-                          : name + " just liked you!",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                      minFontSize: 15,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    verified == true
-                        ? Icon(
-                            Feather.check_circle,
-                            color: Color(0xFF096664),
-                            size: screenF(17),
-                          )
-                        : Container()
-                  ],
+          title: Container(
+            width: MediaQuery.of(context).size.width / 1.95,
+            child: Row(
+              children: <Widget>[
+                AutoSizeText(
+                  liked == false
+                      ? "Someone just liked you!"
+                      : name + " just liked you!",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  minFontSize: 15,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
+                verified == true
+                    ? Icon(
+                        Feather.check_circle,
+                        color: Color(0xFF096664),
+                        size: screenF(17),
+                      )
+                    : Container()
+              ],
+            ),
           ),
+
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

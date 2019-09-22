@@ -2,6 +2,7 @@ import 'package:Dime/chatList.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:Dime/models/largerPic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'login.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 class Chat extends StatefulWidget {
   static const String id = "CHAT";
 //  final FirebaseUser fromUser;
@@ -39,11 +41,10 @@ class _ChatState extends State<Chat> {
         .document(widget.toUserId)
         .get();
 
-      setState(() {
-        toUserName = doc['displayName'];
-        toUserPhoto = doc['photoUrl'];
-      });
-
+    setState(() {
+      toUserName = doc['displayName'];
+      toUserPhoto = doc['photoUrl'];
+    });
   }
 
   callback() {
@@ -138,11 +139,19 @@ class _ChatState extends State<Chat> {
         title: Row(
           children: <Widget>[
             toUserPhoto != null
-                ? CircleAvatar(
-              radius: screenH(20),
-              backgroundImage: CachedNetworkImageProvider(
-                  toUserPhoto
-              ))
+                ? InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (context) => LargePic(
+                                    largePic: "photoUrl",
+                                  )));
+                    },
+                    child: CircleAvatar(
+                        radius: screenH(20),
+                        backgroundImage:
+                            CachedNetworkImageProvider(toUserPhoto)))
                 : SizedBox(
                     height: 0.0,
                   ),
@@ -264,8 +273,7 @@ class _ChatState extends State<Chat> {
                           focusedBorder: InputBorder.none,
                           contentPadding: EdgeInsets.only(
                               left: MediaQuery.of(context).size.width / 30,
-                              bottom:
-                                  MediaQuery.of(context).size.height / 155,
+                              bottom: MediaQuery.of(context).size.height / 155,
                               top: MediaQuery.of(context).size.height / 155,
                               right: MediaQuery.of(context).size.width / 30),
                           hintText: 'Write a message',

@@ -104,7 +104,7 @@ class _ExploreState extends State<Explore> {
             )),
         builder: (builder) {
           return Container(
-            height: MediaQuery.of(context).size.height / 2.7,
+            height: MediaQuery.of(context).size.height / 4.0,
             child: Column(
               children: <Widget>[
                 Row(

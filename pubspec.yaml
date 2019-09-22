@@ -115,6 +115,9 @@ flutter:
     - assets/campusfeeds.png
     - assets/dark.png
     - assets/Group.png
+    - assets/getitdone.png
+    - assets/takeawalk.png
+
 
 
   fonts:

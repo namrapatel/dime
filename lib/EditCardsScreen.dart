@@ -12,9 +12,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flushbar/flushbar.dart';
-import 'socialTags.dart';
-import 'professionalTags.dart';
-import 'viewCards.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'homePage.dart';
 import 'package:path_provider/path_provider.dart';
@@ -29,167 +26,6 @@ String selectedWItemString;
 String selectedItemString2;
 String selectedWItemString2;
 
-//final screenH = ScreenUtil.instance.setHeight;
-//final screenW = ScreenUtil.instance.setWidth;
-//final screenF = ScreenUtil.instance.setSp;
-List<SocialInterestTile> interestList = [
-//  new SocialInterestTile("Music"),
-//  new SocialInterestTile("Sports"),
-//  new SocialInterestTile("Food"),
-//  new SocialInterestTile("Travel"),
-//  new SocialInterestTile("Athletics"),
-//  new SocialInterestTile("Gaming"),
-//  new SocialInterestTile("Winter Sports"),
-//  new SocialInterestTile("Hiking"),
-//  new SocialInterestTile("Movies"),
-//  new SocialInterestTile("Art"),
-//  new SocialInterestTile("Fasion"),
-//  new SocialInterestTile("Adventure"),
-//  new SocialInterestTile("Books"),
-//  new SocialInterestTile("Anime"),
-//  new SocialInterestTile("Theatre"),
-//  new SocialInterestTile("Photography"),
-//  new SocialInterestTile("Pets"),
-//  new SocialInterestTile("Outdoors"),
-//  new SocialInterestTile("Volunteering"),
-//  new SocialInterestTile("Automotives"),
-//  new SocialInterestTile("Cooking"),
-//  new SocialInterestTile("Drama"),
-//  new SocialInterestTile("E-Sports"),
-//  new SocialInterestTile("Writing"),
-//  new SocialInterestTile("Working Out"),
-//  new SocialInterestTile("Partying"),
-//  new SocialInterestTile("Band"),
-//  new SocialInterestTile("Dance"),
-//  new SocialInterestTile("TV Shows"),
-//  new SocialInterestTile("Technology"),
-//  new SocialInterestTile("Water Sports"),
-//  new SocialInterestTile("Hip Hop"),
-//  new SocialInterestTile("Pop"),
-//  new SocialInterestTile("R&B"),
-//  new SocialInterestTile("Guitar"),
-//  new SocialInterestTile("Piano"),
-//  new SocialInterestTile("Band"),
-//  new SocialInterestTile("Camping"),
-//  new SocialInterestTile("Classical"),
-//  new SocialInterestTile("Jazz"),
-//  new SocialInterestTile("K-Pop"),
-//  new SocialInterestTile("Blues"),
-//  new SocialInterestTile("Rock Music"),
-//  new SocialInterestTile("Metal Music"),
-//  new SocialInterestTile("Techno"),
-//  new SocialInterestTile("Concerts"),
-//  new SocialInterestTile("Music Festivals"),
-//  new SocialInterestTile("Technology"),
-//  new SocialInterestTile("Fiction Books"),
-//  new SocialInterestTile("Swimming"),
-//  new SocialInterestTile("Rowing"),
-//  new SocialInterestTile("Mountain Climbing"),
-//  new SocialInterestTile("Basketball"),
-//  new SocialInterestTile("Baseball"),
-//  new SocialInterestTile("Track and Field"),
-//  new SocialInterestTile("Hockey"),
-//  new SocialInterestTile("Golf"),
-//  new SocialInterestTile("Lacrosse"),
-//  new SocialInterestTile("Comics"),
-//  new SocialInterestTile("Fishing"),
-//  new SocialInterestTile("Horseback Riding"),
-//  new SocialInterestTile("Badminton"),
-//  new SocialInterestTile("Tennis"),
-//  new SocialInterestTile("Volleyball"),
-//  new SocialInterestTile("Biking"),
-//  new SocialInterestTile("Soccer"),
-//  new SocialInterestTile("ATV"),
-//  new SocialInterestTile("Gymnastics"),
-//  new SocialInterestTile("Cricket"),
-//  new SocialInterestTile("Football"),
-//  new SocialInterestTile("Rugby"),
-//  new SocialInterestTile("NBA"),
-//  new SocialInterestTile("NHL"),
-//  new SocialInterestTile("MLB"),
-//  new SocialInterestTile("NFL"),
-//  new SocialInterestTile("Snowboarding"),
-//  new SocialInterestTile("Skiing"),
-//  new SocialInterestTile("Skating"),
-//  new SocialInterestTile("Technology"),
-//  new SocialInterestTile("Wine"),
-//  new SocialInterestTile("Fine Dining"),
-//  new SocialInterestTile("Backpacking"),
-//  new SocialInterestTile("Classic Movies"),
-//  new SocialInterestTile("Horror Films"),
-//  new SocialInterestTile("Indie Films"),
-//  new SocialInterestTile("Painting"),
-//  new SocialInterestTile("Sneakerheads"),
-//  new SocialInterestTile("Sculpting"),
-//  new SocialInterestTile("Poetry"),
-//  new SocialInterestTile("Cars"),
-//  new SocialInterestTile("Baking"),
-//  new SocialInterestTile("Cosmetics"),
-];
-
-List<ProfInterestTile> profInterestList = [
-//  new ProfInterestTile("Philosophy"),
-//  new ProfInterestTile("Business"),
-//  new ProfInterestTile("Finance"),
-//  new ProfInterestTile("Social Work"),
-//  new ProfInterestTile("Software"),
-//  new ProfInterestTile("Chemistry"),
-//  new ProfInterestTile("Health Care"),
-//  new ProfInterestTile("Product Management"),
-//  new ProfInterestTile("Law"),
-//  new ProfInterestTile("Art"),
-//  new ProfInterestTile("Technology"),
-//  new ProfInterestTile("History"),
-//  new ProfInterestTile("Management"),
-//  new ProfInterestTile("Aviation"),
-//  new ProfInterestTile("Data"),
-//  new ProfInterestTile("Economics"),
-//  new ProfInterestTile("Fitness"),
-//  new ProfInterestTile("Math"),
-//  new ProfInterestTile("Biology"),
-//  new ProfInterestTile("Banking"),
-//  new ProfInterestTile("Literature"),
-//  new ProfInterestTile("Marketing"),
-//  new ProfInterestTile("Computer Science"),
-//  new ProfInterestTile("Research"),
-//  new ProfInterestTile("Physics"),
-//  new ProfInterestTile("Startups"),
-//  new ProfInterestTile("Design"),
-//  new ProfInterestTile("Trading"),
-//  new ProfInterestTile("Commerce"),
-//  new ProfInterestTile("Linguistics"),
-//  new ProfInterestTile("Politics"),
-//  new ProfInterestTile("Supply Chain"),
-//  new ProfInterestTile("Software"),
-//  new ProfInterestTile("Neuroscience"),
-//  new ProfInterestTile("Engineering"),
-//  new ProfInterestTile("Film"),
-//  new ProfInterestTile("Accounting"),
-//  new ProfInterestTile("Agriculture"),
-//  new ProfInterestTile("Anthropology"),
-//  new ProfInterestTile("Architecture"),
-//  new ProfInterestTile("Archaeology"),
-//  new ProfInterestTile("Bioengineering"),
-//  new ProfInterestTile("Geosciences"),
-//  new ProfInterestTile("Statistics"),
-//  new ProfInterestTile("Kinesiology"),
-//  new ProfInterestTile("Microbiology"),
-//  new ProfInterestTile("E-Commerce"),
-//  new ProfInterestTile("Political Science"),
-//  new ProfInterestTile("Pre-medicine"),
-//  new ProfInterestTile("Sociology"),
-//  new ProfInterestTile("Machine Learning"),
-//  new ProfInterestTile("Artificial Intelligence"),
-//  new ProfInterestTile("Design"),
-//  new ProfInterestTile("Construction"),
-//  new ProfInterestTile("Higher Education"),
-//  new ProfInterestTile("Economics"),
-//  new ProfInterestTile("Entrepreneurship"),
-//  new ProfInterestTile("Economics"),
-//  new ProfInterestTile("Investmenting"),
-//  new ProfInterestTile("Trading"),
-//  new ProfInterestTile("Cosmetics"),
-];
 
 class TabsApp extends StatelessWidget {
   @override
@@ -214,6 +50,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     super.initState();
     getSocialInfo();
   }
+
   String vsco;
   String email;
   String gradYear;
@@ -266,7 +103,7 @@ class _SocialCardEditState extends State<SocialCardEdit> {
 //        socialCardId = document.documentID;
 
 //      String photoUrl=document['photoUrl'];
-    vsco=document['vsco'];
+      vsco = document['vsco'];
       gradYear = document['gradYear'];
       major = document['major'];
       name = document['displayName'];
@@ -311,10 +148,8 @@ class _SocialCardEditState extends State<SocialCardEdit> {
       'photoUrl': photoUrl,
       'socialToggled': isSwitched,
       'email': email,
-      'vsco':vsco
+      'vsco': vsco
     });
-
-
   }
 
   Future<void> uploadImage() async {
@@ -401,78 +236,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
   bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
-    List<SearchItem<int>> data2 = [
-      SearchItem(0, 'Please select your university'),
-      SearchItem(1, 'Athabasca University'),
-      SearchItem(2, 'MacEwan University'),
-      SearchItem(3, 'Mount Royal University'),
-      SearchItem(4, 'University of Alberta'),
-      SearchItem(5, 'University of Calgary'),
-      SearchItem(6, 'University of Lethbridge'),
-      SearchItem(7, 'Capilano University'),
-      SearchItem(8, 'Emily Carr University of Art and Design'),
-      SearchItem(9, 'Kwantlen Polytechnic University'),
-      SearchItem(10, 'Royal Roads University'),
-      SearchItem(11, 'Simon Fraser University'),
-      SearchItem(12, 'Thompson Rivers University'),
-      SearchItem(13, 'University of British Columbia'),
-      SearchItem(14, 'University of Victoria'),
-      SearchItem(15, 'University of the Fraser Valley'),
-      SearchItem(16, 'University of Northern British Columbia'),
-      SearchItem(17, 'Vancouver Island University'),
-      SearchItem(18, 'Brandon University'),
-      SearchItem(19, 'University College of the North'),
-      SearchItem(20, 'University of Manitoba'),
-      SearchItem(21, 'University of Winnipeg'),
-      SearchItem(22, 'Université de Saint-Boniface'),
-      SearchItem(23, 'Mount Allison University'),
-      SearchItem(24, 'St. Thomas University'),
-      SearchItem(25, 'University of New Brunswick'),
-      SearchItem(26, 'Université de Moncton'),
-      SearchItem(27, 'Memorial University of Newfoundland'),
-      SearchItem(28, 'Acadia University'),
-      SearchItem(29, 'Cape Breton University'),
-      SearchItem(30, 'Dalhousie University'),
-      SearchItem(31, "University of King's College"),
-      SearchItem(32, 'Mount Saint Vincent University'),
-      SearchItem(33, 'Saint Francis Xavier University'),
-      SearchItem(34, "Saint Mary's University"),
-      SearchItem(35, 'Université Sainte-Anne'),
-      SearchItem(36, "Algoma University"),
-      SearchItem(37, 'Brock University'),
-      SearchItem(38, 'Carleton University'),
-      SearchItem(39, "Dominican University College"),
-      SearchItem(40, 'Lakehead University'),
-      SearchItem(41, "Laurentian University"),
-      SearchItem(42, 'McMaster University'),
-      SearchItem(43, 'Nipissing University'),
-      SearchItem(44, "OCAD University"),
-      SearchItem(45, "Queen's University"),
-      SearchItem(46, "Saint Paul University"),
-      SearchItem(47, 'Royal Military College of Canada'),
-      SearchItem(48, 'Ryerson University'),
-      SearchItem(49, "Trent University"),
-      SearchItem(50, 'University of Guelph'),
-      SearchItem(51, "University of Ontario Institute of Technology"),
-      SearchItem(52, 'University of Ottawa'),
-      SearchItem(53, 'University of Toronto'),
-      SearchItem(54, "Huron University College"),
-      SearchItem(55, 'University of Waterloo'),
-      SearchItem(56, "Western University"),
-      SearchItem(57, 'University of Windsor'),
-      SearchItem(58, 'Wilfrid Laurier University'),
-      SearchItem(59, "York University"),
-      SearchItem(60, 'University of Prince Edward Island'),
-      SearchItem(61, "Bishop's University"),
-      SearchItem(62, 'Concordia University'),
-      SearchItem(63, 'University of Regina'),
-      SearchItem(64, "University of Saskatchewan"),
-      SearchItem(65, "The King's University"),
-      SearchItem(66, "HEC Montréal"),
-      SearchItem(67, 'Concordia University of Edmonton'),
-      SearchItem(68, 'McGill University'),
-      SearchItem(69, "Université de Montréal"),
-    ];
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -483,229 +246,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
     return ListView(
       children: <Widget>[
         Column(children: <Widget>[
-          // Container(
-          //   color: Colors.white,
-          //   height: screenH(310),
-          //   width: screenW(600),
-          //   child: Column(
-          //     children: <Widget>[
-          //       SizedBox(
-          //         height: screenH(30),
-          //       ),
-          //       Container(
-          //         height: screenH(250),
-          //         width: screenW(370),
-          //         decoration: BoxDecoration(
-          //             boxShadow: [
-          //               BoxShadow(
-          //                   color: Colors.black.withOpacity(0.35),
-          //                   blurRadius: (15),
-          //                   spreadRadius: (5),
-          //                   offset: Offset(0, 5)),
-          //             ],
-          //             color: Colors.white,
-          //             borderRadius: BorderRadius.all(Radius.circular(15))),
-          //         child: socialCardId == null
-          //             ? CircularProgressIndicator()
-          //             : Column(
-          //                 children: <Widget>[
-          //                   SizedBox(
-          //                     height: screenH(20),
-          //                   ),
-          //                   Row(
-          //                     children: <Widget>[
-          //                       SizedBox(
-          //                         width: screenW(20),
-          //                       ),
-          //                       Column(
-          //                         crossAxisAlignment:
-          //                             CrossAxisAlignment.start,
-          //                         children: <Widget>[
-          //                           name != null
-          //                               ? Text(name,
-          //                                   style: TextStyle(
-          //                                     fontSize: screenF(18),
-          //                                   ))
-          //                               : SizedBox(height: screenH(1)),
-          //                           SizedBox(
-          //                             height: screenH(2),
-          //                           ),
-          //                           university != null
-          //                               ? Text(university,
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Colors.purple))
-          //                               : SizedBox(height: screenH(1)),
-          //                           SizedBox(
-          //                             height: screenH(2),
-          //                           ),
-          //                           major != null && gradYear != null
-          //                               ? Text(major + ", " + gradYear,
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Colors.grey))
-          //                               : Text(major != null ? major : "",
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Colors.grey)),
-          //                           email != null
-          //                               ? Text(email,
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Colors.grey))
-          //                               : SizedBox(height: screenH(1))
-          //                         ],
-          //                       ),
-          //                       SizedBox(
-          //                         width: screenW(50),
-          //                       ),
-          //                       Column(
-          //                         children: <Widget>[
-          //                           photoUrl != null
-          //                               ? CircleAvatar(
-          //                                   backgroundImage:
-          //                                       NetworkImage(photoUrl),
-          //                                   radius: 21,
-          //                                 )
-          //                               : CircularProgressIndicator(),
-          //                           FlatButton(
-          //                             onPressed: () {
-          //                               setImage();
-          //                             },
-          //                             color: Colors.transparent,
-          //                             child: Row(
-          //                               children: <Widget>[
-          //                                 Icon(
-          //                                   Icons.edit,
-          //                                   size: 12,
-          //                                   color: Colors.blueAccent[700],
-          //                                 ),
-          //                                 SizedBox(
-          //                                   width: 2,
-          //                                 ),
-          //                                 Text(
-          //                                   "Edit",
-          //                                   textAlign: TextAlign.left,
-          //                                   style: TextStyle(
-          //                                       fontSize: 12,
-          //                                       color:
-          //                                           Colors.blueAccent[700]),
-          //                                 ),
-          //                               ],
-          //                             ),
-          //                           )
-          //                         ],
-          //                       ),
-
-          //                       // IconButton(
-          //                       //   onPressed: () {},
-          //                       //   color: Colors.black,
-          //                       //   icon: Icon(Icons.create),
-          //                       // )
-          //                     ],
-          //                   ),
-          //                   Padding(
-          //                     padding: EdgeInsets.symmetric(
-          //                         horizontal: screenW(30.0)),
-          //                     child: Row(
-          //                       mainAxisAlignment:
-          //                           MainAxisAlignment.spaceBetween,
-          //                       children: <Widget>[
-          //                         snapchat != null
-          //                             ? isSwitched == true
-          //                                 ? Column(
-          //                                     children: <Widget>[
-          //                                       Icon(
-          //                                         FontAwesome.snapchat_square,
-          //                                         color: Color(0xFFfffc00),
-          //                                       ),
-          //                                       SizedBox(
-          //                                         width: screenW(10),
-          //                                       ),
-          //                                       Text(snapchat,
-          //                                           style: TextStyle(
-          //                                               color: Colors.black,
-          //                                               fontSize:
-          //                                                   screenF(12))),
-          //                                     ],
-          //                                   )
-          //                                 : SizedBox(
-          //                                     height: screenH(1),
-          //                                   )
-          //                             : SizedBox(
-          //                                 height: screenH(1),
-          //                               ),
-          //                         instagram != null
-          //                             ? isSwitched == true
-          //                                 ? Column(
-          //                                     children: <Widget>[
-          //                                       Icon(
-          //                                         MaterialCommunityIcons
-          //                                             .instagram,
-          //                                         color: Color(0xFF8803fc),
-          //                                       ),
-          //                                       SizedBox(
-          //                                         width: screenW(10),
-          //                                       ),
-          //                                       Text(instagram,
-          //                                           style: TextStyle(
-          //                                               color: Colors.black,
-          //                                               fontSize:
-          //                                                   screenF(12))),
-          //                                     ],
-          //                                   )
-          //                                 : SizedBox(
-          //                                     height: screenH(1),
-          //                                   )
-          //                             : SizedBox(
-          //                                 height: screenH(1),
-          //                               ),
-          //                         twitter != null
-          //                             ? isSwitched == true
-          //                                 ? Column(
-          //                                     children: <Widget>[
-          //                                       Icon(
-          //                                         MaterialCommunityIcons
-          //                                             .twitter_box,
-          //                                         color: Colors.blue,
-          //                                       ),
-          //                                       Text(twitter,
-          //                                           style: TextStyle(
-          //                                               color: Colors.black,
-          //                                               fontSize:
-          //                                                   screenF(12))),
-          //                                     ],
-          //                                   )
-          //                                 : SizedBox(
-          //                                     height: screenH(1),
-          //                                   )
-          //                             : SizedBox(
-          //                                 height: screenH(1),
-          //                               )
-          //                       ],
-          //                     ),
-          //                   ),
-          //                   SizedBox(
-          //                     height: screenH(25),
-          //                   ),
-          //                   Row(
-          //                     children: <Widget>[
-          //                       SizedBox(width: 20.0),
-          //                       Text(
-          //                           interestString != null
-          //                               ? interestString
-          //                               : "",
-          //                           style: TextStyle(
-          //                               color: Color(0xFF8803fc),
-          //                               fontSize: screenF(13)))
-          //                     ],
-          //                   )
-          //                 ],
-          //               ),
-          //       )
-          //     ],
-          //   ),
-          // ),
           Container(
               color: Colors.white,
               height: MediaQuery.of(context).size.height,
@@ -724,10 +264,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                           ),
                           photoUrl != null
                               ? CircleAvatar(
-    radius: screenH(45),
-    backgroundImage: CachedNetworkImageProvider(
-    photoUrl
-    ))
+                                  radius: screenH(45),
+                                  backgroundImage:
+                                      CachedNetworkImageProvider(photoUrl))
                               : CircularProgressIndicator(),
                           SizedBox(
                             width: screenW(20),
@@ -777,256 +316,20 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       SizedBox(
                         height: screenH(10),
                       ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Name',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     name = value;
-//                                   });
-//                                 }
-//                               },
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                       width: screenW(70),
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Email',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     email = value;
-//                                   });
-//                                 }
-//                               },
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'University',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Padding(
-//                       padding: EdgeInsets.all(20),
-//                       child: Align(
-//                         alignment: Alignment.topLeft,
-//                         child: Container(
-//                           width: 800,
-//                           height: 70,
-//                           color: Colors.white,
-//                           child: FlutterSearchPanel<int>(
-//                             padding: EdgeInsets.all(10.0),
-//                             selected: 0,
-//                             title: 'Select University',
-//                             data: data2,
-//                             icon: new Icon(Icons.school, color: Colors.black),
-//                             color: Color(0xFFECE9E4),
-//                             textStyle: new TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 15.0,
-//                             ),
-//                             onChanged: (int value) {
-//                               if (value != null) {
-//                                 setState(() {
-//                                   university = data2[value].text;
-//                                 });
-//                               }
-//                             },
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Program',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     major = value;
-//                                   });
-//                                 }
-//                               },
-// //
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Grad Year',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     major = major + ', ' + value;
-//                                   });
-//                                 }
-//                               },
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
-
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: <Widget>[
                             Theme(
-                              // data: theme.copyWith(primaryColor: Colors.black),
                               data: new ThemeData(
                                   primaryColor: Colors.black,
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
+                                  inputFormatters: [
+                                    BlacklistingTextInputFormatter(
+                                        RegExp("[ ]"))
+                                  ],
                                   onChanged: (value) {
                                     if (value != null) {
                                       setState(() {
@@ -1071,7 +374,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       SizedBox(
                         height: 20.0,
                       ),
-
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
@@ -1083,7 +385,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
+                                inputFormatters: [
+                                  BlacklistingTextInputFormatter(RegExp("[ ]"))
+                                ],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -1129,7 +433,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       SizedBox(
                         height: 20.0,
                       ),
-
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
@@ -1141,7 +444,9 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
+                                inputFormatters: [
+                                  BlacklistingTextInputFormatter(RegExp("[ ]"))
+                                ],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -1185,36 +490,6 @@ class _SocialCardEditState extends State<SocialCardEdit> {
                       SizedBox(
                         height: screenH(20.0),
                       ),
-//                      new OutlineButton(
-//                          padding: EdgeInsets.all(screenH(16)),
-//                          color: Color(0xFF8803fc),
-//                          child: new Text(
-//                            "Choose 3 social interest tags",
-//                            style: TextStyle(
-//                                color: Color(0xFF8803fc),
-//                                fontSize: screenF(16)),
-//                          ),
-//                          onPressed: () async {
-//                            DocumentSnapshot doc = await Firestore.instance
-//                                .collection('variableData')
-//                                .document('interests')
-//                                .get();
-//                            List<dynamic> socialInterests =
-//                                doc['socialInterests'];
-//                            setState(() {
-//                              for (int i = 0; i < socialInterests.length; i++) {
-//                                interestList.add(
-//                                    new SocialInterestTile(socialInterests[i]));
-//                              }
-//                            });
-//                            showSearch(
-//                                context: context, delegate: SocialDataSearch());
-//                          },
-//                          shape: new RoundedRectangleBorder(
-//                              side: BorderSide(
-//                                color: Color(0xFF1458EA),
-//                              ),
-//                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),
@@ -1385,9 +660,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
       'socialToggled': isSwitched2,
       'email': email
     });
-
-
-
   }
 
   Future<void> uploadImage() async {
@@ -1470,107 +742,11 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     )..show(context);
   }
 
-  Widget _buildAddButton() {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20.0)),
-        color: Colors.purple[400],
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Icon(
-            Icons.add,
-            color: Colors.white,
-            size: 15.0,
-          ),
-          Text(
-            "Request new tag",
-            style: TextStyle(color: Colors.white, fontSize: 14.0),
-          ),
-        ],
-      ),
-    );
-  }
-
   String text = "Nothing to show";
   bool isSwitched2 = true;
 
   @override
   Widget build(BuildContext context) {
-    List<SearchItem<int>> data2 = [
-      SearchItem(0, 'Please select your university'),
-      SearchItem(1, 'Athabasca University'),
-      SearchItem(2, 'MacEwan University'),
-      SearchItem(3, 'Mount Royal University'),
-      SearchItem(4, 'University of Alberta'),
-      SearchItem(5, 'University of Calgary'),
-      SearchItem(6, 'University of Lethbridge'),
-      SearchItem(7, 'Capilano University'),
-      SearchItem(8, 'Emily Carr University of Art and Design'),
-      SearchItem(9, 'Kwantlen Polytechnic University'),
-      SearchItem(10, 'Royal Roads University'),
-      SearchItem(11, 'Simon Fraser University'),
-      SearchItem(12, 'Thompson Rivers University'),
-      SearchItem(13, 'University of British Columbia'),
-      SearchItem(14, 'University of Victoria'),
-      SearchItem(15, 'University of the Fraser Valley'),
-      SearchItem(16, 'University of Northern British Columbia'),
-      SearchItem(17, 'Vancouver Island University'),
-      SearchItem(18, 'Brandon University'),
-      SearchItem(19, 'University College of the North'),
-      SearchItem(20, 'University of Manitoba'),
-      SearchItem(21, 'University of Winnipeg'),
-      SearchItem(22, 'Université de Saint-Boniface'),
-      SearchItem(23, 'Mount Allison University'),
-      SearchItem(24, 'St. Thomas University'),
-      SearchItem(25, 'University of New Brunswick'),
-      SearchItem(26, 'Université de Moncton'),
-      SearchItem(27, 'Memorial University of Newfoundland'),
-      SearchItem(28, 'Acadia University'),
-      SearchItem(29, 'Cape Breton University'),
-      SearchItem(30, 'Dalhousie University'),
-      SearchItem(31, "University of King's College"),
-      SearchItem(32, 'Mount Saint Vincent University'),
-      SearchItem(33, 'Saint Francis Xavier University'),
-      SearchItem(34, "Saint Mary's University"),
-      SearchItem(35, 'Université Sainte-Anne'),
-      SearchItem(36, "Algoma University"),
-      SearchItem(37, 'Brock University'),
-      SearchItem(38, 'Carleton University'),
-      SearchItem(39, "Dominican University College"),
-      SearchItem(40, 'Lakehead University'),
-      SearchItem(41, "Laurentian University"),
-      SearchItem(42, 'McMaster University'),
-      SearchItem(43, 'Nipissing University'),
-      SearchItem(44, "OCAD University"),
-      SearchItem(45, "Queen's University"),
-      SearchItem(46, "Saint Paul University"),
-      SearchItem(47, 'Royal Military College of Canada'),
-      SearchItem(48, 'Ryerson University'),
-      SearchItem(49, "Trent University"),
-      SearchItem(50, 'University of Guelph'),
-      SearchItem(51, "University of Ontario Institute of Technology"),
-      SearchItem(52, 'University of Ottawa'),
-      SearchItem(53, 'University of Toronto'),
-      SearchItem(54, "Huron University College"),
-      SearchItem(55, 'University of Waterloo'),
-      SearchItem(56, "Western University"),
-      SearchItem(57, 'University of Windsor'),
-      SearchItem(58, 'Wilfrid Laurier University'),
-      SearchItem(59, "York University"),
-      SearchItem(60, 'University of Prince Edward Island'),
-      SearchItem(61, "Bishop's University"),
-      SearchItem(62, 'Concordia University'),
-      SearchItem(63, 'University of Regina'),
-      SearchItem(64, "University of Saskatchewan"),
-      SearchItem(65, "The King's University"),
-      SearchItem(66, "HEC Montréal"),
-      SearchItem(67, 'Concordia University of Edmonton'),
-      SearchItem(68, 'McGill University'),
-      SearchItem(69, "Université de Montréal"),
-    ];
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -1581,223 +757,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
     return ListView(
       children: <Widget>[
         Column(children: <Widget>[
-          // Container(
-          //   color: Colors.white,
-          //   height: screenH(310),
-          //   width: screenW(600),
-          //   child: Column(
-          //     children: <Widget>[
-          //       SizedBox(
-          //         height: screenH(30),
-          //       ),
-          //       Container(
-          //         height: screenH(250),
-          //         width: screenW(370),
-          //         decoration: BoxDecoration(
-          //             boxShadow: [
-          //               BoxShadow(
-          //                   color: Colors.black.withOpacity(0.35),
-          //                   blurRadius: (15),
-          //                   spreadRadius: (5),
-          //                   offset: Offset(0, 5)),
-          //             ],
-          //             color: Colors.white,
-          //             borderRadius: BorderRadius.all(Radius.circular(15))),
-          //         child: profCardId == null
-          //             ? CircularProgressIndicator()
-          //             : Column(
-          //                 children: <Widget>[
-          //                   SizedBox(
-          //                     height: screenH(20),
-          //                   ),
-          //                   Row(
-          //                     children: <Widget>[
-          //                       SizedBox(
-          //                         width: screenW(20),
-          //                       ),
-          //                       Column(
-          //                         crossAxisAlignment:
-          //                             CrossAxisAlignment.start,
-          //                         children: <Widget>[
-          //                           name != null
-          //                               ? Text(name,
-          //                                   style: TextStyle(
-          //                                     fontSize: screenF(18),
-          //                                   ))
-          //                               : SizedBox(height: screenH(1)),
-          //                           SizedBox(
-          //                             height: screenH(2),
-          //                           ),
-          //                           university != null
-          //                               ? Text(university,
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Color(0xFF1976d2)))
-          //                               : SizedBox(height: screenH(1)),
-          //                           SizedBox(
-          //                             height: screenH(2),
-          //                           ),
-          //                           major != null && gradYear != null
-          //                               ? Text(major + ", " + gradYear,
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Colors.grey))
-          //                               : Text(major != null ? major : "",
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Colors.grey)),
-          //                           email != null
-          //                               ? Text(email,
-          //                                   style: TextStyle(
-          //                                       fontSize: screenF(13),
-          //                                       color: Colors.grey))
-          //                               : SizedBox(height: screenH(1))
-          //                         ],
-          //                       ),
-          //                       SizedBox(
-          //                         width: screenW(50),
-          //                       ),
-          //                       Column(
-          //                         children: <Widget>[
-          //                           photoUrl != null
-          //                               ? CircleAvatar(
-          //                                   backgroundImage:
-          //                                       NetworkImage(photoUrl),
-          //                                   radius: 21,
-          //                                 )
-          //                               : CircularProgressIndicator(),
-          //                           FlatButton(
-          //                             onPressed: () {
-          //                               setImage();
-          //                             },
-          //                             color: Colors.transparent,
-          //                             child: Row(
-          //                               children: <Widget>[
-          //                                 Icon(
-          //                                   Icons.edit,
-          //                                   size: 12,
-          //                                   color: Colors.blueAccent[700],
-          //                                 ),
-          //                                 SizedBox(
-          //                                   width: 2,
-          //                                 ),
-          //                                 Text(
-          //                                   "Edit",
-          //                                   textAlign: TextAlign.left,
-          //                                   style: TextStyle(
-          //                                       fontSize: 12,
-          //                                       color:
-          //                                           Colors.blueAccent[700]),
-          //                                 ),
-          //                               ],
-          //                             ),
-          //                           )
-          //                         ],
-          //                       ),
-          //                     ],
-          //                   ),
-          //                   Padding(
-          //                     padding: EdgeInsets.symmetric(
-          //                         horizontal: screenW(30.0)),
-          //                     child: Row(
-          //                       mainAxisAlignment:
-          //                           MainAxisAlignment.spaceBetween,
-          //                       children: <Widget>[
-          //                         linkedIn != null
-          //                             ? isSwitched2 == true
-          //                                 ? Column(
-          //                                     children: <Widget>[
-          //                                       Icon(
-          //                                         FontAwesome.linkedin_square,
-          //                                         color: Color(0xFF0077B5),
-          //                                       ),
-          //                                       SizedBox(
-          //                                         width: screenW(10),
-          //                                       ),
-          //                                       Text(linkedIn,
-          //                                           style: TextStyle(
-          //                                               color: Colors.black,
-          //                                               fontSize:
-          //                                                   screenF(12))),
-          //                                     ],
-          //                                   )
-          //                                 : SizedBox(
-          //                                     height: screenH(1),
-          //                                   )
-          //                             : SizedBox(
-          //                                 height: screenH(1),
-          //                               ),
-          //                         github != null
-          //                             ? isSwitched2 == true
-          //                                 ? Column(
-          //                                     children: <Widget>[
-          //                                       Icon(
-          //                                         MaterialCommunityIcons
-          //                                             .github_box,
-          //                                         color: Colors.black,
-          //                                       ),
-          //                                       SizedBox(
-          //                                         width: screenW(10),
-          //                                       ),
-          //                                       Text(github,
-          //                                           style: TextStyle(
-          //                                               color: Colors.black,
-          //                                               fontSize:
-          //                                                   screenF(12))),
-          //                                     ],
-          //                                   )
-          //                                 : SizedBox(
-          //                                     height: screenH(1),
-          //                                   )
-          //                             : SizedBox(
-          //                                 height: screenH(1),
-          //                               ),
-          //                         twitter != null
-          //                             ? isSwitched2 == true
-          //                                 ? Column(
-          //                                     children: <Widget>[
-          //                                       Icon(
-          //                                         MaterialCommunityIcons
-          //                                             .twitter_box,
-          //                                         color: Colors.blue,
-          //                                       ),
-          //                                       Text(twitter,
-          //                                           style: TextStyle(
-          //                                               color: Colors.black,
-          //                                               fontSize:
-          //                                                   screenF(12))),
-          //                                     ],
-          //                                   )
-          //                                 : SizedBox(
-          //                                     height: screenH(1),
-          //                                   )
-          //                             : SizedBox(
-          //                                 height: screenH(1),
-          //                               )
-          //                       ],
-          //                     ),
-          //                   ),
-          //                   SizedBox(
-          //                     height: screenH(25),
-          //                   ),
-          //                   Row(
-          //                     children: <Widget>[
-          //                       SizedBox(width: 20.0),
-          //                       Text(
-          //                           interestString != null
-          //                               ? interestString
-          //                               : "",
-          //                           style: TextStyle(
-          //                               color: Color(0xFF1976d2),
-          //                               fontSize: screenF(13)))
-          //                     ],
-          //                   )
-          //                 ],
-          //               ),
-          //       )
-          //     ],
-          //   ),
-          // ),
           Container(
               color: Colors.white,
               height: MediaQuery.of(context).size.height,
@@ -1816,25 +775,21 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                             width: screenW(20),
                           ),
                           GestureDetector(
-                            onTap:(
-                                ){
-                              if(photoUrl!=null){
+                            onTap: () {
+                              if (photoUrl != null) {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (context) =>
-                                            LargePic(
+                                        builder: (context) => LargePic(
                                               largePic: photoUrl,
-                                            )
-                                    ));
+                                            )));
                               }
                             },
-                            child: photoUrl != null?
-                            CircleAvatar(
-                            radius: screenH(45),
-                            backgroundImage: CachedNetworkImageProvider(
-                            photoUrl
-                            ))
+                            child: photoUrl != null
+                                ? CircleAvatar(
+                                    radius: screenH(45),
+                                    backgroundImage:
+                                        CachedNetworkImageProvider(photoUrl))
                                 : CircularProgressIndicator(),
                           ),
                           SizedBox(
@@ -1879,285 +834,22 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                           ),
                         ],
                       ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Name',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     name = value;
-//                                   });
-//                                 }
-//                               },
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                       width: screenW(70),
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Email',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     email = value;
-//                                   });
-//                                 }
-//                               },
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
-
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'University',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Padding(
-//                       padding: EdgeInsets.all(20),
-//                       child: Align(
-//                         alignment: Alignment.topLeft,
-//                         child: Container(
-//                           width: 800,
-//                           height: 70,
-//                           color: Colors.white,
-//                           child: FlutterSearchPanel<int>(
-//                             padding: EdgeInsets.all(10.0),
-//                             selected: 0,
-//                             title: 'Select University',
-//                             data: data2,
-//                             icon: new Icon(Icons.school, color: Colors.black),
-//                             color: Color(0xFFECE9E4),
-//                             textStyle: new TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 15.0,
-//                             ),
-//                             onChanged: (int value) {
-//                               if (value != null) {
-//                                 setState(() {
-//                                   university = data2[value].text;
-//                                 });
-//                               }
-//                             },
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                     // Container(
-//                     //   margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                     //   child: Column(
-//                     //     children: <Widget>[
-//                     //       Theme(
-//                     //         // data: theme.copyWith(primaryColor: Colors.black),
-//                     //         data: new ThemeData(
-//                     //             primaryColor: Colors.black,
-//                     //             accentColor: Colors.black,
-//                     //             hintColor: Colors.black),
-//                     //         child: TextField(
-//                     //           decoration: InputDecoration(
-//                     //               border: new UnderlineInputBorder(
-//                     //                   borderSide:
-//                     //                       new BorderSide(color: Colors.black))),
-//                     //           style: TextStyle(fontSize: 18, color: Colors.grey),
-//                     //           cursorColor: Colors.black,
-//                     //         ),
-//                     //       )
-//                     //     ],
-//                     //   ),
-//                     // ),
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Program',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     major = value;
-//                                   });
-//                                 }
-//                               },
-// //
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-
-//                     SizedBox(
-//                       height: 20.0,
-//                     ),
-//                     Row(
-//                       children: <Widget>[
-//                         SizedBox(
-//                           width: 20,
-//                         ),
-//                         Text(
-//                           'Grad Year',
-//                           style: TextStyle(
-//                               color: Colors.black,
-//                               fontSize: 18,
-//                               fontWeight: FontWeight.bold),
-//                         ),
-//                       ],
-//                     ),
-//                     Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 20.0),
-//                       child: Column(
-//                         children: <Widget>[
-//                           Theme(
-//                             // data: theme.copyWith(primaryColor: Colors.black),
-//                             data: new ThemeData(
-//                                 primaryColor: Colors.black,
-//                                 accentColor: Colors.black,
-//                                 hintColor: Colors.black),
-//                             child: TextField(
-//                               onSubmitted: (value) {
-//                                 if (value != '' && value != null) {
-//                                   setState(() {
-//                                     major = major + ', ' + value;
-//                                   });
-//                                 }
-//                               },
-// //
-//                               decoration: InputDecoration(
-//                                   border: new UnderlineInputBorder(
-//                                       borderSide:
-//                                           new BorderSide(color: Colors.black))),
-//                               style:
-//                                   TextStyle(fontSize: 18, color: Colors.grey),
-//                               cursorColor: Colors.black,
-//                             ),
-//                           )
-//                         ],
-//                       ),
-//                     ),
                       SizedBox(
                         height: 10.0,
                       ),
-
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: <Widget>[
                             Theme(
-                              // data: theme.copyWith(primaryColor: Colors.black),
                               data: new ThemeData(
                                   primaryColor: Colors.black,
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
+                                inputFormatters: [
+                                  BlacklistingTextInputFormatter(RegExp("[ ]"))
+                                ],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2202,19 +894,19 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                       SizedBox(
                         height: 20.0,
                       ),
-
                       Container(
                         margin: EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: <Widget>[
                             Theme(
-                              // data: theme.copyWith(primaryColor: Colors.black),
                               data: new ThemeData(
                                   primaryColor: Colors.black,
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
+                                inputFormatters: [
+                                  BlacklistingTextInputFormatter(RegExp("[ ]"))
+                                ],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2263,13 +955,14 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                         child: Column(
                           children: <Widget>[
                             Theme(
-                              // data: theme.copyWith(primaryColor: Colors.black),
                               data: new ThemeData(
                                   primaryColor: Colors.black,
                                   accentColor: Colors.black,
                                   hintColor: Colors.black),
                               child: TextField(
-                                inputFormatters: [BlacklistingTextInputFormatter(RegExp("[ ]"))],
+                                inputFormatters: [
+                                  BlacklistingTextInputFormatter(RegExp("[ ]"))
+                                ],
                                 onChanged: (value) {
                                   if (value != null) {
                                     setState(() {
@@ -2314,32 +1007,6 @@ class _ProfessionalCardEditState extends State<ProfessionalCardEdit> {
                       SizedBox(
                         height: screenH(20.0),
                       ),
-//                      new OutlineButton(
-//                          padding: EdgeInsets.all(screenH(16)),
-//                          color: Color(0xFF1458EA),
-//                          child: new Text(
-//                            "Choose 3 professional interest tags",
-//                            style: TextStyle(
-//                                color: Color(0xFF1458EA), fontSize: 15),
-//                          ),
-//                          onPressed: () async {
-//                            DocumentSnapshot doc = await Firestore.instance
-//                                .collection('variableData')
-//                                .document('interests')
-//                                .get();
-//                            List<dynamic> profInterests = doc['profInterests'];
-//                            setState(() {
-//                              for (int i = 0; i < profInterests.length; i++) {
-//                                profInterestList.add(
-//                                    new ProfInterestTile(profInterests[i]));
-//                              }
-//                            });
-//
-//                            showSearch(
-//                                context: context, delegate: ProfDataSearch());
-//                          },
-//                          shape: new RoundedRectangleBorder(
-//                              borderRadius: new BorderRadius.circular(30.0))),
                     ]),
                     SizedBox(
                       height: screenH(20.0),

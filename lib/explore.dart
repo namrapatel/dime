@@ -64,6 +64,7 @@ class _ExploreState extends State<Explore> {
 
       for (var user in allUsers) {
         if (user['userData']['displayName']
+            .toString()
             .toLowerCase()
             .startsWith(standardValue)) {
           setState(() {
@@ -81,9 +82,9 @@ class _ExploreState extends State<Explore> {
 
       for (var user in allUsers) {
         if (user['userData']['displayName']
+            .toString()
             .toLowerCase()
             .startsWith(standardValue)) {
-          print("IM HERE");
           setState(() {
             tempSearchStore.add(user);
             queryResultSet.add(user);
@@ -371,7 +372,6 @@ class _ExploreState extends State<Explore> {
             userMap['userId'] = docs.documents[i].documentID;
 //          tempSet.add(docs.documents[i].data);
             tempSet.add(userMap);
-            print(docs.documents[i].documentID);
           }
           setState(() {
             tempSearchStore = tempSet;
@@ -585,7 +585,7 @@ class _ExploreState extends State<Explore> {
             child: CircleAvatar(
                 radius: screenH(30),
                 backgroundImage:
-                CachedNetworkImageProvider(data['userData']['photoUrl'])),
+                CachedNetworkImageProvider(data['userData']['photoUrl'].toString())),
           ),
           data['userData']['relationshipStatus'] != null
               ? Positioned(
@@ -617,7 +617,7 @@ class _ExploreState extends State<Explore> {
           Container(
             width: MediaQuery.of(context).size.width / 2.4,
             child: AutoSizeText(
-              data['userData']['displayName'],
+              data['userData']['displayName'].toString(),
               // style: TextStyle(color: Color(0xFF1458EA), fontSize: 13),
               minFontSize: 15,
               maxLines: 1,

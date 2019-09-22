@@ -100,28 +100,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/login_logo.png
-    - assets/namrapatel.png
-    - assets/dimelogo.png
-    - assets/dimelogo1.png
-    - assets/dimewhite.png
-    - assets/shehabsalem.jpeg
-    - assets/taher.jpeg
     - assets/defaultprofile.png
-    - assets/dhruvpatel.jpeg
-    - assets/groupselfie.png
     - assets/friendsDrawing.png
     - assets/improvingDrawing.png
-    - assets/nearbyUI.png
-    - assets/mapsUI.png
-    - assets/profPageUI.png
-    - assets/socialAndProfCard.png
     - assets/white.png
-    - assets/pplNearbyUI.png
     - assets/undraw_peoplearoundyou.png
     - assets/undraw_messages.png
     - assets/feeds.png
-    - assets/DimeLogoBlue.png
-    - assets/Dime3Colors.png
     - assets/GroupDimeTransparent.png
     - assets/darkpeoplearoundyou.png
     - assets/clickablecards.png

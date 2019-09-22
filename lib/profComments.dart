@@ -1,15 +1,10 @@
-import 'package:Dime/EditCardsScreen.dart';
-import 'package:Dime/socialPage.dart' as prefix0;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'models/commentTags.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'homePage.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'models/comment.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:Dime/profPage.dart';
 
 class ProfComments extends StatefulWidget {
   final String postId, stream;
@@ -22,68 +17,14 @@ class ProfComments extends StatefulWidget {
 class _ProfCommentsState extends State<ProfComments> {
   final String postId;
   final String stream;
-//  String university;
+
   _ProfCommentsState(this.postId, this.stream);
-  GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
-  List<UserTag> suggestions = [
-    // UserTag(
-    //   id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',
-    //   photo:
-    //       "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",
-    //   name: "Shehab Salem",
-    // )
-//    "Apple",
-//    "Armidillo",
-//    "Actual",
-//    "Actuary",
-//    "America",
-//    "Argentina",
-//    "Australia",
-//    "Antarctica",
-//    "Blueberry",
-//    "Cheese",
-//    "Danish",
-//    "Eclair",
-//    "Fudge",
-//    "Granola",
-//    "Hazelnut",
-//    "Ice Cream",
-//    "Jely",
-//    "Kiwi Fruit",
-//    "Lamb",
-//    "Macadamia",
-//    "Nachos",
-//    "Oatmeal",
-//    "Palm Oil",
-//    "Quail",
-//    "Rabbit",
-//    "Salad",
-//    "T-Bone Steak",
-//    "Urid Dal",
-//    "Vanilla",
-//    "Waffles",
-//    "Yam",
-//    "Zest"
-  ];
 
   @override
   void initState() {
     super.initState();
-//    getPostUni();
   }
-
-//  getPostUni() async {
-//    DocumentSnapshot query = await Firestore.instance
-//        .collection('streams')
-//        .document(stream)
-//        .collection('posts')
-//        .document(postId)
-//        .get();
-//    setState(() {
-//      university = query['university'];
-//    });
-//  }
 
   getAllUsers() async {
     QuerySnapshot users =
@@ -207,7 +148,7 @@ class _ProfCommentsState extends State<ProfComments> {
                       padding: EdgeInsets.symmetric(
                           horizontal: MediaQuery.of(context).size.width / 22,
                           vertical: MediaQuery.of(context).size.height / 72),
-                      child: SimpleAutoCompleteTextField(
+                      child: TextField(
                         textCapitalization: TextCapitalization.sentences,
                         // key: key,
                         decoration: new InputDecoration(
@@ -222,8 +163,6 @@ class _ProfCommentsState extends State<ProfComments> {
                             hintText: 'Enter Comment',
                             hintStyle: TextStyle(color: Colors.grey)),
                         controller: controller,
-//                        suggestions: suggestions,
-                        clearOnSubmit: false,
                       ),
                     ),
                   ),
@@ -269,7 +208,6 @@ class _ProfCommentsState extends State<ProfComments> {
                                 'type': 'prof',
                                 'postId': postId,
                                 'stream': stream,
-//                              'commentId':docName,
                                 'commenterId': currentUserModel.uid,
                                 'commenterName': currentUserModel.displayName,
                                 'commenterPhoto': currentUserModel.photoUrl,
@@ -351,26 +289,3 @@ class _ProfCommentsState extends State<ProfComments> {
   }
 }
 
-class UserTag extends StatelessWidget {
-  final String id, name, photo;
-
-  const UserTag({this.id, this.name, this.photo});
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.all(15),
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(photo),
-        radius: screenH(25),
-      ),
-      title: Row(
-        children: <Widget>[
-          Text(
-            name,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-}

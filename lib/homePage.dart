@@ -685,7 +685,6 @@ class _ScrollPageState extends State<ScrollPage>
                   },
                   icon: Icon(
                     Feather.message_circle,
-                    size: MediaQuery.of(context).size.height / 38,
                     color: Colors.white,
                   ),
                 ),

@@ -41,15 +41,17 @@ class _SocialTabsState extends State<SocialTabs> with AutomaticKeepAliveClientMi
           backgroundColor: Color(0xFF8803fc),
           title: Container(
             width: MediaQuery.of(context).size.width / 1.55,
-            child: AutoSizeText(
-              university != null ? university : "Whoops!",
-              style: TextStyle(
-                  fontSize: 25,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-              minFontSize: 12,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+            child: Center(
+              child: AutoSizeText(
+                university != null ? university : "Whoops!",
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+                minFontSize: 12,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ),
           bottom: TabBar(

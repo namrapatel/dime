@@ -26,6 +26,7 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
   final String userId, type, userName;
   bool liked=false;
+  bool likedBack=false;
   _UserCardState(this.userId, this.type, this.userName);
 
   final screenH = ScreenUtil.instance.setHeight;
@@ -43,12 +44,20 @@ class _UserCardState extends State<UserCard> {
     super.dispose();
   }
   getLikeStatus() async{
+
     DocumentSnapshot document= await Firestore.instance.collection('users').document(userId).get();
     if(document['likedBy'].contains(currentUserModel.uid)) {
       setState(() {
         liked=true;
       });
     }
+    DocumentSnapshot myDoc= await Firestore.instance.collection('users').document(currentUserModel.uid).get();
+    if(myDoc['likedBy'].contains(userId)) {
+      setState(() {
+        likedBack=true;
+      });
+    }
+
   }
 
   Future getRecentActivity() async {
@@ -136,6 +145,19 @@ class _UserCardState extends State<UserCard> {
               // ),
               currentUserModel.uid != userId
                   ? Row(children: <Widget>[
+                (liked==true && likedBack==true)? IconButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        CupertinoPageRoute(builder: (context) => Chat(toUserId:userId,fromUserId: currentUserModel.uid,)));
+                  },
+                  icon: Icon(
+                    Feather.message_circle,
+                    size: screenH(25),
+                    color:Colors.white,
+
+                  ),
+                ):
+
                       IconButton(
                           onPressed: () {
         if(liked==false){

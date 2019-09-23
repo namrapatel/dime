@@ -145,7 +145,7 @@ class _ChatState extends State<Chat> {
                           context,
                           CupertinoPageRoute(
                               builder: (context) => LargePic(
-                                    largePic: "photoUrl",
+                                    largePic: toUserPhoto,
                                   )));
                     },
                     child: CircleAvatar(

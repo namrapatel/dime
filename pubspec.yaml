@@ -24,7 +24,6 @@ dev_dependencies:
   geoflutterfire: ^2.0.3+5
   grouped_buttons:
   flutter_search_panel:
-  fancy_on_boarding:
   page_transition:
   flutter_test:
     sdk: flutter
@@ -33,7 +32,7 @@ dev_dependencies:
   firebase_storage:
   shared_preferences: ^0.5.1+2
   modal_progress_hud: ^0.1.3
-  flutter_facebook_login:
+  flutter_facebook_login: ^3.0.0
   timeago: ^2.0.18
   image_picker: ^0.6.1+3
   queries: ^0.1.12

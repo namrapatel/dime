@@ -172,7 +172,7 @@ class _LikeNotifState extends State<LikeNotif> {
                       ? "Someone just liked you!"
                       : name + " just liked you!",
                   style: TextStyle(fontWeight: FontWeight.bold),
-                  minFontSize: 15,
+                  minFontSize: 12,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -223,37 +223,38 @@ class _LikeNotifState extends State<LikeNotif> {
                             setState(() {
                               liked = true;
                             });
-                              List<String> myId = [];
-                              myId.add(currentUserModel.uid);
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(currentUserModel.uid)
-                                  .collection('likes')
-                                  .document(id)
-                                  .updateData({'liked': true});
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(id)
-                                  .updateData(
-                                      {'likedBy': FieldValue.arrayUnion(myId)});
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(id)
-                                  .collection('likes')
-                                  .document(currentUserModel.uid)
-                                  .setData({
-                                'unread': true,
-                                'timestamp': Timestamp.now(),
-                                'liked': true,
-                                'likeType': type
-                              }, merge: true);
-                            List<String> theirId=[];
+                            List<String> myId = [];
+                            myId.add(currentUserModel.uid);
+                            Firestore.instance
+                                .collection('users')
+                                .document(currentUserModel.uid)
+                                .collection('likes')
+                                .document(id)
+                                .updateData({'liked': true});
+                            Firestore.instance
+                                .collection('users')
+                                .document(id)
+                                .updateData(
+                                    {'likedBy': FieldValue.arrayUnion(myId)});
+                            Firestore.instance
+                                .collection('users')
+                                .document(id)
+                                .collection('likes')
+                                .document(currentUserModel.uid)
+                                .setData({
+                              'unread': true,
+                              'timestamp': Timestamp.now(),
+                              'liked': true,
+                              'likeType': type
+                            }, merge: true);
+                            List<String> theirId = [];
                             theirId.add(id);
                             Firestore.instance
                                 .collection('users')
                                 .document(currentUserModel.uid)
-                                .updateData(
-                                {'likedUsers': FieldValue.arrayUnion(theirId)});
+                                .updateData({
+                              'likedUsers': FieldValue.arrayUnion(theirId)
+                            });
                           },
                         )
                       : IconButton(

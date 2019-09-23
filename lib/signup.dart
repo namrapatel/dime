@@ -393,7 +393,7 @@ class _SignupPageState extends State<SignupPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                     onPressed: () {
-                      FacebookAuth().logIn(
+                      FacebookAuth().log(
                           context,
                           new MaterialPageRoute(
                               builder: (context) => SplashScreen(

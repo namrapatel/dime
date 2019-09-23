@@ -31,7 +31,11 @@ class _SocialTabsState extends State<SocialTabs> with AutomaticKeepAliveClientMi
           actions: <Widget>[
             IconButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        type: PageTransitionType.leftToRight,
+                        child: ScrollPage()));
               },
               color: Colors.white,
               icon: Icon(Icons.arrow_forward_ios),

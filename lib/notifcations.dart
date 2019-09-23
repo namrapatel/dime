@@ -11,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 class NotifcationsScreen extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
   List<LikeNotif> notifs = [];
   bool isLoading = false;
   bool hasMore = true;
-  bool noLikes=false;
+  bool noLikes = false;
   int documentLimit = 4;
   DocumentSnapshot lastDocument;
   ScrollController _scrollController = ScrollController();
@@ -78,43 +79,46 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
 
   getNotifs() async {
     if (!hasMore) {
-    print('done');
+      print('done');
 
       return;
     }
     if (isLoading) {
       return;
     }
-    if(notifs.length!=0) {
+    if (notifs.length != 0) {
       setState(() {
         isLoading = true;
       });
     }
     List<LikeNotif> userDocuments = [];
     QuerySnapshot querySnapshot;
-    if(lastDocument==null) {
+    if (lastDocument == null) {
       querySnapshot = await Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .collection('likes')
-          .orderBy('timestamp', descending: true).limit(documentLimit)
+          .orderBy('timestamp', descending: true)
+          .limit(documentLimit)
           .getDocuments();
-      if(querySnapshot.documents.length==0||querySnapshot==null){
+      if (querySnapshot.documents.length == 0 || querySnapshot == null) {
         setState(() {
-          noLikes=true;
+          noLikes = true;
         });
       }
-    }else{
+    } else {
       querySnapshot = await Firestore.instance
           .collection('users')
           .document(currentUserModel.uid)
           .collection('likes')
-          .orderBy('timestamp', descending: true).startAfterDocument(lastDocument).limit(documentLimit)
+          .orderBy('timestamp', descending: true)
+          .startAfterDocument(lastDocument)
+          .limit(documentLimit)
           .getDocuments();
-      if(querySnapshot.documents.length==0||querySnapshot==null){
+      if (querySnapshot.documents.length == 0 || querySnapshot == null) {
         setState(() {
-          hasMore=false;
-          isLoading=false;
+          hasMore = false;
+          isLoading = false;
         });
       }
     }
@@ -148,10 +152,9 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
       ));
 //      userDocuments.add(userDoc);
 
-
     }
     notifs.addAll(userDocuments);
-    if (querySnapshot.documents.length <documentLimit) {
+    if (querySnapshot.documents.length < documentLimit) {
       hasMore = false;
     }
     lastDocument = querySnapshot.documents[querySnapshot.documents.length - 1];
@@ -335,47 +338,43 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
         ),
         Container(
           height: MediaQuery.of(context).size.height / 1.67,
-  child: Column(
-    children: <Widget>[
-      Expanded(
-          child:  noLikes
-              ? Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  height: 20.0,
-                                ),
-                                Image.asset(
-                                    'assets/img/undraw_peoplearoundyou.png'),
-                                Padding(
-                                  padding: EdgeInsets.all(
-                                      MediaQuery.of(context).size.height / 20),
-                                  child: Text(
-                                    "You don't have any likes right now. \n Check out people around you or head to explore to like some people!",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ),
-                              ],
-                            )
-              :notifs.length == 0?Center(child:CircularProgressIndicator()): ListView.builder(
-              controller: _scrollController,
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                  child: noLikes
+                      ? Column(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Image.asset(
+                                'assets/img/undraw_peoplearoundyou.png'),
+                            Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height / 20),
+                              child: Text(
+                                "You don't have any likes right now. \n Check out people around you or head to explore to like some people!",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
+                          ],
+                        )
+                      : notifs.length == 0
+                          ? Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                              controller: _scrollController,
 //              cacheExtent: 5000.0,
-              itemCount: notifs.length,
+                              itemCount: notifs.length,
 //              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return notifs[index];
-              })
-      ),
-
-
-      isLoading
-          ? Container(
-          child:CircularProgressIndicator()
-      )
-          : Container()
-
-    ],
-  ),
+                              itemBuilder: (context, index) {
+                                return notifs[index];
+                              })),
+              isLoading
+                  ? Container(child: CircularProgressIndicator())
+                  : Container()
+            ],
+          ),
 
 //          child: ListView(
 //            physics: BouncingScrollPhysics(),

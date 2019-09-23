@@ -24,7 +24,6 @@ dev_dependencies:
   geoflutterfire: ^2.0.3+5
   grouped_buttons:
   flutter_search_panel:
-  fancy_on_boarding:
   page_transition:
   flutter_test:
     sdk: flutter

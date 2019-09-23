@@ -141,13 +141,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  fancy_on_boarding:
-    dependency: "direct dev"
-    description:
-      name: fancy_on_boarding
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   firebase_auth:
     dependency: "direct dev"
     description:

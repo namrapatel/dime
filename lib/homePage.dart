@@ -53,7 +53,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
 //  bool liked=false;
-
+List<dynamic> likedByUsers=[];
   String likeType = 'social';
   _ScrollPageState({this.socialPressed});
   bool socialPressed;
@@ -121,6 +121,7 @@ class _ScrollPageState extends State<ScrollPage>
     print('verified checkkk');
 
     setState(() {
+      likedByUsers=userDoc['likedBy'];
       if ((userDoc['displayName'] != 'New User' &&
               userDoc['displayName'] != 'No Display Name') &&
           userDoc['university'] != null &&
@@ -1215,8 +1216,11 @@ class _ScrollPageState extends State<ScrollPage>
                                             true) {
                                           return UserTile(blocked: true);
                                         } else {
+                                          bool likedBack=false;
+                                          if(likedByUsers.contains(doc.documentID)){
+                                            likedBack=true;
+                                          }
                                           bool liked;
-
                                           List<dynamic> likedBy =
                                               doc.data['likedBy'];
 
@@ -1243,6 +1247,7 @@ class _ScrollPageState extends State<ScrollPage>
                                                 doc.data['relationshipStatus'];
                                           }
                                           return UserTile(
+                                            likedBack:likedBack,
                                               verified: doc.data['verified'],
                                               liked: liked,
                                               likeType: type,
@@ -1300,7 +1305,7 @@ class _ScrollPageState extends State<ScrollPage>
 }
 
 class UserTile extends StatefulWidget {
-  final bool blocked, liked, verified;
+  final bool blocked, liked, verified,likedBack;
   final String likeType,
       relationshipStatus,
       contactName,
@@ -1311,7 +1316,7 @@ class UserTile extends StatefulWidget {
       gradYear,
       bio;
   const UserTile(
-      {this.verified,
+      {this.likedBack,this.verified,
       this.liked,
       this.likeType,
       this.relationshipStatus,
@@ -1328,6 +1333,7 @@ class UserTile extends StatefulWidget {
 }
 
 class _UserTileState extends State<UserTile> {
+
   @override
   void initState() {
     // TODO: implement initState
@@ -1338,6 +1344,7 @@ class _UserTileState extends State<UserTile> {
 
 //    });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -1500,7 +1507,18 @@ class _UserTileState extends State<UserTile> {
                                 BorderRadius.all(Radius.circular(20.0)),
                             color: Colors.grey[100]),
                         child: IconButton(
-                          icon: widget.liked == false
+                          icon: (widget.liked==true && widget.likedBack==true)? IconButton(
+                            onPressed: () {
+                            Navigator.push(context,
+                            CupertinoPageRoute(builder: (context) => Chat(toUserId:widget.uid,fromUserId: currentUserModel.uid,)));
+                            },
+                            icon: Icon(
+                            Feather.message_circle,
+                              size: screenH(27),
+                            color:Color(0xFF1458EA),
+
+                            ),
+                            ):widget.liked == false
                               ? Icon(
                                   AntDesign.like2,
                                   size: screenH(25),

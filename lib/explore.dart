@@ -99,9 +99,9 @@ class _ExploreState extends State<Explore> {
         context: context,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(35),
-              topRight: Radius.circular(35),
-            )),
+          topLeft: Radius.circular(35),
+          topRight: Radius.circular(35),
+        )),
         builder: (builder) {
           return Container(
             height: MediaQuery.of(context).size.height / 4.0,
@@ -125,7 +125,7 @@ class _ExploreState extends State<Explore> {
                       onPressed: () {
                         Flushbar(
                           margin:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                           borderRadius: 15,
                           messageText: Padding(
                             padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -167,7 +167,7 @@ class _ExploreState extends State<Explore> {
                         FloatingActionButton(
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(16.0))),
+                                  BorderRadius.all(Radius.circular(16.0))),
                           onPressed: () {
                             setState(() {
                               likedUsers.add(likedUserId);
@@ -258,7 +258,7 @@ class _ExploreState extends State<Explore> {
                         FloatingActionButton(
                           shape: RoundedRectangleBorder(
                               borderRadius:
-                              BorderRadius.all(Radius.circular(16.0))),
+                                  BorderRadius.all(Radius.circular(16.0))),
                           onPressed: () {
                             Navigator.pop(context);
                             Flushbar(
@@ -384,7 +384,6 @@ class _ExploreState extends State<Explore> {
 
     getLikedUsers();
 
-
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -393,127 +392,127 @@ class _ExploreState extends State<Explore> {
       allowFontScaling: true,
     )..init(context);
     return Scaffold(
-      //backgroundColor: Color(0xFFECE9E4),
+        //backgroundColor: Color(0xFFECE9E4),
         body: ListView(
-          padding: EdgeInsets.all(0.0),
-          physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.all(0.0),
+      physics: const NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        Column(
           children: <Widget>[
-            Column(
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 28,
+            ),
+            Row(
               children: <Widget>[
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 28,
+                  width: MediaQuery.of(context).size.width / 50,
                 ),
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 50,
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                  ),
                 ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          MediaQuery.of(context).size.width / 17, 0, 0, 100),
-                    ),
-                    Text(
-                      "Explore",
-                      style: TextStyle(
-                        fontSize: screenF(48),
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.info_outline,
-                        color: Color(0xFF1458EA),
-                      ),
-                      onPressed: () {
-                        Flushbar(
-                          margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                          borderRadius: 15,
-                          messageText: Padding(
-                            padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  "Use the explore feed to find people you're interested in. Send a casual or professional like notification, and if they like you back have fun chatting and connecting!",
-                                  style: TextStyle(color: Colors.black),
-                                )
-                              ],
-                            ),
-                          ),
-                          backgroundColor: Colors.white,
-                          flushbarPosition: FlushbarPosition.TOP,
-                          icon: Padding(
-                            padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                            child: Icon(
-                              Icons.info_outline,
-                              size: 28.0,
-                              color: Color(0xFF1458EA),
-                            ),
-                          ),
-                          duration: Duration(seconds: 7),
-                        )..show(context);
-                      },
-                    ),
-                  ],
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width / 17, 0, 0, 100),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      //color: Colors.white,
-                      width: MediaQuery.of(context).size.width / 1.1,
-                      decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: MediaQuery.of(context).size.width / 22,
-                            vertical: MediaQuery.of(context).size.height / 72),
-                        child: TextField(
-                          textCapitalization: TextCapitalization.sentences,
-                          onChanged: (val) {
-                            initiateSearch(val);
-                          },
-                          decoration: new InputDecoration(
-                              icon: Icon(Icons.search),
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                  left: MediaQuery.of(context).size.width / 30,
-                                  bottom: MediaQuery.of(context).size.height / 75,
-                                  top: MediaQuery.of(context).size.height / 75,
-                                  right: MediaQuery.of(context).size.width / 30),
-                              hintText: 'Search for people...'),
+                Text(
+                  "Explore",
+                  style: TextStyle(
+                    fontSize: screenF(48),
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.info_outline,
+                    color: Color(0xFF1458EA),
+                  ),
+                  onPressed: () {
+                    Flushbar(
+                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      borderRadius: 15,
+                      messageText: Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Use the explore feed to find people you're interested in. Send a casual or professional like notification, and if they like you back have fun chatting and connecting!",
+                              style: TextStyle(color: Colors.black),
+                            )
+                          ],
                         ),
                       ),
-                    ),
-                  ],
+                      backgroundColor: Colors.white,
+                      flushbarPosition: FlushbarPosition.TOP,
+                      icon: Padding(
+                        padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                        child: Icon(
+                          Icons.info_outline,
+                          size: 28.0,
+                          color: Color(0xFF1458EA),
+                        ),
+                      ),
+                      duration: Duration(seconds: 7),
+                    )..show(context);
+                  },
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 20,
-                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
                 Container(
-                  height: MediaQuery.of(context).size.height / 1.48,
-                  child: ListView.builder(
-                    cacheExtent: 5000.0,
-                    physics: BouncingScrollPhysics(),
-                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                    itemBuilder: (context, index) {
+                  //color: Colors.white,
+                  width: MediaQuery.of(context).size.width / 1.1,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 22,
+                        vertical: MediaQuery.of(context).size.height / 72),
+                    child: TextField(
+                      textCapitalization: TextCapitalization.sentences,
+                      onChanged: (val) {
+                        initiateSearch(val);
+                      },
+                      decoration: new InputDecoration(
+                          icon: Icon(Icons.search),
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width / 30,
+                              bottom: MediaQuery.of(context).size.height / 75,
+                              top: MediaQuery.of(context).size.height / 75,
+                              right: MediaQuery.of(context).size.width / 30),
+                          hintText: 'Search for people...'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height / 1.48,
+              child: ListView.builder(
+                cacheExtent: 5000.0,
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                itemBuilder: (context, index) {
 //                  tempSearchStore.map((element) {
-                      return _buildTile(tempSearchStore[index]);
+                  return _buildTile(tempSearchStore[index]);
 //                  });
 //                  DocumentSnapshot doc = snapshots.data[index];
 //                  print(
@@ -537,17 +536,17 @@ class _ExploreState extends State<Explore> {
 //                        gradYear: doc.data['gradYear'],
 //                        bio: doc.data['bio']);
 //                  }
-                    },
-                    itemCount: tempSearchStore.length,
+                },
+                itemCount: tempSearchStore.length,
 //                children: tempSearchStore.map((element) {
 //                  return _buildTile(element);
 //                }).toList(),
-                  ),
-                ),
-              ],
-            )
+              ),
+            ),
           ],
-        ));
+        )
+      ],
+    ));
   }
 
   Widget _buildTile(data) {
@@ -558,9 +557,9 @@ class _ExploreState extends State<Explore> {
             context,
             CupertinoPageRoute(
                 builder: (context) => UserCard(
-                  userId: data['userId'],
-                  userName: data['userData']['displayName'],
-                )));
+                      userId: data['userId'],
+                      userName: data['userData']['displayName'],
+                    )));
       },
       leading: Stack(
         children: <Widget>[
@@ -569,47 +568,42 @@ class _ExploreState extends State<Explore> {
 //            backgroundImage: NetworkImage(data['userData']['photoUrl']),
 //          ),
           GestureDetector(
-
-      onTap:(
-      ){
-    Navigator.push(
-    context,
-    CupertinoPageRoute(
-    builder: (context) =>
-    LargePic(
-    largePic: data['userData']['photoUrl'],
-    )
-    ));
-
-    },
+            onTap: () {
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => LargePic(
+                            largePic: data['userData']['photoUrl'],
+                          )));
+            },
             child: CircleAvatar(
                 radius: screenH(30),
-                backgroundImage:
-                CachedNetworkImageProvider(data['userData']['photoUrl'].toString())),
+                backgroundImage: CachedNetworkImageProvider(
+                    data['userData']['photoUrl'].toString())),
           ),
           data['userData']['relationshipStatus'] != null
               ? Positioned(
-            left: MediaQuery.of(context).size.width / 10000000,
-            top: MediaQuery.of(context).size.height / 23.5,
-            child: CircleAvatar(
-              radius: MediaQuery.of(context).size.height / 80,
-              backgroundColor: Colors.white,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 600,
+                  left: MediaQuery.of(context).size.width / 10000000,
+                  top: MediaQuery.of(context).size.height / 23.5,
+                  child: CircleAvatar(
+                    radius: MediaQuery.of(context).size.height / 80,
+                    backgroundColor: Colors.white,
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 600,
+                        ),
+                        Text(
+                          data['userData']['relationshipStatus'],
+                          style: TextStyle(fontSize: screenH(12.1)),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    data['userData']['relationshipStatus'],
-                    style: TextStyle(fontSize: screenH(12.1)),
-                  ),
-                ],
-              ),
-            ),
-          )
+                )
               : SizedBox(
-            width: 0.0,
-          )
+                  width: 0.0,
+                )
         ],
       ),
       title: Row(
@@ -636,18 +630,19 @@ class _ExploreState extends State<Explore> {
           color: Colors.grey[100],
         ),
         child: IconButton(
-          icon: likedUsers.contains(data['userId']) ?
-          Icon(
-            AntDesign.like1,
-            size: screenH(25),
-            color: Color(0xFF1458EA),
-          ): Icon(
-            AntDesign.like2,
-            size: screenH(25),
-            color: Color(0xFF1458EA),
-          ) ,
+          icon: likedUsers.contains(data['userId'])
+              ? Icon(
+                  AntDesign.like1,
+                  size: screenH(25),
+                  color: Color(0xFF1458EA),
+                )
+              : Icon(
+                  AntDesign.like2,
+                  size: screenH(25),
+                  color: Color(0xFF1458EA),
+                ),
           onPressed: () {
-            if(!likedUsers.contains(data['userId'])) {
+            if (!likedUsers.contains(data['userId'])) {
               if (currentUserModel.displayName == null ||
                   currentUserModel.bio == null ||
                   currentUserModel.university == null ||
@@ -680,13 +675,12 @@ class _ExploreState extends State<Explore> {
                     ),
                   ),
                   duration: Duration(seconds: 7),
-                )
-                  ..show(context);
-              } else if (data['userData']['displayName'] == null
-                  || data['userData']['bio'] == null
-                  || data['userData']['university'] == null
-                  || data['userData']['gradYear'] == null
-                  || data['userData']['major'] == null) {
+                )..show(context);
+              } else if (data['userData']['displayName'] == null ||
+                  data['userData']['bio'] == null ||
+                  data['userData']['university'] == null ||
+                  data['userData']['gradYear'] == null ||
+                  data['userData']['major'] == null) {
                 Flushbar(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   borderRadius: 15,
@@ -714,10 +708,8 @@ class _ExploreState extends State<Explore> {
                     ),
                   ),
                   duration: Duration(seconds: 7),
-                )
-                  ..show(context);
-              }
-              else {
+                )..show(context);
+              } else {
                 setState(() {
                   likedUsers.add(data['userId']);
                 });
@@ -726,7 +718,6 @@ class _ExploreState extends State<Explore> {
               }
             }
           },
-
         ),
       ),
 //      trailing: (currentUserModel.bio!=null&&currentUserModel.university!=null&&currentUserModel.major!=null&&currentUserModel.gradYear!=null&&(currentUserModel.displayName!="New User"&&currentUserModel.displayName!="No Display Name"))?Row(

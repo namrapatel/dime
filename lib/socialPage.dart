@@ -164,7 +164,9 @@ class _SocialPageState extends State<SocialPage> with AutomaticKeepAliveClientMi
        if (qn.documents.length < documentLimit) {
          hasMore = false;
        }
+       if (qn.documents.length != 0) {
        lastDocument = qn.documents[qn.documents.length - 1];
+       }
        products.addAll(qn.documents);
        setState(() {
          isLoading = false;

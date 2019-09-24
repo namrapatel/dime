@@ -1525,28 +1525,11 @@ class _UserTileState extends State<UserTile> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0)),
                             color: Colors.grey[100]),
-                        child: IconButton(
+                        child: 
+                        IconButton(
                           icon:
-                              (widget.liked == true && widget.likedBack == true)
-                                  ? IconButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                                builder: (context) => Chat(
-                                                      toUserId: widget.uid,
-                                                      fromUserId:
-                                                          currentUserModel.uid,
-                                                    )));
-                                      },
-                                      icon: Icon(
-                                        // Feather.message_circle,
-                                        Icons.add,
-                                        size: screenH(25),
-                                        color: Color(0xFF1458EA),
-                                      ),
-                                    )
-                                  : widget.liked == false
+                              
+                                widget.liked == false
                                       ? Icon(
                                           AntDesign.like2,
                                           size: screenH(25),

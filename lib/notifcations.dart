@@ -24,7 +24,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
   bool isLoading = false;
   bool hasMore = true;
   bool noLikes = false;
-  int documentLimit = 4;
+  int documentLimit = 6;
   DocumentSnapshot lastDocument;
   ScrollController _scrollController = ScrollController();
   @override

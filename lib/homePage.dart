@@ -53,7 +53,7 @@ class ScrollPage extends StatefulWidget {
 class _ScrollPageState extends State<ScrollPage>
     with SingleTickerProviderStateMixin {
 //  bool liked=false;
-List<dynamic> likedByUsers=[];
+  List<dynamic> likedByUsers = [];
   String likeType = 'social';
   _ScrollPageState({this.socialPressed});
   bool socialPressed;
@@ -121,7 +121,7 @@ List<dynamic> likedByUsers=[];
     print('verified checkkk');
 
     setState(() {
-      likedByUsers=userDoc['likedBy'];
+      likedByUsers = userDoc['likedBy'];
       if ((userDoc['displayName'] != 'New User' &&
               userDoc['displayName'] != 'No Display Name') &&
           userDoc['university'] != null &&
@@ -343,6 +343,7 @@ List<dynamic> likedByUsers=[];
     }, onResume: (Map<String, dynamic> message) async {
       if (Theme.of(context).platform == TargetPlatform.iOS) {
         if (message['notifType'] == "chat") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
@@ -352,6 +353,7 @@ List<dynamic> likedByUsers=[];
                       )));
         } else if (message['notifType'] == "postNotif") {
           if (message['type'] == "prof") {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -359,6 +361,7 @@ List<dynamic> likedByUsers=[];
                           postId: message['postId'],
                         )));
           } else {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -367,16 +370,19 @@ List<dynamic> likedByUsers=[];
                         )));
           }
         } else if (message['notifType'] == "streamNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
         } else if (message['notifType'] == "likeNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(context,
               CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       } else {
         if (message['data']['notifType'] == "chat") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
@@ -386,6 +392,7 @@ List<dynamic> likedByUsers=[];
                       )));
         } else if (message['data']['notifType'] == "postNotif") {
           if (message['data']['type'] == "prof") {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -393,6 +400,7 @@ List<dynamic> likedByUsers=[];
                           postId: message['data']['postId'],
                         )));
           } else {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -401,12 +409,14 @@ List<dynamic> likedByUsers=[];
                         )));
           }
         } else if (message['data']['notifType'] == "streamNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
         } else if (message['data']['notifType'] == "likeNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(context,
               CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
@@ -414,6 +424,7 @@ List<dynamic> likedByUsers=[];
     }, onLaunch: (Map<String, dynamic> message) async {
       if (Theme.of(context).platform == TargetPlatform.iOS) {
         if (message['notifType'] == "chat") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
@@ -423,6 +434,7 @@ List<dynamic> likedByUsers=[];
                       )));
         } else if (message['notifType'] == "postNotif") {
           if (message['type'] == "prof") {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -430,6 +442,7 @@ List<dynamic> likedByUsers=[];
                           postId: message['postId'],
                         )));
           } else {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -438,16 +451,19 @@ List<dynamic> likedByUsers=[];
                         )));
           }
         } else if (message['notifType'] == "streamNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) => ProfPage(stream: message['title'])));
         } else if (message['notifType'] == "likeNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(context,
               CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
       } else {
         if (message['data']['notifType'] == "chat") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
@@ -457,6 +473,7 @@ List<dynamic> likedByUsers=[];
                       )));
         } else if (message['data']['notifType'] == "postNotif") {
           if (message['data']['type'] == "prof") {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -464,6 +481,7 @@ List<dynamic> likedByUsers=[];
                           postId: message['data']['postId'],
                         )));
           } else {
+            Navigator.push(context, PageTransition(child: ScrollPage()));
             Navigator.push(
                 context,
                 CupertinoPageRoute(
@@ -472,12 +490,14 @@ List<dynamic> likedByUsers=[];
                         )));
           }
         } else if (message['data']['notifType'] == "streamNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(
               context,
               CupertinoPageRoute(
                   builder: (context) =>
                       ProfPage(stream: message['data']['title'])));
         } else if (message['data']['notifType'] == "likeNotif") {
+          Navigator.push(context, PageTransition(child: ScrollPage()));
           Navigator.push(context,
               CupertinoPageRoute(builder: (context) => NotifcationsScreen()));
         }
@@ -1036,22 +1056,22 @@ List<dynamic> likedByUsers=[];
                         )
                 ],
               ),
-              FloatingActionButton(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16.0))),
-                onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => Explore()));
-                },
-                elevation: 3,
-                heroTag: 'btn3',
-                backgroundColor: Colors.white,
-                child: Icon(
-                  Ionicons.md_search,
-                  color: Colors.black,
-                  size: 27.5,
-                ),
-              ),
+              // FloatingActionButton(
+              //   shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.all(Radius.circular(16.0))),
+              //   onPressed: () {
+              //     Navigator.push(context,
+              //         CupertinoPageRoute(builder: (context) => Explore()));
+              //   },
+              //   elevation: 3,
+              //   heroTag: 'btn3',
+              //   backgroundColor: Colors.white,
+              //   child: Icon(
+              //     Ionicons.md_search,
+              //     color: Colors.black,
+              //     size: 27.5,
+              //   ),
+              // ),
               FloatingActionButton(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -1189,8 +1209,7 @@ List<dynamic> likedByUsers=[];
                                         child: Text(
                                           "There's nobody around. Go get a walk in and find some new people!",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: (14.0)),
+                                          style: TextStyle(fontSize: (14.0)),
                                         ),
                                       ),
                                     ],
@@ -1216,9 +1235,10 @@ List<dynamic> likedByUsers=[];
                                             true) {
                                           return UserTile(blocked: true);
                                         } else {
-                                          bool likedBack=false;
-                                          if(likedByUsers.contains(doc.documentID)){
-                                            likedBack=true;
+                                          bool likedBack = false;
+                                          if (likedByUsers
+                                              .contains(doc.documentID)) {
+                                            likedBack = true;
                                           }
                                           bool liked;
                                           List<dynamic> likedBy =
@@ -1247,7 +1267,7 @@ List<dynamic> likedByUsers=[];
                                                 doc.data['relationshipStatus'];
                                           }
                                           return UserTile(
-                                            likedBack:likedBack,
+                                              likedBack: likedBack,
                                               verified: doc.data['verified'],
                                               liked: liked,
                                               likeType: type,
@@ -1305,7 +1325,7 @@ List<dynamic> likedByUsers=[];
 }
 
 class UserTile extends StatefulWidget {
-  final bool blocked, liked, verified,likedBack;
+  final bool blocked, liked, verified, likedBack;
   final String likeType,
       relationshipStatus,
       contactName,
@@ -1316,7 +1336,8 @@ class UserTile extends StatefulWidget {
       gradYear,
       bio;
   const UserTile(
-      {this.likedBack,this.verified,
+      {this.likedBack,
+      this.verified,
       this.liked,
       this.likeType,
       this.relationshipStatus,
@@ -1333,7 +1354,6 @@ class UserTile extends StatefulWidget {
 }
 
 class _UserTileState extends State<UserTile> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -1344,7 +1364,6 @@ class _UserTileState extends State<UserTile> {
 
 //    });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -1507,28 +1526,37 @@ class _UserTileState extends State<UserTile> {
                                 BorderRadius.all(Radius.circular(20.0)),
                             color: Colors.grey[100]),
                         child: IconButton(
-                          icon: (widget.liked==true && widget.likedBack==true)? IconButton(
-                            onPressed: () {
-                            Navigator.push(context,
-                            CupertinoPageRoute(builder: (context) => Chat(toUserId:widget.uid,fromUserId: currentUserModel.uid,)));
-                            },
-                            icon: Icon(
-                            Feather.message_circle,
-                              size: screenH(27),
-                            color:Color(0xFF1458EA),
-
-                            ),
-                            ):widget.liked == false
-                              ? Icon(
-                                  AntDesign.like2,
-                                  size: screenH(25),
-                                  color: Color(0xFF1458EA),
-                                )
-                              : Icon(
-                                  AntDesign.like1,
-                                  size: screenH(25),
-                                  color: Color(0xFF1458EA),
-                                ),
+                          icon:
+                              (widget.liked == true && widget.likedBack == true)
+                                  ? IconButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            CupertinoPageRoute(
+                                                builder: (context) => Chat(
+                                                      toUserId: widget.uid,
+                                                      fromUserId:
+                                                          currentUserModel.uid,
+                                                    )));
+                                      },
+                                      icon: Icon(
+                                        // Feather.message_circle,
+                                        Icons.add,
+                                        size: screenH(25),
+                                        color: Color(0xFF1458EA),
+                                      ),
+                                    )
+                                  : widget.liked == false
+                                      ? Icon(
+                                          AntDesign.like2,
+                                          size: screenH(25),
+                                          color: Color(0xFF1458EA),
+                                        )
+                                      : Icon(
+                                          AntDesign.like1,
+                                          size: screenH(25),
+                                          color: Color(0xFF1458EA),
+                                        ),
                           color: Colors.black,
                           onPressed: () {
                             if (widget.liked == false) {

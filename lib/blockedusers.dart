@@ -1,3 +1,4 @@
+import 'package:Dime/models/largerPic.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -124,10 +125,25 @@ class _BlockedUsersState extends State<BlockedUsers> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      snapshot.data[index]['photoUrl']),
-                                  radius: screenH(30),
+                                leading: GestureDetector(
+                                  onTap:(
+                                      ){
+                                    if(snapshot.data[index]['photoUrl']!=null){
+                                      Navigator.push(
+                                          context,
+                                          CupertinoPageRoute(
+                                              builder: (context) =>
+                                                  LargePic(
+                                                    largePic: snapshot.data[index]['photoUrl'],
+                                                  )
+                                          ));
+                                    }
+                                  },
+                                  child: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        snapshot.data[index]['photoUrl']),
+                                    radius: screenH(30),
+                                  ),
                                 ),
                                 trailing: Row(
                                   mainAxisSize: MainAxisSize.min,

@@ -24,7 +24,6 @@ dev_dependencies:
   geoflutterfire: ^2.0.3+5
   grouped_buttons:
   flutter_search_panel:
-  fancy_on_boarding:
   page_transition:
   flutter_test:
     sdk: flutter
@@ -33,7 +32,7 @@ dev_dependencies:
   firebase_storage:
   shared_preferences: ^0.5.1+2
   modal_progress_hud: ^0.1.3
-  flutter_facebook_login:
+  flutter_facebook_login: ^3.0.0
   timeago: ^2.0.18
   image_picker: ^0.6.1+3
   queries: ^0.1.12
@@ -100,28 +99,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/login_logo.png
-    - assets/namrapatel.png
-    - assets/dimelogo.png
-    - assets/dimelogo1.png
-    - assets/dimewhite.png
-    - assets/shehabsalem.jpeg
-    - assets/taher.jpeg
     - assets/defaultprofile.png
-    - assets/dhruvpatel.jpeg
-    - assets/groupselfie.png
     - assets/friendsDrawing.png
     - assets/improvingDrawing.png
-    - assets/nearbyUI.png
-    - assets/mapsUI.png
-    - assets/profPageUI.png
-    - assets/socialAndProfCard.png
     - assets/white.png
-    - assets/pplNearbyUI.png
     - assets/undraw_peoplearoundyou.png
     - assets/undraw_messages.png
     - assets/feeds.png
-    - assets/DimeLogoBlue.png
-    - assets/Dime3Colors.png
     - assets/GroupDimeTransparent.png
     - assets/darkpeoplearoundyou.png
     - assets/clickablecards.png
@@ -130,6 +114,9 @@ flutter:
     - assets/campusfeeds.png
     - assets/dark.png
     - assets/Group.png
+    - assets/getitdone.png
+    - assets/takeawalk.png
+
 
 
   fonts:

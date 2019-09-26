@@ -15,9 +15,9 @@ class FacebookAuth {
   FacebookLogin fbLogin = new FacebookLogin();
 
 
-  logIn(context,MaterialPageRoute route) async {
+  log(context,MaterialPageRoute route) async {
     FacebookLoginResult result = await fbLogin
-        .logInWithReadPermissions(
+        .logIn(
         ['email', 'public_profile']);
 
 

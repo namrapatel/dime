@@ -14,7 +14,7 @@ class ProfStreams extends StatefulWidget {
   _ProfStreamsState createState() => _ProfStreamsState();
 }
 
-class _ProfStreamsState extends State<ProfStreams> {
+class _ProfStreamsState extends State<ProfStreams> with AutomaticKeepAliveClientMixin<ProfStreams> {
   _launchURLMessenger() async {
     const url = 'https://www.messenger.com/new';
     launch(url);
@@ -58,6 +58,7 @@ class _ProfStreamsState extends State<ProfStreams> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     double defaultScreenWidth = 414.0;
     double defaultScreenHeight = 896.0;
     ScreenUtil.instance = ScreenUtil(
@@ -95,6 +96,8 @@ class _ProfStreamsState extends State<ProfStreams> {
           ],
         ));
   }
+  @override
+  bool get wantKeepAlive => true;
 
   Widget _myListView(BuildContext context) {
     final titles = ['tech_community', 'business', 'hackathons'];

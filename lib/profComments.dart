@@ -1,15 +1,9 @@
-import 'package:Dime/EditCardsScreen.dart';
-import 'package:Dime/socialPage.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'models/commentTags.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'homePage.dart';
 import 'login.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'models/comment.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:Dime/profPage.dart';
 
 class ProfComments extends StatefulWidget {
   final String postId, stream;
@@ -19,71 +13,17 @@ class ProfComments extends StatefulWidget {
       _ProfCommentsState(this.postId, this.stream);
 }
 
-class _ProfCommentsState extends State<ProfComments> {
+class _ProfCommentsState extends State<ProfComments> with AutomaticKeepAliveClientMixin<ProfComments> {
   final String postId;
   final String stream;
-//  String university;
+
   _ProfCommentsState(this.postId, this.stream);
-  GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
-  List<UserTag> suggestions = [
-    // UserTag(
-    //   id: 'qepKet04E5fC02SYbSiyb3Yw0kX2',
-    //   photo:
-    //       "https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=2289214687839499&height=800&width=800&ext=1567912794&hash=AeTzmACju3W_XHmv",
-    //   name: "Shehab Salem",
-    // )
-//    "Apple",
-//    "Armidillo",
-//    "Actual",
-//    "Actuary",
-//    "America",
-//    "Argentina",
-//    "Australia",
-//    "Antarctica",
-//    "Blueberry",
-//    "Cheese",
-//    "Danish",
-//    "Eclair",
-//    "Fudge",
-//    "Granola",
-//    "Hazelnut",
-//    "Ice Cream",
-//    "Jely",
-//    "Kiwi Fruit",
-//    "Lamb",
-//    "Macadamia",
-//    "Nachos",
-//    "Oatmeal",
-//    "Palm Oil",
-//    "Quail",
-//    "Rabbit",
-//    "Salad",
-//    "T-Bone Steak",
-//    "Urid Dal",
-//    "Vanilla",
-//    "Waffles",
-//    "Yam",
-//    "Zest"
-  ];
 
   @override
   void initState() {
     super.initState();
-//    getPostUni();
   }
-
-//  getPostUni() async {
-//    DocumentSnapshot query = await Firestore.instance
-//        .collection('streams')
-//        .document(stream)
-//        .collection('posts')
-//        .document(postId)
-//        .get();
-//    setState(() {
-//      university = query['university'];
-//    });
-//  }
 
   getAllUsers() async {
     QuerySnapshot users =
@@ -111,6 +51,7 @@ class _ProfCommentsState extends State<ProfComments> {
       String times = '$elapsedTime';
 
       postComments.add(Comment(
+          verified: document['verified'],
           stream: stream,
           commenterId: id,
           commenterName: document['displayName'],
@@ -149,227 +90,211 @@ class _ProfCommentsState extends State<ProfComments> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        elevation: 0.4,
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-        title: Row(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                stream != null
-                    ? Text(
-                        "@" + stream,
-                        style: TextStyle(color: Colors.black),
-                      )
-                    : SizedBox(
-                        height: 0.0,
-                      ),
-              ],
-            )
-          ],
-        ),
-      ),
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Column(
-                children: <Widget>[
-                  Flexible(
-                    child: buildComments(),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onPanDown: (_) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          elevation: 0.4,
+          iconTheme: IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
+          title: Row(
+            children: <Widget>[
+              Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width / 1.3,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 22,
-                          vertical: MediaQuery.of(context).size.height / 72),
-                      child: SimpleAutoCompleteTextField(
-                        textCapitalization: TextCapitalization.sentences,
-                        // key: key,
-                        decoration: new InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width / 30,
-                                bottom:
-                                    MediaQuery.of(context).size.height / 155,
-                                top: MediaQuery.of(context).size.height / 155,
-                                right: MediaQuery.of(context).size.width / 30),
-                            hintText: 'Enter Comment',
-                            hintStyle: TextStyle(color: Colors.grey)),
-                        controller: controller,
-//                        suggestions: suggestions,
-                        clearOnSubmit: false,
+                  stream != null
+                      ? Text(
+                          "@" + stream,
+                          style: TextStyle(color: Colors.black),
+                        )
+                      : SizedBox(
+                          height: 0.0,
+                        ),
+                ],
+              )
+            ],
+          ),
+        ),
+        body: SafeArea(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  children: <Widget>[
+                    Flexible(
+                      child: buildComments(),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 1.3,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(50)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.of(context).size.width / 22,
+                            vertical: MediaQuery.of(context).size.height / 72),
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          // key: key,
+                          decoration: new InputDecoration(
+                              border: InputBorder.none,
+                              focusedBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width / 30,
+                                  bottom:
+                                      MediaQuery.of(context).size.height / 155,
+                                  top: MediaQuery.of(context).size.height / 155,
+                                  right:
+                                      MediaQuery.of(context).size.width / 30),
+                              hintText: 'Enter Comment',
+                              hintStyle: TextStyle(color: Colors.grey)),
+                          controller: controller,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: (20),
-                  ),
-                  Container(
-                      width: 40,
-                      height: 40,
-                      child: FloatingActionButton(
-                          elevation: 5,
-                          backgroundColor: Color(0xFF063F3E),
-                          heroTag: 'fabb4',
-                          child: Icon(
-                            Icons.send,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                          onPressed: () async {
-                            if (controller.text != "") {
-                              String docName =
-                                  postId + Timestamp.now().toString();
-                              DocumentSnapshot info = await Firestore.instance
-                                  .collection('streams')
-                                  .document(stream)
-                                  .collection('posts')
-                                  .document(postId)
-                                  .get();
-                              String ownerID = info.data['ownerId'];
-                              int points = info.data['points'];
-                              print('prof comments checkpoint update');
-                              print(postId);
-                              print(stream);
-                              print(docName);
-                              Firestore.instance
-                                  .collection('streams')
-                                  .document(stream)
-                                  .collection('posts')
-                                  .document(postId)
-                                  .collection('comments')
-                                  .document(docName)
-                                  .setData({
-                                'type': 'prof',
-                                'postId': postId,
-                                'stream': stream,
-//                              'commentId':docName,
-                                'commenterId': currentUserModel.uid,
-                                'commenterName': currentUserModel.displayName,
-                                'commenterPhoto': currentUserModel.photoUrl,
-                                'text': controller.text,
-                                'timestamp': Timestamp.now()
-                              });
-                              Firestore.instance.collection('postNotifs').add({
-                                'stream': stream,
-                                'commenterId': currentUserModel.uid,
-                                'commenterName': currentUserModel.displayName,
-                                'commenterPhoto': currentUserModel.photoUrl,
-                                'text': controller.text,
-                                'timestamp': Timestamp.now(),
-                                'ownerId': ownerID,
-                                "postID": widget.postId,
-                                "type": "prof",
-                              });
-                              Firestore.instance
-                                  .collection('users')
-                                  .document(currentUserModel.uid)
-                                  .collection('recentActivity')
-                                  .document(widget.postId)
-                                  .setData({
-                                'type': 'prof',
-                                'commented': true,
-                                'postId': widget.postId,
-                                'numberOfComments': FieldValue.increment(1),
-                                'timeStamp': Timestamp.now(),
-                                'stream': stream
-                              }, merge: true);
-
-                              QuerySnapshot snap = await Firestore.instance
-                                  .collection('streams')
-                                  .document(stream)
-                                  .collection('posts')
-                                  .document(postId)
-                                  .collection('comments')
-                                  .getDocuments();
-                              int numberOfComments = snap.documents.length;
-                              Firestore.instance
-                                  .collection('streams')
-                                  .document(stream)
-                                  .collection('posts')
-                                  .document(postId)
-                                  .updateData({
-                                'comments': numberOfComments,
-                                'points': FieldValue.increment(2)
-                              });
-                              points = points + 2;
-                              setState(() {
-                                getComments();
-                                controller.clear();
-                              });
-
-                              if (points >= 100) {
+                    SizedBox(
+                      width: (20),
+                    ),
+                    Container(
+                        width: 40,
+                        height: 40,
+                        child: FloatingActionButton(
+                            elevation: 5,
+                            backgroundColor: Color(0xFF063F3E),
+                            heroTag: 'fabb4',
+                            child: Icon(
+                              Icons.send,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            onPressed: () async {
+                              if (controller.text != "") {
+                                String docName =
+                                    postId + Timestamp.now().toString();
+                                DocumentSnapshot info = await Firestore.instance
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
+                                    .get();
+                                String ownerID = info.data['ownerId'];
+                                int points = info.data['points'];
+                                print('prof comments checkpoint update');
+                                print(postId);
+                                print(stream);
+                                print(docName);
+                                Firestore.instance
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
+                                    .collection('comments')
+                                    .document(docName)
+                                    .setData({
+                                  'type': 'prof',
+                                  'postId': postId,
+                                  'stream': stream,
+                                  'commenterId': currentUserModel.uid,
+                                  'commenterName': currentUserModel.displayName,
+                                  'commenterPhoto': currentUserModel.photoUrl,
+                                  'text': controller.text,
+                                  'timestamp': Timestamp.now()
+                                });
+                                Firestore.instance
+                                    .collection('postNotifs')
+                                    .add({
+                                  'stream': stream,
+                                  'commenterId': currentUserModel.uid,
+                                  'commenterName': currentUserModel.displayName,
+                                  'commenterPhoto': currentUserModel.photoUrl,
+                                  'text': controller.text,
+                                  'timestamp': Timestamp.now(),
+                                  'ownerId': ownerID,
+                                  "postID": widget.postId,
+                                  "type": "prof",
+                                });
                                 Firestore.instance
                                     .collection('users')
-                                    .document(ownerID)
-                                    .collection('profcard')
-                                    .document('prof')
-                                    .updateData({'isFire': true});
-                              } else {
+                                    .document(currentUserModel.uid)
+                                    .collection('recentActivity')
+                                    .document(widget.postId)
+                                    .setData({
+                                  'type': 'prof',
+                                  'commented': true,
+                                  'postId': widget.postId,
+                                  'numberOfComments': FieldValue.increment(1),
+                                  'timeStamp': Timestamp.now(),
+                                  'stream': stream
+                                }, merge: true);
+
+                                QuerySnapshot snap = await Firestore.instance
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
+                                    .collection('comments')
+                                    .getDocuments();
+                                int numberOfComments = snap.documents.length;
                                 Firestore.instance
-                                    .collection('users')
-                                    .document(ownerID)
-                                    .collection('profcard')
-                                    .document('prof')
-                                    .updateData({'isFire': false});
+                                    .collection('streams')
+                                    .document(stream)
+                                    .collection('posts')
+                                    .document(postId)
+                                    .updateData({
+                                  'comments': numberOfComments,
+                                  'points': FieldValue.increment(2)
+                                });
+                                points = points + 2;
+                                setState(() {
+                                  getComments();
+                                  controller.clear();
+                                });
+
+                                if (points >= 100) {
+                                  Firestore.instance
+                                      .collection('users')
+                                      .document(ownerID)
+                                      .collection('profcard')
+                                      .document('prof')
+                                      .updateData({'isFire': true});
+                                } else {
+                                  Firestore.instance
+                                      .collection('users')
+                                      .document(ownerID)
+                                      .collection('profcard')
+                                      .document('prof')
+                                      .updateData({'isFire': false});
+                                }
                               }
-                            }
-                          })),
-                ],
-              ),
-            )
-          ],
+                            })),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
-}
-
-class UserTag extends StatelessWidget {
-  final String id, name, photo;
-
-  const UserTag({this.id, this.name, this.photo});
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.all(15),
-      leading: CircleAvatar(
-        backgroundImage: NetworkImage(photo),
-        radius: screenH(25),
-      ),
-      title: Row(
-        children: <Widget>[
-          Text(
-            name,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
+  bool get wantKeepAlive => true;
 }

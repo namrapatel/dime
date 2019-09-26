@@ -31,6 +31,7 @@ class ProfPost extends StatefulWidget {
   final List<dynamic> likes;
   final int points;
   final String stream;
+  final bool verified;
 //  final bool liked;
   final String ownerId;
   factory ProfPost.fromDocument(DocumentSnapshot document) {
@@ -38,6 +39,7 @@ class ProfPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return ProfPost(
+        verified: document['verified'],
         ownerId: document['ownerId'],
         points: document['points'],
         university: document['university'],
@@ -52,7 +54,8 @@ class ProfPost extends StatefulWidget {
   }
 
   const ProfPost(
-      {this.university,
+      {this.verified,
+      this.university,
       this.ownerId,
       this.postId,
       this.caption,
@@ -65,6 +68,7 @@ class ProfPost extends StatefulWidget {
       this.stream});
   @override
   _ProfPostState createState() => _ProfPostState(
+      verified: verified,
       university: university,
       postId: postId,
       caption: caption,
@@ -79,6 +83,9 @@ class ProfPost extends StatefulWidget {
 }
 
 class _ProfPostState extends State<ProfPost> {
+  bool verified;
+  String ownerName;
+  String ownerPhoto;
   List<dynamic> likes;
   String ownerId;
   String postId;
@@ -92,7 +99,8 @@ class _ProfPostState extends State<ProfPost> {
   int points;
   String stream;
   _ProfPostState(
-      {this.ownerId,
+      {this.verified,
+      this.ownerId,
       this.university,
       this.postId,
       this.caption,
@@ -108,12 +116,27 @@ class _ProfPostState extends State<ProfPost> {
   @override
   void initState() {
     super.initState();
+    getVerification();
     setState(() {
       liked = (likes.contains(currentUserModel.uid));
     });
 
 //    getPostInfo();
     print(caption);
+  }
+
+  getVerification() async {
+//
+    if (verified == true) {
+      DocumentSnapshot ownerDoc = await Firestore.instance
+          .collection('users')
+          .document(widget.ownerId)
+          .get();
+      setState(() {
+        ownerName = ownerDoc['displayName'];
+        ownerPhoto = ownerDoc['photoUrl'];
+      });
+    }
   }
 
   getPostInfo() async {
@@ -231,22 +254,93 @@ class _ProfPostState extends State<ProfPost> {
                           bottomLeft: Radius.circular(screenH(15.0)),
                           bottomRight: Radius.circular(screenH(15.0)),
                         ),
-                        child: postPic != null
-                            ? CachedNetworkImage(
-                                imageUrl: postPic,
-                                fit: BoxFit.fitWidth,
-                                placeholder: (context, url) =>
-                                    loadingPlaceHolder,
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
-                                width: screenW(200),
-                                // height: screenH(375),
-                              )
-                            : SizedBox(
-                                width: screenH(1.2),
-                              ),
+                        child: Column(
+                          children: <Widget>[
+                            verified == true
+                                ? Container(
+                                    child: (ownerPhoto != null &&
+                                            ownerName != null)
+                                        ? Padding(
+                                            padding: EdgeInsets.fromLTRB(
+                                                screenW(8.0),
+                                                screenH(8.0),
+                                                0,
+                                                0),
+                                            child: Row(
+                                              children: <Widget>[
+                                                CircleAvatar(
+                                                  radius: screenH(20),
+                                                  backgroundImage:
+                                                      CachedNetworkImageProvider(
+                                                          ownerPhoto),
+                                                ),
+                                                SizedBox(
+                                                  width: screenW(10.0),
+                                                ),
+                                                Text(
+                                                  ownerName,
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  width: screenW(3.0),
+                                                ),
+                                                Icon(
+                                                  Feather.check_circle,
+                                                  color: Color(0xFF096664),
+                                                  size: screenF(17),
+                                                )
+                                              ],
+                                            ))
+                                        : CircularProgressIndicator(),
+                                  )
+                                : Container(),
+                            postPic != null
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(0, 8.0, 0, 0),
+                                    child: CachedNetworkImage(
+                                      imageUrl: postPic,
+                                      fit: BoxFit.fitWidth,
+                                      placeholder: (context, url) =>
+                                          loadingPlaceHolder,
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                      width: screenW(400),
+                                      // height: screenH(375),
+                                    ))
+                                : SizedBox(
+                                    width: screenH(1.2),
+                                  ),
+                          ],
+                        ),
                       ),
                     ),
+//                    Padding(
+//                      padding: const EdgeInsets.all(8.0),
+//                      child: ClipRRect(
+//                        borderRadius: BorderRadius.only(
+//                          topLeft: Radius.circular(screenH(15.0)),
+//                          topRight: Radius.circular(screenH(15.0)),
+//                          bottomLeft: Radius.circular(screenH(15.0)),
+//                          bottomRight: Radius.circular(screenH(15.0)),
+//                        ),
+//                        child: postPic != null
+//                            ? CachedNetworkImage(
+//                                imageUrl: postPic,
+//                                fit: BoxFit.fitWidth,
+//                                placeholder: (context, url) =>
+//                                    loadingPlaceHolder,
+//                                errorWidget: (context, url, error) =>
+//                                    Icon(Icons.error),
+//                                width: screenW(200),
+//                                // height: screenH(375),
+//                              )
+//                            : SizedBox(
+//                                width: screenH(1.2),
+//                              ),
+//                      ),
+//                    ),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Row(

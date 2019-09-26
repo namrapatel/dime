@@ -4,7 +4,6 @@ import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter/cupertino.dart';
-import 'onboarding.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Dime/models/user.dart';
@@ -394,7 +393,7 @@ class _SignupPageState extends State<SignupPage> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                     onPressed: () {
-                      FacebookAuth().logIn(
+                      FacebookAuth().log(
                           context,
                           new MaterialPageRoute(
                               builder: (context) => SplashScreen(

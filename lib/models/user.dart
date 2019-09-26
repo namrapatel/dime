@@ -16,6 +16,7 @@ class User {
   final GeoPoint currentLocation;
   final String bio;
   final String relationshipStatus;
+  final bool verified;
 
   const User({
     this.university,
@@ -29,7 +30,8 @@ class User {
     this.email,
     this.displayName,
     this.bio,
-    this.relationshipStatus
+    this.relationshipStatus,
+    this.verified
   });
 
   factory User.fromDocument(DocumentSnapshot document) {
@@ -45,7 +47,8 @@ class User {
         socialInterests: document['socialInterests'],
         currentLocation: document['currentLocation'],
         bio: document['bio'],
-        relationshipStatus: document['relationshipStatus']);
+        relationshipStatus: document['relationshipStatus'],
+        verified:document['verified']);
 
   }
 }

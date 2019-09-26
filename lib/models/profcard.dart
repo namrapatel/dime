@@ -31,10 +31,11 @@ class ProfCard extends StatelessWidget {
   final String email;
   final bool isSwitched;
   final bool isFire;
+  final bool verified;
   GlobalKey globalKey2 = new GlobalKey();
 
   ProfCard(
-      {this.bio,
+      {this.verified,this.bio,
       this.isFire,
       this.type,
       this.major,
@@ -63,6 +64,7 @@ class ProfCard extends StatelessWidget {
     //   }
     // }
     return ProfCard(
+      verified:document['verified'],
       bio: document['bio'],
       isFire: document['isFire'],
       type: document['type'],
@@ -210,12 +212,18 @@ class ProfCard extends StatelessWidget {
                                 SizedBox(
                                   width: screenW(5),
                                 ),
+                                verified==true?Icon(
+                                  Feather.check_circle,
+                                  color: Color(0xFF096664),
+                                  size: screenF(17),
+                                )
+                                  : Container(),
                                 isFire == true
                                     ? Icon(
-                                        Feather.check_circle,
-                                        color: Color(0xFF096664),
-                                        size: screenF(17),
-                                      )
+                                  Octicons.flame,
+                                  color: Color(0xFF8803fc),
+                                  size: screenF(17),
+                                )
                                     : Container()
                               ],
                             ),

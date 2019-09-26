@@ -1,18 +1,15 @@
 import 'package:Dime/main.dart';
-import 'package:Dime/onboarding.dart';
 import 'package:Dime/services/facebookauth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'signup.dart';
 import 'package:page_transition/page_transition.dart';
-import 'homePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:Dime/models/user.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'homePage.dart';
-import 'onboarding.dart';
 
 import 'package:flutter/services.dart';
 
@@ -458,7 +455,7 @@ class _LoginState extends State<Login> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0)),
                   onPressed: () {
-                    FacebookAuth().logIn(
+                    FacebookAuth().log(
                         context,
                         new MaterialPageRoute(
                             builder: (context) => SplashScreen()));

@@ -1,4 +1,5 @@
 import 'package:Dime/EditCardsScreen.dart';
+import 'package:Dime/models/largerPic.dart';
 import 'package:Dime/models/user.dart';
 import 'package:Dime/profileScreen.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,6 @@ class HomePageOne extends StatefulWidget {
 }
 
 class _HomePageOneState extends State<HomePageOne> {
-
   File _image;
   String name;
   String major;
@@ -68,7 +68,6 @@ class _HomePageOneState extends State<HomePageOne> {
                     title: new Text('🔒   In a relationship'),
                     onTap: () {
                       setState(() {
-
                         relationshipStatus = '🔒';
                       });
                       Navigator.pop(context);
@@ -78,7 +77,6 @@ class _HomePageOneState extends State<HomePageOne> {
                   title: new Text('💎    Single'),
                   onTap: () {
                     setState(() {
-
                       relationshipStatus = '💎';
                     });
                     Navigator.pop(context);
@@ -89,7 +87,6 @@ class _HomePageOneState extends State<HomePageOne> {
                   title: new Text('✌️   Not interested'),
                   onTap: () {
                     setState(() {
-
                       relationshipStatus = '✌️';
                     });
                     Navigator.pop(context);
@@ -100,7 +97,6 @@ class _HomePageOneState extends State<HomePageOne> {
                   title: new Text('Empty Status'),
                   onTap: () {
                     setState(() {
-
                       relationshipStatus = null;
                     });
                     Navigator.pop(context);
@@ -277,24 +273,24 @@ class _HomePageOneState extends State<HomePageOne> {
       _image = sampleImage;
     });
 
-      print('starting compression');
-      final tempDir = await getTemporaryDirectory();
-      final path = tempDir.path;
-      String rand = Timestamp.now().toString();
+    print('starting compression');
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+    String rand = Timestamp.now().toString();
 
-      Im.Image image = Im.decodeImage(_image.readAsBytesSync());
+    Im.Image image = Im.decodeImage(_image.readAsBytesSync());
 //     Im.copyResize(image,width: 500,height: 500);
 
-      //    image.format = Im.Image.RGBA;
-      //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
+    //    image.format = Im.Image.RGBA;
+    //    Im.Image newim = Im.remapColors(image, alpha: Im.LUMINANCE);
 
-      var newim2 = File('$path/img_$rand.jpg')
-        ..writeAsBytesSync(Im.encodeJpg(image));
+    var newim2 = File('$path/img_$rand.jpg')
+      ..writeAsBytesSync(Im.encodeJpg(image));
 
-      setState(() {
-        _image = newim2;
-      });
-      print('done');
+    setState(() {
+      _image = newim2;
+    });
+    print('done');
 
     uploadImage();
     Flushbar(
@@ -356,352 +352,411 @@ class _HomePageOneState extends State<HomePageOne> {
       allowFontScaling: true,
     )..init(context);
 
-    return Scaffold(
-        body: ListView(
-      physics: BouncingScrollPhysics(),
-      children: <Widget>[
-        Column(children: <Widget>[
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 40,
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ProfilePage()));
-                },
-                color: Colors.black,
-                icon: Icon(Icons.arrow_back_ios),
-                iconSize: 25.0,
-              ),
-              Container(
-                child: Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: screenH(85),
-                    ),
-                    OutlineButton(
-                      color: Color(0xFF1458EA),
-                      child: Text(
-                        "Edit Cards",
-                        style: TextStyle(
-                            color: Color(0xFF1458EA), fontSize: screenF(15)),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onPanDown: (_) {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Scaffold(
+          body: ListView(
+        physics: BouncingScrollPhysics(),
+        children: <Widget>[
+          Column(children: <Widget>[
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 40,
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) => ProfilePage()));
+                  },
+                  color: Colors.black,
+                  icon: Icon(Icons.arrow_back_ios),
+                  iconSize: 25.0,
+                ),
+                Container(
+                  child: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: screenH(85),
                       ),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(10.0)),
-                      onPressed: () {
+                      OutlineButton(
+                        color: Color(0xFF1458EA),
+                        child: Text(
+                          "Edit Cards",
+                          style: TextStyle(
+                              color: Color(0xFF1458EA), fontSize: screenF(15)),
+                        ),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(10.0)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => TabsApp()));
+                        },
+                      ),
+                      SizedBox(
+                        width: screenW(20),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 3.8,
+                        height: MediaQuery.of(context).size.height / 22,
+                        // decoration: BoxDecoration(
+                        //   boxShadow: [
+                        //     BoxShadow(
+                        //         color: Color(0xFF1458EA).withOpacity(0.35),
+                        //         blurRadius: (15),
+                        //         spreadRadius: (5),
+                        //         offset: Offset(0, 3)),
+                        //   ],
+                        // ),
+                        child: FlatButton(
+                          color: Color(0xFF1458EA),
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0))),
+                          onPressed: () {
+                            updateProfile();
+                            Flushbar(
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 5),
+                              borderRadius: 15,
+                              messageText: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Saved!',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      'Your basic information has been updated.',
+                                      style: TextStyle(color: Colors.grey),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              backgroundColor: Colors.white,
+                              boxShadows: [
+                                BoxShadow(
+                                    color: Colors.black12.withOpacity(0.1),
+                                    blurRadius: (15),
+                                    spreadRadius: (5),
+                                    offset: Offset(0, 3)),
+                              ],
+                              flushbarPosition: FlushbarPosition.TOP,
+                              icon: Padding(
+                                padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
+                                child: Icon(
+                                  Icons.save_alt,
+                                  size: 28.0,
+                                  color: Color(0xFF1458EA),
+                                ),
+                              ),
+                              duration: Duration(seconds: 3),
+                            )..show(context);
+                          },
+                          child: Text(
+                            "Save",
+                            style: TextStyle(
+                                fontSize: screenF(15), color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 100),
+            SizedBox(height: MediaQuery.of(context).size.height / 100),
+            Row(
+              children: <Widget>[
+                SizedBox(width: MediaQuery.of(context).size.width / 12.5),
+                Text(
+                  'Edit profile',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: screenF(22),
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 3,
+                ),
+                // InkWell(
+                //     onTap: updateProfile,
+                //     child: Container(
+                //         padding: EdgeInsets.all(8),
+                //         height: 25,
+                //         width: 45,
+                //         child: Center(
+                //             child: Text(
+                //           'Save',
+                //           style: TextStyle(color: Colors.white),
+                //         )),
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(40),
+                //           color: Color(0xFF1458EA),
+                //         )))
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  vertical: screenH(25.0), horizontal: screenW(10)),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: screenW(20),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      if (profilePic != null) {
                         Navigator.push(
                             context,
                             CupertinoPageRoute(
-                                builder: (context) => TabsApp()));
-                      },
+                                builder: (context) => LargePic(
+                                      largePic: profilePic,
+                                    )));
+                      }
+                    },
+                    child: profilePic != null
+                        ? CircleAvatar(
+                            radius: screenH(45),
+                            backgroundImage:
+                                CachedNetworkImageProvider(profilePic))
+                        : CircularProgressIndicator(),
+                  ),
+                  SizedBox(
+                    width: screenW(20),
+                  ),
+                  FlatButton(
+                    color: Color(0xFF1458EA),
+                    child: Text(
+                      "Edit Image",
+                      style: TextStyle(color: Colors.white),
                     ),
-                    SizedBox(
-                      width: screenW(20),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 3.8,
-                      height: MediaQuery.of(context).size.height / 22,
-                      // decoration: BoxDecoration(
-                      //   boxShadow: [
-                      //     BoxShadow(
-                      //         color: Color(0xFF1458EA).withOpacity(0.35),
-                      //         blurRadius: (15),
-                      //         spreadRadius: (5),
-                      //         offset: Offset(0, 3)),
-                      //   ],
-                      // ),
-                      child: FlatButton(
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(10.0)),
+                    onPressed: () {
+                      setImage();
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 15),
+                child: TextField(
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]"))
+                  ],
+                  textCapitalization: TextCapitalization.sentences,
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        name = value;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    hintText: name == "No Display Name" ? "Name" : name,
+                    hintStyle: TextStyle(color: Colors.grey),
+                    labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                    contentPadding: EdgeInsets.all(20),
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(
                         color: Color(0xFF1458EA),
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0))),
-                        onPressed: () {
-                          updateProfile();
-                          Flushbar(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
-                            borderRadius: 15,
-                            messageText: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Text(
-                                    'Saved!',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    'Your basic information has been updated.',
-                                    style: TextStyle(color: Colors.grey),
-                                  )
-                                ],
-                              ),
-                            ),
-                            backgroundColor: Colors.white,
-                            boxShadows: [
-                              BoxShadow(
-                                  color: Colors.black12.withOpacity(0.1),
-                                  blurRadius: (15),
-                                  spreadRadius: (5),
-                                  offset: Offset(0, 3)),
-                            ],
-                            flushbarPosition: FlushbarPosition.TOP,
-                            icon: Padding(
-                              padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
-                              child: Icon(
-                                Icons.save_alt,
-                                size: 28.0,
-                                color: Color(0xFF1458EA),
-                              ),
-                            ),
-                            duration: Duration(seconds: 3),
-                          )..show(context);
-                        },
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              fontSize: screenF(15), color: Colors.white),
-                        ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height / 100),
-          SizedBox(height: MediaQuery.of(context).size.height / 100),
-          Row(
-            children: <Widget>[
-              SizedBox(width: MediaQuery.of(context).size.width / 12.5),
-              Text(
-                'Edit profile',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: screenF(22),
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 3,
-              ),
-              // InkWell(
-              //     onTap: updateProfile,
-              //     child: Container(
-              //         padding: EdgeInsets.all(8),
-              //         height: 25,
-              //         width: 45,
-              //         child: Center(
-              //             child: Text(
-              //           'Save',
-              //           style: TextStyle(color: Colors.white),
-              //         )),
-              //         decoration: BoxDecoration(
-              //           borderRadius: BorderRadius.circular(40),
-              //           color: Color(0xFF1458EA),
-              //         )))
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: screenH(25.0), horizontal: screenW(10)),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: screenW(20),
-                ),
-                profilePic != null
-                    ? CircleAvatar(
-    radius: screenH(45),
-    backgroundImage: CachedNetworkImageProvider(
-    profilePic
-    )):
-                     CircularProgressIndicator(),
-                SizedBox(
-                  width: screenW(20),
-                ),
-                FlatButton(
-                  color: Color(0xFF1458EA),
-                  child: Text(
-                    "Edit Image",
-                    style: TextStyle(color: Colors.white),
+                    focusedBorder: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(
+                        color: Color(0xFF1458EA),
+                      ),
+                    ),
                   ),
-                  shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(10.0)),
-                  onPressed: () {
-                    setImage();
-                  },
-                ),
-              ],
+                )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
             ),
-          ),
-          Container(
-              margin: EdgeInsets.symmetric(
+            Padding(
+              padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 15),
-              child: TextField(
-                inputFormatters: [WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]"))],
-                textCapitalization: TextCapitalization.sentences,
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      name = value;
-                    });
-                  }
-                },
-                decoration: InputDecoration(
-                  hintText: name == "No Display Name" ? "Name" : name,
-                  hintStyle: TextStyle(color: Colors.grey),
-                  labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
-                  contentPadding: EdgeInsets.all(20),
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(25.0),
-                    borderSide: new BorderSide(
-                      color: Color(0xFF1458EA),
-                    ),
-                  ),
-                  focusedBorder: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(25.0),
-                    borderSide: new BorderSide(
-                      color: Color(0xFF1458EA),
-                    ),
-                  ),
-                ),
-              )),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 25,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width / 15),
-            child: Align(
-              alignment: Alignment.topLeft,
-              child: Container(
-                  width: MediaQuery.of(context).size.width / 1.1,
-                  height: MediaQuery.of(context).size.height / 10,
-                  child: data2.length != 0
-                      ? FlutterSearchPanel<int>(
-                          padding: EdgeInsets.all(10.0),
-                          selected: university == null
-                              ? 0
-                              : data2.indexWhere((SearchItem element) =>
-                                  element.text == currentUserModel.university),
-                          title: "Select your university",
-                          data: data2,
-                          color: Colors.white,
-                          icon: new Icon(Icons.school, color: Colors.black),
-                          textStyle: new TextStyle(
-                            color: Color(0xFF1458EA),
-                            fontSize: 15.0,
-                          ),
-                          onChanged: (int value) {
-                            if (value != null) {
-                              if (data2[value].text.isNotEmpty &&
-                                  data2[value].text != null &&
-                                  data2[value].text !=
-                                      "Select Your University") {
-                                setState(() {
-                                  university = data2[value].text;
-                                });
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                    width: MediaQuery.of(context).size.width / 1.1,
+                    height: MediaQuery.of(context).size.height / 10,
+                    child: data2.length != 0
+                        ? FlutterSearchPanel<int>(
+                            padding: EdgeInsets.all(10.0),
+                            selected: university == null
+                                ? 0
+                                : data2.indexWhere((SearchItem element) =>
+                                    element.text ==
+                                    currentUserModel.university),
+                            title: "Select your university",
+                            data: data2,
+                            color: Colors.white,
+                            icon: new Icon(Icons.school, color: Colors.black),
+                            textStyle: new TextStyle(
+                              color: Color(0xFF1458EA),
+                              fontSize: 15.0,
+                            ),
+                            onChanged: (int value) {
+                              if (value != null) {
+                                if (data2[value].text.isNotEmpty &&
+                                    data2[value].text != null &&
+                                    data2[value].text !=
+                                        "Select Your University") {
+                                  setState(() {
+                                    university = data2[value].text;
+                                  });
+                                }
                               }
-                            }
-                          },
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(),
-                        )),
+                            },
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(),
+                          )),
+              ),
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 25,
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width / 3.5, 0, 0, 0),
-            child: Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    _settingModalBottomSheet(context);
-                  },
-                  child: Text(
-                          relationshipStatus==null?
-                          "Relationship Status":
-                          relationshipStatus == "🔒"
-                              ? "🔒 In a Relationship"
-                              : relationshipStatus == "💎"
-                                  ? "💎   Single"
-                                  : relationshipStatus == "✌️"
-                                      ? "✌️  Not interested"
-                              :""
-
-                      ,style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
-                ),
-                IconButton(
-                  icon: Icon(Icons.keyboard_arrow_down),
-                  onPressed: () {
-                    _settingModalBottomSheet(context);
-                  },
-                )
-              ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 25,
-          ),
-          Container(
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width / 3.5, 0, 0, 0),
+              child: Row(
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () {
+                      _settingModalBottomSheet(context);
+                    },
+                    child: Text(
+                        relationshipStatus == null
+                            ? "Relationship Status"
+                            : relationshipStatus == "🔒"
+                                ? "🔒 In a Relationship"
+                                : relationshipStatus == "💎"
+                                    ? "💎   Single"
+                                    : relationshipStatus == "✌️"
+                                        ? "✌️  Not interested"
+                                        : "",
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold)),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    onPressed: () {
+                      _settingModalBottomSheet(context);
+                    },
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 15),
+                child: TextField(
+                  inputFormatters: [
+                    WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]"))
+                  ],
+                  textCapitalization: TextCapitalization.words,
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        major = value;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    hintText: major == null ? "Program" : major,
+                    hintStyle: TextStyle(color: Colors.grey),
+                    labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                    contentPadding: EdgeInsets.all(20),
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(
+                        color: Color(0xFF1458EA),
+                      ),
+                    ),
+                    focusedBorder: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(
+                        color: Color(0xFF1458EA),
+                      ),
+                    ),
+                  ),
+                )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
+            ),
+            Container(
+                margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width / 15),
+                child: TextField(
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  onChanged: (value) {
+                    if (value != null) {
+                      setState(() {
+                        gradYear = "" + value;
+                      });
+                    }
+                  },
+                  decoration: InputDecoration(
+                    hintText: gradYear == null ? "Graduation Year" : gradYear,
+                    hintStyle: TextStyle(color: Colors.grey),
+                    labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
+                    contentPadding: EdgeInsets.all(20),
+                    border: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: new OutlineInputBorder(
+                      borderRadius: new BorderRadius.circular(25.0),
+                      borderSide: new BorderSide(
+                        color: Color(0xFF1458EA),
+                      ),
+                    ),
+                  ),
+                )),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
+            ),
+            Container(
               margin: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width / 15),
               child: TextField(
-                inputFormatters: [WhitelistingTextInputFormatter(RegExp("[a-zA-Z ]"))],
-                textCapitalization: TextCapitalization.words,
                 onChanged: (value) {
                   if (value != null) {
                     setState(() {
-                      major = value;
+                      bio = value;
                     });
                   }
                 },
+                textCapitalization: TextCapitalization.sentences,
+                // controller: descriptionController,
+                keyboardType: TextInputType.multiline,
+                maxLines: 2,
+                maxLength: 50,
+                maxLengthEnforced: true,
                 decoration: InputDecoration(
-                  hintText: major == null ? "Program" : major,
-                  hintStyle: TextStyle(color: Colors.grey),
-                  labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
-                  contentPadding: EdgeInsets.all(20),
-                  border: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(25.0),
-                    borderSide: new BorderSide(
-                      color: Color(0xFF1458EA),
-                    ),
-                  ),
-                  focusedBorder: new OutlineInputBorder(
-                    borderRadius: new BorderRadius.circular(25.0),
-                    borderSide: new BorderSide(
-                      color: Color(0xFF1458EA),
-                    ),
-                  ),
-                ),
-              )),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 25,
-          ),
-          Container(
-              margin: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width / 15),
-              child: TextField(
-                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                onChanged: (value) {
-                  if (value != null) {
-                    setState(() {
-                      gradYear = "" + value;
-                    });
-                  }
-                },
-                decoration: InputDecoration(
-                  hintText: gradYear == null ? "Graduation Year" : gradYear,
+                  hintText: bio == null ? " Your Bio" : bio,
                   hintStyle: TextStyle(color: Colors.grey),
                   labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
                   contentPadding: EdgeInsets.all(20),
@@ -716,73 +771,37 @@ class _HomePageOneState extends State<HomePageOne> {
                     ),
                   ),
                 ),
-              )),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 25,
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width / 15),
-            child: TextField(
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() {
-                    bio = value;
-                  });
-                }
-              },
-              textCapitalization: TextCapitalization.sentences,
-              // controller: descriptionController,
-              keyboardType: TextInputType.multiline,
-              maxLines: 2,
-              maxLength: 50,
-              maxLengthEnforced: true,
-              decoration: InputDecoration(
-                hintText: bio == null ? " Your Bio" : bio,
-                hintStyle: TextStyle(color: Colors.grey),
-                labelStyle: TextStyle(fontSize: 15, color: Colors.grey),
-                contentPadding: EdgeInsets.all(20),
-                border: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: new BorderSide(color: Colors.grey),
-                ),
-                focusedBorder: new OutlineInputBorder(
-                  borderRadius: new BorderRadius.circular(25.0),
-                  borderSide: new BorderSide(
-                    color: Color(0xFF1458EA),
-                  ),
-                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: screenH(10.0),
-          ),
-          Row(
-            children: <Widget>[
-              SizedBox(
-                width: screenW(17.5),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    "Tell people around you who you are with a quote, joke,",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  Text(
-                    "your job title, hobbies, or whatever you can think of!",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 60,
-          ),
-        ]),
-      ],
-    ));
+            SizedBox(
+              height: screenH(10.0),
+            ),
+            Row(
+              children: <Widget>[
+                SizedBox(
+                  width: screenW(17.5),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Tell people around you who you are with a quote, joke,",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    Text(
+                      "your job title, hobbies, or whatever you can think of!",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 60,
+            ),
+          ]),
+        ],
+      )),
+    );
   }
 }

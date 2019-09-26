@@ -1,5 +1,7 @@
 import 'package:Dime/EditCardsScreen.dart';
 import 'package:Dime/blockedusers.dart';
+import 'package:Dime/feedback.dart' as prefix0;
+import 'package:Dime/models/largerPic.dart';
 import 'package:Dime/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,11 +10,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'login.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:Dime/feedback.dart';
 import 'package:page_transition/page_transition.dart';
 import 'homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -95,8 +99,10 @@ class _ProfilePageState extends State<ProfilePage> {
               left: (MediaQuery.of(context).size.width / 30),
               child: IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => ScrollPage(social: true)));
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => ScrollPage(social: true)));
                 },
                 icon: Icon(
                   Icons.arrow_back_ios,
@@ -123,16 +129,25 @@ class _ProfilePageState extends State<ProfilePage> {
           Positioned(
             top: (MediaQuery.of(context).size.height / 6.5),
             left: (MediaQuery.of(context).size.width / 2 - 55.0),
-            child: photoUrl == null
-                ? SizedBox(
-                    height: 0.0,
-                  )
-                :CircleAvatar(
-                radius: screenW(60),
-    backgroundImage: CachedNetworkImageProvider(
-    photoUrl
-    )),
-
+            child: GestureDetector(
+              onTap: () {
+                if (photoUrl != null) {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => LargePic(
+                                largePic: photoUrl,
+                              )));
+                }
+              },
+              child: photoUrl == null
+                  ? SizedBox(
+                      height: 0.0,
+                    )
+                  : CircleAvatar(
+                      radius: screenW(60),
+                      backgroundImage: CachedNetworkImageProvider(photoUrl)),
+            ),
           ),
           Positioned(
             top: (MediaQuery.of(context).size.height / 4.4),
@@ -307,6 +322,27 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                         leading: Icon(
                           SimpleLineIcons.shield,
+                          color: Colors.grey[700],
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.grey[700],
+                        ),
+                      )),
+                  Container(
+                      width: screenW(378),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => prefix0.Feedback()));
+                        },
+                        title: Text(
+                          "Feedback",
+                        ),
+                        leading: Icon(
+                          SimpleLineIcons.exclamation,
                           color: Colors.grey[700],
                         ),
                         trailing: Icon(

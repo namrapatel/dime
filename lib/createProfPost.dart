@@ -192,7 +192,12 @@ class _CreateProfPostState extends State<CreateProfPost> {
                     child: FloatingActionButton.extended(
                       backgroundColor: Color(0xFF096664),
                       onPressed: () {
-                        if(descriptionController.text!=null&&descriptionController.text!="") {
+                        if(file==null) {
+                          if (descriptionController.text != null &&
+                              descriptionController.text != "") {
+                            post();
+                          }
+                        }else{
                           post();
                         }
                       },
@@ -494,15 +499,34 @@ class _CreateProfPostState extends State<CreateProfPost> {
           postPic = data;
           caption = descriptionController.text;
           postId = currentUserModel.uid + Timestamp.now().toString();
-
-          uploader.addProfPost(
-              caption, timeStamp, postPic, postId, upVotes, stream, members);
+            if(currentUserModel.verified==true) {
+              uploader.addProfPost(
+                  caption,
+                  timeStamp,
+                  postPic,
+                  postId,
+                  upVotes,
+                  stream,
+                  members,
+                  true);
+            }else{
+              uploader.addProfPost(
+                  caption,
+                  timeStamp,
+                  postPic,
+                  postId,
+                  upVotes,
+                  stream,
+                  members,
+                  false);
+            }
         }).then((_) {
           setState(() {
             file = null;
             Navigator.pop(context);
           });
         });
+
       } else {
         setState(() {
           loading = false;
@@ -512,8 +536,27 @@ class _CreateProfPostState extends State<CreateProfPost> {
         postId = currentUserModel.uid + Timestamp.now().toString();
         caption = descriptionController.text;
 
-        uploader.addProfPost(
-            caption, timeStamp, postPic, postId, upVotes, stream,members);
+        if(currentUserModel.verified==true) {
+          uploader.addProfPost(
+              caption,
+              timeStamp,
+              postPic,
+              postId,
+              upVotes,
+              stream,
+              members,
+              true);
+        }else{
+          uploader.addProfPost(
+              caption,
+              timeStamp,
+              postPic,
+              postId,
+              upVotes,
+              stream,
+              members,
+              false);
+        }
         Navigator.pop(context);
       }
     }

@@ -15,15 +15,20 @@ import 'viewCards.dart';
 
 class SocialComments extends StatefulWidget {
   final String postId;
-  const SocialComments({this.postId});
+  final String collection;
+  final String type;
+  const SocialComments({this.postId, this.collection, this.type});
   @override
-  _SocialCommentsState createState() => _SocialCommentsState(this.postId);
+  _SocialCommentsState createState() =>
+      _SocialCommentsState(this.postId, this.collection, this.type);
 }
 
 class _SocialCommentsState extends State<SocialComments> {
   final String postId;
+  final String collection;
+  final String type;
   String university;
-  _SocialCommentsState(this.postId);
+  _SocialCommentsState(this.postId, this.collection, this.type);
 //  GlobalKey<AutoCompleteTextFieldState<UserTag>> key = new GlobalKey();
   TextEditingController controller = new TextEditingController();
   List<UserTag> suggestions = [
@@ -74,10 +79,8 @@ class _SocialCommentsState extends State<SocialComments> {
   }
 
   getPostUni() async {
-    DocumentSnapshot query = await Firestore.instance
-        .collection('socialPosts')
-        .document(postId)
-        .get();
+    DocumentSnapshot query =
+        await Firestore.instance.collection(collection).document(postId).get();
     setState(() {
       university = query.data['university'];
     });
@@ -92,7 +95,7 @@ class _SocialCommentsState extends State<SocialComments> {
     List<Comment> postComments = [];
     print(postId);
     QuerySnapshot query = await Firestore.instance
-        .collection('socialPosts')
+        .collection(collection)
         .document(postId)
         .collection('comments')
         .orderBy('timestamp', descending: false)
@@ -247,18 +250,18 @@ class _SocialCommentsState extends State<SocialComments> {
                                 String docName =
                                     postId + Timestamp.now().toString();
                                 DocumentSnapshot info = await Firestore.instance
-                                    .collection('socialPosts')
+                                    .collection(collection)
                                     .document(postId)
                                     .get();
                                 String ownerID = info.data['ownerId'];
                                 int points = info.data['points'];
                                 Firestore.instance
-                                    .collection('socialPosts')
+                                    .collection(collection)
                                     .document(postId)
                                     .collection('comments')
                                     .document(docName)
                                     .setData({
-                                  'type': 'social',
+                                  'type': type,
                                   'postId': postId,
 
 //                              'commentId':docName,
@@ -278,7 +281,7 @@ class _SocialCommentsState extends State<SocialComments> {
                                   'timestamp': Timestamp.now(),
                                   'ownerId': ownerID,
                                   "postID": widget.postId,
-                                  "type": "social",
+                                  "type": type,
                                 });
                                 Firestore.instance
                                     .collection('users')
@@ -286,7 +289,7 @@ class _SocialCommentsState extends State<SocialComments> {
                                     .collection('recentActivity')
                                     .document(widget.postId)
                                     .setData({
-                                  'type': 'social',
+                                  'type': type,
                                   'commented': true,
                                   'postId': widget.postId,
                                   'numberOfComments': FieldValue.increment(1),
@@ -294,13 +297,13 @@ class _SocialCommentsState extends State<SocialComments> {
                                 }, merge: true);
 
                                 QuerySnapshot snap = await Firestore.instance
-                                    .collection('socialPosts')
+                                    .collection(collection)
                                     .document(postId)
                                     .collection('comments')
                                     .getDocuments();
                                 int numberOfComments = snap.documents.length;
                                 Firestore.instance
-                                    .collection('socialPosts')
+                                    .collection(collection)
                                     .document(postId)
                                     .updateData({
                                   'comments': numberOfComments,

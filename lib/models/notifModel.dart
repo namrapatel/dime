@@ -82,15 +82,17 @@ class _LikeNotifState extends State<LikeNotif> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: screenH(8.0)),
       child: InkWell(
-        onTap: () {
-          Navigator.push(
-              context,
-              CupertinoPageRoute(
-                  builder: (context) => UserCard(
-                        userId: id,
-                        userName: name,
-                      )));
-        },
+        onTap: liked == true
+            ? () {
+                Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                        builder: (context) => UserCard(
+                              userId: id,
+                              userName: name,
+                            )));
+              }
+            : () {},
         child: ListTile(
           // leading: Container(
           //     width: MediaQuery.of(context).size.width / 12,

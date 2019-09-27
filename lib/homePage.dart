@@ -1236,9 +1236,12 @@ class _ScrollPageState extends State<ScrollPage>
                                           return UserTile(blocked: true);
                                         } else {
                                           bool likedBack = false;
-                                          if (likedByUsers
-                                              .contains(doc.documentID)) {
+                                          if (likedByUsers != null &&
+                                              likedByUsers
+                                                  .contains(doc.documentID)) {
                                             likedBack = true;
+                                          } else {
+                                            likedBack = false;
                                           }
                                           bool liked;
                                           List<dynamic> likedBy =
@@ -1525,21 +1528,18 @@ class _UserTileState extends State<UserTile> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(20.0)),
                             color: Colors.grey[100]),
-                        child: 
-                        IconButton(
-                          icon:
-                              
-                                widget.liked == false
-                                      ? Icon(
-                                          AntDesign.like2,
-                                          size: screenH(25),
-                                          color: Color(0xFF1458EA),
-                                        )
-                                      : Icon(
-                                          AntDesign.like1,
-                                          size: screenH(25),
-                                          color: Color(0xFF1458EA),
-                                        ),
+                        child: IconButton(
+                          icon: widget.liked == false
+                              ? Icon(
+                                  AntDesign.like2,
+                                  size: screenH(25),
+                                  color: Color(0xFF1458EA),
+                                )
+                              : Icon(
+                                  AntDesign.like1,
+                                  size: screenH(25),
+                                  color: Color(0xFF1458EA),
+                                ),
                           color: Colors.black,
                           onPressed: () {
                             if (widget.liked == false) {

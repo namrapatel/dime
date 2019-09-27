@@ -14,12 +14,9 @@ class FacebookAuth {
   Map userProfile;
   FacebookLogin fbLogin = new FacebookLogin();
 
-
-  log(context,MaterialPageRoute route) async {
-    FacebookLoginResult result = await fbLogin
-        .logIn(
-        ['email', 'public_profile']);
-
+  log(context, MaterialPageRoute route) async {
+    FacebookLoginResult result =
+        await fbLogin.logIn(['email', 'public_profile']);
 
     final FacebookAccessToken accessToken = result.accessToken;
 
@@ -60,12 +57,15 @@ class FacebookAuth {
         }
       }
       String fbPhoto = userProfile["picture"]["data"]["url"];
+      List<String> empty = [];
       Firestore.instance.collection('users').document(user.uid).setData({
         'photoUrl': fbPhoto,
         'email': user.email,
         'displayName': user.displayName,
         'phoneNumber': user.phoneNumber,
         'facebookUid': facebookUid,
+        'likedBy': empty,
+        'likedUsers': empty
       });
       userRecord =
           await Firestore.instance.collection('users').document(user.uid).get();

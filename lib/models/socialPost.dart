@@ -31,6 +31,7 @@ class SocialPost extends StatefulWidget {
   final List<dynamic> likes;
   final int points;
   final String ownerId;
+  final String type;
 //  final bool liked;
 
   factory SocialPost.fromDocument(DocumentSnapshot document) {
@@ -38,6 +39,7 @@ class SocialPost extends StatefulWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String times = '$elapsedTime';
     return SocialPost(
+      type: document['type'],
       verified: document['verified'],
       ownerId: document['ownerId'],
       points: document['points'],
@@ -53,7 +55,8 @@ class SocialPost extends StatefulWidget {
   }
 
   const SocialPost(
-      {this.verified,
+      {this.type,
+      this.verified,
       this.university,
       this.ownerId,
       this.points,
@@ -66,6 +69,7 @@ class SocialPost extends StatefulWidget {
       this.likes});
   @override
   _SocialPostState createState() => _SocialPostState(
+      type: type,
       verified: verified,
       points: points,
       university: university,
@@ -80,6 +84,7 @@ class SocialPost extends StatefulWidget {
 }
 
 class _SocialPostState extends State<SocialPost> {
+  String type;
   bool verified;
   String ownerId;
   int points;
@@ -96,7 +101,8 @@ class _SocialPostState extends State<SocialPost> {
   String ownerPhoto;
 
   _SocialPostState(
-      {this.verified,
+      {this.type,
+      this.verified,
       this.ownerId,
       this.university,
       this.postId,
@@ -108,12 +114,23 @@ class _SocialPostState extends State<SocialPost> {
       this.likes,
       this.points});
   String name = currentUserModel.displayName;
+  String collection;
 //bool editLike=liked;
   @override
   void initState() {
     super.initState();
 
     getVerification();
+
+    if (type == "party") {
+      setState(() {
+        collection = "partyPosts";
+      });
+    } else {
+      setState(() {
+        collection = "socialPosts";
+      });
+    }
     setState(() {
       liked = (likes.contains(currentUserModel.uid));
     });
@@ -132,51 +149,6 @@ class _SocialPostState extends State<SocialPost> {
       setState(() {
         ownerName = ownerDoc['displayName'];
         ownerPhoto = ownerDoc['photoUrl'];
-      });
-    }
-  }
-
-  getPostInfo() async {
-    DocumentSnapshot doc = await Firestore.instance
-        .collection('socialPosts')
-        .document(widget.postId)
-        .get();
-    Timestamp storedDate = doc["timeStamp"];
-    String elapsedTime = timeago.format(storedDate.toDate());
-    String times = '$elapsedTime';
-    if (verified == true) {
-      DocumentSnapshot ownerDoc = await Firestore.instance
-          .collection('users')
-          .document(widget.ownerId)
-          .get();
-      setState(() {
-        ownerName = ownerDoc['displayName'];
-        ownerPhoto = ownerDoc['photoUrl'];
-      });
-    }
-    setState(() {
-      likes = doc['likes'];
-      university = doc['university'];
-      caption = doc['caption'];
-      postPic = doc['postPic'];
-      comments = doc['comments'];
-      timeStamp = times;
-      upVotes = doc['upVotes'];
-    });
-    print(likes);
-    if (likes.length != 0) {
-      print('my id issssss');
-      print(currentUserModel.uid);
-      if (likes.contains(currentUserModel.uid)) {
-        print('my id is');
-        print(currentUserModel.uid);
-        setState(() {
-          liked = true;
-        });
-      }
-    } else {
-      setState(() {
-        liked = false;
       });
     }
   }
@@ -356,7 +328,7 @@ class _SocialPostState extends State<SocialPost> {
                                 });
 
                                 Firestore.instance
-                                    .collection('socialPosts')
+                                    .collection(collection)
                                     .document(widget.postId)
                                     .updateData({
                                   'likes': FieldValue.arrayUnion(
@@ -368,7 +340,7 @@ class _SocialPostState extends State<SocialPost> {
                                     .collection('recentActivity')
                                     .document(widget.postId)
                                     .setData({
-                                  'type': 'social',
+                                  'type': type,
                                   'upvoted': true,
                                   'postId': widget.postId,
                                   'timeStamp': Timestamp.now()
@@ -380,7 +352,7 @@ class _SocialPostState extends State<SocialPost> {
                                   points--;
                                 });
                                 Firestore.instance
-                                    .collection('socialPosts')
+                                    .collection(collection)
                                     .document(widget.postId)
                                     .updateData({
                                   'likes': FieldValue.arrayRemove(
@@ -413,7 +385,7 @@ class _SocialPostState extends State<SocialPost> {
                                 }
                               }
                               Firestore.instance
-                                  .collection('socialPosts')
+                                  .collection(collection)
                                   .document(widget.postId)
                                   .updateData(
                                       {'upVotes': upVotes, 'points': points});
@@ -480,8 +452,9 @@ class _SocialPostState extends State<SocialPost> {
                                           CupertinoPageRoute(
                                               builder: (context) =>
                                                   SocialComments(
-                                                    postId: widget.postId,
-                                                  )));
+                                                      postId: widget.postId,
+                                                      collection: collection,
+                                                      type: type)));
                                     },
                                   ),
                                   comments != null

@@ -15,6 +15,7 @@ import 'package:Dime/userCard.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:Dime/viewCards.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
 class Comment extends StatelessWidget {
   final String commentId,
       commenterId,
@@ -28,7 +29,8 @@ class Comment extends StatelessWidget {
   final bool verified;
   final List tags;
   const Comment(
-      {this.verified,this.commenterId,
+      {this.verified,
+      this.commenterId,
       this.commenterName,
       this.commenterPhoto,
       this.text,
@@ -44,7 +46,7 @@ class Comment extends StatelessWidget {
     String elapsedTime = timeago.format(storedDate.toDate());
     String timestamp = '$elapsedTime';
     return Comment(
-      verified:document['verified'],
+        verified: document['verified'],
         commenterId: document['commenterId'],
         commenterName: document['commenterName'],
         commentId: document.documentID,
@@ -67,32 +69,22 @@ class Comment extends StatelessWidget {
             height: 8.0,
           ),
           InkWell(
-            child:  GestureDetector(
-              onTap:(
-                  ){
-                if(commenterPhoto!=null){
+            child: GestureDetector(
+              onTap: () {
+                if (commenterPhoto != null) {
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
-                          builder: (context) =>
-                              LargePic(
+                          builder: (context) => LargePic(
                                 largePic: commenterPhoto,
-                              )
-                      ));
+                              )));
                 }
               },
-              child:
-                  CircleAvatar(
-                      radius: screenH(22.0),
-                    backgroundImage: CachedNetworkImageProvider(
-                    commenterPhoto
-          )),
-
-
-
+              child: CircleAvatar(
+                  radius: screenH(22.0),
+                  backgroundImage: CachedNetworkImageProvider(commenterPhoto)),
             ),
-
-    onTap: () {
+            onTap: () {
               Navigator.push(
                   context,
                   CupertinoPageRoute(
@@ -104,7 +96,6 @@ class Comment extends StatelessWidget {
           ),
         ],
       ),
-
       title: Column(
         children: <Widget>[
           Row(
@@ -114,17 +105,18 @@ class Comment extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       commenterName,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 14.0),
                     ),
-                    verified==true?Icon(
-                      Feather.check_circle,
-                      color: Color(0xFF096664),
-                      size: screenF(17),
-                    )
+                    verified == true
+                        ? Icon(
+                            Feather.check_circle,
+                            color: Color(0xFF096664),
+                            size: screenF(17),
+                          )
                         : Container()
                   ],
                 ),
-
                 onTap: () {
                   Navigator.push(
                       context,
@@ -203,22 +195,28 @@ class Comment extends StatelessWidget {
                             }, merge: true);
                           }
 
-                          if (type == 'social') {
+                          if (type == 'social' || type == "party") {
+                            String collection;
+                            if (type == "social") {
+                              collection = "socialPosts";
+                            } else {
+                              collection = "partyPosts";
+                            }
                             DocumentSnapshot snap = await Firestore.instance
-                                .collection('socialPosts')
+                                .collection(collection)
                                 .document(postId)
                                 .get();
                             int commentsNumber = snap['comments'];
                             String ownerID = snap['ownerId'];
                             int points = snap['points'];
                             Firestore.instance
-                                .collection('socialPosts')
+                                .collection(collection)
                                 .document(postId)
                                 .collection('comments')
                                 .document(commentId)
                                 .delete();
                             Firestore.instance
-                                .collection('socialPosts')
+                                .collection(collection)
                                 .document(postId)
                                 .updateData({
                               'comments': commentsNumber - 1,
@@ -246,6 +244,8 @@ class Comment extends StatelessWidget {
                                 CupertinoPageRoute(
                                     builder: (context) => SocialComments(
                                           postId: postId,
+                                          type: type,
+                                          collection: collection,
                                         )));
                           } else if (type == 'prof') {
                             DocumentSnapshot snap = await Firestore.instance

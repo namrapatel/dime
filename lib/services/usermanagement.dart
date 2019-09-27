@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserManagement {
   storeNewUser(user, context) {
+    List<String> empty = [];
     FirebaseUser current = user;
     String uid = current.uid;
     String defaultName = "New User";
@@ -14,7 +15,9 @@ class UserManagement {
     Firestore.instance.collection('users').document('$uid').setData({
       'photoUrl': defaultImage,
       'email': current.email,
-      'displayName': defaultName
+      'displayName': defaultName,
+      'likedBy': empty,
+      'likedUsers': empty
     });
 
     createCards(uid, defaultImage, defaultName);
@@ -45,10 +48,11 @@ class UserManagement {
     });
   }
 
- addPartyPost(String caption, Timestamp timeStamp, String postPic,
+  addPartyPost(String caption, Timestamp timeStamp, String postPic,
       String postId, int upVotes, bool verified) {
     List<dynamic> likes = [];
     Firestore.instance.collection('partyPosts').add({
+      'type': 'party',
       'points': 0,
       'comments': 0,
       'caption': caption,
@@ -60,7 +64,7 @@ class UserManagement {
       "likes": likes,
       "university": currentUserModel.university,
       'status': 'pending',
-      'verified':verified
+      'verified': verified
     });
   }
 
@@ -68,6 +72,7 @@ class UserManagement {
       String postId, int upVotes, bool verified) {
     List<dynamic> likes = [];
     Firestore.instance.collection('socialPosts').add({
+      'type': 'social',
       'points': 0,
       'comments': 0,
       'caption': caption,
@@ -79,20 +84,28 @@ class UserManagement {
       "likes": likes,
       "university": currentUserModel.university,
       'status': 'pending',
-      'verified':verified
+      'verified': verified
     });
   }
 
-  addProfPost(String caption, Timestamp timeStamp, String postPic,
-      String postId, int upVotes, String stream, List<dynamic> userIds,bool verified) {
+  addProfPost(
+      String caption,
+      Timestamp timeStamp,
+      String postPic,
+      String postId,
+      int upVotes,
+      String stream,
+      List<dynamic> userIds,
+      bool verified) {
     List<dynamic> likes = [];
-    for(var i=0;i<userIds.length;i++){
-      Firestore.instance.collection('users').document(userIds[i]).collection('feed').document(postId).setData({
-        'stream': stream,
-        'timeStamp':timeStamp
-      });
+    for (var i = 0; i < userIds.length; i++) {
+      Firestore.instance
+          .collection('users')
+          .document(userIds[i])
+          .collection('feed')
+          .document(postId)
+          .setData({'stream': stream, 'timeStamp': timeStamp});
     }
-
 
     Firestore.instance.collection('profPosts').document(postId).setData({
       'points': 0,
@@ -107,7 +120,7 @@ class UserManagement {
       "university": currentUserModel.university,
       'status': 'pending',
       'stream': stream,
-      'verified':verified
+      'verified': verified
     });
 
     Firestore.instance
@@ -128,12 +141,10 @@ class UserManagement {
       "university": currentUserModel.university,
       'status': 'pending',
       'stream': stream,
-      'verified':verified
+      'verified': verified
     });
 
-    Firestore.instance
-        .collection('streamNotifs')
-        .add({
+    Firestore.instance.collection('streamNotifs').add({
       'points': 0,
       'comments': 0,
       'caption': caption,
@@ -146,7 +157,7 @@ class UserManagement {
       "university": currentUserModel.university,
       'status': 'pending',
       'stream': stream,
-      'verified':verified
+      'verified': verified
     });
   }
 }

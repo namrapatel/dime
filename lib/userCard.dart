@@ -34,7 +34,7 @@ class _UserCardState extends State<UserCard> {
   bool isLoading = false;
   bool hasMore = true;
   bool noLikes = false;
-  int documentLimit = 2;
+  int documentLimit = 3;
   String firstName;
   DocumentSnapshot lastDocument;
   ScrollController _scrollController = ScrollController();

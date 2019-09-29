@@ -309,9 +309,8 @@ class _LoginState extends State<Login> {
                 _formKey.currentState.save();
                 //TODO Check values and navigate to new page
                 try {
-                  if (_email.startsWith(" ") || _email.endsWith(" ")) {
-                    _email = _email.trim();
-                  }
+                  _email = _email.trim();
+
                   await FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                           email: _email, password: _password)

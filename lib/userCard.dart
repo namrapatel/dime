@@ -34,7 +34,7 @@ class _UserCardState extends State<UserCard> {
   bool isLoading = false;
   bool hasMore = true;
   bool noLikes = false;
-  int documentLimit = 6;
+  int documentLimit = 2;
   String firstName;
   DocumentSnapshot lastDocument;
   ScrollController _scrollController = ScrollController();
@@ -168,28 +168,32 @@ class _UserCardState extends State<UserCard> {
 //        return ProfPost.fromDocument(doc);
       }
       if (doc != null) {
-        posts.add(Padding(
-          padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              qn.documents[i]['upvoted'] == true &&
-                      qn.documents[i]['commented'] == true
-                  ? Text(
-                      firstName + " upvoted and commented",
-                      style: TextStyle(color: Colors.white),
-                    )
-                  : Text(
-                      qn.documents[i]['upvoted'] == true
-                          ? firstName + " upvoted"
-                          : firstName + " commented",
-                      style: TextStyle(color: Colors.white)),
-              (qn.documents[i]['type'] == "social" ||
-                      qn.documents[i]['type'] == "party")
-                  ? SocialPost.fromDocument(doc)
-                  : ProfPost.fromDocument(doc)
-            ],
-          ),
+        posts.add(Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  qn.documents[i]['upvoted'] == true &&
+                          qn.documents[i]['commented'] == true
+                      ? Text(
+                          firstName + " upvoted and commented",
+                          style: TextStyle(color: Colors.white),
+                        )
+                      : Text(
+                          qn.documents[i]['upvoted'] == true
+                              ? firstName + " upvoted"
+                              : firstName + " commented",
+                          style: TextStyle(color: Colors.white)),
+                ],
+              ),
+            ),
+            (qn.documents[i]['type'] == "social" ||
+                    qn.documents[i]['type'] == "party")
+                ? SocialPost.fromDocument(doc)
+                : ProfPost.fromDocument(doc)
+          ],
         ));
       } else {
         i++;
@@ -237,7 +241,7 @@ class _UserCardState extends State<UserCard> {
       }
       return Padding(
         padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
-        child: Row(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             snap.data[index].data['upvoted'] == true &&
@@ -843,26 +847,27 @@ class _UserCardState extends State<UserCard> {
                 ),
               ),
             ),
-//            Padding(
-//              padding: EdgeInsets.fromLTRB(
-//                  0, MediaQuery.of(context).size.height / 2.4, 0, 0),
-            Container(
-              height: MediaQuery.of(context).size.height / 1.67,
-              child: Column(
-                children: <Widget>[
-                  Expanded(
-                    child: products.length == 0
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : ListView.builder(
-                            controller: _scrollController,
-//                            shrinkWrap: true,
-//                            cacheExtent: 5000.0,
-//                            physics: BouncingScrollPhysics(),
-                            itemCount: products.length,
-                            itemBuilder: (_, index) {
-                              return products[index];
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  0, MediaQuery.of(context).size.height / 2.4, 0, 0),
+              child: Container(
+                height: MediaQuery.of(context).size.height / 2,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: products.length == 0
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : ListView.builder(
+                              controller: _scrollController,
+                              //  shrinkWrap: true,
+                              //  cacheExtent: 5000.0,
+                              //  physics: BouncingScrollPhysics(),
+                              itemCount: products.length,
+                              itemBuilder: (_, index) {
+                                return products[index];
 
 //                           DocumentSnapshot doc;
 //      if (postType == "social") {
@@ -906,15 +911,15 @@ class _UserCardState extends State<UserCard> {
 //          ],
 //        ),
 //      );
-                            }),
-                  ),
-                  isLoading
-                      ? Container(child: CircularProgressIndicator())
-                      : Container()
-                ],
+                              }),
+                    ),
+                    isLoading
+                        ? Container(child: CircularProgressIndicator())
+                        : Container()
+                  ],
+                ),
               ),
             ),
-//            ),
           ],
         ));
   }

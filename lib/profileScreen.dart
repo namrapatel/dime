@@ -161,7 +161,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       print(currentUserModel.uid);
                       _removeDeviceToken();
                       FirebaseAuth.instance.signOut().then((value) {
-                        Navigator.push(context,
+                        Navigator.pushReplacement(context,
                             CupertinoPageRoute(builder: (context) => Login()));
                       });
                     },

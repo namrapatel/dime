@@ -1,3 +1,5 @@
+import 'package:Dime/models/largerPic.dart';
+import 'package:Dime/userCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -233,37 +235,65 @@ class _SocialPostState extends State<SocialPost> {
                         ),
                         child: Column(
                           children: <Widget>[
-                            verified == true
-                                ? Container(
-                                    child: (ownerPhoto != null &&
-                                            ownerName != null)
-                                        ? Row(
-                                            children: <Widget>[
-                                              CircleAvatar(
-                                                radius: screenH(30),
-                                                backgroundImage:
-                                                    CachedNetworkImageProvider(
-                                                        ownerPhoto),
-                                              ),
-                                              SizedBox(
-                                                width: screenW(10.0),
-                                              ),
-                                              Text(
-                                                ownerName,
-                                                style: TextStyle(fontSize: 18),
-                                              ),
-                                              SizedBox(
-                                                width: screenW(3.0),
-                                              ),
-                                              Icon(
-                                                Feather.check_circle,
-                                                color: Color(0xFF096664),
-                                                size: screenF(17),
-                                              )
-                                            ],
-                                          )
-                                        : CircularProgressIndicator())
-                                : Container(),
+                            InkWell(
+                              child: verified == true
+                                  ? Container(
+                                      child: (ownerPhoto != null &&
+                                              ownerName != null)
+                                          ? Row(
+                                              children: <Widget>[
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    if (ownerPhoto != null) {
+                                                      Navigator.push(
+                                                          context,
+                                                          CupertinoPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      LargePic(
+                                                                        largePic:
+                                                                            ownerPhoto,
+                                                                      )));
+                                                    }
+                                                  },
+                                                  child: CircleAvatar(
+                                                    radius: screenH(30),
+                                                    backgroundImage:
+                                                        CachedNetworkImageProvider(
+                                                            ownerPhoto),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: screenW(10.0),
+                                                ),
+                                                Text(
+                                                  ownerName,
+                                                  style:
+                                                      TextStyle(fontSize: 18),
+                                                ),
+                                                SizedBox(
+                                                  width: screenW(3.0),
+                                                ),
+                                                Icon(
+                                                  Feather.check_circle,
+                                                  color: Color(0xFF096664),
+                                                  size: screenF(17),
+                                                )
+                                              ],
+                                            )
+                                          : CircularProgressIndicator())
+                                  : Container(),
+                              onTap: () {
+                                if (verified == true) {
+                                  Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                          builder: (context) => UserCard(
+                                                userId: ownerId,
+                                              )));
+                                }
+                              },
+                            ),
                             postPic != null
                                 ? Padding(
                                     padding:

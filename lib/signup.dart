@@ -209,6 +209,9 @@ class _SignupPageState extends State<SignupPage> {
                 //TODO Check values and navigate to new page
                 if (_password == _confirm) {
                   try {
+                    if (_email.startsWith(" ") || _email.endsWith(" ")) {
+                      _email = _email.trim();
+                    }
                     await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _email, password: _password)
@@ -397,8 +400,8 @@ class _SignupPageState extends State<SignupPage> {
                           context,
                           new MaterialPageRoute(
                               builder: (context) => SplashScreen(
-                                route: 'onBoarding',
-                              )));
+                                    route: 'onBoarding',
+                                  )));
                     },
                     color: Color(0xFF3C5A99),
                     child: Center(

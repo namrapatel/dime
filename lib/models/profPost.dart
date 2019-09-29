@@ -1,3 +1,5 @@
+import 'package:Dime/models/largerPic.dart';
+import 'package:Dime/userCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -254,65 +256,92 @@ class _ProfPostState extends State<ProfPost> {
                           bottomLeft: Radius.circular(screenH(15.0)),
                           bottomRight: Radius.circular(screenH(15.0)),
                         ),
-                        child: Column(
-                          children: <Widget>[
-                            verified == true
-                                ? Container(
-                                    child: (ownerPhoto != null &&
-                                            ownerName != null)
-                                        ? Padding(
-                                            padding: EdgeInsets.fromLTRB(
-                                                screenW(8.0),
-                                                screenH(8.0),
-                                                0,
-                                                0),
-                                            child: Row(
-                                              children: <Widget>[
-                                                CircleAvatar(
-                                                  radius: screenH(20),
-                                                  backgroundImage:
-                                                      CachedNetworkImageProvider(
-                                                          ownerPhoto),
-                                                ),
-                                                SizedBox(
-                                                  width: screenW(10.0),
-                                                ),
-                                                Text(
-                                                  ownerName,
-                                                  style:
-                                                      TextStyle(fontSize: 18),
-                                                ),
-                                                SizedBox(
-                                                  width: screenW(3.0),
-                                                ),
-                                                Icon(
-                                                  Feather.check_circle,
-                                                  color: Color(0xFF096664),
-                                                  size: screenF(17),
-                                                )
-                                              ],
-                                            ))
-                                        : CircularProgressIndicator(),
-                                  )
-                                : Container(),
-                            postPic != null
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(0, 8.0, 0, 0),
-                                    child: CachedNetworkImage(
-                                      imageUrl: postPic,
-                                      fit: BoxFit.fitWidth,
-                                      placeholder: (context, url) =>
-                                          loadingPlaceHolder,
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      width: screenW(400),
-                                      // height: screenH(375),
-                                    ))
-                                : SizedBox(
-                                    width: screenH(1.2),
-                                  ),
-                          ],
+                        child: InkWell(
+                          child: Column(
+                            children: <Widget>[
+                              verified == true
+                                  ? Container(
+                                      child: (ownerPhoto != null &&
+                                              ownerName != null)
+                                          ? Padding(
+                                              padding: EdgeInsets.fromLTRB(
+                                                  screenW(8.0),
+                                                  screenH(8.0),
+                                                  0,
+                                                  0),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      if (ownerPhoto != null) {
+                                                        Navigator.push(
+                                                            context,
+                                                            CupertinoPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        LargePic(
+                                                                          largePic:
+                                                                              ownerPhoto,
+                                                                        )));
+                                                      }
+                                                    },
+                                                    child: CircleAvatar(
+                                                      radius: screenH(20),
+                                                      backgroundImage:
+                                                          CachedNetworkImageProvider(
+                                                              ownerPhoto),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: screenW(10.0),
+                                                  ),
+                                                  Text(
+                                                    ownerName,
+                                                    style:
+                                                        TextStyle(fontSize: 18),
+                                                  ),
+                                                  SizedBox(
+                                                    width: screenW(3.0),
+                                                  ),
+                                                  Icon(
+                                                    Feather.check_circle,
+                                                    color: Color(0xFF096664),
+                                                    size: screenF(17),
+                                                  )
+                                                ],
+                                              ))
+                                          : CircularProgressIndicator(),
+                                    )
+                                  : Container(),
+                              postPic != null
+                                  ? Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 8.0, 0, 0),
+                                      child: CachedNetworkImage(
+                                        imageUrl: postPic,
+                                        fit: BoxFit.fitWidth,
+                                        placeholder: (context, url) =>
+                                            loadingPlaceHolder,
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                        width: screenW(400),
+                                        // height: screenH(375),
+                                      ))
+                                  : SizedBox(
+                                      width: screenH(1.2),
+                                    ),
+                            ],
+                          ),
+                          onTap: () {
+                            if (verified == true) {
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => UserCard(
+                                            userId: ownerId,
+                                          )));
+                            }
+                          },
                         ),
                       ),
                     ),

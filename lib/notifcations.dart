@@ -353,7 +353,7 @@ class _NotifcationsScreenState extends State<NotifcationsScreen> {
                               padding: EdgeInsets.all(
                                   MediaQuery.of(context).size.height / 20),
                               child: Text(
-                                "You don't have any likes right now. \n Check out people around you or head to explore to like some people!",
+                                "You don't have any likes right now. \n Check out people around you to like some people!",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(fontSize: 20),
                               ),

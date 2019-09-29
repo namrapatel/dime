@@ -54,7 +54,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    fixBug();
+
 //    startTime();
     FirebaseAuth.instance.onAuthStateChanged.listen((firebaseUser) async {
       if (firebaseUser != null) {
@@ -85,30 +85,6 @@ class _SplashScreenState extends State<SplashScreen> {
         print("floppps");
       }
     });
-  }
-
-  fixBug() async {
-    List<dynamic> emptyList = [];
-    QuerySnapshot users = await Firestore.instance
-        .collection('users')
-        .where('likedBy', isEqualTo: null)
-        .getDocuments();
-    for (var doc in users.documents) {
-      if (doc['likedBy'] == null) {
-        Firestore.instance
-            .collection('users')
-            .document(doc.documentID)
-            .updateData({'likedBy': emptyList});
-      }
-    }
-    QuerySnapshot posts =
-        await Firestore.instance.collection('socialPosts').getDocuments();
-    for (var posts in posts.documents) {
-      Firestore.instance
-          .collection('socialPosts')
-          .document(posts.documentID)
-          .setData({'type': "social"}, merge: true);
-    }
   }
 
   @override

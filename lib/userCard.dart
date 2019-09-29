@@ -48,15 +48,9 @@ class _UserCardState extends State<UserCard> {
   void initState() {
     getLikeStatus();
     super.initState();
-    if (userName == null) {
-      getName();
-    }
-    if (userName != null && userName.contains(" ")) {
-      var string = userName.split(" ");
-      firstName = string[0];
-    } else {
-      firstName = "User";
-    }
+
+    getName();
+
     getRecentActivity();
     _scrollController.addListener(() {
       double maxScroll = _scrollController.position.maxScrollExtent;
@@ -74,11 +68,30 @@ class _UserCardState extends State<UserCard> {
   }
 
   getName() async {
-    DocumentSnapshot doc =
-        await Firestore.instance.collection('users').document(userId).get();
-    setState(() {
-      userName = doc['displayName'];
-    });
+    if (userName == null) {
+      DocumentSnapshot doc =
+          await Firestore.instance.collection('users').document(userId).get();
+      setState(() {
+        userName = doc['displayName'];
+      });
+    }
+
+    if (userName.contains(" ")) {
+      var string = userName.split(" ");
+      setState(() {
+        firstName = string[0];
+      });
+
+      print('in second');
+    } else {
+      setState(() {
+        firstName = "User";
+      });
+
+      print('in third');
+    }
+
+    print(userName);
   }
 
   getLikeStatus() async {

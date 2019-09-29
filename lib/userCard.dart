@@ -869,18 +869,40 @@ class _UserCardState extends State<UserCard> {
                 child: Column(
                   children: <Widget>[
                     Expanded(
-                      child: products.length == 0
-                          ? Center(
-                              child: CircularProgressIndicator(),
+                      child: noPosts
+                          ? Column(
+                              children: <Widget>[
+                                Image.asset(
+                                  'assets/img/improvingDrawing.png',
+                                  height:
+                                      MediaQuery.of(context).size.height / 4,
+                                  width: MediaQuery.of(context).size.height / 4,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    "Interactions from the feeds will show up here!",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: screenF(19),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             )
-                          : ListView.builder(
-                              controller: _scrollController,
-                              //  shrinkWrap: true,
-                              //  cacheExtent: 5000.0,
-                              //  physics: BouncingScrollPhysics(),
-                              itemCount: products.length,
-                              itemBuilder: (_, index) {
-                                return products[index];
+                          : products.length == 0
+                              ? Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : ListView.builder(
+                                  controller: _scrollController,
+                                  //  shrinkWrap: true,
+                                  //  cacheExtent: 5000.0,
+                                  //  physics: BouncingScrollPhysics(),
+                                  itemCount: products.length,
+                                  itemBuilder: (_, index) {
+                                    return products[index];
 
 //                           DocumentSnapshot doc;
 //      if (postType == "social") {
@@ -924,7 +946,7 @@ class _UserCardState extends State<UserCard> {
 //          ],
 //        ),
 //      );
-                              }),
+                                  }),
                     ),
                     isLoading
                         ? Container(child: CircularProgressIndicator())
